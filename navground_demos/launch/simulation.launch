@@ -1,0 +1,15 @@
+<launch>
+    <include file="$(find-pkg-share navground_demos)/launch/thymio.launch">
+      <arg name="name" value="thymio_0"/>
+    </include>
+    <include file="$(find-pkg-share navground_demos)/launch/thymio.launch">
+      <arg name="name" value="thymio_1"/>
+    </include>
+    <include file="$(find-pkg-share thymio_driver)/launch/main.launch">
+      <arg name="single" value="False"/>
+      <arg name="device" value="tcp:host=localhost;port=33333"/>
+      <arg name="emit_proximity" value="0"/>
+      <arg name="emit_acc" value="0"/>
+      <arg name="model" value="True"/>
+    </include>
+</launch>

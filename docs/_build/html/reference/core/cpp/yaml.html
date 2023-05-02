@@ -1,0 +1,604 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>YAML &#8212; navground 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Kinematics" href="kinematics.html" />
+    <link rel="prev" title="Register" href="register.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">navground 0.0.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebook/tour.html">A tour of navground</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/register.html">How to register a component</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Core</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">C++ API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="helper.html">Helpers</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../python/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/controller.html">Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/behavior.html">Behavior</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/state.html">Environment State</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/sampling.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/experiment.html">Experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/yaml.html">YAML</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/experiment.html">Experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/yaml.html">YAML</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/task.html">Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/samplers.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/scenario.html">Scenario</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/experiment.html">Experiment</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/reference/core/cpp/yaml.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>YAML</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#public-api">Public API</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="yaml">
+<span id="core-cpp-yaml"></span><h1>YAML<a class="headerlink" href="#yaml" title="Permalink to this heading">#</a></h1>
+<p>We use <a class="reference external" href="https://github.com/jbeder/yaml-cpp">yaml-cpp</a> to provide import/export
+from/to YAML. The code in <code class="docutils literal notranslate"><span class="pre">navground/yaml</span></code> specializes templates
+of <code class="xref py py-class docutils literal notranslate"><span class="pre">struct</span> <span class="pre">YAML::convert</span></code>, which is how yaml-cpp is extended to custom classes.</p>
+<p>You can therefore use yaml-cpp APIs, which allows to</p>
+<ul>
+<li><p>parse a YAML string:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;yaml-cpp/yaml.h&quot;</span>
+
+<span class="n">YAML</span><span class="o">::</span><span class="n">Node</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">YAML</span><span class="o">::</span><span class="n">Load</span><span class="p">(</span><span class="s">&quot;...&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p>convert a <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">YAML::Node</span></code> to a C++ object:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="w"> </span><span class="n">object</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">node</span><span class="p">.</span><span class="n">as</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">();</span>
+</pre></div>
+</div>
+</li>
+<li><p>convert a C++ object to a <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">YAML::Node</span></code></p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="w"> </span><span class="n">object</span><span class="p">;</span>
+<span class="n">YAML</span><span class="o">::</span><span class="n">Node</span><span class="w"> </span><span class="nf">node</span><span class="p">(</span><span class="n">object</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p>emit YAML from a <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">YAML::Node</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;yaml-cpp/yaml.h&quot;</span>
+
+<span class="n">YAML</span><span class="o">::</span><span class="n">Node</span><span class="w"> </span><span class="n">node</span><span class="p">;</span>
+<span class="n">YAML</span><span class="o">::</span><span class="n">Emitter</span><span class="w"> </span><span class="n">out</span><span class="p">;</span>
+<span class="n">out</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">node</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">yaml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="n">c_str</span><span class="p">();</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>In particular, we specialize the conversion from/to the following classes:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">navground::core::Vector2</span></code></a></p></li>
+<li><p><a class="reference internal" href="state.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">navground::core::LineSegment</span></code></a></p></li>
+<li><p><a class="reference internal" href="state.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">navground::core::Disc</span></code></a></p></li>
+<li><p><a class="reference internal" href="state.html#_CPPv4N9navground4core8NeighborE" title="navground::core::Neighbor"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">navground::core::Neighbor</span></code></a></p></li>
+<li><p><a class="reference internal" href="behaviors/behavior.html#_CPPv4N9navground4core8Behavior7HeadingE" title="navground::core::Behavior::Heading"><code class="xref cpp cpp-enum docutils literal notranslate"><span class="pre">navground::core::Behavior::Heading</span></code></a></p></li>
+<li><p><a class="reference internal" href="behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">navground::core::Behavior</span></code></a></p></li>
+<li><p><a class="reference internal" href="kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">navground::core::Kinematics</span></code></a></p></li>
+<li><p><a class="reference internal" href="social_margin.html#_CPPv4N9navground4core12SocialMarginE" title="navground::core::SocialMargin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">navground::core::SocialMargin</span></code></a></p></li>
+</ul>
+<p>For classes <code class="docutils literal notranslate"><span class="pre">T</span></code> with a register, the conversion from and to <code class="docutils literal notranslate"><span class="pre">std::shared_ptr&lt;T&gt;</span></code>
+write/reads the type name and all the registered properties.
+For example, when you convert from a YAML::node corresponding to</p>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MySubClass</span>
+<span class="nt">my_property</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</pre></div>
+</div>
+<p>to a <code class="docutils literal notranslate"><span class="pre">T</span></code> object, <a class="reference internal" href="register.html#_CPPv4N9navground4core11HasRegister9make_typeERKNSt6stringE" title="navground::core::HasRegister::make_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::HasRegister::make_type()</span></code></a> is called. If successful,
+it then reads all properties from the YAML fields, calling
+<a class="reference internal" href="property.html#_CPPv4N9navground4core13HasProperties3setERKNSt6stringERKN8Property5FieldE" title="navground::core::HasProperties::set"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::HasProperties::set()</span></code></a> for any <code class="docutils literal notranslate"><span class="pre">MySubClass</span></code>
+registered property.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">as</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="c1">// will call:</span>
+<span class="c1">// - auto obj = make_type(&quot;MySubClass&quot;);</span>
+<span class="c1">// - obj.set(&quot;my_property&quot;, false);</span>
+<span class="c1">// in addition to setup the common fields of ``T``.</span>
+</pre></div>
+</div>
+<section id="public-api">
+<h2>Public API<a class="headerlink" href="#public-api" title="Permalink to this heading">#</a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/core/yaml/yaml.h&quot;</span>
+</pre></div>
+</div>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N4YAML4YAMLE">
+<span class="target" id="namespace_y_a_m_l"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">YAML</span></span></span><a class="headerlink" href="#_CPPv4N4YAML4YAMLE" title="Permalink to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN4YAML4YAML9load_nodeENSt10shared_ptrI1TEERK4Node">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="namespace_y_a_m_l_1a4ca0304b526317a768cdcbea8983e020"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN4YAML4YAML9load_nodeENSt10shared_ptrI1TEERK4Node" title="YAML::YAML::load_node::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="#_CPPv4N4YAML4YAMLE" title="YAML::YAML"><span class="n"><span class="pre">YAML</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">load_node</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">Node</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN4YAML4YAML9load_nodeENSt10shared_ptrI1TEERK4Node" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Load an object from a <a class="reference internal" href="#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a> node. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> – <strong>[in]</strong> The <a class="reference internal" href="#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a> node</p>
+</dd>
+<dt class="field-even">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>T</strong> – The type of the object</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A shared pointer with the loaded object or <code class="docutils literal notranslate"><span class="pre">nullptr</span></code> if loading fails. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN4YAML4YAML11load_stringENSt10shared_ptrI1TEERKNSt6stringE">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="namespace_y_a_m_l_1aac45d6c5458c67b4e73bfee3bd3e0417"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN4YAML4YAML11load_stringENSt10shared_ptrI1TEERKNSt6stringE" title="YAML::YAML::load_string::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="#_CPPv4N4YAML4YAMLE" title="YAML::YAML"><span class="n"><span class="pre">YAML</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">load_string</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN4YAML4YAML11load_stringENSt10shared_ptrI1TEERKNSt6stringE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Load an object from a <a class="reference internal" href="#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a> string. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The <a class="reference internal" href="#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a> string</p>
+</dd>
+<dt class="field-even">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>T</strong> – The type of the object</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A shared pointer with the loaded object or <code class="docutils literal notranslate"><span class="pre">nullptr</span></code> if loading fails. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN4YAML4YAML4dumpENSt6stringEPK1T">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="namespace_y_a_m_l_1a60bc79af5606491ddcf4aebf3125f617"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="#_CPPv4N4YAML4YAMLE" title="YAML::YAML"><span class="n"><span class="pre">YAML</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">dump</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN4YAML4YAML4dumpENSt6stringEPK1T" title="YAML::YAML::dump::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">object</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN4YAML4YAML4dumpENSt6stringEPK1T" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Dump an object to a YAML-string. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object</strong> – <strong>[in]</strong> The object</p>
+</dd>
+<dt class="field-even">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>T</strong> – The type of the object</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The <a class="reference internal" href="#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a> string (empty if the pointer is null) </p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="register.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Register</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="kinematics.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Kinematics</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#public-api">Public API</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jérôme Guzzi, IDSIA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Jérôme Guzzi, IDSIA.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

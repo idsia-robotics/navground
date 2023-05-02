@@ -1,0 +1,23 @@
+<launch>
+
+  <arg name="name" default=""/>
+  <group>
+    <push-ros-namespace namespace="$(var name)"/>
+    <include file="$(find-pkg-share navground_ros)/launch/navigation.launch">
+      <arg name="kinematics_type" value="2WDiff"/>
+      <arg name="kinematics_max_speed" value="0.14"/>
+      <arg name="kinematics_wheel_length" value="0.0935"/>
+      <arg name="radius" value="0.08"/>
+      <arg name="behavior" value="HL"/>
+      <arg name="optimal_speed" value="0.12"/>
+      <arg name="horizon" value="1.0"/>
+      <arg name="safety_margin" value="0.05"/>
+      <arg name="drawing" value="false"/>
+      <arg name="frame_id" value="world"/>
+    </include>
+    <node pkg="navground_demos" exec="ros" name="waypoint_follower" output="screen">
+      <param name="path" value="1.0, 0.0, -1.0, 0.0" value-sep=", "/>
+      <param name="tolerance" value="0.2"/>
+    </node>
+  </group>
+</launch>

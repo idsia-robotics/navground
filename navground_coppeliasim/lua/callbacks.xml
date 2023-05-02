@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml-stylesheet type="text/xsl" href="callbacks.xsl"?>
+
+<plugin name="Navground" author="jerome.guzzi@idsia.ch">
+    <description>A plugin for [human-like] navigation in CoppeliaSim</description>
+    <command name="Controller">
+        <description>Instantiate a navigation controller
+        </description>
+        <params>
+          <param name="behavior" type="string">
+            <description>The obstacle avoidance behavior</description>
+          </param>
+          <param name="kinematics" type="kinematics_t">
+            <description>The kinematics</description>
+          </param>
+          <param name="radius" type="float">
+            <description>The radius</description>
+          </param>
+        </params>
+        <return>
+          <param name="handle" type="int">
+              <description>An handle that identifies the controller</description>
+          </param>
+        </return>
+    </command>
+    <command name="get_property">
+        <description>Get the value of one of the navigation behavior properties
+        </description>
+        <params>
+         <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="name" type="string">
+            <description>The property name</description>
+          </param>
+        </params>
+        <return>
+          <param name="value" type="property_field_t">
+            <description>The property value</description>
+          </param>
+        </return>
+    </command>
+    <command name="set_property">
+        <description>Set the value of one of the navigation behavior properties
+        </description>
+        <params>
+         <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="name" type="string">
+            <description>The property name</description>
+          </param>
+          <param name="value" type="property_field_t">
+            <description>The property value</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+<!--     <command name="set_optimal_speed">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="parameters" type="table" item-type="float">
+            <description>The parameters</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+      <command name="set_optimal_speed">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+        </params>
+        <return>
+            <param name="parameters" type="table" item-type="float">
+              <description>The parameters</description>
+            </param>
+        </return>
+    </command> -->
+    <command name="go_to_position">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="position" type="table" item-type="float">
+            <description>The target position</description>
+          </param>
+          <param name="tolerance" type="float">
+            <description>The target tolerance</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="go_to_pose">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="position" type="table" item-type="float">
+            <description>The target position</description>
+          </param>
+          <param name="orientation" type="float">
+            <description>The target orientation</description>
+          </param>
+          <param name="position_tolerance" type="float">
+            <description>The target tolerance</description>
+          </param>
+          <param name="orientation_tolerance" type="float">
+            <description>The target tolerance</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+      <command name="follow_point">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="point" type="table" item-type="float">
+            <description>The target position</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+      <command name="follow_pose">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="position" type="table" item-type="float">
+            <description>The target position</description>
+          </param>
+          <param name="orientation" type="float">
+            <description>The target orientation</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="set_pose">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="position" type="table" item-type="float">
+            <description>The 3d position</description>
+          </param>
+          <param name="orientation" type="float">
+            <description>The orientation in radians</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="set_twist">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="velocity" type="table" item-type="float">
+            <description>The 3d velocity</description>
+          </param>
+          <param name="angular_speed" type="float">
+            <description>The angular speed in radians/s</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="set_rotation_tau">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="value" type="float">
+            <description>The value</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="set_horizon">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="value" type="float">
+            <description>The value</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="set_safety_margin">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="value" type="float">
+            <description>The value</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="set_optimal_speed">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="value" type="float">
+            <description>The value</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="set_heading_behavior">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="value" type="int">
+            <description>The value</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="set_speed_tolerance">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="value" type="float">
+            <description>The value</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="should_be_limited_to_2d">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="value" type="bool">
+            <description>The value</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="set_cmd_frame">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="value" type="int">
+            <description>The value (0 for relative, 1 for absolute)</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="update">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="time_step" type="float">
+            <description>The time step</description>
+          </param>
+        </params>
+        <return>
+          <param name="velocity" type="table" item-type="float">
+              <description>The 3d velocity</description>
+          </param>
+          <param name="angular_speed" type="float">
+            <description>The angular speed in radians/s</description>
+          </param>
+          <param name="state" type="float">
+            <description>The angular speed in radians/s</description>
+          </param>
+        </return>
+    </command>
+<!--     <command name="get_target_twist">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+        </params>
+        <return>
+          <param name="twist" type="table" item-type="float">
+              <description>A 2d twist {v_x, v_y, w_z}</description>
+          </param>
+        </return>
+    </command> -->
+    <command name="set_static_obstacles">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="obstacles" type="table" item-type="obstacle_t">
+            <description>The controller handle</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="set_neighbors">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="neighbors" type="table" item-type="neighbor_t">
+            <description>The obstacles</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="set_line_obstacles">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="obstacles" type="table" item-type="line_t">
+            <description>The lines</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="get_state">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+        </params>
+        <return>
+          <param name="state" type="int">
+              <description>TODO</description>
+          </param>
+        </return>
+    </command>
+    <command name="get_actuated_wheel_speeds">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+        </params>
+        <return>
+          <param name="speeds" type="table" item-type="float">
+              <description>TODO</description>
+          </param>
+        </return>
+    </command>
+    <struct name="obstacle_t">
+        <description>TODO</description>
+        <param name="position" type="table" item-type="float">
+            <description>The 3d position</description>
+        </param>
+        <param name="radius" type="float">
+            <description>The radius</description>
+        </param>
+    </struct>
+    <struct name="neighbor_t">
+        <description>TODO</description>
+        <param name="position" type="table" item-type="float">
+            <description>The 3d position</description>
+        </param>
+        <param name="radius" type="float">
+            <description>The radius</description>
+        </param>
+        <param name="velocity" type="table" item-type="float">
+            <description>The 2d or 3d velocity</description>
+        </param>
+        <param name="id" type="int" default="0">
+            <description>The id</description>
+        </param>
+    </struct>
+    <struct name="line_t">
+        <description>TODO</description>
+        <param name="p1" type="table" item-type="float">
+            <description>The position of the first vertex</description>
+        </param>
+        <param name="p2" type="table" item-type="float">
+            <description>The position of the second vertex</description>
+        </param>
+    </struct>
+    <struct name="kinematics_t">
+        <description>TODO</description>
+        <param name="type" type="string">
+          <description>The type</description>
+        </param>
+        <param name="max_speed" type="float" default="0.0">
+          <description>The maximal speed</description>
+        </param>
+        <param name="max_angular_speed" type="float" default="0.0">
+          <description>The maximal angular speed</description>
+        </param>
+        <param name="wheel_axis" type="float" default="0.0">
+            <description>The axis length</description>
+        </param>
+    </struct>  
+    <struct name="vector2_t">
+        <description>TODO</description>
+        <param name="x" type="float" default="0.0">
+          <description>x</description>
+        </param>
+        <param name="y" type="float" default="0.0">
+          <description>y</description>
+        </param>
+    </struct>            
+    <struct name="property_field_t">
+        <description>Union type to describe property values</description>
+        <param name="type" type="int">
+          <description>Enum</description>
+        </param>
+        <param name="bool_value" type="bool">
+          <description>Boolean value</description>
+        </param>
+        <param name="int_value" type="int">
+          <description>Integer value</description>
+        </param>
+        <param name="float_value" type="float">
+          <description>Floating point value</description>
+        </param>
+        <param name="string_value" type="string">
+            <description>String value</description>
+        </param>
+        <param name="vector_value" type="vector2_t">
+            <description>Vector2 value</description>
+        </param>
+        <param name="bool_list" type="table" item-type="bool">
+          <description>Boolean value</description>
+        </param>
+        <param name="int_list" type="table" item-type="int">
+          <description>Integer value</description>
+        </param>
+        <param name="float_list" type="table" item-type="float">
+          <description>Floating point value</description>
+        </param>
+        <param name="string_list" type="table" item-type="string">
+            <description>String value</description>
+        </param>
+        <param name="vector_list" type="table" item-type="vector2_t">
+            <description>Vector2 value</description>
+        </param>
+    </struct>  
+    <enum name="PropertyType" item-prefix="" base="0">
+      <item name="bool" />
+      <item name="int" />
+      <item name="float" />
+      <item name="string" />
+      <item name="vector" />
+      <item name="bool_list" />
+      <item name="int_list" />
+      <item name="float_list" />
+      <item name="string_list" />
+      <item name="vector_list" />
+    </enum>         
+    <enum name="State" item-prefix="" base="0">
+      <item name="idle" />
+      <item name="running" />
+      <item name="failure" />
+      <item name="success" />
+    </enum>
+    <enum name="Heading" item-prefix="" base="0">
+      <item name="off" />
+      <item name="target_point" />
+      <item name="target_angle" />
+      <item name="target_angular_speed" />
+      <item name="velocity" />
+    </enum>
+    <enum name="Frame" item-prefix="" base="0">
+      <item name="relative" />
+      <item name="absolute" />
+    </enum>
+
+</plugin>

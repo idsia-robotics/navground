@@ -1,0 +1,57 @@
+<launch>
+
+  <include file="$(find-pkg-share robomaster_ros)/launch/main.launch">
+    <arg name="serial_number" value="RM0001"/>
+    <arg name="name" value="rm_1"/>
+    <arg name="video_raw" value="false"/>
+  </include>
+
+  <include file="$(find-pkg-share robomaster_ros)/launch/main.launch">
+    <arg name="serial_number" value="RM0002"/>
+    <arg name="name" value="rm_2"/>
+    <arg name="video_raw" value="false"/>
+  </include>
+
+  <group>
+
+    <push-ros-namespace namespace="rm_1"/>
+    <include file="$(find-pkg-share navground_ros)/launch/navigation.launch">
+      <arg name="type" value="HOLONOMIC"/>
+      <arg name="radius" value="0.25"/>
+      <arg name="social_radius" value="0.05"/>
+      <arg name="tol_distance" value="0.75"/>
+      <arg name="tol_angle" value="0.5"/>
+      <arg name="maximal_speed" value="0.8"/>
+      <arg name="optimal_speed" value="0.8"/>
+      <arg name="optimal_angular_speed" value="3.0"/>
+      <arg name="maximal_angular_speed" value="3.0"/>
+      <arg name="horizon" value="10.0"/>
+      <arg name="point_toward_target" value="true"/>
+
+    </include>
+    <node pkg="navground_utils" exec="follow_path" name="follow" output="screen">
+      <param name="path" value="5.0, 0.0, -5.0, 0.0" value-sep=", "/>
+    </node>
+  </group>
+
+  <group>
+    <push-ros-namespace namespace="rm_2"/>
+    <include file="$(find-pkg-share navground_ros)/launch/navigation.launch">
+      <arg name="type" value="HOLONOMIC"/>
+      <arg name="radius" value="0.25"/>
+      <arg name="social_radius" value="0.05"/>
+      <arg name="tol_distance" value="0.75"/>
+      <arg name="tol_angle" value="0.5"/>
+      <arg name="maximal_speed" value="0.8"/>
+      <arg name="optimal_speed" value="0.8"/>
+      <arg name="optimal_angular_speed" value="3.0"/>
+      <arg name="maximal_angular_speed" value="3.0"/>
+      <arg name="horizon" value="10.0"/>
+      <arg name="point_toward_target" value="true"/>
+    </include>
+    <node pkg="navground_utils" exec="follow_path" name="follow" output="screen">
+      <param name="path" value="5.0, 0.0, -5.0, 0.0" value-sep=", "/>
+    </node>
+  </group>
+
+</launch>

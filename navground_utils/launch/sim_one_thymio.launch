@@ -1,0 +1,38 @@
+<launch>
+
+  <include file="$(find-pkg-share thymio_driver)/launch/main.launch">
+    <arg name="axis_length" value="0.0935"/>
+    <arg name="single" value="False"/>
+    <arg name="simulation" value="True"/>
+    <arg name="emit_proximity" value="0"/>
+    <arg name="emit_acc" value="0"/>
+    <arg name="enable_prox_comm" value="0"/>
+    <arg name="model" value="False"/>
+    <arg name="motors_period" value="10"/>
+    <arg name="device" value="tcp:host=localhost;port=33333"/>
+  </include>
+
+  <group>
+    <push-ros-namespace namespace="thymio_0"/>
+    <include file="$(find-pkg-share navground_ros)/launch/navigation.launch">
+      <arg name="type" value="TWO_WHEELED"/>
+      <arg name="radius" value="0.08"/>
+      <arg name="social_radius" value="0.05"/>
+      <arg name="tol_distance" value="0.1"/>
+      <arg name="tol_angle" value="0.1"/>
+      <arg name="axis_length" value="0.0935 "/>
+      <arg name="maximal_speed" value="0.12"/>
+      <arg name="optimal_speed" value="0.12"/>
+      <arg name="optimal_angular_speed" value="1.0"/>
+      <arg name="maximal_angular_speed" value="2.6"/>
+      <arg name="optimal_rotation_speed" value="0.08"/>
+      <arg name="maximal_rotation_speed" value="0.12"/>
+      <arg name="horizon" value="1.0"/>
+      <arg name="drawing" value="true"/>
+    </include>
+    <node pkg="navground_utils" exec="follow_path" name="follow" output="screen">
+      <param name="path" value="-1.0, 0.0, 1.0, 0.0" value-sep=", "/>
+    </node>
+  </group>
+
+</launch>

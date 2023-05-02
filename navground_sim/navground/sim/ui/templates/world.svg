@@ -1,0 +1,20 @@
+<?xml version="1.0" standalone="no"?>
+{% if include_style_path %}
+<?xml-stylesheet href="{{include_style_path}}" type="text/css"?>
+{% endif %}
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="{{width}}" height="{{height}}" viewBox="{{viewBox}}">
+{% if not include_style_path %}
+<style>
+<![CDATA[
+{% include 'style.css' %}
+{% if style %}
+{{style}}
+{% endif %}
+]]>
+</style>
+{% endif %}
+<g id="world" transform='scale(1, -1)'>
+{{svg_world}}
+</g>
+</svg>

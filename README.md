@@ -53,7 +53,7 @@ It also provides all the infrastructure to run offline experiments.
 
 ## Documentation
 
-For more information, we refer to the [project documentation]().
+For more information, we refer to the [project documentation](https://idsia-robotics.github.io/navground) that contains also detailled installation instructions.
 
 ## License and copyright
 

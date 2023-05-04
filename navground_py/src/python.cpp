@@ -254,13 +254,11 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, HasProperties, get))
       .def("set", &HasProperties::set, py::arg("name"), py::arg("value"),
            DOC(navground, core, HasProperties, set))
-      .def_property(
-          "properties", &HasProperties::get_properties, nullptr,
-          DOC(navground, core, HasProperties, property_properties));
+      .def_property("properties", &HasProperties::get_properties, nullptr,
+                    DOC(navground, core, HasProperties, property_properties));
 
   py::enum_<Frame>(m, "Frame", DOC(navground, core, Frame))
-      .value("relative", Frame::relative,
-             DOC(navground, core, Frame, relative))
+      .value("relative", Frame::relative, DOC(navground, core, Frame, relative))
       .value("absolute", Frame::absolute,
              DOC(navground, core, Frame, absolute));
 
@@ -282,8 +280,7 @@ PYBIND11_MODULE(_navground, m) {
 
   py::class_<Pose2>(m, "Pose2", DOC(navground, core, Pose2))
       .def(py::init<Vector2, float>(), py::arg("position"),
-           py::arg("orientation") = 0.0f,
-           DOC(navground, core, Pose2, Pose2))
+           py::arg("orientation") = 0.0f, DOC(navground, core, Pose2, Pose2))
       .def_readwrite("position", &Pose2::position,
                      DOC(navground, core, Pose2, position))
       .def_readwrite("orientation", &Pose2::orientation,
@@ -346,8 +343,7 @@ PYBIND11_MODULE(_navground, m) {
                   DOC(navground, core, Target, Direction))
       .def_static("Twist", &Target::Twist, py::arg("twist"),
                   DOC(navground, core, Target, Twist))
-      .def_static("Stop", &Target::Point,
-                  DOC(navground, core, Target, Stop))
+      .def_static("Stop", &Target::Point, DOC(navground, core, Target, Stop))
       .def("__repr__", &to_string<Target>);
 
   py::class_<Disc>(m, "Disc", DOC(navground, core, Disc))
@@ -365,12 +361,10 @@ PYBIND11_MODULE(_navground, m) {
            py::arg("id") = 0, DOC(navground, core, Neighbor, Neighbor))
       .def_readwrite("velocity", &Neighbor::velocity,
                      DOC(navground, core, Neighbor, velocity))
-      .def_readwrite("id", &Neighbor::id,
-                     DOC(navground, core, Neighbor, id))
+      .def_readwrite("id", &Neighbor::id, DOC(navground, core, Neighbor, id))
       .def("__repr__", &to_string<Neighbor>);
 
-  py::class_<LineSegment>(m, "LineSegment",
-                          DOC(navground, core, LineSegment))
+  py::class_<LineSegment>(m, "LineSegment", DOC(navground, core, LineSegment))
       .def(py::init<Vector2, Vector2>(), py::arg("p1"), py::arg("p2"),
            DOC(navground, core, LineSegment, LineSegment))
       .def_readonly("p1", &LineSegment::p1,
@@ -569,10 +563,9 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("max_speed", &Behavior::get_max_speed,
                     &Behavior::set_max_speed,
                     DOC(navground, core, Behavior, property_max_speed))
-      .def_property(
-          "max_angular_speed", &Behavior::get_max_angular_speed,
-          &Behavior::set_max_angular_speed,
-          DOC(navground, core, Behavior, property_max_angular_speed))
+      .def_property("max_angular_speed", &Behavior::get_max_angular_speed,
+                    &Behavior::set_max_angular_speed,
+                    DOC(navground, core, Behavior, property_max_angular_speed))
       .def_property("optimal_speed", &Behavior::get_optimal_speed,
                     &Behavior::set_optimal_speed,
                     DOC(navground, core, Behavior, property_optimal_speed))
@@ -608,8 +601,7 @@ PYBIND11_MODULE(_navground, m) {
                     DOC(navground, core, Behavior, social_margin))
       .def_property(
           "twist", [](const Behavior &self) { return self.get_twist(); },
-          &Behavior::set_twist,
-          DOC(navground, core, Behavior, property_twist))
+          &Behavior::set_twist, DOC(navground, core, Behavior, property_twist))
       .def("get_twist", &Behavior::get_twist,
            py::arg("frame") = Frame::absolute,
            DOC(navground, core, Behavior, get_twist))
@@ -651,10 +643,9 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Behavior, actuate))
       .def("actuate", py::overload_cast<float>(&Behavior::actuate),
            py::arg("time_step"), DOC(navground, core, Behavior, actuate, 2))
-      .def_property(
-          "heading_behavior", &Behavior::get_heading_behavior,
-          &Behavior::set_heading_behavior,
-          DOC(navground, core, Behavior, property_heading_behavior))
+      .def_property("heading_behavior", &Behavior::get_heading_behavior,
+                    &Behavior::set_heading_behavior,
+                    DOC(navground, core, Behavior, property_heading_behavior))
       .def_property("target", &Behavior::get_target, &Behavior::set_target,
                     DOC(navground, core, Behavior, property_target))
       .def("check_if_target_satisfied", &Behavior::check_if_target_satisfied,
@@ -662,9 +653,9 @@ PYBIND11_MODULE(_navground, m) {
       .def("compute_cmd", &Behavior::compute_cmd, py::arg("time_step"),
            py::arg("frame") = py::none(),
            DOC(navground, core, Behavior, compute_cmd))
-      .def_property(
-          "desired_velocity", &Behavior::get_desired_velocity, nullptr,
-          DOC(navground, core, Behavior, property_desired_velocity))
+      .def_property("desired_velocity", &Behavior::get_desired_velocity,
+                    nullptr,
+                    DOC(navground, core, Behavior, property_desired_velocity))
       .def_property(
           "type", [](Behavior *obj) { return obj->get_type(); }, nullptr,
           DOC(navground, core, HasRegister, property_type))
@@ -679,14 +670,12 @@ PYBIND11_MODULE(_navground, m) {
 
       .def("estimate_time_until_target_satisfied",
            &Behavior::estimate_time_until_target_satisfied,
-           DOC(navground, core, Behavior,
-               estimate_time_until_target_satisfied))
-      .def_property(
-          "environment_state",
-          py::cpp_function(&Behavior::get_environment_state,
-                           py::return_value_policy::reference),
-          nullptr,
-          DOC(navground, core, Behavior, property_environment_state))
+           DOC(navground, core, Behavior, estimate_time_until_target_satisfied))
+      .def_property("environment_state",
+                    py::cpp_function(&Behavior::get_environment_state,
+                                     py::return_value_policy::reference),
+                    nullptr,
+                    DOC(navground, core, Behavior, property_environment_state))
       .def("get_environment_state", &Behavior::get_environment_state,
            py::return_value_policy::reference,
            DOC(navground, core, Behavior, get_environment_state))
@@ -705,12 +694,10 @@ PYBIND11_MODULE(_navground, m) {
 
   py::class_<GeometricState, EnvironmentState, std::shared_ptr<GeometricState>>(
       m, "GeometricState", DOC(navground, core, GeometricState))
-      .def(py::init<>(),
-           DOC(navground, core, GeometricState, GeometricState))
-      .def_property(
-          "neighbors", &GeometricState::get_neighbors,
-          &GeometricState::set_neighbors,
-          DOC(navground, core, GeometricState, property_neighbors))
+      .def(py::init<>(), DOC(navground, core, GeometricState, GeometricState))
+      .def_property("neighbors", &GeometricState::get_neighbors,
+                    &GeometricState::set_neighbors,
+                    DOC(navground, core, GeometricState, property_neighbors))
       .def_property(
           "static_obstacles", &GeometricState::get_static_obstacles,
           &GeometricState::set_static_obstacles,
@@ -746,10 +733,9 @@ PYBIND11_MODULE(_navground, m) {
       .def(py::init<std::shared_ptr<Kinematics>, float>(),
            py::arg("kinematics") = py::none(), py::arg("radius") = 0.0f,
            DOC(navground, core, ORCABehavior, ORCABehavior))
-      .def_property(
-          "time_horizon", &ORCABehavior::get_time_horizon,
-          &ORCABehavior::set_time_horizon,
-          DOC(navground, core, ORCABehavior, property_time_horizon))
+      .def_property("time_horizon", &ORCABehavior::get_time_horizon,
+                    &ORCABehavior::set_time_horizon,
+                    DOC(navground, core, ORCABehavior, property_time_horizon))
       .def_property(
           "is_using_effective_center", &ORCABehavior::is_using_effective_center,
           &ORCABehavior::should_use_effective_center,
@@ -770,8 +756,7 @@ PYBIND11_MODULE(_navground, m) {
   py::class_<Action, std::shared_ptr<Action>> action(
       m, "Action", DOC(navground, core, Action));
 
-  py::enum_<Action::State>(action, "State",
-                           DOC(navground, core, Action_State))
+  py::enum_<Action::State>(action, "State", DOC(navground, core, Action_State))
       .value("idle", Action::State::idle,
              DOC(navground, core, Action_State, idle))
       .value("running", Action::State::running,
@@ -804,10 +789,9 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("behavior", &Controller::get_behavior,
                     &Controller::set_behavior,
                     DOC(navground, core, Controller, property_behavior))
-      .def_property(
-          "speed_tolerance", &Controller::get_speed_tolerance,
-          &Controller::set_speed_tolerance,
-          DOC(navground, core, Controller, property_speed_tolerance))
+      .def_property("speed_tolerance", &Controller::get_speed_tolerance,
+                    &Controller::set_speed_tolerance,
+                    DOC(navground, core, Controller, property_speed_tolerance))
       .def_property("cmd_frame", &Controller::get_cmd_frame,
                     &Controller::set_cmd_frame,
                     DOC(navground, core, Controller, property_cmd_frame))
@@ -832,11 +816,10 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Controller, update))
       .def("set_cmd_cb", &Controller::set_cmd_cb, py::arg("callback"),
            DOC(navground, core, Controller, set_cmd_cb))
-      .def("stop", &Controller::stop,
-           DOC(navground, core, Controller, stop));
+      .def("stop", &Controller::stop, DOC(navground, core, Controller, stop));
 
-  py::class_<CollisionComputation>(
-      m, "CollisionComputation", DOC(navground, core, CollisionComputation))
+  py::class_<CollisionComputation>(m, "CollisionComputation",
+                                   DOC(navground, core, CollisionComputation))
       .def(py::init<>(),
            DOC(navground, core, CollisionComputation, CollisionComputation))
       .def("setup",
@@ -844,16 +827,20 @@ PYBIND11_MODULE(_navground, m) {
                              const std::vector<Disc> &,
                              const std::vector<Neighbor> &>(
                &CollisionComputation::setup),
+           py::arg("pose") = Pose2(), py::arg("margin") = 0.0f,
+           py::arg("line_segments") = std::vector<LineSegment>(),
+           py::arg("static_discs") = std::vector<Disc>(),
+           py::arg("dynamic_discs") = std::vector<Neighbor>(),
            DOC(navground, core, CollisionComputation, setup, 2))
       .def("static_free_distance", &CollisionComputation::static_free_distance,
            py::arg("angle"), py::arg("max_distance"),
            py::arg("include_neighbors") = true,
            DOC(navground, core, CollisionComputation, static_free_distance))
 
-      .def(
-          "dynamic_free_distance", &CollisionComputation::dynamic_free_distance,
-          py::arg("angle"), py::arg("max_distance"), py::arg("speed"),
-          DOC(navground, core, CollisionComputation, dynamic_free_distance))
+      .def("dynamic_free_distance",
+           &CollisionComputation::dynamic_free_distance, py::arg("angle"),
+           py::arg("max_distance"), py::arg("speed"),
+           DOC(navground, core, CollisionComputation, dynamic_free_distance))
       .def("get_free_distance_for_sector",
            &CollisionComputation::get_free_distance_for_sector, py::arg("from"),
            py::arg("length"), py::arg("resolution"), py::arg("max_distance"),
@@ -866,14 +853,14 @@ PYBIND11_MODULE(_navground, m) {
       DOC(navground, core, CachedCollisionComputation))
       .def(py::init<>(), DOC(navground, core, CachedCollisionComputation,
                              CachedCollisionComputation))
-      .def_property("resolution", &CachedCollisionComputation::get_resolution,
-                    &CachedCollisionComputation::set_resolution,
-                    DOC(navground, core, CachedCollisionComputation,
-                        property_resolution))
-      .def_property("min_angle", &CachedCollisionComputation::get_min_angle,
-                    &CachedCollisionComputation::set_min_angle,
-                    DOC(navground, core, CachedCollisionComputation,
-                        property_min_angle))
+      .def_property(
+          "resolution", &CachedCollisionComputation::get_resolution,
+          &CachedCollisionComputation::set_resolution,
+          DOC(navground, core, CachedCollisionComputation, property_resolution))
+      .def_property(
+          "min_angle", &CachedCollisionComputation::get_min_angle,
+          &CachedCollisionComputation::set_min_angle,
+          DOC(navground, core, CachedCollisionComputation, property_min_angle))
       .def_property(
           "length", &CachedCollisionComputation::get_length,
           &CachedCollisionComputation::set_length,
@@ -889,8 +876,7 @@ PYBIND11_MODULE(_navground, m) {
           DOC(navground, core, CachedCollisionComputation, property_speed))
       .def("get_free_distance", &CachedCollisionComputation::get_free_distance,
            py::arg("dynamic"),
-           DOC(navground, core, CachedCollisionComputation,
-               get_free_distance));
+           DOC(navground, core, CachedCollisionComputation, get_free_distance));
 
   m.def("load_behavior", &YAML::load_string_py<PyBehavior>, py::arg("value"),
         R"doc(

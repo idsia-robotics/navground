@@ -45,11 +45,10 @@ static std::string current_stamp() {
   return s;
 }
 
-void Trace::init(const World &world, HighFive::Group *group,
-                 unsigned max_steps) {
+void Trace::init(const World &world, unsigned max_steps) {
   record = false;
   number = world.get_agents().size();
-  const auto & agents = world.get_agents();
+  const auto &agents = world.get_agents();
   indices.clear();
   for (unsigned i = 0; i < number; ++i) {
     indices[agents[i].get()] = i;
@@ -95,7 +94,7 @@ void Trace::init(const World &world, HighFive::Group *group,
     task_events_data = std::vector<std::vector<float>>(number);
     task_events = std::vector<unsigned>(number, 0);
     int index = 0;
-    for (const auto & agent : world.get_agents()) {
+    for (const auto &agent : world.get_agents()) {
       if (Task *task = agent->get_task()) {
         auto &ds = task_events_data[index];
         auto &n = task_events[index];
@@ -168,52 +167,62 @@ void Trace::update(const World &world, unsigned step) {
   }
 }
 
-void Trace::finalize(const World &world, HighFive::Group *group) {
-  if (!group) return;
+void Trace::finalize(const World &world) {
+  if (record_task_events) {
+    for (const auto &agent : world.get_agents()) {
+      if (Task *task = agent->get_task()) {
+        // TODO(Jerome): should remove just the callback we added.
+        task->clear_callbacks();
+      }
+    }
+  }
+}
+
+void Trace::save(const World &world, HighFive::Group &group) {
   const std::vector<size_t> dims{static_cast<size_t>(steps), number, 3};
   if (record_pose) {
-    group->createDataSet<float>("pose", HighFive::DataSpace(dims))
+    group.createDataSet<float>("pose", HighFive::DataSpace(dims))
         .write_raw(pose_data.data());
   }
   if (record_twist) {
-    group->createDataSet<float>("twist", HighFive::DataSpace(dims))
+    group.createDataSet<float>("twist", HighFive::DataSpace(dims))
         .write_raw(twist_data.data());
   }
   if (record_cmd) {
-    group->createDataSet<float>("cmd", HighFive::DataSpace(dims))
+    group.createDataSet<float>("cmd", HighFive::DataSpace(dims))
         .write_raw(cmd_data.data());
   }
   if (record_target) {
-    group->createDataSet<float>("target", HighFive::DataSpace(dims))
+    group.createDataSet<float>("target", HighFive::DataSpace(dims))
         .write_raw(target_data.data());
   }
   if (record_safety_violation) {
     group
-        ->createDataSet<float>("safety_violation",
-                               HighFive::DataSpace({steps, number}))
+        .createDataSet<float>("safety_violation",
+                              HighFive::DataSpace({steps, number}))
         .write_raw(safety_violation_data.data());
   }
   if (record_collisions) {
     unsigned collisions_number = collisions_data.size() / 3;
     group
-        ->createDataSet<unsigned>("collisions",
-                                  HighFive::DataSpace({collisions_number, 3}))
+        .createDataSet<unsigned>("collisions",
+                                 HighFive::DataSpace({collisions_number, 3}))
         .write_raw(collisions_data.data());
   }
   if (record_task_events) {
+    const auto &agents = world.get_agents();
+    auto task_group = group.createGroup("task");
     for (unsigned i = 0; i < task_events.size(); ++i) {
       const auto n = task_events[i];
       if (!n) continue;
       const auto ds = task_events_data[i];
-      group->createGroup("agent_" + std::to_string(i))
-          .createDataSet<float>("task", HighFive::DataSpace({n, ds.size() / n}))
-          .write_raw(ds.data());
-    }
-    for (const auto & agent : world.get_agents()) {
-      if (Task *task = agent->get_task()) {
-        // TODO(Jerome): should remove just the callback we added.
-        task->clear_callbacks();
-      }
+      unsigned uid = agents[i]->uid;
+      auto dataset = task_group.createDataSet<float>(
+          "agent_" + std::to_string(uid),
+          HighFive::DataSpace({n, ds.size() / n}));
+      dataset.write_raw(ds.data());
+      dataset.createAttribute<unsigned>("uid", HighFive::DataSpace::From(uid))
+          .write(uid);
     }
   }
 }
@@ -224,6 +233,7 @@ void Experiment::init_run(int index) {
   if (scenario) {
     scenario->init_world(world.get());
   }
+  world->prepare();
 }
 
 void Experiment::init_dataset() {
@@ -238,10 +248,12 @@ void Experiment::init_dataset() {
     std::cerr << "Could not create directory " << dir << std::endl;
     return;
   }
-  fs::current_path(dir);
-  file = std::make_shared<HighFive::File>("data.h5", HighFive::File::Truncate);
+  file_path = dir / "data.h5";
+  file = std::make_shared<HighFive::File>(*file_path, HighFive::File::Truncate);
   store_experiment(dump(), *file);
 }
+
+void Experiment::finalize_dataset() { file = nullptr; }
 
 std::string Experiment::dump() { return YAML::dump<Experiment>(this); }
 
@@ -251,30 +263,42 @@ void Experiment::init_dataset_run(unsigned index) {
     return;
   }
   auto group = file->createGroup("run_" + std::to_string(index));
-  store_world(*world, group);
+  if (world) {
+    store_world(*world, group);
+  }
   store_seed(get_random_seed(), group);
   run_group = std::make_shared<HighFive::Group>(std::move(group));
 }
 
-void Experiment::run() {
-  for (size_t i = 0; i < runs; i++) {
-    run_once(i);
+void Experiment::finalize_dataset_run() {
+  if (run_group) {
+    if (world) {
+      trace.save(*world, *run_group);
+    }
+    store_steps(steps, *run_group);
   }
+  run_group = nullptr;
+}
+
+void Experiment::run() {
+  init_dataset();
+  for (size_t i = 0; i < runs; i++) {
+    init_run(i);
+    init_dataset_run(i);
+    run_run();
+    finalize_dataset_run();
+  }
+  finalize_dataset();
 }
 
 void Experiment::run_once(int index) {
-  if (!initialized) {
-    init_dataset();
-    initialized = true;
-  }
   init_run(index);
-  if (!world) {
-    std::cerr << "No world" << std::endl;
-    return;
-  }
-  world->prepare();
-  init_dataset_run(index);
-  trace.init(*world, run_group.get(), steps);
+  run_run();
+}
+
+void Experiment::run_run() {
+  if (!world) return;
+  trace.init(*world, steps);
   for (step = 0; step < steps; step++) {
     world->update(time_step);
     trace.update(*world, step);
@@ -285,8 +309,5 @@ void Experiment::run_once(int index) {
       break;
     }
   }
-  trace.finalize(*world, run_group.get());
-  if (run_group) {
-    store_steps(steps, *run_group);
-  }
+  trace.finalize(*world);
 }

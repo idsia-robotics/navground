@@ -114,10 +114,9 @@ struct NAVGROUND_SIM_EXPORT Trace {
    * @brief      Init a trace recording
    *
    * @param[in]  world  The world
-   * @param[in]  group  The dataset group where to store data
    * @param[in]  steps  The maximal number of steps that will be recorded
    */
-  void init(const World& world, HighFive::Group * group, unsigned steps);
+  void init(const World& world, unsigned steps);
   /**
    * @brief      { function_description }
    *
@@ -130,9 +129,16 @@ struct NAVGROUND_SIM_EXPORT Trace {
    * @brief      Called after the simulation has finished
    *
    * @param[in]  world  The world
+   */
+  void finalize(const World &world);
+
+  /**
+   * @brief      Save the trace data to a hdf5 group
+   *
+   * @param[in]  world  The world
    * @param      group  The dataset group where to store data
    */
-  void finalize(const World &world, HighFive::Group  * group);
+  void save(const World &world, HighFive::Group  & group);
 };
 
 /**
@@ -176,7 +182,8 @@ struct NAVGROUND_SIM_EXPORT Experiment {
         callbacks(),
         run_index(0),
         file(),
-        run_group() {}
+        run_group(),
+        file_path() {}
 
   /**
    * @brief      Perform a single run
@@ -198,16 +205,12 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   void add_callback(const Callback& value) { callbacks.push_back(value); }
 
   /**
-   * @brief      Gets the database path.
+   * @brief      Gets the path where the experimental data has been saved.
    *
-   * @return     The path.
+   * @return     The path or none if the experiment has not been run yet.
    */
-  std::string get_path() const {
-    if (file) {
-      std::cerr << file->getPath() << " : " << file->getName() << std::endl;
-      return file->getPath();
-    }
-    return "";
+  std::optional<std::filesystem::path> get_path() const {
+    return file_path;
   }
 
   std::shared_ptr<World> get_world() const {
@@ -251,6 +254,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
 
  protected:
   void init_run(int seed);
+  void run_run();
 
   virtual std::shared_ptr<World> make_world() {
     return std::make_shared<World>();
@@ -259,7 +263,9 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   virtual std::string dump();
 
   void init_dataset();
+  void finalize_dataset();
   void init_dataset_run(unsigned index);
+  void finalize_dataset_run();
 
   bool initialized;
   unsigned step;
@@ -268,6 +274,11 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   unsigned run_index;
   std::shared_ptr<HighFive::File> file;
   std::shared_ptr<HighFive::Group> run_group;
+
+  /**
+   * Where results are saved
+   */
+  std::optional<std::filesystem::path> file_path;
 };
 
 }  // namespace navground::sim

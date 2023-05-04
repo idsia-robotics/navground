@@ -31,6 +31,9 @@ struct convert<Obstacle> {
     return node;
   }
   static bool decode(const Node& node, Obstacle& rhs) {
+    if (node["uid"]) {
+      rhs.uid = node["uid"].as<unsigned>();
+    }
     return convert<Disc>::decode(node, rhs.disc);
   }
 };
@@ -43,6 +46,9 @@ struct convert<Wall> {
     return node;
   }
   static bool decode(const Node& node, Wall& rhs) {
+    if (node["uid"]) {
+      rhs.uid = node["uid"].as<unsigned>();
+    }
     return convert<LineSegment>::decode(node, rhs.line);
   }
 };
@@ -176,6 +182,9 @@ struct convert<Agent> {
     if (node["tags"]) {
       const auto vs = node["tags"].as<std::vector<std::string>>();
       rhs.tags = std::set<std::string>(vs.begin(), vs.end());
+    }
+    if (node["uid"]) {
+      rhs.uid = node["uid"].as<unsigned>();
     }
     return true;
   }

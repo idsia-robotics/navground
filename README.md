@@ -1,6 +1,6 @@
 # navground
 
-navground, short **Nav**igation Play**ground**) is a playground to experiment with navigation algorithms.
+navground, short for **Nav**igation Play**ground**, is a playground to experiment with navigation algorithms.
 
 ## Core C++ library
 
@@ -19,12 +19,11 @@ provides a common API to interact with dynamic obstacle avoidance behaviors for 
 
 Users can add their components (behaviors and kinematics) which are then auto-discovered by the rest of the system.
 
-The core library is designed to be integrated in real-time run-times of real or simulated robots or of other kind of agents. We already integrated it into the following run-times
+The core library is designed to be integrated in real-time run-times of real or simulated robots or of other kind of agents. We already integrated it into the following run-times.
 
 ### ROS 
 
 We provide a ROS 2 node to perform 2.5D obstacle avoidance. The node wraps the core C++ library with a ROS2 compliant interface.
-
 
 ### CoppeliaSim 
 
@@ -32,14 +31,14 @@ We also provide a coppaliaSim plugin that exposes a lua interface to the core li
 
 ## Core Python library
 
-All core elements are also exposed as a Python 3 library. Components can be extended from Python,
+All core elements are also exposed as a Python 3 library. Components can be extended from Python;
 that is, users can implement a behavior or a kinematics which are then fully integrated with the rest of the system.
 
 ## Simulation
 
-The simulation complements the navigation behaviors of core library with
-- tasks that generates targets to behaviors
-- state estimations that feeds the environment state of the  behaviors
+The simulation complements the navigation behaviors of the core library with:
+- tasks that generate targets for behaviors, and
+- state estimation components that feed a potentially noisy and partial representation of the environment state to the behaviors.
 
 It also provides all the infrastructure to run offline experiments.
 
@@ -53,7 +52,7 @@ It also provides all the infrastructure to run offline experiments.
 
 ## Documentation
 
-For more information, we refer to the [project documentation](https://idsia-robotics.github.io/navground) that contains also detailled installation instructions.
+For more information, we refer to the [project documentation](https://idsia-robotics.github.io/navground) that contains also detailed installation instructions.
 
 ## License and copyright
 

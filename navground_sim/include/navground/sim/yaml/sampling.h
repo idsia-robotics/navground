@@ -357,6 +357,9 @@ bool decode_sr(const Node& node, SamplerFromRegister<T>* rhs) {
 template <typename T>
 Node encode_sr(const SamplerFromRegister<T>& rhs) {
   Node node;
+  if (rhs.type.empty()) {
+    return node;
+  }
   node["type"] = rhs.type;
   for (const auto& [name, property_sampler] : rhs.properties) {
     if (property_sampler) {
@@ -462,10 +465,18 @@ struct convert<AgentSampler<W>> {
 
   static Node encode(const AgentSampler<W>& rhs) {
     Node node;
-    node["behavior"] = rhs.behavior;
-    node["kinematics"] = rhs.kinematics;
-    node["task"] = rhs.task;
-    node["state_estimation"] = rhs.state_estimation;
+    if (!rhs.behavior.type.empty()) {
+      node["behavior"] = rhs.behavior;
+    }
+    if (!rhs.kinematics.type.empty()) {
+      node["kinematics"] = rhs.kinematics;
+    }
+    if (!rhs.task.type.empty()) {
+      node["task"] = rhs.task;
+    }
+    if (!rhs.state_estimation.type.empty()) {
+      node["state_estimation"] = rhs.state_estimation;
+    }
     if (rhs.position) {
       node["position"] = rhs.position;
     }

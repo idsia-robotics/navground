@@ -194,24 +194,24 @@ void Trace::finalize(const World &world) {
 void Trace::save(const World &world, HighFive::Group &group) {
   const std::vector<size_t> dims{static_cast<size_t>(steps), number, 3};
   if (record_pose) {
-    group.createDataSet<float>("pose", HighFive::DataSpace(dims))
+    group.createDataSet<float>("poses", HighFive::DataSpace(dims))
         .write_raw(pose_data.data());
   }
   if (record_twist) {
-    group.createDataSet<float>("twist", HighFive::DataSpace(dims))
+    group.createDataSet<float>("twists", HighFive::DataSpace(dims))
         .write_raw(twist_data.data());
   }
   if (record_cmd) {
-    group.createDataSet<float>("cmd", HighFive::DataSpace(dims))
+    group.createDataSet<float>("cmds", HighFive::DataSpace(dims))
         .write_raw(cmd_data.data());
   }
   if (record_target) {
-    group.createDataSet<float>("target", HighFive::DataSpace(dims))
+    group.createDataSet<float>("targets", HighFive::DataSpace(dims))
         .write_raw(target_data.data());
   }
   if (record_safety_violation) {
     group
-        .createDataSet<float>("safety_violation",
+        .createDataSet<float>("safety_violations",
                               HighFive::DataSpace({steps, number}))
         .write_raw(safety_violation_data.data());
   }
@@ -224,7 +224,7 @@ void Trace::save(const World &world, HighFive::Group &group) {
   }
   if (record_task_events) {
     const auto &agents = world.get_agents();
-    auto task_group = group.createGroup("task");
+    auto task_group = group.createGroup("task_events");
     for (unsigned i = 0; i < task_events.size(); ++i) {
       const auto n = task_events[i];
       if (!n) continue;

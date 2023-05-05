@@ -6,13 +6,13 @@
 #ifndef NAVGROUND_SIM_EXPERIMENT_H_
 #define NAVGROUND_SIM_EXPERIMENT_H_
 
+#include <chrono>
 #include <filesystem>
 #include <highfive/H5File.hpp>
 #include <memory>
 
 #include "navground/sim/scenario.h"
 #include "navground/sim/world.h"
-
 #include "navground_sim_export.h"
 
 namespace navground::sim {
@@ -90,10 +90,10 @@ struct NAVGROUND_SIM_EXPORT Trace {
   std::vector<float> target_data;
   std::vector<float> safety_violation_data;
   std::vector<unsigned> collisions_data;
-  std::vector<std::vector<float>> task_events_data; // one vector per agent
+  std::vector<std::vector<float>> task_events_data;  // one vector per agent
   std::vector<unsigned> task_events;
 
-  std::optional<unsigned> index_of_agent(const Agent * agent) const {
+  std::optional<unsigned> index_of_agent(const Agent* agent) const {
     if (indices.count(agent)) {
       return indices.at(agent);
     }
@@ -102,13 +102,13 @@ struct NAVGROUND_SIM_EXPORT Trace {
 
  private:
   bool record;
-  float * pose_ptr;
-  float * twist_ptr;
-  float * cmd_ptr;
-  float * target_ptr;
-  float * safety_violation_ptr;
+  float* pose_ptr;
+  float* twist_ptr;
+  float* cmd_ptr;
+  float* target_ptr;
+  float* safety_violation_ptr;
 
-  std::map<const Agent *, unsigned> indices;
+  std::map<const Agent*, unsigned> indices;
 
   /**
    * @brief      Init a trace recording
@@ -130,7 +130,7 @@ struct NAVGROUND_SIM_EXPORT Trace {
    *
    * @param[in]  world  The world
    */
-  void finalize(const World &world);
+  void finalize(const World& world);
 
   /**
    * @brief      Save the trace data to a hdf5 group
@@ -138,7 +138,7 @@ struct NAVGROUND_SIM_EXPORT Trace {
    * @param[in]  world  The world
    * @param      group  The dataset group where to store data
    */
-  void save(const World &world, HighFive::Group  & group);
+  void save(const World& world, HighFive::Group& group);
 };
 
 /**
@@ -209,12 +209,35 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @return     The path or none if the experiment has not been run yet.
    */
-  std::optional<std::filesystem::path> get_path() const {
-    return file_path;
+  std::optional<std::filesystem::path> get_path() const { return file_path; }
+
+  std::shared_ptr<World> get_world() const { return world; }
+
+  /**
+   * @brief      Gets the duration required to perform the last run (excludes initialization).
+   *
+   * @return     The duration in ns
+   */
+  std::chrono::nanoseconds get_run_duration_ns() const {
+    return run_end - run_begin;
   }
 
-  std::shared_ptr<World> get_world() const {
-    return world;
+  /**
+   * @brief      Gets the duration required to perform the whole experiment.
+   *
+   * @return     The duration in ns
+   */
+  std::chrono::nanoseconds get_duration_ns() const {
+    return experiment_end - experiment_begin;
+  }
+
+  /**
+   * @brief      Gets the time when the experiment began.
+   *
+   * @return     The time
+   */
+  std::chrono::time_point<std::chrono::system_clock> get_begin_time() const {
+    return begin;
   }
 
   /**
@@ -274,6 +297,12 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   unsigned run_index;
   std::shared_ptr<HighFive::File> file;
   std::shared_ptr<HighFive::Group> run_group;
+
+  std::chrono::time_point<std::chrono::steady_clock> experiment_begin;
+  std::chrono::time_point<std::chrono::steady_clock> experiment_end;
+  std::chrono::time_point<std::chrono::system_clock> begin;
+  std::chrono::time_point<std::chrono::steady_clock> run_begin;
+  std::chrono::time_point<std::chrono::steady_clock> run_end;
 
   /**
    * Where results are saved

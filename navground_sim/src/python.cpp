@@ -1,3 +1,4 @@
+#include <pybind11/chrono.h>
 #include <pybind11/eigen.h>
 #include <pybind11/functional.h>
 #include <pybind11/operators.h>
@@ -11,8 +12,6 @@
 #include "navground/core/behavior.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/yaml/yaml.h"
-#include "navground_py/register.h"
-#include "navground_py/yaml.h"
 #include "navground/sim/experiment.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/scenarios/antipodal.h"
@@ -28,6 +27,8 @@
 #include "navground/sim/yaml/experiment.h"
 #include "navground/sim/yaml/scenario.h"
 #include "navground/sim/yaml/world.h"
+#include "navground_py/register.h"
+#include "navground_py/yaml.h"
 
 using namespace navground::core;
 using namespace navground::sim;
@@ -441,8 +442,8 @@ Creates a rectangular region
     Maximal y coordinate
            )doc");
 
-  py::class_<Agent, Entity, std::shared_ptr<Agent>>(
-      m, "NativeAgent", DOC(navground, sim, Agent))
+  py::class_<Agent, Entity, std::shared_ptr<Agent>>(m, "NativeAgent",
+                                                    DOC(navground, sim, Agent))
       .def_readwrite("id", &Agent::id, DOC(navground, sim, Agent, id))
       .def_readwrite("type", &Agent::type, DOC(navground, sim, Agent, type))
       .def_readwrite("radius", &Agent::radius,
@@ -450,8 +451,7 @@ Creates a rectangular region
       .def_readwrite("control_period", &Agent::control_period,
                      DOC(navground, sim, Agent, control_period))
       .def_readwrite("pose", &Agent::pose, DOC(navground, sim, Agent, pose))
-      .def_readwrite("twist", &Agent::twist,
-                     DOC(navground, sim, Agent, twist))
+      .def_readwrite("twist", &Agent::twist, DOC(navground, sim, Agent, twist))
       .def_readwrite("last_cmd", &Agent::last_cmd,
                      DOC(navground, sim, Agent, last_cmd))
       .def_readonly("tags", &Agent::tags, DOC(navground, sim, Agent, tags))
@@ -615,8 +615,7 @@ Creates a rectangular region
   py::class_<StateEstimation, PyStateEstimation, HasRegister<StateEstimation>,
              HasProperties, std::shared_ptr<StateEstimation>>(
       m, "StateEstimation", DOC(navground, sim, StateEstimation))
-      .def(py::init<>(),
-           DOC(navground, sim, StateEstimation, StateEstimation))
+      .def(py::init<>(), DOC(navground, sim, StateEstimation, StateEstimation))
       // .def_readwrite("world", &StateEstimation::world,
       //                py::return_value_policy::reference,
       //                DOC(navground, sim, StateEstimation, world))
@@ -628,20 +627,18 @@ Creates a rectangular region
 
   py::class_<BoundedStateEstimation, StateEstimation,
              std::shared_ptr<BoundedStateEstimation>>(
-      m, "BoundedStateEstimation",
-      DOC(navground, sim, BoundedStateEstimation))
+      m, "BoundedStateEstimation", DOC(navground, sim, BoundedStateEstimation))
       .def(py::init<float>(),
            // py::arg("field_of_view") = 0.0,
            py::arg("range_of_view") = 0.0,
-           DOC(navground, sim, BoundedStateEstimation,
-               BoundedStateEstimation))
+           DOC(navground, sim, BoundedStateEstimation, BoundedStateEstimation))
       // .def_property("field_of_view",
       // &BoundedStateEstimation::get_field_of_view,
       //               &BoundedStateEstimation::set_field_of_view)
-      .def_property("range_of_view", &BoundedStateEstimation::get_range_of_view,
-                    &BoundedStateEstimation::set_range_of_view,
-                    DOC(navground, sim, BoundedStateEstimation,
-                        property_range_of_view))
+      .def_property(
+          "range_of_view", &BoundedStateEstimation::get_range_of_view,
+          &BoundedStateEstimation::set_range_of_view,
+          DOC(navground, sim, BoundedStateEstimation, property_range_of_view))
       .def("_neighbors_of_agent", &BoundedStateEstimation::neighbors_of_agent,
            py::arg("agent"), py::arg("world"),
            DOC(navground, sim, BoundedStateEstimation, neighbors_of_agent));
@@ -865,13 +862,11 @@ The view is empty if the agent's task has not been recorded in the trace.
                      DOC(navground, sim, Trace, record_task_events))
       .def_readonly("number", &Trace::number,
                     DOC(navground, sim, Trace, number))
-      .def_readonly("steps", &Trace::steps,
-                    DOC(navground, sim, Trace, steps));
+      .def_readonly("steps", &Trace::steps, DOC(navground, sim, Trace, steps));
 
   py::class_<PyExperiment>(m, "Experiment", DOC(navground, sim, Experiment))
       .def(py::init<float, int>(), py::arg("time_step") = 0.1,
-           py::arg("steps") = 1000,
-           DOC(navground, sim, Experiment, Experiment))
+           py::arg("steps") = 1000, DOC(navground, sim, Experiment, Experiment))
       .def_readwrite("time_step", &Experiment::time_step,
                      DOC(navground, sim, Experiment, time_step))
       .def_readwrite("steps", &Experiment::steps,
@@ -896,7 +891,14 @@ The view is empty if the agent's task has not been recorded in the trace.
            DOC(navground, sim, Experiment, add_callback))
       .def("run_once", &Experiment::run_once, py::arg("seed"),
            DOC(navground, sim, Experiment, run_once))
-      .def("run", &Experiment::run, DOC(navground, sim, Experiment, run));
+      .def("run", &Experiment::run, DOC(navground, sim, Experiment, run))
+      .def_property("run_duration", &Experiment::get_run_duration_ns, nullptr,
+                    DOC(navground, sim, Experiment, property, run_duration_ns))
+      .def_property("experiment_duration", &Experiment::get_duration_ns,
+                    nullptr,
+                    DOC(navground, sim, Experiment, property, duration_ns))
+      .def_property("begin_time", &Experiment::get_begin_time, nullptr,
+                    DOC(navground, sim, Experiment, property, begin_time));
 
   auto scenario = py::class_<Scenario, PyScenario, HasRegister<Scenario>,
                              HasProperties, std::shared_ptr<Scenario>>(
@@ -942,8 +944,7 @@ The view is empty if the agent's task has not been recorded in the trace.
 
   py::class_<SimpleScenario, Scenario, std::shared_ptr<SimpleScenario>>(
       m, "SimpleScenario", DOC(navground, sim, SimpleScenario))
-      .def(py::init<>(),
-           DOC(navground, sim, SimpleScenario, SimpleScenario));
+      .def(py::init<>(), DOC(navground, sim, SimpleScenario, SimpleScenario));
 
   py::class_<AntipodalScenario, Scenario, std::shared_ptr<AntipodalScenario>>(
       m, "AntipodalScenario", DOC(navground, sim, AntipodalScenario))
@@ -959,19 +960,17 @@ The view is empty if the agent's task has not been recorded in the trace.
       .def_property("radius", &AntipodalScenario::get_radius,
                     &AntipodalScenario::set_radius,
                     DOC(navground, sim, AntipodalScenario, property_radius))
-      .def_property(
-          "tolerance", &AntipodalScenario::get_tolerance,
-          &AntipodalScenario::set_tolerance,
-          DOC(navground, sim, AntipodalScenario, property_tolerance))
+      .def_property("tolerance", &AntipodalScenario::get_tolerance,
+                    &AntipodalScenario::set_tolerance,
+                    DOC(navground, sim, AntipodalScenario, property_tolerance))
       .def_property(
           "position_noise", &AntipodalScenario::get_position_noise,
           &AntipodalScenario::set_position_noise,
           DOC(navground, sim, AntipodalScenario, property_position_noise))
-      .def_property("orientation_noise",
-                    &AntipodalScenario::get_orientation_noise,
-                    &AntipodalScenario::set_orientation_noise,
-                    DOC(navground, sim, AntipodalScenario,
-                        property_orientation_noise));
+      .def_property(
+          "orientation_noise", &AntipodalScenario::get_orientation_noise,
+          &AntipodalScenario::set_orientation_noise,
+          DOC(navground, sim, AntipodalScenario, property_orientation_noise));
 
   py::class_<CrossScenario, Scenario, std::shared_ptr<CrossScenario>>(
       m, "CrossScenario", DOC(navground, sim, CrossScenario, CrossScenario))
@@ -988,19 +987,17 @@ The view is empty if the agent's task has not been recorded in the trace.
       .def_property("tolerance", &CrossScenario::get_tolerance,
                     &CrossScenario::set_tolerance,
                     DOC(navground, sim, CrossScenario, property_tolerance))
-      .def_property(
-          "agent_margin", &CrossScenario::get_agent_margin,
-          &CrossScenario::set_agent_margin,
-          DOC(navground, sim, CrossScenario, property_agent_margin))
+      .def_property("agent_margin", &CrossScenario::get_agent_margin,
+                    &CrossScenario::set_agent_margin,
+                    DOC(navground, sim, CrossScenario, property_agent_margin))
       .def_property("add_safety_to_agent_margin",
                     &CrossScenario::get_add_safety_to_agent_margin,
                     &CrossScenario::set_add_safety_to_agent_margin,
                     DOC(navground, sim, CrossScenario,
                         property_add_safety_to_agent_margin))
-      .def_property(
-          "target_margin", &CrossScenario::get_target_margin,
-          &CrossScenario::set_target_margin,
-          DOC(navground, sim, CrossScenario, property_target_margin));
+      .def_property("target_margin", &CrossScenario::get_target_margin,
+                    &CrossScenario::set_target_margin,
+                    DOC(navground, sim, CrossScenario, property_target_margin));
 
   py::class_<CorridorScenario, Scenario, std::shared_ptr<CorridorScenario>>(
       m, "CorridorScenario", DOC(navground, sim, CorridorScenario))
@@ -1122,10 +1119,14 @@ Load an experiment from a YAML string.
   // m.def("dump", &YAML::dump<Scenario>);
   m.def("dump", &YAML::dump<Agent>, py::arg("agent"),
         "Dump an agent to a YAML-string");
-  m.def("dump", &YAML::dump<PyAgent>, py::arg("agent"),
-        "Dump an agent to a YAML-string");
-  m.def("dump", &YAML::dump<Experiment>, py::arg("experiment"),
-        "Dump an experiment to a YAML-string");
+  // m.def("dump", &YAML::dump<PyAgent>, py::arg("agent"),
+  //       "Dump an agent to a YAML-string");
+  // m.def("dump", &YAML::dump<Experiment>, py::arg("experiment"),
+  //       "Dump an experiment to a YAML-string");
   m.def("dump", &YAML::dump<PyExperiment>, py::arg("experiment"),
         "Dump an experiment to a YAML-string");
+  m.def("dump", &YAML::dump<Behavior>, py::arg("behavior"),
+        "Dump a behavior to a YAML-string");
+  m.def("dump", &YAML::dump<Kinematics>, py::arg("kinematics"),
+        "Dump a kinematics to a YAML-string");
 }

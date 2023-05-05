@@ -35,12 +35,25 @@ static void store_experiment(const std::string &yaml, HighFive::File &file) {
   file.createAttribute<std::string>("experiment", yaml).write(yaml);
 }
 
-static std::string current_stamp() {
-  auto time = std::time(nullptr);
+static std::string time_string(
+    const std::chrono::time_point<std::chrono::system_clock> &t) {
+  const auto ts = std::chrono::system_clock::to_time_t(t);
   std::stringstream ss;
-  ss << std::put_time(std::localtime(&time),
-                      "%F_%T");  // ISO 8601 without timezone information.
-  auto s = ss.str();
+  // ISO 8601 without timezone information.
+  ss << std::put_time(std::localtime(&ts), "%F_%T");
+  return ss.str();
+}
+
+static void store_timepoint(
+    const std::chrono::time_point<std::chrono::system_clock> &tp,
+    const std::string &name, HighFive::File &file) {
+  const std::string txt = time_string(tp);
+  file.createAttribute<std::string>(name, txt).write(txt);
+}
+
+static std::string file_name_stamp(
+    const std::chrono::time_point<std::chrono::system_clock> &t) {
+  auto s = time_string(t);
   std::replace(s.begin(), s.end(), ':', '-');
   return s;
 }
@@ -242,7 +255,18 @@ void Experiment::init_dataset() {
     return;
   }
   fs::current_path(save_directory);
-  const std::string dir_name = name + "_" + current_stamp();
+  std::string dir_name = name + "_" + file_name_stamp(begin);
+  if (std::filesystem::exists(save_directory / dir_name)) {
+    int i = 0;
+    for (;; i++) {
+      if (!std::filesystem::exists(save_directory /
+                                   (dir_name + std::to_string(i)))) {
+        break;
+      }
+    }
+    dir_name += "_" + std::to_string(i);
+    std::cout << "Added suffix _" + std::to_string(i);
+  }
   const fs::path dir = save_directory / dir_name;
   if (!create_directory(dir)) {
     std::cerr << "Could not create directory " << dir << std::endl;
@@ -251,9 +275,18 @@ void Experiment::init_dataset() {
   file_path = dir / "data.h5";
   file = std::make_shared<HighFive::File>(*file_path, HighFive::File::Truncate);
   store_experiment(dump(), *file);
+  store_timepoint(begin, "begin_time", *file);
 }
 
-void Experiment::finalize_dataset() { file = nullptr; }
+void Experiment::finalize_dataset() {
+  if (file) {
+    unsigned long d = get_duration_ns().count();
+    file->createAttribute<unsigned long>("duration_ns",
+                                         HighFive::DataSpace::From(d))
+        .write(d);
+  }
+  file = nullptr;
+}
 
 std::string Experiment::dump() { return YAML::dump<Experiment>(this); }
 
@@ -276,11 +309,18 @@ void Experiment::finalize_dataset_run() {
       trace.save(*world, *run_group);
     }
     store_steps(steps, *run_group);
+    unsigned long d = get_run_duration_ns().count();
+    run_group
+        ->createAttribute<unsigned long>("duration_ns",
+                                         HighFive::DataSpace::From(d))
+        .write(d);
   }
   run_group = nullptr;
 }
 
 void Experiment::run() {
+  begin = std::chrono::system_clock::now();
+  experiment_begin = std::chrono::steady_clock::now();
   init_dataset();
   for (size_t i = 0; i < runs; i++) {
     init_run(i);
@@ -288,6 +328,7 @@ void Experiment::run() {
     run_run();
     finalize_dataset_run();
   }
+  experiment_end = std::chrono::steady_clock::now();
   finalize_dataset();
 }
 
@@ -299,6 +340,7 @@ void Experiment::run_once(int index) {
 void Experiment::run_run() {
   if (!world) return;
   trace.init(*world, steps);
+  run_begin = std::chrono::steady_clock::now();
   for (step = 0; step < steps; step++) {
     world->update(time_step);
     trace.update(*world, step);
@@ -309,5 +351,6 @@ void Experiment::run_run() {
       break;
     }
   }
+  run_end = std::chrono::steady_clock::now();
   trace.finalize(*world);
 }

@@ -142,15 +142,15 @@ struct NAVGROUND_SIM_EXPORT Trace {
 };
 
 /**
- * @brief      An experiment supervise the execution of a simulation.
+ * @brief      An experiment supervises the execution of a simulation.
  *
- * When performing one run using \ref run_once
+ * It initializes a simulation and run it while collecting the desired data with
+ * \ref Trace.
  *
- * 1. it initializes a world from its scenario by calling \ref
- *    Scenario::init_world and setup the dataset.
+ * Use \ref run_once to perform a single run.
  *
- * 2. in run the simulation, step by step, collecting and storing data about the
- *    agents in the dataset.
+ * Use \ref run to perform all runs, optionally saving the data to a HDF5
+ * dataset.
  *
  */
 struct NAVGROUND_SIM_EXPORT Experiment {
@@ -188,12 +188,64 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   /**
    * @brief      Perform a single run
    *
+   * 1. it initializes a world from its scenario by calling
+   *    \ref Scenario::init_world
+   *
+   * 2. it runs the simulation, step by step, collecting data in \ref trace.
+   *
    * @param[in]  seed  The index (and random seed) of the run
    */
   void run_once(int seed);
 
   /**
    * @brief      Perform all runs
+   *
+   * The number of runs is specified by \ref runs.
+   *
+   * If \ref save_directory not empty but points to an existing directory,
+   * it creates a HDF5 file ``<name>_<timestamp>/data.h5`` with attributes
+   *
+   * - ``begin_time`` [``string``], ISO 8601 formatted string of the time when
+   *   the experiment is run, see \ref get_begin_time;
+   *
+   * - ``duration_ns`` [``unsigned``], total duration in nanoseconds, see
+   *   \ref get_duration_ns.
+   *
+   * - ``experiment`` [``string``], YAML serialization of the experiment;
+   *
+   * Moreover, at the end of each run, it saves a group ``run_<index>`` with
+   * attributes:
+   *
+   * - ``duration_ns`` [``unsigned``], total duration in nanoseconds, see
+   *   \ref get_run_duration_ns;
+   *
+   * - ``seed`` [``unsigned``];
+   *
+   * - ``steps`` [``unsigned``], actual number of steps performed;
+   *
+   * - ``world`` [``string``], YAML serialization of the world at the begin of
+   *   the experiment.
+   *
+   * datasets:
+   *
+   * - ``cmds`` [``float``] (if \ref Trace::record_cmd is set);
+   *
+   * - ``collisions`` [``unsigned``] (if \ref Trace::record_collisions is set);
+   *
+   * - ``poses`` [``float``] (if \ref Trace::record_pose is set);
+   *
+   * - ``targets`` [``float``] (if \ref Trace::record_target is set);
+   *
+   * - ``twists`` [``float``] (if \ref Trace::record_twist is set);
+   *
+   * and groups:
+   *
+   * - ``task_events`` (if \ref Trace::record_task_events is set),
+   *   where each agents logs, in dataset ``agent_<uid>`` [``float``], the
+   *   events emitted by their task.
+   *
+   * A part from saving data to the HDF5 file, each run is performed similarly
+   * to \ref run_once.
    */
   void run();
 
@@ -214,7 +266,8 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   std::shared_ptr<World> get_world() const { return world; }
 
   /**
-   * @brief      Gets the duration required to perform the last run (excludes initialization).
+   * @brief      Gets the duration required to perform the last run (excludes
+   * initialization).
    *
    * @return     The duration in ns
    */
@@ -249,7 +302,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    */
   float time_step;
   /**
-   * Number of steps per run
+   * Maximal number of steps per run
    */
   unsigned steps;
 
@@ -259,7 +312,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   std::filesystem::path save_directory;
 
   /**
-   * The trace
+   * The current trace
    */
   Trace trace;
 

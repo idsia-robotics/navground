@@ -894,7 +894,7 @@ The view is empty if the agent's task has not been recorded in the trace.
       .def("run", &Experiment::run, DOC(navground, sim, Experiment, run))
       .def_property("run_duration", &Experiment::get_run_duration_ns, nullptr,
                     DOC(navground, sim, Experiment, property, run_duration_ns))
-      .def_property("experiment_duration", &Experiment::get_duration_ns,
+      .def_property("duration", &Experiment::get_duration_ns,
                     nullptr,
                     DOC(navground, sim, Experiment, property, duration_ns))
       .def_property("begin_time", &Experiment::get_begin_time, nullptr,

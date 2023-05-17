@@ -11,7 +11,6 @@
 #include "navground/core/kinematics.h"
 #include "navground/core/property.h"
 #include "navground/core/states/geometric.h"
-#include "simPlusPlus/Handle.h"
 #include "simPlusPlus/Plugin.h"
 #include "stubs.h"
 

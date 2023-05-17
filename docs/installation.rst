@@ -347,7 +347,7 @@ Depends on `Core C++`_. You also need to have ROS installed and to source it's s
 CoppeliaSim
 ===========
 
-Depends on `Core C++`_. You also need to install `coppeliaSim <https://www.coppeliarobotics.com>`_ (version 4.3 or 4.4).
+Depends on `Core C++`_. You also need to install `coppeliaSim <https://www.coppeliarobotics.com>`_ (versions 4.3, 4.4, 4.5 [latest]).
 
 
 .. code-block:: console

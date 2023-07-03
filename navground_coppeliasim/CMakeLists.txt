@@ -29,6 +29,7 @@ list(APPEND CMAKE_MODULE_PATH
 
 find_package(CoppeliaSim 4 REQUIRED)
 find_package(navground_core REQUIRED)
+find_package(navground_sim REQUIRED)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/generated)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
@@ -39,4 +40,4 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.in ${CMAKE_CURRENT_BINAR
 
 coppeliasim_add_plugin(simExtNavground SOURCES src/plugin.cpp)
 
-target_link_libraries(simExtNavground navground_core::navground_core)
+target_link_libraries(simExtNavground navground_core::navground_core navground_sim::navground_sim)

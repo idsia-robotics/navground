@@ -7,6 +7,7 @@
 namespace navground::sim {
 
 void Agent::update(float dt, float time, World * world) {
+  if (external) return;
   control_deadline -= dt;
   if (control_deadline > 0) {
     return;
@@ -25,6 +26,7 @@ void Agent::update(float dt, float time, World * world) {
 }
 
 void Agent::actuate(float dt) {
+  if (external) return;
   twist = last_cmd;  // + collision_force / mass * dt;
   pose = pose.integrate(twist, dt);
 }
@@ -42,6 +44,17 @@ void Agent::set_behavior(const std::shared_ptr<Behavior> &value) {
 
 bool Agent::idle() const {
   return (!task || task->done()) && controller.idle();
+}
+
+
+Twist2 Agent::get_last_cmd(core::Frame frame) const {
+  if (last_cmd.frame == frame) {
+    return last_cmd;
+  }
+  if (behavior) {
+    return behavior->to_frame(last_cmd, frame);
+  }
+  return {};
 }
 
 }  // namespace navground::sim

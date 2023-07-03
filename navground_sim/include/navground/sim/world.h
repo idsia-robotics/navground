@@ -191,6 +191,13 @@ class NAVGROUND_SIM_EXPORT World {
    */
   void update(float time_step);
   /**
+   * @brief      Updates world for a single time step 
+   *             without actuation and collisions resolution.
+   *
+   * @param[in]  time_step  The time step
+   */
+  void update_dry(float time_step);
+  /**
    * @brief      Updates the world for one or more time steps
    *
    * @param[in]  steps      The number of steps

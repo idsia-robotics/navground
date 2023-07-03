@@ -3,7 +3,7 @@
 
 <plugin name="Navground" author="jerome.guzzi@idsia.ch">
     <description>A plugin for [human-like] navigation in CoppeliaSim</description>
-    <command name="Controller">
+    <command name="make_controller">
         <description>Instantiate a navigation controller
         </description>
         <params>
@@ -401,6 +401,71 @@
         <params>
           <param name="handle" type="int">
             <description>The controller handle</description>
+          </param>
+        </params>
+        <return>
+          <param name="speeds" type="table" item-type="float">
+              <description>TODO</description>
+          </param>
+        </return>
+    </command>
+    <command name="add_obstacle">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The object handle</description>
+          </param>
+          <param name="radius" type="float">
+            <description>The object radius</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="add_agent_from_yaml">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The object handle</description>
+          </param>
+          <param name="yaml" type="string">
+            <description>The yaml text</description>
+          </param>
+        </params>
+        <return>
+          <param name="handle" type="int">
+              <description>The agent handle</description>
+          </param>
+        </return>
+    </command>
+    <command name="get_last_cmd">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The agent handle</description>
+          </param>
+          <param name="frame" type="int">
+            <description>The value (0 for relative, 1 for absolute)</description>
+          </param>
+        </params>
+        <return>
+          <param name="velocity" type="table" item-type="float">
+              <description>The horizontal velocity</description>
+          </param>
+          <param name="angular_speed" type="float">
+            <description>The angular speed in radians/s</description>
+          </param>
+        </return>
+    </command>
+    <command name="get_last_wheel_cmd">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The agent handle</description>
           </param>
         </params>
         <return>

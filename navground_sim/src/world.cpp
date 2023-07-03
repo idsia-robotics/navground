@@ -86,6 +86,20 @@ void World::update(float time_step) {
   step++;
 }
 
+void World::update_dry(float time_step) {
+  if (!ready) {
+    prepare();
+    ready = true;
+  } else {
+    update_agents_strtree();
+  }
+  for (auto &a : agents) {
+    a->update(time_step, time, this);
+  }
+  time += time_step;
+  step++;
+}
+
 void World::add_entity(Entity *entity) { entities[entity->uid] = entity; }
 
 void World::add_agent(const std::shared_ptr<Agent> &agent) {
@@ -163,6 +177,7 @@ void World::prepare() {
       a->behavior->set_kinematics(a->kinematics);
       a->behavior->set_radius(a->radius);
       a->controller.set_behavior(a->behavior);
+      // TODO(J): should be optional now that we added support for external run-loops
       a->controller.set_cmd_frame(Frame::absolute);
     }
   }

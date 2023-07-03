@@ -132,6 +132,9 @@ struct convert<Agent> {
     node["type"] = rhs.type;
     node["id"] = rhs.id;
     node["uid"] = rhs.uid;
+    if (rhs.external) {
+      node["external"] = true;
+    }
     if (rhs.tags.size()) {
       for(const auto & tag : rhs.tags) {
         node["tags"].push_back(tag);
@@ -185,6 +188,9 @@ struct convert<Agent> {
     }
     if (node["uid"]) {
       rhs.uid = node["uid"].as<unsigned>();
+    }
+    if (node["external"]) {
+      rhs.external = node["external"].as<bool>();
     }
     return true;
   }

@@ -86,6 +86,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
         control_period(control_period),
         type(""),
         tags(),
+        external(false),
         task(task),
         state_estimation(estimation),
         behavior(behavior),
@@ -208,6 +209,13 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    */
   bool idle() const;
 
+  /**
+   * @brief      Gets the last command.
+   *
+   * @return     The controller.
+   */
+  Twist2 get_last_cmd(core::Frame frame) const;
+
  public:
   /**
    * The agent public identifier
@@ -249,6 +257,14 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    * to simplify analysis.
    */
   std::set<std::string> tags;
+
+  /**
+   * @brief Whether the agent is controlled externally.
+   *
+   * External agents are not controlled by this simulation but are part of the state estimation used
+   * by the agents controlled in this simulation.
+   */
+  bool external;  
 
  private:
   std::shared_ptr<Task> task;

@@ -8,6 +8,7 @@ namespace navground::sim {
 
 void Agent::update(float dt, float time, World * world) {
   if (external) return;
+  // TODO(J): should update the task anyway to record the logs
   control_deadline -= dt;
   if (control_deadline > 0) {
     return;

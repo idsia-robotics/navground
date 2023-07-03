@@ -16,6 +16,7 @@
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/task.h"
 #include "navground/sim/world.h"
+#include "navground/sim/experiment.h"
 #include "navground/sim/yaml/world.h"
 #include "simPlusPlus/Plugin.h"
 #include "stubs.h"
@@ -138,12 +139,19 @@ class Plugin : public sim::Plugin {
     if (world) {
       std::cout << YAML::dump<nsim::World>(world.get()) << std::endl;
     }
-    world.release();
+    if (experiment) {
+      experiment->stop();
+      experiment.release();
+    }
+    world = nullptr;
     agent_handles.clear();
   }
 
   void onModuleHandle(char *customData) {
     if (world) {
+      if (experiment && !experiment->has_file()) {
+        experiment->start(seed);
+      }
       const auto dt = simGetSimulationTimeStep();
       // sync the state of all agents from coppeliaSim
       int i = 0;
@@ -165,6 +173,9 @@ class Plugin : public sim::Plugin {
       }
       // update the world without physics or collisions
       world->update_dry(dt);
+      if (experiment) {
+        experiment->update();
+      }
     }
   }
 
@@ -418,24 +429,17 @@ class Plugin : public sim::Plugin {
   }
 
   void add_obstacle(add_obstacle_in *in, add_obstacle_out *out) {
-    if (!world) {
-      world = std::make_unique<nsim::World>();
-    }
     double ps[3];
     int r = simGetObjectPosition(in->handle, -1, ps);
     if (r == -1) return;
-    world->add_obstacle(
+    get_world()->add_obstacle(
         nsim::Obstacle{core::Vector2{ps[0], ps[1]}, in->radius});
   }
 
   void add_agent_from_yaml(add_agent_from_yaml_in *in,
                            add_agent_from_yaml_out *out) {
-    if (!world) {
-      world = std::make_unique<nsim::World>();
-    }
     int agent_handle = agent_handles.size();
     YAML::Node node;
-    std::cout << 1 << std::endl;
     try {
       node = YAML::Load(in->yaml);
     } catch (const YAML::ParserException &e) {
@@ -443,15 +447,12 @@ class Plugin : public sim::Plugin {
       out->handle = -1;
       return;
     }
-    std::cout << 2 << std::endl;
     auto agent = node.as<std::shared_ptr<nsim::Agent>>();
-    std::cout << 3 << std::endl;
     if (agent) {
       std::cout << YAML::dump<nsim::Agent>(agent.get()) << std::endl;
-      world->add_agent(std::move(agent));
+      get_world()->add_agent(std::move(agent));
       agent_handles.push_back(in->handle);
       out->handle = agent_handle;
-      std::cout << 4 << std::endl;
     } else {
       out->handle = -1;
     }
@@ -482,10 +483,35 @@ class Plugin : public sim::Plugin {
     }
   }
 
+  std::shared_ptr<nsim::World> get_world() {
+    if (!world) {
+      world = std::make_shared<nsim::World>();
+    }
+    return world;
+  }
+
+  void enable_recording(enable_recording_in *in, enable_recording_out *out) {
+    const auto time_step = simGetSimulationTimeStep();
+    experiment = std::make_unique<nsim::Experiment>(time_step);
+    experiment->name = in->config.name;
+    experiment->set_world(get_world());
+    experiment->save_directory = in->config.directory;
+    experiment->trace.record_pose = in->config.pose;
+    experiment->trace.record_twist = in->config.twist;
+    experiment->trace.record_cmd = in->config.cmd;
+    experiment->trace.record_target = in->config.target;
+    experiment->trace.record_collisions = in->config.collisions;
+    experiment->trace.record_safety_violation = in->config.safety_violation;
+    experiment->trace.record_task_events = in->config.task_events;
+    seed = in->config.seed;
+  }
+
  private:
   std::vector<std::unique_ptr<core::Controller3>> controllers;
-  std::unique_ptr<nsim::World> world;
+  std::shared_ptr<nsim::World> world;
+  std::unique_ptr<nsim::Experiment> experiment;
   std::vector<int> agent_handles;
+  int seed;
 };
 
 SIM_PLUGIN(PLUGIN_NAME, PLUGIN_VERSION, Plugin)

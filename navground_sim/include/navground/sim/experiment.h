@@ -250,6 +250,33 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   void run();
 
   /**
+   * @brief      Start recording
+   * 
+   * This is only need to use an external run-loop, where you
+   * call \ref update explicitly to update the trace 
+   * without updating the simulation itself. Use \ref run instead, to 
+   * both run the simulation and record the trace.
+   *
+   * @param[in]  seed  The random seed
+   * 
+   */
+  void start(int seed);
+  /**
+   * @brief      Updates the trace.
+   * 
+   * See \ref start. Call from an external run-loop to update the trace 
+   * without updating the simulation itself.
+   */
+  void update();
+  /**
+   * @brief      Stop the recording
+   * 
+   * See \ref start. This is only need to use an external run-loop.
+   */
+  void stop();
+
+
+  /**
    * @brief      Adds a callback to be executed after each simulation step.
    *
    * @param[in]  value  The callback
@@ -264,6 +291,10 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   std::optional<std::filesystem::path> get_path() const { return file_path; }
 
   std::shared_ptr<World> get_world() const { return world; }
+
+  void set_world(const std::shared_ptr<World> & value) { 
+    world = value; 
+  }
 
   /**
    * @brief      Gets the duration required to perform the last run (excludes
@@ -328,6 +359,10 @@ struct NAVGROUND_SIM_EXPORT Experiment {
 
   bool terminate_when_all_idle;
 
+  bool has_file() const {
+    return bool(file_path);
+  }
+
  protected:
   void init_run(int seed);
   void run_run();
@@ -345,7 +380,9 @@ struct NAVGROUND_SIM_EXPORT Experiment {
 
   bool initialized;
   unsigned step;
+
   std::shared_ptr<World> world;
+  
   std::vector<Callback> callbacks;
   unsigned run_index;
   std::shared_ptr<HighFive::File> file;

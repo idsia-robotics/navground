@@ -474,6 +474,17 @@
           </param>
         </return>
     </command>
+    <command name="enable_recording">
+        <description>TODO
+        </description>
+        <params>
+          <param name="config" type="recording_config_t">
+            <description>The recording configuration</description>
+          </param>          
+        </params>
+        <return>
+        </return>
+    </command>
     <struct name="obstacle_t">
         <description>TODO</description>
         <param name="position" type="table" item-type="float">
@@ -565,6 +576,39 @@
         </param>
         <param name="vector_list" type="table" item-type="vector2_t">
             <description>Vector2 value</description>
+        </param>
+    </struct>  
+    <struct name="recording_config_t">
+        <description>TODO</description>
+        <param name="name" type="string" default='"experiment"'>
+           <description>The prefix of the recording</description>
+        </param>
+        <param name="directory" type="string" default='"."'>
+           <description>The directory where to store the recording</description>
+        </param>
+        <param name="seed" type="int" default="0">
+           <description>The random seed</description>
+        </param>
+        <param name="pose" type="bool" default="false">
+          <description>TODO</description>
+        </param>
+        <param name="twist" type="bool" default="false">
+          <description>TODO</description>
+        </param>
+        <param name="cmd" type="bool" default="false">
+          <description>TODO</description>
+        </param>
+        <param name="target" type="bool" default="false">
+          <description>TODO</description>
+        </param>
+        <param name="collisions" type="bool" default="false">
+          <description>TODO</description>
+        </param>
+        <param name="safety_violation" type="bool" default="false">
+          <description>TODO</description>
+        </param>
+        <param name="task_events" type="bool" default="false">
+          <description>TODO</description>
         </param>
     </struct>  
     <enum name="PropertyType" item-prefix="" base="0">

@@ -21,14 +21,10 @@ static void store_world(const World &world, HighFive::Group &group) {
       .write(yaml);
 }
 
-static void store_seed(unsigned seed, HighFive::Group &group) {
-  group.createAttribute<unsigned>("seed", HighFive::DataSpace::From(seed))
-      .write(seed);
-}
-
-static void store_steps(unsigned steps, HighFive::Group &group) {
-  group.createAttribute<unsigned>("steps", HighFive::DataSpace::From(steps))
-      .write(steps);
+template <typename T>
+static void store_attribute(T value, const std::string &name,
+                            HighFive::Group &group) {
+  group.createAttribute<T>(name, HighFive::DataSpace::From(value)).write(value);
 }
 
 static void store_experiment(const std::string &yaml, HighFive::File &file) {
@@ -265,7 +261,7 @@ void Experiment::init_dataset() {
       }
     }
     dir_name += "_" + std::to_string(i);
-    std::cout << "Added suffix _" + std::to_string(i);
+    std::cout << "Added suffix _" + std::to_string(i) << std::endl;
   }
   const fs::path dir = save_directory / dir_name;
   if (!create_directory(dir)) {
@@ -299,7 +295,8 @@ void Experiment::init_dataset_run(unsigned index) {
   if (world) {
     store_world(*world, group);
   }
-  store_seed(get_random_seed(), group);
+  store_attribute<unsigned>(get_random_seed(), "seed", group);
+  store_attribute<float>(time_step, "time_step", group);
   run_group = std::make_shared<HighFive::Group>(std::move(group));
 }
 
@@ -308,7 +305,7 @@ void Experiment::finalize_dataset_run() {
     if (world) {
       trace.save(*world, *run_group);
     }
-    store_steps(steps, *run_group);
+    store_attribute<unsigned>(steps, "steps", *run_group);
     unsigned long d = get_run_duration_ns().count();
     run_group
         ->createAttribute<unsigned long>("duration_ns",
@@ -353,4 +350,27 @@ void Experiment::run_run() {
   }
   run_end = std::chrono::steady_clock::now();
   trace.finalize(*world);
+}
+
+void Experiment::start(int index) {
+  begin = std::chrono::system_clock::now();
+  experiment_begin = std::chrono::steady_clock::now();
+  set_random_seed(index);
+  world->prepare();
+  init_dataset();
+  init_dataset_run(index);
+  trace.init(*world, steps);
+  run_begin = std::chrono::steady_clock::now();
+}
+
+void Experiment::stop() {
+  run_end = std::chrono::steady_clock::now();
+  trace.finalize(*world);
+  finalize_dataset_run();
+  experiment_end = std::chrono::steady_clock::now();
+  finalize_dataset();
+}
+
+void Experiment::update() {
+  trace.update(*world, world->get_step() - 1);
 }

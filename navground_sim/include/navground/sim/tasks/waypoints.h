@@ -11,9 +11,9 @@
 #include "navground/sim/task.h"
 #include "navground_sim_export.h"
 
+using navground::core::make_property;
 using navground::core::Properties;
 using navground::core::Property;
-using navground::core::make_property;
 using navground::core::Vector2;
 
 namespace navground::sim {
@@ -25,18 +25,15 @@ using Waypoints = std::vector<navground::core::Vector2>;
 
 /**
  * @brief      This class implement a task that makes the agent reach a sequence
- * of waypoints, calling \ref navground::core::Controller::go_to_position for the
- * next waypoint after the current has been reached within a tolerance.
- * 
+ * of waypoints, calling \ref navground::core::Controller::go_to_position for
+ * the next waypoint after the current has been reached within a tolerance.
+ *
  * The task notifies when a new waypoint is set by calling a callback.
- * 
- * *Properties*: waypoints (list of \ref navground::core::Vector2), loop (bool), tolerance (float)
+ *
+ * *Properties*: waypoints (list of \ref navground::core::Vector2), loop (bool),
+ * tolerance (float)
  */
 struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
-  /**
-   * A callback with argument the current waypoint.
-   */
-  // using Callback = std::function<void(const Vector2 &)>;
 
   /**
    * Whether by default the task loops.
@@ -51,8 +48,8 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @brief      Constructs a new instance.
    *
    * @param[in]  waypoints_  The waypoints
-   * @param[in]  loop_       Whether it should start from begin after reaching the last
-   * waypoint
+   * @param[in]  loop_       Whether it should start from begin after reaching
+   *                         the last waypoint
    * @param[in]  tolerance_  The goal tolerance applied to each waypoint.
    */
   WaypointsTask(Waypoints waypoints_ = {}, bool loop_ = default_loop,
@@ -61,10 +58,20 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
         waypoints(waypoints_),
         waypoint(waypoints.begin()),
         loop(loop_),
-        tolerance(tolerance_){}
+        tolerance(tolerance_) {}
 
   virtual ~WaypointsTask() = default;
 
+  /**
+   * @brief      The size of the data passed to callbacks when events occur,
+   *             see \ref TaskCallback and \ref add_callback.
+   *
+   *             The data is composed of 4 numbers:
+   *             ``[time, target_x, target_y, target_theta]``
+   *
+   * @return     4
+   */
+  size_t get_log_size() const override { return 4; }
 
   /**
    * @private
@@ -87,7 +94,8 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    */
   void set_tolerance(float value) { tolerance = std::max(value, 0.0f); }
   /**
-   * @brief      Sets whether it should start from begin after reaching the last waypoint
+   * @brief      Sets whether it should start from begin after reaching the last
+   * waypoint
    *
    * @param[in]  value  The desired value
    */
@@ -105,7 +113,8 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    */
   float get_tolerance() const { return tolerance; }
   /**
-   * @brief      Gets whether it should start from begin after reaching the last waypoint.
+   * @brief      Gets whether it should start from begin after reaching the last
+   * waypoint.
    *
    * @return     True if it should loop.
    */
@@ -146,14 +155,13 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @private
    */
-  void update(Agent *agent, World * world, float time) override;
+  void update(Agent *agent, World *world, float time) override;
 
  private:
   Waypoints waypoints;
   Waypoints::iterator waypoint;
   bool loop;
   float tolerance;
-  // std::vector<Callback> callbacks;
   bool running;
   inline const static std::string type =
       register_type<WaypointsTask>("Waypoints");

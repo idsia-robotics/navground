@@ -128,7 +128,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../notebook/tour.html">A tour of navground</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_core.html">navground_core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_py.html">navground_py</a></li>
@@ -142,7 +142,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_utilities.html">navground_utilities</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="simple">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/experiment.html">Running an experiment</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -371,12 +372,14 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.TaskCallback"><code class="docutils literal notranslate"><span class="pre">TaskCallback</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task"><code class="docutils literal notranslate"><span class="pre">Task</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.add_callback"><code class="docutils literal notranslate"><span class="pre">Task.add_callback()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.done"><code class="docutils literal notranslate"><span class="pre">Task.done()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.get"><code class="docutils literal notranslate"><span class="pre">Task.get()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.make_type"><code class="docutils literal notranslate"><span class="pre">Task.make_type()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.set"><code class="docutils literal notranslate"><span class="pre">Task.set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.log_size"><code class="docutils literal notranslate"><span class="pre">Task.log_size</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.properties"><code class="docutils literal notranslate"><span class="pre">Task.properties</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.type"><code class="docutils literal notranslate"><span class="pre">Task.type</span></code></a></li>
 </ul>
@@ -395,12 +398,20 @@ document.write(`
   <section id="base-class">
 <h1>Base class<a class="headerlink" href="#base-class" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
+<dt class="sig sig-object py" id="navground.sim.TaskCallback">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TaskCallback</span></span><a class="headerlink" href="#navground.sim.TaskCallback" title="Permalink to this definition">#</a></dt>
+<dd><p>A type alias to <code class="docutils literal notranslate"><span class="pre">Callable[List[float],</span> <span class="pre">None]</span></code>.</p>
+<p>The type of callbacks called when the task publishes data related to an event.
+The task must publish data of the same size, see <a class="reference internal" href="#navground.sim.Task.log_size" title="navground.sim.Task.log_size"><code class="xref py py-attr docutils literal notranslate"><span class="pre">navground.sim.Task.log_size</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="navground.sim.Task">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Task</span></span><a class="headerlink" href="#navground.sim.Task" title="Permalink to this definition">#</a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Task.add_callback">
-<span class="sig-name descname"><span class="pre">add_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Task.add_callback" title="Permalink to this definition">#</a></dt>
-<dd><p>Adds a callback called to log task events</p>
+<span class="sig-name descname"><span class="pre">add_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.TaskCallback" title="navground.sim.TaskCallback"><span class="pre">TaskCallback</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Task.add_callback" title="Permalink to this definition">#</a></dt>
+<dd><p>Adds a callback called to log task events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – The desired callback</p>
@@ -463,6 +474,17 @@ be found or if the value has a non-compatible type.</p>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Task.log_size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log_size</span></span><a class="headerlink" href="#navground.sim.Task.log_size" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<p>The size of the data passed to callbacks when events occur, see <a class="reference internal" href="#navground.sim.TaskCallback" title="navground.sim.TaskCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskCallback</span></code></a> and <a class="reference internal" href="#navground.sim.Task.add_callback" title="navground.sim.Task.add_callback"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_callback()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -539,12 +561,14 @@ be found or if the value has a non-compatible type.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.TaskCallback"><code class="docutils literal notranslate"><span class="pre">TaskCallback</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task"><code class="docutils literal notranslate"><span class="pre">Task</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.add_callback"><code class="docutils literal notranslate"><span class="pre">Task.add_callback()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.done"><code class="docutils literal notranslate"><span class="pre">Task.done()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.get"><code class="docutils literal notranslate"><span class="pre">Task.get()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.make_type"><code class="docutils literal notranslate"><span class="pre">Task.make_type()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.set"><code class="docutils literal notranslate"><span class="pre">Task.set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.log_size"><code class="docutils literal notranslate"><span class="pre">Task.log_size</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.properties"><code class="docutils literal notranslate"><span class="pre">Task.properties</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.type"><code class="docutils literal notranslate"><span class="pre">Task.type</span></code></a></li>
 </ul>

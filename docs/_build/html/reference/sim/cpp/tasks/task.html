@@ -128,7 +128,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../notebook/tour.html">A tour of navground</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_core.html">navground_core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_py.html">navground_py</a></li>
@@ -142,7 +142,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_utilities.html">navground_utilities</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="simple">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/experiment.html">Running an experiment</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -384,10 +385,36 @@ document.write(`
 <dd><p>This class describe the high-level task control that provides navigation goals. </p>
 <p>Subclassed by <a class="reference internal" href="waypoints.html#structnavground_1_1sim_1_1_waypoints_task"><span class="std std-ref">navground::sim::WaypointsTask</span></a></p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim4Task12TaskCallbackE">
+<span class="target" id="structnavground_1_1sim_1_1_task_1af83cfde1041db5686361cbe8c609a528"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TaskCallback</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">float</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim4Task12TaskCallbackE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>The type of callbacks called when the task publishes data related to an event.</p>
+<p>The task must publish data of the same size, see <a class="reference internal" href="#structnavground_1_1sim_1_1_task_1a0acaba5241b302dea3e352a5b820763a"><span class="std std-ref">get_log_size</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param data<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>[in]</strong> The event payload </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim4Task12add_callbackERK8Callback">
-<span class="target" id="structnavground_1_1sim_1_1_task_1ac9dca29735ac40d61b3d02a72b0d6c9d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_callback</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">Callback</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim4Task12add_callbackERK8Callback" title="Permalink to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim4Task12get_log_sizeEv">
+<span class="target" id="structnavground_1_1sim_1_1_task_1a0acaba5241b302dea3e352a5b820763a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_log_size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim4Task12get_log_sizeEv" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>The size of the data passed to callbacks when events occur, see <a class="reference internal" href="#structnavground_1_1sim_1_1_task_1af83cfde1041db5686361cbe8c609a528"><span class="std std-ref">TaskCallback</span></a> and <a class="reference internal" href="#structnavground_1_1sim_1_1_task_1a34ca6519b1e0a3f3fbab79e9e0474d2a"><span class="std std-ref">add_callback</span></a>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The size of the data vector. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim4Task12add_callbackERK12TaskCallback">
+<span class="target" id="structnavground_1_1sim_1_1_task_1a34ca6519b1e0a3f3fbab79e9e0474d2a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_callback</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim4Task12TaskCallbackE" title="navground::sim::Task::TaskCallback"><span class="n"><span class="pre">TaskCallback</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim4Task12add_callbackERK12TaskCallback" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>Adds a callback called to log task events. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

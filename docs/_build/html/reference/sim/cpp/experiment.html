@@ -128,7 +128,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebook/tour.html">A tour of navground</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_core.html">navground_core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_py.html">navground_py</a></li>
@@ -142,7 +142,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_utilities.html">navground_utilities</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="simple">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/experiment.html">Running an experiment</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -533,6 +534,32 @@ document.write(`
 </ul>
 </p>
 <p>A part from saving data to the HDF5 file, each run is performed similarly to <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a065e9fc852d7236b7fd2bfc38d6dcc4f"><span class="std std-ref">run_once</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment5startEi">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a5fe4ca2c025a43e8eb99f5b3e67e607d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">start</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment5startEi" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Start recording. </p>
+<p>This is only need to use an external run-loop, where you call <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1ab473984a467234fa4c5336c83865dfe6"><span class="std std-ref">update</span></a> explicitly to update the trace without updating the simulation itself. Use <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a41fb4c4cea1df64fba3d83f9787a1706"><span class="std std-ref">run</span></a> instead, to both run the simulation and record the trace.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seed</strong> – <strong>[in]</strong> The random seed </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment6updateEv">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1ab473984a467234fa4c5336c83865dfe6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment6updateEv" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Updates the trace. </p>
+<p>See <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a5fe4ca2c025a43e8eb99f5b3e67e607d"><span class="std std-ref">start</span></a>. Call from an external run-loop to update the trace without updating the simulation itself. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment4stopEv">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a033727c0b0d2cf89c8be031a8fcf635d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stop</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment4stopEv" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Stop the recording. </p>
+<p>See <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a5fe4ca2c025a43e8eb99f5b3e67e607d"><span class="std std-ref">start</span></a>. This is only need to use an external run-loop. </p>
 </dd></dl>
 
 <dl class="cpp function">

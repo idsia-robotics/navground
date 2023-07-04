@@ -48,7 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'installation';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="A tour of navground" href="notebook/tour.html" />
+    <link rel="next" title="A tour of navground" href="tutorials/tour.html" />
     <link rel="prev" title="Introduction" href="introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -130,7 +130,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebook/tour.html">A tour of navground</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_core.html">navground_core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_py.html">navground_py</a></li>
@@ -144,7 +144,8 @@
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_utilities.html">navground_utilities</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="simple">
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/experiment.html">Running an experiment</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -667,7 +668,7 @@ Just install the python package of the corresponding version.</p>
 </section>
 <section id="coppeliasim">
 <h2>CoppeliaSim<a class="headerlink" href="#coppeliasim" title="Permalink to this heading">#</a></h2>
-<p>Depends on <a class="reference internal" href="#core-c">Core C++</a>. You also need to install <a class="reference external" href="https://www.coppeliarobotics.com">coppeliaSim</a> (version 4.3 or 4.4).</p>
+<p>Depends on <a class="reference internal" href="#core-c">Core C++</a>. You also need to install <a class="reference external" href="https://www.coppeliarobotics.com">coppeliaSim</a> (versions 4.3, 4.4, 4.5 [latest]).</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export COPPELIASIM_ROOT_DIR=&lt;path to the folder containing the programming subfolder&gt;</span>
 <span class="go">colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_coppeliasim</span>
 </pre></div>
@@ -697,7 +698,7 @@ Just install the python package of the corresponding version.</p>
       </div>
     </a>
     <a class="right-next"
-       href="notebook/tour.html"
+       href="tutorials/tour.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>

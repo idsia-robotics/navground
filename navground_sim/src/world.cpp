@@ -84,6 +84,9 @@ void World::update(float time_step) {
   // }
   time += time_step;
   step++;
+  for (const auto &cb : callbacks) {
+    cb();
+  }
 }
 
 void World::update_dry(float time_step) {
@@ -98,6 +101,9 @@ void World::update_dry(float time_step) {
   }
   time += time_step;
   step++;
+  for (const auto &cb : callbacks) {
+    cb();
+  }
 }
 
 void World::add_entity(Entity *entity) { entities[entity->uid] = entity; }
@@ -186,6 +192,12 @@ void World::prepare() {
 
 void World::run(unsigned steps, float time_step) {
   for (size_t i = 0; i < steps; i++) {
+    update(time_step);
+  }
+}
+
+void World::run_until(std::function<bool()> condition, float time_step) {
+  while(!condition()) {
     update(time_step);
   }
 }

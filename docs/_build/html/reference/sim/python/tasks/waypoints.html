@@ -128,7 +128,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../notebook/tour.html">A tour of navground</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_core.html">navground_core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_py.html">navground_py</a></li>
@@ -142,7 +142,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_utilities.html">navground_utilities</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="simple">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/experiment.html">Running an experiment</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -374,6 +375,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.Waypoints"><code class="docutils literal notranslate"><span class="pre">Waypoints</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask"><code class="docutils literal notranslate"><span class="pre">WaypointsTask</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.__init__"><code class="docutils literal notranslate"><span class="pre">WaypointsTask.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.log_size"><code class="docutils literal notranslate"><span class="pre">WaypointsTask.log_size</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.loop"><code class="docutils literal notranslate"><span class="pre">WaypointsTask.loop</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.tolerance"><code class="docutils literal notranslate"><span class="pre">WaypointsTask.tolerance</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.waypoints"><code class="docutils literal notranslate"><span class="pre">WaypointsTask.waypoints</span></code></a></li>
@@ -422,6 +424,19 @@ waypoint</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.log_size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log_size</span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.log_size" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<p>The size of the data passed to callbacks when events occur, see <a class="reference internal" href="task.html#navground.sim.TaskCallback" title="navground.sim.TaskCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskCallback</span></code></a> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">add_callback()</span></code>.</p>
+<p>The data is composed of 4 numbers: <code class="docutils literal notranslate"><span class="pre">[time,</span> <span class="pre">target_x,</span> <span class="pre">target_y,</span>
+<span class="pre">target_theta]</span></code></p>
 </dd></dl>
 
 <dl class="py property">
@@ -513,6 +528,7 @@ waypoint.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.Waypoints"><code class="docutils literal notranslate"><span class="pre">Waypoints</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask"><code class="docutils literal notranslate"><span class="pre">WaypointsTask</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.__init__"><code class="docutils literal notranslate"><span class="pre">WaypointsTask.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.log_size"><code class="docutils literal notranslate"><span class="pre">WaypointsTask.log_size</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.loop"><code class="docutils literal notranslate"><span class="pre">WaypointsTask.loop</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.tolerance"><code class="docutils literal notranslate"><span class="pre">WaypointsTask.tolerance</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.waypoints"><code class="docutils literal notranslate"><span class="pre">WaypointsTask.waypoints</span></code></a></li>

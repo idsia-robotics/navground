@@ -3,12 +3,13 @@
  */
 
 #include <iostream>
+#include <optional>
 #include <vector>
 
+#include "navground/core/behavior.h"
 #include "navground/core/plugins.h"
 #include "navground/core/property.h"
 #include "navground/core/utilities.h"
-#include "navground/core/behavior.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/scenarios/antipodal.h"
 #include "navground/sim/scenarios/simple.h"
@@ -44,8 +45,7 @@ static void show_usage(const std::string& name) {
             << "  --task\t\t\tShow only tasks" << std::endl
             << "  --task <TASK>\tShow only a specific task" << std::endl
             << "  --world\t\t\tShow only scenarios" << std::endl
-            << "  --world <WORLD>\tShow only a specific scenario"
-            << std::endl;
+            << "  --world <WORLD>\tShow only a specific scenario" << std::endl;
 }
 
 int main(int argc, char* argv[]) {
@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
 
   if (state_estimations) {
     print_register<navground::sim::StateEstimation>("State Estimations",
-                                                       state_estimation_type);
+                                                    state_estimation_type);
     std::cout << std::endl;
   }
   if (tasks) {

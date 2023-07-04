@@ -165,6 +165,7 @@ class NAVGROUND_SIM_EXPORT World {
   friend struct Experiment;
 
   using Lattice = std::optional<std::tuple<float, float>>;
+  using Callback = std::function<void()>;
 
   using A = Agent;
 
@@ -182,7 +183,8 @@ class NAVGROUND_SIM_EXPORT World {
         entities(),
         ready(false),
         time(0.0f),
-        has_lattice(false) {}
+        has_lattice(false),
+        callbacks() {}
 
   /**
    * @brief      Updates world for a single time step.
@@ -204,6 +206,13 @@ class NAVGROUND_SIM_EXPORT World {
    * @param[in]  time_step  The duration of each time step
    */
   void run(unsigned steps, float time_step);
+  /**
+   * @brief      Updates the world until a condition is satisfied
+   *
+   * @param[in]  condition  The condition
+   * @param[in]  time_step  The duration of each time step
+   */
+  void run_until(std::function<bool()> condition, float time_step);
   /**
    * @brief      Gets the simulation time.
    *
@@ -410,6 +419,14 @@ class NAVGROUND_SIM_EXPORT World {
     return nullptr;
   }
 
+  /**
+   * @brief      Adds a callback to be executed after each simulation step.
+   *
+   * @param[in]  value  The callback
+   */
+  void add_callback(const Callback& value) { callbacks.push_back(value); }
+  void reset_callbacks() { callbacks.clear(); }
+
  private:
   void record_collision(const Entity *e1, const Entity *e2);
 
@@ -456,6 +473,7 @@ class NAVGROUND_SIM_EXPORT World {
   float time;
   bool has_lattice;
   std::array<Lattice, 2> lattice;
+  std::vector<Callback> callbacks;
 };
 
 }  // namespace navground::sim

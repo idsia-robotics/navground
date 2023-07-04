@@ -1,15 +1,16 @@
+from typing import Callable, List
+
 import pkg_resources
 from navground.core import load_py_plugins as _load_py_plugins
 from navground.core import registered_property
 
-from ._navground_sim import (Agent, BoundingBox, Entity, Experiment,
-                                 Obstacle)
+from ._navground_sim import Agent, BoundingBox, Entity, Experiment, Obstacle
 from ._navground_sim import Scenario as _Scenario
 from ._navground_sim import StateEstimation as _StateEstimation
 from ._navground_sim import Task as _Task
 from ._navground_sim import (Trace, Wall, World, dump, load_agent,
-                                 load_experiment, load_scenario,
-                                 load_state_estimation, load_task, load_world)
+                             load_experiment, load_scenario,
+                             load_state_estimation, load_task, load_world)
 
 
 class Scenario(_Scenario):
@@ -72,9 +73,11 @@ class Task(_Task):
     def __init__(self):
         _Task.__init__(self)
 
-from . import tasks
-from . import state_estimations
-from . import scenarios
+
+from . import scenarios, state_estimations, tasks
+
+
+TaskCallback = Callable[[List[float]], None]
 
 
 def load_py_plugins():
@@ -87,7 +90,7 @@ def load_py_plugins():
 __all__ = [
     'Entity', 'Obstacle', 'Wall', 'World', 'Agent', 'BoundedStateEstimation',
     'WaypointsTask', 'Experiment', 'Scenario', 'StateEstimation', 'Task',
-    'BoundingBox', 'dump'
+    'BoundingBox', 'dump', 'TaskCallback',
     'load_agent', 'load_state_estimation', 'load_task', 'load_world',
     'load_scenario', 'load_experiment', 'load_py_plugins'
 ]

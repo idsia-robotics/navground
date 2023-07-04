@@ -128,7 +128,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebook/tour.html">A tour of navground</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_core.html">navground_core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_py.html">navground_py</a></li>
@@ -142,7 +142,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_utilities.html">navground_utilities</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="simple">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/experiment.html">Running an experiment</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -530,6 +531,17 @@ document.write(`
 </dl>
 </dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5Agent12get_last_cmdEN4core5FrameE">
+<span class="target" id="classnavground_1_1sim_1_1_agent_1af94de3c19679ab2f86b2b2d0cc2cb04c"></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_last_cmd</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">frame</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent12get_last_cmdEN4core5FrameE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Gets the last command. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The controller. </p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
@@ -581,6 +593,13 @@ document.write(`
 <span class="target" id="classnavground_1_1sim_1_1_agent_1ad6c3beb601fa906ae0da07be7962ed09"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">set</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tags</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent4tagsE" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>A set of tags used to label the agent. </p>
 <p>Tags are mainly used to add meta-information about an agent, for instance by the <a class="reference internal" href="scenarios/scenario.html#structnavground_1_1sim_1_1_scenario_1_1_group"><span class="std std-ref">navground::sim::Scenario::Group</span></a> that generated it (if any), to simplify analysis. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent8externalE">
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a7cc423910702ef364c6691c2270be029"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">external</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent8externalE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Whether the agent is controlled externally. </p>
+<p>External agents are not controlled by this simulation but are part of the state estimation used by the agents controlled in this simulation. </p>
 </dd></dl>
 
 </div>

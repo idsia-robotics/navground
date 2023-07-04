@@ -60,7 +60,8 @@ autodoc_inherit_docstrings = True
 autoclass_content = 'class'
 autodoc_docstring_signature = True
 autodoc_type_aliases = {
-    'PropertyField': 'PropertyField'
+    'PropertyField': 'PropertyField',
+    'TaskCallback': 'TaskCallback'
 }
 
 _replace = {
@@ -68,6 +69,7 @@ _replace = {
     "_navground_sim.": "",
     "numpy.ndarray[numpy.float32[2, 1]]": "Vector2",
     "Union[bool, int, float, str, Vector2, List[bool], List[int], List[float], List[str], List[Vector2]]": "PropertyField",
+    "Callable[[List[float]], None]": "TaskCallback",
 }
 
 def f(app, what, name, obj, options, lines):
@@ -132,6 +134,7 @@ reftarget_aliases['py'] = {
     'Kinematics': 'navground.core.Kinematics',
     'navground.Behavior': 'navground.core.Behavior',
     'PropertyField': 'navground.core.PropertyField',
+    'TaskCallback': 'navground.sim.TaskCallback',
     'navground::core::EnvironmentState': 'navground.core.EnvironmentState',
     'Frame.absolute': 'navground.core.Frame.absolute',
     'Frame.relative': 'navground.core.Frame.relative',

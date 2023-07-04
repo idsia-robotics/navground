@@ -544,10 +544,16 @@ Creates a rectangular region
   py::class_<World, std::shared_ptr<World>>(m, "NativeWorld",
                                             DOC(navground, sim, World, 2))
       .def(py::init<>(), DOC(navground, sim, World, World))
+      .def("add_callback", &World::add_callback, py::arg("callback"),
+           DOC(navground, sim, World, add_callback))
+      .def("reset_callbacks", &World::reset_callbacks,
+           DOC(navground, sim, World, reset_callbacks))
       .def("update", &World::update, py::arg("time_step"),
            DOC(navground, sim, World, update))
       .def("run", &World::run, py::arg("steps"), py::arg("time_step"),
            DOC(navground, sim, World, run))
+      .def("run_until", &World::run_until, py::arg("condition"),
+           py::arg("time_step"), DOC(navground, sim, World, run_until))
       .def_property("time", &World::get_time, nullptr,
                     DOC(navground, sim, World, property_time))
       .def_property("step", &World::get_step, nullptr,
@@ -651,7 +657,9 @@ Creates a rectangular region
           "type", [](Task *obj) { return obj->get_type(); }, nullptr,
           "The name associated to the type of an object")
       .def("done", &Task::done, DOC(navground, sim, Task, done))
-      .def("add_callback", &WaypointsTask::add_callback,
+      .def_property("log_size", &Task::get_log_size, nullptr,
+                    DOC(navground, sim, Task, property, log_size))
+      .def("add_callback", &Task::add_callback, py::arg("callback"),
            DOC(navground, sim, Task, add_callback));
 
   py::class_<WaypointsTask, Task, std::shared_ptr<WaypointsTask>>(
@@ -661,6 +669,8 @@ Creates a rectangular region
            py::arg("loop") = WaypointsTask::default_loop,
            py::arg("tolerance") = WaypointsTask::default_tolerance,
            DOC(navground, sim, WaypointsTask, WaypointsTask))
+      .def_property("log_size", &WaypointsTask::get_log_size, nullptr,
+                    DOC(navground, sim, WaypointsTask, property, log_size))
       .def_property("waypoints", &WaypointsTask::get_waypoints,
                     &WaypointsTask::set_waypoints,
                     DOC(navground, sim, WaypointsTask, property_waypoints))
@@ -894,8 +904,7 @@ The view is empty if the agent's task has not been recorded in the trace.
       .def("run", &Experiment::run, DOC(navground, sim, Experiment, run))
       .def_property("run_duration", &Experiment::get_run_duration_ns, nullptr,
                     DOC(navground, sim, Experiment, property, run_duration_ns))
-      .def_property("duration", &Experiment::get_duration_ns,
-                    nullptr,
+      .def_property("duration", &Experiment::get_duration_ns, nullptr,
                     DOC(navground, sim, Experiment, property, duration_ns))
       .def_property("begin_time", &Experiment::get_begin_time, nullptr,
                     DOC(navground, sim, Experiment, property, begin_time));

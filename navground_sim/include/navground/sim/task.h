@@ -24,7 +24,14 @@ class World;
  */
 struct NAVGROUND_SIM_EXPORT Task : public virtual HasProperties, public virtual HasRegister<Task> {
 
-  using Callback = std::function<void(const std::vector<float> & data)>;
+  /**
+   * The type of callbacks called when the task publishes data related to an event.
+   * 
+   * The task must publish data of the same size, see \ref get_log_size.
+   * 
+   * @param[in] data The event payload
+   */
+  using TaskCallback = std::function<void(const std::vector<float> & data)>;
 
   friend class Agent;
 
@@ -36,11 +43,19 @@ struct NAVGROUND_SIM_EXPORT Task : public virtual HasProperties, public virtual 
   virtual ~Task() = default;
 
   /**
-   * @brief      Adds a callback called to log task events
+   * @brief      The size of the data passed to callbacks when events occur, 
+   *             see \ref TaskCallback and \ref add_callback.
+   *
+   * @return     The size of the data vector.
+   */
+  virtual size_t get_log_size() const { return 0; }
+
+  /**
+   * @brief      Adds a callback called to log task events.
    *
    * @param[in]  value  The desired callback
    */
-  void add_callback(const Callback& value) { 
+  void add_callback(const TaskCallback& value) { 
     callbacks.push_back(value); 
   }
 
@@ -66,7 +81,7 @@ struct NAVGROUND_SIM_EXPORT Task : public virtual HasProperties, public virtual 
    */
   virtual void update(Agent *agent, World * world, float time) {}
 
-  std::vector<Callback> callbacks;
+  std::vector<TaskCallback> callbacks;
 };
 }  // namespace navground::sim
 

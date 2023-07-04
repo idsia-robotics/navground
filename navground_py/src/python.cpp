@@ -842,7 +842,7 @@ PYBIND11_MODULE(_navground, m) {
            py::arg("max_distance"), py::arg("speed"),
            DOC(navground, core, CollisionComputation, dynamic_free_distance))
       .def("get_free_distance_for_sector",
-           &CollisionComputation::get_free_distance_for_sector, py::arg("from"),
+           &CollisionComputation::get_free_distance_for_sector, py::arg("from_angle"),
            py::arg("length"), py::arg("resolution"), py::arg("max_distance"),
            py::arg("dynamic"), py::arg("speed") = 0.0f,
            DOC(navground, core, CollisionComputation,

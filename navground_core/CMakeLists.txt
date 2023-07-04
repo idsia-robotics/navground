@@ -67,12 +67,12 @@ ament_export_dependencies(yaml-cpp)
 
 ament_export_targets(navground_coreTargets HAS_LIBRARY_TARGET)
 
-add_executable(list src/list.cpp)
-target_link_libraries(list navground_core)
-add_dependencies(list navground_core)
+add_executable(info src/list.cpp)
+target_link_libraries(info navground_core)
+add_dependencies(info navground_core)
 
 install(TARGETS
-  list
+  info
   DESTINATION lib/${PROJECT_NAME}
 )
 

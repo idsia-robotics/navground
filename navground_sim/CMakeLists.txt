@@ -90,9 +90,9 @@ add_executable(sample src/sample.cpp)
 target_link_libraries(sample navground_sim)
 add_dependencies(sample navground_sim)
 
-add_executable(list src/list.cpp)
-target_link_libraries(list navground_sim)
-add_dependencies(list navground_sim)
+add_executable(info src/list.cpp)
+target_link_libraries(info navground_sim)
+add_dependencies(info navground_sim)
 
 ament_python_install_namespace_package(sim
   SCRIPTS_DESTINATION lib/${PROJECT_NAME}
@@ -124,7 +124,7 @@ add_dependencies(_navground_sim navground_sim)
 install(TARGETS _navground_sim DESTINATION "${PYTHON_INSTALL_DIR}/navground/sim")
 
 install(TARGETS
-  list
+  info
   run
   sample
   DESTINATION

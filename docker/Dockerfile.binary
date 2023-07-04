@@ -32,7 +32,7 @@ RUN mkdir -p /ws/src && cd /ws \
        -DGEOS_BUILD_DEVELOPER=OFF --packages-select HighFive GEOS
 
 RUN cd /ws \
-    && git clone https://github.com/jeguzzi/navground.git --branch ros2 src/navground \
+    && git clone https://github.com/jeguzzi/navground.git src/navground \
     && colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select  \
         navground_core \
         navground_py \

@@ -48,7 +48,7 @@ RUN cd /ws \
        -DHIGHFIVE_UNIT_TESTS=OFF -DHIGHFIVE_USE_BOOST=OFF -DHIGHFIVE_BUILD_DOCS=OFF --packages-select HighFive
 
 
-RUN cd /ws/src && git clone https://github.com/jeguzzi/navground.git --branch ros2
+RUN cd /ws/src && git clone https://github.com/jeguzzi/navground.git
 
 RUN cd /ws \
     && colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select  \

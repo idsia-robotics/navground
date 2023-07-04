@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Running an experiment &#8212; navground 0.0.1 documentation</title>
+    <title>Experiments &#8212; navground 0.0.1 documentation</title>
   
   
   
@@ -146,7 +146,7 @@
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Tutorials</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Running an experiment</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -365,7 +365,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Running an experiment</h1>
+    <h1>Experiments</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -388,14 +388,13 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="Running-an-experiment">
-<h1>Running an experiment<a class="headerlink" href="#Running-an-experiment" title="Permalink to this heading">#</a></h1>
+  <section id="Experiments">
+<h1>Experiments<a class="headerlink" href="#Experiments" title="Permalink to this heading">#</a></h1>
 <p>In this tutorial, you learn how to perform an experiment and then access the recorded data to analyse it.</p>
 <section id="Running-the-experiment">
 <h2>Running the experiment<a class="headerlink" href="#Running-the-experiment" title="Permalink to this heading">#</a></h2>
 <p>You can look at an experiment as a machine that produces data from a configuration, which defines the simulation we want to perform, how many runs of it, which data to collect, and where to save it.</p>
-<p>The experiment can be configured through the API or from YAML.</p>
-<p>Let’s go for YAML: we configure an experiment where 10 agents perform about 3 hours of navigation in the <a class="reference external" href="../reference/sim/python/scenarios/cross.html">Cross scenario</a>.</p>
+<p>The experiment can be configured through the API or from YAML. Let’s go for YAML: we configure an experiment where 10 agents perform about 3 hours of navigation in the <a class="reference external" href="../reference/sim/python/scenarios/cross.html">Cross scenario</a>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -438,7 +437,7 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<p>We have specified to save the data in the current directory by adding <code class="docutils literal notranslate"><span class="pre">save_directory:</span> <span class="pre">.</span></code>; leaving this line out, would avoid that the experiment saves data to HDF5.</p>
+<p>We have specified to save the data in the current directory by adding <code class="docutils literal notranslate"><span class="pre">save_directory:</span> <span class="pre">.</span></code>; leaving this line out would avoid that the experiment saves data to HDF5.</p>
 <p>Running the experiment using the Python API</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -468,7 +467,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-datetime.timedelta(seconds=1, microseconds=288567)
+datetime.timedelta(seconds=1, microseconds=264340)
 </pre></div></div>
 </div>
 <p>and saves the results to an H5DF file</p>
@@ -486,7 +485,7 @@ datetime.timedelta(seconds=1, microseconds=288567)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-PosixPath(&#39;experiment_2023-07-04_16-55-12/data.h5&#39;)
+PosixPath(&#39;experiment_2023-07-04_18-59-02/data.h5&#39;)
 </pre></div></div>
 </div>
 </section>
@@ -539,7 +538,7 @@ PosixPath(&#39;experiment_2023-07-04_16-55-12/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-1.288567292
+1.264340542
 </pre></div></div>
 </div>
 <p>The metadata contains the YAML dump of the experiment itself. This way, users can reload and potentially rerun the same experiment.</p>
@@ -579,7 +578,7 @@ PosixPath(&#39;experiment_2023-07-04_16-55-12/data.h5&#39;)
 </pre></div>
 </div>
 </div>
-<p>Runs contains some metadata too</p>
+<p>Runs contain some metadata too</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
@@ -612,7 +611,7 @@ PosixPath(&#39;experiment_2023-07-04_16-55-12/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.635798875
+0.611493167
 </pre></div></div>
 </div>
 <p>Other attributes includes the seed</p>
@@ -651,7 +650,7 @@ PosixPath(&#39;experiment_2023-07-04_16-55-12/data.h5&#39;)
 100000
 </pre></div></div>
 </div>
-<p>The run also saves a YAML dump of the world at the begin of the simulation, which we can load</p>
+<p>The run also stores a YAML representation of the world at the begin of the simulation, which we can load</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
@@ -671,8 +670,6 @@ PosixPath(&#39;experiment_2023-07-04_16-55-12/data.h5&#39;)
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">navground.sim.ui</span> <span class="kn">import</span> <span class="n">to_svg</span>
 
-<span class="n">wold_yaml</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;world&#39;</span><span class="p">)</span>
-<span class="n">world</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_world</span><span class="p">(</span><span class="n">wold_yaml</span><span class="p">)</span>
 <span class="n">SVG</span><span class="p">(</span><span class="n">to_svg</span><span class="o">.</span><span class="n">svg_for_world</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -684,7 +681,7 @@ PosixPath(&#39;experiment_2023-07-04_16-55-12/data.h5&#39;)
 <div class="output_area docutils container">
 <img alt="../_images/tutorials_experiment_32_0.svg" src="../_images/tutorials_experiment_32_0.svg" /></div>
 </div>
-<p>The actual data collected during the run is saved in H5DF datasets</p>
+<p>The actual data collected during the run is saved in HDF5 datasets</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
@@ -794,7 +791,7 @@ Safety margin was violated 10.0% of the time
 0.17244763869047244
 </pre></div></div>
 </div>
-<p>We have also stored logs from the event tasks.</p>
+<p>We look also at event logged by the agents’ tasks.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
@@ -820,7 +817,7 @@ Safety margin was violated 10.0% of the time
 &lt;KeysViewHDF5 [&#39;agent_0&#39;, &#39;agent_1&#39;, &#39;agent_2&#39;, &#39;agent_3&#39;, &#39;agent_4&#39;, &#39;agent_5&#39;, &#39;agent_6&#39;, &#39;agent_7&#39;, &#39;agent_8&#39;, &#39;agent_9&#39;]&gt;
 </pre></div></div>
 </div>
-<p>For each agents, where <a class="reference external" href="../reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.log_size">WaypointsTask</a> tells us when it started moving towards which waypoint as a list <code class="docutils literal notranslate"><span class="pre">[time,</span> <span class="pre">target_x,</span> <span class="pre">target_y,</span> <span class="pre">target_theta]</span></code>.</p>
+<p>For each agents, their <a class="reference external" href="../reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.log_size">WaypointsTask</a> tells us when it started moving towards which waypoint as a list <code class="docutils literal notranslate"><span class="pre">[time,</span> <span class="pre">target_x,</span> <span class="pre">target_y,</span> <span class="pre">target_theta]</span></code>. Let’s check the first few events for the first agent.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
@@ -840,7 +837,7 @@ Safety margin was violated 10.0% of the time
 [[0.0, 1.0, 2.5, 0.0], [5.099997520446777, 1.0, -2.5, -0.0]]
 </pre></div></div>
 </div>
-<p>We collect the duration it took to reach a new waypoint, ignoring the first when agents started from radom positions.</p>
+<p>We collect the duration to reach waypoints, ignoring the first because agents started from radom positions.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
@@ -853,7 +850,7 @@ Safety margin was violated 10.0% of the time
         <span class="n">dts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The time to reach a waypoint ranges betweeen </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">dts</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> and </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">dts</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> seconds,</span><span class="se">\n</span><span class="s1">&#39;</span>
-      <span class="s1">&#39;99</span><span class="si">% o</span><span class="s1">f the time lying between &#39;</span>
+      <span class="s1">&#39;and 99</span><span class="si">% o</span><span class="s1">f the time between &#39;</span>
       <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">dts</span><span class="p">,</span><span class="w"> </span><span class="mf">0.005</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> and </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">dts</span><span class="p">,</span><span class="w"> </span><span class="mf">0.995</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> seconds&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -864,7 +861,7 @@ Safety margin was violated 10.0% of the time
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 The time to reach a waypoint ranges betweeen 4.88 and 32.53 seconds,
-99% of the time lying between 4.90 and 16.52 seconds
+and 99% of the time between 4.90 and 16.52 seconds
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">

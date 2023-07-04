@@ -146,7 +146,7 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="experiment.html">Running an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="experiment.html">Experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -414,7 +414,10 @@ document.write(`
 </div>
 </div>
 <p>A behavior holds the <strong>2D state of an agent</strong> of circular shape.</p>
-<p>We set - the <a class="reference external" href="../reference/core/python/common.html#navground.core.Pose2">pose</a> of the agent at the origin of the world-fixed coordinate frame,</p>
+<p>We set</p>
+<ul class="simple">
+<li><p>the <a class="reference external" href="../reference/core/python/common.html#navground.core.Pose2">pose</a> of the agent at the origin of the world-fixed coordinate frame,</p></li>
+</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -481,7 +484,7 @@ Twist2((0.000000, 0.000000), 0.000000, frame=Frame.absolute)
 </pre></div></div>
 </div>
 <p>Oops … the behavior is complaining that it does not know the kinematics of the agent. Therefore, it plays safe and makes the agent stay in place. We also see that <code class="docutils literal notranslate"><span class="pre">Twist2</span></code> has an additional field <code class="docutils literal notranslate"><span class="pre">Twist2(...,</span> <span class="pre">frame)</span></code> for the reference frame, which can be either an absolute world-fixed frame or a relative frame attached to to the agent.</p>
-<p>A <a class="reference external" href="../reference/core/python/kinematics.html#navground.core.Kinematics">kinematics</a> model knows the maximal speed of the agent and, more generally, which commands are feasible. Let’s pick an omnidirectional kinematics that has no restrictions but maximal horizontal and angular speeds,</p>
+<p>A <a class="reference external" href="../reference/core/python/kinematics.html#navground.core.Kinematics">kinematics</a> model knows the maximal speed of the agent and, more generally, which commands are feasible. Let’s pick an omnidirectional kinematics that has no restrictions apart from maximal horizontal and angular speeds,</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -510,7 +513,7 @@ Twist2((0.000000, 0.000000), 0.000000, frame=Frame.absolute)
 Twist2((2.000000, 0.000000), 0.000000, frame=Frame.absolute)
 </pre></div></div>
 </div>
-<p>As expected, the behavior wants to advance full speed towards the target point. How to actuate the commands depends on the agent we are controlling and may requires interacting with the agent’s runtime.</p>
+<p>As expected, the behavior wants to advance full speed towards the target point. How to actuate the commands depends on the agent we are controlling and may require interacting with the agent’s runtime.</p>
 <p>Here, we keep it simple and simulate movements without any error: we apply the command for a time step to directly update the behavior state.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
@@ -535,7 +538,7 @@ Twist2((2.000000, 0.000000), 0.000000, frame=Frame.absolute)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">behavior</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">behaviors</span><span class="o">.</span><span class="n">DummyBehavior</span><span class="p">(</span><span class="n">kinematics</span><span class="o">=</span><span class="n">kinematics</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">behavior</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">behaviors</span><span class="o">.</span><span class="n">DummyBehavior</span><span class="p">(</span><span class="n">kinematics</span><span class="o">=</span><span class="n">kinematics</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="n">behavior</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Target</span><span class="o">.</span><span class="n">Point</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -543,7 +546,7 @@ Twist2((2.000000, 0.000000), 0.000000, frame=Frame.absolute)
 </section>
 <section id="Registers">
 <h2>Registers<a class="headerlink" href="#Registers" title="Permalink to this heading">#</a></h2>
-<p>What if our agent has wheels? Are other kinematics implemented in the core library?</p>
+<p>What if our agent has wheels? Which other kinematics are there?</p>
 <p>Implemented kinematics are stored in a register. Let’s list their names:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
@@ -562,7 +565,7 @@ Twist2((2.000000, 0.000000), 0.000000, frame=Frame.absolute)
 [&#39;2WDiff&#39;, &#39;4WOmni&#39;, &#39;Ahead&#39;, &#39;Omni&#39;]
 </pre></div></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">&quot;Omni&quot;</span></code> is the one we already used. Let’s pick “2WDiff”, which corresponds to a robot with two different drive wheels, one at each side of a longitudinal axis.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;Omni&quot;</span></code> is the one we already used. Let’s pick <code class="docutils literal notranslate"><span class="pre">&quot;2WDiff&quot;</span></code>, which corresponds to a robot with two differential drive wheels, one at each side of a longitudinal axis.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
@@ -590,7 +593,7 @@ Twist2((2.000000, 0.000000), 0.000000, frame=Frame.absolute)
 Property wheel_axis: Wheel Axis of type float
 </pre></div></div>
 </div>
-<p>We set the wheel axis length to size of the agent.</p>
+<p>We set the wheel axis length to the size of the agent.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
@@ -599,7 +602,7 @@ Property wheel_axis: Wheel Axis of type float
 </pre></div>
 </div>
 </div>
-<p>Note that instantiating a kinematics from a register and configuring through its properties like we have done, is equivalent to an explicit instantiation like</p>
+<p>Note that instantiating a kinematics from a register and configuring through its properties, like we have just done, is equivalent to an explicit instantiation like</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
@@ -646,7 +649,7 @@ Twist2((1.000000, 0.000000), 0.000000, frame=Frame.relative)
 [1.0, 1.0]
 </pre></div></div>
 </div>
-<p>Again and unsurprisingly, the behavior wants to set the same maximal speed to both wheels to advance straight at full speed.</p>
+<p>Again and unsurprisingly, the behavior wants to set both wheels at the same maximal speed to advance straight at full speed.</p>
 </section>
 <section id="Trajectory">
 <h2>Trajectory<a class="headerlink" href="#Trajectory" title="Permalink to this heading">#</a></h2>
@@ -743,7 +746,7 @@ True
 [&#39;Dummy&#39;, &#39;HL&#39;, &#39;HRVO&#39;, &#39;ORCA&#39;, &#39;PyDummy&#39;, &#39;SocialForce&#39;]
 </pre></div></div>
 </div>
-<p>We pick “ORCA” and setup it with the same kinematics, state, and target as before.</p>
+<p>We pick <code class="docutils literal notranslate"><span class="pre">&quot;ORCA&quot;</span></code> and setup it with the same kinematics, state, and target as before.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
@@ -784,7 +787,7 @@ True
 Twist2((0.150420, 0.000000), -0.224969, frame=Frame.relative)
 </pre></div></div>
 </div>
-<p>In fact, the behavior is telling us to steer clockwise. Let’s plot the new trajectory.</p>
+<p>In fact, the behavior is telling us to steer clockwise to avoid the obstacle. Let’s plot the new trajectory.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
@@ -838,7 +841,7 @@ Twist2((0.150420, 0.000000), -0.224969, frame=Frame.relative)
 </pre></div>
 </div>
 </div>
-<p>We can tell the control to direcly actuate each control commands defining a callback.</p>
+<p>We can tell the control to direcly actuate each control commands in a callback.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
@@ -870,7 +873,7 @@ Twist2((0.150420, 0.000000), -0.224969, frame=Frame.relative)
 </pre></div>
 </div>
 </div>
-<p>Commands are now queried through the controller which in turns monitors the action state. The run-loop gets simplify further.</p>
+<p>Commands are now queried through the controller which in turns monitors the action state. The run-loop becomes simpler as we need just a single line per step (in addition to the usual line to store the trajectory).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
@@ -931,8 +934,8 @@ Action has finished with State.success.
 </pre></div>
 </div>
 </div>
-<p>We need to tell the behaviors that there is another agent in their vicinity, a neighbor.</p>
-<p>Neighbors are also of circular shape and their state constists of a position, a radius, and a velocity. For real agents, enviroment state would originate from perception, which may be noisy and have partial visibility. Here, we keep it simple and make the agents aware of all other agents, adding all other agents as neighbors in a perfectly accurate enviroment state.</p>
+<p>We need to tell the behaviors that there is another agent in their vicinity, a <em>neighbor</em>.</p>
+<p>Neighbors are also of circular shape and their state consists of position, radius, and velocity. For real agents, enviroment state would originate from perception, which may be noisy and have partial visibility. Here, we keep it simple and make the agents aware of all other agents, adding all of them as neighbors in a perfectly accurate enviroment state.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
@@ -991,17 +994,18 @@ Action has finished with State.success.
 </div>
 </div>
 <p>We see how the two agents successfull avoid a collision and manage to exchange positions.</p>
-<p>This concludes the tour of the core part of the playground. It you want to integrate some of its components in your system, go ahead and skip the rest of the tour, which is goes deeper on simulation.</p>
+<p>This concludes the tour of the core part of the playground. It you want to integrate some of its components in your system, go ahead and skip the rest of the tour, which goes deeper into simulation.</p>
 </section>
 <section id="Simulation">
 <h2>Simulation<a class="headerlink" href="#Simulation" title="Permalink to this heading">#</a></h2>
-<p>We have seen how to manually write a run loop to simulate a trajectory. The playground simplifies this process using <code class="docutils literal notranslate"><span class="pre">Agent</span></code>, <code class="docutils literal notranslate"><span class="pre">StateEstimation</span></code> and <code class="docutils literal notranslate"><span class="pre">Task</span></code>, which generalize the functionalities we have been implementing.</p>
+<p>We have seen how to manually write a run-loop to simulate a trajectory. The playground simplifies this process using <code class="docutils literal notranslate"><span class="pre">Agent</span></code>, <code class="docutils literal notranslate"><span class="pre">StateEstimation</span></code> and <code class="docutils literal notranslate"><span class="pre">Task</span></code>, which generalize the functionalities we have been implementing.</p>
 <p>An agent holds a behavior and a kinematics.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
+
 <span class="n">agent</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">Agent</span><span class="p">()</span>
 <span class="n">agent</span><span class="o">.</span><span class="n">behavior</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Behavior</span><span class="o">.</span><span class="n">make_type</span><span class="p">(</span><span class="s1">&#39;ORCA&#39;</span><span class="p">)</span>
 <span class="n">agent</span><span class="o">.</span><span class="n">kinematics</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">kinematics</span><span class="o">.</span><span class="n">TwoWheelsDifferentialDriveKinematics</span><span class="p">(</span><span class="n">max_speed</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
@@ -1011,25 +1015,25 @@ Action has finished with State.success.
 </pre></div>
 </div>
 </div>
-<p>An agent also has a task to generate navigation targets. Let’s pick <code class="docutils literal notranslate"><span class="pre">WaypointsTask</span></code> to ask the agent to pendle between a point and it’s original position.</p>
+<p>An agent also has a <em>task</em> to generate navigation targets. Let’s pick <code class="docutils literal notranslate"><span class="pre">WaypointsTask</span></code> to ask the agent to pendle between two points.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">agent</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">WaypointsTask</span><span class="p">(</span><span class="n">waypoints</span><span class="o">=</span><span class="p">[(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="n">loop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Finally, an agent uses <em>state</em> estimation to update the … agent’s behavior environment <em>state</em>.</p>
+<p>Finally, an agent uses a <em>state estimation</em> to update the … its behavior environment <em>state</em>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">agent</span><span class="o">.</span><span class="n">state_estimation</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">state_estimations</span><span class="o">.</span><span class="n">BoundedStateEstimation</span><span class="p">(</span><span class="n">range_of_view</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Let’s us now add the agent to a world together with the same static obstacle as before.</p>
+<p>Let’s now add the agent to a world, together with the same static obstacle we have been using.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
@@ -1075,7 +1079,7 @@ Action has finished with State.success.
 </pre></div>
 </div>
 </div>
-<p>We perform additional steps for a total of 250:</p>
+<p>We perform additional steps to reach a total of 250 steps:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
@@ -1084,7 +1088,7 @@ Action has finished with State.success.
 </pre></div>
 </div>
 </div>
-<p>Let’s plot the resulting trajectories</p>
+<p>Let’s plot the resulting trajectory.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
@@ -1113,7 +1117,7 @@ Action has finished with State.success.
 <section id="Experiment">
 <h2>Experiment<a class="headerlink" href="#Experiment" title="Permalink to this heading">#</a></h2>
 <p>Instead of manually injecting data collection in the run-loop, we can configure an <code class="docutils literal notranslate"><span class="pre">Experiment</span></code> to do it automatically.</p>
-<p>Let’s start by defining a scenario, which is a object that initializes worlds, using the same commands as before to setup the world.</p>
+<p>Let’s start by defining a scenario, which is an object that initializes worlds, grouping together the commands we have been using.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
@@ -1138,7 +1142,7 @@ Action has finished with State.success.
 </pre></div>
 </div>
 </div>
-<p>Then, we configure an experiment to run in such scenario for some steps.</p>
+<p>Then, we configure an experiment to run such scenario for some steps.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
@@ -1168,7 +1172,7 @@ Action has finished with State.success.
 </pre></div>
 </div>
 </div>
-<p>The experiment recorded matadata such as real time duration,</p>
+<p>The experiment recorded metadata such as duration,</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
@@ -1183,10 +1187,10 @@ Action has finished with State.success.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-datetime.timedelta(microseconds=254)
+datetime.timedelta(microseconds=104)
 </pre></div></div>
 </div>
-<p>as well as the agent’s trajectory, as an array with (steps x agents x 3) coordinates.</p>
+<p>as well as the agents’ trajectory, as an array of <code class="docutils literal notranslate"><span class="pre">steps</span> <span class="pre">x</span> <span class="pre">agents</span> <span class="pre">x</span> <span class="pre">3</span></code> coordinates.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
@@ -1205,7 +1209,7 @@ datetime.timedelta(microseconds=254)
 (300, 1, 3)
 </pre></div></div>
 </div>
-<p>Optionally, we can configure the experiment to automatically save all data to an h5df file.</p>
+<p>Optionally, we can configure the experiment to automatically save all data to an HDF5 file.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
@@ -1226,7 +1230,7 @@ datetime.timedelta(microseconds=254)
 </section>
 <section id="YAML">
 <h2>YAML<a class="headerlink" href="#YAML" title="Permalink to this heading">#</a></h2>
-<p>Most of what we configured in Python during this tutorial, can be configured from YAML too.</p>
+<p>What we configured in Python during this tutorial, can be configured in YAML too.</p>
 <p>For instance, let’s configure the previous experiment using YAML. We add our lonely agent in one of the <code class="docutils literal notranslate"><span class="pre">scenario/groups</span></code>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:

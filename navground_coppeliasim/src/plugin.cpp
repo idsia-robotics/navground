@@ -25,6 +25,14 @@
 namespace core = navground::core;
 namespace nsim = navground::sim;
 
+
+#if SIM_PROGRAM_VERSION_NB >= 40500
+typedef double simFloat;
+#else
+typedef float simFloat;
+#endif
+
+
 static std::shared_ptr<core::Kinematics> make_kinematics(
     const kinematics_t &k) {
   auto kinematics = core::Kinematics::make_type(k.type);
@@ -157,8 +165,8 @@ class Plugin : public sim::Plugin {
       int i = 0;
       for (const auto &agent : world->get_agents()) {
         // TODO(Jerome): add compatibility with 4.4
-        double ps[3];
-        double os[3];
+        simFloat ps[3];
+        simFloat os[3];
         int r = simGetObjectPosition(agent_handles[i], -1, ps);
         if (r == -1) continue;
         r = simGetObjectOrientation(agent_handles[i], -1, os);
@@ -429,7 +437,7 @@ class Plugin : public sim::Plugin {
   }
 
   void add_obstacle(add_obstacle_in *in, add_obstacle_out *out) {
-    double ps[3];
+    simFloat ps[3];
     int r = simGetObjectPosition(in->handle, -1, ps);
     if (r == -1) return;
     get_world()->add_obstacle(

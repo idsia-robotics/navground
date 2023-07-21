@@ -2,7 +2,7 @@
 Cross
 =====
 
-.. video:: /_static/cross.mp4
+.. video:: cross.mp4
 	:loop:
 	:width: 640
 

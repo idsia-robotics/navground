@@ -240,7 +240,7 @@ void Experiment::init_run(int index) {
   set_random_seed(index);
   world = make_world();
   if (scenario) {
-    scenario->init_world(world.get());
+    scenario->init_world(world.get(), index);
   }
   world->prepare();
 }

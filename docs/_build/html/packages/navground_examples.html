@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 
@@ -32,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -43,6 +43,7 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -139,20 +140,25 @@
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">navground_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_demos.html">navground_demos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="navground_utilities.html">navground_utilities</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/experiment.html">Running an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/experiment.html">Experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/cross.html">Cross</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/yaml.html">YAML</a></li>
@@ -166,7 +172,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/helper.html">Helpers</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/yaml.html">YAML</a></li>
@@ -179,7 +185,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/controller.html">Controller</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/kinematics.html">Kinematics</a></li>
@@ -190,8 +196,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/tasks/index.html">Tasks</a></li>
@@ -202,7 +208,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/yaml.html">YAML</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
@@ -212,7 +218,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/task.html">Task</a></li>
@@ -349,7 +355,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -365,6 +373,45 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#behaviors">Behaviors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basics">Basics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#component">Component</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark">Benchmark</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yaml">YAML</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisions">Collisions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Basics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cache">Cache</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controllers">Controllers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basics-controller">Basics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-dimensional">Three dimensional</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#asynchronous">Asynchronous</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scenarios">Scenarios</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Component</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register">Register</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">YAML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#groups">Groups</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Benchmark</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#world">World</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Component</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Register</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">YAML</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -376,7 +423,205 @@ document.write(`
                   
   <section id="navground-examples">
 <h1>navground_examples<a class="headerlink" href="#navground-examples" title="Permalink to this heading">#</a></h1>
-<p>C++ examples.</p>
+<p>A packages with examples of using navground from C++.</p>
+<section id="behaviors">
+<h2>Behaviors<a class="headerlink" href="#behaviors" title="Permalink to this heading">#</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">directory<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/behavior">src/behavior</a></p>
+</dd>
+</dl>
+<p>Rely only on <code class="docutils literal notranslate"><span class="pre">navground_core</span></code>.</p>
+<section id="basics">
+<span id="basics-behavior"></span><h3>Basics<a class="headerlink" href="#basics" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/behavior/behavior.cpp">behavior.cpp</a></p>
+</dd>
+</dl>
+<p>How to instantiate and apply a behavior to avoid a circular obstacle.</p>
+</section>
+<section id="component">
+<h3>Component<a class="headerlink" href="#component" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/behavior/my_behavior.h">my_behavior.h</a></p>
+</dd>
+</dl>
+<p>How to define and register a new behavior.</p>
+</section>
+<section id="benchmark">
+<h3>Benchmark<a class="headerlink" href="#benchmark" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/behavior/benchmark.cpp">benchmark.cpp</a></p>
+</dd>
+</dl>
+<p>Measures the computation time is requires to move 20 agents in a crossings for 1000 steps.</p>
+</section>
+<section id="yaml">
+<h3>YAML<a class="headerlink" href="#yaml" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/behavior/echo_yaml.cpp">echo_yaml.cpp</a></p>
+</dd>
+</dl>
+<p>How to load a behavior from YAML and how to dump it to YAML back.</p>
+</section>
+</section>
+<section id="collisions">
+<h2>Collisions<a class="headerlink" href="#collisions" title="Permalink to this heading">#</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">directory<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/collision">collision</a></p>
+</dd>
+</dl>
+<p>Rely only on <code class="docutils literal notranslate"><span class="pre">navground_core</span></code>.</p>
+<section id="id1">
+<h3>Basics<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/collision/collision.cpp">collision.cpp</a></p>
+</dd>
+</dl>
+<p>How to compute free distance to collision with a set of obstacles.</p>
+</section>
+<section id="cache">
+<h3>Cache<a class="headerlink" href="#cache" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/collision/cached_collision.cpp">cached_collision.cpp</a></p>
+</dd>
+</dl>
+<p>How to compute free distance to collision with a set of obstacles and save it to a cache.</p>
+</section>
+</section>
+<section id="controllers">
+<h2>Controllers<a class="headerlink" href="#controllers" title="Permalink to this heading">#</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">directory<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/controller">controller</a></p>
+</dd>
+</dl>
+<p>Rely only on <code class="docutils literal notranslate"><span class="pre">navground_core</span></code>.</p>
+<section id="basics-controller">
+<span id="id2"></span><h3>Basics<a class="headerlink" href="#basics-controller" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/controller/controller.cpp">controller.cpp</a></p>
+</dd>
+</dl>
+<p>How to use the controller API to move to a target point.</p>
+</section>
+<section id="three-dimensional">
+<h3>Three dimensional<a class="headerlink" href="#three-dimensional" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/controller/controller_3d.cpp">controller_3d.cpp</a></p>
+</dd>
+</dl>
+<p>How to use the 3D controller API to move to a 3D target point.</p>
+</section>
+<section id="asynchronous">
+<h3>Asynchronous<a class="headerlink" href="#asynchronous" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/controller/controller_async.cpp">controller_async.cpp</a></p>
+</dd>
+</dl>
+<p>How to use the action callbacks to move back and forth between two way-points.</p>
+</section>
+</section>
+<section id="scenarios">
+<h2>Scenarios<a class="headerlink" href="#scenarios" title="Permalink to this heading">#</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">directory<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario">scenario</a></p>
+</dd>
+</dl>
+<p>Rely on <code class="docutils literal notranslate"><span class="pre">navground_core</span></code> and <code class="docutils literal notranslate"><span class="pre">navground_sim</span></code>.</p>
+<section id="id3">
+<h3>Component<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/my_scenario.h">my_scenario.h</a></p>
+</dd>
+</dl>
+<p>How to register a new scenario.</p>
+</section>
+<section id="register">
+<h3>Register<a class="headerlink" href="#register" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/scenario_registered.cpp">scenario_registered.cpp</a></p>
+</dd>
+</dl>
+<p>How to list registered scenarios and load one of them, and use it to sample a world.</p>
+</section>
+<section id="id4">
+<h3>YAML<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/scenario_from_YAML.cpp">scenario_from_YAML.cpp</a></p>
+</dd>
+</dl>
+<p>How to load a scenario from YAML and use it to sample a world.</p>
+</section>
+<section id="groups">
+<h3>Groups<a class="headerlink" href="#groups" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/scenario_with_groups.cpp">scenario_with_groups.cpp</a></p>
+</dd>
+</dl>
+<p>How to define a scenario with groups.</p>
+</section>
+<section id="id5">
+<h3>Benchmark<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/benchmark_sim.cpp">benchmark_sim.cpp</a></p>
+</dd>
+</dl>
+<p>Measures the computation time is requires to move 20 agents in a crossings for 1000 steps in simulation.</p>
+</section>
+</section>
+<section id="world">
+<h2>World<a class="headerlink" href="#world" title="Permalink to this heading">#</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">directory<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/world">world</a></p>
+</dd>
+</dl>
+<p>Rely on <code class="docutils literal notranslate"><span class="pre">navground_core</span></code> and <code class="docutils literal notranslate"><span class="pre">navground_sim</span></code>.</p>
+<section id="id7">
+<h3>Component<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/world/world.cpp">world.cpp</a></p>
+</dd>
+</dl>
+<p>How to instantiate a world with walls, obstacles and agents, and perform some simulation steps.</p>
+</section>
+<section id="id8">
+<h3>Register<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/world/world_from_yaml.cpp">world_from_yaml.cpp</a></p>
+</dd>
+</dl>
+<p>How to load a world from YAML and perform some simulation steps.</p>
+</section>
+<section id="id9">
+<h3>YAML<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">file<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/world/world_with_groups.cpp">world_with_groups.cpp</a></p>
+</dd>
+</dl>
+<p>How to instantiate a world using groups.</p>
+</section>
+</section>
 </section>
 
 
@@ -418,6 +663,51 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#behaviors">Behaviors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basics">Basics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#component">Component</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark">Benchmark</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yaml">YAML</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisions">Collisions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Basics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cache">Cache</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controllers">Controllers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basics-controller">Basics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-dimensional">Three dimensional</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#asynchronous">Asynchronous</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scenarios">Scenarios</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Component</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register">Register</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">YAML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#groups">Groups</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Benchmark</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#world">World</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Component</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Register</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">YAML</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

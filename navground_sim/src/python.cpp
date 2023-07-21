@@ -83,6 +83,10 @@ struct PyTask : Task, virtual PyHasRegister<Task> {
     PYBIND11_OVERRIDE(void, Task, update, agent, world, time);
   }
 
+  void prepare(Agent *agent, World *world) const override {
+    PYBIND11_OVERRIDE(void, Task, prepare, agent, world);
+  }
+
   bool done() const override { PYBIND11_OVERRIDE(bool, Task, done); }
 
   const Properties &get_properties() const override {
@@ -229,8 +233,8 @@ struct PyScenario : public Scenario, virtual PyHasRegister<Scenario> {
   using Scenario::Scenario;
   using Native = Scenario;
 
-  void init_world(World *world) override {
-    PYBIND11_OVERRIDE(void, Scenario, init_world, world);
+  void init_world(World *world, int seed = 0) override {
+    PYBIND11_OVERRIDE(void, Scenario, init_world, world, seed);
   }
 
   const Properties &get_properties() const override {
@@ -613,9 +617,9 @@ Creates a rectangular region
            DOC(navground, sim, World, in_collision));
 
   py::class_<PyWorld, World, std::shared_ptr<PyWorld>>(
-      m, "World", DOC(navground, sim, World))
+      m, "World", py::dynamic_attr(), DOC(navground, sim, World))
       .def(py::init<>(), DOC(navground, sim, World, World))
-      .def("add_agent", &PyWorld::add_agent,
+      .def("add_agent", &PyWorld::add_agent, py::arg("agent"),
            DOC(navground, sim, World, add_agent));
 
   py::class_<StateEstimation, PyStateEstimation, HasRegister<StateEstimation>,
@@ -840,7 +844,7 @@ not been recorded in the trace.
               return py::memoryview::from_buffer(data.data(), shape, strides);
             }
             return empty_float_view();
-          },
+          }, py::arg("agent"),
           R"doc(
 The recorded events logged by the task of an agent 
 as memory view to the floating point buffer::
@@ -918,7 +922,7 @@ The view is empty if the agent's task has not been recorded in the trace.
       .def(py::init<>(), "");
 
   scenario.def(py::init<>())
-      .def("init_world", &Scenario::init_world,
+      .def("init_world", &Scenario::init_world, py::arg("world"), py::arg("seed") = 0,
            DOC(navground, sim, Scenario, init_world))
 // .def("sample", &Scenario::sample)
 // .def("reset", &Scenario::reset)
@@ -948,7 +952,7 @@ The view is empty if the agent's task has not been recorded in the trace.
       // .def_readwrite("groups", &Scenario::groups,
       // py::return_value_policy::reference) .def_property("initializers",
       // &Scenario::get_initializers, nullptr)
-      .def("add_init", &Scenario::add_init,
+      .def("add_init", &Scenario::add_init, py::arg("initializer"),
            DOC(navground, sim, Scenario, add_init));
 
   py::class_<SimpleScenario, Scenario, std::shared_ptr<SimpleScenario>>(

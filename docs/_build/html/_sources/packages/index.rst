@@ -14,4 +14,3 @@ Packages
    navground_examples
    navground_examples_py
    navground_demos
-   navground_utilities

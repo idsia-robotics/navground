@@ -1,0 +1,29 @@
+steps: 100000
+time_step: 0.1
+record_safety_violation: true
+record_task_events: true
+record_pose: true
+runs: 2
+save_directory: ''
+scenario:
+  type: Cross
+  radius: 5
+  side: 5
+  agent_margin: 0.3
+  add_safety_to_agent_margin: true
+  tolerance: 0.2
+  position_noise: 0.2
+  groups:
+    - number: 10
+      control_period: 0.1
+      behavior:
+        type: ORCA
+        safety_margin: 0.25
+      radius: 0.1
+      kinematics:
+        type: Omni
+        max_speed: 1.0
+        max_angular_speed: 3.0
+      state_estimation:
+        type: Bounded
+        range_of_view: 2.0

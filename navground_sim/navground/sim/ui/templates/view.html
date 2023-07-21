@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <!--  -->
+  <!-- <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/svg.pan-zoom.js/2.8.0/svg.pan-zoom.min.js" type="text/javascript"></script> -->
+  <!--  -->
+  <title></title>
+  
+  <style>
+  svg{
+  style='stroke-width: 0px;
+  background-color: snow;
+}
+.background{
+  fill-opacity:0.05;
+  fill: grey;
+}
+circle.obstacle{
+  fill: gray; 
+  stroke:none;
+}
+.agent{
+  stroke:none;
+  fill: orange;
+}
+polyline.wall{
+  stroke:black;
+  stroke-width:0.01;
+}
+
+
+  </style>
+  
+  
+  <script type='text/javascript'>
+  var svg;
+var svg_world;
+
+
+
+
+// window.onload = function() {
+//   window.svgPanZoom = svgPanZoom('#svg', {
+//     panEnabled: true,
+//     controlIconsEnabled: true,
+//     zoomEnabled: true,
+//     fit: true,
+//     maxZoom: 40,
+//     minZoom: 0.1
+//   });
+//   svg = document.getElementsByClassName("svg-pan-zoom_viewport")[0];
+//   svg_world = document.getElementById("world");
+//   window.requestAnimationFrame(update);
+// }
+
+
+
+function connect() {
+
+
+var ws_address = "ws://127.0.0.1:8000/"
+console.log(' Try to connect to ' + ws_address)
+var ws = new WebSocket(ws_address);
+
+ws.onopen = function(event) {
+  console.log(' Opened Web socket ' + ws_address)
+};
+
+ws.onmessage = function(event) {
+  var [type, data] = JSON.parse(event.data)
+  switch (type) {
+    case 'm':
+      move(data)
+      break;
+    case 'r':
+      reset(data)
+      break;
+    case 's':
+      set(data)
+      break;
+    case 'v':
+      view(data)
+      break;
+    case '+':
+      add(data)
+      break;
+    default:
+      break
+  }
+}
+
+  ws.onclose = function(e) {
+    console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+      setTimeout(function() {
+      connect();
+    }, 1000);
+  };
+
+  ws.onerror = function(err) {
+    console.error('Socket encountered error: ', err.message, 'Closing socket');
+    ws.close();
+  };
+}
+
+connect();
+
+var agents = new Set();
+var entity = {};
+var NS = "http://www.w3.org/2000/svg";
+var prototypes = {'': '#agent', 'thymio': '#thymio'}
+
+function add_wall(id, points) {
+  var e = document.createElementNS(NS,"polyline");
+  var ps = []
+  for (var i in points) {
+     ps.push(`${points[i][0]},${points[i][1]}`)
+  } 
+  e.setAttribute("points", ps.join())
+  e.setAttribute("class", "wall");
+  e.setAttribute("id", id);
+  return e
+}
+
+function add_obstacle(id, point, radius) {
+  var e = document.createElementNS(NS,"circle");
+  e.setAttribute("cx", `${point[0]}`)
+  e.setAttribute("cy", `${point[1]}`)
+  e.setAttribute("r", `${radius}`)
+  e.setAttribute("class", "obstacle");
+  e.setAttribute("id", id);
+  return e
+}
+
+function add_agent(id, type, size) 
+{
+  var g = document.createElementNS(NS,"g");
+  var agent = document.createElementNS(NS,"use");
+  var uid = prototypes[type] || '#agent';
+  agent.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", uid);
+  agent.setAttribute("transform", `scale(${size}, ${size})`)
+  g.appendChild(agent)
+  g.setAttribute("class", type);
+  g.setAttribute("id", id);
+  return g;
+};
+
+function add_entity(uid, data) {
+  var id = "" + uid
+  if (id in entity) {
+    console.warn(`Entity ${id} already present`)
+    return;
+  }
+  var kind = data['kind'];
+  var svg_world = document.getElementById("world");
+  var e = document.getElementById(id);
+  if (e) {
+    svg_world.removeChild(e);
+    e = null;
+  }
+  var state = null;
+  switch (kind) {
+    case 'w':
+      e = add_wall(id, data['points']);
+      break;
+    case 'o':
+      e = add_obstacle(id, data['point'], data['radius']);
+      break;
+    case 'a':
+      e = add_agent(id, data['type'], data['size']);
+      state = data['pose']
+      var [x, y, theta] = state;
+      move_element(e, x, y, theta);
+      agents.add(id);
+      break;
+    default:
+      break
+  }
+  if (e) {
+    svg_world.appendChild(e);
+    entity[id] = {'svg': e, 'updated': true, 'state': state};
+  }
+};
+
+function add(data) {
+  for (var _id in data) {
+    add_entity(_id, data[_id])
+  }
+  window.requestAnimationFrame(update);
+};
+
+function set_entity(_id, data) {
+  if(!(_id in entity)) {
+    console.warn(`Entity ${_id} unknown`)
+    return;
+  }
+  for (a in data) {
+    entity[_id]['svg'].setAttribute(a, data[a])
+  }
+};
+
+function set(data) {
+  for (var _id in data) {
+    if (_id in entity) {
+      set_entity('' + _id, data[_id])
+    } else {
+      var e = document.getElementById("" + _id);
+      if (e) {
+        var e_data = data[_id];
+        for (a in e_data) {
+          console.log(`setting attributes ${a} of ${e} to ${e_data[a]}`)
+          e.setAttribute(a, e_data[a]);
+        }
+      }
+    }
+  }
+  window.requestAnimationFrame(update);
+};
+
+function move_entity(_id, data) {
+  if(!agents.has(_id)) {
+    console.warn(`Agent ${_id} unknown`)
+    return;
+  }
+  var [x, y, theta] = data;
+  entity[_id]['state'] = [x, y, theta]
+  entity[_id]['updated'] = true
+};
+
+function move(data) {
+  for (var _id in data) {
+    move_entity('' + _id, data[_id])
+  }
+  window.requestAnimationFrame(update);
+};
+
+function reset() {
+  var svg_world = document.getElementById("world");
+  for (var _id in entity) {
+    svg_world.removeChild(entity[_id]['svg'])
+  }
+  console.log("reset")
+  entity = {}
+  agents.clear()
+  window.requestAnimationFrame(update);
+};
+
+function view(data) {
+  var [x, y, width, height] = data;
+  var svg = document.getElementById("svg");
+  svg.setAttribute("viewBox", `${x} ${y} ${width} ${height}`)
+  window.requestAnimationFrame(update);
+};
+
+function update(step) {
+  var ids_to_be_removed = []
+  for (var id of agents) {
+    // if (!entity[id]['updated']) {
+    //   ids_to_be_removed.push(id)
+    // }
+    if (entity[id]['updated']) {
+      var [x, y, theta] = entity[id]['state']
+      move_element(entity[id]['svg'], x, y, theta)
+      entity[id]['updated'] = false;
+    }
+  }
+  // for (var _id of ids_to_be_removed) {
+  //   remove_entity(_id);
+  // }  
+};
+
+function remove_entity(_id) {
+    var svg_world = document.getElementById("world");
+    console.log(`remove ${_id}`)
+    svg_world.removeChild(entity[_id]['svg'])
+    agents.delete(_id);
+    delete entity[_id];
+}
+
+function move_element(g, x, y, angle) {
+  var t = `translate(${x},${y}) rotate(${angle * 180 / 3.14159})`
+  g.setAttribute("transform", t)
+};
+
+  </script>
+  
+  
+</head>
+<body>
+  <div>
+    <h1></h1>
+  </div>
+  <svg id="svg" width="500" height="500" viewBox="0 0 1 1 ">
+    <defs>
+        <circle id="agent" cx="0" cy="0" r="1"/>
+        <g id="thymio" transform="rotate(90) scale(0.125)">
+            <path
+               style="fill:#e6e6e6;stroke:none"
+               d="M -5.4999227 -5.8058472 L -5.4999227 2.9998169 L 5.4999227 2.9998169 L 5.4999227     -5.8089478 A 8 8 0 0 0 0 -8.0000285 A 8 8 0 0 0 -5.4999227 -5.8058472 z " />
+            <rect
+               style="fill:#333333;stroke:none"
+               width="1.5"
+               height="4.1999998"
+               x="-5.4000001"
+               y="-2.0999999"
+               rx="0.5" />
+            <rect
+               style="fill:#333333;stroke:none"
+               id="rect441"
+               width="1.5"
+               height="4.1999998"
+               x="3.9000001"
+               y="-2.0999999"
+               rx="0.5" />
+        </g>
+    </defs>
+    <g id='world' transform="scale(1, -1)">
+      
+    </g>
+  </svg>
+</body>
+</html>

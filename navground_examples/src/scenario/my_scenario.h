@@ -21,7 +21,7 @@ struct EmptyScenario : Scenario {
 
   std::string get_type() const override { return type; }
 
-  void init_world(World *world) override {
+  void init_world(World *world, [[maybe_unused]] int seed = 0) override {
     Scenario::init_world(world);
     // ...
   }

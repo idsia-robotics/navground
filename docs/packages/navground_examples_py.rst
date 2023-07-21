@@ -2,4 +2,21 @@
 navground_examples_py
 =====================
 
-Python examples
+A packages with examples of using ``navground`` from Python.
+
+Behavior 
+--------
+
+:module:  `behavior.py <https://github.com/idsia-robotics/navground/tree/main/navground_examples_py/navground_examples_py/behavior.py>`_
+
+How to instantiate and apply a behavior to avoid a circular obstacle.
+See the equivalent :ref:`C++ example <basics_behavior>`.
+
+Controller 
+----------
+
+:module:  `controller.py <https://github.com/idsia-robotics/navground/tree/main/navground_examples_py/navground_examples_py/controller.py>`_
+
+How to use the controller API to move to a target point.
+See the equivalent :ref:`C++ example <basics_controller>`.
+

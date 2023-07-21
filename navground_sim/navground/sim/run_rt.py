@@ -1,19 +1,24 @@
 import argparse
 import asyncio
 import logging
-
+import os
+import sys
+import webbrowser
+from pathlib import Path
 from typing import Optional
 
-from . import Scenario, World, load_experiment
+from . import Scenario, World, load_experiment, load_py_plugins
 from .real_time import RealTimeSimulation
-from .ui.web_ui import WebUI, Rect
+from .ui.web_ui import Rect, WebUI
+from .ui import view_path
 
 
-def until_idle(world: World, max_duration: float = -1):
+def until_done(world: World, max_duration: float = -1):
 
     def f():
-        return (all(a.controller.idle for a in world.agents)
-                or (max_duration > 0 and world.time > max_duration))
+        done = [a.task.done() for a in world.agents if a.task]
+        return ((done and all(done))
+                 or (max_duration > 0 and world.time > max_duration))
 
     return f
 
@@ -43,45 +48,55 @@ async def run(scenario: Scenario,
                                 factor=factor,
                                 web_ui=web_ui,
                                 bounds=bounds)
-    logging.info("Start simulation")
-    await rt_sim.run(until=until_idle(world, max_duration=max_duration))
+    logging.info(f"Run simulation for {max_duration:.1f} s")
+    await rt_sim.run(until=until_done(world, max_duration=max_duration))
     sleep_percent = 100 * rt_sim.slept / rt_sim.total
-    logging.info(f"Simulation done. Total time: {rt_sim.total:.3f} s: "
+    logging.info(f"Simulation done. Total real time: {rt_sim.total:.3f} s: "
                  f"sleep {sleep_percent:.1f}% | "
                  f"simulation {100 - sleep_percent:.1f}%")
     if web_ui:
         await web_ui.stop()
 
 
-def main() -> None:
-    logging.basicConfig(level=logging.INFO)
-    parser = argparse.ArgumentParser()
-    parser.add_argument('yaml',
-                        help='yaml string',
-                        type=str,
-                        default="",
-                        nargs='?')
-    parser.add_argument('--input', help='yaml file', type=str, default="")
+def parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description='Runs an experiment using the Python interpreter in real-time')
+    parser.add_argument('YAML',
+                        help='YAML string, or path to a YAML file, describing an experiment',
+                        type=str)
     parser.add_argument('--factor',
-                        help='Real time factor',
+                        help='Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)',
                         type=float,
                         default=1.0)
-    parser.add_argument('--ui-fps', help='Max fps', type=float, default=25.0)
-    parser.add_argument('--no-ui', help='UI', action='store_true')
-    parser.add_argument('--background', help='background color', type=str, default="lightgray")
-    parser.add_argument('--min-x', help='min x', type=float, default="0.0")
-    parser.add_argument('--min-y', help='min x', type=float, default="0.0")
-    parser.add_argument('--max-x', help='min x', type=float, default="0.0")
-    parser.add_argument('--max-y', help='min x', type=float, default="0.0")
-    arg = parser.parse_args()
-    if arg.input:
-        with open(arg.input, 'r') as f:
+    parser.add_argument('--no-ui', help='Do not use a view', action='store_true')
+    parser.add_argument('--no-browser', help='Do not open a browser view', action='store_true')
+    parser.add_argument('--ui-fps', help='Maximal update rate of the view', type=float, default=25.0)
+    parser.add_argument('--background-color', help='View background color', type=str, default="lightgray")
+    parser.add_argument('--area', help='Minimal area rendered in the view', type=float,
+                        default=(0.0, 0.0, 0.0, 0.0), nargs=4,
+                        metavar=("MIN_X", "MIN_Y", "MAX_X", "MAX_Y"))
+    return parser
+
+
+def main() -> None:
+    logging.basicConfig(level=logging.INFO)
+    load_py_plugins()
+    arg = parser().parse_args()
+    if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
+        with open(arg.YAML, 'r') as f:
             yaml = f.read()
     else:
-        yaml = arg.yaml
-    experiment = load_experiment(yaml)
+        yaml = arg.YAML
+    should_open_view = not (arg.no_ui or arg.no_browser)
+    if should_open_view:
+        webbrowser.open(f"file://{view_path}")
+    try:
+        experiment = load_experiment(yaml)
+    except RuntimeError as e:
+        logging.error(f"Could not load the experiment: {e}")
+        sys.exit(1)
     loop = asyncio.get_event_loop()
-    bounds = ((arg.min_x, arg.min_y), (arg.max_x, arg.max_y))
+    bounds = arg.area[:2], arg.area[2:]
     loop.run_until_complete(
         run(with_ui=not arg.no_ui,
             scenario=experiment.scenario,
@@ -89,5 +104,5 @@ def main() -> None:
             time_step=experiment.time_step,
             max_duration=experiment.steps * experiment.time_step,
             ui_fps=arg.ui_fps,
-            background=arg.background,
+            background=arg.background_color,
             bounds=bounds))

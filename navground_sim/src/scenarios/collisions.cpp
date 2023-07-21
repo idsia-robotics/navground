@@ -19,7 +19,7 @@ using navground::core::Property;
 
 namespace navground::sim {
 
-void CollisionsScenario::init_world(World *world) {
+void CollisionsScenario::init_world(World *world, [[maybe_unused]] int seed) {
   Scenario::init_world(world);
   const float agent_radius = 0.1f;
   Vector2 target{10.0f, 10.0f};

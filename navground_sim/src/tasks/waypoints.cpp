@@ -31,6 +31,9 @@ void WaypointsTask::update(Agent *agent, [[maybe_unused]] World * world, float t
   }
 }
 
-bool WaypointsTask::done() const { return waypoint == waypoints.end(); }
+bool WaypointsTask::done() const { 
+  // return waypoint == waypoints.end(); 
+  return !running;
+}
 
 }  // namespace navground::sim

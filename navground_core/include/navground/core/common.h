@@ -6,12 +6,12 @@
 #define NAVGROUND_CORE_COMMON_H_
 
 #include <math.h>
-#include <stdio.h>
 #include <time.h>
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 #include <cmath>
+#include <ostream>
 
 typedef unsigned int uint;
 
@@ -206,10 +206,10 @@ struct Pose2 {
    * @return     The result of ``pose + dt * twist`` (in world frame)
    */
   Pose2 integrate(const Twist2& twist, float dt) {
-    return {position +
-                dt * (twist.frame == Frame::relative
-                          ? ::navground::core::rotate(twist.velocity, orientation)
-                          : twist.velocity),
+    return {position + dt * (twist.frame == Frame::relative
+                                 ? ::navground::core::rotate(twist.velocity,
+                                                             orientation)
+                                 : twist.velocity),
             orientation + dt * twist.angular_speed};
   }
 
@@ -272,31 +272,28 @@ class TrackChanges {
   unsigned changes;
 };
 
-}  // namespace navground::core
-
-inline std::ostream& operator<<(std::ostream& os,
-                                const navground::core::Frame& frame) {
-  os << "Frame::" << (frame == navground::core::Frame::relative ? "relative" : "absolute");
+inline std::ostream& operator<<(std::ostream& os, const Frame& frame) {
+  os << "Frame::"
+     << (frame == navground::core::Frame::relative ? "relative" : "absolute");
   return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os,
-                                const navground::core::Vector2& vector) {
+inline std::ostream& operator<<(std::ostream& os, const Vector2& vector) {
   os << "Vector2(" << vector[0] << ", " << vector[1] << ")";
   return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os,
-                                const navground::core::Twist2& twist) {
+inline std::ostream& operator<<(std::ostream& os, const Twist2& twist) {
   os << "Twist2(" << twist.velocity << ", " << twist.angular_speed << ", "
      << twist.frame << ")";
   return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os,
-                                const navground::core::Pose2& pose) {
+inline std::ostream& operator<<(std::ostream& os, const Pose2& pose) {
   os << "Pose2(" << pose.position << ", " << pose.orientation << ")";
   return os;
 }
+
+}  // namespace navground::core
 
 #endif  // NAVGROUND_CORE_COMMON_H_

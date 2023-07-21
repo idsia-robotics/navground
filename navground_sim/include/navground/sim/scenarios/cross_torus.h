@@ -59,7 +59,7 @@ struct NAVGROUND_SIM_EXPORT CrossTorusScenario : public Scenario {
   /**
    * @private
    */
-  void init_world(World *world) override;
+  void init_world(World *world, int seed = 0) override;
 
   /**
    * @private

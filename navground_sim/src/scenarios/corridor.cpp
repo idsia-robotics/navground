@@ -17,7 +17,7 @@ namespace navground::sim {
 
 using namespace navground::core;
 
-void CorridorScenario::init_world(World *world) {
+void CorridorScenario::init_world(World *world, [[maybe_unused]] int seed) {
   Scenario::init_world(world);
   for (int side = 0; side < 2; ++side) {
     world->add_wall(Wall{{-length, side * width}, {2 * length, side * width}});

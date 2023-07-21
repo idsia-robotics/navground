@@ -682,7 +682,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
       a_value.frame = Frame::absolute;
       return a_value;
     }
-    return twist;
+    return value;
   }
 
   /**

@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 
@@ -32,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -43,6 +43,7 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -139,20 +140,25 @@
 <li class="toctree-l2"><a class="reference internal" href="navground_examples.html">navground_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_demos.html">navground_demos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="navground_utilities.html">navground_utilities</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/experiment.html">Running an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/experiment.html">Experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/cross.html">Cross</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/yaml.html">YAML</a></li>
@@ -166,7 +172,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/helper.html">Helpers</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/yaml.html">YAML</a></li>
@@ -179,7 +185,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/controller.html">Controller</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/kinematics.html">Kinematics</a></li>
@@ -190,8 +196,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/tasks/index.html">Tasks</a></li>
@@ -202,7 +208,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/yaml.html">YAML</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
@@ -212,7 +218,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/task.html">Task</a></li>
@@ -349,7 +355,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -365,6 +373,26 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#libraries">Libraries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">navground_core</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executables">Executables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#info">info</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -376,7 +404,95 @@ document.write(`
                   
   <section id="navground-core">
 <h1>navground_core<a class="headerlink" href="#navground-core" title="Permalink to this heading">#</a></h1>
-<p>The core C++ library.</p>
+<p>This package contains the core implementation of the navigation playground.</p>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://index.ros.org/p/ament_cmake/#humble">ament_cmake</a> to build the package</p></li>
+<li><p><a class="reference external" href="https://eigen.tuxfamily.org">Eigen3 &gt;= 3.3</a> for linear algebra</p></li>
+<li><p><a class="reference external" href="https://github.com/jbeder/yaml-cpp">yaml-cpp</a> for reading and writing YAML snippets</p></li>
+</ul>
+</section>
+<section id="libraries">
+<h2>Libraries<a class="headerlink" href="#libraries" title="Permalink to this heading">#</a></h2>
+<section id="id1">
+<h3>navground_core<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>A shared C++ library with navigation algorithms, controllers, and kinematics, see the <a class="reference internal" href="../reference/core/cpp/index.html"><span class="doc">API reference</span></a>.</p>
+<p>To use the library in a C++ CMake project:</p>
+<ol class="arabic">
+<li><p>add the dependency in <cite>CMakeLists.txt</cite></p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">find_package</span><span class="p">(</span><span class="s">navground_core</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="c"># if using ament</span>
+<span class="c"># ament_target_dependencies((&lt;MYTARGET&gt; navground_core)</span>
+<span class="c"># else</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">&lt;MYTARGET&gt;</span><span class="w"> </span><span class="s">PRIVATE</span><span class="w"> </span><span class="s">navground_core::navground_core</span><span class="p">)</span>
+<span class="c"># if it&#39;s a library</span>
+<span class="c"># add_dependencies(&lt;MYTARGET&gt; navground_core::navground_core)</span>
+</pre></div>
+</div>
+</li>
+<li><p>include the appropriate headers in your code</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/core/behavior.h&quot;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="executables">
+<h2>Executables<a class="headerlink" href="#executables" title="Permalink to this heading">#</a></h2>
+<section id="info">
+<span id="id2"></span><h3>info<a class="headerlink" href="#info" title="Permalink to this heading">#</a></h3>
+<p>Lists registered components (behaviors and kinematics).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span> <span class="p">[</span><span class="o">--</span><span class="n">help</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behavior</span> <span class="p">[</span><span class="n">BEHAVIOR</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span>
+</pre></div>
+</div>
+<section id="named-arguments">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments" title="Permalink to this heading">#</a></h4>
+<dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>shows help message and exits</p>
+</dd>
+<dt><kbd><span class="option">-v</span>, <span class="option">--version</span></kbd></dt>
+<dd><p>prints version information and exits</p>
+</dd>
+<dt><kbd><span class="option">--behavior</span></kbd></dt>
+<dd><p>selects behaviors</p>
+</dd>
+<dt><kbd><span class="option">--kinematics</span></kbd></dt>
+<dd><p>selects kinematics</p>
+</dd>
+</dl>
+</section>
+<section id="example">
+<h4>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>info
+<span class="go">Behaviors</span>
+<span class="go">---------</span>
+<span class="go">Dummy</span>
+<span class="go">HL</span>
+<span class="go">     aperture: 3.14159 [float]</span>
+<span class="go">     eta: 0.5 [float]</span>
+<span class="go">     resolution: 101 [int]</span>
+<span class="go">     tau: 0.125 [float]</span>
+<span class="go">HRVO</span>
+<span class="go">ORCA</span>
+<span class="go">     effective_center: 0 [bool]</span>
+<span class="go">     time_horizon: 10 [float]</span>
+
+<span class="go">Kinematics</span>
+<span class="go">----------</span>
+<span class="go">2WDiff</span>
+<span class="go">     wheel_axis: 0 [float]</span>
+<span class="go">4WOmni</span>
+<span class="go">     wheel_axis: 0 [float]</span>
+<span class="go">Ahead</span>
+<span class="go">Omni</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
 </section>
 
 
@@ -418,6 +534,32 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#libraries">Libraries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">navground_core</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executables">Executables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#info">info</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

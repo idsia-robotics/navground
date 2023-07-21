@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 
@@ -32,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -43,6 +43,7 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -139,20 +140,25 @@
 <li class="toctree-l2"><a class="reference internal" href="navground_examples.html">navground_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_demos.html">navground_demos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="navground_utilities.html">navground_utilities</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/experiment.html">Running an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/experiment.html">Experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/cross.html">Cross</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/yaml.html">YAML</a></li>
@@ -166,7 +172,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/helper.html">Helpers</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/yaml.html">YAML</a></li>
@@ -179,7 +185,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/controller.html">Controller</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/kinematics.html">Kinematics</a></li>
@@ -190,8 +196,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/tasks/index.html">Tasks</a></li>
@@ -202,7 +208,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/yaml.html">YAML</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
@@ -212,7 +218,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/task.html">Task</a></li>
@@ -349,7 +355,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -365,6 +373,52 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#libraries">Libraries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">navground_sim</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-packages">Python packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">navground.sim</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executables">Executables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#info-and-info-py">info and info_py</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-and-sample-py">sample and sample_py</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Example</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-and-run-py">run and run_py</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-rt">run_rt</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Example</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replay">replay</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -376,7 +430,347 @@ document.write(`
                   
   <section id="navground-sim">
 <h1>navground_sim<a class="headerlink" href="#navground-sim" title="Permalink to this heading">#</a></h1>
-<p>Simulation.</p>
+<p>This package extend navigation playground with all you need to perform simulations and record data.</p>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://index.ros.org/p/ament_cmake/#humble">ament_cmake</a> to build the package</p></li>
+<li><p><a class="reference internal" href="navground_core.html"><span class="doc">navground_core</span></a> the core library</p></li>
+<li><p><a class="reference internal" href="navground_py.html"><span class="doc">navground_py</span></a> the core python package</p></li>
+<li><p><a class="reference external" href="https://libgeos.org">GEOS</a> for computational geometry</p></li>
+<li><p><a class="reference external" href="https://github.com/BlueBrain/HighFive">HighFive</a> to write HDF5 files</p></li>
+</ul>
+</section>
+<section id="libraries">
+<h2>Libraries<a class="headerlink" href="#libraries" title="Permalink to this heading">#</a></h2>
+<section id="id1">
+<h3>navground_sim<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>A shared C++ library to perform navigation simulations; see the <a class="reference internal" href="../reference/sim/cpp/index.html"><span class="doc">API reference</span></a>.</p>
+<p>To use the library in a C++ CMake project:</p>
+<ol class="arabic">
+<li><p>add the dependency in <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code></p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">find_package</span><span class="p">(</span><span class="s">navground_sim</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="c"># if using ament</span>
+<span class="c"># ament_target_dependencies((&lt;MYTARGET&gt; navground_sim)</span>
+<span class="c"># else</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">&lt;MYTARGET&gt;</span><span class="w"> </span><span class="s">PRIVATE</span><span class="w"> </span><span class="s">navground_sim::navground_sim</span><span class="p">)</span>
+<span class="c"># if it&#39;s a library</span>
+<span class="c"># add_dependencies(&lt;MYTARGET&gt; navground_sim::navground_sim)</span>
+</pre></div>
+</div>
+</li>
+<li><p>include the appropriate headers in your code</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/sim/world.h&quot;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="python-packages">
+<h2>Python packages<a class="headerlink" href="#python-packages" title="Permalink to this heading">#</a></h2>
+<section id="id2">
+<h3>navground.sim<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>A Python package to perform navigation simulations; see the <a class="reference internal" href="../reference/sim/python/index.html"><span class="doc">API reference</span></a>.</p>
+<p>To use the package</p>
+<ol class="arabic">
+<li><p>add the install path to <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code></p></li>
+<li><p>import the packge</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="executables">
+<h2>Executables<a class="headerlink" href="#executables" title="Permalink to this heading">#</a></h2>
+<section id="info-and-info-py">
+<span id="info-sim"></span><h3>info and info_py<a class="headerlink" href="#info-and-info-py" title="Permalink to this heading">#</a></h3>
+<p>Lists registered components (behaviors, kinematics, state estimations, tasks, and scenarios).
+<code class="docutils literal notranslate"><span class="pre">info</span></code> is limited to components implemented in C++, while <code class="docutils literal notranslate"><span class="pre">info_py</span></code> accesses components implemented in Python too.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span><span class="o">|</span><span class="n">info_py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behavior</span> <span class="p">[</span><span class="n">BEHAVIOR</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">state_estimation</span> <span class="p">[</span><span class="n">STATE_ESTIMATION</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">task</span> <span class="p">[</span><span class="n">TASK</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">scenario</span> <span class="p">[</span><span class="n">SCENARIO</span><span class="p">]]</span>
+</pre></div>
+</div>
+<section id="named-arguments">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments" title="Permalink to this heading">#</a></h4>
+<dl class="option-list">
+<dt><kbd>--behavior</kbd></dt>
+<dd><p>selects behaviors</p>
+</dd>
+<dt><kbd>--kinematics</kbd></dt>
+<dd><p>selects kinematics</p>
+</dd>
+<dt><kbd>--state_estimation</kbd></dt>
+<dd><p>selects state estimations</p>
+</dd>
+<dt><kbd>--task</kbd></dt>
+<dd><p>selects tasks</p>
+</dd>
+<dt><kbd>--scenario</kbd></dt>
+<dd><p>selects scenarios</p>
+</dd>
+</dl>
+</section>
+<section id="example">
+<h4>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>info_py
+<span class="go">Behaviors</span>
+<span class="go">---------</span>
+<span class="go">Dummy</span>
+<span class="go">HL</span>
+<span class="go">     aperture: 3.1415927410125732 [float]</span>
+<span class="go">     eta: 0.5 [float]</span>
+<span class="go">     resolution: 101 [int]</span>
+<span class="go">     tau: 0.125 [float]</span>
+<span class="go">HRVO</span>
+<span class="go">ORCA</span>
+<span class="go">     effective_center: False [bool]</span>
+<span class="go">     time_horizon: 10.0 [float]</span>
+<span class="go">PyDummy</span>
+<span class="go">     dummy: True [bool]</span>
+<span class="go">     tired: False [bool]</span>
+<span class="go">SocialForce</span>
+
+<span class="go">Kinematics</span>
+<span class="go">----------</span>
+<span class="go">2WDiff</span>
+<span class="go">     wheel_axis: 0.0 [float]</span>
+<span class="go">4WOmni</span>
+<span class="go">     wheel_axis: 0.0 [float]</span>
+<span class="go">Ahead</span>
+<span class="go">Omni</span>
+
+<span class="go">State estimations</span>
+<span class="go">-----------------</span>
+<span class="go">Dummy</span>
+<span class="go">HL</span>
+<span class="go">     aperture: 3.1415927410125732 [float]</span>
+<span class="go">     eta: 0.5 [float]</span>
+<span class="go">     resolution: 101 [int]</span>
+<span class="go">     tau: 0.125 [float]</span>
+<span class="go">HRVO</span>
+<span class="go">ORCA</span>
+<span class="go">     effective_center: False [bool]</span>
+<span class="go">     time_horizon: 10.0 [float]</span>
+<span class="go">PyDummy</span>
+<span class="go">     dummy: True [bool]</span>
+<span class="go">     tired: False [bool]</span>
+<span class="go">SocialForce</span>
+
+<span class="go">Tasks</span>
+<span class="go">-----</span>
+<span class="go">2WDiff</span>
+<span class="go">     wheel_axis: 0.0 [float]</span>
+<span class="go">4WOmni</span>
+<span class="go">     wheel_axis: 0.0 [float]</span>
+<span class="go">Ahead</span>
+<span class="go">Omni</span>
+
+<span class="go">Scenarios</span>
+<span class="go">---------</span>
+<span class="go">2WDiff</span>
+<span class="go">     wheel_axis: 0.0 [float]</span>
+<span class="go">4WOmni</span>
+<span class="go">     wheel_axis: 0.0 [float]</span>
+<span class="go">Ahead</span>
+<span class="go">Omni</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sample-and-sample-py">
+<span id="sample"></span><h3>sample and sample_py<a class="headerlink" href="#sample-and-sample-py" title="Permalink to this heading">#</a></h3>
+<p>Samples a world from a scenario. <code class="docutils literal notranslate"><span class="pre">sample_py</span></code> uses a Python interpreter to access components implemented in Python too, while <code class="docutils literal notranslate"><span class="pre">sample</span></code> is limited to components implemented in C++.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">sample</span><span class="o">|</span><span class="n">sample_py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="n">YAML</span>
+</pre></div>
+</div>
+<section id="positional-arguments">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments" title="Permalink to this heading">#</a></h4>
+<dl class="option-list">
+<dt><kbd>YAML</kbd></dt>
+<dd><p>YAML string, or path to a YAML file, describing an experiment</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h4>Example<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sample<span class="w"> </span><span class="s2">&quot;{type: Antipodal, groups: [{number: 2}]}&quot;</span>
+<span class="go">obstacles:</span>
+<span class="go">  []</span>
+<span class="go">walls:</span>
+<span class="go">  []</span>
+<span class="go">agents:</span>
+<span class="go">  - task:</span>
+<span class="go">      type: Waypoints</span>
+<span class="go">      loop: false</span>
+<span class="go">      tolerance: 0.100000001</span>
+<span class="go">      waypoints:</span>
+<span class="go">        -</span>
+<span class="go">          - -1</span>
+<span class="go">          - -0</span>
+<span class="go">    position:</span>
+<span class="go">      - 1</span>
+<span class="go">      - 0</span>
+<span class="go">    orientation: 3.14159274</span>
+<span class="go">    velocity:</span>
+<span class="go">      - 0</span>
+<span class="go">      - 0</span>
+<span class="go">    angular_speed: 0</span>
+<span class="go">    radius: 0</span>
+<span class="go">    control_period: 0</span>
+<span class="go">    type: &quot;&quot;</span>
+<span class="go">    id: 0</span>
+<span class="go">    uid: 0</span>
+<span class="go">  - task:</span>
+<span class="go">      type: Waypoints</span>
+<span class="go">      loop: false</span>
+<span class="go">      tolerance: 0.100000001</span>
+<span class="go">      waypoints:</span>
+<span class="go">        -</span>
+<span class="go">          - 1</span>
+<span class="go">          - 8.74227766e-08</span>
+<span class="go">    position:</span>
+<span class="go">      - -1</span>
+<span class="go">      - -8.74227766e-08</span>
+<span class="go">    orientation: 6.28318548</span>
+<span class="go">    velocity:</span>
+<span class="go">      - 0</span>
+<span class="go">      - 0</span>
+<span class="go">    angular_speed: 0</span>
+<span class="go">    radius: 0</span>
+<span class="go">    control_period: 0</span>
+<span class="go">    type: &quot;&quot;</span>
+<span class="go">    id: 0</span>
+<span class="go">    uid: 1</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="run-and-run-py">
+<span id="run"></span><h3>run and run_py<a class="headerlink" href="#run-and-run-py" title="Permalink to this heading">#</a></h3>
+<p>Run an experiment. <code class="docutils literal notranslate"><span class="pre">run_py</span></code> uses a Python interpreter: it is slower but has access to components implemented in Python too, while <code class="docutils literal notranslate"><span class="pre">run</span></code> is limited to components implemented in C++.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run</span><span class="o">|</span><span class="n">run_py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="n">YAML</span>
+</pre></div>
+</div>
+<section id="positional-arguments">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments" title="Permalink to this heading">#</a></h4>
+<dl class="option-list">
+<dt><kbd>YAML</kbd></dt>
+<dd><p>YAML string, or path to a YAML file, describing an experiment</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h4>Example<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>run<span class="w">  </span><span class="s2">&quot;{save_directory: &quot;</span>.<span class="s2">&quot;, scenario: {type: Antipodal, groups: [{number: 20}]}}&quot;</span>
+<span class="go">Duration: 0.0120453 s</span>
+<span class="go">Saved to: &quot;./experiment_2023-07-07_16-13-36/data.h5&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="run-rt">
+<span id="id5"></span><h3>run_rt<a class="headerlink" href="#run-rt" title="Permalink to this heading">#</a></h3>
+<p>Run an experiment using Python in real time. You can visualize the world in a browser view.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run_rt</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span> <span class="n">YAML</span>
+</pre></div>
+</div>
+<section id="positional-arguments">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments" title="Permalink to this heading">#</a></h4>
+<dl class="option-list">
+<dt><kbd>YAML</kbd></dt>
+<dd><p>YAML string, or path to a YAML file, describing an experiment</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments" title="Permalink to this heading">#</a></h4>
+<dl class="option-list">
+<dt><kbd>--factor</kbd></dt>
+<dd><p>Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)</p>
+<p>Default: 1.0</p>
+</dd>
+<dt><kbd>--no-ui</kbd></dt>
+<dd><p>Do not use a view</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--no-browser</kbd></dt>
+<dd><p>Do not open a browser view</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--ui-fps</kbd></dt>
+<dd><p>Maximal update rate of the view</p>
+<p>Default: 25.0</p>
+</dd>
+<dt><kbd>--background-color</kbd></dt>
+<dd><p>View background color</p>
+<p>Default: “lightgray”</p>
+</dd>
+<dt><kbd>--area</kbd></dt>
+<dd><p>Minimal area rendered in the view</p>
+<p>Default: (0.0, 0.0, 0.0, 0.0)</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h4>Example<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>run_rt<span class="w"> </span>my_experiment.yaml<span class="w"> </span>--factor<span class="w"> </span><span class="m">5</span>.0
+</pre></div>
+</div>
+</section>
+</section>
+<section id="replay">
+<h3>replay<a class="headerlink" href="#replay" title="Permalink to this heading">#</a></h3>
+<p>Replays an experiment in real-time. You can visualize the world in a browser view, similarly to <a class="reference internal" href="#run-rt">run_rt</a> but for recorded experiment.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run_rt</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span> <span class="n">YAML</span>
+</pre></div>
+</div>
+<section id="positional-arguments">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments" title="Permalink to this heading">#</a></h4>
+<dl class="option-list">
+<dt><kbd>YAML</kbd></dt>
+<dd><p>YAML string, or path to a YAML file, describing an experiment</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments" title="Permalink to this heading">#</a></h4>
+<dl class="option-list">
+<dt><kbd>--factor</kbd></dt>
+<dd><p>Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)</p>
+<p>Default: 1.0</p>
+</dd>
+<dt><kbd>--no-ui</kbd></dt>
+<dd><p>Do not use a view</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--no-browser</kbd></dt>
+<dd><p>Do not open a browser view</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--ui-fps</kbd></dt>
+<dd><p>Maximal update rate of the view</p>
+<p>Default: 25.0</p>
+</dd>
+<dt><kbd>--background-color</kbd></dt>
+<dd><p>View background color</p>
+<p>Default: “lightgray”</p>
+</dd>
+<dt><kbd>--area</kbd></dt>
+<dd><p>Minimal area rendered in the view</p>
+<p>Default: (0.0, 0.0, 0.0, 0.0)</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h4>Example<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>replay<span class="w"> </span>./experiment_2023-07-07_16-13-36/data.h5<span class="w"> </span>--factor<span class="w"> </span><span class="m">10</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
 </section>
 
 
@@ -418,6 +812,58 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#libraries">Libraries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">navground_sim</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-packages">Python packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">navground.sim</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executables">Executables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#info-and-info-py">info and info_py</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-and-sample-py">sample and sample_py</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Example</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-and-run-py">run and run_py</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-rt">run_rt</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Example</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replay">replay</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

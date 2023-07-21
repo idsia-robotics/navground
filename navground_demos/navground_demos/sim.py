@@ -11,7 +11,7 @@ class ThymioDemo(sim.Scenario, name="PyThymioDemo"):  # type: ignore[call-arg]
         super().__init__()
         self._behavior_type = behavior_type
 
-    def init_world(self, world: sim.World) -> None:
+    def init_world(self, world: sim.World, seed: int = 0) -> None:
         targets = [(1.0, 0.0), (-1.0, 0.0)]
         for i in range(2):
             task = sim.tasks.WaypointsTask(targets, True, 0.2)

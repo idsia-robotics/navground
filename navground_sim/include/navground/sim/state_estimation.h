@@ -56,7 +56,7 @@ struct NAVGROUND_SIM_EXPORT StateEstimation
    * @brief      Setup the state estimation.
    * Called before starting a simulation.
    * @param      agent  The agent owning the state estimation
-   * @param[in]  world    The that the agent is part of
+   * @param[in]  world    The world the agent is part of
    */
   virtual void prepare(Agent *agent, World *world) const {};
 };

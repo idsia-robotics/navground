@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 
@@ -32,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -43,6 +43,7 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -139,20 +140,25 @@
 <li class="toctree-l2"><a class="reference internal" href="navground_examples.html">navground_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_demos.html">navground_demos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="navground_utilities.html">navground_utilities</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/experiment.html">Running an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/experiment.html">Experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/cross.html">Cross</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/yaml.html">YAML</a></li>
@@ -166,7 +172,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/helper.html">Helpers</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/yaml.html">YAML</a></li>
@@ -179,7 +185,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/controller.html">Controller</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/kinematics.html">Kinematics</a></li>
@@ -190,8 +196,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/tasks/index.html">Tasks</a></li>
@@ -202,7 +208,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/yaml.html">YAML</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
@@ -212,7 +218,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/task.html">Task</a></li>
@@ -349,7 +355,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -365,6 +373,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lua-api">LUA API</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -377,6 +393,449 @@ document.write(`
   <section id="navground-coppeliasim">
 <h1>navground_coppeliasim<a class="headerlink" href="#navground-coppeliasim" title="Permalink to this heading">#</a></h1>
 <p>CoppeliaSim plugin.</p>
+<section id="lua-api">
+<h2>LUA API<a class="headerlink" href="#lua-api" title="Permalink to this heading">#</a></h2>
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.make_controller">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">make_controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">string</span> <span class="pre">behavior</span></em>, <em class="sig-param"><span class="pre">map</span> <span class="pre">kinematics</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">radius</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span> <span class="pre">handle</span></span></span><a class="headerlink" href="#simNavground.make_controller" title="Permalink to this definition">#</a></dt>
+<dd><p>Instantiate a navigation controller</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>behavior</strong> – The obstacle avoidance behavior</p></li>
+<li><p><strong>kinematics</strong> – The kinematics</p></li>
+<li><p><strong>radius</strong> – The radius</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>handle</strong> – An handle that identifies the controller</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.get_property">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">get_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">string</span> <span class="pre">name</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">map</span> <span class="pre">value</span></span></span><a class="headerlink" href="#simNavground.get_property" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the value of one of the navigation behavior properties</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>name</strong> – The property name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>value</strong> – The property value</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_property">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">string</span> <span class="pre">name</span></em>, <em class="sig-param"><span class="pre">map</span> <span class="pre">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_property" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the value of one of the navigation behavior properties</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>name</strong> – The property name</p></li>
+<li><p><strong>value</strong> – The property value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.go_to_position">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">go_to_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float[]</span> <span class="pre">position</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">tolerance</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.go_to_position" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>position</strong> – The target position</p></li>
+<li><p><strong>tolerance</strong> – The target tolerance</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.go_to_pose">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">go_to_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float[]</span> <span class="pre">position</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">orientation</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">position_tolerance</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">orientation_tolerance</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.go_to_pose" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>position</strong> – The target position</p></li>
+<li><p><strong>orientation</strong> – The target orientation</p></li>
+<li><p><strong>position_tolerance</strong> – The target tolerance</p></li>
+<li><p><strong>orientation_tolerance</strong> – The target tolerance</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.follow_point">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">follow_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float[]</span> <span class="pre">point</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.follow_point" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>point</strong> – The target position</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.follow_pose">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">follow_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float[]</span> <span class="pre">position</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">orientation</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.follow_pose" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>position</strong> – The target position</p></li>
+<li><p><strong>orientation</strong> – The target orientation</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_pose">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float[]</span> <span class="pre">position</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">orientation</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_pose" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>position</strong> – The 3d position</p></li>
+<li><p><strong>orientation</strong> – The orientation in radians</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_twist">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_twist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float[]</span> <span class="pre">velocity</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">angular_speed</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_twist" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>velocity</strong> – The 3d velocity</p></li>
+<li><p><strong>angular_speed</strong> – The angular speed in radians/s</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_rotation_tau">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_rotation_tau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_rotation_tau" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>value</strong> – The value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_horizon">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_horizon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_horizon" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>value</strong> – The value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_safety_margin">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_safety_margin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_safety_margin" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>value</strong> – The value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_optimal_speed">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_optimal_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_optimal_speed" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>value</strong> – The value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_heading_behavior">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_heading_behavior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_heading_behavior" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>value</strong> – The value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_speed_tolerance">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_speed_tolerance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_speed_tolerance" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>value</strong> – The value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.should_be_limited_to_2d">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">should_be_limited_to_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">bool</span> <span class="pre">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.should_be_limited_to_2d" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>value</strong> – The value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_cmd_frame">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_cmd_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_cmd_frame" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>value</strong> – The value (0 for relative, 1 for absolute)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.update">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">time_step</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float[]</span> <span class="pre">velocity,float</span> <span class="pre">angular_speed,float</span> <span class="pre">state</span></span></span><a class="headerlink" href="#simNavground.update" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>time_step</strong> – The time step</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>velocity</strong> – The 3d velocity</p></li>
+<li><p><strong>angular_speed</strong> – The angular speed in radians/s</p></li>
+<li><p><strong>state</strong> – The angular speed in radians/s</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_static_obstacles">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_static_obstacles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">map[]</span> <span class="pre">obstacles</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_static_obstacles" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>obstacles</strong> – The controller handle</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_neighbors">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">map[]</span> <span class="pre">neighbors</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_neighbors" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>neighbors</strong> – The obstacles</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.set_line_obstacles">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">set_line_obstacles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">map[]</span> <span class="pre">obstacles</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.set_line_obstacles" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The controller handle</p></li>
+<li><p><strong>obstacles</strong> – The lines</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.get_state">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span> <span class="pre">state</span></span></span><a class="headerlink" href="#simNavground.get_state" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>handle</strong> – The controller handle</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>state</strong> – TODO</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.get_actuated_wheel_speeds">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">get_actuated_wheel_speeds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float[]</span> <span class="pre">speeds</span></span></span><a class="headerlink" href="#simNavground.get_actuated_wheel_speeds" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>handle</strong> – The controller handle</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>speeds</strong> – TODO</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.add_obstacle">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">add_obstacle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">float</span> <span class="pre">radius</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.add_obstacle" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The object handle</p></li>
+<li><p><strong>radius</strong> – The object radius</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.add_agent_from_yaml">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">add_agent_from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">string</span> <span class="pre">yaml</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span> <span class="pre">handle</span></span></span><a class="headerlink" href="#simNavground.add_agent_from_yaml" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The object handle</p></li>
+<li><p><strong>yaml</strong> – The yaml text</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>handle</strong> – The agent handle</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.get_last_cmd">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">get_last_cmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">int</span> <span class="pre">frame</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float[]</span> <span class="pre">velocity,float</span> <span class="pre">angular_speed</span></span></span><a class="headerlink" href="#simNavground.get_last_cmd" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – The agent handle</p></li>
+<li><p><strong>frame</strong> – The value (0 for relative, 1 for absolute)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>velocity</strong> – The horizontal velocity</p></li>
+<li><p><strong>angular_speed</strong> – The angular speed in radians/s</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.get_last_wheel_cmd">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">get_last_wheel_cmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">int</span> <span class="pre">handle</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float[]</span> <span class="pre">speeds</span></span></span><a class="headerlink" href="#simNavground.get_last_wheel_cmd" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>handle</strong> – The agent handle</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>speeds</strong> – TODO</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua function">
+<dt class="sig sig-object lua" id="simNavground.enable_recording">
+<em class="property"> </em><span class="sig-prename descclassname"><span class="pre">simNavground.</span></span><span class="sig-name descname"><span class="pre">enable_recording</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">map</span> <span class="pre">config</span></em><span class="sig-paren">)</span><a class="headerlink" href="#simNavground.enable_recording" title="Permalink to this definition">#</a></dt>
+<dd><p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> – The recording configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -418,6 +877,20 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lua-api">LUA API</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

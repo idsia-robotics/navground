@@ -109,4 +109,22 @@ inline sim::AgentSampler<sim::World> robots() {
   return group;
 }
 
+inline sim::AgentSampler<sim::World> group(const std::string & behavior, int number) {
+  sim::AgentSampler<sim::World> group;
+  group.id = make_const(1);
+  group.number = number;
+  group.behavior = sim::BehaviorSampler<>(behavior);
+  group.behavior.horizon = make_const<float>(10.0f);
+  group.kinematics = sim::KinematicsSampler<>("Omni");
+  group.kinematics.max_speed = make_const<float>(1.0f);
+  group.state_estimation =
+      sim::StateEstimationSampler<>("Bounded");
+  group.state_estimation.properties["range_of_view"] =
+      make_const_property<float>(10.0f);
+  group.radius = make_const<float>(0.1f);
+  group.control_period = make_const<float>(0.1f);
+  return group;
+}
+
+
 #endif  // NAVGROUND_CORE_EXAMPLES_GROUP_H

@@ -2,6 +2,8 @@
  * @author Jerome Guzzi - <jerome@idsia.ch>
  */
 
+#include <argparse/argparse.hpp>
+#include <filesystem>
 #include <iostream>
 
 #include "navground/core/plugins.h"
@@ -12,49 +14,51 @@
 #include "navground/sim/yaml/scenario.h"
 #include "yaml-cpp/yaml.h"
 
-static void show_usage(std::string name) {
-  std::cout << "Usage: " << name << " <option(s)>" << std::endl
-            << "Options:" << std::endl
-            << "  --help\t\t\tShow this help message" << std::endl
-            << "  --input <FILE>\t\t\tPath to the yaml file" << std::endl
-            << "  <YAML>\t\t\tInline YAML string" << std::endl;
-}
-
 int main(int argc, char *argv[]) {
   load_plugins();
-  YAML::Node node;
-  bool loaded_file = false;
-  for (int i = 0; i < argc; i++) {
-    if (std::string(argv[i]) == "--help") {
-      show_usage(argv[0]);
-      return 0;
-    }
-    if (std::string(argv[i]) == "--input" && i < argc - 1) {
-      try {
-        node = YAML::LoadFile(argv[i + 1]);
-      } catch (const YAML::ParserException &e) {
-        std::cerr << "[Error] " << e.what() << std::endl;
-        return 1;
-      }
-      loaded_file = true;
-      break;
-    }
-  }
-  if (!loaded_file) {
-    if (argc <= 1) return 1;
-    try {
-      node = YAML::Load(argv[1]);
-    } catch (const YAML::ParserException &e) {
-      std::cerr << "[Error] " << e.what() << std::endl;
-      return 1;
-    }
+  argparse::ArgumentParser parser("sample");
+  parser.add_description("Samples a world from a scenario.");
+  parser.add_argument("YAML").help(
+      "YAML string, or path to a YAML file, describing a scenario");
+
+  try {
+    parser.parse_args(argc, argv);
+  } catch (const std::runtime_error &err) {
+    std::cerr << err.what() << std::endl;
+    std::cerr << parser;
+    std::exit(1);
   }
 
-  auto scenario = YAML::load_node<navground::sim::Scenario>(node);
-  std::cout << YAML::dump<navground::sim::Scenario>(scenario.get());
-  std::cout << std::endl;
-  std::cout << "====================" << std::endl;
-  if (!scenario) return 1;
+  YAML::Node node;
+  const std::string yaml = parser.get<std::string>("YAML");
+  if (std::filesystem::exists(yaml)) {
+    try {
+      node = YAML::LoadFile(yaml);
+    } catch (const YAML::ParserException &e) {
+      std::cerr << "[Error] " << e.what() << std::endl;
+      std::exit(1);
+    }
+  } else {
+    try {
+      node = YAML::Load(yaml);
+    } catch (const YAML::ParserException &e) {
+      std::cerr << "[Error] " << e.what() << std::endl;
+      std::exit(1);
+    }
+  }
+  std::shared_ptr<navground::sim::Scenario> scenario;
+  try {
+    scenario = YAML::load_node<navground::sim::Scenario>(node);
+  } catch (const std::exception &e) {
+    std::cerr << "[Error] Could not load the scenario " << e.what() << std::endl;
+    std::exit(1);
+  }
+  // std::cout << "Scenario" << std::endl;
+  // std::cout << "========" << std::endl;
+  // std::cout << YAML::dump<navground::sim::Scenario>(scenario.get());
+  // std::cout << std::endl << std::endl;
+  // std::cout << "Sampled world" << std::endl;
+  // std::cout << "=============" << std::endl;
   World world;
   scenario->init_world(&world);
   std::cout << YAML::dump<navground::sim::World>(&world);

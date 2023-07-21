@@ -21,7 +21,7 @@ You also need to ``git``, a c++-17 compiler, ``cmake``, and ``Python 3`` with ``
 
       .. code-block:: console
 
-        apt install -y build-essential cmake git python3-dev python3-pip
+        sudo apt install -y build-essential cmake git python3-dev python3-pip
 
 
 We use `colcon <https://colcon.readthedocs.io/en/released/>`_ to manage installation from source
@@ -36,7 +36,7 @@ If you installed ROS, you will already have it. Else, on Linux, install it from 
 
 ..  code-block:: console
 
-    apt install -y build-essential ament-cmake
+    sudo apt install -y build-essential ament-cmake
 
 or build it from source (see below).
 
@@ -46,7 +46,7 @@ In both case, create a ``colcon`` workspace and clone this repository.
 
     mkdir -p my_ws/src
     cd my_ws
-    git clone https://github.com/jeguzzi/navground.git src/navground_ws
+    git clone https://github.com/idsia-robotics/navground.git src/navground_ws
 
 If you need build ``ament_cmake``, clone it and then build it with ``colcon``
 
@@ -85,7 +85,7 @@ From source
 .. code-block:: console
  
     git clone https://gitlab.com/libeigen/eigen src/eigen
-    colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select Eigen3
+    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select Eigen3
 
 Binary
 """"""
@@ -102,7 +102,7 @@ Binary
 
       .. code-block:: console
 
-        apt install -y libeigen3-dev
+        sudo apt install -y libeigen3-dev
 
 
 Yaml-cpp
@@ -131,7 +131,7 @@ Binary
 
       .. code-block:: console
 
-        apt install -y libyaml-cpp-dev
+        sudo apt install -y libyaml-cpp-dev
 
 
 Package
@@ -141,7 +141,7 @@ Once all dependencies are installed, compile the package using ``colcon``.
 
 .. code-block:: console
 
-    colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_core
+    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_core
 
 
 .. _Core Python:
@@ -187,7 +187,7 @@ Binary
 
       .. code-block:: console
 
-        apt install -y pybind11-dev
+        sudo apt install -y pybind11-dev
 
 
 pybind11_mkdoc [optional]
@@ -218,7 +218,7 @@ You also need to install libclang.
 
       .. code-block:: console
 
-        apt install -y libclang-dev
+        sudo apt install -y libclang-dev
         python3 -m pip install clang==14
 
 
@@ -232,7 +232,7 @@ Once all dependencies are installed, compile the package using ``colcon``.
 
 .. code-block:: console
 
-    colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_py
+    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_py
 
 
 .. _Simulation:
@@ -272,7 +272,13 @@ Binary
 
       .. code-block:: console
 
-        apt install -y libgeos++-dev
+        sudo apt install -y libgeos++-dev
+
+      .. warning::
+
+         The current version installed in Ubuntu `is broken <https://answers.launchpad.net/ubuntu/+source/geos/+question/701657>`_. If you encounter any error, consider installing GEOS from source.
+
+
 
 
 HighFive
@@ -303,7 +309,7 @@ or from binary
 
       .. code-block:: console
 
-        apt install -y libhdf5-dev
+        sudo apt install -y libhdf5-dev
 
 
 Then, install HighFive.
@@ -320,7 +326,7 @@ Once all dependencies are installed, compile the package using ``colcon``.
 
 .. code-block:: console
 
-    colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim
+    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim
 
 
 Examples and demos
@@ -331,7 +337,7 @@ Depends on `Core C++`_, `Core Python`_, and `Simulation`_.
 
 .. code-block:: console
 
-    colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_examples navground_examples_py navground_demos
+    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_examples navground_examples_py navground_demos
 
 
 ROS
@@ -341,7 +347,7 @@ Depends on `Core C++`_. You also need to have ROS installed and to source it's s
 
 .. code-block:: console
 
-    colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_msgs navground_ros
+    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_msgs navground_ros
 
 
 CoppeliaSim
@@ -353,7 +359,7 @@ Depends on `Simulation`_. You also need to install `coppeliaSim <https://www.cop
 .. code-block:: console
 
     export COPPELIASIM_ROOT_DIR=<path to the folder containing the programming subfolder>
-    colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_coppeliasim
+    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_coppeliasim
 
 
 

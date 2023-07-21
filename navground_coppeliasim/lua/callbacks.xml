@@ -156,6 +156,23 @@
         <return>
         </return>
     </command>
+    <command name="get_pose">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+        </params>
+        <return>
+          <param name="position" type="table" item-type="float">
+            <description>The 3d position</description>
+          </param>
+          <param name="orientation" type="float">
+            <description>The orientation in radians</description>
+          </param>
+        </return>
+    </command>
     <command name="set_pose">
         <description>TODO
         </description>
@@ -302,6 +319,21 @@
         <return>
         </return>
     </command>
+    <command name="follow_velocity">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+          <param name="velocity" type="table" item-type="float">
+            <description>The target 3d velocity</description>
+          </param>
+          <!-- TODO: complete with the other targets -->
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="update">
         <description>TODO
         </description>
@@ -418,6 +450,20 @@
           </param>
           <param name="radius" type="float">
             <description>The object radius</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="add_wall">
+        <description>TODO
+        </description>
+        <params>
+          <param name="p1" type="table" item-type="float">
+            <description>The first vertex</description>
+          </param>
+          <param name="p2" type="table" item-type="float">
+            <description>The second vertex</description>
           </param>
         </params>
         <return>

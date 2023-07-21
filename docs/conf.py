@@ -23,7 +23,14 @@ extensions = [
     'breathe',
     'sphinx_rtd_theme',
     'nbsphinx',
-    'sphinx_tabs.tabs'
+    'sphinx_tabs.tabs',
+    'sphinxarg.ext',
+    'sphinx_ros',
+    'sphinx_design',
+    'sphinx_toolbox.collapse',
+    'sphinxcontrib.luadomain',
+    'sphinxcontrib.video'
+    # 'sphinx_autodoc_defaultargs'
 ]
 
 templates_path = ['_templates']

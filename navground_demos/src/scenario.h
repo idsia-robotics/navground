@@ -28,7 +28,7 @@ struct ThymioDemo : public sim::Scenario {
   explicit ThymioDemo(const std::string &behavior_type = "HL")
       : sim::Scenario(), behavior_type(behavior_type) {}
 
-  void init_world(sim::World *world) override {
+  void init_world(sim::World *world, [[maybe_unused]] int seed) override {
     const std::vector<Vector2> targets{{1.0f, 0.0f}, {-1.0f, 0.0f}};
     for (size_t i = 0; i < 2; i++) {
       auto task = std::make_shared<sim::WaypointsTask>(targets, true, 0.2);

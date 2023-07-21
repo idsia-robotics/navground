@@ -34,6 +34,7 @@ struct NAVGROUND_SIM_EXPORT Task : public virtual HasProperties, public virtual 
   using TaskCallback = std::function<void(const std::vector<float> & data)>;
 
   friend class Agent;
+  friend class World;
 
   /**
    * @brief      Constructs a new instance.
@@ -80,6 +81,15 @@ struct NAVGROUND_SIM_EXPORT Task : public virtual HasProperties, public virtual 
    * @param[in]  time   The simulation time
    */
   virtual void update(Agent *agent, World * world, float time) {}
+
+  /**
+   * @brief      Setup the task.
+   * Called before starting a simulation.
+   * @param      agent  The agent owning the task
+   * @param[in]  world  The world the agent is part of
+   */
+  virtual void prepare(Agent *agent, World *world) const {};
+
 
   std::vector<TaskCallback> callbacks;
 };

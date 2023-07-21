@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 
@@ -32,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -44,6 +44,7 @@
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/tabs.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'installation';</script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -141,20 +142,25 @@
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_examples.html">navground_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_demos.html">navground_demos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="packages/navground_utilities.html">navground_utilities</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/experiment.html">Running an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/experiment.html">Experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="guides/register.html">How to register a component</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scenarios/cross.html">Cross</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/yaml.html">YAML</a></li>
@@ -168,7 +174,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/helper.html">Helpers</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/yaml.html">YAML</a></li>
@@ -181,7 +187,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/controller.html">Controller</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/kinematics.html">Kinematics</a></li>
@@ -192,8 +198,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/tasks/index.html">Tasks</a></li>
@@ -204,7 +210,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/yaml.html">YAML</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/tasks/index.html">Tasks</a></li>
@@ -214,7 +220,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/yaml.html">YAML</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/yaml/task.html">Task</a></li>
@@ -443,7 +449,7 @@ document.write(`
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Linux</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install cmake git python3</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">apt install -y build-essential cmake git python3-dev python3-pip</span>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y build-essential cmake git python3-dev python3-pip</span>
 </pre></div>
 </div>
 </div></div>
@@ -453,14 +459,14 @@ document.write(`
 </div>
 <p>and <a class="reference external" href="https://github.com/ament/ament_cmake">ament_cmake</a> to manage resources and integrate better with ROS.
 If you installed ROS, you will already have it. Else, on Linux, install it from binary</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">apt install -y build-essential ament-cmake</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y build-essential ament-cmake</span>
 </pre></div>
 </div>
 <p>or build it from source (see below).</p>
 <p>In both case, create a <code class="docutils literal notranslate"><span class="pre">colcon</span></code> workspace and clone this repository.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir -p my_ws/src</span>
 <span class="go">cd my_ws</span>
-<span class="go">git clone https://github.com/jeguzzi/navground.git src/navground_ws</span>
+<span class="go">git clone https://github.com/idsia-robotics/navground.git src/navground_ws</span>
 </pre></div>
 </div>
 <p>If you need build <code class="docutils literal notranslate"><span class="pre">ament_cmake</span></code>, clone it and then build it with <code class="docutils literal notranslate"><span class="pre">colcon</span></code></p>
@@ -486,7 +492,7 @@ If you installed ROS, you will already have it. Else, on Linux, install it from 
 <section id="from-source">
 <h5>From source<a class="headerlink" href="#from-source" title="Permalink to this heading">#</a></h5>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://gitlab.com/libeigen/eigen src/eigen</span>
-<span class="go">colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select Eigen3</span>
+<span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select Eigen3</span>
 </pre></div>
 </div>
 </section>
@@ -496,7 +502,7 @@ If you installed ROS, you will already have it. Else, on Linux, install it from 
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Linux</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install eigen</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">apt install -y libeigen3-dev</span>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libeigen3-dev</span>
 </pre></div>
 </div>
 </div></div>
@@ -517,7 +523,7 @@ If you installed ROS, you will already have it. Else, on Linux, install it from 
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-2-2-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-2-2-1" name="2-1" role="tab" tabindex="-1">Linux</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install yaml-cpp</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-2-2-1" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-1" name="2-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">apt install -y libyaml-cpp-dev</span>
+</div><div aria-labelledby="tab-2-2-1" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-1" name="2-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libyaml-cpp-dev</span>
 </pre></div>
 </div>
 </div></div>
@@ -527,7 +533,7 @@ If you installed ROS, you will already have it. Else, on Linux, install it from 
 <section id="package">
 <h3>Package<a class="headerlink" href="#package" title="Permalink to this heading">#</a></h3>
 <p>Once all dependencies are installed, compile the package using <code class="docutils literal notranslate"><span class="pre">colcon</span></code>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_core</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_core</span>
 </pre></div>
 </div>
 </section>
@@ -558,7 +564,7 @@ If you installed ROS, you will already have it. Else, on Linux, install it from 
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-3-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-3-3-0" name="3-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-3-3-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-1" name="3-1" role="tab" tabindex="-1">Linux</button></div><div aria-labelledby="tab-3-3-0" class="sphinx-tabs-panel" id="panel-3-3-0" name="3-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install pybind11</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-3-3-1" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-1" name="3-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">apt install -y pybind11-dev</span>
+</div><div aria-labelledby="tab-3-3-1" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-1" name="3-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y pybind11-dev</span>
 </pre></div>
 </div>
 </div></div>
@@ -577,7 +583,7 @@ Just install the python package of the corresponding version.</p>
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-4-4-1" class="sphinx-tabs-panel" hidden="true" id="panel-4-4-1" name="4-1" role="tabpanel" tabindex="0"><p>Install the python package of the corresponding version.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">apt install -y libclang-dev</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libclang-dev</span>
 <span class="go">python3 -m pip install clang==14</span>
 </pre></div>
 </div>
@@ -587,7 +593,7 @@ Just install the python package of the corresponding version.</p>
 <section id="id8">
 <h3>Package<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
 <p>Once all dependencies are installed, compile the package using <code class="docutils literal notranslate"><span class="pre">colcon</span></code>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_py</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_py</span>
 </pre></div>
 </div>
 </section>
@@ -612,8 +618,12 @@ Just install the python package of the corresponding version.</p>
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-5-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-5-5-0" name="5-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-5-5-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-5-5-1" name="5-1" role="tab" tabindex="-1">Linux</button></div><div aria-labelledby="tab-5-5-0" class="sphinx-tabs-panel" id="panel-5-5-0" name="5-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install geos</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-5-5-1" class="sphinx-tabs-panel" hidden="true" id="panel-5-5-1" name="5-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">apt install -y libgeos++-dev</span>
+</div><div aria-labelledby="tab-5-5-1" class="sphinx-tabs-panel" hidden="true" id="panel-5-5-1" name="5-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libgeos++-dev</span>
 </pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The current version installed in Ubuntu <a class="reference external" href="https://answers.launchpad.net/ubuntu/+source/geos/+question/701657">is broken</a>. If you encounter any error, consider installing GEOS from source.</p>
 </div>
 </div></div>
 </section>
@@ -633,7 +643,7 @@ Just install the python package of the corresponding version.</p>
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-6-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-6-6-0" name="6-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-6-6-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-6-6-1" name="6-1" role="tab" tabindex="-1">Linux</button></div><div aria-labelledby="tab-6-6-0" class="sphinx-tabs-panel" id="panel-6-6-0" name="6-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install hdf5</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-6-6-1" class="sphinx-tabs-panel" hidden="true" id="panel-6-6-1" name="6-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">apt install -y libhdf5-dev</span>
+</div><div aria-labelledby="tab-6-6-1" class="sphinx-tabs-panel" hidden="true" id="panel-6-6-1" name="6-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libhdf5-dev</span>
 </pre></div>
 </div>
 </div></div>
@@ -647,7 +657,7 @@ Just install the python package of the corresponding version.</p>
 <section id="id12">
 <h3>Package<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
 <p>Once all dependencies are installed, compile the package using <code class="docutils literal notranslate"><span class="pre">colcon</span></code>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim</span>
 </pre></div>
 </div>
 </section>
@@ -655,14 +665,14 @@ Just install the python package of the corresponding version.</p>
 <section id="examples-and-demos">
 <h2>Examples and demos<a class="headerlink" href="#examples-and-demos" title="Permalink to this heading">#</a></h2>
 <p>Depends on <a class="reference internal" href="#core-c">Core C++</a>, <a class="reference internal" href="#core-python">Core Python</a>, and <a class="reference internal" href="#simulation">Simulation</a>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_examples navground_examples_py navground_demos</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_examples navground_examples_py navground_demos</span>
 </pre></div>
 </div>
 </section>
 <section id="ros">
 <h2>ROS<a class="headerlink" href="#ros" title="Permalink to this heading">#</a></h2>
 <p>Depends on <a class="reference internal" href="#core-c">Core C++</a>. You also need to have ROS installed and to source it’s setup script.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_msgs navground_ros</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_msgs navground_ros</span>
 </pre></div>
 </div>
 </section>
@@ -670,7 +680,7 @@ Just install the python package of the corresponding version.</p>
 <h2>CoppeliaSim<a class="headerlink" href="#coppeliasim" title="Permalink to this heading">#</a></h2>
 <p>Depends on <a class="reference internal" href="#simulation">Simulation</a>. You also need to install <a class="reference external" href="https://www.coppeliarobotics.com">coppeliaSim</a> (versions 4.3, 4.4, 4.5 [latest]).</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export COPPELIASIM_ROOT_DIR=&lt;path to the folder containing the programming subfolder&gt;</span>
-<span class="go">colcon --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_coppeliasim</span>
+<span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_coppeliasim</span>
 </pre></div>
 </div>
 </section>

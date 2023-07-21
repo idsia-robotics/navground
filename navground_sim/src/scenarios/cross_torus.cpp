@@ -17,7 +17,7 @@ namespace navground::sim {
 
 using namespace navground::core;
 
-void CrossTorusScenario::init_world(World *world) {
+void CrossTorusScenario::init_world(World *world, [[maybe_unused]] int seed) {
   Scenario::init_world(world);
   World::Lattice lattice = std::make_tuple<float>(0.0f, side);
   world->set_lattice(0, lattice);

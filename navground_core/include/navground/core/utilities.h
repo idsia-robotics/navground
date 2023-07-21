@@ -32,5 +32,4 @@ constexpr auto get_type_name() -> std::string_view {
   return function.substr(start, size);
 }
 
-
 #endif  // NAVGROUND_CORE_UTILITIES_H

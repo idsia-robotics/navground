@@ -6,7 +6,7 @@
 
 namespace navground::sim {
 
-void Scenario::init_world(World* world) {
+void Scenario::init_world(World* world, [[maybe_unused]] int seed) {
   for (auto& group : groups) {
     if (group) {
       group->reset();

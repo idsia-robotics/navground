@@ -7,6 +7,9 @@ ament_target_dependencies(scenario_yaml navground_sim)
 add_executable(scenario_registered scenario_registered.cpp)
 ament_target_dependencies(scenario_registered navground_sim)
 
+add_executable(benchmark_sim benchmark_sim.cpp)
+ament_target_dependencies(benchmark_sim navground_sim)
+
 add_library(my_scenario SHARED my_scenario.h)
 ament_target_dependencies(my_scenario navground_sim)
 ament_export_targets(my_scenarioTargets HAS_LIBRARY_TARGET)
@@ -18,6 +21,7 @@ install(TARGETS
   scenario_group 
   scenario_yaml 
   scenario_registered
+  benchmark_sim
   DESTINATION lib/${PROJECT_NAME}
 )
 

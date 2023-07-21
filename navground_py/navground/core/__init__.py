@@ -8,11 +8,11 @@ import pkg_resources
 from ._navground import Action
 from ._navground import Behavior as _Behavior
 from ._navground import (CachedCollisionComputation, CollisionComputation,
-                             Controller, Disc, Frame, GeometricState)
+                         Controller, Disc, EnvironmentState, Frame,
+                         GeometricState)
 from ._navground import Kinematics as _Kinematics
-from ._navground import (EnvironmentState, LineSegment, Neighbor, Pose2, SocialMargin,
-                             Target, Twist2, dump, load_behavior,
-                             load_kinematics)
+from ._navground import (LineSegment, Neighbor, Pose2, SocialMargin, Target,
+                         Twist2, dump, load_behavior, load_kinematics)
 
 Vector2 = 'numpy.ndarray[numpy.float32[2, 1]]'
 PropertyField = Union[bool, int, float, str, Vector2, List[bool], List[int],
@@ -78,6 +78,11 @@ class Behavior(_Behavior):
                 if isinstance(v, property) and hasattr(v.fget,
                                                        "__default_value__"):
                     return_type = v.fget.__annotations__['return']
+                    try:
+                        if return_type._name == "List":
+                            return_type = list
+                    except AttributeError:
+                        pass
                     default_value = return_type(v.fget.__default_value__)
                     desc = v.fget.__desc__
                     _Behavior._add_property(name, k, v, default_value, desc)
@@ -100,6 +105,11 @@ class Kinematics(_Kinematics):
                 if isinstance(v, property) and hasattr(v.fget,
                                                        "__default_value__"):
                     return_type = v.fget.__annotations__['return']
+                    try:
+                        if return_type._name == "List":
+                            return_type = list
+                    except AttributeError:
+                        pass
                     default_value = return_type(v.fget.__default_value__)
                     desc = v.fget.__desc__
                     _Kinematics._add_property(name, k, v, default_value, desc)

@@ -13,10 +13,10 @@
 #include "navground/core/states/geometric.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/agent.h"
+#include "navground/sim/experiment.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/task.h"
 #include "navground/sim/world.h"
-#include "navground/sim/experiment.h"
 #include "navground/sim/yaml/world.h"
 #include "simPlusPlus/Plugin.h"
 #include "stubs.h"
@@ -25,13 +25,11 @@
 namespace core = navground::core;
 namespace nsim = navground::sim;
 
-
 #if SIM_PROGRAM_VERSION_NB >= 40500
 typedef double simFloat;
 #else
 typedef float simFloat;
 #endif
-
 
 static std::shared_ptr<core::Kinematics> make_kinematics(
     const kinematics_t &k) {
@@ -144,9 +142,9 @@ class Plugin : public sim::Plugin {
 
   void onSimulationAboutToEnd() {
     controllers.clear();
-    if (world) {
-      std::cout << YAML::dump<nsim::World>(world.get()) << std::endl;
-    }
+    // if (world) {
+    //   std::cout << YAML::dump<nsim::World>(world.get()) << std::endl;
+    // }
     if (experiment) {
       experiment->stop();
       experiment.release();
@@ -188,6 +186,26 @@ class Plugin : public sim::Plugin {
   }
 
   core::Controller3 *controller_at_index(unsigned i) const {
+    // TODO(Jerome): this returns core::Controller not core::Controller3.
+    // if (world) {
+    //   if (i < world->get_agents().size()) {
+    //     return world->get_agents()[i]->get_controller();
+    //   }
+    //   return nullptr;
+    // }
+    if (i < controllers.size()) {
+      return controllers[i].get();
+    }
+    return nullptr;
+  }
+
+  core::Controller *controller2_at_index(unsigned i) const {
+    if (world) {
+      if (i < world->get_agents().size()) {
+        return world->get_agents()[i]->get_controller();
+      }
+      return nullptr;
+    }
     if (i < controllers.size()) {
       return controllers[i].get();
     }
@@ -265,12 +283,39 @@ class Plugin : public sim::Plugin {
     }
   }
 
+  void follow_velocity(follow_velocity_in *in, follow_velocity_out *out) {
+    auto controller = controller2_at_index(in->handle);
+    if (controller) {
+      controller->follow_velocity(
+          core::Vector2(in->velocity[0], in->velocity[1]));
+    }
+  }
+
+  // void follow_velocity(follow_velocity_in *in, follow_velocity_out *out) {
+  //   auto controller = controller_at_index(in->handle);
+  //   if (controller) {
+  //     controller->follow_velocity(
+  //         core::Vector3(in->velocity[0], in->velocity[1], in->velocity[2]));
+  //   }
+  // }
+
   void set_pose(set_pose_in *in, set_pose_out *out) {
     auto controller = controller_at_index(in->handle);
     if (controller) {
       controller->set_pose(
           core::Pose3{{in->position[0], in->position[1], in->position[2]},
                       in->orientation});
+    }
+  }
+
+  void get_pose(get_pose_in *in, get_pose_out *out) {
+    auto behavior = behavior_at_index(in->handle);
+    if (behavior) {
+      const auto pose = behavior->get_pose();
+      const auto & p = pose.position;
+      // std::cout << p << std::endl;
+      out->position = {p.x(), p.y()};
+      out->orientation = pose.orientation;
     }
   }
 
@@ -444,6 +489,11 @@ class Plugin : public sim::Plugin {
         nsim::Obstacle{core::Vector2{ps[0], ps[1]}, in->radius});
   }
 
+  void add_wall(add_wall_in *in, add_wall_out *out) {
+    get_world()->add_wall(
+        nsim::Wall{core::Vector2{in->p1[0], in->p1[1]}, core::Vector2{in->p2[0], in->p2[1]}});
+  }
+
   void add_agent_from_yaml(add_agent_from_yaml_in *in,
                            add_agent_from_yaml_out *out) {
     int agent_handle = agent_handles.size();
@@ -457,7 +507,7 @@ class Plugin : public sim::Plugin {
     }
     auto agent = node.as<std::shared_ptr<nsim::Agent>>();
     if (agent) {
-      std::cout << YAML::dump<nsim::Agent>(agent.get()) << std::endl;
+      // std::cout << YAML::dump<nsim::Agent>(agent.get()) << std::endl;
       get_world()->add_agent(std::move(agent));
       agent_handles.push_back(in->handle);
       out->handle = agent_handle;
@@ -480,12 +530,11 @@ class Plugin : public sim::Plugin {
                           get_last_wheel_cmd_out *out) {
     auto agent = agent_at_index(in->handle);
     if (agent) {
-      const auto twist = agent->last_cmd;
+      auto twist = agent->get_last_cmd(core::Frame::relative);
       const auto kinematics = agent->get_kinematics();
       if (kinematics && kinematics->is_wheeled()) {
         core::WheeledKinematics *wk =
             dynamic_cast<core::WheeledKinematics *>(kinematics);
-        // TODO(Jerome): ! if not relative
         out->speeds = wk->wheel_speeds(twist);
       }
     }

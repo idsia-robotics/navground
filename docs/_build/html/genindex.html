@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 
@@ -31,6 +30,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -43,6 +43,7 @@
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/tabs.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/design-tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
     <link rel="index" title="Index" href="#" />
@@ -138,7 +139,6 @@
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_examples.html">navground_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_demos.html">navground_demos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="packages/navground_utilities.html">navground_utilities</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -149,9 +149,15 @@
 <li class="toctree-l2"><a class="reference internal" href="guides/register.html">How to register a component</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scenarios/cross.html">Cross</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/yaml.html">YAML</a></li>
@@ -165,7 +171,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/helper.html">Helpers</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/yaml.html">YAML</a></li>
@@ -178,7 +184,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/controller.html">Controller</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/kinematics.html">Kinematics</a></li>
@@ -189,8 +195,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/tasks/index.html">Tasks</a></li>
@@ -201,7 +207,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/yaml.html">YAML</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/tasks/index.html">Tasks</a></li>
@@ -211,7 +217,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/yaml.html">YAML</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/yaml/task.html">Task</a></li>
@@ -1990,7 +1996,7 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario4InitE">navground::sim::Scenario::Init (C++ type)</a>
 </li>
-      <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario10init_worldEP5World">navground::sim::Scenario::init_world (C++ function)</a>
+      <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario10init_worldEP5Worldi">navground::sim::Scenario::init_world (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario5InitsE">navground::sim::Scenario::Inits (C++ type)</a>
 </li>
@@ -2010,7 +2016,7 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/scenarios/simple.html#_CPPv4NK9navground3sim14SimpleScenario8get_typeEv">navground::sim::SimpleScenario::get_type (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/scenarios/simple.html#_CPPv4N9navground3sim14SimpleScenario10init_worldEP5World">navground::sim::SimpleScenario::init_world (C++ function)</a>
+      <li><a href="reference/sim/cpp/scenarios/simple.html#_CPPv4N9navground3sim14SimpleScenario10init_worldEP5Worldi">navground::sim::SimpleScenario::init_world (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimationE">navground::sim::StateEstimation (C++ struct)</a>
 </li>
@@ -2402,12 +2408,68 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.side">side (CrossTorusScenario property)</a>
 </li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.add_agent_from_yaml">simNavground.add_agent_from_yaml() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.add_obstacle">simNavground.add_obstacle() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.enable_recording">simNavground.enable_recording() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.follow_point">simNavground.follow_point() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.follow_pose">simNavground.follow_pose() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.get_actuated_wheel_speeds">simNavground.get_actuated_wheel_speeds() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.get_last_cmd">simNavground.get_last_cmd() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.get_last_wheel_cmd">simNavground.get_last_wheel_cmd() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.get_property">simNavground.get_property() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.get_state">simNavground.get_state() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.go_to_pose">simNavground.go_to_pose() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.go_to_position">simNavground.go_to_position() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.make_controller">simNavground.make_controller() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_cmd_frame">simNavground.set_cmd_frame() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_heading_behavior">simNavground.set_heading_behavior() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_horizon">simNavground.set_horizon() (built-in function)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_line_obstacles">simNavground.set_line_obstacles() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_neighbors">simNavground.set_neighbors() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_optimal_speed">simNavground.set_optimal_speed() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_pose">simNavground.set_pose() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_property">simNavground.set_property() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_rotation_tau">simNavground.set_rotation_tau() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_safety_margin">simNavground.set_safety_margin() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_speed_tolerance">simNavground.set_speed_tolerance() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_static_obstacles">simNavground.set_static_obstacles() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_twist">simNavground.set_twist() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.should_be_limited_to_2d">simNavground.should_be_limited_to_2d() (built-in function)</a>
+</li>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.update">simNavground.update() (built-in function)</a>
+</li>
       <li><a href="reference/sim/python/scenarios/simple.html#navground.sim.scenarios.SimpleScenario">SimpleScenario (class in navground.sim.scenarios)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.social_margin">social_margin (Behavior property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior">SocialForceBehavior (class in navground.core.behaviors)</a>
 </li>
       <li><a href="reference/core/python/social_margin.html#navground.core.SocialMargin">SocialMargin (class in navground.core)</a>

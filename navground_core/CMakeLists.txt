@@ -18,6 +18,14 @@ endif()
 include(GenerateExportHeader)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
+include(FetchContent)
+FetchContent_Declare(
+    argparse
+    GIT_REPOSITORY https://github.com/p-ranav/argparse.git
+)
+FetchContent_MakeAvailable(argparse)
+
+
 find_package(ament_cmake REQUIRED)
 find_package(yaml-cpp)
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
@@ -67,8 +75,8 @@ ament_export_dependencies(yaml-cpp)
 
 ament_export_targets(navground_coreTargets HAS_LIBRARY_TARGET)
 
-add_executable(info src/list.cpp)
-target_link_libraries(info navground_core)
+add_executable(info src/info.cpp)
+target_link_libraries(info navground_core argparse)
 add_dependencies(info navground_core)
 
 install(TARGETS

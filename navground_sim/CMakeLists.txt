@@ -90,7 +90,7 @@ add_executable(sample src/sample.cpp)
 target_link_libraries(sample navground_sim)
 add_dependencies(sample navground_sim)
 
-add_executable(info src/list.cpp)
+add_executable(info src/info.cpp)
 target_link_libraries(info navground_sim)
 add_dependencies(info navground_sim)
 

@@ -55,7 +55,7 @@ class Recording:
         run = self.file[f'run_{index}']
         world = load_world(run.attrs['world'])
         return Run(world=world,
-                   recorded_poses=run['pose'],
+                   recorded_poses=run['poses'],
                    time_step=self.experiment.time_step,
                    index=index)
 

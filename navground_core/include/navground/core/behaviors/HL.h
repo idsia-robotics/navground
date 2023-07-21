@@ -226,7 +226,7 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
 
   void prepare(float speed);
   Vector2 compute_repulsive_force(bool &inside_obstacle);
-  Twist2 relax(const Twist2 &twist, float dt) const;
+  Twist2 relax(const Twist2 &current_twist, const Twist2 &twist, float dt) const;
   unsigned int index_of_relative_angle(Radians relative_angle);
   float distance_to_segment(const LineSegment &line, Radians absolute_angle);
   float dist_for_angle(const DiscCache *agent, Radians angle);

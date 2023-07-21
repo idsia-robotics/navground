@@ -25,6 +25,11 @@ class Scenario(_Scenario):
                 if isinstance(v, property) and hasattr(v.fget,
                                                        "__default_value__"):
                     return_type = v.fget.__annotations__['return']
+                    try:
+                        if return_type._name == "List":
+                            return_type = list
+                    except AttributeError:
+                        pass
                     default_value = return_type(v.fget.__default_value__)
                     desc = v.fget.__desc__
                     _Scenario._add_property(name, k, v, default_value, desc)
@@ -45,6 +50,11 @@ class StateEstimation(_StateEstimation):
                 if isinstance(v, property) and hasattr(v.fget,
                                                        "__default_value__"):
                     return_type = v.fget.__annotations__['return']
+                    try:
+                        if return_type._name == "List":
+                            return_type = list
+                    except AttributeError:
+                        pass
                     default_value = return_type(v.fget.__default_value__)
                     desc = v.fget.__desc__
                     _StateEstimation._add_property(name, k, v, default_value,
@@ -66,9 +76,14 @@ class Task(_Task):
                 if isinstance(v, property) and hasattr(v.fget,
                                                        "__default_value__"):
                     return_type = v.fget.__annotations__['return']
+                    try:
+                        if return_type._name == "List":
+                            return_type = list
+                    except AttributeError:
+                        pass
                     default_value = return_type(v.fget.__default_value__)
                     desc = v.fget.__desc__
-                    _Task._add_property(name, k, v, v, default_value, desc)
+                    _Task._add_property(name, k, v, default_value, desc)
 
     def __init__(self):
         _Task.__init__(self)

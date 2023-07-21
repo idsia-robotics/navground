@@ -178,6 +178,9 @@ void World::prepare() {
       // a->state_estimation->world = this;
       a->state_estimation->prepare(a.get(), this);
     }
+    if (a->task) {
+      a->task->prepare(a.get(), this);
+    }
     a->collision_correction = Vector2::Zero();
     if (a->behavior) {
       a->behavior->set_kinematics(a->kinematics);

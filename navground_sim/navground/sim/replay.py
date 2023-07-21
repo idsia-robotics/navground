@@ -1,12 +1,30 @@
 import argparse
 import asyncio
 import logging
+import webbrowser
 
 import h5py
 
 from .real_time import RealTimeReplay
 from .recording import Recording
+from .ui import view_path
 from .ui.web_ui import WebUI
+
+
+def parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description='Replay an experiment in real-time')
+    parser.add_argument('path',
+                        help='The path an HDF5 file that store an experiment',
+                        type=str)
+    parser.add_argument('--factor',
+                        help='Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)',
+                        type=float,
+                        default=1.0)
+    parser.add_argument('--no-ui', help='Do not use a view', action='store_true')
+    parser.add_argument('--no-browser', help='Do not open a browser view', action='store_true')
+    parser.add_argument('--ui-fps', help='Maximal update rate of the view', type=float, default=25.0)
+    parser.add_argument('--background-color', help='View background color', type=str, default="lightgray")
+    return parser
 
 
 async def run(file: h5py.File,
@@ -38,17 +56,15 @@ async def run(file: h5py.File,
 
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
-    parser = argparse.ArgumentParser()
-    parser.add_argument('input', help='h5df file', type=str)
-    parser.add_argument('--factor',
-                        help='Real time factor',
-                        type=float,
-                        default=1.0)
-    parser.add_argument('--ui-fps', help='Max fps', type=float, default=25.0)
-    parser.add_argument('--no-ui', help='UI', action='store_true')
-    parser.add_argument('--background', help='background color', type=str, default="lightgray")
-    arg = parser.parse_args()
-    file = h5py.File(arg.input, 'r')
+    arg = parser().parse_args()
+    should_open_view = not (arg.no_ui or arg.no_browser)
+    if should_open_view:
+        webbrowser.open(f"file://{view_path}")
+    try:
+        file = h5py.File(arg.path, 'r')
+    except:
+        logging.error(f"Could not open HDF5 file {arg.path}")
+        sys.exit(1)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(
         run(with_ui=not arg.no_ui,

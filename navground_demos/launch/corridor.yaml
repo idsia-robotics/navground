@@ -1,0 +1,28 @@
+---
+steps: 3000
+time_step: 0.04
+save_directory: ''
+record_pose: true
+scenario:
+  type: Corridor
+  length: 8.0
+  width: 0.6
+  groups:
+    -
+      type: thymio
+      number: 20
+      radius: 0.08
+      control_period: 0.1
+      speed_tolerance: 0.02
+      kinematics:
+        type: 2WDiff
+        wheel_axis: 0.094
+        max_speed: 0.166
+      behavior:
+        type: HL
+        optimal_speed: 0.12
+        horizon: 5.0
+        safety_margin: 0.02
+      state_estimation:
+        type: Bounded
+        range_of_view: 5.0

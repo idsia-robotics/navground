@@ -31,7 +31,7 @@ static void show_usage(const std::string &name) {
 }
 
 void run(const char *behavior = "HL", const char *path_ = "", float radius = 4,
-         unsigned number = 5, float margin = 1.0, float dt = 0.1, size_t steps = 1000) {
+         unsigned number = 5, float margin = 1.0, float dt = 0.1, size_t steps = 10000) {
   std::vector<std::shared_ptr<Behavior>> agents;
   float x = radius - margin;
   std::vector<std::tuple<Vector2, std::function<Vector2(int)>>> task = {

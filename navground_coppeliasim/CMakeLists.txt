@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 project(
   navground_coppeliasim
   VERSION 0.0
-  LANGUAGES CXX)
+  LANGUAGES CXX C)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_MACOSX_RPATH 1)

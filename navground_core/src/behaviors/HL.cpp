@@ -2,11 +2,16 @@
  * @author Jerome Guzzi - <jerome@idsia.ch>
  */
 
-#include "navground/core/behaviors/HL.h"
+#include "navground/core/common.h"
+
 
 #include <assert.h>
+#include <iostream>
 
 #include <algorithm>
+
+
+#include "navground/core/behaviors/HL.h"
 
 #include "navground/core/collision_computation.h"
 
@@ -31,6 +36,7 @@ static navground::core::Twist2 relax(const navground::core::Twist2 &v0,
                                    const navground::core::Twist2 &v1, float tau,
                                    float dt) {
   assert(v1.frame == v0.frame);
+  std::cout << "relax " << v0 << " " << v1 << " " << tau << " " << dt << std::endl;
   if (tau == 0) {
     return v1;
   }
@@ -187,19 +193,19 @@ void HLBehavior::prepare(float target_speed) {
   Behavior::reset_changes();
 }
 
-Twist2 HLBehavior::relax(const Twist2 &value, float dt) const {
+Twist2 HLBehavior::relax(const Twist2 &current_value, const Twist2 &value, float dt) const {
   if (kinematics->is_wheeled()) {
     auto wheel_speeds = wheel_speeds_from_twist(value);
-    auto actuated_wheel_speeds = wheel_speeds_from_twist(actuated_twist);
+    auto current_wheel_speeds = wheel_speeds_from_twist(current_value);
     return twist_from_wheel_speeds(
-        ::relax(actuated_wheel_speeds, wheel_speeds, tau, dt));
+        ::relax(current_wheel_speeds, wheel_speeds, tau, dt));
   } else {
     // TODO(Jerome old): same than before when I relaxed the absolute velocity,
     // not the relative but different than original paper CHANGED(J 2023): relax
     // in arbitrary frame
-    return ::relax(actuated_twist.frame == value.frame
-                       ? actuated_twist
-                       : to_frame(actuated_twist, value.frame),
+    return ::relax(current_value.frame == value.frame
+                       ? current_value
+                       : to_frame(current_value, value.frame),
                    value, tau, dt);
   }
 }
@@ -209,14 +215,15 @@ Twist2 HLBehavior::compute_cmd(float dt, std::optional<Frame> frame) {
     std::cerr << "Missing kinematics" << std::endl;
     return {};
   }
-  Twist2 twist = Behavior::compute_cmd(dt, frame);
+  Twist2 old_actuated_twist = actuated_twist;
+  Twist2 cmd_twist = Behavior::compute_cmd(dt, frame);
   if (tau > 0) {
-    twist = relax(twist, dt);
+    cmd_twist = to_frame(relax(old_actuated_twist, cmd_twist, dt), twist.frame);
   }
   if (assume_cmd_is_actuated) {
-    actuated_twist = twist;
+    actuated_twist = cmd_twist;
   }
-  return twist;
+  return cmd_twist;
 }
 
 }  // namespace navground::core

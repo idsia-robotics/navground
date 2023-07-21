@@ -1,33 +1,37 @@
 import argparse
 import logging
-import time
+import os
+import sys
 
 from navground import sim
+
+def parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description='Runs an experiment using the Python interpreter')
+    parser.add_argument('YAML',
+                        help='YAML string, or path to a YAML file, describing an experiment',
+                        type=str)
+    return parser
 
 
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
     # nav.load_plugins()
     sim.load_py_plugins()
-    parser = argparse.ArgumentParser()
-    parser.add_argument('yaml',
-                        help='yaml string',
-                        type=str,
-                        default="",
-                        nargs='?')
-    parser.add_argument('--input', help='yaml file', type=str, default="")
-    arg = parser.parse_args()
-    if arg.input:
-        with open(arg.input, 'r') as f:
+    arg = parser().parse_args()
+    if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
+        with open(arg.YAML, 'r') as f:
             yaml = f.read()
     else:
-        yaml = arg.yaml
-    experiment = sim.load_experiment(yaml)
+        yaml = arg.YAML
+    try:
+        experiment = sim.load_experiment(yaml)
+    except RuntimeError as e:
+        logging.error(f"Could not load the experiment: {e}")
+        sys.exit(1)
     if experiment:
-        # print(sim.dump(experiment))
-        logging.info("Start simulation")
-        start = time.time_ns()
         experiment.run()
-        logging.info(f"Done in {1e-6 * (time.time_ns() - start): .1f} ms")
-    else:
-        logging.error("Could not load experiment")
+        print("Experiment done using Python")
+        print(f"Duration: {experiment.duration.total_seconds(): .3f} s")
+        if experiment.path:
+           print(f"Saved to: {experiment.path}")

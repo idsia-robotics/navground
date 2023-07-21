@@ -222,11 +222,12 @@ class ROSControllerNode : public rclcpp::Node {
     init_params();
     tf_buffer = std::make_unique<tf2_ros::Buffer>(get_clock());
     tf_listener = std::make_unique<tf2_ros::TransformListener>(*tf_buffer);
-    cmd_publisher = create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 1);
     if (should_publish_cmd_stamped) {
       cmd_stamped_publisher =
           create_publisher<geometry_msgs::msg::TwistStamped>("cmd_vel_stamped",
                                                              1);
+    } else {
+      cmd_publisher = create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 1);
     }
     stop_subscriber = create_subscription<std_msgs::msg::Empty>(
         "stop", 1, std::bind(&ROSControllerNode::stop_cb, this, _1));
@@ -629,6 +630,7 @@ class ROSControllerNode : public rclcpp::Node {
     fixed_frame = declare_parameter("frame_id", "world", param_desc);
     declare_parameter("altitude.tau", 1.0);
     declare_parameter("altitude.optimal_speed", 0.1);
+    declare_parameter("altitude.enabled", false);
     declare_parameter("speed_tolerance", 0.05);
     declare_parameter("optimal_speed", 0.3);
     declare_parameter("optimal_angular_speed", 0.3);

@@ -36,7 +36,6 @@ static navground::core::Twist2 relax(const navground::core::Twist2 &v0,
                                    const navground::core::Twist2 &v1, float tau,
                                    float dt) {
   assert(v1.frame == v0.frame);
-  std::cout << "relax " << v0 << " " << v1 << " " << tau << " " << dt << std::endl;
   if (tau == 0) {
     return v1;
   }

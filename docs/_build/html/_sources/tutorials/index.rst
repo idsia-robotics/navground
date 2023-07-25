@@ -5,5 +5,6 @@ Tutorials
 .. toctree::
    :maxdepth: 3
 
-   experiment
+   designing_an_experiment
+   running_an_experiment
 

@@ -6,7 +6,6 @@ from typing import Optional
 
 from . import World
 
-from .recording import Run
 from .ui.web_ui import Rect, WebUI
 
 
@@ -76,20 +75,3 @@ class RealTimeSimulation:
         if self.web_ui:
             await self.web_ui.update_poses(self.world)
         return r
-
-
-class RealTimeReplay(RealTimeSimulation):
-
-    def __init__(self,
-                 run: Run,
-                 factor: float = 1.0,
-                 web_ui: Optional[WebUI] = None):
-        self._run = run
-        super().__init__(world=run.world,
-                         time_step=run.time_step,
-                         web_ui=web_ui,
-                         factor=factor,
-                         bounds=run.bounds)
-
-    def _step(self) -> bool:
-        return self._run.do_step()

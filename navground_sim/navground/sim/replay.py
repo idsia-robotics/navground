@@ -1,14 +1,33 @@
 import argparse
 import asyncio
 import logging
+import sys
 import webbrowser
+from typing import Optional
 
 import h5py
 
-from .real_time import RealTimeReplay
-from .recording import Recording
+from .real_time import RealTimeSimulation
+from .recording import Recording, Run
 from .ui import view_path
 from .ui.web_ui import WebUI
+
+
+class RealTimeReplay(RealTimeSimulation):
+
+    def __init__(self,
+                 run: Run,
+                 factor: float = 1.0,
+                 web_ui: Optional[WebUI] = None):
+        self._run = run
+        super().__init__(world=run.world,
+                         time_step=run.time_step,
+                         web_ui=web_ui,
+                         factor=factor,
+                         bounds=run.bounds)
+
+    def _step(self) -> bool:
+        return self._run.do_step()
 
 
 def parser() -> argparse.ArgumentParser:

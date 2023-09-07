@@ -145,7 +145,8 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/experiment.html">Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/running_an_experiment.html">Running and analysing experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -418,7 +419,7 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10HLBehavior7get_etaEv">
 <span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1afff91d608ee1442f98d1edcb97e3f376"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_eta</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10HLBehavior7get_etaEv" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Gets the relaxation time <span class="math notranslate nohighlight">\(\eta\)</span>. </p>
+<dd><p>Gets the time <span class="math notranslate nohighlight">\(\eta\)</span> that the behavior keep away from collisions. Higher values lead to slower speeds. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="math notranslate nohighlight">\(\eta\)</span></p>
@@ -429,10 +430,10 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior7set_etaEf">
 <span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1af0ae793d62a532900f33db4f33efd4ab"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_eta</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior7set_etaEf" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Sets the relaxation time <span class="math notranslate nohighlight">\(\eta\)</span>. </p>
+<dd><p>Sets the time <span class="math notranslate nohighlight">\(\eta\)</span> that the behavior keep away from collisions. Higher values lead to slower speeds. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A positive value. If zero, relaxation is disabled. </p>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A strict positive value. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -440,10 +441,10 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10HLBehavior7get_tauEv">
 <span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a04e500cda73dc3aa1785f4dc1ffca47f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_tau</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10HLBehavior7get_tauEv" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Gets the time <span class="math notranslate nohighlight">\(\tau\)</span> that the behavior keep away from collisions Higher values lead to slower speeds. </p>
+<dd><p>Gets the relaxation time <span class="math notranslate nohighlight">\(\tau\)</span>. Higher values lead to lower accelerations. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="math notranslate nohighlight">\(\tau\)</span></p>
+<dd class="field-odd"><p><span class="math notranslate nohighlight">\(\eta\)</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -451,10 +452,10 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior7set_tauEf">
 <span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a24b25271fe84ebb49691cb11d62e8fbe"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_tau</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior7set_tauEf" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Sets the time <span class="math notranslate nohighlight">\(\tau\)</span> that the behavior keep away from collisions. Higher values lead to slower speeds. </p>
+<dd><p>Sets the relaxation time <span class="math notranslate nohighlight">\(\tau\)</span>. Higher values lead to lower accelerations. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A strict positive value. </p>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A positive value. If zero, relaxation is disabled. </p>
 </dd>
 </dl>
 </dd></dl>

@@ -79,29 +79,29 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   // -------------------------- BEHAVIOR PARAMETERS
 
   /**
-   * @brief      Gets the relaxation time \f$\eta\f$.
+   * @brief      Gets the  time \f$\eta\f$ that the behavior keep away from
+   * collisions. Higher values lead to slower speeds.
    *
    * @return     \f$\eta\f$
    */
   float get_eta() const { return eta; }
   /**
-   * @brief      Sets the relaxation time \f$\eta\f$.
-   *
-   * @param[in]  value  A positive value. If zero, relaxation is disabled.
-   */
-  void set_eta(float value) { eta = value; }
-  /**
-   * @brief      Gets the  time \f$\tau\f$ that the behavior keep away from
-   * collisions Higher values lead to slower speeds.
-   *
-   * @return     \f$\tau\f$
-   */
-  float get_tau() const { return tau; }
-  /**
-   * @brief      Sets the time \f$\tau\f$ that the behavior keep away from
+   * @brief      Sets the time \f$\eta\f$ that the behavior keep away from
    * collisions. Higher values lead to slower speeds.
    *
    * @param[in]  value  A strict positive value.
+   */
+  void set_eta(float value) { eta = value; }
+  /**
+   * @brief      Gets the relaxation time \f$\tau\f$. Higher values lead to lower accelerations.
+   *
+   * @return     \f$\eta\f$
+   */
+  float get_tau() const { return tau; }
+  /**
+   * @brief      Sets the relaxation time \f$\tau\f$. Higher values lead to lower accelerations.
+   *
+   * @param[in]  value  A positive value. If zero, relaxation is disabled.
    */
   void set_tau(float value) { tau = value; }
   /**

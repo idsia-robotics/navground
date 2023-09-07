@@ -79,14 +79,14 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   // -------------------------- BEHAVIOR PARAMETERS
 
   /**
-   * @brief      Gets the  time \f$\eta\f$ that the behavior keep away from
+   * @brief      Gets the  time \f$\eta\f$ that the behavior keeps away from
    * collisions. Higher values lead to slower speeds.
    *
    * @return     \f$\eta\f$
    */
   float get_eta() const { return eta; }
   /**
-   * @brief      Sets the time \f$\eta\f$ that the behavior keep away from
+   * @brief      Sets the time \f$\eta\f$ that the behavior keeps away from
    * collisions. Higher values lead to slower speeds.
    *
    * @param[in]  value  A strict positive value.
@@ -198,11 +198,11 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    * relaxation
    *
    * The target velocities (twist or wheel speeds, depending on the \ref
-   * get_kinematics) are relaxed over time \f$\eta\f$ as \f$ \dot v = (v_t - v)
-   * / \eta \f$, where \f$v_t\f$ is the instantaneous desired value computed by
+   * get_kinematics) are relaxed over time \f$\tau\f$ as \f$ \dot v = (v_t - v)
+   * / \tau \f$, where \f$v_t\f$ is the instantaneous desired value computed by
    * \ref Behavior::compute_cmd.
    *
-   * If \f$\eta=0\f$, no relaxation is performed and the desired target velocity
+   * If \f$\tau=0\f$, no relaxation is performed and the desired target velocity
    * is returned.
    *
    */

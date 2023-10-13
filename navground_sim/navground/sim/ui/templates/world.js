@@ -76,7 +76,7 @@ ws.onmessage = function(event) {
 var agents = new Set();
 var entity = {};
 var NS = "http://www.w3.org/2000/svg";
-var prototypes = {'': '#{{prefix}}agent', 'thymio': '#{{prefix}}thymio'}
+var prototypes = {'': '#{{prefix}}agent', 'thymio': '#{{prefix}}thymio', 'wheelchair': '#{{prefix}}wheelchair', 'human': '#{{prefix}}human'}
 
 function add_wall(id, points) {
   var e = document.createElementNS(NS,"polyline");

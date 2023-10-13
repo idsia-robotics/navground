@@ -553,7 +553,7 @@ std::vector<Vector2> World::lattice_grid() const {
     auto l0 = std::get<1>(*(lattice[0]));
     auto l1 = std::get<1>(*(lattice[1]));
     return {{-l0, -l1}, {-l0, 0},  {-l0, l1}, {0, -l1},
-            {0, l1},    {l0, -l1}, {l0, 0},   {l0, l1}};
+            {0, l1}, {l0, -l1}, {l0, 0},   {l0, l1}};
   }
   if (lattice[0]) {
     auto l0 = std::get<1>(*(lattice[0]));

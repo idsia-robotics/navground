@@ -1,3 +1,5 @@
+.. _scenario yaml:
+
 ========
 Scenario
 ========

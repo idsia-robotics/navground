@@ -1,0 +1,23 @@
+type: Corridor
+length: 8
+width: 2
+groups:
+  - number: 10
+    radius:
+      sampler: uniform
+      from: 0.5
+      to: 1.0
+    type: 
+      sampler: choice
+      values: ["type_1", "type_2"]
+      once: true
+    control_step: 0.1
+    behavior:
+      type: HL
+    kinematics:
+      type: Omni
+      max_speed: 1.0
+      max_angular_speed: 1.0
+    state_estimation:
+      type: Bounded
+      range_of_view: 4.0

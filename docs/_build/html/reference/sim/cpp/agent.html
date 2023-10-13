@@ -18,32 +18,33 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/documentation_options.js?v=3611b776"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -59,6 +60,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -341,10 +351,10 @@
 
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -352,11 +362,13 @@ document.write(`
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -372,6 +384,39 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5AgentE"><code class="docutils literal notranslate"><span class="pre">Agent</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent5AgentEfNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEEfj"><code class="docutils literal notranslate"><span class="pre">Agent::Agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent11as_neighborEv"><code class="docutils literal notranslate"><span class="pre">Agent::as_neighbor()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent20set_state_estimationERKNSt10shared_ptrI15StateEstimationEE"><code class="docutils literal notranslate"><span class="pre">Agent::set_state_estimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent20get_state_estimationEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_state_estimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent12set_behaviorERKNSt10shared_ptrI8BehaviorEE"><code class="docutils literal notranslate"><span class="pre">Agent::set_behavior()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent12get_behaviorEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_behavior()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent14set_kinematicsERKNSt10shared_ptrI10KinematicsEE"><code class="docutils literal notranslate"><span class="pre">Agent::set_kinematics()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent14get_kinematicsEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_kinematics()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent8set_taskERKNSt10shared_ptrI4TaskEE"><code class="docutils literal notranslate"><span class="pre">Agent::set_task()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent8get_taskEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_task()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent14get_controllerEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_controller()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent4idleEv"><code class="docutils literal notranslate"><span class="pre">Agent::idle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent12get_last_cmdEN4core5FrameE"><code class="docutils literal notranslate"><span class="pre">Agent::get_last_cmd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent2idE"><code class="docutils literal notranslate"><span class="pre">Agent::id</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent6radiusE"><code class="docutils literal notranslate"><span class="pre">Agent::radius</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent14control_periodE"><code class="docutils literal notranslate"><span class="pre">Agent::control_period</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent4poseE"><code class="docutils literal notranslate"><span class="pre">Agent::pose</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent5twistE"><code class="docutils literal notranslate"><span class="pre">Agent::twist</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent8last_cmdE"><code class="docutils literal notranslate"><span class="pre">Agent::last_cmd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent4typeE"><code class="docutils literal notranslate"><span class="pre">Agent::type</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent4tagsE"><code class="docutils literal notranslate"><span class="pre">Agent::tags</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent8externalE"><code class="docutils literal notranslate"><span class="pre">Agent::external</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent4makeEfNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEEfj"><code class="docutils literal notranslate"><span class="pre">Agent::make()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -382,13 +427,13 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="agent">
-<h1>Agent<a class="headerlink" href="#agent" title="Permalink to this heading">#</a></h1>
+<h1>Agent<a class="headerlink" href="#agent" title="Link to this heading">#</a></h1>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/sim/agent.h&quot;</span>
 </pre></div>
 </div>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5AgentE">
-<span class="target" id="classnavground_1_1sim_1_1_agent"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Agent</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="world.html#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><a class="headerlink" href="#_CPPv4N9navground3sim5AgentE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Agent</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="world.html#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><a class="headerlink" href="#_CPPv4N9navground3sim5AgentE" title="Link to this definition">#</a><br /></dt>
 <dd><p>This class describes an agent. </p>
 <p>The agent navigates in the environment using a task, a state estimation, a kinematic and a behavior, and a controller.</p>
 <p>Agents have a circular shape which should match the shape of their navigation <a class="reference internal" href="../../core/cpp/behaviors/behavior.html#classnavground_1_1core_1_1_behavior"><span class="std std-ref">navground::core::Behavior</span></a>.</p>
@@ -399,7 +444,7 @@ document.write(`
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent5AgentEfNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEEfj">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a20f6af66832eb31e79822ba8d1db39de"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Agent</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">behavior</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">kinematics</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="tasks/task.html#_CPPv4N9navground3sim4TaskE" title="navground::sim::Task"><span class="n"><span class="pre">Task</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">task</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimationE" title="navground::sim::StateEstimation"><span class="n"><span class="pre">StateEstimation</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">estimation</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">control_period</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent5AgentEfNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEEfj" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a20f6af66832eb31e79822ba8d1db39de"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Agent</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">behavior</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">kinematics</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="tasks/task.html#_CPPv4N9navground3sim4TaskE" title="navground::sim::Task"><span class="n"><span class="pre">Task</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">task</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimationE" title="navground::sim::StateEstimation"><span class="n"><span class="pre">StateEstimation</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">estimation</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">control_period</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent5AgentEfNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEEfj" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -418,7 +463,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5Agent11as_neighborEv">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a53da1b13fc3f63df82e3378ee61902ca"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/state.html#_CPPv4N9navground4core8NeighborE" title="navground::core::Neighbor"><span class="n"><span class="pre">Neighbor</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">as_neighbor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent11as_neighborEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a53da1b13fc3f63df82e3378ee61902ca"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/state.html#_CPPv4N9navground4core8NeighborE" title="navground::core::Neighbor"><span class="n"><span class="pre">Neighbor</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">as_neighbor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent11as_neighborEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Returns a neighbor representation of the agent with the same shape, position and id. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -429,7 +474,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent20set_state_estimationERKNSt10shared_ptrI15StateEstimationEE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a8212cc93be44493e4226303865eacf35"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_state_estimation</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimationE" title="navground::sim::StateEstimation"><span class="n"><span class="pre">StateEstimation</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent20set_state_estimationERKNSt10shared_ptrI15StateEstimationEE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a8212cc93be44493e4226303865eacf35"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_state_estimation</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimationE" title="navground::sim::StateEstimation"><span class="n"><span class="pre">StateEstimation</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent20set_state_estimationERKNSt10shared_ptrI15StateEstimationEE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the state estimation. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -440,7 +485,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5Agent20get_state_estimationEv">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a90aa7b521a48a32427fbd947610a3b1b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimationE" title="navground::sim::StateEstimation"><span class="n"><span class="pre">StateEstimation</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_state_estimation</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent20get_state_estimationEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a90aa7b521a48a32427fbd947610a3b1b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimationE" title="navground::sim::StateEstimation"><span class="n"><span class="pre">StateEstimation</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_state_estimation</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent20get_state_estimationEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the state estimation. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -451,7 +496,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent12set_behaviorERKNSt10shared_ptrI8BehaviorEE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a328a84cee4f129e85b7e2bcd58fe249c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_behavior</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent12set_behaviorERKNSt10shared_ptrI8BehaviorEE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a328a84cee4f129e85b7e2bcd58fe249c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_behavior</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent12set_behaviorERKNSt10shared_ptrI8BehaviorEE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the navigation behavior. </p>
 <p>Automatically set the behavior radius and kinematics to match the agent.</p>
 <dl class="field-list simple">
@@ -463,7 +508,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5Agent12get_behaviorEv">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a0ca2c68e94ce57340dbebbaecd6e7b84"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_behavior</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent12get_behaviorEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a0ca2c68e94ce57340dbebbaecd6e7b84"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_behavior</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent12get_behaviorEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the navigation behavior. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -474,7 +519,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent14set_kinematicsERKNSt10shared_ptrI10KinematicsEE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a4a629e90c270ca8dafc41fb6f09b5e0d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_kinematics</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent14set_kinematicsERKNSt10shared_ptrI10KinematicsEE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a4a629e90c270ca8dafc41fb6f09b5e0d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_kinematics</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent14set_kinematicsERKNSt10shared_ptrI10KinematicsEE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the kinematics. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -485,7 +530,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5Agent14get_kinematicsEv">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1ae86fc6292f45c16a28af73319f26f624"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_kinematics</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent14get_kinematicsEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1ae86fc6292f45c16a28af73319f26f624"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_kinematics</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent14get_kinematicsEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the kinematics. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -496,7 +541,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent8set_taskERKNSt10shared_ptrI4TaskEE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1ac4678f5debfebb7c01ce1791599a3ded"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_task</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="tasks/task.html#_CPPv4N9navground3sim4TaskE" title="navground::sim::Task"><span class="n"><span class="pre">Task</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent8set_taskERKNSt10shared_ptrI4TaskEE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1ac4678f5debfebb7c01ce1791599a3ded"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_task</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="tasks/task.html#_CPPv4N9navground3sim4TaskE" title="navground::sim::Task"><span class="n"><span class="pre">Task</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent8set_taskERKNSt10shared_ptrI4TaskEE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the task. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -507,7 +552,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5Agent8get_taskEv">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1aac68c4f81dbbb0a25df8e9b96ed69879"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="tasks/task.html#_CPPv4N9navground3sim4TaskE" title="navground::sim::Task"><span class="n"><span class="pre">Task</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_task</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent8get_taskEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1aac68c4f81dbbb0a25df8e9b96ed69879"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="tasks/task.html#_CPPv4N9navground3sim4TaskE" title="navground::sim::Task"><span class="n"><span class="pre">Task</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_task</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent8get_taskEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the task. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -518,7 +563,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent14get_controllerEv">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a99e91d06a1d7112dd375e4d7a2edab2b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/controller.html#_CPPv4N9navground4core10ControllerE" title="navground::core::Controller"><span class="n"><span class="pre">Controller</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_controller</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent14get_controllerEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a99e91d06a1d7112dd375e4d7a2edab2b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/controller.html#_CPPv4N9navground4core10ControllerE" title="navground::core::Controller"><span class="n"><span class="pre">Controller</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_controller</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent14get_controllerEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the navigation controller. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -529,7 +574,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5Agent4idleEv">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1aa090dae2124ccf1bfec703fe3f46ea1f"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">idle</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent4idleEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1aa090dae2124ccf1bfec703fe3f46ea1f"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">idle</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent4idleEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Returns whether the task is done and the control is idle. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -540,7 +585,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5Agent12get_last_cmdEN4core5FrameE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1af94de3c19679ab2f86b2b2d0cc2cb04c"></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_last_cmd</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">frame</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent12get_last_cmdEN4core5FrameE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1af94de3c19679ab2f86b2b2d0cc2cb04c"></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_last_cmd</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">frame</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent12get_last_cmdEN4core5FrameE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the last command. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -554,57 +599,57 @@ document.write(`
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent2idE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1aef0c44c2268b40b010e79a26d61b2702"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent2idE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1aef0c44c2268b40b010e79a26d61b2702"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent2idE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The agent public identifier </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent6radiusE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a64d6ef332150ca81b1071c675ab865c2"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">radius</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent6radiusE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a64d6ef332150ca81b1071c675ab865c2"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">radius</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent6radiusE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The agent radius </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent14control_periodE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a347a18c0eb3c19b8b06d671efe4a29c6"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">control_period</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent14control_periodE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a347a18c0eb3c19b8b06d671efe4a29c6"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">control_period</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent14control_periodE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The control period </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent4poseE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a7bb0db2a61b5d7012aa6d9a926f3adb2"></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pose</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent4poseE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a7bb0db2a61b5d7012aa6d9a926f3adb2"></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pose</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent4poseE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The current pose </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent5twistE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a0ac1ad284e31934ec4c0b56125f7e407"></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">twist</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent5twistE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a0ac1ad284e31934ec4c0b56125f7e407"></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">twist</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent5twistE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The current twist </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent8last_cmdE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1aa286dc5b827d4d67b1735d3f2d67c589"></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">last_cmd</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent8last_cmdE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1aa286dc5b827d4d67b1735d3f2d67c589"></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">last_cmd</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent8last_cmdE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The last control command </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent4typeE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a4fcbe9302057462e1eb9e6856264d1c8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent4typeE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a4fcbe9302057462e1eb9e6856264d1c8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent4typeE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The type of the agent. </p>
 <p>The agent type should not used by the neighbors state estimation. It is mainly used internally to draw the agents in the UI. </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent4tagsE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1ad6c3beb601fa906ae0da07be7962ed09"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">set</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tags</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent4tagsE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1ad6c3beb601fa906ae0da07be7962ed09"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">set</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tags</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent4tagsE" title="Link to this definition">#</a><br /></dt>
 <dd><p>A set of tags used to label the agent. </p>
 <p>Tags are mainly used to add meta-information about an agent, for instance by the <a class="reference internal" href="scenarios/scenario.html#structnavground_1_1sim_1_1_scenario_1_1_group"><span class="std std-ref">navground::sim::Scenario::Group</span></a> that generated it (if any), to simplify analysis. </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent8externalE">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a7cc423910702ef364c6691c2270be029"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">external</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent8externalE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a7cc423910702ef364c6691c2270be029"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">external</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent8externalE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether the agent is controlled externally. </p>
 <p>External agents are not controlled by this simulation but are part of the state estimation used by the agents controlled in this simulation. </p>
 </dd></dl>
@@ -614,7 +659,7 @@ document.write(`
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent4makeEfNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEEfj">
-<span class="target" id="classnavground_1_1sim_1_1_agent_1a31d902ab29c808f4f550a4bdafc37796"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">make</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">behavior</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">kinematics</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="tasks/task.html#_CPPv4N9navground3sim4TaskE" title="navground::sim::Task"><span class="n"><span class="pre">Task</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">task</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimationE" title="navground::sim::StateEstimation"><span class="n"><span class="pre">StateEstimation</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">estimation</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">control_period</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent4makeEfNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEEfj" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a31d902ab29c808f4f550a4bdafc37796"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">make</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">behavior</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">kinematics</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="tasks/task.html#_CPPv4N9navground3sim4TaskE" title="navground::sim::Task"><span class="n"><span class="pre">Task</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">task</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimationE" title="navground::sim::StateEstimation"><span class="n"><span class="pre">StateEstimation</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">estimation</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">control_period</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent4makeEfNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEEfj" title="Link to this definition">#</a><br /></dt>
 <dd><p>Factory method to build an agent. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -645,11 +690,10 @@ document.write(`
 
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="world.html"
@@ -669,15 +713,51 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5AgentE"><code class="docutils literal notranslate"><span class="pre">Agent</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent5AgentEfNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEEfj"><code class="docutils literal notranslate"><span class="pre">Agent::Agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent11as_neighborEv"><code class="docutils literal notranslate"><span class="pre">Agent::as_neighbor()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent20set_state_estimationERKNSt10shared_ptrI15StateEstimationEE"><code class="docutils literal notranslate"><span class="pre">Agent::set_state_estimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent20get_state_estimationEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_state_estimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent12set_behaviorERKNSt10shared_ptrI8BehaviorEE"><code class="docutils literal notranslate"><span class="pre">Agent::set_behavior()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent12get_behaviorEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_behavior()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent14set_kinematicsERKNSt10shared_ptrI10KinematicsEE"><code class="docutils literal notranslate"><span class="pre">Agent::set_kinematics()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent14get_kinematicsEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_kinematics()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent8set_taskERKNSt10shared_ptrI4TaskEE"><code class="docutils literal notranslate"><span class="pre">Agent::set_task()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent8get_taskEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_task()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent14get_controllerEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_controller()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent4idleEv"><code class="docutils literal notranslate"><span class="pre">Agent::idle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent12get_last_cmdEN4core5FrameE"><code class="docutils literal notranslate"><span class="pre">Agent::get_last_cmd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent2idE"><code class="docutils literal notranslate"><span class="pre">Agent::id</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent6radiusE"><code class="docutils literal notranslate"><span class="pre">Agent::radius</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent14control_periodE"><code class="docutils literal notranslate"><span class="pre">Agent::control_period</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent4poseE"><code class="docutils literal notranslate"><span class="pre">Agent::pose</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent5twistE"><code class="docutils literal notranslate"><span class="pre">Agent::twist</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent8last_cmdE"><code class="docutils literal notranslate"><span class="pre">Agent::last_cmd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent4typeE"><code class="docutils literal notranslate"><span class="pre">Agent::type</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent4tagsE"><code class="docutils literal notranslate"><span class="pre">Agent::tags</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent8externalE"><code class="docutils literal notranslate"><span class="pre">Agent::external</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent4makeEfNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEEfj"><code class="docutils literal notranslate"><span class="pre">Agent::make()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
@@ -721,8 +801,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
   </footer>

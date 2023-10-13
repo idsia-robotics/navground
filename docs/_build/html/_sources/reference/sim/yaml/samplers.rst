@@ -2,6 +2,53 @@
 Sampling
 ========
 
+Most fields in complex schemas, like :ref:`scenarios <scenario yaml>`, specify *samplers* of values.
+Simplified notations are used for elementary samplers, like constant values
+
+.. code-block:: yaml
+
+   field: 1.0  
+
+of sequences of values
+
+.. code-block:: yaml
+
+   field: [1.0, 2.0, 3.0]
+
+while other samplers need to be specified explictly, like
+
+.. code-block:: yaml
+
+   field: 
+     sampler: uniform
+     from: 1.0
+     to: 2.0
+
+
+All samplers share a common parameter :cpp:member:`navground::sim::Sampler::once` that freezes the sampler once the first sample has been drawn. Set it to apply the same value to all agents in a group.
+For example, in a scenario specified by
+
+.. code-block:: yaml
+
+   groups:
+     - number: 10
+       radius: [1.0, 2.0, 3.0]
+       once: true
+
+all ten agents will be assigned ``radius=1.0`` in the first run, ``radius=2.0`` in the second, and so on.
+If instead the scenario is specified by
+
+.. code-block:: yaml
+
+   groups:
+     - number: 10
+       radius: [1.0, 2.0, 3.0]
+       once: false
+
+in any run, the first agent will get ``radius=1.0``, the second  ``radius=2.0``, and so on.
+
+
+
 Schema
 ^^^^^^
 
@@ -30,6 +77,7 @@ Schema
               sampler: 
                 const: constant
               value: T
+              once: bool
             required: [sampler, value]
      sequence<T>:
        oneOf:
@@ -42,6 +90,7 @@ Schema
               values: 
                 type: array   
                 items: T
+              once: bool
             wrap: 
               enum: [loop, repeat, terminate]
             required: [sampler, values]
@@ -53,6 +102,7 @@ Schema
          values: 
            type: array   
            items: T
+         once: bool
        required: [sampler, values]
      # limited to T=number, vector2
      $ requires step or [to, number]
@@ -67,6 +117,7 @@ Schema
          number: integer
          wrap: 
            enum: [loop, repeat, terminate]
+         once: bool
        required: [sampler, from]
      grid:
        type: object
@@ -82,6 +133,7 @@ Schema
            maxItems: 2
          wrap: 
            enum: [loop, repeat, terminate]
+         once: bool
        required: [sampler, from, to, numbers]
      uniform:
        type: object
@@ -90,6 +142,7 @@ Schema
            const: uniform
          from: number
          to: number 
+         once: bool
        required: [sampler, from, to]   
      normal<T>:
        type: object
@@ -100,6 +153,7 @@ Schema
          max: number
          mean: number
          std_dev: number
+         once: bool
        required: [sampler, mean, std_dev]
 
 

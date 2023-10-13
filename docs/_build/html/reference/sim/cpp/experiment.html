@@ -18,32 +18,33 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/documentation_options.js?v=3611b776"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -59,6 +60,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -341,10 +351,10 @@
 
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -352,11 +362,13 @@ document.write(`
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -372,6 +384,51 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5TraceE"><code class="docutils literal notranslate"><span class="pre">Trace</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace5TraceEv"><code class="docutils literal notranslate"><span class="pre">Trace::Trace()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace11record_poseE"><code class="docutils literal notranslate"><span class="pre">Trace::record_pose</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace12record_twistE"><code class="docutils literal notranslate"><span class="pre">Trace::record_twist</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace10record_cmdE"><code class="docutils literal notranslate"><span class="pre">Trace::record_cmd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace13record_targetE"><code class="docutils literal notranslate"><span class="pre">Trace::record_target</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace17record_collisionsE"><code class="docutils literal notranslate"><span class="pre">Trace::record_collisions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace23record_safety_violationE"><code class="docutils literal notranslate"><span class="pre">Trace::record_safety_violation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace18record_task_eventsE"><code class="docutils literal notranslate"><span class="pre">Trace::record_task_events</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace5stepsE"><code class="docutils literal notranslate"><span class="pre">Trace::steps</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace6numberE"><code class="docutils literal notranslate"><span class="pre">Trace::number</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10ExperimentE"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment8CallbackE"><code class="docutils literal notranslate"><span class="pre">Experiment::Callback</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment10ExperimentEfi"><code class="docutils literal notranslate"><span class="pre">Experiment::Experiment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment8run_onceEi"><code class="docutils literal notranslate"><span class="pre">Experiment::run_once()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment3runEv"><code class="docutils literal notranslate"><span class="pre">Experiment::run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment5startEv"><code class="docutils literal notranslate"><span class="pre">Experiment::start()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment9start_runEib"><code class="docutils literal notranslate"><span class="pre">Experiment::start_run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment6updateEv"><code class="docutils literal notranslate"><span class="pre">Experiment::update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment4stopEv"><code class="docutils literal notranslate"><span class="pre">Experiment::stop()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment8stop_runEv"><code class="docutils literal notranslate"><span class="pre">Experiment::stop_run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment12add_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">Experiment::add_callback()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment8get_pathEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_path()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment19get_run_duration_nsEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_run_duration_ns()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment15get_duration_nsEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_duration_ns()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment14get_begin_timeEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_begin_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment4runsE"><code class="docutils literal notranslate"><span class="pre">Experiment::runs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment9time_stepE"><code class="docutils literal notranslate"><span class="pre">Experiment::time_step</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment5stepsE"><code class="docutils literal notranslate"><span class="pre">Experiment::steps</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment14save_directoryE"><code class="docutils literal notranslate"><span class="pre">Experiment::save_directory</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment5traceE"><code class="docutils literal notranslate"><span class="pre">Experiment::trace</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment4nameE"><code class="docutils literal notranslate"><span class="pre">Experiment::name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment8scenarioE"><code class="docutils literal notranslate"><span class="pre">Experiment::scenario</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment9run_indexE"><code class="docutils literal notranslate"><span class="pre">Experiment::run_index</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -382,19 +439,19 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="experiment">
-<h1>Experiment<a class="headerlink" href="#experiment" title="Permalink to this heading">#</a></h1>
+<h1>Experiment<a class="headerlink" href="#experiment" title="Link to this heading">#</a></h1>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/sim/experiment.h&quot;</span>
 </pre></div>
 </div>
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5TraceE">
-<span class="target" id="structnavground_1_1sim_1_1_trace"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Trace</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5TraceE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_trace"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Trace</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5TraceE" title="Link to this definition">#</a><br /></dt>
 <dd><p>This class helps to collect the trajectories of the agents during an experiment. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace5TraceEv">
-<span class="target" id="structnavground_1_1sim_1_1_trace_1ad4b901162db80fb95fa1ee15879aec6a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Trace</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace5TraceEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_trace_1ad4b901162db80fb95fa1ee15879aec6a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Trace</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace5TraceEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 </dd></dl>
 
@@ -403,55 +460,55 @@ document.write(`
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace11record_poseE">
-<span class="target" id="structnavground_1_1sim_1_1_trace_1adc05c4762582fbf8e52d2245b9fcb220"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_pose</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace11record_poseE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_trace_1adc05c4762582fbf8e52d2245b9fcb220"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_pose</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace11record_poseE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether it should record the agents poses </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace12record_twistE">
-<span class="target" id="structnavground_1_1sim_1_1_trace_1a91a7d74c7f674397f3a17d94272a874d"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_twist</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace12record_twistE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_trace_1a91a7d74c7f674397f3a17d94272a874d"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_twist</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace12record_twistE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether it should record the agents twists </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace10record_cmdE">
-<span class="target" id="structnavground_1_1sim_1_1_trace_1ab3d6a91482d9a2025b595a80b8834e24"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_cmd</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace10record_cmdE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_trace_1ab3d6a91482d9a2025b595a80b8834e24"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_cmd</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace10record_cmdE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether it should record the agents control commands </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace13record_targetE">
-<span class="target" id="structnavground_1_1sim_1_1_trace_1a116d7eff1bc0c0920894325f7497e01b"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_target</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace13record_targetE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_trace_1a116d7eff1bc0c0920894325f7497e01b"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_target</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace13record_targetE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether it should record the agents targets </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace17record_collisionsE">
-<span class="target" id="structnavground_1_1sim_1_1_trace_1ac61aae87b3fe2d53f169765c74286c15"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_collisions</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace17record_collisionsE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_trace_1ac61aae87b3fe2d53f169765c74286c15"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_collisions</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace17record_collisionsE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether it should record collisions </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace23record_safety_violationE">
-<span class="target" id="structnavground_1_1sim_1_1_trace_1ab03a111bc78e826a8981f458cb2210e0"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_safety_violation</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace23record_safety_violationE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_trace_1ab03a111bc78e826a8981f458cb2210e0"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_safety_violation</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace23record_safety_violationE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether it should record safety violations </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace18record_task_eventsE">
-<span class="target" id="structnavground_1_1sim_1_1_trace_1a9f0d1a45bdc40c28d11482a9a0eb48bd"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_task_events</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace18record_task_eventsE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_trace_1a9f0d1a45bdc40c28d11482a9a0eb48bd"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_task_events</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace18record_task_eventsE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether it should record data from task events </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace5stepsE">
-<span class="target" id="structnavground_1_1sim_1_1_trace_1a0e9153a2cd627438d5076f774190a20b"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">steps</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace5stepsE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_trace_1a0e9153a2cd627438d5076f774190a20b"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">steps</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace5stepsE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The number of steps recorded </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace6numberE">
-<span class="target" id="structnavground_1_1sim_1_1_trace_1a5625949a9e7ce25515e10ed8858510a4"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">number</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace6numberE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_trace_1a5625949a9e7ce25515e10ed8858510a4"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">number</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace6numberE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The number of agents recorded </p>
 </dd></dl>
 
@@ -460,7 +517,7 @@ document.write(`
 
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10ExperimentE">
-<span class="target" id="structnavground_1_1sim_1_1_experiment"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Experiment</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10ExperimentE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Experiment</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10ExperimentE" title="Link to this definition">#</a><br /></dt>
 <dd><p>An experiment supervises the execution of a simulation. </p>
 <p>It initializes a simulation and run it while collecting the desired data with <a class="reference internal" href="#structnavground_1_1sim_1_1_trace"><span class="std std-ref">Trace</span></a>.</p>
 <p>Use <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a065e9fc852d7236b7fd2bfc38d6dcc4f"><span class="std std-ref">run_once</span></a> to perform a single run.</p>
@@ -469,7 +526,7 @@ document.write(`
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
 <dl class="cpp type">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment8CallbackE">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1afd9f78f52673fbf65c3b526789172f40"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Callback</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment8CallbackE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1afd9f78f52673fbf65c3b526789172f40"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Callback</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment8CallbackE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Callback </p>
 </dd></dl>
 
@@ -478,7 +535,7 @@ document.write(`
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment10ExperimentEfi">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1a66844151265c9251be5408ec376de3ed"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Experiment</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">steps</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1000</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment10ExperimentEfi" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a66844151265c9251be5408ec376de3ed"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Experiment</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.1</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">steps</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1000</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment10ExperimentEfi" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -492,7 +549,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment8run_onceEi">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1a065e9fc852d7236b7fd2bfc38d6dcc4f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_once</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment8run_onceEi" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a065e9fc852d7236b7fd2bfc38d6dcc4f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_once</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment8run_onceEi" title="Link to this definition">#</a><br /></dt>
 <dd><p>Perform a single run. </p>
 <p><ol class="lowerroman simple">
 <li><p>it initializes a world from its scenario by calling <a class="reference internal" href="scenarios/scenario.html#structnavground_1_1sim_1_1_scenario_1a507eafe1ae50ed9a3786b22b3e81b84d"><span class="std std-ref">Scenario::init_world</span></a></p></li>
@@ -508,7 +565,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment3runEv">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1a41fb4c4cea1df64fba3d83f9787a1706"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment3runEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a41fb4c4cea1df64fba3d83f9787a1706"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment3runEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Perform all runs. </p>
 <p>The number of runs is specified by <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1aa9e72a854ca4479cfeab145100337ee2"><span class="std std-ref">runs</span></a>.</p>
 <p>If <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref">save_directory</span></a> not empty but points to an existing directory, it creates a HDF5 file <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;_&lt;timestamp&gt;/data.h5</span></code> with attributes</p>
@@ -544,34 +601,52 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment5startEi">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1a5fe4ca2c025a43e8eb99f5b3e67e607d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">start</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment5startEi" title="Permalink to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment5startEv">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1ab06bd18a477b86c8cca08e9ff62b2366"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">start</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment5startEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Start recording. </p>
 <p>This is only need to use an external run-loop, where you call <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1ab473984a467234fa4c5336c83865dfe6"><span class="std std-ref">update</span></a> explicitly to update the trace without updating the simulation itself. Use <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a41fb4c4cea1df64fba3d83f9787a1706"><span class="std std-ref">run</span></a> instead, to both run the simulation and record the trace.</p>
+<p>Call <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1ab06bd18a477b86c8cca08e9ff62b2366"><span class="std std-ref">start</span></a> only once per experiment. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment9start_runEib">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1adaedcb42c759065572a57f37026debeb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">start_run</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">init_world</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment9start_runEib" title="Link to this definition">#</a><br /></dt>
+<dd><p>Start recording. </p>
+<p>This is only need to use an external run-loop, where you call <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1ab473984a467234fa4c5336c83865dfe6"><span class="std std-ref">update</span></a> explicitly to update the trace without updating the simulation itself. Call once at the start of each run.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>seed</strong> – <strong>[in]</strong> The random seed </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seed</strong> – <strong>[in]</strong> The random seed </p></li>
+<li><p><strong>init_world</strong> – <strong>[in]</strong> Whether it should initialize a new world </p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment6updateEv">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1ab473984a467234fa4c5336c83865dfe6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment6updateEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1ab473984a467234fa4c5336c83865dfe6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment6updateEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Updates the trace. </p>
-<p>See <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a5fe4ca2c025a43e8eb99f5b3e67e607d"><span class="std std-ref">start</span></a>. Call from an external run-loop to update the trace without updating the simulation itself. </p>
+<p>See <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1ab06bd18a477b86c8cca08e9ff62b2366"><span class="std std-ref">start</span></a>. Call from an external run-loop to update the trace without updating the simulation itself. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment4stopEv">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1a033727c0b0d2cf89c8be031a8fcf635d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stop</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment4stopEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a033727c0b0d2cf89c8be031a8fcf635d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stop</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment4stopEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Stop the recording. </p>
-<p>See <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a5fe4ca2c025a43e8eb99f5b3e67e607d"><span class="std std-ref">start</span></a>. This is only need to use an external run-loop. </p>
+<p>See <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1ab06bd18a477b86c8cca08e9ff62b2366"><span class="std std-ref">start</span></a>. This is only need to use an external run-loop. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment8stop_runEv">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1ad351d90e791a4a396732ed096305ad26"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stop_run</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment8stop_runEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Stop the run recording. </p>
+<p>See <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1adaedcb42c759065572a57f37026debeb"><span class="std std-ref">start_run</span></a>. This is only need to use an external run-loop. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment12add_callbackERK8Callback">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1a355dde11fc9e463451a249bdf2221ca9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_callback</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim10Experiment8CallbackE" title="navground::sim::Experiment::Callback"><span class="n"><span class="pre">Callback</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment12add_callbackERK8Callback" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a355dde11fc9e463451a249bdf2221ca9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_callback</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim10Experiment8CallbackE" title="navground::sim::Experiment::Callback"><span class="n"><span class="pre">Callback</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment12add_callbackERK8Callback" title="Link to this definition">#</a><br /></dt>
 <dd><p>Adds a callback to be executed after each simulation step. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -582,7 +657,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim10Experiment8get_pathEv">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filesystem</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_path</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim10Experiment8get_pathEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filesystem</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_path</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim10Experiment8get_pathEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the path where the experimental data has been saved. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -593,7 +668,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim10Experiment19get_run_duration_nsEv">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1ad86370ac36966c1e812c980d352e4f26"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">chrono</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nanoseconds</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_run_duration_ns</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim10Experiment19get_run_duration_nsEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1ad86370ac36966c1e812c980d352e4f26"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">chrono</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nanoseconds</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_run_duration_ns</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim10Experiment19get_run_duration_nsEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the duration required to perform the last run (excludes initialization). </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -604,7 +679,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim10Experiment15get_duration_nsEv">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1a14d1a114896dbaf139d2fef0c560a974"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">chrono</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nanoseconds</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_duration_ns</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim10Experiment15get_duration_nsEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a14d1a114896dbaf139d2fef0c560a974"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">chrono</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nanoseconds</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_duration_ns</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim10Experiment15get_duration_nsEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the duration required to perform the whole experiment. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -615,7 +690,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim10Experiment14get_begin_timeEv">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1ae527210c53cc9f8629ac53da9ba59c97"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">chrono</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">time_point</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">chrono</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">system_clock</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_begin_time</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim10Experiment14get_begin_timeEv" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1ae527210c53cc9f8629ac53da9ba59c97"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">chrono</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">time_point</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">chrono</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">system_clock</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_begin_time</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim10Experiment14get_begin_timeEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the time when the experiment began. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -629,44 +704,50 @@ document.write(`
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment4runsE">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1aa9e72a854ca4479cfeab145100337ee2"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">runs</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment4runsE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1aa9e72a854ca4479cfeab145100337ee2"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">runs</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment4runsE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Number of runs to perform </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment9time_stepE">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1af3a3acf0611966f6fe697ca88d4f631b"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">time_step</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment9time_stepE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1af3a3acf0611966f6fe697ca88d4f631b"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">time_step</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment9time_stepE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Simulation time step </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment5stepsE">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1ab0a486fbbd84ded8ac4b7bc780776b5f"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">steps</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment5stepsE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1ab0a486fbbd84ded8ac4b7bc780776b5f"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">steps</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment5stepsE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Maximal number of steps per run </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment14save_directoryE">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filesystem</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">save_directory</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment14save_directoryE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filesystem</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">save_directory</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment14save_directoryE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Where to save the results </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment5traceE">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1a6bd1f2a290b4e6c30f321f3656fc1e02"></span><a class="reference internal" href="#_CPPv4N9navground3sim5TraceE" title="navground::sim::Trace"><span class="n"><span class="pre">Trace</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">trace</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment5traceE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a6bd1f2a290b4e6c30f321f3656fc1e02"></span><a class="reference internal" href="#_CPPv4N9navground3sim5TraceE" title="navground::sim::Trace"><span class="n"><span class="pre">Trace</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">trace</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment5traceE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The current trace </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment4nameE">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1a322c7dd899041f55e79646ade8bd4a99"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">name</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment4nameE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a322c7dd899041f55e79646ade8bd4a99"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">name</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment4nameE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The name of the experiment </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment8scenarioE">
-<span class="target" id="structnavground_1_1sim_1_1_experiment_1a17d879f3489e2a075466caa04bdc52e8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="scenarios/scenario.html#_CPPv4N9navground3sim8ScenarioE" title="navground::sim::Scenario"><span class="n"><span class="pre">Scenario</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">scenario</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment8scenarioE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a17d879f3489e2a075466caa04bdc52e8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="scenarios/scenario.html#_CPPv4N9navground3sim8ScenarioE" title="navground::sim::Scenario"><span class="n"><span class="pre">Scenario</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">scenario</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment8scenarioE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The scenario </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment9run_indexE">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a84558456fa6d1f33409b024b808a3881"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_index</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment9run_indexE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The index of the next run </p>
 </dd></dl>
 
 </div>
@@ -680,11 +761,10 @@ document.write(`
 
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="scenarios/cross_torus.html"
@@ -704,15 +784,63 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5TraceE"><code class="docutils literal notranslate"><span class="pre">Trace</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace5TraceEv"><code class="docutils literal notranslate"><span class="pre">Trace::Trace()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace11record_poseE"><code class="docutils literal notranslate"><span class="pre">Trace::record_pose</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace12record_twistE"><code class="docutils literal notranslate"><span class="pre">Trace::record_twist</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace10record_cmdE"><code class="docutils literal notranslate"><span class="pre">Trace::record_cmd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace13record_targetE"><code class="docutils literal notranslate"><span class="pre">Trace::record_target</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace17record_collisionsE"><code class="docutils literal notranslate"><span class="pre">Trace::record_collisions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace23record_safety_violationE"><code class="docutils literal notranslate"><span class="pre">Trace::record_safety_violation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace18record_task_eventsE"><code class="docutils literal notranslate"><span class="pre">Trace::record_task_events</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace5stepsE"><code class="docutils literal notranslate"><span class="pre">Trace::steps</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace6numberE"><code class="docutils literal notranslate"><span class="pre">Trace::number</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10ExperimentE"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment8CallbackE"><code class="docutils literal notranslate"><span class="pre">Experiment::Callback</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment10ExperimentEfi"><code class="docutils literal notranslate"><span class="pre">Experiment::Experiment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment8run_onceEi"><code class="docutils literal notranslate"><span class="pre">Experiment::run_once()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment3runEv"><code class="docutils literal notranslate"><span class="pre">Experiment::run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment5startEv"><code class="docutils literal notranslate"><span class="pre">Experiment::start()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment9start_runEib"><code class="docutils literal notranslate"><span class="pre">Experiment::start_run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment6updateEv"><code class="docutils literal notranslate"><span class="pre">Experiment::update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment4stopEv"><code class="docutils literal notranslate"><span class="pre">Experiment::stop()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment8stop_runEv"><code class="docutils literal notranslate"><span class="pre">Experiment::stop_run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment12add_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">Experiment::add_callback()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment8get_pathEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_path()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment19get_run_duration_nsEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_run_duration_ns()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment15get_duration_nsEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_duration_ns()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment14get_begin_timeEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_begin_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment4runsE"><code class="docutils literal notranslate"><span class="pre">Experiment::runs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment9time_stepE"><code class="docutils literal notranslate"><span class="pre">Experiment::time_step</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment5stepsE"><code class="docutils literal notranslate"><span class="pre">Experiment::steps</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment14save_directoryE"><code class="docutils literal notranslate"><span class="pre">Experiment::save_directory</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment5traceE"><code class="docutils literal notranslate"><span class="pre">Experiment::trace</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment4nameE"><code class="docutils literal notranslate"><span class="pre">Experiment::name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment8scenarioE"><code class="docutils literal notranslate"><span class="pre">Experiment::scenario</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment9run_indexE"><code class="docutils literal notranslate"><span class="pre">Experiment::run_index</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
@@ -756,8 +884,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
   </footer>

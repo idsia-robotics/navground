@@ -163,6 +163,9 @@ struct Sampler {
   //   return os << "Sampler";
   // }
 
+  /**
+   * Whenever to sample only once and than output the same constant value until reset.
+   */
   bool once;
 
  protected:

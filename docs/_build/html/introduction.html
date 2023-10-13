@@ -18,32 +18,33 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/documentation_options.js?v=3611b776"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script src="_static/design-tabs.js"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -59,6 +60,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -341,10 +351,10 @@
 
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -352,7 +362,7 @@ document.write(`
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -403,14 +413,14 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h1>
 <p>Navground, short <strong>Nav</strong>igation Play<strong>ground</strong>, is a playground to experiment with navigation algorithms.</p>
 <section id="core-library">
-<h2>Core library<a class="headerlink" href="#core-library" title="Permalink to this heading">#</a></h2>
+<h2>Core library<a class="headerlink" href="#core-library" title="Link to this heading">#</a></h2>
 <p>At its core, there is a library of two-dimensional navigation algorithms implemented in C++.
 that provides a common API to interact with multi-agent dynamic obstacle avoidance behaviors. Some behaviors are already implemented, more will be. Behaviors take the current state of the environment and of the agent, a target and output a control command.</p>
 <section id="features">
-<h3>Features<a class="headerlink" href="#features" title="Permalink to this heading">#</a></h3>
+<h3>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>navigation behaviors and modulations</p></li>
 <li><p>environment states</p></li>
@@ -424,27 +434,27 @@ that provides a common API to interact with multi-agent dynamic obstacle avoidan
 <p>The core library is designed to be integrated in real-time run times to provide obstacle avoidance to real or simulated robots or other kind of agents. We already integrated it into the following run-times</p>
 </section>
 <section id="ros">
-<h3>ROS<a class="headerlink" href="#ros" title="Permalink to this heading">#</a></h3>
+<h3>ROS<a class="headerlink" href="#ros" title="Link to this heading">#</a></h3>
 <p>We provide a ROS 2 node to perform 2.5D obstacle avoidance. The node wraps the core C++ library with a ROS2 compliant interface.</p>
 </section>
 <section id="coppeliasim">
-<h3>CoppeliaSim<a class="headerlink" href="#coppeliasim" title="Permalink to this heading">#</a></h3>
+<h3>CoppeliaSim<a class="headerlink" href="#coppeliasim" title="Link to this heading">#</a></h3>
 <p>We also provide a coppaliaSim plugin that exposes a lua interface to the core library.</p>
 </section>
 <section id="python-bindings">
-<h3>Python bindings<a class="headerlink" href="#python-bindings" title="Permalink to this heading">#</a></h3>
+<h3>Python bindings<a class="headerlink" href="#python-bindings" title="Link to this heading">#</a></h3>
 <p>All core elements are also exposed as a Python 3 package. Moreover, components can be extended from Python too.
 That is, users can implement a behavior or a kinematics which are then fully integrated with the rest of the system.</p>
 </section>
 </section>
 <section id="simulation">
-<h2>Simulation<a class="headerlink" href="#simulation" title="Permalink to this heading">#</a></h2>
+<h2>Simulation<a class="headerlink" href="#simulation" title="Link to this heading">#</a></h2>
 <p>The simulation complements the navigation behaviors of core library:
 - tasks that generates targets to behaviors
 - state estimations that feeds the environment state of the  behaviors</p>
 <p>It also provides all the infrastructure to run offline experiments.</p>
 <section id="id1">
-<h3>Features<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<h3>Features<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>very fast kinematic simulation</p></li>
 <li><p>extensible tasks and state estimations</p></li>
@@ -457,7 +467,7 @@ That is, users can implement a behavior or a kinematics which are then fully int
 </section>
 </section>
 <section id="acknowledgement-and-disclaimer">
-<h2>Acknowledgement and disclaimer<a class="headerlink" href="#acknowledgement-and-disclaimer" title="Permalink to this heading">#</a></h2>
+<h2>Acknowledgement and disclaimer<a class="headerlink" href="#acknowledgement-and-disclaimer" title="Link to this heading">#</a></h2>
 <p>The work was supported in part by <a class="reference external" href="https://rexasi-pro.spindoxlabs.com">REXASI-PRO</a> H-EU project, call HORIZON-CL4-2021-HUMAN-01-01, Grant agreement no. 101070028.</p>
 <a class="reference internal image-reference" href="https://rexasi-pro.spindoxlabs.com/wp-content/uploads/2023/01/Bianco-Viola-Moderno-Minimalista-Logo-e1675187551324.png"><img alt="REXASI-PRO logo" src="https://rexasi-pro.spindoxlabs.com/wp-content/uploads/2023/01/Bianco-Viola-Moderno-Minimalista-Logo-e1675187551324.png" style="width: 300px;" /></a>
 <p>The work has been partially funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Commission. Neither the European Union nor the European Commission can be held responsible for them.</p>
@@ -470,11 +480,10 @@ That is, users can implement a behavior or a kinematics which are then fully int
 
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="index.html"
@@ -494,10 +503,7 @@ That is, users can implement a behavior or a kinematics which are then fully int
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -571,8 +577,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
   </footer>

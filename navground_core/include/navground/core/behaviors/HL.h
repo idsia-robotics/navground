@@ -30,7 +30,8 @@ namespace navground::core {
  *     Robotics and Automation (ICRA), 2013 IEEE International Conference on,
  *     vol., no., pp.423,430, 6-10 May 2013
  *
- * *Properties*: tau (float), eta (float), aperture (float), resolution(int), epsilon(float)
+ * *Properties*: tau (float), eta (float), aperture (float), resolution (float), 
+ *               epsilon (float), barrier_angle (float)
  *
  * *State*: \ref GeometricState
  */
@@ -160,7 +161,7 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    *
    * @return     Epsilon.
    */
-  unsigned get_epsilon() const { return epsilon; }
+  float get_epsilon() const { return epsilon; }
   /**
    * @brief      Sets the lowest margin to an obstacle or neighbor.
    * 
@@ -178,7 +179,7 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    *
    * @return     Epsilon.
    */
-  unsigned get_barrier_angle() const { return barrier_angle; }
+  float get_barrier_angle() const { return barrier_angle; }
   /**
    * @brief      Sets the barrier angle, i.e., the minimal angle
    * with respect to a currently virtually colliding obstacle to ignore it. 

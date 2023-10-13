@@ -1,0 +1,30 @@
+scenario:
+  type: Corridor
+  length: 8
+  width: 2
+  groups:
+    - number: 10
+      radius:
+        sampler: uniform
+        from: 0.5
+        to: 1.0
+      control_step: 0.1
+      type: 
+        sampler: choice
+        values: ["type_1", "type_2"]
+        once: true
+      behavior:
+        type: HL
+      kinematics:
+        type: Omni
+        max_speed: 1.0
+        max_angular_speed: 1.0
+      state_estimation:
+        type: Bounded
+        range_of_view: 4.0
+save_directory: '.'
+record_poses: true
+record_colllisions: true
+runs: 100
+steps: 200
+time_step: 0.1

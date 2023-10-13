@@ -56,7 +56,7 @@ We now populate the scenario with groups of agents. Agents in the same group sha
      groups: 
        - number: 10
 
-Except ``number``, all the other configuration variables represents distributions: when the scenario is initialized, a sample from that distribution is used to initialize the agent. For example, let's say we want the agents to have random radii picked uniformly between 0.5 and 1.0 meters and a common control period of 0.1 s:
+Except ``number``, all the other configuration variables represents samplings: when the scenario is initialized, a sample from that sampling is used to initialize the agent. For example, let's say we want the agents to have individual random radii picked uniformly between 0.5 and 1.0 meters, a common type picked randomly as either ``"type1"`` or ``"type2"``, and a control period of 0.1 s:
 
 .. code-block:: YAML
 
@@ -74,6 +74,14 @@ Except ``number``, all the other configuration variables represents distribution
          control_step:
            sampler: constant
            value: 0.1
+         type: 
+           sampler: choice
+           values: ["type_1", "type_2"]
+           once: true
+
+.. note::
+
+  Note how we specify ``once: true`` to sample once and assign the same value to all agents. 
 
 To avoid unnecessary verbose configurations, ``navground`` supports more compact notations for some distributions, like just providing the value for ``constant`` distributions, therefore we can simplify as
 
@@ -92,6 +100,10 @@ To avoid unnecessary verbose configurations, ``navground`` supports more compact
            from: 0.5
            to: 1.0
          control_step: 0.1
+         type: 
+           sampler: choice
+           values: ["type_1", "type_2"]
+           once: true
 
 To finalize the configuration of agents, we need to fix their kinematics, behaviors, tasks, state estimations and initial poses. In fact, some may be already configured by the scenario. For instance, ``Corridor`` initializes agents at random poses inside the corridor, therefore there is no need to configure their initial poses separately. Similarly, ``Corridor`` ask each agents to travel along the corridor, therefore we can skip ``task``. We still need to set the kinematics (here, omnidirectional), behavior (here, ``HL``) and state estimation (here, with a maximal range of 4 meters, i.e. half of a corridor):
 
@@ -108,6 +120,10 @@ To finalize the configuration of agents, we need to fix their kinematics, behavi
            sampler: uniform
            from: 0.5
            to: 1.0
+         type: 
+           sampler: choice
+           values: ["type_1", "type_2"]
+           once: true
          control_step: 0.1
          behavior:
            type: HL
@@ -118,6 +134,119 @@ To finalize the configuration of agents, we need to fix their kinematics, behavi
          state_estimation:
            type: Bounded
            range_of_view: 4.0
+
+
+We can try to sample a world from such a scenario. Save all but the root element ``scenario`` in ``my_scenario.yaml`` and run
+
+.. code-block:: console
+
+   $ sample --seed 0 my_scenario.yaml
+   
+   obstacles:
+     []
+   walls:
+     - 0:
+         - -8
+         - 0
+       1:
+         - 16
+         - 0
+       uid: 10
+     - 0:
+         - -8
+         - 2
+       1:
+         - 16
+         - 2
+       uid: 11
+   agents:
+     - behavior:
+         type: HL
+         aperture: 3.14159274
+         barrier_angle: 1.57079637
+         epsilon: 0
+         eta: 0.5
+         resolution: 101
+         tau: 0.125
+         optimal_speed: 1
+         optimal_angular_speed: 1
+         rotation_tau: 0.5
+         safety_margin: 0
+         horizon: 5
+         radius: 0.774406791
+         heading: idle
+         kinematics:
+           type: Omni
+           max_speed: 1
+           max_angular_speed: 1
+         social_margin:
+           modulation:
+             type: constant
+           default: 0
+       kinematics:
+         type: Omni
+         max_speed: 1
+         max_angular_speed: 1
+       state_estimation:
+         type: Bounded
+         range_of_view: 4
+       position:
+         - 2.43710041
+         - 0.875406802
+       orientation: 0
+       velocity:
+         - 0
+         - 0
+       angular_speed: 0
+       radius: 0.774406791
+       control_period: 0
+       type: type_2
+       id: 0
+       uid: 0
+     - behavior:
+         type: HL
+         aperture: 3.14159274
+         barrier_angle: 1.57079637
+         epsilon: 0
+         eta: 0.5
+         resolution: 101
+         tau: 0.125
+         optimal_speed: 1
+         optimal_angular_speed: 1
+         rotation_tau: 0.5
+         safety_margin: 0
+         horizon: 5
+         radius: 0.857594669
+         heading: idle
+         kinematics:
+           type: Omni
+           max_speed: 1
+           max_angular_speed: 1
+         social_margin:
+           modulation:
+             type: constant
+           default: 0
+       kinematics:
+         type: Omni
+         max_speed: 1
+         max_angular_speed: 1
+       state_estimation:
+         type: Bounded
+         range_of_view: 4
+       position:
+         - 1.05219924
+         - 0.95859468
+       orientation: 3.14159274
+       velocity:
+         - 0
+         - 0
+       angular_speed: 0
+       radius: 0.857594669
+       control_period: 0
+       type: type_2
+       id: 0
+       uid: 1
+    [other 8 agents omitted]
 
 
 Metrics
@@ -139,6 +268,10 @@ What should we record? Let's say we want to plot the agents trajectories ... the
            from: 0.5
            to: 1.0
          control_step: 0.1
+         type: 
+           sampler: choice
+           values: ["type_1", "type_2"]
+           once: true
          behavior:
            type: HL
          kinematics:
@@ -173,6 +306,10 @@ Let's say that we are good with a statistics collected from 100 runs, each 20 se
            from: 0.5
            to: 1.0
          control_step: 0.1
+         type: 
+           sampler: choice
+           values: ["type_1", "type_2"]
+           once: true
          behavior:
            type: HL
          kinematics:
@@ -204,7 +341,44 @@ Now we are ready to put the configuration in a file like ``my_config.yaml`` and 
    Saved to: "./experiment_2023-07-25_13-32-22/data.h5"
 
 
+Sampling per run
+================
+
+If we want to perform an experiment where we measure the impact of different *group* radii, we should switch to a radius sampler that sample once *per run* instead of once *per agent*, by specifying ``once: true``. For instance, this experiment
+
+.. code-block:: YAML
+
+   # Experiment configuration
+   scenario:
+     type: Corridor
+     length: 8
+     width: 2
+     groups:
+       - number: 10
+         radius:
+           sampler: regular
+           from: 0.5
+           to: 1.0
+           number: 11
+           once: true
+         control_step: 0.1
+         behavior:
+           type: HL
+         kinematics:
+           type: Omni
+           max_speed: 1.0
+           max_angular_speed: 1.0
+         state_estimation:
+           type: Bounded
+           range_of_view: 4.0
+   save_directory: '.'
+   record_poses: true
+   record_colllisions: true
+   runs: 11
+   steps: 200
+   time_step: 0.1
 
 
+runs 11 times, assigning ``radius=0.5`` to all agent the first time, ``radius=0.6`` the second time and so on until  ``radius=1.0`` the last time. 
 
 

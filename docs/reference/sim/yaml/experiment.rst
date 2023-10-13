@@ -28,6 +28,7 @@ Schema
      terminate_when_all_idle: bool
      scenario: {$ref: /schemas/scenario}
      name: string
+     run_index: int
    required: []
 
 Example

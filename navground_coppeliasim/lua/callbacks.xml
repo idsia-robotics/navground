@@ -85,6 +85,45 @@
             </param>
         </return>
     </command> -->
+    <command name="set_lattice">
+        <description>TODO
+        </description>
+        <params>
+          <param name="coordinate_index" type="int">
+            <description>TODO</description>
+          </param>
+          <param name="from" type="float">
+            <description>TODO</description>
+          </param>
+          <param name="to" type="float">
+            <description>TODO</description>
+          </param>
+          <!-- TODO: complete with the other targets -->
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="get_lattice">
+        <description>TODO
+        </description>
+        <params>
+          <param name="coordinate_index" type="int">
+            <description>TODO</description>
+          </param>
+          <!-- TODO: complete with the other targets -->
+        </params>
+        <return>
+          <param name="enabled" type="bool">
+            <description>TODO</description>
+          </param>
+          <param name="from" type="float">
+            <description>TODO</description>
+          </param>
+          <param name="to" type="float">
+            <description>TODO</description>
+          </param>
+        </return>
+    </command>
     <command name="go_to_position">
         <description>TODO
         </description>
@@ -190,6 +229,23 @@
         <return>
         </return>
     </command>
+    <command name="get_twist">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+        </params>
+        <return>
+          <param name="velocity" type="table" item-type="float">
+            <description>The 2d velocity</description>
+          </param>
+          <param name="angular_speed" type="float">
+            <description>The angular speed in radians/s</description>
+          </param>
+        </return>
+    </command>
     <command name="set_twist">
         <description>TODO
         </description>
@@ -235,6 +291,20 @@
         <return>
         </return>
     </command>
+    <command name="get_horizon">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+        </params>
+        <return>
+          <param name="value" type="float">
+            <description>The value</description>
+          </param>
+        </return>
+    </command>
     <command name="set_safety_margin">
         <description>TODO
         </description>
@@ -249,6 +319,20 @@
         <return>
         </return>
     </command>
+    <command name="get_safety_margin">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+        </params>
+        <return>
+          <param name="value" type="float">
+            <description>The value</description>
+          </param>
+        </return>
+    </command>
     <command name="set_optimal_speed">
         <description>TODO
         </description>
@@ -261,6 +345,20 @@
           </param>
         </params>
         <return>
+        </return>
+    </command>
+    <command name="get_optimal_speed">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The controller handle</description>
+          </param>
+        </params>
+        <return>
+          <param name="value" type="float">
+            <description>The value</description>
+          </param>
         </return>
     </command>
     <command name="set_heading_behavior">
@@ -526,6 +624,17 @@
         <params>
           <param name="config" type="recording_config_t">
             <description>The recording configuration</description>
+          </param>          
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="set_frame">
+        <description>Set the simulation reference frame.
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The handle of the frame (-1 for use internal frame)</description>
           </param>          
         </params>
         <return>

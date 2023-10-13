@@ -131,7 +131,7 @@ static property_field_t to_property_field_t(const core::Property::Field &v) {
 
 class Plugin : public sim::Plugin {
  public:
-  Plugin() : sim::Plugin(), controllers() {}
+  Plugin() : sim::Plugin(), controllers(), frame(-1) {}
 
   void onStart() {
     if (!registerScriptStuff())
@@ -146,6 +146,7 @@ class Plugin : public sim::Plugin {
     //   std::cout << YAML::dump<nsim::World>(world.get()) << std::endl;
     // }
     if (experiment) {
+      experiment->stop_run();
       experiment->stop();
       experiment.release();
     }
@@ -156,7 +157,8 @@ class Plugin : public sim::Plugin {
   void onModuleHandle(char *customData) {
     if (world) {
       if (experiment && !experiment->has_file()) {
-        experiment->start(seed);
+        experiment->start();
+        experiment->start_run(seed);
       }
       const auto dt = simGetSimulationTimeStep();
       // sync the state of all agents from coppeliaSim
@@ -165,16 +167,26 @@ class Plugin : public sim::Plugin {
         // TODO(Jerome): add compatibility with 4.4
         simFloat ps[3];
         simFloat os[3];
-        int r = simGetObjectPosition(agent_handles[i], -1, ps);
+        int r = simGetObjectPosition(agent_handles[i], frame, ps);
         if (r == -1) continue;
-        r = simGetObjectOrientation(agent_handles[i], -1, os);
+        r = simGetObjectOrientation(agent_handles[i], frame, os);
         if (r == -1) continue;
         const core::Pose2 pose({ps[0], ps[1]}, os[2]);
-        const Vector2 velocity = (pose.position - agent->pose.position) / dt;
-        const auto angular_speed =
-            core::normalize(pose.orientation - agent->pose.orientation) / dt;
+        if (!has_set_twist[agent_handles[i]]) {
+          // const Vector2 velocity = (pose.position - agent->pose.position) / dt;
+          // const auto angular_speed =
+          //   core::normalize(pose.orientation - agent->pose.orientation) / dt;
+          //   agent->twist = core::Twist2(velocity, angular_speed);
+          simFloat linearVelocity[3];
+          simFloat angularVelocity[3];
+          simGetObjectVelocity(agent_handles[i],linearVelocity, angularVelocity);
+          if (abs(linearVelocity[0]) > 20.0 || abs(linearVelocity[1]) > 20.0) {
+          } else {
+            agent->twist = core::Twist2({linearVelocity[0], linearVelocity[1]}, angularVelocity[2]);
+          }
+        }
         agent->pose = pose;
-        agent->twist = core::Twist2(velocity, angular_speed);
+        has_set_twist[agent_handles[i]] = false;
         i++;
       }
       // update the world without physics or collisions
@@ -309,6 +321,14 @@ class Plugin : public sim::Plugin {
   }
 
   void get_pose(get_pose_in *in, get_pose_out *out) {
+    auto agent = agent_at_index(in->handle);
+    if (agent) {
+      const auto & pose = agent->pose;
+      const auto & p = pose.position;
+      out->position = {p.x(), p.y()};
+      out->orientation = pose.orientation;
+      return;
+    }
     auto behavior = behavior_at_index(in->handle);
     if (behavior) {
       const auto pose = behavior->get_pose();
@@ -320,11 +340,36 @@ class Plugin : public sim::Plugin {
   }
 
   void set_twist(set_twist_in *in, set_twist_out *out) {
+    auto agent = agent_at_index(in->handle);
+    if (agent) {
+      agent->twist = core::Twist2{{in->velocity[0], in->velocity[1]},
+                       in->angular_speed};
+      has_set_twist[in->handle] = true;
+      return;
+    }    
     auto controller = controller_at_index(in->handle);
     if (controller) {
       controller->set_twist(
           core::Twist3{{in->velocity[0], in->velocity[1], in->velocity[2]},
                        in->angular_speed});
+    }
+  }
+
+  void get_twist(get_twist_in *in, get_twist_out *out) {
+    auto agent = agent_at_index(in->handle);
+    if (agent) {
+      const auto & twist = agent->twist;
+      const auto & v = twist.velocity;
+      out->velocity = {v.x(), v.y()};
+      out->angular_speed = twist.angular_speed;
+      return;
+    }
+    auto behavior = behavior_at_index(in->handle);
+    if (behavior) {
+      const auto twist = behavior->get_twist();
+      const auto & v = twist.velocity;
+      out->velocity = {v.x(), v.y()};
+      out->angular_speed = twist.angular_speed;
     }
   }
 
@@ -383,6 +428,9 @@ class Plugin : public sim::Plugin {
                            core::Vector2(o.p2[0], o.p2[1]));
                      });
       state->set_line_obstacles(obstacles);
+      std::cerr << "Set line_obstacles" << std::endl;
+    } else {
+      std::cerr << "Not set line_obstacles" << std::endl;
     }
   }
 
@@ -407,6 +455,13 @@ class Plugin : public sim::Plugin {
     }
   }
 
+  void get_horizon(get_horizon_in *in, get_horizon_out *out) {
+    auto behavior = behavior_at_index(in->handle);
+    if (behavior) {
+      out->value = behavior->get_horizon();
+    }
+  }
+
   void set_safety_margin(set_safety_margin_in *in, set_safety_margin_out *out) {
     auto behavior = behavior_at_index(in->handle);
     if (behavior) {
@@ -414,10 +469,24 @@ class Plugin : public sim::Plugin {
     }
   }
 
+  void get_safety_margin(get_safety_margin_in *in, get_safety_margin_out *out) {
+    auto behavior = behavior_at_index(in->handle);
+    if (behavior) {
+      out->value = behavior->get_safety_margin();
+    }
+  }
+
   void set_optimal_speed(set_optimal_speed_in *in, set_optimal_speed_out *out) {
     auto behavior = behavior_at_index(in->handle);
     if (behavior) {
       behavior->set_optimal_speed(in->value);
+    }
+  }
+
+  void get_optimal_speed(get_optimal_speed_in *in, get_optimal_speed_out *out) {
+    auto behavior = behavior_at_index(in->handle);
+    if (behavior) {
+      out->value = behavior->get_optimal_speed();
     }
   }
 
@@ -483,7 +552,7 @@ class Plugin : public sim::Plugin {
 
   void add_obstacle(add_obstacle_in *in, add_obstacle_out *out) {
     simFloat ps[3];
-    int r = simGetObjectPosition(in->handle, -1, ps);
+    int r = simGetObjectPosition(in->handle, frame, ps);
     if (r == -1) return;
     get_world()->add_obstacle(
         nsim::Obstacle{core::Vector2{ps[0], ps[1]}, in->radius});
@@ -511,6 +580,7 @@ class Plugin : public sim::Plugin {
       get_world()->add_agent(std::move(agent));
       agent_handles.push_back(in->handle);
       out->handle = agent_handle;
+      has_set_twist[in->handle] = false;
     } else {
       out->handle = -1;
     }
@@ -563,11 +633,33 @@ class Plugin : public sim::Plugin {
     seed = in->config.seed;
   }
 
+
+  void set_frame(set_frame_in *in, set_frame_out *out) {
+    frame = in->handle;
+  }
+
+  void set_lattice(set_lattice_in *in, set_lattice_out *out) {
+    get_world()->set_lattice(in->coordinate_index, std::make_tuple<float>((float) in->from, (float) in->to));
+  }
+
+  void get_lattice(get_lattice_in *in, get_lattice_out *out) {
+    auto lattice = get_world()->get_lattice(in->coordinate_index);
+    if (lattice) {
+      out->enabled = true;
+      out->from = std::get<0>(*lattice);
+      out->to = std::get<1>(*lattice);
+    } else {
+      out->enabled = false;
+    }
+  }
+
  private:
   std::vector<std::unique_ptr<core::Controller3>> controllers;
   std::shared_ptr<nsim::World> world;
   std::unique_ptr<nsim::Experiment> experiment;
   std::vector<int> agent_handles;
+  std::map<int, bool> has_set_twist;
+  int frame;
   int seed;
 };
 

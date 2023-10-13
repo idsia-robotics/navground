@@ -31,6 +31,7 @@ struct convert_experiment {
     node["record_task_events"] = rhs.trace.record_task_events;
     node["terminate_when_all_idle"] = rhs.terminate_when_all_idle;
     node["name"] = rhs.name;
+    node["run_index"] = rhs.run_index;
     return node;
   }
   static bool decode(const Node& node, Experiment& rhs) {
@@ -75,6 +76,9 @@ struct convert_experiment {
     }
     if (node["terminate_when_all_idle"]) {
       rhs.terminate_when_all_idle = node["terminate_when_all_idle"].as<bool>();
+    }
+    if (node["run_index"]) {
+      rhs.run_index = std::max(node["run_index"].as<int>(), 0);
     }
     return true;
   }

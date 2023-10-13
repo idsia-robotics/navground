@@ -255,9 +255,13 @@ struct PyExperiment : public Experiment {
   // virtual ~PyExperiment() = default;
 
   py::object py_scenario;
+  // Store a python object to allow the simulation (scenario, ...) to set new python attributes
+  py::object py_world;
 
   std::shared_ptr<World> make_world() override {
-    return std::make_shared<PyWorld>();
+    auto world = std::make_shared<PyWorld>();
+    py_world = py::cast(world);
+    return world;
   }
 
   std::string dump() override { return YAML::dump<PyExperiment>(this); }
@@ -558,6 +562,8 @@ Creates a rectangular region
            DOC(navground, sim, World, run))
       .def("run_until", &World::run_until, py::arg("condition"),
            py::arg("time_step"), DOC(navground, sim, World, run_until))
+      .def("update_dry", &World::update_dry,
+           py::arg("time_step"), DOC(navground, sim, World, update_dry))
       .def_property("time", &World::get_time, nullptr,
                     DOC(navground, sim, World, property_time))
       .def_property("step", &World::get_step, nullptr,
@@ -895,6 +901,8 @@ The view is empty if the agent's task has not been recorded in the trace.
                     DOC(navground, sim, Experiment, world))
       .def_readwrite("runs", &Experiment::runs,
                      DOC(navground, sim, Experiment, runs))
+      .def_readwrite("run_index", &Experiment::run_index,
+                     DOC(navground, sim, Experiment, run_index))
       .def_readwrite("save_directory", &Experiment::save_directory,
                      DOC(navground, sim, Experiment, save_directory))
       .def_readwrite("name", &Experiment::name,
@@ -906,6 +914,13 @@ The view is empty if the agent's task has not been recorded in the trace.
       .def("run_once", &Experiment::run_once, py::arg("seed"),
            DOC(navground, sim, Experiment, run_once))
       .def("run", &Experiment::run, DOC(navground, sim, Experiment, run))
+      // .def("init_run", &Experiment::init_run, py::arg("seed"), DOC(navground, sim, Experiment, init_run))
+      .def("start", &Experiment::start, DOC(navground, sim, Experiment, start))
+      .def("stop", &Experiment::stop, DOC(navground, sim, Experiment, stop))
+      .def("start_run", &Experiment::start_run, py::arg("seed"), py::arg("init_world") = false, 
+           DOC(navground, sim, Experiment, start_run))
+      .def("stop_run", &Experiment::stop_run, DOC(navground, sim, Experiment, stop_run))
+      .def("update", &Experiment::update, DOC(navground, sim, Experiment, update))
       .def_property("run_duration", &Experiment::get_run_duration_ns, nullptr,
                     DOC(navground, sim, Experiment, property, run_duration_ns))
       .def_property("duration", &Experiment::get_duration_ns, nullptr,

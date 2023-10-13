@@ -319,7 +319,7 @@ void Experiment::run() {
   begin = std::chrono::system_clock::now();
   experiment_begin = std::chrono::steady_clock::now();
   init_dataset();
-  for (size_t i = 0; i < runs; i++) {
+  for (size_t i = run_index; i < runs + run_index; i++) {
     init_run(i);
     init_dataset_run(i);
     run_run();
@@ -352,21 +352,35 @@ void Experiment::run_run() {
   trace.finalize(*world);
 }
 
-void Experiment::start(int index) {
-  begin = std::chrono::system_clock::now();
-  experiment_begin = std::chrono::steady_clock::now();
+void Experiment::start_run(int index, bool init_world) {
   set_random_seed(index);
+  if (init_world) {
+    world = make_world();
+    if (scenario) {
+      scenario->init_world(world.get(), index);
+    }
+  }
   world->prepare();
-  init_dataset();
   init_dataset_run(index);
   trace.init(*world, steps);
   run_begin = std::chrono::steady_clock::now();
 }
 
-void Experiment::stop() {
+
+
+void Experiment::stop_run() {
   run_end = std::chrono::steady_clock::now();
   trace.finalize(*world);
   finalize_dataset_run();
+}
+
+void Experiment::start() {
+  begin = std::chrono::system_clock::now();
+  experiment_begin = std::chrono::steady_clock::now();
+  init_dataset();
+}
+
+void Experiment::stop() {
   experiment_end = std::chrono::steady_clock::now();
   finalize_dataset();
 }

@@ -176,11 +176,11 @@ struct NAVGROUND_SIM_EXPORT Experiment {
         name("experiment"),
         scenario(nullptr),
         terminate_when_all_idle(true),
+        run_index(0),
         initialized(false),
         step(0),
         world(),
         callbacks(),
-        run_index(0),
         file(),
         run_group(),
         file_path() {}
@@ -256,11 +256,23 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * call \ref update explicitly to update the trace 
    * without updating the simulation itself. Use \ref run instead, to 
    * both run the simulation and record the trace.
-   *
-   * @param[in]  seed  The random seed
+   * 
+   * Call \ref start only once per experiment.
    * 
    */
-  void start(int seed);
+  void start();
+  /**
+   * @brief      Start recording
+   * 
+   * This is only need to use an external run-loop, where you
+   * call \ref update explicitly to update the trace 
+   * without updating the simulation itself. Call once at the start of each run.
+   * 
+   * @param[in]  seed  The random seed
+   * @param[in]  init_world  Whether it should initialize a new world
+   * 
+   */
+  void start_run(int seed, bool init_world = false);
   /**
    * @brief      Updates the trace.
    * 
@@ -274,6 +286,12 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * See \ref start. This is only need to use an external run-loop.
    */
   void stop();
+  /**
+   * @brief      Stop the run recording
+   * 
+   * See \ref start_run. This is only need to use an external run-loop.
+   */
+  void stop_run();
 
 
   /**
@@ -363,9 +381,14 @@ struct NAVGROUND_SIM_EXPORT Experiment {
     return bool(file_path);
   }
 
+  /**
+   * The index of the next run
+   */
+  unsigned run_index;
+
  protected:
-  void init_run(int seed);
   void run_run();
+  void init_run(int seed);
 
   virtual std::shared_ptr<World> make_world() {
     return std::make_shared<World>();
@@ -384,7 +407,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   std::shared_ptr<World> world;
   
   std::vector<Callback> callbacks;
-  unsigned run_index;
+  
   std::shared_ptr<HighFive::File> file;
   std::shared_ptr<HighFive::Group> run_group;
 

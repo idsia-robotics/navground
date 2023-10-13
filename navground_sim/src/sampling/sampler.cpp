@@ -3,11 +3,11 @@
 namespace navground::sim {
 
 static unsigned _seed = 0;
-static std::default_random_engine _generator(_seed);
 
-// Check that 0 is the current value;
+static RandomGenerator _generator(_seed);
 
-std::default_random_engine & random_generator() {
+RandomGenerator & random_generator() {
+// std::default_random_engine & random_generator() {
   return _generator;
 }
 

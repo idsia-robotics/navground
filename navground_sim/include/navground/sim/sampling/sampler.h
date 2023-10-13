@@ -16,6 +16,9 @@
 
 using navground::core::Vector2;
 
+using RandomGenerator = std::mt19937;
+// std::default_random_engine
+
 namespace navground::sim {
 
 /**
@@ -23,7 +26,7 @@ namespace navground::sim {
  *
  * @return     The random generator
  */
-NAVGROUND_SIM_EXPORT std::default_random_engine& random_generator();
+NAVGROUND_SIM_EXPORT RandomGenerator & random_generator();
 
 /**
  * @brief      Sets the random seed.
@@ -101,7 +104,8 @@ template <typename T>
 struct Sampler {
   friend struct PropertySampler;
 
-  Sampler() : _index{0} {}
+  Sampler(bool _once = false)
+      : once(_once), _index{0}, first_sample(std::nullopt) {}
   virtual ~Sampler() = default;
   /**
    * @brief      Sample values of type T.
@@ -115,8 +119,15 @@ struct Sampler {
     if (done()) {
       throw std::runtime_error("Generator is exhausted");
     }
-    T v = s();
-    _index++;
+    T v = (once && first_sample) ? *first_sample : s();
+    if (once) {
+      if (!first_sample) {
+        first_sample = v;
+        _index++;
+      }
+    } else {
+      _index++;
+    }
     return v;
   }
   /**
@@ -141,15 +152,23 @@ struct Sampler {
    *
    * It also resets the samples count to 0.
    */
-  virtual void reset() { _index = 0; }
+  virtual void reset() {
+    if (!once) {
+      _index = 0;
+    }
+    first_sample = std::nullopt;
+  }
 
   // virtual std::ostream& output(std::ostream& os) const {
   //   return os << "Sampler";
   // }
 
+  bool once;
+
  protected:
   virtual T s() = 0;
   unsigned _index;
+  std::optional<T> first_sample;
 };
 
 /**
@@ -164,7 +183,8 @@ struct ConstantSampler final : public Sampler<T> {
    *
    * @param[in]  value  The constant value
    */
-  explicit ConstantSampler(T value) : Sampler<T>{}, value{value} {}
+  explicit ConstantSampler(T value, bool _once = false)
+      : Sampler<T>(_once), value{value} {}
 
   T value;
 
@@ -192,8 +212,9 @@ struct SequenceSampler final : public Sampler<T> {
    * @param[in]  values  The values to be sampled in sequence
    * @param[in]  wrap    How it should wrap at the end of the sequence
    */
-  explicit SequenceSampler(const std::vector<T>& values, Wrap wrap = Wrap::loop)
-      : Sampler<T>{}, values{values}, wrap{wrap} {}
+  explicit SequenceSampler(const std::vector<T>& values, Wrap wrap = Wrap::loop,
+                           bool _once = false)
+      : Sampler<T>(_once), values{values}, wrap{wrap} {}
 
   /**
    * @private
@@ -249,8 +270,8 @@ struct RegularSampler final : public Sampler<T> {
    * @param[in]  wrap    How it should wrap at the end of the interval
    */
   RegularSampler(const T& from, std::optional<unsigned> number,
-                 Wrap wrap = Wrap::loop)
-      : Sampler<T>{}, from{from}, number{number}, wrap{wrap} {}
+                 Wrap wrap = Wrap::loop, bool _once = false)
+      : Sampler<T>(_once), from{from}, number{number}, wrap{wrap} {}
 
   /**
    * @brief      Construct a sampler that will samples ``number`` points between
@@ -271,8 +292,8 @@ struct RegularSampler final : public Sampler<T> {
    */
   static RegularSampler make_with_interval(const T& from, const T& to,
                                            unsigned number,
-                                           Wrap wrap = Wrap::loop) {
-    RegularSampler r(from, number, wrap);
+                                           Wrap wrap = Wrap::loop, bool _once = false) {
+    RegularSampler r(from, number, wrap, _once);
     r.to = to;
     if (number > 1) {
       r.step = (to - from) / (number - 1);
@@ -295,8 +316,8 @@ struct RegularSampler final : public Sampler<T> {
    */
   static RegularSampler make_with_step(
       const T& from, const T& step,
-      std::optional<unsigned> number = std::nullopt, Wrap wrap = Wrap::loop) {
-    RegularSampler r(from, number, wrap);
+      std::optional<unsigned> number = std::nullopt, Wrap wrap = Wrap::loop, bool _once = false) {
+    RegularSampler r(from, number, wrap, _once);
     r.step = step;
     if (number && *number > 0) {
       r.to = from + step * (*number - 1);
@@ -351,8 +372,8 @@ struct GridSampler final : public Sampler<Vector2> {
    *
    */
   explicit GridSampler(const Vector2& from, const Vector2& to,
-                       std::array<unsigned, 2> numbers, Wrap wrap = Wrap::loop)
-      : Sampler<Vector2>{},
+                       std::array<unsigned, 2> numbers, Wrap wrap = Wrap::loop, bool _once = false)
+      : Sampler<Vector2>{_once},
         from(from),
         to(to),
         numbers(numbers),
@@ -405,14 +426,18 @@ using uniform_distribution = typename std::conditional<
  */
 template <typename T>
 struct UniformSampler final : public Sampler<T> {
-  UniformSampler(T min, T max)
-      : Sampler<T>{}, min{min}, max{max}, dist{min, max} {}
+  using Sampler<T>::_index;
+  
+  UniformSampler(T min, T max, bool _once = false)
+      : Sampler<T>(_once), min{min}, max{max}, dist{min, max} {}
 
   T min;
   T max;
 
  protected:
-  T s() override { return dist(random_generator()); }
+  T s() override { 
+    return dist(random_generator());
+  }
 
   uniform_distribution<T> dist;
 };
@@ -437,8 +462,8 @@ struct NormalSampler final : public Sampler<T> {
    * @param[in]  max      The maximum value
    */
   NormalSampler(float mean, float std_dev, std::optional<T> min = std::nullopt,
-                std::optional<T> max = std::nullopt)
-      : Sampler<T>{}, min(min), max(max), dist{mean, std_dev} {}
+                std::optional<T> max = std::nullopt, bool _once = false)
+      : Sampler<T>(_once), min(min), max(max), dist{mean, std_dev} {}
 
   std::optional<T> min;
   std::optional<T> max;
@@ -476,8 +501,8 @@ struct ChoiceSampler final : public Sampler<T> {
    * @param[in]  values  The values to be sampled randomly
    * sequence
    */
-  explicit ChoiceSampler(const std::vector<T>& values)
-      : Sampler<T>{},
+  explicit ChoiceSampler(const std::vector<T>& values, bool _once = false)
+      : Sampler<T>(_once),
         values{values},
         dist{0, static_cast<int>(values.size() - 1)} {}
 

@@ -62,25 +62,29 @@ std::unique_ptr<PropertySampler> property_sampler(const Node& node,
 
 template <typename T>
 std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
+  bool once = false;
   // implicit const
   try {
-    return std::make_unique<ConstantSampler<T>>(node.as<T>());
+    return std::make_unique<ConstantSampler<T>>(node.as<T>(), once);
   } catch (YAML::BadConversion) {
   }
   // implicit sequence
   if (node.Type() == YAML::NodeType::Sequence) {
     try {
-      return std::make_unique<SequenceSampler<T>>(node.as<std::vector<T>>());
+      return std::make_unique<SequenceSampler<T>>(node.as<std::vector<T>>(), Wrap::loop, once);
     } catch (YAML::BadConversion) {
     }
   }
   if (node.Type() != YAML::NodeType::Map || !node["sampler"]) {
     return nullptr;
   }
+  if (node["once"]) {
+    once = node["once"].as<bool>();
+  }
   const auto sampler = node["sampler"].as<std::string>();
   if (sampler == "constant") {
     if (node["value"]) {
-      return std::make_unique<ConstantSampler<T>>(node["value"].as<T>());
+      return std::make_unique<ConstantSampler<T>>(node["value"].as<T>(), once);
     }
   }
   if (sampler == "sequence") {
@@ -90,14 +94,14 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
         wrap = wrap_from_string(node["wrap"].as<std::string>());
       }
       return std::make_unique<SequenceSampler<T>>(
-          node["values"].as<std::vector<T>>(), wrap);
+          node["values"].as<std::vector<T>>(), wrap, once);
     }
     return nullptr;
   }
   if (sampler == "choice") {
     if (node["values"]) {
       return std::make_unique<ChoiceSampler<T>>(
-          node["values"].as<std::vector<T>>());
+          node["values"].as<std::vector<T>>(), once);
     }
     return nullptr;
   }
@@ -113,7 +117,7 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
           const auto end = node["to"].as<T>();
           const auto number = node["number"].as<unsigned>();
           return std::make_unique<RegularSampler<T>>(
-              RegularSampler<T>::make_with_interval(start, end, number, wrap));
+              RegularSampler<T>::make_with_interval(start, end, number, wrap, once));
         }
         if (node["step"]) {
           const auto step = node["step"].as<T>();
@@ -122,7 +126,7 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
             number = node["number"].as<unsigned>();
           }
           return std::make_unique<RegularSampler<T>>(
-              RegularSampler<T>::make_with_step(start, step, number, wrap));
+              RegularSampler<T>::make_with_step(start, step, number, wrap, once));
         }
       }
       return nullptr;
@@ -138,7 +142,7 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
         if (node["wrap"]) {
           wrap = wrap_from_string(node["wrap"].as<std::string>());
         }
-        return std::make_unique<GridSampler>(start, end, numbers, wrap);
+        return std::make_unique<GridSampler>(start, end, numbers, wrap, once);
       }
       return nullptr;
     }
@@ -149,7 +153,7 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
       if (node["from"] && node["to"]) {
         const auto min = node["from"].as<T>();
         const auto max = node["to"].as<T>();
-        return std::make_unique<UniformSampler<T>>(min, max);
+        return std::make_unique<UniformSampler<T>>(min, max, once);
       }
       return nullptr;
     }
@@ -167,7 +171,7 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
         }
         const auto mean = node["mean"].as<float>();
         const auto std_dev = node["std_dev"].as<float>();
-        return std::make_unique<NormalSampler<T>>(mean, std_dev, min, max);
+        return std::make_unique<NormalSampler<T>>(mean, std_dev, min, max, once);
       }
       return nullptr;
     }
@@ -181,6 +185,9 @@ struct convert<ConstantSampler<T>> {
     Node node;
     node["sampler"] = "constant";
     node["value"] = rhs.value;
+    if (rhs.once) {
+      node["once"] = rhs.once;
+    }
     return node;
   }
 };
@@ -192,6 +199,9 @@ struct convert<SequenceSampler<T>> {
     node["sampler"] = "sequence";
     node["values"] = rhs.values;
     node["wrap"] = wrap_to_string(rhs.wrap);
+    if (rhs.once) {
+      node["once"] = rhs.once;
+    }
     return node;
   }
 };
@@ -202,6 +212,9 @@ struct convert<ChoiceSampler<T>> {
     Node node;
     node["sampler"] = "choice";
     node["values"] = rhs.values;
+    if (rhs.once) {
+      node["once"] = rhs.once;
+    }
     return node;
   }
 };
@@ -220,6 +233,9 @@ struct convert<RegularSampler<T>> {
     }
     node["sampler"] = "regular";
     node["wrap"] = wrap_to_string(rhs.wrap);
+    if (rhs.once) {
+      node["once"] = rhs.once;
+    }
     return node;
   }
 };
@@ -233,6 +249,9 @@ struct convert<GridSampler> {
     node["numbers"] = rhs.numbers;
     node["sampler"] = "grid";
     node["wrap"] = wrap_to_string(rhs.wrap);
+    if (rhs.once) {
+      node["once"] = rhs.once;
+    }
     return node;
   }
 };
@@ -244,6 +263,9 @@ struct convert<UniformSampler<T>> {
     node["from"] = rhs.min;
     node["to"] = rhs.max;
     node["sampler"] = "uniform";
+    if (rhs.once) {
+      node["once"] = rhs.once;
+    }
     return node;
   }
 };
@@ -261,6 +283,9 @@ struct convert<NormalSampler<T>> {
     node["mean"] = rhs.mean;
     node["std_dev"] = rhs.std_dev;
     node["sampler"] = "normal";
+    if (rhs.once) {
+      node["once"] = rhs.once;
+    }
     return node;
   }
 };

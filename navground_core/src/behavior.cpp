@@ -46,7 +46,11 @@ Twist2 Behavior::twist_towards_velocity(const Vector2& absolute_velocity,
   }
   switch (get_heading_behavior()) {
     case Heading::velocity:
-      delta_angle = orientation_of(absolute_velocity) - pose.orientation;
+      if (absolute_velocity.norm() == 0) {
+        delta_angle = 0.0f;
+      } else {
+        delta_angle = orientation_of(absolute_velocity) - pose.orientation;
+      }
       break;
     case Heading::target_angle:
       if (target.orientation) {

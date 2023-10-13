@@ -4,15 +4,17 @@
 
 #include "navground/core/collision_computation.h"
 
+// #define LINE_CAP_SQUARE
+
 namespace navground::core {
 
-DiscCache::DiscCache(Vector2 delta, float margin, Vector2 velocity)
+DiscCache::DiscCache(Vector2 delta, float margin, Vector2 velocity, float visible_angle)
     : delta(delta),
       velocity(velocity),
       distance(delta.norm() - margin),
       C(delta.squaredNorm() - margin * margin),
       gamma(orientation_of(delta)),
-      visible_angle(M_PI_2) {}
+      visible_angle(visible_angle) {}
 
 CollisionComputation::CollisionMap
 CollisionComputation::get_free_distance_for_sector(Radians from, Radians length,
@@ -65,22 +67,34 @@ float CollisionComputation::dynamic_free_distance(Radians angle,
 
 float CollisionComputation::static_free_distance_to(const LineSegment &line,
                                                     Radians alpha) {
-  Vector2 delta = pose.position - line.p1;
-  float y = delta.dot(line.e2);
-  float x = delta.dot(line.e1);
-  Vector2 e = unit(alpha);
-  float d = line.e2.dot(e);
+  const Vector2 delta = pose.position - line.p1;
+  const float y = delta.dot(line.e2);
+  const float x = delta.dot(line.e1);
+  const Vector2 e = unit(alpha);
+  const float d = line.e2.dot(e);
   if (y * d >= 0) {
     // moving away
     return no_collision;
   }
+#if LINE_CAP_SQUARE
   if (abs(y) < margin && x > -margin && x < line.length + margin) {
     // already colliding
     return 0.0;
   }
-  float distance = -y / d - margin;
-  x = line.e1.dot(distance * e + delta);
-  if (x < -margin || x > line.length + margin) {
+#else
+  // Does not consider as collision if the disc is colliding at the edges but moving outwards.
+  if (abs(y) < margin) {
+    const float ex = line.e1.dot(e);
+    if (x < -margin) return no_collision;
+    if (x < 0) return ex < 0 ? no_collision : 0.0;
+    if (x < line.length) return 0.0;
+    if (x < line.length + margin) return ex > 0 ? no_collision : 0.0;
+    return no_collision;
+  }
+#endif // LINE_CAP_SQUARE
+  const float distance = -y / d - margin;
+  const float x_delta = line.e1.dot(distance * e + delta);
+  if (x_delta < -margin || x_delta > line.length + margin) {
     // will not collide
     return no_collision;
   }
@@ -127,7 +141,12 @@ float CollisionComputation::dynamic_free_distance_to(const DiscCache &disc,
 
   if (disc.C < 0) {
     // colliding
-    return B < 0 ? no_collision : 0.0;
+    //return B < 0 ? no_collision : 0.0;
+    // CHANGED(4/10/2023)
+    // accept if delta angle > "visible_angle"
+    // if dv * dx / |dv||dx| = cos(angle) < cos(visible_angle) (= 0 for visible_angle = pi/2)
+    // 
+    return B < dv.norm() * disc.delta.norm() * cos(disc.visible_angle) ? no_collision : 0.0f;
   }
 
   if (B < 0) return no_collision;

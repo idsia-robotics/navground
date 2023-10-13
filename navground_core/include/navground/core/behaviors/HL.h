@@ -30,7 +30,7 @@ namespace navground::core {
  *     Robotics and Automation (ICRA), 2013 IEEE International Conference on,
  *     vol., no., pp.423,430, 6-10 May 2013
  *
- * *Properties*: tau (float), eta (float), aperture (float), resolution(int)
+ * *Properties*: tau (float), eta (float), aperture (float), resolution(int), epsilon(float)
  *
  * *State*: \ref GeometricState
  */
@@ -56,6 +56,14 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    * Default resolution. Should be less than \ref max_resolution
    */
   static constexpr unsigned default_resolution = 101;
+  /**
+   * Default epsilon.
+   */
+  static constexpr unsigned default_epsilon = 0.0f;
+  /**
+   * Default barrier angle.
+   */
+  static constexpr float default_barrier_angle = M_PI_2;
 
   /**
    * @brief      Contruct a new instance
@@ -71,6 +79,8 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
         eta(default_eta),
         aperture(default_aperture),
         resolution(std::min(default_resolution, max_resolution)),
+        epsilon(default_epsilon),
+        barrier_angle(default_barrier_angle),
         collision_computation(),
         state(),
         cached_target_speed(0.0f) {}
@@ -144,6 +154,42 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   Radians get_angular_resolution() const { return 2 * aperture / resolution; }
 
   /**
+   * @brief      Gets the lowest margin to an obstacle or neighbor. 
+   * 
+   * Any obstacles nearer than this this value will be virtually pushing away from the agent.
+   *
+   * @return     Epsilon.
+   */
+  unsigned get_epsilon() const { return epsilon; }
+  /**
+   * @brief      Sets the lowest margin to an obstacle or neighbor.
+   * 
+   * Any obstacles nearer than this this value will be virtually pushing away from the agent.
+   *
+   * @param[in]  value  Zero or negative values disable virtually pushing away obstacles. 
+   */
+  void set_epsilon(float value) {
+    epsilon = value;
+  }
+
+  /**
+   * @brief      Gets the barrier angle, i.e., the minimal angle
+   * with respect to a currently virtually colliding obstacle to ignore it. 
+   *
+   * @return     Epsilon.
+   */
+  unsigned get_barrier_angle() const { return barrier_angle; }
+  /**
+   * @brief      Sets the barrier angle, i.e., the minimal angle
+   * with respect to a currently virtually colliding obstacle to ignore it. 
+   *
+   * @param[in]  value  A positive value. Higher values makes the agent more cautious. 
+   */
+  void set_barrier_angle(float value) {
+    barrier_angle = std::max(0.0f, value);
+  }
+
+  /**
    * @brief      Gets the free distance to collision in \f$[-\alpha, \alpha]\f$
    * at regular intervals.
    *
@@ -182,6 +228,14 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
            make_property<int, HLBehavior>(&HLBehavior::get_resolution,
                                           &HLBehavior::set_resolution,
                                           default_resolution, "Safety margin")},
+          {"epsilon",
+           make_property<float, HLBehavior>(&HLBehavior::get_epsilon,
+                                          &HLBehavior::set_epsilon,
+                                          default_epsilon, "Epsilon")},
+          {"barrier_angle",
+           make_property<float, HLBehavior>(&HLBehavior::get_barrier_angle,
+                                          &HLBehavior::set_barrier_angle,
+                                          default_barrier_angle, "Barrier angle")},
       } +
       Behavior::properties;
 
@@ -215,6 +269,8 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   float eta;
   Radians aperture;
   unsigned int resolution;
+  float epsilon;
+  float barrier_angle;
   CollisionComputation collision_computation;
   GeometricState state;
   float cached_target_speed;
@@ -236,10 +292,8 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   float static_dist_for_angle(const DiscCache *agent, Radians angle);
   float distance_to_collision_at_relative_angle(Radians angle);
 
-  DiscCache make_neighbor_cache(const Neighbor &neighbor,
-                                bool push_away = false, float epsilon = 2e-3);
-  DiscCache make_obstacle_cache(const Disc &obstacle, bool push_away = false,
-                                float epsilon = 2e-3);
+  DiscCache make_neighbor_cache(const Neighbor &neighbor);
+  DiscCache make_obstacle_cache(const Disc &obstacle);
 
  private:
   inline static std::string type = register_type<HLBehavior>("HL");

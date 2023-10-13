@@ -45,7 +45,8 @@ struct NAVGROUND_CORE_EXPORT DiscCache {
    * @param[in]  margin    The margin (sum of the radii and safety margin)
    * @param[in]  velocity  The disc velocity
    */
-  DiscCache(Vector2 delta, float margin, Vector2 velocity = Vector2::Zero());
+  DiscCache(Vector2 delta, float margin, Vector2 velocity = Vector2::Zero(), float visible_angle = M_PI_2);
+
 };
 
 /**

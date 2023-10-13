@@ -725,6 +725,12 @@ PYBIND11_MODULE(_navground, m) {
       .def_property(
           "angular_resolution", &HLBehavior::get_angular_resolution, nullptr,
           DOC(navground, core, HLBehavior, property_angular_resolution))
+      .def_property(
+          "epsilon", &HLBehavior::get_epsilon, nullptr,
+          DOC(navground, core, HLBehavior, property_epsilon))
+      .def_property(
+          "barrier_angle", &HLBehavior::get_barrier_angle, nullptr,
+          DOC(navground, core, HLBehavior, property_barrier_angle))
       .def("get_collision_distance", &HLBehavior::get_collision_distance,
            DOC(navground, core, HLBehavior, get_collision_distance));
 

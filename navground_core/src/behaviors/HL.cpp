@@ -47,28 +47,26 @@ static navground::core::Twist2 relax(const navground::core::Twist2 &v0,
 
 namespace navground::core {
 
-DiscCache HLBehavior::make_neighbor_cache(const Neighbor &neighbor,
-                                          bool push_away, float epsilon) {
+DiscCache HLBehavior::make_neighbor_cache(const Neighbor &neighbor) {
   Vector2 delta = neighbor.position - pose.position;
   float margin = radius + safety_margin + neighbor.radius;
   float distance = delta.norm() - margin;
-  if (push_away && distance < 0) {
+  if (epsilon > 0 && distance < epsilon) {
     delta = delta / delta.norm() * (margin + epsilon);
     distance = epsilon;
   }
   margin += social_margin.get(0, distance);
-  return {delta, margin, neighbor.velocity};
+  return {delta, margin, neighbor.velocity, barrier_angle};
 }
 
-DiscCache HLBehavior::make_obstacle_cache(const Disc &obstacle, bool push_away,
-                                          float epsilon) {
+DiscCache HLBehavior::make_obstacle_cache(const Disc &obstacle) {
   Vector2 delta = obstacle.position - pose.position;
   const float margin = radius + safety_margin + obstacle.radius;
   const float distance = delta.norm() - margin;
-  if (push_away && distance < 0) {
+  if (epsilon > 0 && distance < epsilon) {
     delta = delta / delta.norm() * (margin + epsilon);
   }
-  return {delta, margin};
+  return {delta, margin, Vector2::Zero(), barrier_angle};
 }
 
 // HLBehavior::~HLBehavior() = default;
@@ -169,7 +167,7 @@ void HLBehavior::prepare(float target_speed) {
     std::vector<DiscCache> ns;
     ns.reserve(state.get_neighbors().size());
     for (const Neighbor &d : state.get_neighbors()) {
-      const auto c = make_neighbor_cache(d, true, 2e-3);
+      const auto c = make_neighbor_cache(d);
       if (collision_computation.dynamic_may_collide(c, effective_horizon,
                                                     target_speed)) {
         ns.push_back(c);
@@ -179,7 +177,7 @@ void HLBehavior::prepare(float target_speed) {
     ss.reserve(state.get_static_obstacles().size());
 
     for (const Disc &d : state.get_static_obstacles()) {
-      const auto c = make_obstacle_cache(d, true, 2e-3);
+      const auto c = make_obstacle_cache(d);
       if (collision_computation.static_may_collide(c, effective_horizon)) {
         ss.push_back(c);
       }

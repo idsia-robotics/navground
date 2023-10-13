@@ -71,7 +71,7 @@ class Thymio(pyenki.Thymio2):
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument('--behavior', help='', type=str, default="HL")
-    parser.add_argument('--rt', help='', action='store_true')
+    parser.add_argument('--factor', help='', type=float, default=1.0)
     arg = parser.parse_args()
     behavior_name: str = arg.behavior
     world = pyenki.World(300, 300)
@@ -97,14 +97,14 @@ def main() -> None:
 
     for thymio in thymios:
         thymio.thymios = thymios - {thymio}
-    if arg.rt:
+    if arg.factor > 0:
         world.run_in_viewer(cam_position=(100, 100),
                             cam_altitude=300.0,
                             cam_yaw=0.0,
                             cam_pitch=-1,
                             walls_height=10,
                             orthographic=False,
-                            realtime_factor=2.0)
+                            realtime_factor=arg.factor)
     else:
         print('Start simulating 1 minute at 50 ticks per second')
         a = time.time()

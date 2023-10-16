@@ -620,6 +620,20 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
         sampler);
   }
 
+  /**
+   * @private
+   */
+  void reset() override {
+    Sampler<navground::core::Property::Field>::reset();
+    std::visit(
+        [](auto&& arg) -> void {
+          if (arg) {
+            arg->reset();
+          }
+        },
+        sampler);
+  }
+
  protected:
   navground::core::Property::Field s() override {
     return std::visit(

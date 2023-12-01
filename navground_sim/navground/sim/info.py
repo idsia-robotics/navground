@@ -1,8 +1,8 @@
 import argparse
 
 from navground import sim
-from navground.core.list import registers as core_registers
-from navground.core.list import display_registers, add_arg_for_register
+from navground.core.info import registers as core_registers
+from navground.core.info import display_registers, add_arg_for_register
 
 registers = list(core_registers) + [
     (sim.StateEstimation, "State estimations", "--state_estimation"),

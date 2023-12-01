@@ -164,6 +164,8 @@ def world_bound(world: World) -> Rect:
         delta = np.ones(2) * agent.radius
         ps.append(agent.position - delta)
         ps.append(agent.position + delta)
+    if not ps:
+        return np.zeros(2), np.zeros(2)
     return np.min(ps, axis=0), np.max(ps, axis=0)
 
 

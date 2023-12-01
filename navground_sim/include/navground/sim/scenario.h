@@ -6,6 +6,7 @@
 #define NAVGROUND_SIM_SCENARIO_H
 
 #include <functional>
+#include <optional>
 #include <vector>
 
 #include "navground/core/property.h"
@@ -71,7 +72,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
    * @param      world The world
    * @param      seed  The random seed
    */
-  virtual void init_world(World* world, int seed = 0);
+  virtual void init_world(World* world, std::optional<int> seed = std::nullopt);
 
   /**
    * @brief      Adds a world initializer.

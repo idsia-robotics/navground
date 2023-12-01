@@ -76,7 +76,7 @@ struct NAVGROUND_SIM_EXPORT CrossScenario : public Scenario {
   /**
    * @private
    */
-  void init_world(World *world, int seed = 0) override;
+  void init_world(World *world, std::optional<int> seed = std::nullopt) override;
 
   /**
    * @private

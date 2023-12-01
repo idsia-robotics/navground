@@ -25,7 +25,7 @@ struct CollisionsScenario : public Scenario {
         behavior_name{behavior_name},
         control_period{control_period} {}
 
-  void init_world(World *world, int seed = 0) override;
+  void init_world(World *world, std::optional<int> seed = std::nullopt) override;
 
   virtual const Properties &get_properties() const override {
     return properties;

@@ -17,8 +17,8 @@ namespace navground::sim {
 
 using namespace navground::core;
 
-void CrossScenario::init_world(World *world, [[maybe_unused]] int seed) {
-  Scenario::init_world(world);
+void CrossScenario::init_world(World *world, [[maybe_unused]] std::optional<int> seed) {
+  Scenario::init_world(world, seed);
   const float t = 0.5f * side;
   const float p = std::max(0.0f, 0.5f * side - target_margin);
   UniformSampler<float> x(-p, p);

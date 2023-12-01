@@ -28,8 +28,8 @@ namespace navground::sim {
 struct NAVGROUND_SIM_EXPORT SimpleScenario : public Scenario {
   SimpleScenario() : Scenario() {}
 
-  void init_world(World *world, int seed) override {
-    Scenario::init_world(world);
+  void init_world(World *world, std::optional<int> seed = std::nullopt) override {
+    Scenario::init_world(world, seed);
     auto agent =
         std::make_shared<Agent>(0.1f, std::make_shared<DummyBehavior>(),
                                 std::make_shared<OmnidirectionalKinematics>(1.0f),

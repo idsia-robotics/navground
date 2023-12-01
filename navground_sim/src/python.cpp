@@ -234,7 +234,7 @@ struct PyScenario : public Scenario, virtual PyHasRegister<Scenario> {
   using Scenario::Scenario;
   using Native = Scenario;
 
-  void init_world(World *world, int seed = 0) override {
+  void init_world(World *world, std::optional<int> seed = std::nullopt) override {
     PYBIND11_OVERRIDE(void, Scenario, init_world, world, seed);
   }
 
@@ -951,7 +951,7 @@ The view is empty if the agent's task has not been recorded in the trace.
 
   scenario.def(py::init<>())
       .def("init_world", &Scenario::init_world, py::arg("world"),
-           py::arg("seed") = 0, DOC(navground, sim, Scenario, init_world))
+           py::arg("seed") = py::none(), DOC(navground, sim, Scenario, init_world))
 // .def("sample", &Scenario::sample)
 // .def("reset", &Scenario::reset)
 #if 0

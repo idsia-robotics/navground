@@ -8,8 +8,8 @@
 
 namespace navground::sim {
 
-void AntipodalScenario::init_world(World *world, [[maybe_unused]] int seed) {
-  Scenario::init_world(world);
+void AntipodalScenario::init_world(World *world, [[maybe_unused]] std::optional<int> seed) {
+  Scenario::init_world(world, seed);
   auto agents = world->get_agents();
   const unsigned n = agents.size();
   const float da = (n < 1) ? 0.0f : 2 * M_PI / n;

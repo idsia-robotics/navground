@@ -37,6 +37,20 @@ class NAVGROUND_CORE_EXPORT Kinematics : virtual public HasProperties,
   virtual ~Kinematics() = default;
 
   /**
+   * @brief      The most natural frame for this kinematics:
+   * \ref Frame::relative in case the agent is wheeled, else \ref
+   * Frame::absolute.
+   *
+   * @return     The frame
+   */
+  Frame cmd_frame() const {
+    if (is_wheeled() || dof() < 3) {
+      return Frame::relative;
+    }
+    return Frame::absolute;
+  }
+
+  /**
    * @brief      Computes the nearest feasible twist to a desired twist.
    *
    * @param[in]  twist  The desired twist

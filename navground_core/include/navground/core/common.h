@@ -13,6 +13,8 @@
 #include <cmath>
 #include <ostream>
 
+#include "navground_core_export.h"
+
 typedef unsigned int uint;
 
 namespace navground::core {
@@ -112,13 +114,15 @@ inline Vector2 clamp_norm(const Vector2& vector, float max_length) {
   return vector;
 }
 
+struct Pose2;
+
 /**
  * @brief      Two-dimensional twist composed of planar velocity and angular
  * speed.
  *
  * Twist coordinates are in the frame specified by \ref frame.
  */
-struct Twist2 {
+struct NAVGROUND_CORE_EXPORT Twist2 {
   /**
    * Velocity
    */
@@ -167,6 +171,38 @@ struct Twist2 {
    * @return     The result of the inequality
    */
   bool operator!=(const Twist2& other) const { return !(operator==(other)); }
+
+  /**
+   * @brief      Transform a twist to \ref Frame::absolute.
+   *
+   * @param[in]  value  The original twist
+   *
+   * @return     The same twist in \ref Frame::absolute
+   *             (unchanged if already in \ref Frame::absolute)
+   */
+  Twist2 absolute(const Pose2 & reference) const;
+
+  /**
+   * @brief      Transform a twist to \ref Frame::relative.
+   *
+   * @param[in]  frame  The reference pose
+   * 
+   * @return     The same twist in \ref Frame::relative
+   *             (unchanged if already in \ref Frame::relative)
+   */
+  Twist2 relative(const Pose2 & reference) const;
+
+  /**
+   * @brief      Convert a twist to a reference frame.
+   *
+   * @param[in]  frame  The desired frame of reference
+   * @param[in]  frame  The reference pose
+   *
+   * @return     The twist in the desired frame of reference.
+   */
+  Twist2 to_frame(Frame frame, const Pose2 & reference) const;
+
+
 };
 
 /**
@@ -232,7 +268,54 @@ struct Pose2 {
    * @return     The result of the inequality
    */
   bool operator!=(const Pose2& other) const { return !(operator==(other)); }
+
+  /**
+   * @brief      Transform a relative pose to an absolute pose.
+   *             
+   * @param[in]  reference  The reference pose
+   *
+   * @return     The absolute pose
+   */
+  Pose2 absolute(const Pose2 & reference) const {
+    return Pose2(::navground::core::rotate(position, reference.orientation) + reference.position, orientation + reference.orientation);
+  }
+
+  /**
+   * @brief      Transform an absolute pose to a relative pose.
+   *
+   * @param[in]  pose  The reference pose
+   *
+   * @return     The relative pose
+   */
+  Pose2 relative(const Pose2 &reference) const {
+    return Pose2(::navground::core::rotate(position - reference.position, -reference.orientation), orientation - reference.orientation);
+  }
+
 };
+
+/**
+ * @brief      Transform a relative to an absolute vector.
+ *
+ * @param[in]  value  The relative vector
+ * @param[in]  reference  The reference pose
+ *
+ * @return     The relative vector
+ */
+inline Vector2 to_absolute(const Vector2 &value, const Pose2 & reference) {
+  return rotate(value, reference.orientation);
+}
+
+/**
+ * @brief      Transform an absolute to a relative vector.
+ *
+ * @param[in]  value  The absolute vector
+ * @param[in]  reference  The reference pose
+ *
+ * @return     The absolute vector
+ */
+inline Vector2 to_relative(const Vector2 &value, const Pose2 & reference) {
+  return rotate(value, -reference.orientation);
+}
 
 /**
  * @brief  An helper class that track changes.

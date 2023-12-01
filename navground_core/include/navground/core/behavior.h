@@ -652,10 +652,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @return     The frame
    */
   Frame default_cmd_frame() {
-    if (kinematics && (kinematics->is_wheeled() || kinematics->dof() < 3)) {
-      return Frame::relative;
-    }
-    return Frame::absolute;
+    return kinematics ? kinematics->cmd_frame() : Frame::absolute;
   }
 
   /**
@@ -677,12 +674,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *             (unchanged if already in \ref Frame::absolute)
    */
   Twist2 to_absolute(const Twist2 &value) const {
-    if (value.frame == Frame::relative) {
-      auto a_value = value.rotate(pose.orientation);
-      a_value.frame = Frame::absolute;
-      return a_value;
-    }
-    return value;
+    return value.absolute(pose);
   }
 
   /**
@@ -694,12 +686,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *             (unchanged if already in \ref Frame::relative)
    */
   Twist2 to_relative(const Twist2 &value) const {
-    if (value.frame == Frame::absolute) {
-      auto r_value = value.rotate(-pose.orientation);
-      r_value.frame = Frame::relative;
-      return r_value;
-    }
-    return value;
+    return value.relative(pose);
   }
 
   /**

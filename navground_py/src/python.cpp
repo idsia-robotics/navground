@@ -262,6 +262,9 @@ PYBIND11_MODULE(_navground, m) {
       .value("absolute", Frame::absolute,
              DOC(navground, core, Frame, absolute));
 
+  m.def("to_absolute", &to_absolute, py::arg("value"), py::arg("reference"), DOC(navground, core, to_absolute)); 
+  m.def("to_relative", &to_absolute, py::arg("value"), py::arg("reference"), DOC(navground, core, to_relative)); 
+
   py::class_<Twist2>(m, "Twist2", DOC(navground, core, Twist2))
       .def(py::init<Vector2, float, Frame>(), py::arg("velocity"),
            py::arg("angular_speed") = 0.0f, py::arg("frame") = Frame::absolute,
@@ -276,6 +279,10 @@ PYBIND11_MODULE(_navground, m) {
                      DOC(navground, core, Twist2, frame))
       .def("rotate", &Twist2::rotate, py::arg("angle"),
            DOC(navground, core, Twist2, rotate))
+      .def("absolute", &Twist2::absolute, py::arg("reference"),
+           DOC(navground, core, Twist2, absolute))
+      .def("relative", &Twist2::relative, py::arg("reference"),
+           DOC(navground, core, Twist2, relative))
       .def("__repr__", &to_string<Twist2>);
 
   py::class_<Pose2>(m, "Pose2", DOC(navground, core, Pose2))
@@ -289,6 +296,10 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Pose2, rotate))
       .def("integrate", &Pose2::integrate, py::arg("twist"),
            py::arg("time_step"), DOC(navground, core, Pose2, rotate))
+      .def("absolute", &Pose2::absolute, py::arg("reference"),
+           DOC(navground, core, Pose2, absolute))
+      .def("relative", &Pose2::relative, py::arg("reference"),
+           DOC(navground, core, Pose2, relative))
       .def("__repr__", &to_string<Pose2>);
 
   py::class_<Target>(m, "Target", DOC(navground, core, Target))
@@ -408,6 +419,9 @@ PYBIND11_MODULE(_navground, m) {
       .def_property(
           "type", [](Kinematics *obj) { return obj->get_type(); }, nullptr,
           DOC(navground, core, HasRegister, property_type))
+      .def_property("cmd_frame", &Kinematics::cmd_frame,
+                    nullptr,
+                    DOC(navground, core, Kinematics, property_cmd_frame))
       .def("feasible", &Kinematics::feasible,
            DOC(navground, core, Kinematics, feasible));
 

@@ -62,6 +62,7 @@ add_library(navground_core SHARED
   src/controller.cpp
   src/controller_3d.cpp
   src/kinematics.cpp
+  src/common.cpp
 )
 
 generate_export_header(navground_core)

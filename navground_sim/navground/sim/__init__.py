@@ -1,7 +1,7 @@
 from typing import Callable, List
 
 import pkg_resources
-from navground.core import _register
+from navground.core import _register, registered_property
 from navground.core import load_py_plugins as _load_py_plugins
 
 from ._navground_sim import Agent, BoundingBox, Entity, Experiment, Obstacle

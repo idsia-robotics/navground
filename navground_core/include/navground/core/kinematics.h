@@ -196,8 +196,10 @@ class NAVGROUND_CORE_EXPORT AheadKinematics : public Kinematics {
 
 /**
  * @brief      Abstract wheeled kinematics
- *
- * *Properties*: wheel_axis (float)
+ * 
+ * *Registered properties*: 
+ * 
+ *   - `wheel_axis` (float, \ref get_axis)
  */
 class NAVGROUND_CORE_EXPORT WheeledKinematics : public Kinematics {
  public:

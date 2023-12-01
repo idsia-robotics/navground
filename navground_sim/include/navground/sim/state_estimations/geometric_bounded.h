@@ -20,8 +20,10 @@ namespace navground::sim {
 /**
  * @brief      Perfect state estimation within a range from the agent.
  *
- * *Properties*: range_of_view (float)
- */
+ * *Registered properties*: 
+ * 
+ *   - `range_of_view` (float, \ref get_range_of_view)
+*/
 struct NAVGROUND_SIM_EXPORT BoundedStateEstimation
     : public StateEstimation {
   inline static const float default_range_of_view = 1.0f;

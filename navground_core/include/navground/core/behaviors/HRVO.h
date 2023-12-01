@@ -26,6 +26,8 @@ namespace navground::core {
  * A wrapper of the open-source implementation from
  * http://gamma.cs.unc.edu/HRVO/
  * 
+ * *Registered properties*: none
+ *     
  * *State*: \ref GeometricState 
  */
 class NAVGROUND_CORE_EXPORT HRVOBehavior : public Behavior {

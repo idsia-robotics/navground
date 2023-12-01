@@ -24,6 +24,8 @@ namespace navground::sim {
  *
  * The scenario add a single agent with a waypoints task,
  * dummy behavior, and holonomic kinematics.
+ * 
+ * *Registered properties*: none
  */
 struct NAVGROUND_SIM_EXPORT SimpleScenario : public Scenario {
   SimpleScenario() : Scenario() {}

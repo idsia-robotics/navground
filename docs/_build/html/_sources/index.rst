@@ -12,6 +12,7 @@ Welcome to navground's documentation!
 
    introduction
    installation
+   first_steps
    tutorials/tour
    packages/index
    tutorials/index

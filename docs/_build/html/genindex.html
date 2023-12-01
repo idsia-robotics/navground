@@ -138,6 +138,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">First Steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_core.html">navground_core</a></li>
@@ -516,16 +517,28 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.add_obstacle">add_obstacle() (World method)</a>
 </li>
+      <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.add_safety_to_agent_margin">add_safety_to_agent_margin (CorridorScenario property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario.add_safety_to_agent_margin">(CrossScenario property)</a>
+</li>
+        <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.add_safety_to_agent_margin">(CrossTorusScenario property)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.add_safety_to_agent_margin">add_safety_to_agent_margin (CrossTorusScenario property)</a>
-</li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.add_wall">add_wall() (World method)</a>
 </li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent">Agent (class in navground.sim)</a>
 </li>
-      <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.agent_margin">agent_margin (CrossTorusScenario property)</a>
+      <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.agent_margin">agent_margin (CorridorScenario property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario.agent_margin">(CrossScenario property)</a>
 </li>
+        <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.agent_margin">(CrossTorusScenario property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.agents">agents (World property)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.agents_are_idle">agents_are_idle() (World method)</a>
@@ -902,6 +915,8 @@ document.write(`
       <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation.length">length (CachedCollisionComputation property)</a>
 
       <ul>
+        <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.length">(CorridorScenario property)</a>
+</li>
         <li><a href="reference/core/python/state.html#navground.core.LineSegment.length">(LineSegment property)</a>
 </li>
       </ul></li>
@@ -1633,8 +1648,6 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core7RadiansE">navground::core::Radians (C++ type)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core6rotateEK7Vector2f">navground::core::rotate (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/social_margin.html#_CPPv4N9navground4core12SocialMarginE">navground::core::SocialMargin (C++ class)</a>
@@ -1659,6 +1672,8 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/social_margin.html#_CPPv4N9navground4core12SocialMargin10ModulationE">navground::core::SocialMargin::Modulation (C++ class)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/cpp/social_margin.html#_CPPv4N9navground4core12SocialMargin19QuadraticModulationE">navground::core::SocialMargin::QuadraticModulation (C++ class)</a>
 </li>
       <li><a href="reference/core/cpp/social_margin.html#_CPPv4N9navground4core12SocialMargin3setEf">navground::core::SocialMargin::set (C++ function)</a>, <a href="reference/core/cpp/social_margin.html#_CPPv4N9navground4core12SocialMargin3setEjf">[1]</a>
@@ -1931,9 +1946,57 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4N9navground3sim16CorridorScenarioE">navground::sim::CorridorScenario (C++ struct)</a>
 </li>
+      <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4NK9navground3sim16CorridorScenario30get_add_safety_to_agent_marginEv">navground::sim::CorridorScenario::get_add_safety_to_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4NK9navground3sim16CorridorScenario16get_agent_marginEv">navground::sim::CorridorScenario::get_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4NK9navground3sim16CorridorScenario10get_lengthEv">navground::sim::CorridorScenario::get_length (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4NK9navground3sim16CorridorScenario9get_widthEv">navground::sim::CorridorScenario::get_width (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4N9navground3sim16CorridorScenario30set_add_safety_to_agent_marginEb">navground::sim::CorridorScenario::set_add_safety_to_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4N9navground3sim16CorridorScenario16set_agent_marginEf">navground::sim::CorridorScenario::set_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4N9navground3sim16CorridorScenario10set_lengthEf">navground::sim::CorridorScenario::set_length (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4N9navground3sim16CorridorScenario9set_widthEf">navground::sim::CorridorScenario::set_width (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/scenarios/cross.html#_CPPv4N9navground3sim13CrossScenarioE">navground::sim::CrossScenario (C++ struct)</a>
 </li>
+      <li><a href="reference/sim/cpp/scenarios/cross.html#_CPPv4NK9navground3sim13CrossScenario30get_add_safety_to_agent_marginEv">navground::sim::CrossScenario::get_add_safety_to_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross.html#_CPPv4NK9navground3sim13CrossScenario16get_agent_marginEv">navground::sim::CrossScenario::get_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross.html#_CPPv4NK9navground3sim13CrossScenario8get_sideEv">navground::sim::CrossScenario::get_side (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross.html#_CPPv4NK9navground3sim13CrossScenario17get_target_marginEv">navground::sim::CrossScenario::get_target_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross.html#_CPPv4NK9navground3sim13CrossScenario13get_toleranceEv">navground::sim::CrossScenario::get_tolerance (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross.html#_CPPv4N9navground3sim13CrossScenario30set_add_safety_to_agent_marginEb">navground::sim::CrossScenario::set_add_safety_to_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross.html#_CPPv4N9navground3sim13CrossScenario16set_agent_marginEf">navground::sim::CrossScenario::set_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross.html#_CPPv4N9navground3sim13CrossScenario8set_sideEf">navground::sim::CrossScenario::set_side (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross.html#_CPPv4N9navground3sim13CrossScenario17set_target_marginEf">navground::sim::CrossScenario::set_target_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross.html#_CPPv4N9navground3sim13CrossScenario13set_toleranceEf">navground::sim::CrossScenario::set_tolerance (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/scenarios/cross_torus.html#_CPPv4N9navground3sim18CrossTorusScenarioE">navground::sim::CrossTorusScenario (C++ struct)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross_torus.html#_CPPv4NK9navground3sim18CrossTorusScenario30get_add_safety_to_agent_marginEv">navground::sim::CrossTorusScenario::get_add_safety_to_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross_torus.html#_CPPv4NK9navground3sim18CrossTorusScenario16get_agent_marginEv">navground::sim::CrossTorusScenario::get_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross_torus.html#_CPPv4NK9navground3sim18CrossTorusScenario8get_sideEv">navground::sim::CrossTorusScenario::get_side (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross_torus.html#_CPPv4N9navground3sim18CrossTorusScenario30set_add_safety_to_agent_marginEb">navground::sim::CrossTorusScenario::set_add_safety_to_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross_torus.html#_CPPv4N9navground3sim18CrossTorusScenario16set_agent_marginEf">navground::sim::CrossTorusScenario::set_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/cross_torus.html#_CPPv4N9navground3sim18CrossTorusScenario8set_sideEf">navground::sim::CrossTorusScenario::set_side (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim6EntityE">navground::sim::Entity (C++ struct)</a>
 </li>
@@ -2485,8 +2548,12 @@ document.write(`
 </li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation.setup">setup() (CollisionComputation method)</a>
 </li>
-      <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.side">side (CrossTorusScenario property)</a>
+      <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario.side">side (CrossScenario property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.side">(CrossTorusScenario property)</a>
 </li>
+      </ul></li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.add_agent_from_yaml">simNavground.add_agent_from_yaml() (built-in function)</a>
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.add_obstacle">simNavground.add_obstacle() (built-in function)</a>
@@ -2627,6 +2694,8 @@ document.write(`
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.target_angular_speed">target_angular_speed (Heading attribute)</a>
 </li>
+      <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario.target_margin">target_margin (CrossScenario property)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.target_point">target_point (Heading attribute)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Trace.targets">targets (Trace property)</a>
@@ -2650,13 +2719,15 @@ document.write(`
       <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario.tolerance">tolerance (AntipodalScenario property)</a>
 
       <ul>
+        <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario.tolerance">(CrossScenario property)</a>
+</li>
         <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.tolerance">(WaypointsTask property)</a>
 </li>
       </ul></li>
-      <li><a href="reference/sim/python/experiment.html#navground.sim.Trace">Trace (class in navground.sim)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Trace">Trace (class in navground.sim)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.trace">trace (Experiment property)</a>
 </li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.twist">twist (Agent property)</a>
@@ -2777,10 +2848,10 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask">WaypointsTask (class in navground.sim.tasks)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.weight">weight() (SocialForceBehavior method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.weighted">weighted() (SocialForceBehavior method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.wheel_speeds">wheel_speeds (Behavior property)</a>
@@ -2790,6 +2861,8 @@ document.write(`
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.wheel_speeds_from_twist">wheel_speeds_from_twist() (Behavior method)</a>
 </li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.WheeledKinematics">WheeledKinematics (class in navground.core.kinematics)</a>
+</li>
+      <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.width">width (CorridorScenario property)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World">World (class in navground.sim)</a>
 </li>

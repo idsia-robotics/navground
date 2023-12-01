@@ -19,6 +19,21 @@ using navground::core::Property;
 
 namespace navground::sim {
 
+/**
+ * @brief      A scenario where agents travel along an infinite 
+ * corridor in opposite directions. Agents are initialize at 
+ * non-overlapping random poses.
+ * 
+ * *Registered properties*: 
+ * 
+ *   - `width` (float, \ref get_width)
+ *   
+ *   - `length` (float, \ref get_length)
+ *   
+ *   - `agent_margin` (float, \ref get_agent_margin)
+ *   
+ *   - `add_safety_to_agent_margin` (bool, \ref get_add_safety_to_agent_margin)
+ */
 struct NAVGROUND_SIM_EXPORT CorridorScenario : public Scenario {
  public:
   // corridor width
@@ -44,22 +59,66 @@ struct NAVGROUND_SIM_EXPORT CorridorScenario : public Scenario {
         agent_margin(agent_margin),
         add_safety_to_agent_margin(add_safety_to_agent_margin) {}
 
+  /**
+   * @brief      Gets the width of the corridor.
+   *
+   * @return     The width.
+   */
   float get_width() const { return width; }
 
+  /**
+   * @brief      Sets the width of the corridor.
+   *
+   * @param[in]  value  The desired width (positive)
+   */
   void set_width(float value) { width = std::max(0.0f, value); }
 
+  /**
+   * @brief      Gets the length of the simulated portion of corridor. 
+   * Agents experience an infinite corridor, as it wraps around.
+   *
+   * @return     The length.
+   */
   float get_length() const { return length; }
 
+  /**
+   * @brief      Sets the length of the simulated portion of corridor.
+   * Agents experience an infinite corridor, as it wraps around.
+   *
+   * @param[in]  value  The desired length (positive).
+   */
   void set_length(float value) { length = std::max(0.0f, value); }
 
+  /**
+   * @brief      Gets the initial minimal distance between agents.
+   *
+   * @return     The initial minimal distance between agents .
+   */
   float get_agent_margin() const { return agent_margin; }
 
+  /**
+   * @brief      Sets the initial minimal distance between agents.
+   *
+   * @param[in]  value  The desired margin (positive)
+   */
   void set_agent_margin(float value) { agent_margin = std::max(0.0f, value); }
 
+  /**
+   * @brief      Whenever the agent's safety margin should be considered in addition 
+   * to \ref get_agent_margin when initializing the agents' poses.
+   *
+   * @return     The add safety to agent margin.
+   */
   bool get_add_safety_to_agent_margin() const {
     return add_safety_to_agent_margin;
   }
 
+  /**
+   * @brief      Sets whenever the agent's safety margin should be considered in addition 
+   * to \ref get_agent_margin when initializing the agents' poses.
+   *
+   * @param[in]  value  Whenever to consider the safety margin or not.
+   */
   void set_add_safety_to_agent_margin(bool value) {
     add_safety_to_agent_margin = value;
   }

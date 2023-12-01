@@ -21,6 +21,18 @@ namespace navground::sim {
 /**
  * @brief      A scenario that place the agents around a circle at regular
  * intervals and task them to reach the opposite ("antipode") side.
+ * 
+ * *Registered properties*: 
+ * 
+ *   - `radius` (float, \ref get_radius)
+ *   
+ *   - `tolerance` (float, \ref get_tolerance)
+ *   
+ *   - `position_noise` (float, \ref get_position_noise)
+ *   
+ *   - `orientation_noise` (float, \ref get_orientation_noise)
+ *   
+ *   - `shuffle` (bool, \ref get_shuffle)
  */
 struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
   /**

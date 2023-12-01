@@ -15,6 +15,8 @@ namespace navground::core {
  *
  * Mainly useful to test the interaction with other components
  * 
+ * *Registered properties*: none
+ *  
  * *State*: empty
  */
 class NAVGROUND_CORE_EXPORT DummyBehavior : public Behavior {

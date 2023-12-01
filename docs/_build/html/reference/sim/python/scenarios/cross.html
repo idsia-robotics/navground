@@ -140,6 +140,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../first_steps.html">First Steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_core.html">navground_core</a></li>
@@ -392,6 +393,11 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario"><code class="docutils literal notranslate"><span class="pre">CrossScenario</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario.__init__"><code class="docutils literal notranslate"><span class="pre">CrossScenario.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario.add_safety_to_agent_margin"><code class="docutils literal notranslate"><span class="pre">CrossScenario.add_safety_to_agent_margin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario.agent_margin"><code class="docutils literal notranslate"><span class="pre">CrossScenario.agent_margin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario.side"><code class="docutils literal notranslate"><span class="pre">CrossScenario.side</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario.target_margin"><code class="docutils literal notranslate"><span class="pre">CrossScenario.target_margin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario.tolerance"><code class="docutils literal notranslate"><span class="pre">CrossScenario.tolerance</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -413,7 +419,77 @@ document.write(`
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.scenarios.CrossScenario.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.10000000149011612</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_safety_to_agent_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.scenarios.CrossScenario.__init__" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>A scenario where agents move between two waypoints, one half of the
+agents vertically and the other horizontally. Agents are initialize at
+non-overlapping random poses in a box.</p>
+<p><em>Registered properties</em>:</p>
+<ul class="simple">
+<li><p><cite>side</cite> (float, <a class="reference internal" href="#navground.sim.scenarios.CrossScenario.side" title="navground.sim.scenarios.CrossScenario.side"><code class="xref py py-attr docutils literal notranslate"><span class="pre">side</span></code></a>)</p></li>
+<li><p><cite>tolerance</cite> (float, <a class="reference internal" href="#navground.sim.scenarios.CrossScenario.tolerance" title="navground.sim.scenarios.CrossScenario.tolerance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tolerance</span></code></a>)</p></li>
+<li><p><cite>agent_margin</cite> (float, <a class="reference internal" href="#navground.sim.scenarios.CrossScenario.agent_margin" title="navground.sim.scenarios.CrossScenario.agent_margin"><code class="xref py py-attr docutils literal notranslate"><span class="pre">agent_margin</span></code></a>)</p></li>
+<li><p><cite>add_safety_to_agent_margin</cite> (bool, <a class="reference internal" href="#navground.sim.scenarios.CrossScenario.add_safety_to_agent_margin" title="navground.sim.scenarios.CrossScenario.add_safety_to_agent_margin"><code class="xref py py-attr docutils literal notranslate"><span class="pre">add_safety_to_agent_margin</span></code></a>)</p></li>
+<li><p><cite>target_margin</cite> (float, <a class="reference internal" href="#navground.sim.scenarios.CrossScenario.target_margin" title="navground.sim.scenarios.CrossScenario.target_margin"><code class="xref py py-attr docutils literal notranslate"><span class="pre">target_margin</span></code></a>)</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.scenarios.CrossScenario.add_safety_to_agent_margin">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_safety_to_agent_margin</span></span><a class="headerlink" href="#navground.sim.scenarios.CrossScenario.add_safety_to_agent_margin" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whenever the agent’s safety margin should be considered in addition to
+<a class="reference internal" href="#navground.sim.scenarios.CrossScenario.agent_margin" title="navground.sim.scenarios.CrossScenario.agent_margin"><code class="xref py py-attr docutils literal notranslate"><span class="pre">agent_margin</span></code></a> when initializing the agents’ poses.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.scenarios.CrossScenario.agent_margin">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">agent_margin</span></span><a class="headerlink" href="#navground.sim.scenarios.CrossScenario.agent_margin" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The initial minimal distance between agents.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.scenarios.CrossScenario.side">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">side</span></span><a class="headerlink" href="#navground.sim.scenarios.CrossScenario.side" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The half-length of the squared arena. waypoints are placed at
+(+/-side, 0) and (0, +/-side)</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.scenarios.CrossScenario.target_margin">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">target_margin</span></span><a class="headerlink" href="#navground.sim.scenarios.CrossScenario.target_margin" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The minimal distance between agents and targets at
+initialization.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.scenarios.CrossScenario.tolerance">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tolerance</span></span><a class="headerlink" href="#navground.sim.scenarios.CrossScenario.tolerance" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The task goal tolerance (i.e., agents will change target when
+they arrive closer than this to their current target).</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -465,6 +541,11 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario"><code class="docutils literal notranslate"><span class="pre">CrossScenario</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario.__init__"><code class="docutils literal notranslate"><span class="pre">CrossScenario.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario.add_safety_to_agent_margin"><code class="docutils literal notranslate"><span class="pre">CrossScenario.add_safety_to_agent_margin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario.agent_margin"><code class="docutils literal notranslate"><span class="pre">CrossScenario.agent_margin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario.side"><code class="docutils literal notranslate"><span class="pre">CrossScenario.side</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario.target_margin"><code class="docutils literal notranslate"><span class="pre">CrossScenario.target_margin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CrossScenario.tolerance"><code class="docutils literal notranslate"><span class="pre">CrossScenario.tolerance</span></code></a></li>
 </ul>
 </li>
 </ul>

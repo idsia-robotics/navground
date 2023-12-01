@@ -94,6 +94,18 @@ class ExponentialPotential(Potential):
 
 class SocialForceBehavior(Behavior, name="SocialForce"):
 
+    """
+    Basic social force algorithm from
+
+        Helbing, Dirk, and Peter Molnar.
+        "Social force model for pedestrian dynamics."
+        Physical review E 51.5 (1995): 4282.
+
+    *Registered properties*: none
+
+    *State*: py:class:`GeometricState`
+    """
+
     def __init__(
             self,
             kinematics: Optional[Kinematics] = None,

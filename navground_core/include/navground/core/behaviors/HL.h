@@ -30,8 +30,19 @@ namespace navground::core {
  *     Robotics and Automation (ICRA), 2013 IEEE International Conference on,
  *     vol., no., pp.423,430, 6-10 May 2013
  *
- * *Properties*: tau (float), eta (float), aperture (float), resolution (float), 
- *               epsilon (float), barrier_angle (float)
+ * *Registered properties*: 
+ * 
+ * - `tau` (float, \ref get_tau), 
+ * 
+ * - `eta` (float, \ref get_eta), 
+ * 
+ * - `aperture` (float, \ref get_aperture), 
+ * 
+ * - `resolution` (float, \ref get_resolution),
+ *  
+ * - `epsilon` (float, \ref get_epsilon), 
+ * 
+ * - `barrier_angle` (float, \ref get_barrier_angle)
  *
  * *State*: \ref GeometricState
  */

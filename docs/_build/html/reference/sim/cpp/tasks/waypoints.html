@@ -140,6 +140,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../first_steps.html">First Steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_core.html">navground_core</a></li>
@@ -431,7 +432,12 @@ document.write(`
 <span class="target" id="structnavground_1_1sim_1_1_waypoints_task"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WaypointsTask</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="task.html#_CPPv4N9navground3sim4TaskE" title="navground::sim::Task"><span class="n"><span class="pre">Task</span></span></a><a class="headerlink" href="#_CPPv4N9navground3sim13WaypointsTaskE" title="Link to this definition">#</a><br /></dt>
 <dd><p>This class implement a task that makes the agent reach a sequence of waypoints, calling <a class="reference internal" href="../../../core/cpp/controller.html#classnavground_1_1core_1_1_controller_1afe6c51ae84dd2c930201625bc38ed521"><span class="std std-ref">navground::core::Controller::go_to_position</span></a> for the next waypoint after the current has been reached within a tolerance. </p>
 <p>The task notifies when a new waypoint is set by calling a callback.</p>
-<p><em>Properties</em>: waypoints (list of <a class="reference internal" href="../../../core/cpp/common.html#namespacenavground_1_1core_1a4e586e48a0d9389b49483ca54235f586"><span class="std std-ref">navground::core::Vector2</span></a>), loop (bool), tolerance (float) </p>
+<p><em>Registered properties</em>:</p>
+<p><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">waypoints</span></code> (list of <a class="reference internal" href="../../../core/cpp/common.html#namespacenavground_1_1core_1a4e586e48a0d9389b49483ca54235f586"><span class="std std-ref">navground::core::Vector2</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_waypoints_task_1a84d8c3a701fbfad16a5d85053d032f83"><span class="std std-ref">get_waypoints</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loop</span></code> (bool, <a class="reference internal" href="#structnavground_1_1sim_1_1_waypoints_task_1a048cf5ef53268f558a8a7e3841fe8ba0"><span class="std std-ref">get_loop</span></a>) </p></li>
+</ul>
+</p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">

@@ -140,6 +140,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../first_steps.html">First Steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_core.html">navground_core</a></li>
@@ -416,7 +417,11 @@ document.write(`
 <p>Optimal Reciprocal Collision Avoidance</p>
 <p>A wrapper of the open-source implementation from
 <a class="reference external" href="http://gamma.cs.unc.edu/RVO2/">http://gamma.cs.unc.edu/RVO2/</a></p>
-<p><em>Properties</em>: time_horizon (int), effective_center (bool)</p>
+<p><em>Registered properties</em>:</p>
+<ul class="simple">
+<li><p><cite>time_horizon</cite> (float, <a class="reference internal" href="#navground.core.behaviors.ORCABehavior.time_horizon" title="navground.core.behaviors.ORCABehavior.time_horizon"><code class="xref py py-attr docutils literal notranslate"><span class="pre">time_horizon</span></code></a>),</p></li>
+<li><p><cite>effective_center</cite> (float, <a class="reference internal" href="#navground.core.behaviors.ORCABehavior.is_using_effective_center" title="navground.core.behaviors.ORCABehavior.is_using_effective_center"><code class="xref py py-attr docutils literal notranslate"><span class="pre">is_using_effective_center</span></code></a>),</p></li>
+</ul>
 <p><em>State</em>: <a class="reference internal" href="../state.html#navground.core.GeometricState" title="navground.core.GeometricState"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeometricState</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.behaviors.ORCABehavior.__init__">

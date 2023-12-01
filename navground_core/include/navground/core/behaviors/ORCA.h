@@ -27,8 +27,12 @@ namespace navground::core {
  * A wrapper of the open-source implementation from
  * http://gamma.cs.unc.edu/RVO2/
  *
- * *Properties*: time_horizon (int), effective_center (bool)
+ * *Registered properties*: 
  * 
+ * - `time_horizon` (float, \ref get_time_horizon), 
+ * 
+ * - `effective_center` (float, \ref is_using_effective_center), 
+ *     
  * *State*: \ref GeometricState 
  */
 class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {

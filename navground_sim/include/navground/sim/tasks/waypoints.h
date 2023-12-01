@@ -30,8 +30,11 @@ using Waypoints = std::vector<navground::core::Vector2>;
  *
  * The task notifies when a new waypoint is set by calling a callback.
  *
- * *Properties*: waypoints (list of \ref navground::core::Vector2), loop (bool),
- * tolerance (float)
+ * *Registered properties*: 
+ * 
+ *   - `waypoints` (list of \ref navground::core::Vector2, \ref get_waypoints)
+ *   
+ *   - `loop` (bool, \ref get_loop)
  */
 struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
 

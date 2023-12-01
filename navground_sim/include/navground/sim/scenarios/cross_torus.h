@@ -19,6 +19,19 @@ using navground::core::Property;
 
 namespace navground::sim {
 
+/**
+ * @brief      A scenario where agents move crosses in a middle zone, 
+ * one half of the agents moving vertically 
+ * and the other half horizontally. This world is period in both directions.
+ * 
+ * *Registered properties*: 
+ * 
+ *   - `side` (float, \ref get_side)
+ *   
+ *   - `agent_margin` (float, \ref get_agent_margin)
+ *   
+ *   - `add_safety_to_agent_margin` (bool, \ref get_add_safety_to_agent_margin)
+ */
 struct NAVGROUND_SIM_EXPORT CrossTorusScenario : public Scenario {
  public:
   // distance between targets
@@ -40,18 +53,50 @@ struct NAVGROUND_SIM_EXPORT CrossTorusScenario : public Scenario {
         agent_margin(agent_margin),
         add_safety_to_agent_margin(add_safety_to_agent_margin) {}
 
+  /**
+   * @brief      Gets the side of simulate cell of the infinite lattice.
+   *
+   * @return     The half-side of the squared arena.
+   */
   float get_side() const { return side; }
 
+  /**
+   * @brief      Sets the side of simulate cell of the infinite lattice.
+   *
+   * @param[in]  value  The desired value (positive)
+   */
   void set_side(float value) { side = std::max(0.0f, value); }
 
+  /**
+   * @brief      Gets the initial minimal distance between agents.
+   *
+   * @return     The initial minimal distance between agents .
+   */
   float get_agent_margin() const { return agent_margin; }
 
+  /**
+   * @brief      Sets the initial minimal distance between agents.
+   *
+   * @param[in]  value  The desired margin (positive)
+   */
   void set_agent_margin(float value) { agent_margin = std::max(0.0f, value); }
 
+  /**
+   * @brief      Whenever the agent's safety margin should be considered in addition 
+   * to \ref get_agent_margin when initializing the agents' poses.
+   *
+   * @return     The add safety to agent margin.
+   */
   bool get_add_safety_to_agent_margin() const {
     return add_safety_to_agent_margin;
   }
 
+  /**
+   * @brief      Sets whenever the agent's safety margin should be considered in addition 
+   * to \ref get_agent_margin when initializing the agents' poses.
+   *
+   * @param[in]  value  Whenever to consider the safety margin or not.
+   */
   void set_add_safety_to_agent_margin(bool value) {
     add_safety_to_agent_margin = value;
   }

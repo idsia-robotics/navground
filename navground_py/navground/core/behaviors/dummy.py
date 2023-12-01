@@ -10,6 +10,12 @@ class PyDummyBehavior(Behavior, name="PyDummy"):
     Dummy Behavior that ignore obstacles instead of avoiding them.
     Equivalent to the C++ class navground::core::DummyBehavior.
     Implemented to demonstrate that sub-classing Behavior works in Python
+
+    *Registered properties*:
+
+        - :py:attr:`dummy` [bool]
+        - :py:attr:`tired` [bool]
+
     """
 
     # Not needed ... defined to have a more complete template

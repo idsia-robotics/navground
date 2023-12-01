@@ -140,6 +140,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../first_steps.html">First Steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_core.html">navground_core</a></li>
@@ -392,6 +393,10 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CorridorScenario"><code class="docutils literal notranslate"><span class="pre">CorridorScenario</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CorridorScenario.__init__"><code class="docutils literal notranslate"><span class="pre">CorridorScenario.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CorridorScenario.add_safety_to_agent_margin"><code class="docutils literal notranslate"><span class="pre">CorridorScenario.add_safety_to_agent_margin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CorridorScenario.agent_margin"><code class="docutils literal notranslate"><span class="pre">CorridorScenario.agent_margin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CorridorScenario.length"><code class="docutils literal notranslate"><span class="pre">CorridorScenario.length</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CorridorScenario.width"><code class="docutils literal notranslate"><span class="pre">CorridorScenario.width</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -410,10 +415,65 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="navground.sim.scenarios.CorridorScenario">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CorridorScenario</span></span><a class="headerlink" href="#navground.sim.scenarios.CorridorScenario" title="Link to this definition">#</a></dt>
-<dd><dl class="py method">
+<dd><p>A scenario where agents travel along an infinite corridor in opposite
+directions. Agents are initialize at non-overlapping random poses.</p>
+<p><em>Registered properties</em>:</p>
+<ul class="simple">
+<li><p><cite>width</cite> (float, <a class="reference internal" href="#navground.sim.scenarios.CorridorScenario.width" title="navground.sim.scenarios.CorridorScenario.width"><code class="xref py py-attr docutils literal notranslate"><span class="pre">width</span></code></a>)</p></li>
+<li><p><cite>length</cite> (float, <a class="reference internal" href="#navground.sim.scenarios.CorridorScenario.length" title="navground.sim.scenarios.CorridorScenario.length"><code class="xref py py-attr docutils literal notranslate"><span class="pre">length</span></code></a>)</p></li>
+<li><p><cite>agent_margin</cite> (float, <a class="reference internal" href="#navground.sim.scenarios.CorridorScenario.agent_margin" title="navground.sim.scenarios.CorridorScenario.agent_margin"><code class="xref py py-attr docutils literal notranslate"><span class="pre">agent_margin</span></code></a>)</p></li>
+<li><p><cite>add_safety_to_agent_margin</cite> (bool, <a class="reference internal" href="#navground.sim.scenarios.CorridorScenario.add_safety_to_agent_margin" title="navground.sim.scenarios.CorridorScenario.add_safety_to_agent_margin"><code class="xref py py-attr docutils literal notranslate"><span class="pre">add_safety_to_agent_margin</span></code></a>)</p></li>
+</ul>
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.scenarios.CorridorScenario.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.10000000149011612</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_safety_to_agent_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.scenarios.CorridorScenario.__init__" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.scenarios.CorridorScenario.add_safety_to_agent_margin">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_safety_to_agent_margin</span></span><a class="headerlink" href="#navground.sim.scenarios.CorridorScenario.add_safety_to_agent_margin" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whenever the agent’s safety margin should be considered in addition to
+<a class="reference internal" href="#navground.sim.scenarios.CorridorScenario.agent_margin" title="navground.sim.scenarios.CorridorScenario.agent_margin"><code class="xref py py-attr docutils literal notranslate"><span class="pre">agent_margin</span></code></a> when initializing the agents’ poses.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.scenarios.CorridorScenario.agent_margin">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">agent_margin</span></span><a class="headerlink" href="#navground.sim.scenarios.CorridorScenario.agent_margin" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The initial minimal distance between agents.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.scenarios.CorridorScenario.length">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">length</span></span><a class="headerlink" href="#navground.sim.scenarios.CorridorScenario.length" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The length of the simulated portion of corridor. agents
+experience an infinite corridor, as it wraps around.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.scenarios.CorridorScenario.width">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">width</span></span><a class="headerlink" href="#navground.sim.scenarios.CorridorScenario.width" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The width of the corridor.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -465,6 +525,10 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CorridorScenario"><code class="docutils literal notranslate"><span class="pre">CorridorScenario</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CorridorScenario.__init__"><code class="docutils literal notranslate"><span class="pre">CorridorScenario.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CorridorScenario.add_safety_to_agent_margin"><code class="docutils literal notranslate"><span class="pre">CorridorScenario.add_safety_to_agent_margin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CorridorScenario.agent_margin"><code class="docutils literal notranslate"><span class="pre">CorridorScenario.agent_margin</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CorridorScenario.length"><code class="docutils literal notranslate"><span class="pre">CorridorScenario.length</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.scenarios.CorridorScenario.width"><code class="docutils literal notranslate"><span class="pre">CorridorScenario.width</span></code></a></li>
 </ul>
 </li>
 </ul>

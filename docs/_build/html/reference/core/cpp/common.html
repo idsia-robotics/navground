@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Geometry &#8212; navground 0.0.1 documentation</title>
+    <title>Geometry &#8212; navground 0.0.2 documentation</title>
   
   
   
@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../../../_static/documentation_options.js?v=3611b776"></script>
+    <script src="../../../_static/documentation_options.js?v=f52f92e8"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
@@ -48,6 +48,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/cpp/common';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Auto registration" href="auto_registration.html" />
@@ -132,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.1 documentation</p>
+    <p class="title logo__title">navground 0.0.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -409,6 +410,8 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core5Pose29integrateERK6Twist2f"><code class="docutils literal notranslate"><span class="pre">Pose2::integrate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core5Pose2eqERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Pose2::operator==()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core5Pose2neERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Pose2::operator!=()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core5Pose28absoluteERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Pose2::absolute()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core5Pose28relativeERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Pose2::relative()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core5Pose28positionE"><code class="docutils literal notranslate"><span class="pre">Pose2::position</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core5Pose211orientationE"><code class="docutils literal notranslate"><span class="pre">Pose2::orientation</span></code></a></li>
 </ul>
@@ -417,6 +420,9 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist26rotateE7Radians"><code class="docutils literal notranslate"><span class="pre">Twist2::rotate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist2eqERK6Twist2"><code class="docutils literal notranslate"><span class="pre">Twist2::operator==()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist2neERK6Twist2"><code class="docutils literal notranslate"><span class="pre">Twist2::operator!=()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist28absoluteERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Twist2::absolute()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist28relativeERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Twist2::relative()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist28to_frameE5FrameRK5Pose2"><code class="docutils literal notranslate"><span class="pre">Twist2::to_frame()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Twist28velocityE"><code class="docutils literal notranslate"><span class="pre">Twist2::velocity</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Twist213angular_speedE"><code class="docutils literal notranslate"><span class="pre">Twist2::angular_speed</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Twist25frameE"><code class="docutils literal notranslate"><span class="pre">Twist2::frame</span></code></a></li>
@@ -631,6 +637,34 @@ document.write(`
 </dl>
 </dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core5Pose28absoluteERK5Pose2">
+<span class="target" id="structnavground_1_1core_1_1_pose2_1a1d61d02177ac4d2dc8ed198b5cbf5e42"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">absolute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">reference</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core5Pose28absoluteERK5Pose2" title="Link to this definition">#</a><br /></dt>
+<dd><p>Transform a relative pose to an absolute pose. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>reference</strong> – <strong>[in]</strong> The reference pose</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The absolute pose </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core5Pose28relativeERK5Pose2">
+<span class="target" id="structnavground_1_1core_1_1_pose2_1ab43a5ff769491390421f372b1351f0ce"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">relative</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">reference</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core5Pose28relativeERK5Pose2" title="Link to this definition">#</a><br /></dt>
+<dd><p>Transform an absolute pose to a relative pose. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pose</strong> – <strong>[in]</strong> The reference pose</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The relative pose </p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
@@ -694,6 +728,51 @@ document.write(`
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The result of the inequality </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core6Twist28absoluteERK5Pose2">
+<span class="target" id="structnavground_1_1core_1_1_twist2_1a55636968f7cbf3e70bb053454689517f"></span><a class="reference internal" href="#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">absolute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">reference</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core6Twist28absoluteERK5Pose2" title="Link to this definition">#</a><br /></dt>
+<dd><p>Transform a twist to <a class="reference internal" href="#namespacenavground_1_1core_1a5c9b7d38cd15729e0b012d9c315f1b82adc4d53aa0d117d8b189b36d161af4e96"><span class="std std-ref">Frame::absolute</span></a>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The original twist</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The same twist in <a class="reference internal" href="#namespacenavground_1_1core_1a5c9b7d38cd15729e0b012d9c315f1b82adc4d53aa0d117d8b189b36d161af4e96"><span class="std std-ref">Frame::absolute</span></a> (unchanged if already in <a class="reference internal" href="#namespacenavground_1_1core_1a5c9b7d38cd15729e0b012d9c315f1b82adc4d53aa0d117d8b189b36d161af4e96"><span class="std std-ref">Frame::absolute</span></a>) </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core6Twist28relativeERK5Pose2">
+<span class="target" id="structnavground_1_1core_1_1_twist2_1ac24b2c347b3fbc7d9d7e6d820b066091"></span><a class="reference internal" href="#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">relative</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">reference</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core6Twist28relativeERK5Pose2" title="Link to this definition">#</a><br /></dt>
+<dd><p>Transform a twist to <a class="reference internal" href="#namespacenavground_1_1core_1a5c9b7d38cd15729e0b012d9c315f1b82a99c483e1d11b1a279a2a1a3960528487"><span class="std std-ref">Frame::relative</span></a>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frame</strong> – <strong>[in]</strong> The reference pose</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The same twist in <a class="reference internal" href="#namespacenavground_1_1core_1a5c9b7d38cd15729e0b012d9c315f1b82a99c483e1d11b1a279a2a1a3960528487"><span class="std std-ref">Frame::relative</span></a> (unchanged if already in <a class="reference internal" href="#namespacenavground_1_1core_1a5c9b7d38cd15729e0b012d9c315f1b82a99c483e1d11b1a279a2a1a3960528487"><span class="std std-ref">Frame::relative</span></a>) </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core6Twist28to_frameE5FrameRK5Pose2">
+<span class="target" id="structnavground_1_1core_1_1_twist2_1a39d292a3a31b6db8cdc0f63db988aadc"></span><a class="reference internal" href="#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">to_frame</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">frame</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">reference</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core6Twist28to_frameE5FrameRK5Pose2" title="Link to this definition">#</a><br /></dt>
+<dd><p>Convert a twist to a reference frame. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> – <strong>[in]</strong> The desired frame of reference </p></li>
+<li><p><strong>frame</strong> – <strong>[in]</strong> The reference pose</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The twist in the desired frame of reference. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -894,6 +973,8 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core5Pose29integrateERK6Twist2f"><code class="docutils literal notranslate"><span class="pre">Pose2::integrate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core5Pose2eqERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Pose2::operator==()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core5Pose2neERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Pose2::operator!=()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core5Pose28absoluteERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Pose2::absolute()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core5Pose28relativeERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Pose2::relative()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core5Pose28positionE"><code class="docutils literal notranslate"><span class="pre">Pose2::position</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core5Pose211orientationE"><code class="docutils literal notranslate"><span class="pre">Pose2::orientation</span></code></a></li>
 </ul>
@@ -902,6 +983,9 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist26rotateE7Radians"><code class="docutils literal notranslate"><span class="pre">Twist2::rotate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist2eqERK6Twist2"><code class="docutils literal notranslate"><span class="pre">Twist2::operator==()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist2neERK6Twist2"><code class="docutils literal notranslate"><span class="pre">Twist2::operator!=()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist28absoluteERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Twist2::absolute()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist28relativeERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Twist2::relative()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist28to_frameE5FrameRK5Pose2"><code class="docutils literal notranslate"><span class="pre">Twist2::to_frame()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Twist28velocityE"><code class="docutils literal notranslate"><span class="pre">Twist2::velocity</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Twist213angular_speedE"><code class="docutils literal notranslate"><span class="pre">Twist2::angular_speed</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Twist25frameE"><code class="docutils literal notranslate"><span class="pre">Twist2::frame</span></code></a></li>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Experiment &#8212; navground 0.0.1 documentation</title>
+    <title>Experiment &#8212; navground 0.0.2 documentation</title>
   
   
   
@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../../../_static/documentation_options.js?v=3611b776"></script>
+    <script src="../../../_static/documentation_options.js?v=f52f92e8"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
@@ -46,6 +46,7 @@
     <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/python/experiment';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="YAML" href="yaml.html" />
@@ -130,7 +131,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.1 documentation</p>
+    <p class="title logo__title">navground 0.0.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -394,8 +395,17 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.index_of_agent"><code class="docutils literal notranslate"><span class="pre">Trace.index_of_agent()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.collisions"><code class="docutils literal notranslate"><span class="pre">Trace.collisions</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.commands"><code class="docutils literal notranslate"><span class="pre">Trace.commands</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.number"><code class="docutils literal notranslate"><span class="pre">Trace.number</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.poses"><code class="docutils literal notranslate"><span class="pre">Trace.poses</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_cmd"><code class="docutils literal notranslate"><span class="pre">Trace.record_cmd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_collisions"><code class="docutils literal notranslate"><span class="pre">Trace.record_collisions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_pose"><code class="docutils literal notranslate"><span class="pre">Trace.record_pose</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_safety_violation"><code class="docutils literal notranslate"><span class="pre">Trace.record_safety_violation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_target"><code class="docutils literal notranslate"><span class="pre">Trace.record_target</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_task_events"><code class="docutils literal notranslate"><span class="pre">Trace.record_task_events</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_twist"><code class="docutils literal notranslate"><span class="pre">Trace.record_twist</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.safety_violations"><code class="docutils literal notranslate"><span class="pre">Trace.safety_violations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.steps"><code class="docutils literal notranslate"><span class="pre">Trace.steps</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.targets"><code class="docutils literal notranslate"><span class="pre">Trace.targets</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.twists"><code class="docutils literal notranslate"><span class="pre">Trace.twists</span></code></a></li>
 </ul>
@@ -410,6 +420,18 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.stop"><code class="docutils literal notranslate"><span class="pre">Experiment.stop()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.stop_run"><code class="docutils literal notranslate"><span class="pre">Experiment.stop_run()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.update"><code class="docutils literal notranslate"><span class="pre">Experiment.update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.begin_time"><code class="docutils literal notranslate"><span class="pre">Experiment.begin_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.duration"><code class="docutils literal notranslate"><span class="pre">Experiment.duration</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.name"><code class="docutils literal notranslate"><span class="pre">Experiment.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.path"><code class="docutils literal notranslate"><span class="pre">Experiment.path</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.run_duration"><code class="docutils literal notranslate"><span class="pre">Experiment.run_duration</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.run_index"><code class="docutils literal notranslate"><span class="pre">Experiment.run_index</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.runs"><code class="docutils literal notranslate"><span class="pre">Experiment.runs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.save_directory"><code class="docutils literal notranslate"><span class="pre">Experiment.save_directory</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.scenario"><code class="docutils literal notranslate"><span class="pre">Experiment.scenario</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.steps"><code class="docutils literal notranslate"><span class="pre">Experiment.steps</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.time_step"><code class="docutils literal notranslate"><span class="pre">Experiment.time_step</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.trace"><code class="docutils literal notranslate"><span class="pre">Experiment.trace</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -428,7 +450,9 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="navground.sim.Trace">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Trace</span></span><a class="headerlink" href="#navground.sim.Trace" title="Link to this definition">#</a></dt>
-<dd><dl class="py method">
+<dd><p>This class helps to collect the trajectories of the agents during an
+experiment.</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Trace.get_task_events">
 <span class="sig-name descname"><span class="pre">get_task_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">memoryview</span></span></span><a class="headerlink" href="#navground.sim.Trace.get_task_events" title="Link to this definition">#</a></dt>
 <dd><p>The recorded events logged by the task of an agent 
@@ -495,6 +519,17 @@ not been recorded in the trace.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.number">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number</span></span><a class="headerlink" href="#navground.sim.Trace.number" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<p>The number of agents recorded</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="navground.sim.Trace.poses">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">poses</span></span><a class="headerlink" href="#navground.sim.Trace.poses" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
@@ -516,6 +551,83 @@ not been recorded in the trace.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.record_cmd">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_cmd</span></span><a class="headerlink" href="#navground.sim.Trace.record_cmd" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whether it should record the agents control commands</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.record_collisions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_collisions</span></span><a class="headerlink" href="#navground.sim.Trace.record_collisions" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whether it should record collisions</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.record_pose">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_pose</span></span><a class="headerlink" href="#navground.sim.Trace.record_pose" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whether it should record the agents poses</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.record_safety_violation">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_safety_violation</span></span><a class="headerlink" href="#navground.sim.Trace.record_safety_violation" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whether it should record safety violations</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.record_target">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_target</span></span><a class="headerlink" href="#navground.sim.Trace.record_target" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whether it should record the agents targets</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.record_task_events">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_task_events</span></span><a class="headerlink" href="#navground.sim.Trace.record_task_events" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whether it should record data from task events</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.record_twist">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_twist</span></span><a class="headerlink" href="#navground.sim.Trace.record_twist" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whether it should record the agents twists</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="navground.sim.Trace.safety_violations">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">safety_violations</span></span><a class="headerlink" href="#navground.sim.Trace.safety_violations" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
@@ -533,6 +645,17 @@ as a memory view to the floating point buffer:</p>
 where a value of 0 represents no violations.</p>
 <p>The view is empty if safety violations have 
 not been recorded in the trace.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.steps">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">steps</span></span><a class="headerlink" href="#navground.sim.Trace.steps" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<p>The number of steps recorded</p>
 </dd></dl>
 
 <dl class="py property">
@@ -582,50 +705,275 @@ not been recorded in the trace.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="navground.sim.Experiment">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Experiment</span></span><a class="headerlink" href="#navground.sim.Experiment" title="Link to this definition">#</a></dt>
-<dd><dl class="py method">
+<dd><p>An experiment supervises the execution of a simulation.</p>
+<p>It initializes a simulation and run it while collecting the desired
+data with <a class="reference internal" href="#navground.sim.Trace" title="navground.sim.Trace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trace</span></code></a>.</p>
+<p>Use <a class="reference internal" href="#navground.sim.Experiment.run_once" title="navground.sim.Experiment.run_once"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_once()</span></code></a> to perform a single run.</p>
+<p>Use <a class="reference internal" href="#navground.sim.Experiment.run" title="navground.sim.Experiment.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> to perform all runs, optionally saving the data to a HDF5
+dataset.</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.__init__" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Constructs a new instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time_step</strong> – The simulation time step</p></li>
+<li><p><strong>steps</strong> – The number of simulation steps</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.add_callback">
 <span class="sig-name descname"><span class="pre">add_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.add_callback" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Adds a callback to be executed after each simulation step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – The callback</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.run" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Perform all runs</p>
+<p>The number of runs is specified by <a class="reference internal" href="#navground.sim.Experiment.runs" title="navground.sim.Experiment.runs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">runs</span></code></a>.</p>
+<p>If <a class="reference internal" href="#navground.sim.Experiment.save_directory" title="navground.sim.Experiment.save_directory"><code class="xref py py-attr docutils literal notranslate"><span class="pre">save_directory</span></code></a> not empty but points to an existing directory,
+it creates a HDF5 file <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;_&lt;timestamp&gt;/data.h5</span></code> with attributes</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">begin_time</span></code> [<code class="docutils literal notranslate"><span class="pre">string</span></code>], ISO 8601 formatted string of the time
+when the experiment is run, see <a class="reference internal" href="#navground.sim.Experiment.begin_time" title="navground.sim.Experiment.begin_time"><code class="xref py py-attr docutils literal notranslate"><span class="pre">begin_time</span></code></a>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">duration_ns</span></code> [<code class="docutils literal notranslate"><span class="pre">unsigned</span></code>], total duration in nanoseconds, see
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">duration_ns</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">experiment</span></code> [<code class="docutils literal notranslate"><span class="pre">string</span></code>], YAML serialization of the experiment;</p></li>
+</ul>
+<p>Moreover, at the end of each run, it saves a group <code class="docutils literal notranslate"><span class="pre">run_&lt;index&gt;</span></code>
+with attributes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">duration_ns</span></code> [<code class="docutils literal notranslate"><span class="pre">unsigned</span></code>], total duration in nanoseconds, see
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">run_duration_ns</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">seed</span></code> [<code class="docutils literal notranslate"><span class="pre">unsigned</span></code>];</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">steps</span></code> [<code class="docutils literal notranslate"><span class="pre">unsigned</span></code>], actual number of steps performed;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">world</span></code> [<code class="docutils literal notranslate"><span class="pre">string</span></code>], YAML serialization of the world at the begin
+of the experiment.</p></li>
+</ul>
+<p>datasets:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cmds</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <a class="reference internal" href="#navground.sim.Trace.record_cmd" title="navground.sim.Trace.record_cmd"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Trace.record_cmd</span></code></a> is set);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">collisions</span></code> [<code class="docutils literal notranslate"><span class="pre">unsigned</span></code>] (if <a class="reference internal" href="#navground.sim.Trace.record_collisions" title="navground.sim.Trace.record_collisions"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Trace.record_collisions</span></code></a> is
+set);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">poses</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <a class="reference internal" href="#navground.sim.Trace.record_pose" title="navground.sim.Trace.record_pose"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Trace.record_pose</span></code></a> is set);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">targets</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <a class="reference internal" href="#navground.sim.Trace.record_target" title="navground.sim.Trace.record_target"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Trace.record_target</span></code></a> is set);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">twists</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <a class="reference internal" href="#navground.sim.Trace.record_twist" title="navground.sim.Trace.record_twist"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Trace.record_twist</span></code></a> is set);</p></li>
+</ul>
+<p>and groups:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">task_events</span></code> (if <a class="reference internal" href="#navground.sim.Trace.record_task_events" title="navground.sim.Trace.record_task_events"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Trace.record_task_events</span></code></a> is set), where
+each agents logs, in dataset <code class="docutils literal notranslate"><span class="pre">agent_&lt;uid&gt;</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>], the events
+emitted by their task.</p></li>
+</ul>
+<p>A part from saving data to the HDF5 file, each run is performed
+similarly to <a class="reference internal" href="#navground.sim.Experiment.run_once" title="navground.sim.Experiment.run_once"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_once()</span></code></a>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.run_once">
 <span class="sig-name descname"><span class="pre">run_once</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.run_once" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Perform a single run</p>
+<ol class="arabic simple">
+<li><p>it initializes a world from its scenario by calling <a class="reference internal" href="scenarios/scenario.html#navground.sim.Scenario.init_world" title="navground.sim.Scenario.init_world"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Scenario.init_world()</span></code></a></p></li>
+<li><p>it runs the simulation, step by step, collecting data in <a class="reference internal" href="#navground.sim.Experiment.trace" title="navground.sim.Experiment.trace"><code class="xref py py-attr docutils literal notranslate"><span class="pre">trace</span></code></a>.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seed</strong> – The index (and random seed) of the run</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.start">
 <span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.start" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Start recording</p>
+<p>This is only need to use an external run-loop, where you call <a class="reference internal" href="#navground.sim.Experiment.update" title="navground.sim.Experiment.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a> explicitly to update the trace without updating the simulation
+itself. Use <a class="reference internal" href="#navground.sim.Experiment.run" title="navground.sim.Experiment.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> instead, to both run the simulation and record
+the trace.</p>
+<p>Call <a class="reference internal" href="#navground.sim.Experiment.start" title="navground.sim.Experiment.start"><code class="xref py py-meth docutils literal notranslate"><span class="pre">start()</span></code></a> only once per experiment.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.start_run">
 <span class="sig-name descname"><span class="pre">start_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.start_run" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Start recording</p>
+<p>This is only need to use an external run-loop, where you call <a class="reference internal" href="#navground.sim.Experiment.update" title="navground.sim.Experiment.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a> explicitly to update the trace without updating the simulation
+itself. Call once at the start of each run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seed</strong> – The random seed</p></li>
+<li><p><strong>init_world</strong> – Whether it should initialize a new world</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.stop">
 <span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.stop" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Stop the recording</p>
+<p>See <a class="reference internal" href="#navground.sim.Experiment.start" title="navground.sim.Experiment.start"><code class="xref py py-meth docutils literal notranslate"><span class="pre">start()</span></code></a>. This is only need to use an external run-loop.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.stop_run">
 <span class="sig-name descname"><span class="pre">stop_run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.stop_run" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Stop the run recording</p>
+<p>See <a class="reference internal" href="#navground.sim.Experiment.start_run" title="navground.sim.Experiment.start_run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">start_run()</span></code></a>. This is only need to use an external run-loop.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.update">
 <span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.update" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Updates the trace.</p>
+<p>See <a class="reference internal" href="#navground.sim.Experiment.start" title="navground.sim.Experiment.start"><code class="xref py py-meth docutils literal notranslate"><span class="pre">start()</span></code></a>. Call from an external run-loop to update the trace
+without updating the simulation itself.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Experiment.begin_time">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">begin_time</span></span><a class="headerlink" href="#navground.sim.Experiment.begin_time" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime.datetime</p>
+</dd>
+</dl>
+<p>The time when the experiment began.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Experiment.duration">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duration</span></span><a class="headerlink" href="#navground.sim.Experiment.duration" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime.timedelta</p>
+</dd>
+</dl>
+<p>The duration required to perform the whole experiment.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Experiment.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#navground.sim.Experiment.name" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p>The name of the experiment</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Experiment.path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path</span></span><a class="headerlink" href="#navground.sim.Experiment.path" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[os.PathLike]</p>
+</dd>
+</dl>
+<p>The path where the experimental data has been saved.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Experiment.run_duration">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run_duration</span></span><a class="headerlink" href="#navground.sim.Experiment.run_duration" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime.timedelta</p>
+</dd>
+</dl>
+<p>The duration required to perform the last run (excludes
+initialization).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Experiment.run_index">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run_index</span></span><a class="headerlink" href="#navground.sim.Experiment.run_index" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<p>The index of the next run</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Experiment.runs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">runs</span></span><a class="headerlink" href="#navground.sim.Experiment.runs" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<p>Number of runs to perform</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Experiment.save_directory">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save_directory</span></span><a class="headerlink" href="#navground.sim.Experiment.save_directory" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>os.PathLike</p>
+</dd>
+</dl>
+<p>Where to save the results</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Experiment.scenario">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scenario</span></span><a class="headerlink" href="#navground.sim.Experiment.scenario" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="scenarios/scenario.html#navground.sim.Scenario" title="navground.sim.Scenario">navground::sim::Scenario</a></p>
+</dd>
+</dl>
+<p>The scenario</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Experiment.steps">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">steps</span></span><a class="headerlink" href="#navground.sim.Experiment.steps" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<p>Maximal number of steps per run</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Experiment.time_step">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time_step</span></span><a class="headerlink" href="#navground.sim.Experiment.time_step" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>Simulation time step</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Experiment.trace">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trace</span></span><a class="headerlink" href="#navground.sim.Experiment.trace" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#navground.sim.Trace" title="navground.sim.Trace">navground.sim.Trace</a></p>
+</dd>
+</dl>
+<p>The current trace</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -680,8 +1028,17 @@ not been recorded in the trace.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.index_of_agent"><code class="docutils literal notranslate"><span class="pre">Trace.index_of_agent()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.collisions"><code class="docutils literal notranslate"><span class="pre">Trace.collisions</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.commands"><code class="docutils literal notranslate"><span class="pre">Trace.commands</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.number"><code class="docutils literal notranslate"><span class="pre">Trace.number</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.poses"><code class="docutils literal notranslate"><span class="pre">Trace.poses</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_cmd"><code class="docutils literal notranslate"><span class="pre">Trace.record_cmd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_collisions"><code class="docutils literal notranslate"><span class="pre">Trace.record_collisions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_pose"><code class="docutils literal notranslate"><span class="pre">Trace.record_pose</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_safety_violation"><code class="docutils literal notranslate"><span class="pre">Trace.record_safety_violation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_target"><code class="docutils literal notranslate"><span class="pre">Trace.record_target</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_task_events"><code class="docutils literal notranslate"><span class="pre">Trace.record_task_events</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_twist"><code class="docutils literal notranslate"><span class="pre">Trace.record_twist</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.safety_violations"><code class="docutils literal notranslate"><span class="pre">Trace.safety_violations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.steps"><code class="docutils literal notranslate"><span class="pre">Trace.steps</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.targets"><code class="docutils literal notranslate"><span class="pre">Trace.targets</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.twists"><code class="docutils literal notranslate"><span class="pre">Trace.twists</span></code></a></li>
 </ul>
@@ -696,6 +1053,18 @@ not been recorded in the trace.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.stop"><code class="docutils literal notranslate"><span class="pre">Experiment.stop()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.stop_run"><code class="docutils literal notranslate"><span class="pre">Experiment.stop_run()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.update"><code class="docutils literal notranslate"><span class="pre">Experiment.update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.begin_time"><code class="docutils literal notranslate"><span class="pre">Experiment.begin_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.duration"><code class="docutils literal notranslate"><span class="pre">Experiment.duration</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.name"><code class="docutils literal notranslate"><span class="pre">Experiment.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.path"><code class="docutils literal notranslate"><span class="pre">Experiment.path</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.run_duration"><code class="docutils literal notranslate"><span class="pre">Experiment.run_duration</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.run_index"><code class="docutils literal notranslate"><span class="pre">Experiment.run_index</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.runs"><code class="docutils literal notranslate"><span class="pre">Experiment.runs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.save_directory"><code class="docutils literal notranslate"><span class="pre">Experiment.save_directory</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.scenario"><code class="docutils literal notranslate"><span class="pre">Experiment.scenario</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.steps"><code class="docutils literal notranslate"><span class="pre">Experiment.steps</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.time_step"><code class="docutils literal notranslate"><span class="pre">Experiment.time_step</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.trace"><code class="docutils literal notranslate"><span class="pre">Experiment.trace</span></code></a></li>
 </ul>
 </li>
 </ul>

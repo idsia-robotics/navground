@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Base class &#8212; navground 0.0.1 documentation</title>
+    <title>Base class &#8212; navground 0.0.2 documentation</title>
   
   
   
@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=3611b776"></script>
+    <script src="../../../../_static/documentation_options.js?v=f52f92e8"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
@@ -46,6 +46,7 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script src="../../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/python/tasks/task';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
     <link rel="next" title="Waypoints" href="waypoints.html" />
@@ -130,7 +131,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.1 documentation</p>
+    <p class="title logo__title">navground 0.0.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -396,6 +397,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.get"><code class="docutils literal notranslate"><span class="pre">Task.get()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.make_type"><code class="docutils literal notranslate"><span class="pre">Task.make_type()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.set"><code class="docutils literal notranslate"><span class="pre">Task.set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.log_size"><code class="docutils literal notranslate"><span class="pre">Task.log_size</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.properties"><code class="docutils literal notranslate"><span class="pre">Task.properties</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.type"><code class="docutils literal notranslate"><span class="pre">Task.type</span></code></a></li>
 </ul>
@@ -418,7 +420,7 @@ document.write(`
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TaskCallback</span></span><a class="headerlink" href="#navground.sim.TaskCallback" title="Link to this definition">#</a></dt>
 <dd><p>A type alias to <code class="docutils literal notranslate"><span class="pre">Callable[List[float],</span> <span class="pre">None]</span></code>.</p>
 <p>The type of callbacks called when the task publishes data related to an event.
-The task must publish data of the same size, see <code class="xref py py-attr docutils literal notranslate"><span class="pre">navground.sim.Task.log_size</span></code>.</p>
+The task must publish data of the same size, see <a class="reference internal" href="#navground.sim.Task.log_size" title="navground.sim.Task.log_size"><code class="xref py py-attr docutils literal notranslate"><span class="pre">navground.sim.Task.log_size</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py class">
@@ -427,12 +429,24 @@ The task must publish data of the same size, see <code class="xref py py-attr do
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Task.add_callback">
 <span class="sig-name descname"><span class="pre">add_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.TaskCallback" title="navground.sim.TaskCallback"><span class="pre">TaskCallback</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Task.add_callback" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Adds a callback called to log task events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – The desired callback</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Task.done">
 <span class="sig-name descname"><span class="pre">done</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#navground.sim.Task.done" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Returns whether the task is done.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the task has finished.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Task.get">
@@ -478,6 +492,17 @@ be found or if the value has a non-compatible type.</p>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Task.log_size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log_size</span></span><a class="headerlink" href="#navground.sim.Task.log_size" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<p>The size of the data passed to callbacks when events occur, see <a class="reference internal" href="#navground.sim.TaskCallback" title="navground.sim.TaskCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskCallback</span></code></a> and <a class="reference internal" href="#navground.sim.Task.add_callback" title="navground.sim.Task.add_callback"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_callback()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -557,6 +582,7 @@ be found or if the value has a non-compatible type.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.get"><code class="docutils literal notranslate"><span class="pre">Task.get()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.make_type"><code class="docutils literal notranslate"><span class="pre">Task.make_type()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.set"><code class="docutils literal notranslate"><span class="pre">Task.set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.log_size"><code class="docutils literal notranslate"><span class="pre">Task.log_size</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.properties"><code class="docutils literal notranslate"><span class="pre">Task.properties</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Task.type"><code class="docutils literal notranslate"><span class="pre">Task.type</span></code></a></li>
 </ul>

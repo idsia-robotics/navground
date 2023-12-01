@@ -3,6 +3,7 @@ steps: 3000
 time_step: 0.1
 save_directory: ''
 record_pose: true
+runs: 1
 scenario:
   type: Antipodal
   position_noise: 0.005
@@ -25,7 +26,7 @@ scenario:
         type: HL
         optimal_speed: 0.08
         horizon: 10.0
-        safety_margin: 0.01
+        safety_margin: 0.2
       state_estimation:
         type: Bounded
         range_of_view: 10.0

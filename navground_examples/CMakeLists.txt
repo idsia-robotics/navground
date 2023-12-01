@@ -19,4 +19,7 @@ add_subdirectory(src/collision)
 add_subdirectory(src/scenario)
 add_subdirectory(src/world)
 
+ament_export_targets(my_scenarioTargets HAS_LIBRARY_TARGET)
+ament_export_targets(my_behaviorTargets HAS_LIBRARY_TARGET)
+
 ament_package()

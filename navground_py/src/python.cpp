@@ -20,6 +20,7 @@
 #include "navground/core/plugins.h"
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/yaml.h"
+#include "navground/core/states/sensing.h"
 #include "navground_py/register.h"
 #include "navground_py/yaml.h"
 
@@ -720,6 +721,13 @@ PYBIND11_MODULE(_navground, m) {
           "line_obstacles", &GeometricState::get_line_obstacles,
           &GeometricState::set_line_obstacles,
           DOC(navground, core, GeometricState, property_line_obstacles));
+
+  py::class_<SensingState, EnvironmentState, std::shared_ptr<SensingState>>(
+      m, "SensingState", DOC(navground, core, SensingState))
+      .def(py::init<>(), DOC(navground, core, SensingState, SensingState))
+      .def_property("data", &SensingState::get_data,
+                    &SensingState::set_data,
+                    DOC(navground, core, SensingState, property_data));
 
   py::class_<HLBehavior, Behavior, std::shared_ptr<HLBehavior>>(
       m, "HLBehavior", DOC(navground, core, HLBehavior))

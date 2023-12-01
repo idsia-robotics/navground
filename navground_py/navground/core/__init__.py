@@ -11,9 +11,9 @@ from ._navground import (CachedCollisionComputation, CollisionComputation,
                          Controller, Disc, EnvironmentState, Frame,
                          GeometricState)
 from ._navground import Kinematics as _Kinematics
-from ._navground import (LineSegment, Neighbor, Pose2, SocialMargin, Target,
-                         Twist2, dump, load_behavior, load_kinematics,
-                         to_absolute, to_relative)
+from ._navground import (LineSegment, Neighbor, Pose2, SensingState,
+                         SocialMargin, Target, Twist2, dump, load_behavior,
+                         load_kinematics, to_absolute, to_relative)
 
 Vector2 = 'numpy.ndarray[numpy.float32[2, 1]]'
 PropertyField = Union[bool, int, float, str, Vector2, List[bool], List[int],
@@ -124,7 +124,7 @@ def load_py_plugins():
 __all__ = [
     'Behavior', 'Pose2', 'Twist2', 'Target', 'Disc', 'Neighbor', 'LineSegment',
     'Kinematics', 'Action', 'Controller', 'CollisionComputation'
-    'CachedCollisionComputation', 'Frame', 'GeometricState', 'dump',
-    'load_behavior', 'load_kinematics', 'load_py_plugins', 'to_absolute',
-    'to_relative'
+    'CachedCollisionComputation', 'Frame', 'GeometricState', 'SensingState',
+    'dump', 'load_behavior', 'load_kinematics', 'load_py_plugins',
+    'to_absolute', 'to_relative'
 ]

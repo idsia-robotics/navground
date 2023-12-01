@@ -9,7 +9,6 @@ ament_target_dependencies(behavior_benchmark navground_core)
 
 add_library(my_behavior SHARED my_behavior.h)
 ament_target_dependencies(my_behavior navground_core)
-ament_export_targets(my_behaviorTargets HAS_LIBRARY_TARGET)
 ament_export_dependencies(my_behavior)
 set_target_properties(my_behavior PROPERTIES LINKER_LANGUAGE CXX)
 

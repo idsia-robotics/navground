@@ -9,9 +9,9 @@
 
 namespace navground::sim {
 
-void BoundedStateEstimation::update(Agent *agent, World *world) const {
-  if (GeometricState *state = get_geometric_state(agent)) {
-    state->set_neighbors(neighbors_of_agent(agent, world));
+void BoundedStateEstimation::update(Agent *agent, World *world, EnvironmentState * state) const {
+  if (GeometricState *geo_state = dynamic_cast<GeometricState *>(state)) {
+    geo_state->set_neighbors(neighbors_of_agent(agent, world));
   }
 }
 

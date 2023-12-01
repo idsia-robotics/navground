@@ -97,6 +97,11 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation
   virtual std::vector<Neighbor> neighbors_of_agent(const Agent *agent,
                                                    const World *world) const;
 
+  /**
+   * @private
+   */
+  virtual void update(Agent *agent, World *world, EnvironmentState * state) const override;
+
  protected:
 #if 0
   BoundingBox bounding_box(const Agent *agent) const;
@@ -106,11 +111,6 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation
 
   virtual bool visible(const Agent *agent, const Agent *neighbor) const;
 #endif
-
-  /**
-   * @private
-   */
-  void update(Agent *agent, World *world) const override;
 
   /**
    * @private

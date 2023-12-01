@@ -57,6 +57,7 @@ add_library(navground_sim SHARED
   src/agent.cpp
   src/experiment.cpp 
   src/scenario.cpp
+  src/state_estimation.cpp
   src/world.cpp 
   src/state_estimations/geometric_bounded.cpp
   src/tasks/waypoints.cpp

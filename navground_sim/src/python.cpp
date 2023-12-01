@@ -105,8 +105,9 @@ struct PyStateEstimation : StateEstimation,
   using PyHasRegister<StateEstimation>::C;
   using Native = StateEstimation;
 
-  void update(Agent *agent, World *world) const override {
-    PYBIND11_OVERRIDE(void, StateEstimation, update, agent, world);
+  void update(Agent *agent, World *world,
+              EnvironmentState *state) const override {
+    PYBIND11_OVERRIDE(void, StateEstimation, update, agent, world, state);
   }
 
   void prepare(Agent *agent, World *world) const override {
@@ -255,7 +256,8 @@ struct PyExperiment : public Experiment {
   // virtual ~PyExperiment() = default;
 
   py::object py_scenario;
-  // Store a python object to allow the simulation (scenario, ...) to set new python attributes
+  // Store a python object to allow the simulation (scenario, ...) to set new
+  // python attributes
   py::object py_world;
 
   std::shared_ptr<World> make_world() override {
@@ -562,8 +564,8 @@ Creates a rectangular region
            DOC(navground, sim, World, run))
       .def("run_until", &World::run_until, py::arg("condition"),
            py::arg("time_step"), DOC(navground, sim, World, run_until))
-      .def("update_dry", &World::update_dry,
-           py::arg("time_step"), DOC(navground, sim, World, update_dry))
+      .def("update_dry", &World::update_dry, py::arg("time_step"),
+           DOC(navground, sim, World, update_dry))
       .def_property("time", &World::get_time, nullptr,
                     DOC(navground, sim, World, property_time))
       .def_property("step", &World::get_step, nullptr,
@@ -632,11 +634,11 @@ Creates a rectangular region
              HasProperties, std::shared_ptr<StateEstimation>>(
       m, "StateEstimation", DOC(navground, sim, StateEstimation))
       .def(py::init<>(), DOC(navground, sim, StateEstimation, StateEstimation))
-      // .def_readwrite("world", &StateEstimation::world,
-      //                py::return_value_policy::reference,
-      //                DOC(navground, sim, StateEstimation, world))
-      // .def("_update", &StateEstimation::update)
-      // .def("_prepare", &StateEstimation::prepare);
+      .def("update",
+           py::overload_cast<Agent *, World *, EnvironmentState *>(
+               &StateEstimation::update, py::const_),
+           py::arg("agent"), py::arg("world"), py::arg("state"),
+           DOC(navground, sim, StateEstimation, update))
       .def_property(
           "type", [](StateEstimation *obj) { return obj->get_type(); }, nullptr,
           "The name associated to the type of an object");
@@ -850,7 +852,8 @@ not been recorded in the trace.
               return py::memoryview::from_buffer(data.data(), shape, strides);
             }
             return empty_float_view();
-          }, py::arg("agent"),
+          },
+          py::arg("agent"),
           R"doc(
 The recorded events logged by the task of an agent 
 as memory view to the floating point buffer::
@@ -914,13 +917,17 @@ The view is empty if the agent's task has not been recorded in the trace.
       .def("run_once", &Experiment::run_once, py::arg("seed"),
            DOC(navground, sim, Experiment, run_once))
       .def("run", &Experiment::run, DOC(navground, sim, Experiment, run))
-      // .def("init_run", &Experiment::init_run, py::arg("seed"), DOC(navground, sim, Experiment, init_run))
+      // .def("init_run", &Experiment::init_run, py::arg("seed"), DOC(navground,
+      // sim, Experiment, init_run))
       .def("start", &Experiment::start, DOC(navground, sim, Experiment, start))
       .def("stop", &Experiment::stop, DOC(navground, sim, Experiment, stop))
-      .def("start_run", &Experiment::start_run, py::arg("seed"), py::arg("init_world") = false, 
+      .def("start_run", &Experiment::start_run, py::arg("seed"),
+           py::arg("init_world") = false,
            DOC(navground, sim, Experiment, start_run))
-      .def("stop_run", &Experiment::stop_run, DOC(navground, sim, Experiment, stop_run))
-      .def("update", &Experiment::update, DOC(navground, sim, Experiment, update))
+      .def("stop_run", &Experiment::stop_run,
+           DOC(navground, sim, Experiment, stop_run))
+      .def("update", &Experiment::update,
+           DOC(navground, sim, Experiment, update))
       .def_property("run_duration", &Experiment::get_run_duration_ns, nullptr,
                     DOC(navground, sim, Experiment, property, run_duration_ns))
       .def_property("duration", &Experiment::get_duration_ns, nullptr,
@@ -937,8 +944,8 @@ The view is empty if the agent's task has not been recorded in the trace.
       .def(py::init<>(), "");
 
   scenario.def(py::init<>())
-      .def("init_world", &Scenario::init_world, py::arg("world"), py::arg("seed") = 0,
-           DOC(navground, sim, Scenario, init_world))
+      .def("init_world", &Scenario::init_world, py::arg("world"),
+           py::arg("seed") = 0, DOC(navground, sim, Scenario, init_world))
 // .def("sample", &Scenario::sample)
 // .def("reset", &Scenario::reset)
 #if 0

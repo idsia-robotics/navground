@@ -7,10 +7,14 @@
 
 #include "navground/core/property.h"
 #include "navground/core/register.h"
+#include "navground/core/state.h"
+#include "navground/core/behavior.h"
 #include "navground_sim_export.h"
 
 using navground::core::HasProperties;
 using navground::core::HasRegister;
+using navground::core::EnvironmentState;
+using navground::core::Behavior;
 
 namespace navground::sim {
 
@@ -44,13 +48,21 @@ struct NAVGROUND_SIM_EXPORT StateEstimation
   friend class Agent;
   friend class World;
 
+  /**
+   * @brief      Updates an environment state with respect to a given agent.
+   * @param      agent  The agent owning the state estimation
+   * @param[in]  world  The world that the agent is part of
+   * @param      state  The environment state to be updated
+   */
+  virtual void update(Agent *agent, World *world, EnvironmentState * state) const {};
+
  protected:
   /**
    * @brief      Updates the state of a given agent \ref navground::core::Behavior
    * @param      agent  The agent owning the state estimation
    * @param[in]  world    The that the agent is part of
    */
-  virtual void update(Agent *agent, World *world) const {};
+  void update(Agent *agent, World *world) const;
 
   /**
    * @brief      Setup the state estimation.

@@ -266,6 +266,14 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    */
   bool external;  
 
+  /**
+   * @brief      Actuate the current agent control command.
+   *
+   * @param[in]  dt    The time step
+   * @param[in]  cmd The desired command
+   */
+  void actuate(const Twist2 & cmd, float dt);
+
  private:
   std::shared_ptr<Task> task;
   std::shared_ptr<StateEstimation> state_estimation;

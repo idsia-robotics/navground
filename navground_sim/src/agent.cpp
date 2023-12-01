@@ -32,6 +32,13 @@ void Agent::actuate(float dt) {
   pose = pose.integrate(twist, dt);
 }
 
+void Agent::actuate(const Twist2 & cmd, float dt) {
+  if(!kinematics) return;
+  last_cmd = kinematics->feasible(cmd.to_frame(kinematics->cmd_frame(), pose));
+  twist = last_cmd;
+  pose = pose.integrate(cmd, dt);
+}
+
 void Agent::set_behavior(const std::shared_ptr<Behavior> &value) {
   behavior = value;
   controller.set_behavior(value);

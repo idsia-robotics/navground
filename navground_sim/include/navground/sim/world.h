@@ -197,8 +197,15 @@ class NAVGROUND_SIM_EXPORT World {
    *             without actuation and collisions resolution.
    *
    * @param[in]  time_step  The time step
+   * @param[in]  advance_time  Whenever to advance time too.
    */
-  void update_dry(float time_step);
+  void update_dry(float time_step, bool advance_time = true);
+  /**
+   * @brief      Actuate then controllers and perform collisions resolutions.
+   *
+   * @param[in]  time_step  The duration of each time step
+   */
+  void actuate(float time_step);
   /**
    * @brief      Updates the world for one or more time steps
    *

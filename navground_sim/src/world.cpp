@@ -89,7 +89,24 @@ void World::update(float time_step) {
   }
 }
 
-void World::update_dry(float time_step) {
+void World::actuate(float time_step) {
+  if (!ready) {
+    prepare();
+    ready = true;
+  }
+  for (auto &a : agents) {
+    a->actuate(time_step);
+  }
+  update_agents_strtree();
+  update_collisions();
+  if (has_lattice) {
+    wrap_agents_on_lattice();
+  }
+  time += time_step;
+  step++;
+}
+
+void World::update_dry(float time_step, bool advance_time) {
   if (!ready) {
     prepare();
     ready = true;
@@ -99,11 +116,13 @@ void World::update_dry(float time_step) {
   for (auto &a : agents) {
     a->update(time_step, time, this);
   }
-  time += time_step;
-  step++;
-  for (const auto &cb : callbacks) {
-    cb();
+  if (advance_time) {
+    time += time_step;
+    step++;
   }
+  // for (const auto &cb : callbacks) {
+  //   cb();
+  // }
 }
 
 void World::add_entity(Entity *entity) { entities[entity->uid] = entity; }

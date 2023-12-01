@@ -522,7 +522,10 @@ Creates a rectangular region
           py::cpp_function(&Agent::set_kinematics, py::keep_alive<1, 2>()),
           DOC(navground, sim, Agent, property_kinematics))
       .def_property("idle", &Agent::idle, nullptr,
-                    DOC(navground, sim, Agent, idle));
+                    DOC(navground, sim, Agent, idle))
+      .def("actuate", py::overload_cast<const Twist2 &, float>(&Agent::actuate),
+           py::arg("cmd"), py::arg("time_step"),
+           DOC(navground, sim, Agent, actuate, 2));
 
   py::class_<PyAgent, Agent, Entity, std::shared_ptr<PyAgent>>(
       m, "Agent", py::dynamic_attr(), DOC(navground, sim, Agent))
@@ -565,7 +568,10 @@ Creates a rectangular region
       .def("run_until", &World::run_until, py::arg("condition"),
            py::arg("time_step"), DOC(navground, sim, World, run_until))
       .def("update_dry", &World::update_dry, py::arg("time_step"),
+           py::arg("advance_time") = true,
            DOC(navground, sim, World, update_dry))
+      .def("actuate", &World::actuate, py::arg("time_step"),
+           DOC(navground, sim, World, actuate))
       .def_property("time", &World::get_time, nullptr,
                     DOC(navground, sim, World, property_time))
       .def_property("step", &World::get_step, nullptr,

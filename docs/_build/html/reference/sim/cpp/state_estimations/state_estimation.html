@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Base class &#8212; navground 0.0.1 documentation</title>
+    <title>Base class &#8212; navground 0.0.2 documentation</title>
   
   
   
@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=3611b776"></script>
+    <script src="../../../../_static/documentation_options.js?v=f52f92e8"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
@@ -46,6 +46,7 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script src="../../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/cpp/state_estimations/state_estimation';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
     <link rel="next" title="Geometric bounded" href="geometric_bounded.html" />
@@ -130,7 +131,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.1 documentation</p>
+    <p class="title logo__title">navground 0.0.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -389,7 +390,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15StateEstimationE"><code class="docutils literal notranslate"><span class="pre">StateEstimation</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15StateEstimationE"><code class="docutils literal notranslate"><span class="pre">StateEstimation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15StateEstimation6updateEP5AgentP5WorldP16EnvironmentState"><code class="docutils literal notranslate"><span class="pre">StateEstimation::update()</span></code></a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -414,6 +418,24 @@ document.write(`
 <p>In particular, the agent should use a state estimation compatible with it’s state representation.</p>
 <p><a class="reference internal" href="#structnavground_1_1sim_1_1_state_estimation"><span class="std std-ref">StateEstimation</span></a> holds a pointer to the <a class="reference internal" href="../world.html#classnavground_1_1sim_1_1_world"><span class="std std-ref">World</span></a> containing the agent, which it queries to get the relevant entities (located nearby the agent). </p>
 <p>Subclassed by <a class="reference internal" href="geometric_bounded.html#structnavground_1_1sim_1_1_bounded_state_estimation"><span class="std std-ref">navground::sim::BoundedStateEstimation</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim15StateEstimation6updateEP5AgentP5WorldP16EnvironmentState">
+<span class="target" id="structnavground_1_1sim_1_1_state_estimation_1a6599935242c387cafe6a020c35dabcaf"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">agent</span></span>, <a class="reference internal" href="../world.html#_CPPv4N9navground3sim5WorldE" title="navground::sim::World"><span class="n"><span class="pre">World</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">world</span></span>, <span class="n"><span class="pre">EnvironmentState</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">state</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim15StateEstimation6updateEP5AgentP5WorldP16EnvironmentState" title="Link to this definition">#</a><br /></dt>
+<dd><p>Updates an environment state with respect to a given agent. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agent</strong> – The agent owning the state estimation </p></li>
+<li><p><strong>world</strong> – <strong>[in]</strong> The world that the agent is part of </p></li>
+<li><p><strong>state</strong> – The environment state to be updated </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 </dd></dl>
 
 </section>
@@ -462,7 +484,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15StateEstimationE"><code class="docutils literal notranslate"><span class="pre">StateEstimation</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15StateEstimationE"><code class="docutils literal notranslate"><span class="pre">StateEstimation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15StateEstimation6updateEP5AgentP5WorldP16EnvironmentState"><code class="docutils literal notranslate"><span class="pre">StateEstimation::update()</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

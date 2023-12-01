@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>A tour of navground &#8212; navground 0.0.1 documentation</title>
+    <title>A tour of navground &#8212; navground 0.0.2 documentation</title>
   
   
   
@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=3611b776"></script>
+    <script src="../_static/documentation_options.js?v=f52f92e8"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -49,6 +49,7 @@
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/tour';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Packages" href="../packages/index.html" />
@@ -133,7 +134,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.1 documentation</p>
+    <p class="title logo__title">navground 0.0.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -1139,12 +1140,14 @@ Action has finished with State.success.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyScenario</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Scenario</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="k">class</span> <span class="nc">MyScenario</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Scenario</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">init_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="p">:</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">init_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="p">:</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">init_world</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
         <span class="n">agent</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">Agent</span><span class="p">()</span>
         <span class="n">agent</span><span class="o">.</span><span class="n">behavior</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Behavior</span><span class="o">.</span><span class="n">make_type</span><span class="p">(</span><span class="s1">&#39;ORCA&#39;</span><span class="p">)</span>
@@ -1204,7 +1207,7 @@ Action has finished with State.success.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-datetime.timedelta(microseconds=108)
+datetime.timedelta(microseconds=101)
 </pre></div></div>
 </div>
 <p>as well as the agents’ trajectory, as an array of <code class="docutils literal notranslate"><span class="pre">steps</span> <span class="pre">x</span> <span class="pre">agents</span> <span class="pre">x</span> <span class="pre">3</span></code> coordinates.</p>
@@ -1513,7 +1516,7 @@ ws.onmessage = function(event) {
 var agents = new Set();
 var entity = {};
 var NS = "http://www.w3.org/2000/svg";
-var prototypes = {'': '#N0agent', 'thymio': '#N0thymio'}
+var prototypes = {'': '#N0agent', 'thymio': '#N0thymio', 'wheelchair': '#N0wheelchair', 'human': '#N0human'}
 
 function add_wall(id, points) {
   var e = document.createElementNS(NS,"polyline");
@@ -1698,9 +1701,9 @@ function move_element(g, x, y, angle) {
   <svg id="N0svg" width="500" height="500" viewBox="0 0 1 1 ">
     <defs>
         <circle id="N0agent" cx="0" cy="0" r="1"/>
-        <g id="N0thymio" transform="rotate(90) scale(0.125)">
+        <g id="N0thymio" transform="rotate(90) scale(0.125)" fill="#e6e6e6">
             <path
-               style="fill:#e6e6e6;stroke:none"
+               style="stroke:none"
                d="M -5.4999227 -5.8058472 L -5.4999227 2.9998169 L 5.4999227 2.9998169 L 5.4999227     -5.8089478 A 8 8 0 0 0 0 -8.0000285 A 8 8 0 0 0 -5.4999227 -5.8058472 z " />
             <rect
                style="fill:#333333;stroke:none"
@@ -1718,6 +1721,60 @@ function move_element(g, x, y, angle) {
                y="-2.0999999"
                rx="0.5" />
         </g>
+<g id="N0wheelchair" transform="scale(0.02) rotate(180) translate(-55,-173)">
+      <path
+         id="path7"
+         style="fill:#c8beb7;stroke:none;stroke-width:214.829"
+         d="m 48.06149,189.83177 h -38.89 v -33.33 h 38.89 z"
+         inkscape:transform-center-x="53.187398"
+         inkscape:transform-center-y="-39.069755" />
+      <path
+         style="color:#000000;fill:#080808;stroke:none;-inkscape-stroke:none"
+         d="m 81.382974,148.5266 v -4.11718 -4.21485 H 53.61149 v 8.33203 z"
+         id="path8" />
+      <path
+         style="color:#000000;fill:#080808;stroke:none;-inkscape-stroke:none"
+         d="m 81.382974,204.0666 v -4.11718 -4.21485 H 53.61149 v 8.33203 z"
+         id="path9" />
+      <path
+         id="path10"
+         style="fill:#483e37;stroke:none;stroke-width:314.501"
+         d="m 92.497232,199.91402 h -50 v -55.55999 h 50 z" />
+      <path
+         style="color:#000000;fill:#917c6f;stroke:none;-inkscape-stroke:none"
+         d="m 92.497232,199.91332 v -2.77148 -52.78711 h -5.558593 v 55.55859 z"
+         id="path11" />
+    </g>
+    <g id="N0human" transform="scale(0.02) rotate(180) translate(-50,-175)">
+    <ellipse
+       style="fill:#666666;fill-opacity:1;stroke:none;stroke-width:0.605428;stroke-dasharray:none"
+       id="circle11"
+       cx="54.378712"
+       cy="172.97321"
+       rx="19.763088"
+       ry="43.396534" />
+    <ellipse
+       style="fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.34029;stroke-dasharray:none"
+       id="ellipse11"
+       cx="54.378712"
+       cy="172.90125"
+       rx="16.28758"
+       ry="16.635132" />
+    <ellipse
+       style="fill:#666666;fill-opacity:1;stroke:none;stroke-width:0.262666;stroke-dasharray:none"
+       id="ellipse12"
+       cx="40.156387"
+       cy="134.79787"
+       rx="23.189381"
+       ry="6.961535" />
+    <ellipse
+       style="fill:#666666;fill-opacity:1;stroke:none;stroke-width:0.262666;stroke-dasharray:none"
+       id="ellipse13"
+       cx="40.156387"
+       cy="211.14854"
+       rx="23.189381"
+       ry="6.961535" />
+    </g>
     </defs>
     <g id='N0world' transform="scale(1, -1)">
 
@@ -1739,7 +1796,7 @@ function move_element(g, x, y, angle) {
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">until_time</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">60</span>

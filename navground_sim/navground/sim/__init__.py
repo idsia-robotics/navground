@@ -1,7 +1,7 @@
 from typing import Callable, List
 
 import pkg_resources
-from navground.core import _register
+from navground.core import _register, registered_property
 from navground.core import load_py_plugins as _load_py_plugins
 
 from ._navground_sim import Agent, BoundingBox, Entity, Experiment, Obstacle
@@ -64,5 +64,5 @@ __all__ = [
     'WaypointsTask', 'Experiment', 'Scenario', 'StateEstimation', 'Task',
     'BoundingBox', 'dump', 'TaskCallback', 'load_agent',
     'load_state_estimation', 'load_task', 'load_world', 'load_scenario',
-    'load_experiment', 'load_py_plugins'
+    'load_experiment', 'load_py_plugins', 'registered_property'
 ]

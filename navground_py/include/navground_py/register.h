@@ -25,12 +25,11 @@ struct PyHasRegister : public virtual navground::core::HasRegister<T> {
   inline static std::map<std::string, Factory> factory = {};
 
   static void register_type_py(const std::string &name, const py::object &cls) {
-    if (!factory.count(name)) {
-      factory[name] = cls;
-      type_properties()[name] = Properties{};
-    } else {
+    if (factory.count(name)) {
       std::cerr << "Type " << name << " already registered" << std::endl;
     }
+    factory[name] = cls;
+    type_properties()[name] = Properties{};
   }
 
   static std::vector<std::string> types() {

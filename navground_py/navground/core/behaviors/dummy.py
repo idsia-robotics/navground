@@ -2,7 +2,7 @@ from typing import Optional
 
 import numpy as np
 from navground.core import (Behavior, Kinematics, Vector2,
-                                registered_property)
+                            registered_property)
 
 
 class PyDummyBehavior(Behavior, name="PyDummy"):

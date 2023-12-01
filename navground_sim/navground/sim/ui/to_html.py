@@ -99,9 +99,9 @@ def html_for_world(world: Optional[World] = None,
         **dims)
 
 
-def notebook_view(width: int = 600):
+def notebook_view(width: int = 600, **kwargs: Any):
     return HTML(
         html_for_world(world=None,
                        with_websocket=True,
                        width=width,
-                       notebook=True))
+                       notebook=True, **kwargs))

@@ -9,15 +9,22 @@
 
 namespace navground::sim {
 
-void BoundedStateEstimation::update(Agent *agent, World *world, EnvironmentState * state) const {
+void BoundedStateEstimation::update(Agent *agent, World *world,
+                                    EnvironmentState *state) const {
   if (GeometricState *geo_state = dynamic_cast<GeometricState *>(state)) {
     geo_state->set_neighbors(neighbors_of_agent(agent, world));
+    if (update_static_obstacles) {
+      geo_state->set_static_obstacles(world->get_static_obstacles_in_region(
+          envelop(agent->pose.position, range)));
+    }
   }
 }
 
 void BoundedStateEstimation::prepare(Agent *agent, World *world) const {
   if (GeometricState *state = get_geometric_state(agent)) {
-    state->set_static_obstacles(world->get_discs());
+    if (!update_static_obstacles) {
+      state->set_static_obstacles(world->get_discs());
+    }
     state->set_line_obstacles(world->get_line_obstacles());
   } else {
     std::cerr << "Agent does not have a geometric environmental state despite "
@@ -28,7 +35,7 @@ void BoundedStateEstimation::prepare(Agent *agent, World *world) const {
 
 std::vector<Neighbor> BoundedStateEstimation::neighbors_of_agent(
     const Agent *agent, const World *world) const {
-  return world->get_neighbors(agent, range_of_view);
+  return world->get_neighbors(agent, range);
 }
 
 #if 0
@@ -58,10 +65,10 @@ bool BoundedStateEstimation::visible(
 }
 
 BoundingBox BoundedStateEstimation::bounding_box(const Agent *agent) const {
-  return {agent->pose.position[0] - range_of_view,
-          agent->pose.position[0] + range_of_view,
-          agent->pose.position[1] - range_of_view,
-          agent->pose.position[1] + range_of_view};
+  return {agent->pose.position[0] - range,
+          agent->pose.position[0] + range,
+          agent->pose.position[1] - range,
+          agent->pose.position[1] + range};
 }
 
 #endif

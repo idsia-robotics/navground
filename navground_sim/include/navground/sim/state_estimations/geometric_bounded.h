@@ -20,40 +20,60 @@ namespace navground::sim {
 /**
  * @brief      Perfect state estimation within a range from the agent.
  *
- * *Registered properties*: 
- * 
- *   - `range_of_view` (float, \ref get_range_of_view)
-*/
-struct NAVGROUND_SIM_EXPORT BoundedStateEstimation
-    : public StateEstimation {
-  inline static const float default_range_of_view = 1.0f;
-
+ * *Registered properties*:
+ *
+ *   - `range` (float, \ref get_range), deprecated synonym `range_of_view`
+ */
+struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
+  inline static const float default_range = 1.0f;
+  inline static const bool default_update_static_obstacles = false;
   /**
    * @brief      Constructs a new instance.
    *
-   * @param[in]  range_of_view_  The range of view
+   * @param[in]  range_  The range of view
    */
-  BoundedStateEstimation(float range_of_view_ = default_range_of_view)
+  BoundedStateEstimation(
+      float range_ = default_range,
+      bool update_static_obstacles_ = default_update_static_obstacles)
       // float field_of_view_ = 0.0f,
       : StateEstimation(),
         // field_of_view(field_of_view_),
-        range_of_view(range_of_view_) {}
+        range(range_),
+        update_static_obstacles(update_static_obstacles_) {}
 
   virtual ~BoundedStateEstimation() = default;
 
   /**
-   * @brief      Sets the range of view.
+   * @brief      Sets the maximal range of view.
    *
    * @param[in]  value     The new value
    */
-  void set_range_of_view(float value) { range_of_view = value; }
+  void set_range(float value) { range = value; }
 
   /**
-   * @brief      Gets the range of view.
+   * @brief      Gets the maximal range of view.
    *
    * @return     The range of view.
    */
-  float get_range_of_view() const { return range_of_view; }
+  float get_range() const { return range; }
+
+  /**
+   * @brief      Sets whether to set the static obstacles
+   * in ``prepare`` (ignoring the range) or in \ref update.
+   *
+   * @param[in]  value   True if static obstacles are set in \ref update
+   */
+  void set_update_static_obstacles(bool value) {
+    update_static_obstacles = value;
+  }
+
+  /**
+   * @brief      Gets whether to set the static obstacles
+   * in ``prepare`` (ignoring the range) or in ``update``.
+   *
+   * @return     True if static obstacles are set in \ref update.
+   */
+  bool get_update_static_obstacles() const { return update_static_obstacles; }
 
   // void set_field_of_view(float v) { field_of_view = v; }
 
@@ -75,11 +95,16 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation
           //                       &BoundedStateEstimation::get_field_of_view,
           //                       &BoundedStateEstimation::set_field_of_view,
           //                       0.0f, "Field of view (< 0 infinite)")},
-          {"range_of_view",
-           make_property<float, BoundedStateEstimation>(
-               &BoundedStateEstimation::get_range_of_view,
-               &BoundedStateEstimation::set_range_of_view,
-               default_range_of_view, "Range of view (< 0 =infinite)")},
+          {"range", make_property<float, BoundedStateEstimation>(
+                        &BoundedStateEstimation::get_range,
+                        &BoundedStateEstimation::set_range, default_range,
+                        "Maximal range (< 0 =infinite)", {"range_of_view"})},
+          {"update_static_obstacles",
+           make_property<bool, BoundedStateEstimation>(
+               &BoundedStateEstimation::get_update_static_obstacles,
+               &BoundedStateEstimation::set_update_static_obstacles,
+               default_update_static_obstacles,
+               "Whether to update static obstacles")},
       } +
       StateEstimation::properties;
 
@@ -89,12 +114,13 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation
   std::string get_type() const override { return type; }
 
   /**
-   * @brief      Gets the neighbors that lie within \ref get_range_of_view from the agent.
+   * @brief      Gets the neighbors that lie within \ref get_range from the
+   * agent.
    *
    * @param[in]  agent  The agent
    * @param[in]  world  The world the agent is part of.
    *
-   * @return     A list of neighbors around the agent 
+   * @return     A list of neighbors around the agent
    */
   virtual std::vector<Neighbor> neighbors_of_agent(const Agent *agent,
                                                    const World *world) const;
@@ -102,7 +128,8 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation
   /**
    * @private
    */
-  virtual void update(Agent *agent, World *world, EnvironmentState * state) const override;
+  virtual void update(Agent *agent, World *world,
+                      EnvironmentState *state) const override;
 
  protected:
 #if 0
@@ -140,7 +167,8 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation
 
  private:
   // float field_of_view;
-  float range_of_view;
+  float range;
+  bool update_static_obstacles;
   inline const static std::string type =
       register_type<BoundedStateEstimation>("Bounded");
 };

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
@@ -18,12 +18,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -35,11 +35,11 @@
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
-  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script src="../_static/documentation_options.js?v=f52f92e8"></script>
+    <script src="../_static/documentation_options.js?v=f131489c"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -126,9 +126,11 @@
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../index.html">
+  
   
   
   
@@ -354,6 +356,7 @@
 </button>
 
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -363,6 +366,7 @@ document.write(`
   </button>
 `);
 </script>
+
 
 <script>
 document.write(`
@@ -1048,7 +1052,7 @@ Action has finished with State.success.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">agent</span><span class="o">.</span><span class="n">state_estimation</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">state_estimations</span><span class="o">.</span><span class="n">BoundedStateEstimation</span><span class="p">(</span><span class="n">range_of_view</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">agent</span><span class="o">.</span><span class="n">state_estimation</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">state_estimations</span><span class="o">.</span><span class="n">BoundedStateEstimation</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1157,7 +1161,7 @@ Action has finished with State.success.
         <span class="n">agent</span><span class="o">.</span><span class="n">twist</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Twist2</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">agent</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="n">agent</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">WaypointsTask</span><span class="p">(</span><span class="n">waypoints</span><span class="o">=</span><span class="p">[(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="n">loop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-        <span class="n">agent</span><span class="o">.</span><span class="n">state_estimation</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">state_estimations</span><span class="o">.</span><span class="n">BoundedStateEstimation</span><span class="p">(</span><span class="n">range_of_view</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">state_estimation</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">state_estimations</span><span class="o">.</span><span class="n">BoundedStateEstimation</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
         <span class="n">world</span><span class="o">.</span><span class="n">add_obstacle</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Disc</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
         <span class="n">world</span><span class="o">.</span><span class="n">add_agent</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>
 </pre></div>
@@ -1281,7 +1285,7 @@ datetime.timedelta(microseconds=101)
 <span class="s2">            waypoints: [[10, 0], [0, 0]]</span>
 <span class="s2">          state_estimation:</span>
 <span class="s2">            type: Bounded</span>
-<span class="s2">            range_of_view: 5</span>
+<span class="s2">            range: 5</span>
 <span class="s2">          position: [0, 0]</span>
 <span class="s2">          orientation: 0</span>
 <span class="s2">          radius: 1.0</span>
@@ -1360,7 +1364,7 @@ agents:
           - 0
     state_estimation:
       type: Bounded
-      range_of_view: 5
+      range: 5
     position:
       - 0.0844370797
       - 0.0417474806
@@ -1817,7 +1821,7 @@ function move_element(g, x, y, angle) {
               
               
                 <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                  
 <div class="prev-next-area">
     <a class="left-prev"
        href="../first_steps.html"
@@ -1883,6 +1887,7 @@ By Jérôme Guzzi, IDSIA
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023, Jérôme Guzzi, IDSIA.
@@ -1909,8 +1914,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

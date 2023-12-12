@@ -29,7 +29,7 @@ groups:
       tau: 0.25
     state_estimation:
       type: Bounded
-      range_of_view: 10.0
+      range: 10.0
     task:
       type: Waypoints
       waypoints: [[1.0, 0.0], [-1.0, 0.0]]

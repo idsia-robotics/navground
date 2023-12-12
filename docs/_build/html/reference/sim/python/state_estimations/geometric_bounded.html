@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../../../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -18,12 +18,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -34,11 +34,11 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
-  <script src="../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=f52f92e8"></script>
+    <script src="../../../../_static/documentation_options.js?v=f131489c"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
@@ -49,7 +49,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/python/state_estimations/geometric_bounded';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Scenarios" href="../scenarios/index.html" />
+    <link rel="next" title="Sensor" href="sensor.html" />
     <link rel="prev" title="Base class" href="state_estimation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -123,9 +123,11 @@
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../../../../index.html">
+  
   
   
   
@@ -351,6 +353,7 @@
 </button>
 
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -360,6 +363,7 @@ document.write(`
   </button>
 `);
 </script>
+
 
 <script>
 document.write(`
@@ -393,7 +397,8 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.BoundedStateEstimation"><code class="docutils literal notranslate"><span class="pre">BoundedStateEstimation</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.BoundedStateEstimation.__init__"><code class="docutils literal notranslate"><span class="pre">BoundedStateEstimation.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.BoundedStateEstimation.range_of_view"><code class="docutils literal notranslate"><span class="pre">BoundedStateEstimation.range_of_view</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.BoundedStateEstimation.range"><code class="docutils literal notranslate"><span class="pre">BoundedStateEstimation.range</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.BoundedStateEstimation.update_static_obstacles"><code class="docutils literal notranslate"><span class="pre">BoundedStateEstimation.update_static_obstacles</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -415,28 +420,40 @@ document.write(`
 <dd><p>Perfect state estimation within a range from the agent.</p>
 <p><em>Registered properties</em>:</p>
 <ul class="simple">
-<li><p><cite>range_of_view</cite> (float, <a class="reference internal" href="#navground.sim.state_estimations.BoundedStateEstimation.range_of_view" title="navground.sim.state_estimations.BoundedStateEstimation.range_of_view"><code class="xref py py-attr docutils literal notranslate"><span class="pre">range_of_view</span></code></a>)</p></li>
+<li><p><cite>range</cite> (float, <a class="reference internal" href="#navground.sim.state_estimations.BoundedStateEstimation.range" title="navground.sim.state_estimations.BoundedStateEstimation.range"><code class="xref py py-attr docutils literal notranslate"><span class="pre">range</span></code></a>)</p></li>
 </ul>
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.state_estimations.BoundedStateEstimation.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">range_of_view</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.state_estimations.BoundedStateEstimation.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_static_obstacles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.state_estimations.BoundedStateEstimation.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Constructs a new instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>range_of_view</strong> – The range of view</p>
+<dd class="field-odd"><p><strong>range</strong> – The range of view</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="navground.sim.state_estimations.BoundedStateEstimation.range_of_view">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">range_of_view</span></span><a class="headerlink" href="#navground.sim.state_estimations.BoundedStateEstimation.range_of_view" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="navground.sim.state_estimations.BoundedStateEstimation.range">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">range</span></span><a class="headerlink" href="#navground.sim.state_estimations.BoundedStateEstimation.range" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>
-<p>The range of view.</p>
+<p>The maximal range of view.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.state_estimations.BoundedStateEstimation.update_static_obstacles">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_static_obstacles</span></span><a class="headerlink" href="#navground.sim.state_estimations.BoundedStateEstimation.update_static_obstacles" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whether to set the static obstacles in <code class="docutils literal notranslate"><span class="pre">prepare</span></code> (ignoring the
+range) or in <code class="docutils literal notranslate"><span class="pre">update</span></code>.</p>
 </dd></dl>
 
 </dd></dl>
@@ -452,7 +469,7 @@ document.write(`
               
               
                 <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                  
 <div class="prev-next-area">
     <a class="left-prev"
        href="state_estimation.html"
@@ -464,11 +481,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="../scenarios/index.html"
+       href="sensor.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Scenarios</p>
+        <p class="prev-next-title">Sensor</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -489,7 +506,8 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.BoundedStateEstimation"><code class="docutils literal notranslate"><span class="pre">BoundedStateEstimation</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.BoundedStateEstimation.__init__"><code class="docutils literal notranslate"><span class="pre">BoundedStateEstimation.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.BoundedStateEstimation.range_of_view"><code class="docutils literal notranslate"><span class="pre">BoundedStateEstimation.range_of_view</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.BoundedStateEstimation.range"><code class="docutils literal notranslate"><span class="pre">BoundedStateEstimation.range</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.BoundedStateEstimation.update_static_obstacles"><code class="docutils literal notranslate"><span class="pre">BoundedStateEstimation.update_static_obstacles</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -513,6 +531,7 @@ By Jérôme Guzzi, IDSIA
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023, Jérôme Guzzi, IDSIA.
@@ -539,8 +558,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
-<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+  <script src="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

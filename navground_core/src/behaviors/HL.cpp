@@ -2,18 +2,15 @@
  * @author Jerome Guzzi - <jerome@idsia.ch>
  */
 
-#include "navground/core/common.h"
-
-
-#include <assert.h>
-#include <iostream>
-
-#include <algorithm>
-
-
 #include "navground/core/behaviors/HL.h"
 
+#include <assert.h>
+
+#include <algorithm>
+#include <iostream>
+
 #include "navground/core/collision_computation.h"
+#include "navground/core/common.h"
 
 static float relax(float x0, float x1, float tau, float dt) {
   if (tau == 0) return x1;
@@ -33,8 +30,8 @@ static std::vector<float> relax(const std::vector<float> &v0,
 }
 
 static navground::core::Twist2 relax(const navground::core::Twist2 &v0,
-                                   const navground::core::Twist2 &v1, float tau,
-                                   float dt) {
+                                     const navground::core::Twist2 &v1,
+                                     float tau, float dt) {
   assert(v1.frame == v0.frame);
   if (tau == 0) {
     return v1;
@@ -71,13 +68,18 @@ DiscCache HLBehavior::make_obstacle_cache(const Disc &obstacle) {
 
 // HLBehavior::~HLBehavior() = default;
 
-CollisionComputation::CollisionMap HLBehavior::get_collision_distance(
+std::valarray<float> HLBehavior::get_collision_distance(
     bool assuming_static, std::optional<float> speed) {
   float target_speed = speed.value_or(cached_target_speed);
   prepare(target_speed);
   return collision_computation.get_free_distance_for_sector(
       pose.orientation - aperture, 2 * aperture, resolution, effective_horizon,
       !assuming_static, target_speed);
+}
+
+std::valarray<float> HLBehavior::get_collision_angles() const {
+  return collision_computation.get_angles_for_sector(
+      pose.orientation - aperture, 2 * aperture, resolution);
 }
 
 // distance from agent center to target
@@ -190,7 +192,8 @@ void HLBehavior::prepare(float target_speed) {
   Behavior::reset_changes();
 }
 
-Twist2 HLBehavior::relax(const Twist2 &current_value, const Twist2 &value, float dt) const {
+Twist2 HLBehavior::relax(const Twist2 &current_value, const Twist2 &value,
+                         float dt) const {
   if (kinematics->is_wheeled()) {
     auto wheel_speeds = wheel_speeds_from_twist(value);
     auto current_wheel_speeds = wheel_speeds_from_twist(current_value);

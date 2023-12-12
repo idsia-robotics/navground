@@ -84,7 +84,7 @@ Example
    state_estimation:
      type: Bounded
      # explicit sequence
-     range_of_view: 
+     range: 
        sampler: sequence
        value: [0.5, 1.0, 1.5, 2.0]
    # regular

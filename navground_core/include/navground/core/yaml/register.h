@@ -22,6 +22,15 @@ void decode_properties(const Node& node, T& obj) {
   for (const auto& [name, property] : obj.get_properties()) {
     if (node[name]) {
       obj.set(name, decode_property(property, node[name]));
+    } else {
+      for (const auto& alt_name : property.deprecated_names) {
+        if (node[alt_name]) {
+          std::cerr << "Property name " << alt_name << " is deprecated for "
+                    << obj.get_type() << ", use " << name << " instead"
+                    << std::endl;
+          obj.set(name, decode_property(property, node[alt_name]));
+        }
+      }
     }
   }
 }

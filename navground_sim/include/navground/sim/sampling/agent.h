@@ -88,6 +88,7 @@ struct AgentSampler : public Sampler<typename W::A::C>,
   std::shared_ptr<Sampler<float>> control_period;
   std::shared_ptr<Sampler<int>> id;
   std::shared_ptr<Sampler<std::string>> type;
+  std::shared_ptr<Sampler<std::string>> color;
   unsigned number;
 
  protected:
@@ -104,6 +105,9 @@ struct AgentSampler : public Sampler<typename W::A::C>,
     }
     if (type) {
       agent->type = type->sample();
+    }
+    if (color) {
+      agent->color = color->sample();
     }
     if (id) {
       agent->id = id->sample();

@@ -130,6 +130,7 @@ struct convert<Agent> {
     node["radius"] = rhs.radius;
     node["control_period"] = rhs.control_period;
     node["type"] = rhs.type;
+    node["color"] = rhs.color;
     node["id"] = rhs.id;
     node["uid"] = rhs.uid;
     if (rhs.external) {
@@ -178,6 +179,9 @@ struct convert<Agent> {
     }
     if (node["type"]) {
       rhs.type = node["type"].as<std::string>();
+    }
+    if (node["color"]) {
+      rhs.color = node["color"].as<std::string>();
     }
     if (node["id"]) {
       rhs.id = node["id"].as<unsigned>();

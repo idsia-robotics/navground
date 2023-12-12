@@ -6,6 +6,7 @@
 #define NAVGROUND_CORE_COLLISION_COMPUTATION_H_
 
 #include <algorithm>
+#include <valarray>
 #include <vector>
 
 #include "navground/core/common.h"
@@ -45,8 +46,8 @@ struct NAVGROUND_CORE_EXPORT DiscCache {
    * @param[in]  margin    The margin (sum of the radii and safety margin)
    * @param[in]  velocity  The disc velocity
    */
-  DiscCache(Vector2 delta, float margin, Vector2 velocity = Vector2::Zero(), float visible_angle = M_PI_2);
-
+  DiscCache(Vector2 delta, float margin, Vector2 velocity = Vector2::Zero(),
+            float visible_angle = M_PI_2);
 };
 
 /**
@@ -55,11 +56,6 @@ struct NAVGROUND_CORE_EXPORT DiscCache {
  */
 class NAVGROUND_CORE_EXPORT CollisionComputation {
  public:
-  /**
-   * A map ``angle -> collision distance``
-   */
-  using CollisionMap = std::vector<std::tuple<float, float>>;
-
   static inline std::vector<LineSegment> empty = {};
 
   /**
@@ -73,7 +69,7 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
         margin(0.0) {}
 
   /**
-   * @brief      Return the the free distance to collision for an interval of
+   * @brief      Return the free distance to collision for an interval of
    * headings.
    *
    * @param[in]  from          The interval lower bound
@@ -88,13 +84,50 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
    * @return     The free distance for each angle in the interval [from, from +
    * length].
    */
-  CollisionMap get_free_distance_for_sector(Radians from, Radians length,
-                                            size_t resolution,
-                                            float max_distance,
-                                            bool dynamic = false,
-                                            float speed = 0.0f);
+  std::valarray<float> get_free_distance_for_sector(
+      Radians from, Radians length, size_t resolution, float max_distance,
+      bool dynamic = false, float speed = 0.0f);
+
   /**
-   * @brief      Set the state from collections of \ref LineSegment and \ref DiscCache.
+   * @brief      Return regularly sampled angles.
+   *
+   * @param[in]  from          The interval lower bound
+   * @param[in]  length        The length of the interval
+   * @param[in]  resolution    The number of values in the interval
+   *
+   * @return     Angles regularly sampled in the interval [from, from +
+   * length].
+   */
+  std::valarray<float> get_angles_for_sector(Radians from, Radians length,
+                                             size_t resolution) const;
+
+  /**
+   * @brief      Return the polar contour for an interval of
+   * headings.
+   *
+   * @param[in]  from          The interval lower bound
+   * @param[in]  length        The length of the interval
+   * @param[in]  resolution    The number of values in the interval
+   * @param[in]  max_distance  The maximum distance to consider
+   *                           (collision behind this distance are effectively
+   * ignored)
+   * @param[in]  dynamic       If the agent is moving
+   * @param[in]  speed         The speed at which the agent is moving
+   *
+   * @return     An arrays of angles sampled regularly in the interval [from,
+   * from + length] and one array with the free distance in their direction.
+   */
+  std::tuple<std::valarray<float>, std::valarray<float>> get_contour_for_sector(
+      Radians from, Radians length, size_t resolution, float max_distance,
+      bool dynamic = false, float speed = 0.0f) {
+    return {get_angles_for_sector(from, length, resolution),
+            get_free_distance_for_sector(from, length, resolution, max_distance,
+                                         dynamic, speed)};
+  }
+
+  /**
+   * @brief      Set the state from collections of \ref LineSegment and \ref
+   * DiscCache.
    *
    * @param[in]  pose_          The pose of the agent
    * @param[in]  margin_        The margin
@@ -114,7 +147,8 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
   }
 
   /**
-   * @brief      Set the state from collections of \ref LineSegment, \ref Disc, and \ref Neighbor.
+   * @brief      Set the state from collections of \ref LineSegment, \ref Disc,
+   * and \ref Neighbor.
    *
    * @param[in]  pose_          The pose
    * @param[in]  margin_        The margin
@@ -167,8 +201,8 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
   float dynamic_free_distance(Radians angle, float max_distance, float speed);
 
   /**
-   * @brief      Tentatively checks whenever a moving disc-cache may collide with
-   * the agent within an horizon
+   * @brief      Tentatively checks whenever a moving disc-cache may collide
+   * with the agent within an horizon
    *
    * @param[in]  obstacle      The obstacle
    * @param[in]  max_distance  The maximal distance to consider
@@ -180,8 +214,8 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
   bool dynamic_may_collide(const DiscCache &obstacle, float max_distance,
                            float speed);
   /**
-   * @brief      Tentatively checks whenever a static disc-cache may collide with
-   * the agent within an horizon
+   * @brief      Tentatively checks whenever a static disc-cache may collide
+   * with the agent within an horizon
    *
    * @param[in]  obstacle      The obstacle
    * @param[in]  max_distance  The maximal distance to consider

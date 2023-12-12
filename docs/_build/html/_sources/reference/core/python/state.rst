@@ -22,3 +22,15 @@ Geometric
 
 .. autoclass:: navground.core.GeometricState
     :members:
+
+Sensing
+=======
+
+.. autoclass:: navground.core.BufferDescription
+    :members:
+
+.. autoclass:: navground.core.Buffer
+    :members:
+
+.. autoclass:: navground.core.SensingState
+    :members:

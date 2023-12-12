@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <valarray>
 #include <vector>
 
 #include "navground/core/behavior.h"
@@ -209,11 +210,20 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    * @param[in]  speed  The desired speed. Will be set to the last used target
    * speed if not specified.
    *
-   * @return     A vector of pairs <angle, distance> of size \ref
+   * @return     A vector of distances of size \ref
    * get_resolution. Angles are in the agent frame.
    */
-  CollisionComputation::CollisionMap get_collision_distance(
+  std::valarray<float> get_collision_distance(
       bool assuming_static = false, std::optional<float> speed = std::nullopt);
+
+  /**
+   * @brief      Gets the angles in \f$[-\alpha, \alpha]\f$
+   * at regular intervals used for collision checking
+   *
+   * @return     A vector of angles in the fixed frame of size \ref
+   * get_resolution.
+   */
+  std::valarray<float> get_collision_angles() const;
 
   /** @private
    */

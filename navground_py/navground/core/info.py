@@ -37,7 +37,10 @@ def print_register(cls: Any, title: Optional[str], name: Optional[str] = None
             continue
         print(f"{_name}")
         for k, p in properties.items():
-            print(f"     {k}: {p.default_value} [{p.type_name}]")
+            synonyms = " ".join(p.deprecated_names)
+            if synonyms:
+                synonyms = f", deprecated synonyms: {synonyms}"
+            print(f"     {k}: {p.default_value} [{p.type_name}]{synonyms}")
 
 
 def display_registers(*components: Component) -> None:

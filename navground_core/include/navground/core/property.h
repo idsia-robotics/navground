@@ -71,6 +71,11 @@ struct Property {
    * The name of the property-owner type.
    */
   std::string owner_type_name;
+
+  /**
+   * Alternative deprecated names for the property
+   */
+  std::vector<std::string> deprecated_names;
 };
 
 /**
@@ -121,11 +126,13 @@ template <typename T, class C>
 inline Property make_property(const TypedGetter<T, C>& getter,
                               const TypedSetter<T, C>& setter,
                               const T& default_value,
-                              const std::string& description = "") {
+                              const std::string& description = "",
+                              const std::vector<std::string>& deprecated_names = {}) {
   Property property;
   property.description = description;
   property.default_value = default_value;
   property.type_name = std::string(get_type_name<T>());
+  property.deprecated_names = deprecated_names;
   property.owner_type_name = std::string(get_type_name<C>());
   property.getter = [getter](const HasProperties* obj) {
     const auto C_obj = dynamic_cast<const C*>(obj);

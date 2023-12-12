@@ -13,8 +13,10 @@ class PyDummyBehavior(Behavior, name="PyDummy"):
 
     *Registered properties*:
 
-        - :py:attr:`dummy` [bool]
-        - :py:attr:`tired` [bool]
+    - :py:attr:`dummy` [bool] (deprecated synonyms: ``not_so_smart``)
+    - :py:attr:`tired` [bool]
+
+    *State*: none
 
     """
 
@@ -25,7 +27,7 @@ class PyDummyBehavior(Behavior, name="PyDummy"):
         Behavior.__init__(self, kinematics, radius)
         self._tired = False
 
-    @registered_property(True, "Am I dummy?")
+    @registered_property(True, "Am I dummy?", ["not_so_smart"])
     def dummy(self) -> bool:
         return True
 

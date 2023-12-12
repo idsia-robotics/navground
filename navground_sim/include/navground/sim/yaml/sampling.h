@@ -71,7 +71,8 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
   // implicit sequence
   if (node.Type() == YAML::NodeType::Sequence) {
     try {
-      return std::make_unique<SequenceSampler<T>>(node.as<std::vector<T>>(), Wrap::loop, once);
+      return std::make_unique<SequenceSampler<T>>(node.as<std::vector<T>>(),
+                                                  Wrap::loop, once);
     } catch (YAML::BadConversion) {
     }
   }
@@ -117,7 +118,8 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
           const auto end = node["to"].as<T>();
           const auto number = node["number"].as<unsigned>();
           return std::make_unique<RegularSampler<T>>(
-              RegularSampler<T>::make_with_interval(start, end, number, wrap, once));
+              RegularSampler<T>::make_with_interval(start, end, number, wrap,
+                                                    once));
         }
         if (node["step"]) {
           const auto step = node["step"].as<T>();
@@ -126,7 +128,8 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
             number = node["number"].as<unsigned>();
           }
           return std::make_unique<RegularSampler<T>>(
-              RegularSampler<T>::make_with_step(start, step, number, wrap, once));
+              RegularSampler<T>::make_with_step(start, step, number, wrap,
+                                                once));
         }
       }
       return nullptr;
@@ -171,7 +174,8 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
         }
         const auto mean = node["mean"].as<float>();
         const auto std_dev = node["std_dev"].as<float>();
-        return std::make_unique<NormalSampler<T>>(mean, std_dev, min, max, once);
+        return std::make_unique<NormalSampler<T>>(mean, std_dev, min, max,
+                                                  once);
       }
       return nullptr;
     }
@@ -374,6 +378,14 @@ bool decode_sr(const Node& node, SamplerFromRegister<T>* rhs) {
   for (const auto& [name, property] : properties.at(rhs->type)) {
     if (node[name]) {
       rhs->properties[name] = property_sampler(node[name], property);
+    } else {
+      for (const auto& alt_name : property.deprecated_names) {
+        if (node[alt_name]) {
+          std::cerr << "Property name " << alt_name << " is deprecated for "
+                    << rhs->type << ", use " << name << " instead" << std::endl;
+          rhs->properties[name] = property_sampler(node[alt_name], property);
+        }
+      }
     }
   }
   return true;
@@ -520,6 +532,9 @@ struct convert<AgentSampler<W>> {
     if (rhs.type) {
       node["type"] = rhs.type;
     }
+    if (rhs.color) {
+      node["color"] = rhs.color;
+    }
     if (rhs.id) {
       node["id"] = rhs.id;
     }
@@ -562,6 +577,9 @@ struct convert<AgentSampler<W>> {
     }
     if (node["type"]) {
       rhs.type = read_sampler<std::string>(node["type"]);
+    }
+    if (node["color"]) {
+      rhs.color = read_sampler<std::string>(node["color"]);
     }
     if (node["id"]) {
       rhs.id = read_sampler<int>(node["id"]);

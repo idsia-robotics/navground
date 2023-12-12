@@ -23,7 +23,14 @@ void print_register(const std::string& title, const std::string& name = "") {
     std::cout << _name << std::endl;
     for (const auto& [k, p] : properties) {
       std::cout << "     " << k << ": " << p.default_value << " ["
-                << p.type_name << "]" << std::endl;
+                << p.type_name << "]";
+      if (!p.deprecated_names.empty()) {
+        std::cout << ", deprecated synonyms: ";
+        for (const auto & alt_name : p.deprecated_names) {
+          std::cout << alt_name << " ";
+        }
+      }
+      std::cout << std::endl;
     }
   }
   std::cout << std::endl;

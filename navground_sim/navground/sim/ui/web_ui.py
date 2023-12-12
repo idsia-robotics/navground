@@ -68,7 +68,8 @@ def agent_msg(agent: Agent) -> EntityMsg:
         'kind': 'a',
         'type': agent.type,
         'size': agent.radius,
-        'pose': pose_msg(agent)
+        'pose': pose_msg(agent),
+        'color': agent.color
     }
 
 

@@ -21,6 +21,9 @@
 #include "navground/sim/scenarios/simple.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/state_estimations/geometric_bounded.h"
+#include "navground/sim/state_estimations/sensor.h"
+#include "navground/sim/state_estimations/sensor_discs.h"
+#include "navground/sim/state_estimations/sensor_lidar.h"
 #include "navground/sim/task.h"
 #include "navground/sim/tasks/waypoints.h"
 #include "navground/sim/world.h"
@@ -121,6 +124,12 @@ struct PyStateEstimation : StateEstimation,
     }
     return Native::get_properties();
   };
+};
+
+struct PySensor : Sensor, virtual PyStateEstimation {
+  Sensor::Description get_description() const override {
+    PYBIND11_OVERRIDE_PURE(Sensor::Description, Sensor, get_description);
+  }
 };
 
 class PyAgent : public Agent {
@@ -234,7 +243,8 @@ struct PyScenario : public Scenario, virtual PyHasRegister<Scenario> {
   using Scenario::Scenario;
   using Native = Scenario;
 
-  void init_world(World *world, std::optional<int> seed = std::nullopt) override {
+  void init_world(World *world,
+                  std::optional<int> seed = std::nullopt) override {
     PYBIND11_OVERRIDE(void, Scenario, init_world, world, seed);
   }
 
@@ -456,6 +466,7 @@ Creates a rectangular region
                                                     DOC(navground, sim, Agent))
       .def_readwrite("id", &Agent::id, DOC(navground, sim, Agent, id))
       .def_readwrite("type", &Agent::type, DOC(navground, sim, Agent, type))
+      .def_readwrite("color", &Agent::color, DOC(navground, sim, Agent, color))
       .def_readwrite("radius", &Agent::radius,
                      DOC(navground, sim, Agent, radius))
       .def_readwrite("control_period", &Agent::control_period,
@@ -652,20 +663,69 @@ Creates a rectangular region
   py::class_<BoundedStateEstimation, StateEstimation,
              std::shared_ptr<BoundedStateEstimation>>(
       m, "BoundedStateEstimation", DOC(navground, sim, BoundedStateEstimation))
-      .def(py::init<float>(),
+      .def(py::init<float, bool>(),
            // py::arg("field_of_view") = 0.0,
-           py::arg("range_of_view") = 0.0,
+           py::arg("range") = 0.0, py::arg("update_static_obstacles") = false,
            DOC(navground, sim, BoundedStateEstimation, BoundedStateEstimation))
       // .def_property("field_of_view",
       // &BoundedStateEstimation::get_field_of_view,
       //               &BoundedStateEstimation::set_field_of_view)
-      .def_property(
-          "range_of_view", &BoundedStateEstimation::get_range_of_view,
-          &BoundedStateEstimation::set_range_of_view,
-          DOC(navground, sim, BoundedStateEstimation, property_range_of_view))
+      .def_property("range", &BoundedStateEstimation::get_range,
+                    &BoundedStateEstimation::set_range,
+                    DOC(navground, sim, BoundedStateEstimation, property_range))
+      .def_property("update_static_obstacles",
+                    &BoundedStateEstimation::get_update_static_obstacles,
+                    &BoundedStateEstimation::set_update_static_obstacles,
+                    DOC(navground, sim, BoundedStateEstimation,
+                        property_update_static_obstacles))
       .def("_neighbors_of_agent", &BoundedStateEstimation::neighbors_of_agent,
            py::arg("agent"), py::arg("world"),
            DOC(navground, sim, BoundedStateEstimation, neighbors_of_agent));
+
+  py::class_<Sensor, PySensor, StateEstimation, std::shared_ptr<Sensor>>(
+      m, "Sensor", DOC(navground, sim, Sensor))
+      .def(py::init<>(), DOC(navground, sim, Sensor, Sensor))
+      .def_property("description", &Sensor::get_description, nullptr,
+                    DOC(navground, sim, Sensor, property_description))
+      .def("prepare",
+           py::overload_cast<SensingState &>(&Sensor::prepare, py::const_),
+           DOC(navground, sim, Sensor, prepare));
+
+  py::class_<LidarStateEstimation, Sensor, StateEstimation,
+             std::shared_ptr<LidarStateEstimation>>(
+      m, "LidarStateEstimation", DOC(navground, sim, LidarStateEstimation))
+      .def(py::init<float, float, float, unsigned>(), py::arg("range") = 0.0,
+           py::arg("start_angle") = -M_PI, py::arg("field_of_view") = 2 * M_PI,
+           py::arg("resolution") = 100,
+           DOC(navground, sim, LidarStateEstimation, LidarStateEstimation))
+      .def_property("range", &LidarStateEstimation::get_range,
+                    &LidarStateEstimation::set_range,
+                    DOC(navground, sim, LidarStateEstimation, property_range))
+      .def_property(
+          "start_angle", &LidarStateEstimation::get_start_angle,
+          &LidarStateEstimation::set_start_angle,
+          DOC(navground, sim, LidarStateEstimation, property_start_angle))
+      .def_property(
+          "field_of_view", &LidarStateEstimation::get_field_of_view,
+          &LidarStateEstimation::set_field_of_view,
+          DOC(navground, sim, LidarStateEstimation, property_field_of_view))
+      .def_property(
+          "resolution", &LidarStateEstimation::get_resolution,
+          &LidarStateEstimation::set_resolution,
+          DOC(navground, sim, LidarStateEstimation, property_resolution));
+
+  py::class_<DiscsStateEstimation, Sensor, StateEstimation,
+             std::shared_ptr<DiscsStateEstimation>>(
+      m, "DiscsStateEstimation", DOC(navground, sim, DiscsStateEstimation))
+      .def(py::init<float, unsigned>(), py::arg("range") = 1.0,
+           py::arg("number") = 1,
+           DOC(navground, sim, DiscsStateEstimation, DiscsStateEstimation))
+      .def_property("range", &DiscsStateEstimation::get_range,
+                    &DiscsStateEstimation::set_range,
+                    DOC(navground, sim, DiscsStateEstimation, property_range))
+      .def_property("number", &DiscsStateEstimation::get_number,
+                    &DiscsStateEstimation::set_number,
+                    DOC(navground, sim, DiscsStateEstimation, property_number));
 
   py::class_<Task, PyTask, HasRegister<Task>, HasProperties,
              std::shared_ptr<Task>>(m, "Task", DOC(navground, sim, Task))
@@ -951,7 +1011,8 @@ The view is empty if the agent's task has not been recorded in the trace.
 
   scenario.def(py::init<>())
       .def("init_world", &Scenario::init_world, py::arg("world"),
-           py::arg("seed") = py::none(), DOC(navground, sim, Scenario, init_world))
+           py::arg("seed") = py::none(),
+           DOC(navground, sim, Scenario, init_world))
 // .def("sample", &Scenario::sample)
 // .def("reset", &Scenario::reset)
 #if 0

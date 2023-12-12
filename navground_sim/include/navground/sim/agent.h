@@ -85,6 +85,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
         radius(radius),
         control_period(control_period),
         type(""),
+        color(""),
         tags(),
         external(false),
         task(task),
@@ -248,6 +249,13 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    * It is mainly used internally to draw the agents in the UI.
    */
   std::string type;
+
+  /**
+   * @brief The color of the agent.
+   *
+   * A valid CSS color to fill the agent in the UI or empty to use the default color.
+   */
+  std::string color;
 
   /**
    * @brief A set of tags used to label the agent.

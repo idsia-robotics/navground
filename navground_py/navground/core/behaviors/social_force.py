@@ -103,7 +103,7 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
 
     *Registered properties*: none
 
-    *State*: py:class:`GeometricState`
+    *State*: :py:class:`GeometricState`
     """
 
     def __init__(

@@ -43,19 +43,19 @@ float CachedCollisionComputation::dynamic_free_distance(Radians angle) {
   return value;
 }
 
-CollisionComputation::CollisionMap
-CachedCollisionComputation::get_free_distance(bool dynamic) {
-  CollisionComputation::CollisionMap d;
+std::valarray<float> CachedCollisionComputation::get_free_distance(
+    bool dynamic) {
+  // TODO(Jerome): check the size [res vs res + 1]
+  std::valarray<float> d(resolution);
   if (resolution < 1) return d;
   Radians a = from_relative_angle;
   Radians da = length / static_cast<float>(resolution - 1);
   for (size_t i = 0; i < resolution; i++, a += da) {
-    d.push_back(std::make_tuple(a, dynamic ? (dynamic_cache[i] != uncomputed)
-                                                 ? dynamic_cache[i]
-                                                 : dynamic_free_distance(a)
-                                   : (static_cache[true][i] != uncomputed)
-                                       ? static_cache[true][i]
-                                       : static_free_distance(a, true)));
+    d[i] = dynamic ? (dynamic_cache[i] != uncomputed) ? dynamic_cache[i]
+                                                      : dynamic_free_distance(a)
+           : (static_cache[true][i] != uncomputed)
+               ? static_cache[true][i]
+               : static_free_distance(a, true);
   }
   return d;
 }

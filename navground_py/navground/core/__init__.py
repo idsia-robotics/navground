@@ -7,13 +7,14 @@ import pkg_resources
 
 from ._navground import Action
 from ._navground import Behavior as _Behavior
-from ._navground import (CachedCollisionComputation, CollisionComputation,
+from ._navground import (Buffer, BufferDescription, BufferMap,
+                         CachedCollisionComputation, CollisionComputation,
                          Controller, Disc, EnvironmentState, Frame,
                          GeometricState)
 from ._navground import Kinematics as _Kinematics
-from ._navground import (LineSegment, Neighbor, Pose2, SocialMargin, Target,
-                         Twist2, dump, load_behavior, load_kinematics,
-                         to_absolute, to_relative)
+from ._navground import (LineSegment, Neighbor, Pose2, SensingState,
+                         SocialMargin, Target, Twist2, dump, load_behavior,
+                         load_kinematics, to_absolute, to_relative)
 
 Vector2 = 'numpy.ndarray[numpy.float32[2, 1]]'
 PropertyField = Union[bool, int, float, str, Vector2, List[bool], List[int],
@@ -24,7 +25,8 @@ P = Callable[[], T]
 
 
 def registered_property(default_value: PropertyField,
-                        description: str = "") -> Callable[[P], P]:
+                        description: str = "",
+                        deprecated_names: list[str] = []) -> Callable[[P], P]:
     """
     A decorator that define and automatically register a property.
     The use it similar to :py:func:`property`, except for the
@@ -55,11 +57,14 @@ def registered_property(default_value: PropertyField,
         when the object is initialized
 
     :param description: The description of the property
+
+    :param description: A list of alternative deprecated names
     """
 
     def g(f):
         f.__default_value__ = default_value
         f.__desc__ = description
+        f.__deprecated_names__ = deprecated_names
         return property(f)
 
     return g
@@ -83,7 +88,9 @@ def _register(super_cls: Type, cls: Type, name: str):
                     pass
             default_value = return_type(v.fget.__default_value__)
             desc = v.fget.__desc__
-            super_cls._add_property(name, k, v, default_value, desc)
+            deprecated_names = v.fget.__deprecated_names__
+            super_cls._add_property(name, k, v, default_value, desc,
+                                    deprecated_names)
 
 
 class Behavior(_Behavior):
@@ -124,7 +131,7 @@ def load_py_plugins():
 __all__ = [
     'Behavior', 'Pose2', 'Twist2', 'Target', 'Disc', 'Neighbor', 'LineSegment',
     'Kinematics', 'Action', 'Controller', 'CollisionComputation'
-    'CachedCollisionComputation', 'Frame', 'GeometricState', 'dump',
-    'load_behavior', 'load_kinematics', 'load_py_plugins', 'to_absolute',
-    'to_relative'
+    'CachedCollisionComputation', 'Frame', 'GeometricState', 'SensingState',
+    'dump', 'load_behavior', 'load_kinematics', 'load_py_plugins',
+    'to_absolute', 'to_relative', 'Buffer', 'BufferMap', 'BufferDescription'
 ]

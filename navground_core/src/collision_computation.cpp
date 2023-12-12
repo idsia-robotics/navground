@@ -8,7 +8,8 @@
 
 namespace navground::core {
 
-DiscCache::DiscCache(Vector2 delta, float margin, Vector2 velocity, float visible_angle)
+DiscCache::DiscCache(Vector2 delta, float margin, Vector2 velocity,
+                     float visible_angle)
     : delta(delta),
       velocity(velocity),
       distance(delta.norm() - margin),
@@ -16,26 +17,37 @@ DiscCache::DiscCache(Vector2 delta, float margin, Vector2 velocity, float visibl
       gamma(orientation_of(delta)),
       visible_angle(visible_angle) {}
 
-CollisionComputation::CollisionMap
-CollisionComputation::get_free_distance_for_sector(Radians from, Radians length,
-                                                   size_t resolution,
-                                                   float max_distance,
-                                                   bool dynamic, float speed) {
-  CollisionComputation::CollisionMap d;
-  d.reserve(resolution + 1);
+std::valarray<float> CollisionComputation::get_free_distance_for_sector(
+    Radians from, Radians length, size_t resolution, float max_distance,
+    bool dynamic, float speed) {
+  std::valarray<float> d(resolution + 1);
   Radians a = from;
   if (resolution == 0) {
     a += length * 0.5;
-    d.push_back(std::make_tuple(
-        a, dynamic ? dynamic_free_distance(a, max_distance, speed)
-                   : static_free_distance(a, max_distance, true)));
+    d[0] = dynamic ? dynamic_free_distance(a, max_distance, speed)
+                   : static_free_distance(a, max_distance, true);
     return d;
   }
-  Radians da = length / static_cast<float>(resolution);
+  const Radians da = length / static_cast<float>(resolution);
   for (size_t i = 0; i < resolution + 1; i++, a += da) {
-    d.push_back(std::make_tuple(
-        a, dynamic ? dynamic_free_distance(a, max_distance, speed)
-                   : static_free_distance(a, max_distance, true)));
+    d[i] = dynamic ? dynamic_free_distance(a, max_distance, speed)
+                   : static_free_distance(a, max_distance, true);
+  }
+  return d;
+}
+
+std::valarray<float> CollisionComputation::get_angles_for_sector(
+    Radians from, Radians length, size_t resolution) const {
+  std::valarray<float> d(resolution + 1);
+  Radians a = from;
+  if (resolution == 0) {
+    a += length * 0.5;
+    d[0] = a;
+    return d;
+  }
+  const Radians da = length / static_cast<float>(resolution);
+  for (size_t i = 0; i < resolution + 1; i++, a += da) {
+    d[i] = a;
   }
   return d;
 }
@@ -82,7 +94,8 @@ float CollisionComputation::static_free_distance_to(const LineSegment &line,
     return 0.0;
   }
 #else
-  // Does not consider as collision if the disc is colliding at the edges but moving outwards.
+  // Does not consider as collision if the disc is colliding at the edges but
+  // moving outwards.
   if (abs(y) < margin) {
     const float ex = line.e1.dot(e);
     if (x < -margin) return no_collision;
@@ -91,7 +104,7 @@ float CollisionComputation::static_free_distance_to(const LineSegment &line,
     if (x < line.length + margin) return ex > 0 ? no_collision : 0.0;
     return no_collision;
   }
-#endif // LINE_CAP_SQUARE
+#endif  // LINE_CAP_SQUARE
   const float distance = -y / d - margin;
   const float x_delta = line.e1.dot(distance * e + delta);
   if (x_delta < -margin || x_delta > line.length + margin) {
@@ -141,12 +154,15 @@ float CollisionComputation::dynamic_free_distance_to(const DiscCache &disc,
 
   if (disc.C < 0) {
     // colliding
-    //return B < 0 ? no_collision : 0.0;
+    // return B < 0 ? no_collision : 0.0;
     // CHANGED(4/10/2023)
     // accept if delta angle > "visible_angle"
-    // if dv * dx / |dv||dx| = cos(angle) < cos(visible_angle) (= 0 for visible_angle = pi/2)
-    // 
-    return B < dv.norm() * disc.delta.norm() * cos(disc.visible_angle) ? no_collision : 0.0f;
+    // if dv * dx / |dv||dx| = cos(angle) < cos(visible_angle) (= 0 for
+    // visible_angle = pi/2)
+    //
+    return B < dv.norm() * disc.delta.norm() * cos(disc.visible_angle)
+               ? no_collision
+               : 0.0f;
   }
 
   if (B < 0) return no_collision;

@@ -31,6 +31,11 @@ namespace navground::sim {
  */
 using BoundingBox = geos::geom::Envelope;
 
+inline BoundingBox envelop(const Vector2 &position, float radius) {
+  return {position[0] - radius, position[0] + radius, position[1] - radius,
+          position[1] + radius};
+}
+
 // TODO(Jerome): specify direction
 
 /**
@@ -309,7 +314,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     All obstacles that lie in a bounding box
    */
-  std::vector<Disc *> get_static_obstacles_in_region(const BoundingBox &bb) const;
+  std::vector<Disc> get_static_obstacles_in_region(const BoundingBox &bb) const;
   /**
    * @brief      Gets all walls in this world.
    *
@@ -452,7 +457,7 @@ class NAVGROUND_SIM_EXPORT World {
 
   bool space_agents_apart_once(float minimal_distance, bool with_safety_margin);
 
-  void udpate_agent_collisions(Agent *a1);
+  void update_agent_collisions(Agent *a1);
 
   void wrap_agents_on_lattice();
 

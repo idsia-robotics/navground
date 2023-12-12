@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <array>
+#include <valarray>
 #include <vector>
 
 #include "navground/core/behavior.h"
@@ -132,7 +133,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
     if (value > 0 && value != speed) {
       speed = value;
     }
-    std::fill(dynamic_cache.begin(), dynamic_cache.end(), uncomputed);
+    std::fill(std::begin(dynamic_cache), std::end(dynamic_cache), uncomputed);
   }
 
   /**
@@ -184,10 +185,10 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    * @brief      Resets the cache.
    */
   void reset() {
-    std::fill(static_cache[false].begin(), static_cache[false].end(),
+    std::fill(std::begin(static_cache[false]), std::end(static_cache[false]),
               uncomputed);
-    std::fill(static_cache[true].begin(), static_cache[true].end(), uncomputed);
-    std::fill(dynamic_cache.begin(), dynamic_cache.end(), uncomputed);
+    std::fill(std::begin(static_cache[true]), std::end(static_cache[true]), uncomputed);
+    std::fill(std::begin(dynamic_cache), std::end(dynamic_cache), uncomputed);
   }
 
   /**
@@ -200,7 +201,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @return     The collision distance cache.
    */
-  const std::vector<float> &get_cache(bool assuming_static = false,
+  const std::valarray<float> &get_cache(bool assuming_static = false,
                                       bool include_neighbors = true) {
     if (assuming_static) return static_cache[include_neighbors];
     return dynamic_cache;
@@ -215,7 +216,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    * @return     The distance before possibly colliding for each direction
    * in the interval \f$[\alpha, \alpha + \Delta]\f$.
    */
-  CollisionMap get_free_distance(bool dynamic = false);
+  std::valarray<float> get_free_distance(bool dynamic = false);
 
  private:
   /**
@@ -228,8 +229,8 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
   size_t resolution;
   float speed;
   float max_distance;
-  std::vector<float> dynamic_cache;
-  std::array<std::vector<float>, 2> static_cache;
+  std::valarray<float> dynamic_cache;
+  std::array<std::valarray<float>, 2> static_cache;
 
   // can be outsize of 0 ... resolution range
   int index_of(Radians delta_relative_angle) {

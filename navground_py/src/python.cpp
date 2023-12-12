@@ -3,6 +3,7 @@
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/stl_bind.h>
 
 #include <vector>
 
@@ -18,13 +19,17 @@
 #include "navground/core/controller.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/plugins.h"
+#include "navground/core/states/sensing.h"
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/yaml.h"
+#include "navground_py/buffer.h"
 #include "navground_py/register.h"
 #include "navground_py/yaml.h"
 
 using namespace navground::core;
 namespace py = pybind11;
+
+PYBIND11_MAKE_OPAQUE(std::map<std::string, Buffer>);
 
 template <typename T>
 static std::string to_string(const T &value) {
@@ -241,6 +246,8 @@ PYBIND11_MODULE(_navground, m) {
   py::class_<Property>(m, "Property", DOC(navground, core, Property))
       .def_readonly("description", &Property::description,
                     DOC(navground, core, Property, description))
+      .def_readonly("deprecated_names", &Property::deprecated_names,
+                    DOC(navground, core, Property, deprecated_names))
       .def_readonly("owner_type_name", &Property::owner_type_name,
                     DOC(navground, core, Property, owner_type_name))
       .def_readonly("default_value", &Property::default_value,
@@ -262,8 +269,10 @@ PYBIND11_MODULE(_navground, m) {
       .value("absolute", Frame::absolute,
              DOC(navground, core, Frame, absolute));
 
-  m.def("to_absolute", &to_absolute, py::arg("value"), py::arg("reference"), DOC(navground, core, to_absolute)); 
-  m.def("to_relative", &to_absolute, py::arg("value"), py::arg("reference"), DOC(navground, core, to_relative)); 
+  m.def("to_absolute", &to_absolute, py::arg("value"), py::arg("reference"),
+        DOC(navground, core, to_absolute));
+  m.def("to_relative", &to_relative, py::arg("value"), py::arg("reference"),
+        DOC(navground, core, to_relative));
 
   py::class_<Twist2>(m, "Twist2", DOC(navground, core, Twist2))
       .def(py::init<Vector2, float, Frame>(), py::arg("velocity"),
@@ -419,8 +428,7 @@ PYBIND11_MODULE(_navground, m) {
       .def_property(
           "type", [](Kinematics *obj) { return obj->get_type(); }, nullptr,
           DOC(navground, core, HasRegister, property_type))
-      .def_property("cmd_frame", &Kinematics::cmd_frame,
-                    nullptr,
+      .def_property("cmd_frame", &Kinematics::cmd_frame, nullptr,
                     DOC(navground, core, Kinematics, property_cmd_frame))
       .def("feasible", &Kinematics::feasible,
            DOC(navground, core, Kinematics, feasible));
@@ -721,6 +729,138 @@ PYBIND11_MODULE(_navground, m) {
           &GeometricState::set_line_obstacles,
           DOC(navground, core, GeometricState, property_line_obstacles));
 
+  py::bind_map<std::map<std::string, Buffer>>(
+      m, "BufferMap", "A dictionary of type Dict[str, Buffer]");
+
+  py::class_<BufferDescription>(m, "BufferDescription",
+                                DOC(navground, core, BufferDescription))
+      .def(py::init([](const BufferShape &shape, const py::object &_dtype,
+                       double low, double high, bool categorical) {
+             const py::dtype dtype = make_dtype(_dtype);
+             const std::string fmt = type_from_dtype(dtype);
+             return new BufferDescription(shape, fmt, low, high, categorical);
+           }),
+           py::arg("shape"), py::arg("dtype") = "float",
+           py::arg("low") = std::numeric_limits<double>::min(),
+           py::arg("high") = std::numeric_limits<double>::max(),
+           py::arg("categorical") = false,
+           DOC(navground, core, BufferDescription, BufferDescription))
+      .def_property(
+          "shape",
+          [](const BufferDescription &value) {
+            return py::tuple(py::cast(value.shape));
+          },
+          nullptr, DOC(navground, core, BufferDescription, shape))
+      .def_property(
+          "type",
+          [](const BufferDescription &value) { return py::dtype(value.type); },
+          nullptr, DOC(navground, core, BufferDescription, type))
+      .def_readonly("low", &BufferDescription::low, DOC(navground, core, BufferDescription, low))
+      .def_readonly("high", &BufferDescription::high,
+                    DOC(navground, core, BufferDescription, high))
+      .def_readonly("categorical", &BufferDescription::categorical,
+                    DOC(navground, core, BufferDescription, categorical))
+      .def("__repr__", [](const BufferDescription &value) -> py::str {
+        py::str r("BufferDescription(shape=");
+        r += py::str(py::tuple(py::cast(value.shape)));
+        r += py::str(", type=") + py::dtype(value.type).attr("__repr__")();
+        r += py::str(", low=") + py::str(py::cast(value.low));
+        r += py::str(", high=") + py::str(py::cast(value.high));
+        r += py::str(", categorical=") + py::str(py::cast(value.categorical)) +
+             py::str(")");
+        return r;
+      });
+
+  py::class_<Buffer>(m, "Buffer", DOC(navground, core, Buffer))
+      .def(py::init<const BufferDescription &, BufferType>(),
+           py::arg("description"), py::arg("value"),
+           DOC(navground, core, Buffer, Buffer))
+      .def(py::init<const BufferDescription &, const BufferData &>(),
+           py::arg("description"), py::arg("data"),
+           DOC(navground, core, Buffer, Buffer, 2))
+      .def(py::init<const BufferDescription &>(), py::arg("description"),
+           DOC(navground, core, Buffer, Buffer, 3))
+      .def(py::init<const BufferData &>(), py::arg("data"),
+           DOC(navground, core, Buffer, Buffer, 4))
+      .def_property("size", &Buffer::size, nullptr,
+                    DOC(navground, core, Buffer, property_size))
+      .def_property(
+          "type",
+          [](const Buffer &buffer) { return dtype_from_buffer(buffer); },
+          [](Buffer &buffer, const py::object &value) {
+            const auto dtype = make_dtype(value);
+            buffer.set_type(type_from_dtype(dtype), true);
+          }, "The buffer type")
+          //DOC(navground, core, Buffer, property_type))
+      .def_property(
+          "data",
+          [](const Buffer &buffer) { return get_array_from_buffer(buffer); },
+          [](Buffer &buffer, const py::buffer &value) {
+            set_buffer_from_buffer(buffer, value, true);
+          },
+          DOC(navground, core, Buffer, property_data))
+      .def_property(
+          "description", &Buffer::get_description,
+          [](Buffer &buffer, const BufferDescription &value) {
+            buffer.set_description(value, true);
+          },
+          DOC(navground, core, Buffer, property_description))
+      .def_property("low", &Buffer::get_low, &Buffer::set_low,
+                    DOC(navground, core, Buffer, property_low))
+      .def_property("high", &Buffer::get_high, &Buffer::set_high,
+                    DOC(navground, core, Buffer, property_high))
+      .def_property("categorical", &Buffer::get_categorical,
+                    &Buffer::set_categorical,
+                    DOC(navground, core, Buffer, property_categorical))
+      .def_property(
+          "shape",
+          [](const Buffer &buffer) {
+            return py::tuple(py::cast(buffer.get_shape()));
+          },
+          [](Buffer &buffer, const BufferShape &value) {
+            buffer.set_shape(value, true);
+          },
+          DOC(navground, core, Buffer, property_shape))
+      .def("set_description", &Buffer::set_description,
+           DOC(navground, core, Buffer, set_description))
+      .def("__repr__", [](const Buffer &value) -> py::str {
+        py::str r("Buffer(description=");
+        const auto obj = py::cast(value);
+        r += obj.attr("description").attr("__repr__")();
+        r += py::str(", data=") + obj.attr("data").attr("__repr__")() +
+             py::str(")");
+        return r;
+      });
+
+  py::class_<SensingState, EnvironmentState, std::shared_ptr<SensingState>>(
+      m, "SensingState", DOC(navground, core, SensingState))
+      .def(py::init<>(), DOC(navground, core, SensingState, SensingState))
+      .def("init_buffer",
+           py::overload_cast<const std::string &, const BufferDescription &,
+                             BufferType>(&SensingState::init_buffer),
+           py::arg("key"), py::arg("description"), py::arg("value"),
+           py::return_value_policy::automatic_reference,
+           DOC(navground, core, SensingState, init_buffer))
+      .def("init_buffer",
+           py::overload_cast<const std::string &, const BufferDescription &>(
+               &SensingState::init_buffer),
+           py::arg("key"), py::arg("description"),
+           py::return_value_policy::automatic_reference,
+           DOC(navground, core, SensingState, init_buffer, 2))
+      .def("init_buffer",
+           py::overload_cast<const std::string &, const BufferData &>(
+               &SensingState::init_buffer),
+           py::arg("key"), py::arg("data"),
+           py::return_value_policy::automatic_reference,
+           DOC(navground, core, SensingState, init_buffer, 3))
+      .def("get_buffer", &SensingState::get_buffer, py::arg("key"),
+           py::return_value_policy::automatic_reference,
+           DOC(navground, core, SensingState, get_buffer))
+      .def("set_buffer", &SensingState::set_buffer, py::arg("key"),
+           py::arg("buffer"), DOC(navground, core, SensingState, set_buffer))
+      .def_property("buffers", &SensingState::get_buffers, nullptr,
+                    DOC(navground, core, SensingState, property_buffers));
+
   py::class_<HLBehavior, Behavior, std::shared_ptr<HLBehavior>>(
       m, "HLBehavior", DOC(navground, core, HLBehavior))
       .def(py::init<std::shared_ptr<Kinematics>, float>(),
@@ -739,12 +879,10 @@ PYBIND11_MODULE(_navground, m) {
       .def_property(
           "angular_resolution", &HLBehavior::get_angular_resolution, nullptr,
           DOC(navground, core, HLBehavior, property_angular_resolution))
-      .def_property(
-          "epsilon", &HLBehavior::get_epsilon, nullptr,
-          DOC(navground, core, HLBehavior, property_epsilon))
-      .def_property(
-          "barrier_angle", &HLBehavior::get_barrier_angle, nullptr,
-          DOC(navground, core, HLBehavior, property_barrier_angle))
+      .def_property("epsilon", &HLBehavior::get_epsilon, nullptr,
+                    DOC(navground, core, HLBehavior, property_epsilon))
+      .def_property("barrier_angle", &HLBehavior::get_barrier_angle, nullptr,
+                    DOC(navground, core, HLBehavior, property_barrier_angle))
       .def("get_collision_distance", &HLBehavior::get_collision_distance,
            DOC(navground, core, HLBehavior, get_collision_distance));
 
@@ -861,12 +999,22 @@ PYBIND11_MODULE(_navground, m) {
            &CollisionComputation::dynamic_free_distance, py::arg("angle"),
            py::arg("max_distance"), py::arg("speed"),
            DOC(navground, core, CollisionComputation, dynamic_free_distance))
+
+      .def("get_angles_for_sector",
+           &CollisionComputation::get_angles_for_sector, py::arg("from_angle"),
+           py::arg("length"), py::arg("resolution"),
+           DOC(navground, core, CollisionComputation, get_angles_for_sector))
       .def("get_free_distance_for_sector",
-           &CollisionComputation::get_free_distance_for_sector, py::arg("from_angle"),
-           py::arg("length"), py::arg("resolution"), py::arg("max_distance"),
-           py::arg("dynamic"), py::arg("speed") = 0.0f,
+           &CollisionComputation::get_free_distance_for_sector,
+           py::arg("from_angle"), py::arg("length"), py::arg("resolution"),
+           py::arg("max_distance"), py::arg("dynamic"), py::arg("speed") = 0.0f,
            DOC(navground, core, CollisionComputation,
-               get_free_distance_for_sector));
+               get_free_distance_for_sector))
+      .def("get_contour_for_sector",
+           &CollisionComputation::get_free_distance_for_sector,
+           py::arg("from_angle"), py::arg("length"), py::arg("resolution"),
+           py::arg("max_distance"), py::arg("dynamic"), py::arg("speed") = 0.0f,
+           DOC(navground, core, CollisionComputation, get_contour_for_sector));
 
   py::class_<CachedCollisionComputation, CollisionComputation>(
       m, "CachedCollisionComputation",

@@ -20,13 +20,15 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
   // f.set_speed(1.0);
   f.set_max_distance(3.0);
   f.setup({}, 0.0, {}, {Disc{{2.0, 0.0}, 1.0}}, {});
-  for (const auto& [a, d] :
-       f.get_free_distance_for_sector(-1.0, 2.0, 3, 3.0, false)) {
-    printf("%.3f: %.3f\n", a, d);
+  auto angles = f.get_angles_for_sector(-1.0, 2.0, 3);
+  auto distances = f.get_free_distance_for_sector(-1.0, 2.0, 3, 3.0, false);
+  for (int i = 0; i < angles.size(); ++i) {
+    printf("%.3f: %.3f\n", angles[i], distances[i]);
   }
   printf("Cached\n");
-  for (const auto& [a, d] : f.get_free_distance(false)) {
-    printf("%.3f: %.3f\n", a, d);
+  distances = f.get_free_distance(false);
+  for (int i = 0; i < angles.size(); ++i) {
+    printf("%.3f: %.3f\n", angles[i], distances[i]);
   }
   return 0;
 }

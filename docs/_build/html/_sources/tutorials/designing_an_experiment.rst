@@ -133,7 +133,7 @@ To finalize the configuration of agents, we need to fix their kinematics, behavi
            max_angular_speed: 1.0
          state_estimation:
            type: Bounded
-           range_of_view: 4.0
+           range: 4.0
 
 
 We can try to sample a world from such a scenario. Save all but the root element ``scenario`` in ``my_scenario.yaml`` and run
@@ -189,7 +189,7 @@ We can try to sample a world from such a scenario. Save all but the root element
          max_angular_speed: 1
        state_estimation:
          type: Bounded
-         range_of_view: 4
+         range: 4
        position:
          - 2.43710041
          - 0.875406802
@@ -232,7 +232,7 @@ We can try to sample a world from such a scenario. Save all but the root element
          max_angular_speed: 1
        state_estimation:
          type: Bounded
-         range_of_view: 4
+         range: 4
        position:
          - 1.05219924
          - 0.95859468
@@ -280,7 +280,7 @@ What should we record? Let's say we want to plot the agents trajectories ... the
            max_angular_speed: 1.0
          state_estimation:
            type: Bounded
-           range_of_view: 4.0
+           range: 4.0
    save_directory: '.'
    record_poses: true
    record_colllisions: true
@@ -318,7 +318,7 @@ Let's say that we are good with a statistics collected from 100 runs, each 20 se
            max_angular_speed: 1.0
          state_estimation:
            type: Bounded
-           range_of_view: 4.0
+           range: 4.0
    save_directory: '.'
    record_poses: true
    record_colllisions: true
@@ -370,7 +370,7 @@ If we want to perform an experiment where we measure the impact of different *gr
            max_angular_speed: 1.0
          state_estimation:
            type: Bounded
-           range_of_view: 4.0
+           range: 4.0
    save_directory: '.'
    record_poses: true
    record_colllisions: true

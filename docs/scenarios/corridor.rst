@@ -82,4 +82,4 @@ where the experiment is configured like
            safety_margin: 0.02
          state_estimation:
            type: Bounded
-           range_of_view: 5.0
+           range: 5.0

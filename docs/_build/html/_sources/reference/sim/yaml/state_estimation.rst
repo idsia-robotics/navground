@@ -22,5 +22,5 @@ Example
 .. code-block:: yaml
 
    type: Bounded
-   range_of_view: 1.0
+   range: 1.0
 

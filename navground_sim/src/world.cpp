@@ -25,11 +25,6 @@ static bool wrap_lattice(float &x, float from, float length) {
   return false;
 }
 
-static BoundingBox envelop(const Vector2 &position, float radius) {
-  return {position[0] - radius, position[0] + radius, position[1] - radius,
-          position[1] + radius};
-}
-
 std::optional<Vector2> penetration_vector_inside_line(const LineSegment &line,
                                                       const Vector2 &center,
                                                       float radius) {
@@ -64,7 +59,6 @@ float penetration_inside_disc(const Disc &disc, const Vector2 &center,
 void World::update(float time_step) {
   if (!ready) {
     prepare();
-    ready = true;
   }
   for (auto &a : agents) {
     a->update(time_step, time, this);
@@ -92,7 +86,6 @@ void World::update(float time_step) {
 void World::actuate(float time_step) {
   if (!ready) {
     prepare();
-    ready = true;
   }
   for (auto &a : agents) {
     a->actuate(time_step);
@@ -109,7 +102,6 @@ void World::actuate(float time_step) {
 void World::update_dry(float time_step, bool advance_time) {
   if (!ready) {
     prepare();
-    ready = true;
   } else {
     update_agents_strtree();
   }
@@ -271,10 +263,15 @@ std::vector<Disc> World::get_discs() const {
 // TODO(Jerome) Should cache .. this needs to be fast
 const std::vector<Obstacle> &World::get_obstacles() const { return obstacles; }
 
-// TODO(J): complete
-std::vector<Disc *> World::get_static_obstacles_in_region(
+// TODO(Jerome): Add [obstacle] ghosts
+std::vector<Disc> World::get_static_obstacles_in_region(
     [[maybe_unused]] const BoundingBox &bb) const {
-  return {};
+  std::vector<Obstacle *> rs;
+  obstacles_index->query(bb, rs);
+  std::vector<Disc> discs(rs.size());
+  std::transform(rs.cbegin(), rs.cend(), discs.begin(),
+                 [](const auto &o) { return o->disc; });
+  return discs;
 }
 
 // TODO(Jerome) Should cache .. this needs to be fast
@@ -360,7 +357,7 @@ bool World::in_collision(const Entity *e1, const Entity *e2) const {
 }
 
 // TODO(J): spare recomputing the envelops?
-void World::udpate_agent_collisions(Agent *a1) {
+void World::update_agent_collisions(Agent *a1) {
   // const BoundingBox &bb = agent_envelops[i];
   const BoundingBox bb = envelop(a1->pose.position, a1->radius);
   agent_index->query(bb, [this, a1](Agent *a2) {
@@ -392,7 +389,7 @@ void World::udpate_agent_collisions(Agent *a1) {
 void World::update_collisions() {
   collisions.clear();
   for (const auto &agent : agents) {
-    udpate_agent_collisions(agent.get());
+    update_agent_collisions(agent.get());
   }
   for (const auto &agent : agents) {
     agent->pose.position += agent->collision_correction;

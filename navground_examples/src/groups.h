@@ -65,7 +65,7 @@ inline sim::AgentSampler<sim::World> agents() {
  *    type: HL
  *  state_estimation:
  *    type: Bounded
- *    range_of_view: 10.0
+ *    range: 10.0
  *  task:
  *    type: Waypoints
  *    waypoints: [[1.0, 0.0], [-1.0, 0.0]]
@@ -94,7 +94,7 @@ inline sim::AgentSampler<sim::World> robots() {
   group.kinematics.properties["wheel_axis"] = make_const_property<float>(0.12f);
   group.state_estimation =
       sim::StateEstimationSampler<>("Bounded");
-  group.state_estimation.properties["range_of_view"] =
+  group.state_estimation.properties["range"] =
       make_const_property<float>(10.0f);
   group.task = sim::TaskSampler<>("Waypoints");
   group.task.properties["loop"] = make_const_property<bool>(true);
@@ -119,7 +119,7 @@ inline sim::AgentSampler<sim::World> group(const std::string & behavior, int num
   group.kinematics.max_speed = make_const<float>(1.0f);
   group.state_estimation =
       sim::StateEstimationSampler<>("Bounded");
-  group.state_estimation.properties["range_of_view"] =
+  group.state_estimation.properties["range"] =
       make_const_property<float>(10.0f);
   group.radius = make_const<float>(0.1f);
   group.control_period = make_const<float>(0.1f);

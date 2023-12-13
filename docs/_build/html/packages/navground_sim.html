@@ -159,6 +159,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/running_an_experiment.html">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -416,6 +417,7 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-and-run-py">run and run_py</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
 </ul>
 </li>
@@ -642,8 +644,8 @@ document.write(`
 </section>
 <section id="run-and-run-py">
 <span id="run"></span><h3>run and run_py<a class="headerlink" href="#run-and-run-py" title="Link to this heading">#</a></h3>
-<p>Run an experiment. <code class="docutils literal notranslate"><span class="pre">run_py</span></code> uses a Python interpreter: it is slower but has access to components implemented in Python too, while <code class="docutils literal notranslate"><span class="pre">run</span></code> is limited to components implemented in C++.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run</span><span class="o">|</span><span class="n">run_py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="n">YAML</span>
+<p>Run an experiment. <code class="docutils literal notranslate"><span class="pre">run_py</span></code> uses a Python interpreter: it is slightly slower but has access to components implemented in Python too, while <code class="docutils literal notranslate"><span class="pre">run</span></code> is limited to components implemented in C++.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run</span><span class="o">|</span><span class="n">run_py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">tqdm</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">run_index</span> <span class="n">RUN_INDEX</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">runs</span> <span class="n">RUNS</span><span class="p">]</span> <span class="n">YAML</span>
 </pre></div>
 </div>
 <section id="positional-arguments">
@@ -654,19 +656,49 @@ document.write(`
 </dd>
 </dl>
 </section>
+<section id="named-arguments">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments" title="Link to this heading">#</a></h4>
+<dl class="option-list">
+<dt><kbd>--tqdm</kbd></dt>
+<dd><p>Display tqdm bar</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--run_index</kbd></dt>
+<dd><p>Will overwrite the experiment own run_index if positive.</p>
+<p>Default: -1</p>
+</dd>
+<dt><kbd>--runs</kbd></dt>
+<dd><p>Will overwrite the experiment own runs if positive.</p>
+<p>Default: -1</p>
+</dd>
+</dl>
+</section>
+<p>If the experiment is recording data, it will create a directory named <code class="docutils literal notranslate"><span class="pre">&lt;experiment_name&gt;_&lt;experiment_hash&gt;_&lt;datestamp&gt;</span></code> with</p>
+<ul class="simple">
+<li><p>an HDF5 file <cite>data.h5`</cite> with data recorded during the experiment,</p></li>
+<li><p>a YAML file <cite>experiment.yaml</cite> with the configuration of the experiment.</p></li>
+</ul>
 <section id="id4">
 <h4>Example<a class="headerlink" href="#id4" title="Link to this heading">#</a></h4>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>run<span class="w">  </span><span class="s2">&quot;{save_directory: &quot;</span>.<span class="s2">&quot;, scenario: {type: Antipodal, groups: [{number: 20}]}}&quot;</span>
 <span class="go">Duration: 0.0120453 s</span>
-<span class="go">Saved to: &quot;./experiment_2023-07-07_16-13-36/data.h5&quot;</span>
+<span class="go">Saved to: &quot;./experiment_3784746994027959661_2023-07-07_16-13-36/data.h5&quot;</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The simulation runs in a single thread. If you want to speed up experiments consisting of multiple runs, you can parallelize them at launch, splitting the runs over multiple sub-experiments. For example, if the experiment described in <code class="docutils literal notranslate"><span class="pre">experiment.yaml</span></code> needs 1000 runs, you can split them over 10 experiments with  <code class="docutils literal notranslate"><span class="pre">run_index=0,</span> <span class="pre">100,</span> <span class="pre">200,</span> <span class="pre">...</span></code> and <code class="docutils literal notranslate"><span class="pre">runs=100</span></code>, each running in a separate process:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">0</span>..9<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>run<span class="w"> </span>experiment.yaml<span class="w"> </span>--runs<span class="w"> </span><span class="m">100</span><span class="w"> </span>--run_index<span class="w"> </span><span class="k">$((</span><span class="nv">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="k">))</span><span class="w"> </span><span class="p">&amp;;</span><span class="w"> </span><span class="k">done</span>
+</pre></div>
+</div>
+<p>This will results in 10 directories, one for each sub-experiment: you can load their data and aggregate it. If you have 10 free cores, it will speed up running the experiment by 10.</p>
 </div>
 </section>
 </section>
 <section id="run-rt">
 <span id="id5"></span><h3>run_rt<a class="headerlink" href="#run-rt" title="Link to this heading">#</a></h3>
 <p>Run an experiment using Python in real time. You can visualize the world in a browser view.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run_rt</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span> <span class="n">YAML</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run_rt</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">deadlocks</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">collisions</span><span class="p">]</span> <span class="n">YAML</span>
 </pre></div>
 </div>
 <section id="positional-arguments">
@@ -704,11 +736,19 @@ document.write(`
 <dd><p>Minimal area rendered in the view</p>
 <p>Default: (0.0, 0.0, 0.0, 0.0)</p>
 </dd>
+<dt><kbd>--display-deadlocks</kbd></dt>
+<dd><p>Color deadlocked agent in blue</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--display-collisions</kbd></dt>
+<dd><p>Color deadlocked agent in red</p>
+<p>Default: False</p>
+</dd>
 </dl>
 </section>
 <section id="id6">
 <h4>Example<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>run_rt<span class="w"> </span>my_experiment.yaml<span class="w"> </span>--factor<span class="w"> </span><span class="m">5</span>.0
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>run_rt<span class="w"> </span>experiment.yaml<span class="w"> </span>--factor<span class="w"> </span><span class="m">5</span>.0
 </pre></div>
 </div>
 </section>
@@ -716,7 +756,7 @@ document.write(`
 <section id="replay">
 <h3>replay<a class="headerlink" href="#replay" title="Link to this heading">#</a></h3>
 <p>Replays an experiment in real-time. You can visualize the world in a browser view, similarly to <a class="reference internal" href="#run-rt">run_rt</a> but for recorded experiment.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run_rt</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span> <span class="n">YAML</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run_rt</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">deadlocks</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">collisions</span><span class="p">]</span> <span class="n">YAML</span>
 </pre></div>
 </div>
 <section id="positional-arguments">
@@ -754,11 +794,19 @@ document.write(`
 <dd><p>Minimal area rendered in the view</p>
 <p>Default: (0.0, 0.0, 0.0, 0.0)</p>
 </dd>
+<dt><kbd>--display-deadlocks</kbd></dt>
+<dd><p>Color deadlocked agent in blue</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--display-collisions</kbd></dt>
+<dd><p>Color deadlocked agent in red</p>
+<p>Default: False</p>
+</dd>
 </dl>
 </section>
 <section id="id7">
 <h4>Example<a class="headerlink" href="#id7" title="Link to this heading">#</a></h4>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>replay<span class="w"> </span>./experiment_2023-07-07_16-13-36/data.h5<span class="w"> </span>--factor<span class="w"> </span><span class="m">10</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>replay<span class="w"> </span>./experiment_3784746994027959661_2023-07-07_16-13-36/data.h5<span class="w"> </span>--factor<span class="w"> </span><span class="m">10</span>
 </pre></div>
 </div>
 </section>
@@ -831,6 +879,7 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-and-run-py">run and run_py</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
 </ul>
 </li>

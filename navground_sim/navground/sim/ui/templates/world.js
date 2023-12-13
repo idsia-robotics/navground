@@ -77,6 +77,7 @@ var agents = new Set();
 var entity = {};
 var NS = "http://www.w3.org/2000/svg";
 var prototypes = {'': '#{{prefix}}agent', 'thymio': '#{{prefix}}thymio', 'wheelchair': '#{{prefix}}wheelchair', 'human': '#{{prefix}}human'}
+var colors = {'': '#cccccc', 'thymio': '#e6e6e6', 'wheelchair': '#wheelchair', 'human': '#human'}
 
 function add_wall(id, points) {
   var e = document.createElementNS(NS,"polyline");
@@ -100,7 +101,15 @@ function add_obstacle(id, point, radius) {
   return e
 }
 
-function add_agent(id, type, size) 
+function color_for_agent(type, color)
+{
+  if (color) {
+    return color;
+  }
+  return colors[type] || "#cccccc";
+}
+
+function add_agent(id, type, size, color) 
 {
   var g = document.createElementNS(NS,"g");
   var agent = document.createElementNS(NS,"use");
@@ -110,6 +119,7 @@ function add_agent(id, type, size)
   g.appendChild(agent)
   g.setAttribute("class", type);
   g.setAttribute("id", id);
+  g.setAttribute("fill", color_for_agent(type, color))
   return g;
 };
 
@@ -135,7 +145,7 @@ function add_entity(uid, data) {
       e = add_obstacle(id, data['point'], data['radius']);
       break;
     case 'a':
-      e = add_agent(id, data['type'], data['size']);
+      e = add_agent(id, data['type'], data['size'], data['color']);
       state = data['pose']
       var [x, y, theta] = state;
       move_element(e, x, y, theta);
@@ -169,10 +179,11 @@ function set_entity(_id, data) {
 
 function set(data) {
   for (var _id in data) {
-    if (_id in entity) {
-      set_entity('{{prefix}}' + _id, data[_id])
+    var _nid = '{{prefix}}' + _id
+    if (_nid in entity) {
+      set_entity(_nid, data[_id])
     } else {
-      var e = document.getElementById("{{prefix}}" + _id);
+      var e = document.getElementById(_nid);
       if (e) {
         var e_data = data[_id];
         for (a in e_data) {

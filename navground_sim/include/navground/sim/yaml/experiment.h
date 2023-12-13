@@ -29,7 +29,9 @@ struct convert_experiment {
     node["record_collisions"] = rhs.trace.record_collisions;
     node["record_safety_violation"] = rhs.trace.record_safety_violation;
     node["record_task_events"] = rhs.trace.record_task_events;
-    node["terminate_when_all_idle"] = rhs.terminate_when_all_idle;
+    node["record_deadlocks"] = rhs.trace.record_deadlocks;
+    node["record_efficacy"] = rhs.trace.record_efficacy;
+    node["terminate_when_all_idle_or_stuck"] = rhs.terminate_when_all_idle_or_stuck;
     node["name"] = rhs.name;
     node["run_index"] = rhs.run_index;
     return node;
@@ -71,11 +73,17 @@ struct convert_experiment {
     if (node["record_task_events"]) {
       rhs.trace.record_task_events = node["record_task_events"].as<bool>();
     }
+    if (node["record_deadlocks"]) {
+      rhs.trace.record_deadlocks = node["record_deadlocks"].as<bool>();
+    }
+    if (node["record_efficacy"]) {
+      rhs.trace.record_efficacy = node["record_efficacy"].as<bool>();
+    }
     if (node["name"]) {
       rhs.name = node["name"].as<std::string>();
     }
-    if (node["terminate_when_all_idle"]) {
-      rhs.terminate_when_all_idle = node["terminate_when_all_idle"].as<bool>();
+    if (node["terminate_when_all_idle_or_stuck"]) {
+      rhs.terminate_when_all_idle_or_stuck = node["terminate_when_all_idle_or_stuck"].as<bool>();
     }
     if (node["run_index"]) {
       rhs.run_index = std::max(node["run_index"].as<int>(), 0);
@@ -90,6 +98,7 @@ struct convert<Experiment> {
     Node node = convert_experiment::encode(rhs);
     if (rhs.scenario) {
       node["scenario"] = *(rhs.scenario);
+      // node["scenario"] = convert_scenario<World>::encode(*(rhs.scenario));
     }
     return node;
   }

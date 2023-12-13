@@ -73,5 +73,5 @@ class RealTimeSimulation:
             await self.init()
         r = self._step()
         if self.web_ui:
-            await self.web_ui.update_poses(self.world)
+            await self.web_ui.update(self.world)
         return r

@@ -163,7 +163,6 @@ void World::add_obstacle(const Obstacle &obstacle) {
   }
 }
 
-
 void World::set_obstacles(const std::vector<Disc> &values) {
   obstacles.clear();
   for (const auto &value : values) {
@@ -197,7 +196,8 @@ void World::prepare() {
       a->behavior->set_kinematics(a->kinematics);
       a->behavior->set_radius(a->radius);
       a->controller.set_behavior(a->behavior);
-      // TODO(J): should be optional now that we added support for external run-loops
+      // TODO(J): should be optional now that we added support for external
+      // run-loops
       a->controller.set_cmd_frame(Frame::absolute);
     }
   }
@@ -211,7 +211,7 @@ void World::run(unsigned steps, float time_step) {
 }
 
 void World::run_until(std::function<bool()> condition, float time_step) {
-  while(!condition()) {
+  while (!condition()) {
     update(time_step);
   }
 }
@@ -348,12 +348,34 @@ bool World::resolve_collision(Agent *agent, LineSegment *line, float margin) {
   return false;
 }
 
-void World::record_collision(const Entity *e1, const Entity *e2) {
+void World::record_collision(Entity *e1, Entity *e2) {
   collisions.emplace(e1, e2);
+  e1->set_as_colliding_at(time);
+  e2->set_as_colliding_at(time);
 }
 
 bool World::in_collision(const Entity *e1, const Entity *e2) const {
   return collisions.count({e1, e2}) > 0 || collisions.count({e2, e1}) > 0;
+}
+
+std::vector<Agent *> World::get_agents_in_collision(float duration) const {
+  std::vector<Agent *> rs;
+  for (const auto &agent : agents) {
+    if (agent->has_been_in_collision_since(time - duration)) {
+      rs.push_back(agent.get());
+    }
+  }
+  return rs;
+}
+
+std::vector<Agent *> World::get_agents_in_deadlock(float duration) const {
+  std::vector<Agent *> rs;
+  for (const auto &agent : agents) {
+    if (agent->has_been_stuck_since(time - duration)) {
+      rs.push_back(agent.get());
+    }
+  }
+  return rs;
 }
 
 // TODO(J): spare recomputing the envelops?
@@ -503,6 +525,11 @@ bool World::agents_are_idle() const {
                      [](auto a) { return a->idle(); });
 }
 
+bool World::agents_are_idle_or_stuck() const {
+  return std::all_of(agents.cbegin(), agents.cend(),
+                     [](auto a) { return a->idle() || a->has_been_stuck_since(1.0f); });
+}
+
 // TODO(Jerome) (extend to lattice)
 bool World::space_agents_apart_once(float minimal_distance,
                                     bool with_safety_margin) {
@@ -569,7 +596,7 @@ std::vector<Vector2> World::lattice_grid() const {
     auto l0 = std::get<1>(*(lattice[0]));
     auto l1 = std::get<1>(*(lattice[1]));
     return {{-l0, -l1}, {-l0, 0},  {-l0, l1}, {0, -l1},
-            {0, l1}, {l0, -l1}, {l0, 0},   {l0, l1}};
+            {0, l1},    {l0, -l1}, {l0, 0},   {l0, l1}};
   }
   if (lattice[0]) {
     auto l0 = std::get<1>(*(lattice[0]));

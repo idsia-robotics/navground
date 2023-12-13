@@ -159,6 +159,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment.html">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -399,6 +400,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6EntityE"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEv"><code class="docutils literal notranslate"><span class="pre">Entity::Entity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEj"><code class="docutils literal notranslate"><span class="pre">Entity::Entity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceEf"><code class="docutils literal notranslate"><span class="pre">Entity::has_been_in_collision_since()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity3uidE"><code class="docutils literal notranslate"><span class="pre">Entity::uid</span></code></a></li>
 </ul>
 </li>
@@ -446,10 +448,13 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14get_collisionsEv"><code class="docutils literal notranslate"><span class="pre">World::get_collisions()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24compute_safety_violationEPK5Agent"><code class="docutils literal notranslate"><span class="pre">World::compute_safety_violation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World15agents_are_idleEv"><code class="docutils literal notranslate"><span class="pre">World::agents_are_idle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv"><code class="docutils literal notranslate"><span class="pre">World::agents_are_idle_or_stuck()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World18space_agents_apartEfbj"><code class="docutils literal notranslate"><span class="pre">World::space_agents_apart()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World12in_collisionEPK6EntityPK6Entity"><code class="docutils literal notranslate"><span class="pre">World::in_collision()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10get_entityEj"><code class="docutils literal notranslate"><span class="pre">World::get_entity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">World::add_callback()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World23get_agents_in_collisionEf"><code class="docutils literal notranslate"><span class="pre">World::get_agents_in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22get_agents_in_deadlockEf"><code class="docutils literal notranslate"><span class="pre">World::get_agents_in_deadlock()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8set_seedEj"><code class="docutils literal notranslate"><span class="pre">World::set_seed()</span></code></a></li>
 </ul>
 </li>
@@ -496,6 +501,20 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>id</strong> – <strong>[in]</strong> The identifier </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceEf">
+<span class="target" id="structnavground_1_1sim_1_1_entity_1a871b397fa3a8a420a79479652f5c7e77"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">has_been_in_collision_since</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceEf" title="Link to this definition">#</a><br /></dt>
+<dd><p>Determines if the entity has been in collision at least once since the given time. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> – <strong>[in]</strong> The time</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if been in collision since, False otherwise. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -965,6 +984,17 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a16b6a4100def30656dee2e980b1c9fd5"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">agents_are_idle_or_stuck</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check if all agents are idle or stuck (i.e., they are no moving because they task is done or they are deadlocked) </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if all agents are idle or stuck </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World18space_agents_apartEfbj">
 <span class="target" id="classnavground_1_1sim_1_1_world_1aa9a78a69630f0edf85f05f165117c9f4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">space_agents_apart</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">minimal_distance</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">with_safety_margin</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_iterations</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">10</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World18space_agents_apartEfbj" title="Link to this definition">#</a><br /></dt>
 <dd><p>Move agents so that they do not overlap anymore with themselves or with any obstacle. </p>
@@ -1017,6 +1047,34 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The callback </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World23get_agents_in_collisionEf">
+<span class="target" id="classnavground_1_1sim_1_1_world_1aeb723ac75b204a2a7cef83d3e3ac7439"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_agents_in_collision</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">duration</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World23get_agents_in_collisionEf" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the agents that had a collision after <code class="docutils literal notranslate"><span class="pre">now</span> <span class="pre">-</span> <span class="pre">duration</span></code>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>duration</strong> – <strong>[in]</strong> The duration</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The agents in collision. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World22get_agents_in_deadlockEf">
+<span class="target" id="classnavground_1_1sim_1_1_world_1adf8ec60f9bcb54caa24cc617f40d3007"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_agents_in_deadlock</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">duration</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World22get_agents_in_deadlockEf" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the agents that are in stuck since <code class="docutils literal notranslate"><span class="pre">now</span> <span class="pre">-</span> <span class="pre">duration</span></code>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>duration</strong> – <strong>[in]</strong> The duration</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The agents in deadlock. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -1088,6 +1146,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6EntityE"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEv"><code class="docutils literal notranslate"><span class="pre">Entity::Entity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEj"><code class="docutils literal notranslate"><span class="pre">Entity::Entity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceEf"><code class="docutils literal notranslate"><span class="pre">Entity::has_been_in_collision_since()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity3uidE"><code class="docutils literal notranslate"><span class="pre">Entity::uid</span></code></a></li>
 </ul>
 </li>
@@ -1135,10 +1194,13 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14get_collisionsEv"><code class="docutils literal notranslate"><span class="pre">World::get_collisions()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24compute_safety_violationEPK5Agent"><code class="docutils literal notranslate"><span class="pre">World::compute_safety_violation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World15agents_are_idleEv"><code class="docutils literal notranslate"><span class="pre">World::agents_are_idle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv"><code class="docutils literal notranslate"><span class="pre">World::agents_are_idle_or_stuck()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World18space_agents_apartEfbj"><code class="docutils literal notranslate"><span class="pre">World::space_agents_apart()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World12in_collisionEPK6EntityPK6Entity"><code class="docutils literal notranslate"><span class="pre">World::in_collision()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10get_entityEj"><code class="docutils literal notranslate"><span class="pre">World::get_entity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">World::add_callback()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World23get_agents_in_collisionEf"><code class="docutils literal notranslate"><span class="pre">World::get_agents_in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22get_agents_in_deadlockEf"><code class="docutils literal notranslate"><span class="pre">World::get_agents_in_deadlock()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8set_seedEj"><code class="docutils literal notranslate"><span class="pre">World::set_seed()</span></code></a></li>
 </ul>
 </li>

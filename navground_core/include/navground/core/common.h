@@ -202,6 +202,17 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    */
   Twist2 to_frame(Frame frame, const Pose2 & reference) const;
 
+  /**
+   * @brief      Determines if almost zero.
+   *
+   * @param[in]  epsilon_speed          The epsilon speed
+   * @param[in]  epsilon_angular_speed  The epsilon angular speed
+   *
+   * @return     True if almost zero, False otherwise.
+   */
+  bool is_almost_zero(float epsilon_speed = 1e-6, float epsilon_angular_speed = 1e-6) const {
+    return velocity.norm() < epsilon_speed and abs(angular_speed) < epsilon_angular_speed;
+  }
 
 };
 

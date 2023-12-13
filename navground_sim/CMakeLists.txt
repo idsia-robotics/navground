@@ -22,6 +22,17 @@ endif()
 include(GenerateExportHeader)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
+include(FetchContent)
+FetchContent_Declare(
+  cpptqdm
+  GIT_REPOSITORY https://github.com/aminnj/cpptqdm.git
+  GIT_TAG        master
+)
+
+FetchContent_MakeAvailable(cpptqdm)
+
+message("cpptqdm_SOURCE_DIR ${cpptqdm_SOURCE_DIR}")
+
 # add_subdirectory(HighFive)
 # add_subdirectory(Crow)
 # set(YAML_CPP_INSTALL ON CACHE INTERNAL "")
@@ -91,6 +102,7 @@ ament_export_targets(navground_simTargets HAS_LIBRARY_TARGET)
 add_executable(run src/run.cpp)
 target_link_libraries(run navground_sim)
 add_dependencies(run navground_sim)
+target_include_directories(run PRIVATE ${cpptqdm_SOURCE_DIR})
 
 add_executable(sample src/sample.cpp)
 target_link_libraries(sample navground_sim)
@@ -99,6 +111,10 @@ add_dependencies(sample navground_sim)
 add_executable(info src/info.cpp)
 target_link_libraries(info navground_sim)
 add_dependencies(info navground_sim)
+
+# add_executable(echo src/echo.cpp)
+# target_link_libraries(echo navground_sim)
+# add_dependencies(echo navground_sim)
 
 ament_python_install_namespace_package(sim
   SCRIPTS_DESTINATION lib/${PROJECT_NAME}

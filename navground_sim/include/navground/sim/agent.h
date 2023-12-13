@@ -8,6 +8,7 @@
 #include <memory>
 #include <set>
 #include <utility>
+// #include <limits>
 
 #include "navground/core/behavior.h"
 #include "navground/core/common.h"
@@ -94,7 +95,8 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
         kinematics(kinematics),
         controller(behavior),
         control_deadline(0.0),
-        collision_correction() {}
+        collision_correction(),
+        is_stuck_since_time(-1) {}
 
   /**
    * @brief      Factory method to build an agent
@@ -282,6 +284,26 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    */
   void actuate(const Twist2 & cmd, float dt);
 
+  /**
+   * @brief      Determines if the agent has been stuck since a given time.
+   *
+   * @param[in]  time  The time
+   *
+   * @return     True if been stuck since, False otherwise.
+   */
+  bool has_been_stuck_since(float time) const {
+    return is_stuck_since_time >= 0 && is_stuck_since_time < time;
+  }
+
+  /**
+   * @brief      Gets the time since the agents has been stuck.
+   *
+   * @return     The time since stuck.
+   */
+  float get_time_since_stuck() const {
+    return is_stuck_since_time;
+  }
+
  private:
   std::shared_ptr<Task> task;
   std::shared_ptr<StateEstimation> state_estimation;
@@ -290,6 +312,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   Controller controller;
   float control_deadline;
   Vector2 collision_correction;
+  float is_stuck_since_time;
 
   /**
    * @brief      Tick the agent for a time step.

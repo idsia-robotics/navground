@@ -16,7 +16,6 @@
 #include "navground/core/states/geometric.h"
 #include "navground/sim/agent.h"
 #include "navground/sim/entity.h"
-
 #include "navground_sim_export.h"
 
 using navground::core::Disc;
@@ -198,7 +197,7 @@ class NAVGROUND_SIM_EXPORT World {
    */
   void update(float time_step);
   /**
-   * @brief      Updates world for a single time step 
+   * @brief      Updates world for a single time step
    *             without actuation and collisions resolution.
    *
    * @param[in]  time_step  The time step
@@ -246,7 +245,7 @@ class NAVGROUND_SIM_EXPORT World {
    */
   void add_agent(const std::shared_ptr<Agent> &agent);
   /**
-   * @brief      Adds a line to the world as a wall 
+   * @brief      Adds a line to the world as a wall
    *
    * @param[in]  line  The line
    */
@@ -258,7 +257,7 @@ class NAVGROUND_SIM_EXPORT World {
    */
   void add_wall(const Wall &wall);
   /**
-   * @brief      Adds a disc the world as a static obstacle 
+   * @brief      Adds a disc the world as a static obstacle
    *
    * @param[in]  disc  The disc
    */
@@ -282,9 +281,10 @@ class NAVGROUND_SIM_EXPORT World {
    * @param[in]  agent     The agent
    * @param[in]  distance  The radius of the neighborhood
    *
-   * @return     All neighbor within a circle of radius ``radius`` centered around the agent.
+   * @return     All neighbor within a circle of radius ``radius`` centered
+   * around the agent.
    */
-  std::vector<Neighbor> get_neighbors(const Agent * agent, float distance) const;
+  std::vector<Neighbor> get_neighbors(const Agent *agent, float distance) const;
 
   /**
    * @brief      Gets all agents in a bounding box.
@@ -300,7 +300,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     All obstacles.
    */
-  const std::vector<Obstacle> & get_obstacles() const;
+  const std::vector<Obstacle> &get_obstacles() const;
   /**
    * @brief      Gets all disc shaped static obstacles in this world.
    *
@@ -320,7 +320,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     All walls.
    */
-  const std::vector<Wall> & get_walls() const;
+  const std::vector<Wall> &get_walls() const;
   /**
    * @brief      Gets all line obstacles in this world.
    *
@@ -334,7 +334,8 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     All walls that lie in a bounding box
    */
-  std::vector<LineSegment *> get_line_obstacles_in_region(const BoundingBox &bb) const;
+  std::vector<LineSegment *> get_line_obstacles_in_region(
+      const BoundingBox &bb) const;
   /**
    * @brief      Replaces all obstacles.
    *
@@ -385,6 +386,14 @@ class NAVGROUND_SIM_EXPORT World {
   bool agents_are_idle() const;
 
   /**
+   * @brief      Check if all agents are idle or stuck
+   * (i.e., they are no moving because they task is done or they are deadlocked)
+   *
+   * @return     True if all agents are idle or stuck
+   */
+  bool agents_are_idle_or_stuck() const;
+
+  /**
    * @brief      Move agents so that they do not overlap anymore with themselves
    * or with any obstacle
    *
@@ -424,7 +433,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     The entity or nullptr if not found.
    */
-  Entity * get_entity(unsigned uid) {
+  Entity *get_entity(unsigned uid) {
     if (entities.count(uid)) {
       return entities.at(uid);
     }
@@ -436,11 +445,28 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @param[in]  value  The callback
    */
-  void add_callback(const Callback& value) { callbacks.push_back(value); }
+  void add_callback(const Callback &value) { callbacks.push_back(value); }
   void reset_callbacks() { callbacks.clear(); }
 
+  /**
+   * @brief      Gets the agents that had a collision after ``now - duration``.
+   *
+   * @param[in]  duration  The duration
+   *
+   * @return     The agents in collision.
+   */
+  std::vector<Agent *> get_agents_in_collision(float duration = 0.0) const;
+  /**
+   * @brief      Gets the agents that are in stuck since ``now - duration``.
+   *
+   * @param[in]  duration  The duration
+   *
+   * @return     The agents in deadlock.
+   */
+  std::vector<Agent *> get_agents_in_deadlock(float duration = 0.0) const;
+
  private:
-  void record_collision(const Entity *e1, const Entity *e2);
+  void record_collision(Entity *e1, Entity *e2);
 
   bool resolve_collision(Agent *a1, Agent *a2, float margin = 0.0f);
 
@@ -463,15 +489,14 @@ class NAVGROUND_SIM_EXPORT World {
 
   void update_agent_ghosts();
 
-  void add_entity(Entity * entity);
+  void add_entity(Entity *entity);
 
   std::vector<std::shared_ptr<Agent>> agents;
   std::vector<Obstacle> obstacles;
   std::vector<Wall> walls;
   std::vector<Ghost> ghosts;
   std::shared_ptr<geos::index::strtree::TemplateSTRtree<Agent *>> agent_index;
-  std::shared_ptr<geos::index::strtree::TemplateSTRtree<Ghost *>>
-      ghost_index;
+  std::shared_ptr<geos::index::strtree::TemplateSTRtree<Ghost *>> ghost_index;
   std::shared_ptr<geos::index::strtree::TemplateSTRtree<Obstacle *>>
       obstacles_index;
   std::shared_ptr<geos::index::strtree::TemplateSTRtree<Wall *>> walls_index;

@@ -32,6 +32,7 @@ def main() -> None:
         sys.exit(1)
     if scenario:
         print(sim.dump(scenario))
+        print('-' * 30)
         world = sim.World()
         scenario.init_world(world)
         print(sim.dump(world))

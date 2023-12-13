@@ -159,6 +159,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment.html">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -418,7 +419,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_obstacle"><code class="docutils literal notranslate"><span class="pre">World.add_obstacle()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_wall"><code class="docutils literal notranslate"><span class="pre">World.add_wall()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents_are_idle"><code class="docutils literal notranslate"><span class="pre">World.agents_are_idle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents_are_idle_or_stuck"><code class="docutils literal notranslate"><span class="pre">World.agents_are_idle_or_stuck()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.compute_safety_violation"><code class="docutils literal notranslate"><span class="pre">World.compute_safety_violation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_collision"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_deadlock"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_deadlock()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_region()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_entity"><code class="docutils literal notranslate"><span class="pre">World.get_entity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_line_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_line_obstacles_in_region()</span></code></a></li>
@@ -678,6 +682,18 @@ controller are idle).</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.World.agents_are_idle_or_stuck">
+<span class="sig-name descname"><span class="pre">agents_are_idle_or_stuck</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#navground.sim.World.agents_are_idle_or_stuck" title="Link to this definition">#</a></dt>
+<dd><p>Check if all agents are idle or stuck (i.e., they are no moving
+because they task is done or they are deadlocked)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if all agents are idle or stuck</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.compute_safety_violation">
 <span class="sig-name descname"><span class="pre">compute_safety_violation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#navground.sim.World.compute_safety_violation" title="Link to this definition">#</a></dt>
 <dd><p>Calculates the safety violation, i.e. the maximal penetration of a
@@ -688,6 +704,34 @@ neighbor or obstacle in the safety margin of the agent.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The safety violation or 0 if no violation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.World.get_agents_in_collision">
+<span class="sig-name descname"><span class="pre">get_agents_in_collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_collision" title="Link to this definition">#</a></dt>
+<dd><p>Gets the agents that had a collision after <code class="docutils literal notranslate"><span class="pre">now</span> <span class="pre">-</span> <span class="pre">duration</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>duration</strong> – The duration</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The agents in collision.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.World.get_agents_in_deadlock">
+<span class="sig-name descname"><span class="pre">get_agents_in_deadlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_deadlock" title="Link to this definition">#</a></dt>
+<dd><p>Gets the agents that are in stuck since <code class="docutils literal notranslate"><span class="pre">now</span> <span class="pre">-</span> <span class="pre">duration</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>duration</strong> – The duration</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The agents in deadlock.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1028,7 +1072,10 @@ resolution.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_obstacle"><code class="docutils literal notranslate"><span class="pre">World.add_obstacle()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_wall"><code class="docutils literal notranslate"><span class="pre">World.add_wall()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents_are_idle"><code class="docutils literal notranslate"><span class="pre">World.agents_are_idle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents_are_idle_or_stuck"><code class="docutils literal notranslate"><span class="pre">World.agents_are_idle_or_stuck()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.compute_safety_violation"><code class="docutils literal notranslate"><span class="pre">World.compute_safety_violation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_collision"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_deadlock"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_deadlock()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_region()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_entity"><code class="docutils literal notranslate"><span class="pre">World.get_entity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_line_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_line_obstacles_in_region()</span></code></a></li>

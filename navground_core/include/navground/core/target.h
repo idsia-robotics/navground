@@ -89,6 +89,21 @@ struct Target {
     return satisfied(pose.position) && satisfied(pose.orientation);
   }
 
+  // TODO(Jerome): extend to orientation / angular_speed
+  Vector2 get_ideal_velocity(const Vector2 & position_, float speed_) const {
+    if (position) {
+      const auto delta = *position - position_;
+      const auto n = delta.norm();
+      if (n > 0 && n > position_tolerance) {
+        return delta / n * speed.value_or(speed_);
+      }
+    }
+    if (direction) {
+      return *direction * speed.value_or(speed_);
+    }
+    return Vector2();
+  }
+
   static Target Point(const Vector2& position, float tolerance = 0.0f) {
     Target t;
     t.position = position;

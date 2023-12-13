@@ -276,7 +276,7 @@ struct PyExperiment : public Experiment {
     return world;
   }
 
-  std::string dump() override { return YAML::dump<PyExperiment>(this); }
+  std::string dump() const override { return YAML::dump<PyExperiment>(this); }
 
   void set_scenario(const py::object &value) {
     py_scenario = value;
@@ -625,6 +625,12 @@ Creates a rectangular region
       .def("compute_safety_violation", &World::compute_safety_violation,
            py::arg("agent"),
            DOC(navground, sim, World, compute_safety_violation))
+      .def("get_agents_in_collision", &World::get_agents_in_collision,
+           py::arg("duration") = 0.0,
+           DOC(navground, sim, World, get_agents_in_collision))
+      .def("get_agents_in_deadlock", &World::get_agents_in_deadlock,
+           py::arg("duration") = 0.0,
+           DOC(navground, sim, World, get_agents_in_deadlock))
       .def("agents_are_idle", &World::agents_are_idle,
            DOC(navground, sim, World, agents_are_idle))
       .def("space_agents_apart", &World::space_agents_apart,
@@ -638,6 +644,8 @@ Creates a rectangular region
            py::return_value_policy::reference,
            DOC(navground, sim, World, get_entity))
       .def("_prepare", &World::prepare)
+      .def("agents_are_idle_or_stuck", &World::agents_are_idle_or_stuck,
+           DOC(navground, sim, World, agents_are_idle_or_stuck))
       .def("in_collision", &World::in_collision, py::arg("e1"), py::arg("e2"),
            DOC(navground, sim, World, in_collision));
 
@@ -866,7 +874,7 @@ not been recorded in the trace.
             return empty_float_view();
           },
           nullptr, R"doc(
-The recorded amounts of safety violation")
+The recorded amounts of safety violation
 as a memory view to the floating point buffer::
 
   [[agent_0_violation, agent_1_violation, ...],
@@ -883,6 +891,9 @@ not been recorded in the trace.
           [](const Trace *trace) {
             if (trace->record_collisions) {
               const ssize_t n = trace->collisions_data.size() / 3;
+              if (n == 0) {
+                return empty_unsigned_view();
+              }
               const std::array<ssize_t, 2> shape{n, 3};
               const std::array<ssize_t, 2> strides{sizeof(float) * 3,
                                                    sizeof(float)};
@@ -895,7 +906,7 @@ not been recorded in the trace.
 The recorded collisions between pairs of entities as
 a memory view to the uint32 buffer::
 
-  [[time_step, entity 1 uid, entity 1 uid], 
+  [[time_step, entity 1 uid, entity 2 uid], 
    ...]
 
 of shape ``(number of collisions, 3)``.
@@ -935,6 +946,51 @@ The view is empty if the agent's task has not been recorded in the trace.
 
 :return: The events logged by the agent task
 )doc")
+      .def_property(
+          "deadlocks",
+          [](const Trace *trace) {
+            if (trace->record_deadlocks) {
+              const std::array<ssize_t, 1> shape{trace->number};
+              const std::array<ssize_t, 1> strides{sizeof(float)};
+              return py::memoryview::from_buffer(trace->deadlock_data.data(),
+                                                 shape, strides);
+            }
+            return empty_float_view();
+          },
+          nullptr, R"doc(
+The time since agents are deadlocked as
+a memory view of the float buffer::
+
+  [time_0, time_1, ...]
+
+of shape ``(number of agents, )``.
+If ``time_i`` is negative, the i-th agent is not stuck at the end of the recording.
+Else, it is stuck since ``time_i``.
+)doc")
+      .def_property(
+          "efficacy",
+          [](const Trace *trace) {
+            if (trace->record_efficacy) {
+              const std::array<ssize_t, 2> shape{trace->steps, trace->number};
+              const std::array<ssize_t, 2> strides{
+                  static_cast<ssize_t>(sizeof(float) * trace->number),
+                  sizeof(float)};
+              return py::memoryview::from_buffer(trace->efficacy_data.data(),
+                                                 shape, strides);
+            }
+            return empty_float_view();
+          },
+          nullptr, R"doc(
+The recorded agents' efficacy
+as a memory view to the floating point buffer::
+
+  [[agent_0_efficacy, agent_1_efficacy, ...],
+   ...]
+
+of shape ``(simulation steps, number of agents)``.
+
+The view is empty if efficacy has not been recorded in the trace.
+)doc")
       .def_readwrite("record_pose", &Trace::record_pose,
                      DOC(navground, sim, Trace, record_pose))
       .def_readwrite("record_twist", &Trace::record_twist,
@@ -949,6 +1005,10 @@ The view is empty if the agent's task has not been recorded in the trace.
                      DOC(navground, sim, Trace, record_collisions))
       .def_readwrite("record_task_events", &Trace::record_task_events,
                      DOC(navground, sim, Trace, record_task_events))
+      .def_readwrite("record_deadlocks", &Trace::record_deadlocks,
+                     DOC(navground, sim, Trace, record_deadlocks))
+      .def_readwrite("record_efficacy", &Trace::record_efficacy,
+                     DOC(navground, sim, Trace, record_efficacy))
       .def_readonly("number", &Trace::number,
                     DOC(navground, sim, Trace, number))
       .def_readonly("steps", &Trace::steps, DOC(navground, sim, Trace, steps));
@@ -980,6 +1040,9 @@ The view is empty if the agent's task has not been recorded in the trace.
                     DOC(navground, sim, Experiment, property_path))
       .def("add_callback", &Experiment::add_callback, py::arg("callback"),
            DOC(navground, sim, Experiment, add_callback))
+      .def("add_run_callback", &Experiment::add_run_callback,
+           py::arg("callback"),
+           DOC(navground, sim, Experiment, add_run_callback))
       .def("run_once", &Experiment::run_once, py::arg("seed"),
            DOC(navground, sim, Experiment, run_once))
       .def("run", &Experiment::run, DOC(navground, sim, Experiment, run))
@@ -994,6 +1057,10 @@ The view is empty if the agent's task has not been recorded in the trace.
            DOC(navground, sim, Experiment, stop_run))
       .def("update", &Experiment::update,
            DOC(navground, sim, Experiment, update))
+      .def_readwrite(
+          "terminate_when_all_idle_or_stuck",
+          &Experiment::terminate_when_all_idle_or_stuck,
+          DOC(navground, sim, Experiment, terminate_when_all_idle_or_stuck))
       .def_property("run_duration", &Experiment::get_run_duration_ns, nullptr,
                     DOC(navground, sim, Experiment, property, run_duration_ns))
       .def_property("duration", &Experiment::get_duration_ns, nullptr,

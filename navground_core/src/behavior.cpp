@@ -160,8 +160,8 @@ float Behavior::estimate_time_until_target_satisfied() const {
     }
   }
   if (!target.satisfied(pose.orientation)) {
-    const float angular_speed =
-        feasible_angular_speed(target.angular_speed.value_or(optimal_speed));
+    const float angular_speed = feasible_angular_speed(
+        target.angular_speed.value_or(optimal_angular_speed));
     if (angular_speed) {
       time += normalize(*target.orientation - pose.orientation) / angular_speed;
     } else {
@@ -169,6 +169,35 @@ float Behavior::estimate_time_until_target_satisfied() const {
     }
   }
   return time;
+}
+
+bool Behavior::should_stop() const {
+  if (!target.valid()) return true;
+  const auto speed = target.speed.value_or(optimal_speed);
+  if (target.position && !target.satisfied(pose.position) && speed)
+    return false;
+  const auto angular_speed =
+      target.angular_speed.value_or(optimal_angular_speed);
+  if (target.orientation && !target.satisfied(pose.orientation) &&
+      angular_speed)
+    return false;
+  if (target.direction && speed) return false;
+  if (target.angular_speed.value_or(0.0)) return false;
+  return true;
+}
+
+bool Behavior::is_stopped(float epsilon_speed,
+                          float epsilon_angular_speed) const {
+  return twist.is_almost_zero(epsilon_speed, epsilon_angular_speed) and
+         actuated_twist.is_almost_zero(epsilon_speed, epsilon_angular_speed);
+}
+
+bool Behavior::is_stuck() const { return !should_stop() && is_stopped(); }
+
+float Behavior::get_efficacy() const { 
+  const auto v = target.get_ideal_velocity(pose.position, optimal_speed);
+  if (!v.norm()) return 1.0f;
+  return v.dot(twist.velocity) / v.squaredNorm();
 }
 
 }  // namespace navground::core

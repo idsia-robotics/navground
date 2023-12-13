@@ -159,6 +159,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment.html">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -425,7 +426,10 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.add_obstacle"><code class="docutils literal notranslate"><span class="pre">World.add_obstacle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.add_wall"><code class="docutils literal notranslate"><span class="pre">World.add_wall()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.agents_are_idle"><code class="docutils literal notranslate"><span class="pre">World.agents_are_idle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.agents_are_idle_or_stuck"><code class="docutils literal notranslate"><span class="pre">World.agents_are_idle_or_stuck()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.compute_safety_violation"><code class="docutils literal notranslate"><span class="pre">World.compute_safety_violation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.get_agents_in_collision"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_collision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.get_agents_in_deadlock"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_deadlock()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.get_agents_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_region()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.get_entity"><code class="docutils literal notranslate"><span class="pre">World.get_entity()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.get_line_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_line_obstacles_in_region()</span></code></a></li>
@@ -546,10 +550,14 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.index_of_agent"><code class="docutils literal notranslate"><span class="pre">Trace.index_of_agent()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.collisions"><code class="docutils literal notranslate"><span class="pre">Trace.collisions</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.commands"><code class="docutils literal notranslate"><span class="pre">Trace.commands</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.deadlocks"><code class="docutils literal notranslate"><span class="pre">Trace.deadlocks</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.efficacy"><code class="docutils literal notranslate"><span class="pre">Trace.efficacy</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.number"><code class="docutils literal notranslate"><span class="pre">Trace.number</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.poses"><code class="docutils literal notranslate"><span class="pre">Trace.poses</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.record_cmd"><code class="docutils literal notranslate"><span class="pre">Trace.record_cmd</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.record_collisions"><code class="docutils literal notranslate"><span class="pre">Trace.record_collisions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.record_deadlocks"><code class="docutils literal notranslate"><span class="pre">Trace.record_deadlocks</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.record_efficacy"><code class="docutils literal notranslate"><span class="pre">Trace.record_efficacy</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.record_pose"><code class="docutils literal notranslate"><span class="pre">Trace.record_pose</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.record_safety_violation"><code class="docutils literal notranslate"><span class="pre">Trace.record_safety_violation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Trace.record_target"><code class="docutils literal notranslate"><span class="pre">Trace.record_target</span></code></a></li>
@@ -564,12 +572,14 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="experiment.html#navground.sim.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.__init__"><code class="docutils literal notranslate"><span class="pre">Experiment.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.add_callback"><code class="docutils literal notranslate"><span class="pre">Experiment.add_callback()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.add_run_callback"><code class="docutils literal notranslate"><span class="pre">Experiment.add_run_callback()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.run"><code class="docutils literal notranslate"><span class="pre">Experiment.run()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.run_once"><code class="docutils literal notranslate"><span class="pre">Experiment.run_once()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.start"><code class="docutils literal notranslate"><span class="pre">Experiment.start()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.start_run"><code class="docutils literal notranslate"><span class="pre">Experiment.start_run()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.stop"><code class="docutils literal notranslate"><span class="pre">Experiment.stop()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.stop_run"><code class="docutils literal notranslate"><span class="pre">Experiment.stop_run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.tqdm"><code class="docutils literal notranslate"><span class="pre">Experiment.tqdm()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.update"><code class="docutils literal notranslate"><span class="pre">Experiment.update()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.begin_time"><code class="docutils literal notranslate"><span class="pre">Experiment.begin_time</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment.duration"><code class="docutils literal notranslate"><span class="pre">Experiment.duration</span></code></a></li>

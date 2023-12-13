@@ -159,6 +159,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment.html">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -400,10 +401,14 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.index_of_agent"><code class="docutils literal notranslate"><span class="pre">Trace.index_of_agent()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.collisions"><code class="docutils literal notranslate"><span class="pre">Trace.collisions</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.commands"><code class="docutils literal notranslate"><span class="pre">Trace.commands</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.deadlocks"><code class="docutils literal notranslate"><span class="pre">Trace.deadlocks</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.efficacy"><code class="docutils literal notranslate"><span class="pre">Trace.efficacy</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.number"><code class="docutils literal notranslate"><span class="pre">Trace.number</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.poses"><code class="docutils literal notranslate"><span class="pre">Trace.poses</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_cmd"><code class="docutils literal notranslate"><span class="pre">Trace.record_cmd</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_collisions"><code class="docutils literal notranslate"><span class="pre">Trace.record_collisions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_deadlocks"><code class="docutils literal notranslate"><span class="pre">Trace.record_deadlocks</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_efficacy"><code class="docutils literal notranslate"><span class="pre">Trace.record_efficacy</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_pose"><code class="docutils literal notranslate"><span class="pre">Trace.record_pose</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_safety_violation"><code class="docutils literal notranslate"><span class="pre">Trace.record_safety_violation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_target"><code class="docutils literal notranslate"><span class="pre">Trace.record_target</span></code></a></li>
@@ -418,12 +423,14 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.__init__"><code class="docutils literal notranslate"><span class="pre">Experiment.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_callback"><code class="docutils literal notranslate"><span class="pre">Experiment.add_callback()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_run_callback"><code class="docutils literal notranslate"><span class="pre">Experiment.add_run_callback()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.run"><code class="docutils literal notranslate"><span class="pre">Experiment.run()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.run_once"><code class="docutils literal notranslate"><span class="pre">Experiment.run_once()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.start"><code class="docutils literal notranslate"><span class="pre">Experiment.start()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.start_run"><code class="docutils literal notranslate"><span class="pre">Experiment.start_run()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.stop"><code class="docutils literal notranslate"><span class="pre">Experiment.stop()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.stop_run"><code class="docutils literal notranslate"><span class="pre">Experiment.stop_run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.tqdm"><code class="docutils literal notranslate"><span class="pre">Experiment.tqdm()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.update"><code class="docutils literal notranslate"><span class="pre">Experiment.update()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.begin_time"><code class="docutils literal notranslate"><span class="pre">Experiment.begin_time</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.duration"><code class="docutils literal notranslate"><span class="pre">Experiment.duration</span></code></a></li>
@@ -493,7 +500,7 @@ as memory view to the floating point buffer:</p>
 </dl>
 <p>The recorded collisions between pairs of entities as
 a memory view to the uint32 buffer:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">time_step</span><span class="p">,</span> <span class="n">entity</span> <span class="mi">1</span> <span class="n">uid</span><span class="p">,</span> <span class="n">entity</span> <span class="mi">1</span> <span class="n">uid</span><span class="p">],</span> 
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">time_step</span><span class="p">,</span> <span class="n">entity</span> <span class="mi">1</span> <span class="n">uid</span><span class="p">,</span> <span class="n">entity</span> <span class="mi">2</span> <span class="n">uid</span><span class="p">],</span> 
  <span class="o">...</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -521,6 +528,42 @@ as a memory view to the floating point buffer:</p>
 <p>of shape <code class="docutils literal notranslate"><span class="pre">(simulation</span> <span class="pre">steps,</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">agents,</span> <span class="pre">3)</span></code>.</p>
 <p>The view is empty if commands have 
 not been recorded in the trace.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.deadlocks">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deadlocks</span></span><a class="headerlink" href="#navground.sim.Trace.deadlocks" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>memoryview</p>
+</dd>
+</dl>
+<p>The time since agents are deadlocked as
+a memory view of the float buffer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">time_0</span><span class="p">,</span> <span class="n">time_1</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>of shape <code class="docutils literal notranslate"><span class="pre">(number</span> <span class="pre">of</span> <span class="pre">agents,</span> <span class="pre">)</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">time_i</span></code> is negative, the i-th agent is not stuck at the end of the recording.
+Else, it is stuck since <code class="docutils literal notranslate"><span class="pre">time_i</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.efficacy">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">efficacy</span></span><a class="headerlink" href="#navground.sim.Trace.efficacy" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>memoryview</p>
+</dd>
+</dl>
+<p>The recorded agents’ efficacy
+as a memory view to the floating point buffer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">agent_0_efficacy</span><span class="p">,</span> <span class="n">agent_1_efficacy</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+ <span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>of shape <code class="docutils literal notranslate"><span class="pre">(simulation</span> <span class="pre">steps,</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">agents)</span></code>.</p>
+<p>The view is empty if efficacy has not been recorded in the trace.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -575,6 +618,29 @@ not been recorded in the trace.</p>
 </dd>
 </dl>
 <p>Whether it should record collisions</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.record_deadlocks">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_deadlocks</span></span><a class="headerlink" href="#navground.sim.Trace.record_deadlocks" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whether it should record efficacy (i.e., fraction of actual velocity
+vs optimal velocity)</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Trace.record_efficacy">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_efficacy</span></span><a class="headerlink" href="#navground.sim.Trace.record_efficacy" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whether it should record the time since when agents are stuck</p>
 </dd></dl>
 
 <dl class="py property">
@@ -640,7 +706,7 @@ not been recorded in the trace.</p>
 <dd class="field-odd"><p>memoryview</p>
 </dd>
 </dl>
-<p>The recorded amounts of safety violation”)
+<p>The recorded amounts of safety violation
 as a memory view to the floating point buffer:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">agent_0_violation</span><span class="p">,</span> <span class="n">agent_1_violation</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
  <span class="o">...</span><span class="p">]</span>
@@ -742,6 +808,17 @@ dataset.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.Experiment.add_run_callback">
+<span class="sig-name descname"><span class="pre">add_run_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.add_run_callback" title="Link to this definition">#</a></dt>
+<dd><p>Adds a callback to be executed after each run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – The callback</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.run" title="Link to this definition">#</a></dt>
 <dd><p>Perform all runs</p>
@@ -773,6 +850,8 @@ set);</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">poses</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <a class="reference internal" href="#navground.sim.Trace.record_pose" title="navground.sim.Trace.record_pose"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Trace.record_pose</span></code></a> is set);</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">targets</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <a class="reference internal" href="#navground.sim.Trace.record_target" title="navground.sim.Trace.record_target"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Trace.record_target</span></code></a> is set);</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">twists</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <a class="reference internal" href="#navground.sim.Trace.record_twist" title="navground.sim.Trace.record_twist"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Trace.record_twist</span></code></a> is set);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">deadlocks</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <code class="xref py py-attr docutils literal notranslate"><span class="pre">Trace.record_deadlock</span></code> is set);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">efficacy</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <a class="reference internal" href="#navground.sim.Trace.record_efficacy" title="navground.sim.Trace.record_efficacy"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Trace.record_efficacy</span></code></a> is set);</p></li>
 </ul>
 <p>and groups:</p>
 <ul class="simple">
@@ -837,6 +916,12 @@ itself. Call once at the start of each run.</p>
 <span class="sig-name descname"><span class="pre">stop_run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.stop_run" title="Link to this definition">#</a></dt>
 <dd><p>Stop the run recording</p>
 <p>See <a class="reference internal" href="#navground.sim.Experiment.start_run" title="navground.sim.Experiment.start_run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">start_run()</span></code></a>. This is only need to use an external run-loop.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.Experiment.tqdm">
+<span class="sig-name descname"><span class="pre">tqdm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#navground.sim.Experiment.tqdm" title="Link to this definition">#</a></dt>
+<dd><p>Return a tqdm object that displays experiment progresses</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1033,10 +1118,14 @@ initialization).</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.index_of_agent"><code class="docutils literal notranslate"><span class="pre">Trace.index_of_agent()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.collisions"><code class="docutils literal notranslate"><span class="pre">Trace.collisions</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.commands"><code class="docutils literal notranslate"><span class="pre">Trace.commands</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.deadlocks"><code class="docutils literal notranslate"><span class="pre">Trace.deadlocks</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.efficacy"><code class="docutils literal notranslate"><span class="pre">Trace.efficacy</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.number"><code class="docutils literal notranslate"><span class="pre">Trace.number</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.poses"><code class="docutils literal notranslate"><span class="pre">Trace.poses</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_cmd"><code class="docutils literal notranslate"><span class="pre">Trace.record_cmd</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_collisions"><code class="docutils literal notranslate"><span class="pre">Trace.record_collisions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_deadlocks"><code class="docutils literal notranslate"><span class="pre">Trace.record_deadlocks</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_efficacy"><code class="docutils literal notranslate"><span class="pre">Trace.record_efficacy</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_pose"><code class="docutils literal notranslate"><span class="pre">Trace.record_pose</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_safety_violation"><code class="docutils literal notranslate"><span class="pre">Trace.record_safety_violation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Trace.record_target"><code class="docutils literal notranslate"><span class="pre">Trace.record_target</span></code></a></li>
@@ -1051,12 +1140,14 @@ initialization).</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.__init__"><code class="docutils literal notranslate"><span class="pre">Experiment.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_callback"><code class="docutils literal notranslate"><span class="pre">Experiment.add_callback()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_run_callback"><code class="docutils literal notranslate"><span class="pre">Experiment.add_run_callback()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.run"><code class="docutils literal notranslate"><span class="pre">Experiment.run()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.run_once"><code class="docutils literal notranslate"><span class="pre">Experiment.run_once()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.start"><code class="docutils literal notranslate"><span class="pre">Experiment.start()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.start_run"><code class="docutils literal notranslate"><span class="pre">Experiment.start_run()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.stop"><code class="docutils literal notranslate"><span class="pre">Experiment.stop()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.stop_run"><code class="docutils literal notranslate"><span class="pre">Experiment.stop_run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.tqdm"><code class="docutils literal notranslate"><span class="pre">Experiment.tqdm()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.update"><code class="docutils literal notranslate"><span class="pre">Experiment.update()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.begin_time"><code class="docutils literal notranslate"><span class="pre">Experiment.begin_time</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.duration"><code class="docutils literal notranslate"><span class="pre">Experiment.duration</span></code></a></li>

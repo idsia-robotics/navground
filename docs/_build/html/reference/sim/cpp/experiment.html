@@ -159,6 +159,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment.html">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -404,6 +405,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace17record_collisionsE"><code class="docutils literal notranslate"><span class="pre">Trace::record_collisions</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace23record_safety_violationE"><code class="docutils literal notranslate"><span class="pre">Trace::record_safety_violation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace18record_task_eventsE"><code class="docutils literal notranslate"><span class="pre">Trace::record_task_events</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace16record_deadlocksE"><code class="docutils literal notranslate"><span class="pre">Trace::record_deadlocks</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace15record_efficacyE"><code class="docutils literal notranslate"><span class="pre">Trace::record_efficacy</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace5stepsE"><code class="docutils literal notranslate"><span class="pre">Trace::steps</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace6numberE"><code class="docutils literal notranslate"><span class="pre">Trace::number</span></code></a></li>
 </ul>
@@ -419,6 +422,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment4stopEv"><code class="docutils literal notranslate"><span class="pre">Experiment::stop()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment8stop_runEv"><code class="docutils literal notranslate"><span class="pre">Experiment::stop_run()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment12add_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">Experiment::add_callback()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment16add_run_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">Experiment::add_run_callback()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment8get_pathEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_path()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment19get_run_duration_nsEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_run_duration_ns()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment15get_duration_nsEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_duration_ns()</span></code></a></li>
@@ -504,6 +508,18 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace18record_task_eventsE">
 <span class="target" id="structnavground_1_1sim_1_1_trace_1a9f0d1a45bdc40c28d11482a9a0eb48bd"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_task_events</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace18record_task_eventsE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether it should record data from task events </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace16record_deadlocksE">
+<span class="target" id="structnavground_1_1sim_1_1_trace_1a275230d61505b713bb51ca43326ee014"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_deadlocks</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace16record_deadlocksE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether it should record efficacy (i.e., fraction of actual velocity vs optimal velocity) </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Trace15record_efficacyE">
+<span class="target" id="structnavground_1_1sim_1_1_trace_1a98f6298c02693d7b47a4b024e623ad69"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_efficacy</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5Trace15record_efficacyE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether it should record the time since when agents are stuck </p>
 </dd></dl>
 
 <dl class="cpp var">
@@ -596,6 +612,8 @@ document.write(`
 <li><p><code class="docutils literal notranslate"><span class="pre">poses</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <a class="reference internal" href="#structnavground_1_1sim_1_1_trace_1adc05c4762582fbf8e52d2245b9fcb220"><span class="std std-ref">Trace::record_pose</span></a> is set);</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">targets</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <a class="reference internal" href="#structnavground_1_1sim_1_1_trace_1a116d7eff1bc0c0920894325f7497e01b"><span class="std std-ref">Trace::record_target</span></a> is set);</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">twists</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <a class="reference internal" href="#structnavground_1_1sim_1_1_trace_1a91a7d74c7f674397f3a17d94272a874d"><span class="std std-ref">Trace::record_twist</span></a> is set);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">deadlocks</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if Trace::record_deadlock is set);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">efficacy</span></code> [<code class="docutils literal notranslate"><span class="pre">float</span></code>] (if <a class="reference internal" href="#structnavground_1_1sim_1_1_trace_1a98f6298c02693d7b47a4b024e623ad69"><span class="std std-ref">Trace::record_efficacy</span></a> is set);</p></li>
 </ul>
 </p>
 <p>and groups:</p>
@@ -654,6 +672,17 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment12add_callbackERK8Callback">
 <span class="target" id="structnavground_1_1sim_1_1_experiment_1a355dde11fc9e463451a249bdf2221ca9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_callback</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim10Experiment8CallbackE" title="navground::sim::Experiment::Callback"><span class="n"><span class="pre">Callback</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment12add_callbackERK8Callback" title="Link to this definition">#</a><br /></dt>
 <dd><p>Adds a callback to be executed after each simulation step. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The callback </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment16add_run_callbackERK8Callback">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1abcd461ac26cfedf262dc0e77f0be8f19"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_run_callback</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim10Experiment8CallbackE" title="navground::sim::Experiment::Callback"><span class="n"><span class="pre">Callback</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment16add_run_callbackERK8Callback" title="Link to this definition">#</a><br /></dt>
+<dd><p>Adds a callback to be executed after each run. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The callback </p>
@@ -814,6 +843,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace17record_collisionsE"><code class="docutils literal notranslate"><span class="pre">Trace::record_collisions</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace23record_safety_violationE"><code class="docutils literal notranslate"><span class="pre">Trace::record_safety_violation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace18record_task_eventsE"><code class="docutils literal notranslate"><span class="pre">Trace::record_task_events</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace16record_deadlocksE"><code class="docutils literal notranslate"><span class="pre">Trace::record_deadlocks</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace15record_efficacyE"><code class="docutils literal notranslate"><span class="pre">Trace::record_efficacy</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace5stepsE"><code class="docutils literal notranslate"><span class="pre">Trace::steps</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Trace6numberE"><code class="docutils literal notranslate"><span class="pre">Trace::number</span></code></a></li>
 </ul>
@@ -829,6 +860,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment4stopEv"><code class="docutils literal notranslate"><span class="pre">Experiment::stop()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment8stop_runEv"><code class="docutils literal notranslate"><span class="pre">Experiment::stop_run()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment12add_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">Experiment::add_callback()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment16add_run_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">Experiment::add_run_callback()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment8get_pathEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_path()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment19get_run_duration_nsEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_run_duration_ns()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment15get_duration_nsEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_duration_ns()</span></code></a></li>

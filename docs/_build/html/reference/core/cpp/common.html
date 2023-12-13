@@ -161,6 +161,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment.html">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -428,6 +429,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist28absoluteERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Twist2::absolute()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist28relativeERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Twist2::relative()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist28to_frameE5FrameRK5Pose2"><code class="docutils literal notranslate"><span class="pre">Twist2::to_frame()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist214is_almost_zeroEff"><code class="docutils literal notranslate"><span class="pre">Twist2::is_almost_zero()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Twist28velocityE"><code class="docutils literal notranslate"><span class="pre">Twist2::velocity</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Twist213angular_speedE"><code class="docutils literal notranslate"><span class="pre">Twist2::angular_speed</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Twist25frameE"><code class="docutils literal notranslate"><span class="pre">Twist2::frame</span></code></a></li>
@@ -782,6 +784,23 @@ document.write(`
 </dl>
 </dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core6Twist214is_almost_zeroEff">
+<span class="target" id="structnavground_1_1core_1_1_twist2_1a09e23046dddf0b3639a2bf55ccfcd534"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_almost_zero</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">epsilon_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1e-6</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">epsilon_angular_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1e-6</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core6Twist214is_almost_zeroEff" title="Link to this definition">#</a><br /></dt>
+<dd><p>Determines if almost zero. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epsilon_speed</strong> – <strong>[in]</strong> The epsilon speed </p></li>
+<li><p><strong>epsilon_angular_speed</strong> – <strong>[in]</strong> The epsilon angular speed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if almost zero, False otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
@@ -991,6 +1010,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist28absoluteERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Twist2::absolute()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist28relativeERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Twist2::relative()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist28to_frameE5FrameRK5Pose2"><code class="docutils literal notranslate"><span class="pre">Twist2::to_frame()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Twist214is_almost_zeroEff"><code class="docutils literal notranslate"><span class="pre">Twist2::is_almost_zero()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Twist28velocityE"><code class="docutils literal notranslate"><span class="pre">Twist2::velocity</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Twist213angular_speedE"><code class="docutils literal notranslate"><span class="pre">Twist2::angular_speed</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Twist25frameE"><code class="docutils literal notranslate"><span class="pre">Twist2::frame</span></code></a></li>

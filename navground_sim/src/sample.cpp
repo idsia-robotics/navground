@@ -61,10 +61,14 @@ int main(int argc, char *argv[]) {
   }
   // std::cout << "Scenario" << std::endl;
   // std::cout << "========" << std::endl;
-  // std::cout << YAML::dump<navground::sim::Scenario>(scenario.get());
+  std::cout << YAML::dump<navground::sim::Scenario>(scenario.get());
   // std::cout << std::endl << std::endl;
   // std::cout << "Sampled world" << std::endl;
-  // std::cout << "=============" << std::endl;
+  std::cout << std::endl;
+  for (int i = 0; i < 30; ++i) {
+    std::cout << "-";
+  }
+  std::cout << std::endl;
   World world;
   world.set_seed(seed);
   // is equivalent to:

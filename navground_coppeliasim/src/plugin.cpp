@@ -630,6 +630,8 @@ class Plugin : public sim::Plugin {
     experiment->trace.record_collisions = in->config.collisions;
     experiment->trace.record_safety_violation = in->config.safety_violation;
     experiment->trace.record_task_events = in->config.task_events;
+    experiment->trace.record_deadlocks = in->config.deadlocks;
+    experiment->trace.record_efficacy = in->config.efficacy;
     seed = in->config.seed;
   }
 

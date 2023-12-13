@@ -25,7 +25,9 @@ Schema
      record_collisions: bool
      record_safety_violation: bool
      record_task_events: bool
-     terminate_when_all_idle: bool
+     record_deadlocks: bool
+     record_efficacy: bool
+     terminate_when_all_idle_or_stuck: bool
      scenario: {$ref: /schemas/scenario}
      name: string
      run_index: int
@@ -42,7 +44,7 @@ Example
    save_directory: data
    record_pose: true
    record_collisions: true
-   terminate_when_all_idle: true
+   terminate_when_all_idle_or_stuck: true
    scenario:
      type: Cross
      agent_margin: 0.125

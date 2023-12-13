@@ -161,6 +161,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/running_an_experiment.html">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -466,6 +467,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior21get_environment_stateEv"><code class="docutils literal notranslate"><span class="pre">Behavior::get_environment_state()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior25check_if_target_satisfiedEv"><code class="docutils literal notranslate"><span class="pre">Behavior::check_if_target_satisfied()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior36estimate_time_until_target_satisfiedEv"><code class="docutils literal notranslate"><span class="pre">Behavior::estimate_time_until_target_satisfied()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior8is_stuckEv"><code class="docutils literal notranslate"><span class="pre">Behavior::is_stuck()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior12get_efficacyEv"><code class="docutils literal notranslate"><span class="pre">Behavior::get_efficacy()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior13social_marginE"><code class="docutils literal notranslate"><span class="pre">Behavior::social_margin</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior19heading_from_stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Behavior::heading_from_string()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior17heading_to_stringERK7Heading"><code class="docutils literal notranslate"><span class="pre">Behavior::heading_to_string()</span></code></a></li>
@@ -1286,6 +1289,29 @@ document.write(`
 </dl>
 </dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior8is_stuckEv">
+<span class="target" id="classnavground_1_1core_1_1_behavior_1a0e7cf588dd07302213f5715ef3e13f4a"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_stuck</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior8is_stuckEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Determines if the agent is stuck: if should move but it is still. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if stuck, False otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior12get_efficacyEv">
+<span class="target" id="classnavground_1_1core_1_1_behavior_1ab00814d7b0c239295fcfd8188f0ed3c2"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_efficacy</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior12get_efficacyEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the efficacy: the projection of the current velocity on the ideal velocity (ignoring obstacles) towards the target. </p>
+<p>A value of 1.0 denotes ideal efficacy, value of 0.0 that the agent is stuck.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The efficacy. </p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
@@ -1465,6 +1491,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior21get_environment_stateEv"><code class="docutils literal notranslate"><span class="pre">Behavior::get_environment_state()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior25check_if_target_satisfiedEv"><code class="docutils literal notranslate"><span class="pre">Behavior::check_if_target_satisfied()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior36estimate_time_until_target_satisfiedEv"><code class="docutils literal notranslate"><span class="pre">Behavior::estimate_time_until_target_satisfied()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior8is_stuckEv"><code class="docutils literal notranslate"><span class="pre">Behavior::is_stuck()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior12get_efficacyEv"><code class="docutils literal notranslate"><span class="pre">Behavior::get_efficacy()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior13social_marginE"><code class="docutils literal notranslate"><span class="pre">Behavior::social_margin</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior19heading_from_stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Behavior::heading_from_string()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior17heading_to_stringERK7Heading"><code class="docutils literal notranslate"><span class="pre">Behavior::heading_to_string()</span></code></a></li>

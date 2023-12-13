@@ -157,6 +157,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/running_an_experiment.html">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -533,6 +534,8 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.add_obstacle">add_obstacle() (World method)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.add_run_callback">add_run_callback() (Experiment method)</a>
+</li>
       <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.add_safety_to_agent_margin">add_safety_to_agent_margin (CorridorScenario property)</a>
 
       <ul>
@@ -558,6 +561,8 @@ document.write(`
       <li><a href="reference/sim/python/world.html#navground.sim.World.agents">agents (World property)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.agents_are_idle">agents_are_idle() (World method)</a>
+</li>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.agents_are_idle_or_stuck">agents_are_idle_or_stuck() (World method)</a>
 </li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.AheadKinematics">AheadKinematics (class in navground.core.kinematics)</a>
 </li>
@@ -688,6 +693,8 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/state.html#navground.core.Buffer.data">data (Buffer property)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Trace.deadlocks">deadlocks (Trace property)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.default_cmd_frame">default_cmd_frame (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/property.html#navground.core._navground.Property.default_value">default_value (Property property)</a>
@@ -720,10 +727,10 @@ document.write(`
 </li>
       <li><a href="reference/core/python/target.html#navground.core.Target.Direction">Direction() (Target static method)</a>
 </li>
-      <li><a href="reference/core/python/state.html#navground.core.Disc">Disc (class in navground.core)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/state.html#navground.core.Disc">Disc (class in navground.core)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.Obstacle.disc">disc (Obstacle property)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.discs">discs (World property)</a>
@@ -765,6 +772,8 @@ document.write(`
       <li><a href="reference/core/python/state.html#navground.core.LineSegment.e1">e1 (LineSegment property)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.LineSegment.e2">e2 (LineSegment property)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Trace.efficacy">efficacy (Trace property)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.Entity">Entity (class in navground.sim)</a>
 </li>
@@ -844,6 +853,10 @@ document.write(`
       </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.get_actuated_twist">get_actuated_twist() (Behavior method)</a>
 </li>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.get_agents_in_collision">get_agents_in_collision() (World method)</a>
+</li>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.get_agents_in_deadlock">get_agents_in_deadlock() (World method)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_agents_in_region">get_agents_in_region() (World method)</a>
 </li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation.get_angles_for_sector">get_angles_for_sector() (CollisionComputation method)</a>
@@ -852,10 +865,10 @@ document.write(`
 </li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.get_collision_distance">get_collision_distance() (HLBehavior method)</a>
 </li>
-      <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation.get_contour_for_sector">get_contour_for_sector() (CollisionComputation method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation.get_contour_for_sector">get_contour_for_sector() (CollisionComputation method)</a>
+</li>
       <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.get_description">get_description() (PyLidarStateEstimation method)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_entity">get_entity() (World method)</a>
@@ -1198,6 +1211,8 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior20get_desired_velocityEv">navground::core::Behavior::get_desired_velocity (C++ function)</a>
 </li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior12get_efficacyEv">navground::core::Behavior::get_efficacy (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior21get_environment_stateEv">navground::core::Behavior::get_environment_state (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior20get_heading_behaviorEv">navground::core::Behavior::get_heading_behavior (C++ function)</a>
@@ -1251,6 +1266,8 @@ document.write(`
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior19heading_from_stringERKNSt6stringE">navground::core::Behavior::heading_from_string (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior17heading_to_stringERK7Heading">navground::core::Behavior::heading_to_string (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior8is_stuckEv">navground::core::Behavior::is_stuck (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior18set_actuated_twistERK6Twist2">navground::core::Behavior::set_actuated_twist (C++ function)</a>
 </li>
@@ -1822,8 +1839,6 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/social_margin.html#_CPPv4N9navground4core12SocialMargin16LinearModulationE">navground::core::SocialMargin::LinearModulation (C++ class)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/cpp/social_margin.html#_CPPv4N9navground4core12SocialMargin16LinearModulation16LinearModulationEf">navground::core::SocialMargin::LinearModulation::LinearModulation (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/social_margin.html#_CPPv4N9navground4core12SocialMargin18LogisticModulationE">navground::core::SocialMargin::LogisticModulation (C++ class)</a>
@@ -1832,6 +1847,8 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/social_margin.html#_CPPv4N9navground4core12SocialMargin19QuadraticModulationE">navground::core::SocialMargin::QuadraticModulation (C++ class)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/cpp/social_margin.html#_CPPv4N9navground4core12SocialMargin3setEf">navground::core::SocialMargin::set (C++ function)</a>, <a href="reference/core/cpp/social_margin.html#_CPPv4N9navground4core12SocialMargin3setEjf">[1]</a>
 </li>
       <li><a href="reference/core/cpp/social_margin.html#_CPPv4N9navground4core12SocialMargin14set_modulationERKNSt10shared_ptrI10ModulationEE">navground::core::SocialMargin::set_modulation (C++ function)</a>
@@ -1847,6 +1864,8 @@ document.write(`
       <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target9DirectionERK7Vector2">navground::core::Target::Direction (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target9directionE">navground::core::Target::direction (C++ member)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4NK9navground4core6Target18get_ideal_velocityERK7Vector2f">navground::core::Target::get_ideal_velocity (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target11OrientationE7Radians7Radians">navground::core::Target::Orientation (C++ function)</a>
 </li>
@@ -1893,6 +1912,8 @@ document.write(`
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core6Twist213angular_speedE">navground::core::Twist2::angular_speed (C++ member)</a>
 </li>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core6Twist25frameE">navground::core::Twist2::frame (C++ member)</a>
+</li>
+      <li><a href="reference/core/cpp/common.html#_CPPv4NK9navground4core6Twist214is_almost_zeroEff">navground::core::Twist2::is_almost_zero (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/common.html#_CPPv4NK9navground4core6Twist2neERK6Twist2">navground::core::Twist2::operator!= (C++ function)</a>
 </li>
@@ -1977,6 +1998,10 @@ document.write(`
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent20get_state_estimationEv">navground::sim::Agent::get_state_estimation (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent8get_taskEv">navground::sim::Agent::get_task (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent20get_time_since_stuckEv">navground::sim::Agent::get_time_since_stuck (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent20has_been_stuck_sinceEf">navground::sim::Agent::has_been_stuck_since (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent2idE">navground::sim::Agent::id (C++ member)</a>
 </li>
@@ -2184,11 +2209,15 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim6Entity6EntityEj">navground::sim::Entity::Entity (C++ function)</a>, <a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim6Entity6EntityEv">[1]</a>
 </li>
+      <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceEf">navground::sim::Entity::has_been_in_collision_since (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim6Entity3uidE">navground::sim::Entity::uid (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10ExperimentE">navground::sim::Experiment (C++ struct)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment12add_callbackERK8Callback">navground::sim::Experiment::add_callback (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment16add_run_callbackERK8Callback">navground::sim::Experiment::add_run_callback (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment8CallbackE">navground::sim::Experiment::Callback (C++ type)</a>
 </li>
@@ -2398,6 +2427,10 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim5Trace17record_collisionsE">navground::sim::Trace::record_collisions (C++ member)</a>
 </li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim5Trace16record_deadlocksE">navground::sim::Trace::record_deadlocks (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim5Trace15record_efficacyE">navground::sim::Trace::record_efficacy (C++ member)</a>
+</li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim5Trace11record_poseE">navground::sim::Trace::record_pose (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim5Trace23record_safety_violationE">navground::sim::Trace::record_safety_violation (C++ member)</a>
@@ -2460,9 +2493,15 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim5World15agents_are_idleEv">navground::sim::World::agents_are_idle (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv">navground::sim::World::agents_are_idle_or_stuck (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim5World24compute_safety_violationEPK5Agent">navground::sim::World::compute_safety_violation (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim5World10get_agentsEv">navground::sim::World::get_agents (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim5World23get_agents_in_collisionEf">navground::sim::World::get_agents_in_collision (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim5World22get_agents_in_deadlockEf">navground::sim::World::get_agents_in_deadlock (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim5World20get_agents_in_regionERK11BoundingBox">navground::sim::World::get_agents_in_region (C++ function)</a>
 </li>
@@ -2673,6 +2712,10 @@ document.write(`
       <li><a href="reference/sim/python/experiment.html#navground.sim.Trace.record_cmd">record_cmd (Trace property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Trace.record_collisions">record_collisions (Trace property)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Trace.record_deadlocks">record_deadlocks (Trace property)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Trace.record_efficacy">record_efficacy (Trace property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Trace.record_pose">record_pose (Trace property)</a>
 </li>
@@ -2986,6 +3029,8 @@ document.write(`
         <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.tolerance">(WaypointsTask property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.tqdm">tqdm() (Experiment method)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Trace">Trace (class in navground.sim)</a>
 </li>
   </ul></td>

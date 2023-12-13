@@ -222,13 +222,18 @@ Example
 run and run_py
 --------------
 
-Run an experiment. ``run_py`` uses a Python interpreter: it is slower but has access to components implemented in Python too, while ``run`` is limited to components implemented in C++.
+Run an experiment. ``run_py`` uses a Python interpreter: it is slightly slower but has access to components implemented in Python too, while ``run`` is limited to components implemented in C++.
 
 .. argparse::
    :module: navground.sim.run
    :func: parser
    :prog: run|run_py
    :nodescription:
+
+If the experiment is recording data, it will create a directory named ``<experiment_name>_<experiment_hash>_<datestamp>`` with
+
+- an HDF5 file `data.h5`` with data recorded during the experiment,
+- a YAML file `experiment.yaml` with the configuration of the experiment. 
 
 Example
 ~~~~~~~
@@ -237,9 +242,18 @@ Example
 
    $ run  "{save_directory: ".", scenario: {type: Antipodal, groups: [{number: 20}]}}"
    Duration: 0.0120453 s
-   Saved to: "./experiment_2023-07-07_16-13-36/data.h5"      
+   Saved to: "./experiment_3784746994027959661_2023-07-07_16-13-36/data.h5"      
 
 
+.. note::
+
+    The simulation runs in a single thread. If you want to speed up experiments consisting of multiple runs, you can parallelize them at launch, splitting the runs over multiple sub-experiments. For example, if the experiment described in ``experiment.yaml`` needs 1000 runs, you can split them over 10 experiments with  ``run_index=0, 100, 200, ...`` and ``runs=100``, each running in a separate process:
+
+    .. code-block:: console
+    
+        $ for i in {0..9}; do run experiment.yaml --runs 100 --run_index $((i * 100)) &; done
+
+    This will results in 10 directories, one for each sub-experiment: you can load their data and aggregate it. If you have 10 free cores, it will speed up running the experiment by 10.  
 
 .. _run_rt:
 
@@ -261,7 +275,7 @@ Example
 
 .. code-block:: console
 
-   $ run_rt my_experiment.yaml --factor 5.0
+   $ run_rt experiment.yaml --factor 5.0
 
 
 replay
@@ -281,4 +295,4 @@ Example
 
 .. code-block:: console
 
-   $ replay ./experiment_2023-07-07_16-13-36/data.h5 --factor 10
+   $ replay ./experiment_3784746994027959661_2023-07-07_16-13-36/data.h5 --factor 10

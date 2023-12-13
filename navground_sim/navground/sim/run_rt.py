@@ -30,12 +30,17 @@ async def run(scenario: Scenario,
               ui_fps: float = 25.0,
               max_duration: float = -1,
               background: str = 'lightgray',
-              bounds: Optional[Rect] = None) -> None:
+              bounds: Optional[Rect] = None,
+              display_deadlocks: bool = False,
+              display_collisions: bool = False) -> None:
     world = World()
     scenario.init_world(world)
     world.run(1, 0.0)
     if with_ui:
-        web_ui = WebUI(host='127.0.0.1', max_rate=ui_fps)
+        web_ui = WebUI(
+            host='127.0.0.1', max_rate=ui_fps,
+            display_deadlocks=display_deadlocks,
+            display_collisions=display_collisions)
         await web_ui.prepare()
         logging.info("Waiting for a client")
         while web_ui.number_of_client == 0:
@@ -75,6 +80,8 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument('--area', help='Minimal area rendered in the view', type=float,
                         default=(0.0, 0.0, 0.0, 0.0), nargs=4,
                         metavar=("MIN_X", "MIN_Y", "MAX_X", "MAX_Y"))
+    parser.add_argument('--display-deadlocks', help='Color deadlocked agent in blue', action='store_true')
+    parser.add_argument('--display-collisions', help='Color deadlocked agent in red', action='store_true')
     return parser
 
 
@@ -105,4 +112,7 @@ def main() -> None:
             max_duration=experiment.steps * experiment.time_step,
             ui_fps=arg.ui_fps,
             background=arg.background_color,
-            bounds=bounds))
+            bounds=bounds,
+            display_deadlocks=arg.display_deadlocks,
+            display_collisions=arg.display_collisions
+            ))

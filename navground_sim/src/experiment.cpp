@@ -1,8 +1,11 @@
 #include "navground/sim/experiment.h"
 
 #include <filesystem>
+#include <fstream>
+#include <functional>
 #include <highfive/H5DataSpace.hpp>
 #include <highfive/H5File.hpp>
+#include <string>
 
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/sampling/sampler.h"
@@ -115,6 +118,17 @@ void Trace::init(const World &world, unsigned max_steps) {
       index++;
     }
   }
+  if (record_deadlocks) {
+    deadlock_data.clear();
+    deadlock_data.reserve(number);
+    record = true;
+  }
+  if (record_efficacy) {
+    efficacy_data.clear();
+    efficacy_data.reserve(max_steps * number);
+    efficacy_ptr = reinterpret_cast<float *>(efficacy_data.data());
+    record = true;
+  }
 }
 
 void Trace::update(const World &world, unsigned step) {
@@ -174,6 +188,12 @@ void Trace::update(const World &world, unsigned step) {
       }
     }
   }
+  if (record_efficacy) {
+    for (const auto &agent : world.get_agents()) {
+      const auto b = agent->get_behavior();
+      *efficacy_ptr++ = b ? b->get_efficacy() : 1.0f;
+    }
+  }
 }
 
 void Trace::finalize(const World &world) {
@@ -183,6 +203,12 @@ void Trace::finalize(const World &world) {
         // TODO(Jerome): should remove just the callback we added.
         task->clear_callbacks();
       }
+    }
+  }
+  if (record_deadlocks) {
+    float *ptr = reinterpret_cast<float *>(deadlock_data.data());
+    for (const auto &agent : world.get_agents()) {
+      *ptr++ = agent->get_time_since_stuck();
     }
   }
 }
@@ -234,6 +260,14 @@ void Trace::save(const World &world, HighFive::Group &group) {
           .write(uid);
     }
   }
+  if (record_deadlocks) {
+    group.createDataSet<float>("deadlocks", HighFive::DataSpace({number}))
+        .write_raw(deadlock_data.data());
+  }
+  if (record_efficacy) {
+    group.createDataSet<float>("efficacy", HighFive::DataSpace({steps, number}))
+        .write_raw(efficacy_data.data());
+  }
 }
 
 void Experiment::init_run(int index) {
@@ -251,7 +285,9 @@ void Experiment::init_dataset() {
     return;
   }
   fs::current_path(save_directory);
-  std::string dir_name = name + "_" + file_name_stamp(begin);
+  const std::string yaml = dump();
+  const std::size_t hash = std::hash<std::string>{}(yaml);
+  std::string dir_name = name + "_" + std::to_string(hash) + "_" +file_name_stamp(begin);
   if (std::filesystem::exists(save_directory / dir_name)) {
     int i = 0;
     for (;; i++) {
@@ -270,8 +306,19 @@ void Experiment::init_dataset() {
   }
   file_path = dir / "data.h5";
   file = std::make_shared<HighFive::File>(*file_path, HighFive::File::Truncate);
-  store_experiment(dump(), *file);
+  store_experiment(yaml, *file);
   store_timepoint(begin, "begin_time", *file);
+  store_yaml(yaml);
+}
+
+void Experiment::store_yaml(const std::string &yaml) const {
+  if (file_path) {
+    const fs::path path = file_path->parent_path() / "experiment.yaml";
+    std::ofstream out(path);
+    if (out.is_open()) {
+      out << yaml << std::endl;
+    }
+  }
 }
 
 void Experiment::finalize_dataset() {
@@ -283,8 +330,6 @@ void Experiment::finalize_dataset() {
   }
   file = nullptr;
 }
-
-std::string Experiment::dump() { return YAML::dump<Experiment>(this); }
 
 void Experiment::init_dataset_run(unsigned index) {
   if (!file) {
@@ -344,12 +389,15 @@ void Experiment::run_run() {
     for (const auto &cb : callbacks) {
       cb();
     }
-    if (terminate_when_all_idle && world->agents_are_idle()) {
+    if (terminate_when_all_idle_or_stuck && world->agents_are_idle_or_stuck()) {
       break;
     }
   }
   run_end = std::chrono::steady_clock::now();
   trace.finalize(*world);
+  for (const auto &cb : run_callbacks) {
+    cb();
+  }
 }
 
 void Experiment::start_run(int index, bool init_world) {
@@ -365,8 +413,6 @@ void Experiment::start_run(int index, bool init_world) {
   trace.init(*world, steps);
   run_begin = std::chrono::steady_clock::now();
 }
-
-
 
 void Experiment::stop_run() {
   run_end = std::chrono::steady_clock::now();
@@ -385,6 +431,4 @@ void Experiment::stop() {
   finalize_dataset();
 }
 
-void Experiment::update() {
-  trace.update(*world, world->get_step() - 1);
-}
+void Experiment::update() { trace.update(*world, world->get_step() - 1); }

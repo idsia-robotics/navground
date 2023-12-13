@@ -2,7 +2,7 @@ import asyncio
 import json
 import logging
 import time
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple, Set
 import sys
 
 import websockets
@@ -80,7 +80,9 @@ class WebUI:
     def __init__(self,
                  host: str = '0.0.0.0',
                  port: int = 8000,
-                 max_rate: float = 30) -> None:
+                 max_rate: float = 30,
+                 display_deadlocks: bool = False,
+                 display_collisions: bool = False) -> None:
         self.port = port
         self.host = host
         self.queues: List[asyncio.Queue] = []
@@ -91,6 +93,10 @@ class WebUI:
             self.min_period = 0
         self.last_update_stamp: Optional[float] = None
         self._prepared = False
+        self.display_collisions = display_collisions
+        self.display_deadlocks = display_deadlocks
+        self.in_collision: Set[int] = set()
+        self.in_deadlock: Set[int] = set()
 
     @property
     def is_ready(self) -> bool:
@@ -160,7 +166,7 @@ class WebUI:
             for queue in self.queues:
                 await queue.put(data)
 
-    async def update_poses(self, world: World) -> None:
+    async def update(self, world: World) -> None:
         if not self.queues:
             return
         stamp = time.time()
@@ -168,22 +174,46 @@ class WebUI:
                 stamp - self.last_update_stamp) < self.min_period:
             return
         self.last_update_stamp = stamp
+        await self.update_poses(world)
+        await self.update_colors(world)
+
+    async def update_poses(self, world: World) -> None:
         msg = ['m', {a._uid: pose_msg(a) for a in world.agents}]
-        data = json.dumps(msg)
-        for queue in self.queues:
-            await queue.put(data)
+        await self.send(msg)
+
+    async def update_colors(self, world: World) -> None:
+        rs = {}
+        if self.display_collisions:
+            in_collision = set([a._uid for a in world.get_agents_in_collision(1.0)])
+            for e in in_collision - self.in_collision:
+                rs[e] = {'fill': 'red'}
+            for e in self.in_collision - in_collision:
+                rs[e] = {'fill': 'white'}
+            self.in_collision = in_collision
+        if self.display_deadlocks:
+            in_deadlock = set([a._uid for a in world.get_agents_in_deadlock(5.0)])
+            for e in in_deadlock - self.in_deadlock:
+                if e not in rs:
+                    rs[e] = {'fill': 'blue'}
+            for e in self.in_deadlock - in_deadlock:
+                if e not in rs:
+                    rs[e] = {'fill': 'white'}
+            self.in_deadlock = in_deadlock
+        if rs:
+            await self.send(['s', rs])
 
     async def set(self, entity: Entity, **kwargs) -> None:
         msg = ['s', {entity._uid: kwargs}]
+        await self.send(msg)
+
+    async def send(self, msg: Any) -> None:
         data = json.dumps(msg)
         for queue in self.queues:
             await queue.put(data)
 
     async def set_background_color(self, color: str) -> None:
         msg = ['s', {'svg': {'style': f"background-color:{color}"}}]
-        data = json.dumps(msg)
-        for queue in self.queues:
-            await queue.put(data)
+        await self.send(msg)
 
     async def stop(self) -> None:
         if self.server:

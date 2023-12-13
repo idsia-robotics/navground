@@ -57,6 +57,9 @@ template <typename T>
 std::string dump(const T *object) {
   if (!object) return "";
   YAML::Emitter out;
+  // TODO(?): these are not working
+  // out.SetFloatPrecision(6);
+  // out << YAML::Precision(6) << YAML::Node(*object);
   out << YAML::Node(*object);
   return std::string(out.c_str());
 }

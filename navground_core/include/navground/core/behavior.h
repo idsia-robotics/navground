@@ -775,6 +775,23 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    */
   float estimate_time_until_target_satisfied() const;
 
+  /**
+   * @brief      Determines if the agent is stuck: if should move but it is still.
+   *
+   * @return     True if stuck, False otherwise.
+   */
+  bool is_stuck() const;
+
+  /**
+   * @brief      Gets the efficacy: the projection of the current velocity on the ideal velocity (ignoring obstacles) towards the target.
+   * 
+   * A value of 1.0 denotes ideal efficacy, value of 0.0 that the agent is stuck.
+   *
+   * @return     The efficacy.
+   */
+  float get_efficacy() const;
+
+
  protected:
   enum {
     POSITION = 1 << 0,
@@ -803,6 +820,10 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
   // Last computed desired velocity in \ref Frame::absolute
   Vector2 desired_velocity;
   Target target;
+
+  bool should_stop() const;
+  bool is_stopped(float epsilon_speed = 1e-6, float epsilon_angular_speed = 1e-6) const;
+  
 
   virtual Vector2 desired_velocity_towards_point(const Vector2 &point,
                                                  float speed, float time_step);

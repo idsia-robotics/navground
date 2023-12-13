@@ -6,7 +6,7 @@
 
 namespace navground::sim {
 
-void Agent::update(float dt, float time, World * world) {
+void Agent::update(float dt, float time, World *world) {
   if (external) return;
   // TODO(J): should update the task anyway to record the logs
   control_deadline -= dt;
@@ -21,6 +21,13 @@ void Agent::update(float dt, float time, World * world) {
     behavior->set_actuated_twist(last_cmd);
     behavior->set_twist(twist);
     behavior->set_pose(pose);
+    if (behavior->is_stuck() && time > 0) {
+      if (is_stuck_since_time < 0) {
+        is_stuck_since_time = time;
+      }
+    } else {
+      is_stuck_since_time = -1.0f;
+    }
   }
   last_cmd = controller.update(std::max(control_period, dt));
   // last_cmd = behavior->get_actuated_twist(true);
@@ -32,8 +39,8 @@ void Agent::actuate(float dt) {
   pose = pose.integrate(twist, dt);
 }
 
-void Agent::actuate(const Twist2 & cmd, float dt) {
-  if(!kinematics) return;
+void Agent::actuate(const Twist2 &cmd, float dt) {
+  if (!kinematics) return;
   last_cmd = kinematics->feasible(cmd.to_frame(kinematics->cmd_frame(), pose));
   twist = last_cmd;
   pose = pose.integrate(cmd, dt);
@@ -53,7 +60,6 @@ void Agent::set_behavior(const std::shared_ptr<Behavior> &value) {
 bool Agent::idle() const {
   return (!task || task->done()) && controller.idle();
 }
-
 
 Twist2 Agent::get_last_cmd(core::Frame frame) const {
   if (last_cmd.frame == frame) {

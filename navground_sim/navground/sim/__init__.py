@@ -61,6 +61,19 @@ def load_py_plugins():
             entry_point.load()
 
 
+def _experiment_tqdm(self):
+    """
+        Return a tqdm object that displays experiment progresses
+    """
+    from tqdm.notebook import tqdm as tqdm_n
+
+    bar = tqdm_n(total=self.runs)
+    self.add_run_callback(lambda: bar.update(1))
+    return bar
+
+
+Experiment.tqdm = _experiment_tqdm
+
 __all__ = [
     'Entity', 'Obstacle', 'Wall', 'World', 'Agent', 'Experiment', 'Scenario',
     'StateEstimation', 'Task', 'BoundingBox', 'dump', 'TaskCallback',

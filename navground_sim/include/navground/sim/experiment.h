@@ -11,6 +11,7 @@
 #include <highfive/H5File.hpp>
 #include <memory>
 
+#include "navground/core/yaml/yaml.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/world.h"
 #include "navground_sim_export.h"
@@ -55,6 +56,15 @@ struct NAVGROUND_SIM_EXPORT Trace {
    */
   bool record_task_events;
   /**
+   * Whether it should record efficacy (i.e., fraction of actual velocity vs
+   * optimal velocity)
+   */
+  bool record_deadlocks;
+  /**
+   * Whether it should record the time since when agents are stuck
+   */
+  bool record_efficacy;
+  /**
    * @brief      Constructs a new instance.
    */
   Trace()
@@ -65,6 +75,10 @@ struct NAVGROUND_SIM_EXPORT Trace {
         record_collisions(false),
         record_safety_violation(false),
         record_task_events(false),
+        record_deadlocks(false),
+        record_efficacy(false),
+        steps(0),
+        number(0),
         pose_data(),
         twist_data(),
         cmd_data(),
@@ -73,6 +87,8 @@ struct NAVGROUND_SIM_EXPORT Trace {
         collisions_data(),
         task_events_data(),
         task_events(),
+        deadlock_data(),
+        efficacy_data(),
         record(false),
         indices() {}
 
@@ -92,6 +108,8 @@ struct NAVGROUND_SIM_EXPORT Trace {
   std::vector<unsigned> collisions_data;
   std::vector<std::vector<float>> task_events_data;  // one vector per agent
   std::vector<unsigned> task_events;
+  std::vector<float> deadlock_data;
+  std::vector<float> efficacy_data;
 
   std::optional<unsigned> index_of_agent(const Agent* agent) const {
     if (indices.count(agent)) {
@@ -107,6 +125,7 @@ struct NAVGROUND_SIM_EXPORT Trace {
   float* cmd_ptr;
   float* target_ptr;
   float* safety_violation_ptr;
+  float* efficacy_ptr;
 
   std::map<const Agent*, unsigned> indices;
 
@@ -175,12 +194,13 @@ struct NAVGROUND_SIM_EXPORT Experiment {
         trace(),
         name("experiment"),
         scenario(nullptr),
-        terminate_when_all_idle(true),
+        terminate_when_all_idle_or_stuck(true),
         run_index(0),
         initialized(false),
         step(0),
         world(),
         callbacks(),
+        run_callbacks(),
         file(),
         run_group(),
         file_path() {}
@@ -238,6 +258,10 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * - ``twists`` [``float``] (if \ref Trace::record_twist is set);
    *
+   * - ``deadlocks`` [``float``] (if \ref Trace::record_deadlock is set);
+   *
+   * - ``efficacy`` [``float``] (if \ref Trace::record_efficacy is set);
+   *
    * and groups:
    *
    * - ``task_events`` (if \ref Trace::record_task_events is set),
@@ -251,48 +275,47 @@ struct NAVGROUND_SIM_EXPORT Experiment {
 
   /**
    * @brief      Start recording
-   * 
+   *
    * This is only need to use an external run-loop, where you
-   * call \ref update explicitly to update the trace 
-   * without updating the simulation itself. Use \ref run instead, to 
+   * call \ref update explicitly to update the trace
+   * without updating the simulation itself. Use \ref run instead, to
    * both run the simulation and record the trace.
-   * 
+   *
    * Call \ref start only once per experiment.
-   * 
+   *
    */
   void start();
   /**
    * @brief      Start recording
-   * 
+   *
    * This is only need to use an external run-loop, where you
-   * call \ref update explicitly to update the trace 
+   * call \ref update explicitly to update the trace
    * without updating the simulation itself. Call once at the start of each run.
-   * 
+   *
    * @param[in]  seed  The random seed
    * @param[in]  init_world  Whether it should initialize a new world
-   * 
+   *
    */
   void start_run(int seed, bool init_world = false);
   /**
    * @brief      Updates the trace.
-   * 
-   * See \ref start. Call from an external run-loop to update the trace 
+   *
+   * See \ref start. Call from an external run-loop to update the trace
    * without updating the simulation itself.
    */
   void update();
   /**
    * @brief      Stop the recording
-   * 
+   *
    * See \ref start. This is only need to use an external run-loop.
    */
   void stop();
   /**
    * @brief      Stop the run recording
-   * 
+   *
    * See \ref start_run. This is only need to use an external run-loop.
    */
   void stop_run();
-
 
   /**
    * @brief      Adds a callback to be executed after each simulation step.
@@ -300,6 +323,15 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * @param[in]  value  The callback
    */
   void add_callback(const Callback& value) { callbacks.push_back(value); }
+
+  /**
+   * @brief      Adds a callback to be executed after each run.
+   *
+   * @param[in]  value  The callback
+   */
+  void add_run_callback(const Callback& value) {
+    run_callbacks.push_back(value);
+  }
 
   /**
    * @brief      Gets the path where the experimental data has been saved.
@@ -310,9 +342,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
 
   std::shared_ptr<World> get_world() const { return world; }
 
-  void set_world(const std::shared_ptr<World> & value) { 
-    world = value; 
-  }
+  void set_world(const std::shared_ptr<World>& value) { world = value; }
 
   /**
    * @brief      Gets the duration required to perform the last run (excludes
@@ -375,16 +405,16 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    */
   std::shared_ptr<Scenario> scenario;
 
-  bool terminate_when_all_idle;
+  bool terminate_when_all_idle_or_stuck;
 
-  bool has_file() const {
-    return bool(file_path);
-  }
+  bool has_file() const { return bool(file_path); }
 
   /**
    * The index of the next run
    */
   unsigned run_index;
+
+  virtual std::string dump() const { return YAML::dump<Experiment>(this); }
 
  protected:
   void run_run();
@@ -394,20 +424,20 @@ struct NAVGROUND_SIM_EXPORT Experiment {
     return std::make_shared<World>();
   }
 
-  virtual std::string dump();
-
   void init_dataset();
   void finalize_dataset();
   void init_dataset_run(unsigned index);
   void finalize_dataset_run();
+  void store_yaml(const std::string& yaml) const;
 
   bool initialized;
   unsigned step;
 
   std::shared_ptr<World> world;
-  
+
   std::vector<Callback> callbacks;
-  
+  std::vector<Callback> run_callbacks;
+
   std::shared_ptr<HighFive::File> file;
   std::shared_ptr<HighFive::Group> run_group;
 

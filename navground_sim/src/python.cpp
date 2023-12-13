@@ -1,6 +1,7 @@
 #include <pybind11/chrono.h>
 #include <pybind11/eigen.h>
 #include <pybind11/functional.h>
+#include <pybind11/numpy.h>
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -35,6 +36,8 @@
 
 using namespace navground::core;
 using namespace navground::sim;
+using Shape = std::vector<ssize_t>;
+
 namespace py = pybind11;
 
 template <typename T>
@@ -398,6 +401,7 @@ struct convert<PyExperiment> {
 
 }  // namespace YAML
 
+#if 0
 static py::memoryview empty_unsigned_view() {
   static unsigned empty_unsigned_buffer;
   return py::memoryview::from_memory(&empty_unsigned_buffer, 0, true);
@@ -417,6 +421,20 @@ static py::memoryview trace_view(const Trace *trace, const float *data) {
       static_cast<ssize_t>(sizeof(float) * 3 * trace->number),
       3 * sizeof(float), sizeof(float)};
   return py::memoryview::from_buffer(data, shape, strides);
+}
+#endif
+
+template <typename T>
+static py::array_t<T> make_readonly_array(const Shape &shape, const T *ptr) {
+  py::array_t _arr = py::array_t<T>();
+  py::detail::array_proxy(_arr.ptr())->flags &=
+      ~py::detail::npy_api::NPY_ARRAY_WRITEABLE_;
+  return py::array_t(shape, ptr, _arr);
+}
+
+template <typename T>
+static py::array_t<T> make_empty_array() {
+  return py::array_t(0, static_cast<const T *>(nullptr));
 }
 
 PYBIND11_MODULE(_navground_sim, m) {
@@ -773,146 +791,124 @@ Creates a rectangular region
           "poses",
           [](const Trace *trace) {
             if (trace->record_pose) {
-              return trace_view(trace, trace->pose_data.data());
+              return make_readonly_array({trace->steps, trace->number, 3},
+                                         trace->pose_data.data());
             }
-            return empty_float_view();
+            return make_empty_array<float>();
           },
           nullptr, R"doc(
-The recorded poses of the agents
-as a memory view to the floating point buffer::
+The recorded poses of the agents as a numpy array of shape 
+``(simulation steps, number of agents, 3)`` and dtype ``np.float32``::
 
-  [[[agent_0_x, agent_0_y, agent_0_theta], 
-    [agent_1_x, agent_1_y, agent_1_theta], 
+  [[[x_0, y_0, theta_0], 
+    [x_1, y_1, theta_1], 
     ...], 
    ...]
   
-
-of shape ``(simulation steps, number of agents, 3)``.
-
-The view is empty if poses have 
-not been recorded in the trace.
+The array is empty if poses have not been recorded in the trace.
 )doc")
       .def_property(
           "twists",
           [](const Trace *trace) {
             if (trace->record_twist) {
-              return trace_view(trace, trace->twist_data.data());
+              return make_readonly_array({trace->steps, trace->number, 3},
+                                         trace->twist_data.data());
             }
-            return empty_float_view();
+            return make_empty_array<float>();
           },
           nullptr, R"doc(
-The recorded twist of the agents
-as a memory view to the floating point buffer::
+The recorded twists of the agents as a numpy array of shape 
+``(simulation steps, number of agents, 3)`` and dtype ``np.float32``::
 
-  [[[agent_0_x, agent_0_y, agent_0_theta], 
-    [agent_1_x, agent_1_y, agent_1_theta], 
+  [[[vx_0, vy_0, omega_0], 
+    [vx_1, vy_1, omega_1], 
     ...], 
    ...]
   
-
-of shape ``(simulation steps, number of agents, 3)``.
-
-The view is empty if twist have 
-not been recorded in the trace.
+The array is empty if twist have not been recorded in the trace.
 )doc")
       .def_property(
           "targets",
           [](const Trace *trace) {
             if (trace->record_target) {
-              return trace_view(trace, trace->target_data.data());
+              return make_readonly_array({trace->steps, trace->number, 3},
+                                         trace->target_data.data());
             }
-            return py::memoryview::from_buffer<float>(trace->target_data.data(),
-                                                      {0}, {0});
+            return make_empty_array<float>();
           },
           nullptr, R"doc(
-The recorded targets of the agents
-as a memory view to the floating point buffer::
+The recorded targets of the agents as a numpy array of shape 
+``(simulation steps, number of agents, 3)`` and dtype ``np.float32``::
 
-  [[[agent_0_x, agent_0_y, agent_0_theta], 
-    [agent_1_x, agent_1_y, agent_1_theta], 
+  [[[x_0, y_0, theta_0], 
+    [x_1, y_1, theta_1], 
     ...], 
    ...]
   
-of shape ``(simulation steps, number of agents, 3)``.
-
-The view is empty if targets have 
-not been recorded in the trace.
+The array is empty if targets have not been recorded in the trace.
 )doc")
       .def_property(
           "commands",
           [](const Trace *trace) {
             if (trace->record_cmd) {
-              return trace_view(trace, trace->cmd_data.data());
+              return make_readonly_array({trace->steps, trace->number, 3},
+                                         trace->cmd_data.data());
             }
-            return empty_float_view();
+            return make_empty_array<float>();
           },
           nullptr, R"doc(
-The recorded commands of the agents
-as a memory view to the floating point buffer::
-    
-  [[[agent_0_x, agent_0_y, agent_0_theta], 
-   [agent_1_x, agent_1_y, agent_1_theta], 
+The recorded commands of the agents as a numpy array of shape 
+``(simulation steps, number of agents, 3)`` and dtype ``np.float32``::
+
+  [[[vx_0, vy_0, omega_0], 
+    [vx_1, vy_1, omega_1], 
     ...], 
    ...]
-
-of shape ``(simulation steps, number of agents, 3)``.
-
-The view is empty if commands have 
-not been recorded in the trace.
+  
+The array is empty if commands have not been recorded in the trace.
 )doc")
       .def_property(
           "safety_violations",
           [](const Trace *trace) {
             if (trace->record_safety_violation) {
-              const std::array<ssize_t, 2> shape{trace->steps, trace->number};
-              const std::array<ssize_t, 2> strides{
-                  static_cast<ssize_t>(sizeof(float) * trace->number),
-                  sizeof(float)};
-              return py::memoryview::from_buffer(
-                  trace->safety_violation_data.data(), shape, strides);
+              return make_readonly_array({trace->steps, trace->number},
+                                         trace->safety_violation_data.data());
             }
-            return empty_float_view();
+            return make_empty_array<float>();
           },
           nullptr, R"doc(
-The recorded amounts of safety violation
-as a memory view to the floating point buffer::
+The recorded amounts of safety violation as a numpy array of shape 
+``(simulation steps, number of agents)`` and dtype ``np.float32``::
 
-  [[agent_0_violation, agent_1_violation, ...],
+  [[violation_0, violation_1, ...],
    ...]
 
-of shape ``(simulation steps, number of agents)`` and
 where a value of 0 represents no violations.
 
-The view is empty if safety violations have 
-not been recorded in the trace.
+The array is empty if safety violations have not been recorded in the trace.
 )doc")
       .def_property(
           "collisions",
           [](const Trace *trace) {
             if (trace->record_collisions) {
               const ssize_t n = trace->collisions_data.size() / 3;
-              if (n == 0) {
-                return empty_unsigned_view();
-              }
-              const std::array<ssize_t, 2> shape{n, 3};
-              const std::array<ssize_t, 2> strides{sizeof(float) * 3,
-                                                   sizeof(float)};
-              return py::memoryview::from_buffer(trace->collisions_data.data(),
-                                                 shape, strides);
+              // if (n == 0) {
+              //   return make_empty_array<unsigned>();
+              // }
+              return make_readonly_array({n, 3}, trace->collisions_data.data());
             }
-            return empty_unsigned_view();
+            return make_empty_array<unsigned>();
           },
           nullptr, R"doc(
 The recorded collisions between pairs of entities as
-a memory view to the uint32 buffer::
+as a numpy array of shape ``(number of collisions, 3)``
+and dtype ``np.uint32``::
 
-  [[time_step, entity 1 uid, entity 2 uid], 
+  [[time_step, uid_0, uid_1], 
    ...]
 
-of shape ``(number of collisions, 3)``.
+The array is empty if collisions have not been recorded in the trace.
 
-The view is empty if collisions have 
-not been recorded in the trace.
 )doc")
       .def(
           "get_task_events",
@@ -923,24 +919,19 @@ not been recorded in the trace.
               const ssize_t n = trace->task_events[i];
               const auto &data = trace->task_events_data[i];
               const ssize_t m = n ? data.size() / n : 0;
-              const std::array<ssize_t, 2> shape{n, m};
-              const std::array<ssize_t, 2> strides{
-                  static_cast<ssize_t>(sizeof(float) * m), sizeof(float)};
-              return py::memoryview::from_buffer(data.data(), shape, strides);
+              return make_readonly_array({n, m}, data.data());
             }
-            return empty_float_view();
+            return make_empty_array<float>();
           },
           py::arg("agent"),
           R"doc(
-The recorded events logged by the task of an agent 
-as memory view to the floating point buffer::
+The recorded events logged by the task of an agent as a numpy array of shape 
+``(number events, size of event log)`` and dtype ``np.float32``::
 
   [[data_0, ...], 
    ...]
 
-of shape ``(number events, size of event log)``.
-
-The view is empty if the agent's task has not been recorded in the trace.
+The array is empty if the agent's task has not been recorded in the trace.
 
 :param agent: The agent
 
@@ -950,46 +941,40 @@ The view is empty if the agent's task has not been recorded in the trace.
           "deadlocks",
           [](const Trace *trace) {
             if (trace->record_deadlocks) {
-              const std::array<ssize_t, 1> shape{trace->number};
-              const std::array<ssize_t, 1> strides{sizeof(float)};
-              return py::memoryview::from_buffer(trace->deadlock_data.data(),
-                                                 shape, strides);
+              return make_readonly_array({trace->number},
+                                         trace->deadlock_data.data());
             }
-            return empty_float_view();
+            return make_empty_array<float>();
           },
           nullptr, R"doc(
-The time since agents are deadlocked as
-a memory view of the float buffer::
+The time since agents are deadlocked as a numpy array of shape 
+``(number of agents, )`` and dtype ``np.float32``::
 
   [time_0, time_1, ...]
 
-of shape ``(number of agents, )``.
 If ``time_i`` is negative, the i-th agent is not stuck at the end of the recording.
-Else, it is stuck since ``time_i``.
+Else, it has been stuck since ``time_i``.
+
+The array is empty if deadlocks have not been recorded in the trace.
+
 )doc")
       .def_property(
           "efficacy",
           [](const Trace *trace) {
             if (trace->record_efficacy) {
-              const std::array<ssize_t, 2> shape{trace->steps, trace->number};
-              const std::array<ssize_t, 2> strides{
-                  static_cast<ssize_t>(sizeof(float) * trace->number),
-                  sizeof(float)};
-              return py::memoryview::from_buffer(trace->efficacy_data.data(),
-                                                 shape, strides);
+              return make_readonly_array({trace->steps, trace->number},
+                                         trace->efficacy_data.data());
             }
-            return empty_float_view();
+            return make_empty_array<float>();
           },
           nullptr, R"doc(
-The recorded agents' efficacy
-as a memory view to the floating point buffer::
+The recorded agents' efficacy as a numpy array of shape 
+``(simulation steps, number of agents)`` and dtype ``np.float32``::
 
-  [[agent_0_efficacy, agent_1_efficacy, ...],
+  [[efficacy_0, efficacy_1, ...],
    ...]
 
-of shape ``(simulation steps, number of agents)``.
-
-The view is empty if efficacy has not been recorded in the trace.
+The array is empty if efficacy has not been recorded in the trace.
 )doc")
       .def_readwrite("record_pose", &Trace::record_pose,
                      DOC(navground, sim, Trace, record_pose))

@@ -14,6 +14,8 @@ using navground::sim::AgentSampler;
 using navground::sim::Scenario;
 using navground::sim::World;
 
+#define _UNSAFE_GROUP_CASTING
+
 namespace YAML {
 
 template <typename W = World>
@@ -26,7 +28,12 @@ struct convert_scenario {
     node["obstacles"] = rhs.obstacles;
     node["walls"] = rhs.walls;
     for (const auto& group : rhs.groups) {
-      if (AS* g = dynamic_cast<AS*>(group.get())) {
+#ifndef _UNSAFE_GROUP_CASTING
+      if (AS* g = dynamic_cast<AS*>(group.get())) 
+#else
+      AS* g = static_cast<AS*>(group.get());
+#endif // _UNSAFE_GROUP_CASTING
+      {
         node["groups"].push_back(*g);
       }
     }

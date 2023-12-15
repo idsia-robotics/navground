@@ -23,8 +23,8 @@ namespace navground::sim {
  * to generalize from C++ to Python.
  */
 template <typename W = World>
-struct AgentSampler : public Sampler<typename W::A::C>,
-                      virtual public Scenario::Group {
+struct AgentSampler : virtual public Sampler<typename W::A::C>,
+                      public Scenario::Group {
   /** @private */
   using A = typename W::A;
   /** @private */

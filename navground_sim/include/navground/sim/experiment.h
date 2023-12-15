@@ -11,168 +11,38 @@
 #include <highfive/H5File.hpp>
 #include <memory>
 
-#include "navground/core/yaml/yaml.h"
+#include "navground/sim/experimental_run.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/world.h"
+#include "navground/sim/yaml/scenario.h"
 #include "navground_sim_export.h"
 
 namespace navground::sim {
 
-struct Experiment;
-
 /**
- * @brief      This class helps to collect the trajectories of the agents
- * during an experiment.
- */
-struct NAVGROUND_SIM_EXPORT Trace {
-  friend struct Experiment;
-
-  /**
-   * Whether it should record the agents poses
-   */
-  bool record_pose;
-  /**
-   * Whether it should record the agents twists
-   */
-  bool record_twist;
-  /**
-   * Whether it should record the agents control commands
-   */
-  bool record_cmd;
-  /**
-   * Whether it should record the agents targets
-   */
-  bool record_target;
-  /**
-   * Whether it should record collisions
-   */
-  bool record_collisions;
-  /**
-   * Whether it should record safety violations
-   */
-  bool record_safety_violation;
-  /**
-   * Whether it should record data from task events
-   */
-  bool record_task_events;
-  /**
-   * Whether it should record efficacy (i.e., fraction of actual velocity vs
-   * optimal velocity)
-   */
-  bool record_deadlocks;
-  /**
-   * Whether it should record the time since when agents are stuck
-   */
-  bool record_efficacy;
-  /**
-   * @brief      Constructs a new instance.
-   */
-  Trace()
-      : record_pose(false),
-        record_twist(false),
-        record_cmd(false),
-        record_target(false),
-        record_collisions(false),
-        record_safety_violation(false),
-        record_task_events(false),
-        record_deadlocks(false),
-        record_efficacy(false),
-        steps(0),
-        number(0),
-        pose_data(),
-        twist_data(),
-        cmd_data(),
-        target_data(),
-        safety_violation_data(),
-        collisions_data(),
-        task_events_data(),
-        task_events(),
-        deadlock_data(),
-        efficacy_data(),
-        record(false),
-        indices() {}
-
-  /**
-   * The number of steps recorded
-   */
-  unsigned steps;
-  /**
-   * The number of agents recorded
-   */
-  unsigned number;
-  std::vector<float> pose_data;
-  std::vector<float> twist_data;
-  std::vector<float> cmd_data;
-  std::vector<float> target_data;
-  std::vector<float> safety_violation_data;
-  std::vector<unsigned> collisions_data;
-  std::vector<std::vector<float>> task_events_data;  // one vector per agent
-  std::vector<unsigned> task_events;
-  std::vector<float> deadlock_data;
-  std::vector<float> efficacy_data;
-
-  std::optional<unsigned> index_of_agent(const Agent* agent) const {
-    if (indices.count(agent)) {
-      return indices.at(agent);
-    }
-    return std::nullopt;
-  }
-
- private:
-  bool record;
-  float* pose_ptr;
-  float* twist_ptr;
-  float* cmd_ptr;
-  float* target_ptr;
-  float* safety_violation_ptr;
-  float* efficacy_ptr;
-
-  std::map<const Agent*, unsigned> indices;
-
-  /**
-   * @brief      Init a trace recording
-   *
-   * @param[in]  world  The world
-   * @param[in]  steps  The maximal number of steps that will be recorded
-   */
-  void init(const World& world, unsigned steps);
-  /**
-   * @brief      { function_description }
-   *
-   * @param[in]  world  The world
-   * @param[in]  step   The simulation step index
-   */
-  void update(const World& world, unsigned step);
-
-  /**
-   * @brief      Called after the simulation has finished
-   *
-   * @param[in]  world  The world
-   */
-  void finalize(const World& world);
-
-  /**
-   * @brief      Save the trace data to a hdf5 group
-   *
-   * @param[in]  world  The world
-   * @param      group  The dataset group where to store data
-   */
-  void save(const World& world, HighFive::Group& group);
-};
-
-/**
- * @brief      An experiment supervises the execution of a simulation.
+ * @brief  An experiment supervises the execution of several runs of simulation.
  *
- * It initializes a simulation and run it while collecting the desired data with
- * \ref Trace.
+ * It initializes simulations sharing the same \ref Scenario and
+ * run them while collecting the desired data through \ref ExperimentalRun.
  *
- * Use \ref run_once to perform a single run.
+ * - use \ref run_once to perform a single run.
  *
- * Use \ref run to perform all runs, optionally saving the data to a HDF5
+ * - use \ref run to perform all runs, optionally saving the data to a HDF5
  * dataset.
+ *
+ * - use \ref start, \ref stop, \ref start_run, \ref stop_run, \ref update_run
+ * to record data without launching a simulation, for instance if you are using
+ * a different run-loop.
  *
  */
 struct NAVGROUND_SIM_EXPORT Experiment {
+  /**
+   * @brief      The state
+   *
+   * @private
+   */
+  enum class State { init, running, finished };
+
   virtual ~Experiment() = default;
 
   /**
@@ -183,27 +53,46 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   /**
    * @brief      Constructs a new instance.
    *
-   * @param[in]  time_step  The simulation time step
-   * @param[in]  steps      The number of simulation steps
+   * @param[in]  time_step  The default simulation time step
+   * @param[in]  steps      The default number of simulation steps
    */
-  explicit Experiment(float time_step = 0.1, int steps = 1000)
-      : runs(1),
-        time_step(time_step),
-        steps(steps),
+  explicit Experiment(float time_step = 0.1, unsigned steps = 1000)
+      : record_config(),
+        run_config({time_step, steps, true}),
+        number_of_runs(1),
         save_directory(),
-        trace(),
+        runs(),
         name("experiment"),
         scenario(nullptr),
-        terminate_when_all_idle_or_stuck(true),
         run_index(0),
-        initialized(false),
-        step(0),
-        world(),
+        state(State::init),
         callbacks(),
         run_callbacks(),
         file(),
-        run_group(),
         file_path() {}
+
+  /**
+   * @brief      Gets the map of recorded runs.
+   *
+   * Runs are associated to the seed used to initialize them.
+   *
+   * @return     The recorded runs.
+   */
+  const std::map<unsigned, ExperimentalRun>& get_runs() const { return runs; }
+
+  /**
+   * @brief      Determines if the experiment has finished.
+   *
+   * @return     True if finished, False otherwise.
+   */
+  bool has_finished() const { return state == State::finished; }
+
+  /**
+   * @brief      Determines if the experiment is running.
+   *
+   * @return     True if running, False otherwise.
+   */
+  bool is_running() const { return state == State::running; }
 
   /**
    * @brief      Perform a single run
@@ -211,19 +100,27 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * 1. it initializes a world from its scenario by calling
    *    \ref Scenario::init_world
    *
-   * 2. it runs the simulation, step by step, collecting data in \ref trace.
+   * 2. it runs the simulation, step by step, collecting data in a \ref
+   * ExperimentalRun by calling \ref ExperimentalRun::run
    *
    * @param[in]  seed  The index (and random seed) of the run
+   *
+   * @return     The recorded run.
    */
-  void run_once(int seed);
+  ExperimentalRun& run_once(int seed);
 
   /**
-   * @brief      Perform all runs
+   * @brief      Perform several runs and optionally record the data in a HFD5
+   * file.
    *
-   * The number of runs is specified by \ref runs.
+   * The number of runs is specified by the default \ref number_of_runs if not
+   * specified.
+   *
+   * Runs will be indexed sequentially and their index used as a random seed.
    *
    * If \ref save_directory not empty but points to an existing directory,
-   * it creates a HDF5 file ``<name>_<timestamp>/data.h5`` with attributes
+   * it creates a HDF5 file ``<name>_<hash>_<timestamp>/data.h5`` with
+   * attributes
    *
    * - ``begin_time`` [``string``], ISO 8601 formatted string of the time when
    *   the experiment is run, see \ref get_begin_time;
@@ -243,79 +140,148 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * - ``steps`` [``unsigned``], actual number of steps performed;
    *
+   * - ``maximal_steps`` [``unsigned``], maximal number of steps that could have
+   * been performed;
+   *
+   * - ``final_sim_time`` [``float``], the simulated time at the end of the run;
+   *
    * - ``world`` [``string``], YAML serialization of the world at the begin of
    *   the experiment.
    *
    * datasets:
    *
-   * - ``cmds`` [``float``] (if \ref Trace::record_cmd is set);
+   * - ``times`` [``float``] (if \ref RecordConfig::time is set);
    *
-   * - ``collisions`` [``unsigned``] (if \ref Trace::record_collisions is set);
+   * - ``poses`` [``float``] (if \ref RecordConfig::pose is set);
    *
-   * - ``poses`` [``float``] (if \ref Trace::record_pose is set);
+   * - ``twists`` [``float``] (if \ref RecordConfig::twist is set);
    *
-   * - ``targets`` [``float``] (if \ref Trace::record_target is set);
+   * - ``cmds`` [``float``] (if \ref RecordConfig::cmd is set);
    *
-   * - ``twists`` [``float``] (if \ref Trace::record_twist is set);
+   * - ``targets`` [``float``] (if \ref RecordConfig::target is set);
    *
-   * - ``deadlocks`` [``float``] (if \ref Trace::record_deadlock is set);
+   * - ``collisions`` [``unsigned``] (if \ref RecordConfig::collisions
+   * is set);
    *
-   * - ``efficacy`` [``float``] (if \ref Trace::record_efficacy is set);
+   * - ``deadlocks`` [``float``] (if \ref RecordConfig::deadlock is
+   * set);
+   *
+   * - ``efficacy`` [``float``] (if \ref RecordConfig::efficacy is
+   * set);
    *
    * and groups:
    *
-   * - ``task_events`` (if \ref Trace::record_task_events is set),
+   * - ``task_events`` (if \ref RecordConfig::task_events is set),
    *   where each agents logs, in dataset ``agent_<uid>`` [``float``], the
    *   events emitted by their task.
    *
    * A part from saving data to the HDF5 file, each run is performed similarly
    * to \ref run_once.
+   *
+   * @param[in]  keep  Whether to keep runs in memory
+   * @param[in]  start_index  The index/seed of the first run.
+   * If unspecified, it will use the experiment's \ref run_index
+   * @param[in]  number  The number of runs.
+   * If unspecified, it will use the experiment's \ref number_of_runs
    */
-  void run();
+  void run(bool keep = true, std::optional<unsigned> start_index = std::nullopt,
+           std::optional<unsigned> number = std::nullopt);
 
   /**
-   * @brief      Start recording
+   * @brief      Clear the recording
+   */
+  void remove_all_runs() { runs.clear(); }
+
+  /**
+   * @brief      Removes a recorded run.
    *
-   * This is only need to use an external run-loop, where you
-   * call \ref update explicitly to update the trace
-   * without updating the simulation itself. Use \ref run instead, to
-   * both run the simulation and record the trace.
+   * @param[in]  seed  The seed/index of the run
+   */
+  void remove_run(unsigned seed) { runs.erase(seed); }
+
+  /**
+   * @brief      Signal to start an experiment
    *
-   * Call \ref start only once per experiment.
+   * Note that this won't neither execute any simulation nor record data.
+   * It will just record time stamp and change the state to running.
+   *
+   * This is only needed when using an external run-loop for the simulation.
+   * In this case:
+   *
+   * 1. call \ref start
+   *
+   * 2. For each run
+   *
+   *    i. Call \ref init_run and \ref start_run
+   *    ii. from your run-loop, call \ref update_run to record
+   *        the current state of the simulated world
+   *    iii. Call \ref stop_run
+   *
+   * 3. Call \ref stop
+   *
+   * Use \ref run instead to perform the simulations and record them all at
+   * once.
+   *
+   * Calling \ref start is only effective once per experiment.
    *
    */
   void start();
   /**
-   * @brief      Start recording
+   * @brief      Signal to stop an experiment
    *
-   * This is only need to use an external run-loop, where you
-   * call \ref update explicitly to update the trace
-   * without updating the simulation itself. Call once at the start of each run.
-   *
-   * @param[in]  seed  The random seed
-   * @param[in]  init_world  Whether it should initialize a new world
-   *
-   */
-  void start_run(int seed, bool init_world = false);
-  /**
-   * @brief      Updates the trace.
-   *
-   * See \ref start. Call from an external run-loop to update the trace
-   * without updating the simulation itself.
-   */
-  void update();
-  /**
-   * @brief      Stop the recording
-   *
-   * See \ref start. This is only need to use an external run-loop.
+   * See \ref start. This is only need when using an external run-loop to
+   * simulate.
    */
   void stop();
+
+  /**
+   * @brief      Initializes a run
+   *
+   * @param[in]  seed   The random seed
+   * @param[in]  world  The world to simulate. If null, it will initialize a new
+   * world.
+   *
+   * See \ref start. This is only need when using an external run-loop to
+   * simulate or when manually calling \ref ExperimentalRun::run later. Else use
+   * \ref run_once (or \ref run for all runs) to initialize and run at once.
+   *
+   */
+  ExperimentalRun& init_run(int seed, std::shared_ptr<World> world = nullptr);
+
+  /**
+   * @brief      Start recording a run
+   *
+   * See \ref start. This is only need when using an external run-loop to
+   * simulate.
+   *
+   * Call \ref start_run only once per run.
+   *
+   * @param      run   The run being recorded
+   *
+   */
+  void start_run(ExperimentalRun& run);
+
+  /**
+   * @brief      { function_description }
+   *
+   * See \ref start. This is only need when using an external run-loop to
+   * simulate.
+   *
+   * Call \ref update_run every time you need to record the current state of the
+   * world, typically after each simulation step.
+   *
+   * @param      run   The run being recorded
+   */
+  void update_run(ExperimentalRun& run);
+
   /**
    * @brief      Stop the run recording
    *
    * See \ref start_run. This is only need to use an external run-loop.
+   *
+   * @param      run   The run being recorded
    */
-  void stop_run();
+  void stop_run(ExperimentalRun& run);
 
   /**
    * @brief      Adds a callback to be executed after each simulation step.
@@ -340,31 +306,20 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    */
   std::optional<std::filesystem::path> get_path() const { return file_path; }
 
-  std::shared_ptr<World> get_world() const { return world; }
-
-  void set_world(const std::shared_ptr<World>& value) { world = value; }
-
-  /**
-   * @brief      Gets the duration required to perform the last run (excludes
-   * initialization).
-   *
-   * @return     The duration in ns
-   */
-  std::chrono::nanoseconds get_run_duration_ns() const {
-    return run_end - run_begin;
-  }
-
   /**
    * @brief      Gets the duration required to perform the whole experiment.
    *
-   * @return     The duration in ns
+   * @return     The duration in ns or 0 if the experiment has not finished.
    */
   std::chrono::nanoseconds get_duration_ns() const {
-    return experiment_end - experiment_begin;
+    if (state == State::finished) {
+      return experiment_end - experiment_begin;
+    }
+    return std::chrono::nanoseconds(0);
   }
 
   /**
-   * @brief      Gets the time when the experiment began.
+   * @brief      Gets the system time when the experiment began.
    *
    * @return     The time
    */
@@ -373,17 +328,77 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   }
 
   /**
-   * Number of runs to perform
+   * @brief      Determines if it is recording data to a file or it has done it.
+   *
+   * @return     True if file, False otherwise.
    */
-  unsigned runs;
+  bool has_file() const { return bool(file_path); }
+
   /**
-   * Simulation time step
+   * @brief      Returns the YAML representation of the experiment.
+   *
+   * @private
    */
-  float time_step;
+  virtual std::string dump() const;
+  // virtual std::string dump() const { return YAML::dump<Experiment>(this); }
+
   /**
-   * Maximal number of steps per run
+   * @brief      Gets the default time step used for simulation during each run
+   *
+   * @return     The time step.
    */
-  unsigned steps;
+  float get_time_step() const { return run_config.time_step; }
+  /**
+   * @brief      Sets the default time step used for simulation during each run
+   *
+   * @param[in]  value  The desired value
+   */
+  void set_time_step(float value) { run_config.time_step = value; }
+  /**
+   * @brief      Gets the default maximal number of steps to simulate during
+   * each run.
+   *
+   * @return     The maximal number of steps.
+   */
+  unsigned get_steps() const { return run_config.steps; }
+  /**
+   * @brief      Sets the default maximal number of steps to simulate during
+   * each run.
+   *
+   * @param[in]  value  The desired value
+   */
+  void set_steps(float value) { run_config.steps = value; }
+  /**
+   * @brief      Gets whether to terminate when all agents are idle or stuck.
+   *
+   * @return     Whether to terminate when all agents are idle or stuck.
+   */
+  bool get_terminate_when_all_idle_or_stuck() const {
+    return run_config.terminate_when_all_idle_or_stuck;
+  }
+  /**
+   * @brief      Sets whether to terminate when all agents are idle or stuck.
+   *
+   * @param[in]  value  The desired value
+   */
+  void set_terminate_when_all_idle_or_stuck(bool value) {
+    run_config.terminate_when_all_idle_or_stuck = value;
+  }
+
+  /**
+   * Which data to record
+   */
+  RecordConfig record_config;
+
+  /**
+   * How to perform runs;
+   */
+  RunConfig run_config;
+
+  /**
+   * Default number of runs to perform
+   */
+  unsigned number_of_runs;
 
   /**
    * Where to save the results
@@ -391,9 +406,9 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   std::filesystem::path save_directory;
 
   /**
-   * The current trace
+   * All runs, ordered by seed
    */
-  Trace trace;
+  std::map<unsigned, ExperimentalRun> runs;
 
   /**
    * The name of the experiment
@@ -401,24 +416,16 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   std::string name;
 
   /**
-   * The scenario
+   * The scenario used to initialize a world
    */
   std::shared_ptr<Scenario> scenario;
-
-  bool terminate_when_all_idle_or_stuck;
-
-  bool has_file() const { return bool(file_path); }
-
   /**
-   * The index of the next run
+   * The seed/index of the next run
    */
   unsigned run_index;
 
-  virtual std::string dump() const { return YAML::dump<Experiment>(this); }
-
  protected:
-  void run_run();
-  void init_run(int seed);
+  State state;
 
   virtual std::shared_ptr<World> make_world() {
     return std::make_shared<World>();
@@ -426,26 +433,18 @@ struct NAVGROUND_SIM_EXPORT Experiment {
 
   void init_dataset();
   void finalize_dataset();
-  void init_dataset_run(unsigned index);
-  void finalize_dataset_run();
+  std::unique_ptr<HighFive::Group> init_dataset_run(unsigned index);
   void store_yaml(const std::string& yaml) const;
-
-  bool initialized;
-  unsigned step;
-
-  std::shared_ptr<World> world;
+  void save_run(ExperimentalRun& run);
 
   std::vector<Callback> callbacks;
   std::vector<Callback> run_callbacks;
 
   std::shared_ptr<HighFive::File> file;
-  std::shared_ptr<HighFive::Group> run_group;
 
   std::chrono::time_point<std::chrono::steady_clock> experiment_begin;
   std::chrono::time_point<std::chrono::steady_clock> experiment_end;
   std::chrono::time_point<std::chrono::system_clock> begin;
-  std::chrono::time_point<std::chrono::steady_clock> run_begin;
-  std::chrono::time_point<std::chrono::steady_clock> run_end;
 
   /**
    * Where results are saved

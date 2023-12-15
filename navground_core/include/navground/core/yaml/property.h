@@ -53,7 +53,7 @@ struct convert<std::vector<bool>> {
   }
 };
 
-Property::Field decode_property(const Property& property, const Node& node) {
+inline Property::Field decode_property(const Property& property, const Node& node) {
   return std::visit(
       [&node](auto&& arg) -> Property::Field {
         using T = std::decay_t<decltype(arg)>;
@@ -62,7 +62,7 @@ Property::Field decode_property(const Property& property, const Node& node) {
       property.default_value);
 }
 
-Node encode_property(const Property::Field& value) {
+inline Node encode_property(const Property::Field& value) {
   return std::visit([](auto&& arg) { return Node(arg); }, value);
 }
 

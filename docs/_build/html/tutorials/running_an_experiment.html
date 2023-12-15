@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
@@ -223,7 +223,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/experiment.html">Experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/experiment.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/yaml.html">YAML</a></li>
 </ul>
 </li>
@@ -233,7 +233,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment.html">Experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
 </ul>
 </li>
@@ -402,7 +402,6 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Configuring-an-experiment">Configuring an experiment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Running-the-experiment">Running the experiment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Analysing-the-data">Analysing the data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Sampling-per-run">Sampling per run</a></li>
 </ul>
             </nav>
         </div>
@@ -416,7 +415,7 @@ document.write(`
                   
   <section id="Running-and-analysing-experiments">
 <h1>Running and analysing experiments<a class="headerlink" href="#Running-and-analysing-experiments" title="Link to this heading">#</a></h1>
-<p>In this tutorial, you learn how to perform an experiment and then access the recorded data to analyse it.</p>
+<p>In this tutorial, you learn how to perform an experiment and then access the recorded data to analyse it. <a class="reference external" href="running_an_experiment_no_hdf5.html">Another version</a> perform the same experiment and analysis without saving to HFD5 and then loading from HDF5.</p>
 <section id="Configuring-an-experiment">
 <h2>Configuring an experiment<a class="headerlink" href="#Configuring-an-experiment" title="Link to this heading">#</a></h2>
 <p>You can look at an experiment as a machine that produces data from a configuration, which defines the simulation we want to perform, how many runs of it, which data to collect, and where to save it.</p>
@@ -489,7 +488,7 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">duration</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">duration</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -499,7 +498,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-datetime.timedelta(seconds=1, microseconds=295543)
+1.28365
 </pre></div></div>
 </div>
 <p>and saves the results to an H5DF file</p>
@@ -517,7 +516,7 @@ datetime.timedelta(seconds=1, microseconds=295543)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-PosixPath(&#39;experiment_2023-10-13_13-23-01/data.h5&#39;)
+PosixPath(&#39;experiment_2518844959796951873_2023-12-15_17-55-42/data.h5&#39;)
 </pre></div></div>
 </div>
 </section>
@@ -560,7 +559,8 @@ PosixPath(&#39;experiment_2023-10-13_13-23-01/data.h5&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;duration_ns&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e9</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">duration</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;duration_ns&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e9</span>
+<span class="n">duration</span>
 </pre></div>
 </div>
 </div>
@@ -570,7 +570,7 @@ PosixPath(&#39;experiment_2023-10-13_13-23-01/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-1.295543417
+1.283650417
 </pre></div></div>
 </div>
 <p>The metadata contains the YAML dump of the experiment itself. This way, users can reload and potentially rerun the same experiment.</p>
@@ -625,7 +625,7 @@ PosixPath(&#39;experiment_2023-10-13_13-23-01/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;KeysViewHDF5 [&#39;duration_ns&#39;, &#39;seed&#39;, &#39;steps&#39;, &#39;time_step&#39;, &#39;world&#39;]&gt;
+&lt;KeysViewHDF5 [&#39;duration_ns&#39;, &#39;final_sim_time&#39;, &#39;maximal_steps&#39;, &#39;seed&#39;, &#39;steps&#39;, &#39;time_step&#39;, &#39;world&#39;]&gt;
 </pre></div></div>
 </div>
 <p>The duration of a run includes only the time required to perform the simulation, not initializing it or saving the data.</p>
@@ -643,7 +643,7 @@ PosixPath(&#39;experiment_2023-10-13_13-23-01/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.6301275
+0.628382041
 </pre></div></div>
 </div>
 <p>Other attributes includes the seed</p>
@@ -825,8 +825,25 @@ Safety margin was violated 10.1% of the time
 </pre></div></div>
 </div>
 <p>We look also at event logged by the agents’ tasks.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;run_0&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;poses&#39;, &#39;safety_violations&#39;, &#39;task_events&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;run_0&#39;</span><span class="p">][</span><span class="s1">&#39;task_events&#39;</span><span class="p">]</span>
@@ -834,7 +851,7 @@ Safety margin was violated 10.1% of the time
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
@@ -842,7 +859,7 @@ Safety margin was violated 10.1% of the time
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -852,7 +869,7 @@ Safety margin was violated 10.1% of the time
 </div>
 <p>For each agents, their <a class="reference external" href="../reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.log_size">WaypointsTask</a> tells us when it started moving towards which waypoint as a list <code class="docutils literal notranslate"><span class="pre">[time,</span> <span class="pre">target_x,</span> <span class="pre">target_y,</span> <span class="pre">target_theta]</span></code>. Let’s check the first few events for the first agent.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">task_events</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
@@ -862,7 +879,7 @@ Safety margin was violated 10.1% of the time
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -872,7 +889,7 @@ Safety margin was violated 10.1% of the time
 </div>
 <p>We collect the duration to reach waypoints, ignoring the first because agents started from radom positions.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dts</span> <span class="o">=</span> <span class="p">[]</span>
@@ -898,7 +915,7 @@ and 99% of the time between 4.90 and 16.72 seconds
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -914,129 +931,7 @@ and 99% of the time between 4.90 and 16.72 seconds
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_running_an_experiment_51_0.png" src="../_images/tutorials_running_an_experiment_51_0.png" />
-</div>
-</div>
-</section>
-<section id="Sampling-per-run">
-<h2>Sampling per run<a class="headerlink" href="#Sampling-per-run" title="Link to this heading">#</a></h2>
-<p>We want now to measure how the safety margin impacts the number of collisions. We define a new experiment, with many runs using randomly sampled safety radii fo the agents, so that all agents in the same run uses the same value.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yaml</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">steps: 1000</span>
-<span class="s2">time_step: 0.1</span>
-<span class="s2">record_collisions: true</span>
-<span class="s2">runs: 500</span>
-<span class="s2">save_directory: .</span>
-<span class="s2">scenario:</span>
-<span class="s2">  type: Cross</span>
-<span class="s2">  radius: 5</span>
-<span class="s2">  side: 5</span>
-<span class="s2">  agent_margin: 0.3</span>
-<span class="s2">  add_safety_to_agent_margin: true</span>
-<span class="s2">  tolerance: 0.2</span>
-<span class="s2">  position_noise: 0.2</span>
-<span class="s2">  groups:</span>
-<span class="s2">    - number: 10</span>
-<span class="s2">      control_period: 0.1</span>
-<span class="s2">      behavior:</span>
-<span class="s2">        type: ORCA</span>
-<span class="s2">        safety_margin:</span>
-<span class="s2">            sampler: uniform</span>
-<span class="s2">            from: 0.0</span>
-<span class="s2">            to: 0.3</span>
-<span class="s2">            once: true</span>
-<span class="s2">      radius: 0.1</span>
-<span class="s2">      kinematics:</span>
-<span class="s2">        type: Omni</span>
-<span class="s2">        max_speed: 1.0</span>
-<span class="s2">        max_angular_speed: 3.0</span>
-<span class="s2">      state_estimation:</span>
-<span class="s2">        type: Bounded</span>
-<span class="s2">        range: 2.0</span>
-<span class="s2">&quot;&quot;&quot;</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_experiment</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
-<span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Performed </span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">runs</span><span class="si">}</span><span class="s2"> runs in </span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">duration</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Performed 500 runs in 8.887047 seconds
-</pre></div></div>
-</div>
-<p>Let’s collect safety margins and numbers of collisions in a table.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-<span class="n">sms</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">ns</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">world</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_world</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;world&#39;</span><span class="p">])</span>
-    <span class="n">sm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">behavior</span><span class="o">.</span><span class="n">safety_margin</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">sm</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="n">sms</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sm</span><span class="p">)</span>
-    <span class="n">ns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;collisions&#39;</span><span class="p">]))</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;collisions&quot;</span><span class="p">:</span> <span class="n">ns</span><span class="p">,</span> <span class="s2">&quot;safety_margin&quot;</span><span class="p">:</span> <span class="n">sms</span><span class="p">})</span>
-<span class="c1"># df.describe()</span>
-</pre></div>
-</div>
-</div>
-<p>and represent them with a box plot</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;safety_margin_bin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">safety_margin</span><span class="p">,</span> <span class="n">sms</span><span class="p">)</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
-<span class="n">bp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">&#39;collisions&#39;</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">&#39;safety_margin_bin&#39;</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="n">bp</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">);</span>
-<span class="n">bp</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;safety margin [m]&quot;</span><span class="p">)</span>
-<span class="n">bp</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;collisions&quot;</span><span class="p">)</span>
-<span class="n">bp</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">runs</span><span class="si">}</span><span class="s1"> runs&#39;</span><span class="p">)</span>
-<span class="n">bp</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">get_figure</span><span class="p">()</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/tutorials_running_an_experiment_59_0.png" src="../_images/tutorials_running_an_experiment_59_0.png" />
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
+<img alt="../_images/tutorials_running_an_experiment_52_0.png" src="../_images/tutorials_running_an_experiment_52_0.png" />
 </div>
 </div>
 </section>
@@ -1089,7 +984,6 @@ Performed 500 runs in 8.887047 seconds
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Configuring-an-experiment">Configuring an experiment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Running-the-experiment">Running the experiment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Analysing-the-data">Analysing the data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Sampling-per-run">Sampling per run</a></li>
 </ul>
   </nav></div>
 

@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
     experiment.run_index = run_index;
   }
   if (runs >= 0) {
-    experiment.runs = runs;
+    experiment.number_of_runs = runs;
   }
   // if (!experiment) {
   //   std::cerr << "[Error] Could not load the experiment" << std::endl;
@@ -87,11 +87,11 @@ int main(int argc, char *argv[]) {
     tqdm bar;
     unsigned i = 0;
     experiment.add_run_callback(
-        [&bar, &experiment, &i]() { bar.progress(++i, experiment.runs); });
-    experiment.run();
+        [&bar, &experiment, &i]() { bar.progress(++i, experiment.number_of_runs); });
+    experiment.run(false);
     bar.finish();
   } else {
-    experiment.run();
+    experiment.run(false);
   }
 
   // experiment.store_yaml(YAML::dump(&experiment));

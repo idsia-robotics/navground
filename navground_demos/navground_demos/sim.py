@@ -45,7 +45,7 @@ def main() -> None:
     demo = sim.Experiment(0.02, 50 * 60)
     demo.scenario = ThymioDemo(arg.behavior)
     demo.save_directory = "."
-    demo.trace.record_pose = True
+    demo.record_config.pose = True
     demo.name = "PyThymioDemo";
     print("Start simulating 1 minute at 50 ticks per second")
     begin = time.time()

@@ -5,14 +5,15 @@ from navground.core import _register
 from navground.core import load_py_plugins as _load_py_plugins
 from navground.core import registered_property
 
-from ._navground_sim import Agent, BoundingBox, Entity, Experiment, Obstacle
+from ._navground_sim import (Agent, BoundingBox, Entity, Experiment,
+                             ExperimentalRun, Obstacle, RecordConfig)
 from ._navground_sim import Scenario as _Scenario
 from ._navground_sim import Sensor
 from ._navground_sim import StateEstimation as _StateEstimation
 from ._navground_sim import Task as _Task
-from ._navground_sim import (Trace, Wall, World, dump, load_agent,
-                             load_experiment, load_scenario,
-                             load_state_estimation, load_task, load_world)
+from ._navground_sim import (Wall, World, dump, load_agent, load_experiment,
+                             load_scenario, load_state_estimation, load_task,
+                             load_world)
 
 
 class Scenario(_Scenario):
@@ -67,7 +68,7 @@ def _experiment_tqdm(self):
     """
     from tqdm.notebook import tqdm as tqdm_n
 
-    bar = tqdm_n(total=self.runs)
+    bar = tqdm_n(total=self.number_of_runs)
     self.add_run_callback(lambda: bar.update(1))
     return bar
 
@@ -79,5 +80,5 @@ __all__ = [
     'StateEstimation', 'Task', 'BoundingBox', 'dump', 'TaskCallback',
     'load_agent', 'load_state_estimation', 'load_task', 'load_world',
     'load_scenario', 'load_experiment', 'load_py_plugins',
-    'registered_property', 'Sensor', 'Trace'
+    'registered_property', 'Sensor', 'ExperimentalRun', 'RecordConfig'
 ]

@@ -9,6 +9,8 @@
 #include "navground/sim/world.h"
 #include "scenario.h"
 
+#include "navground/sim/yaml/experiment.h"
+
 using navground::sim::Experiment;
 using navground::sim::World;
 
@@ -30,7 +32,7 @@ int main(int argc, char* argv[]) {
     }
   }
   Experiment demo(0.02, 50 * 60);
-  demo.trace.record_pose = true;
+  demo.record_config.pose = true;
   demo.save_directory = ".";
   demo.scenario = std::make_shared<ThymioDemo>(behavior_name);
   demo.name = "ThymioDemo";

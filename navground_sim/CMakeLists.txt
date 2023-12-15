@@ -67,6 +67,7 @@ include_directories(include ${PROJECT_BINARY_DIR})
 add_library(navground_sim SHARED
   src/agent.cpp
   src/experiment.cpp 
+  src/experimental_run.cpp 
   src/scenario.cpp
   src/state_estimation.cpp
   src/world.cpp 
@@ -149,6 +150,7 @@ install(TARGETS
   info
   run
   sample
+  # echo
   DESTINATION
   lib/${PROJECT_NAME}
 )

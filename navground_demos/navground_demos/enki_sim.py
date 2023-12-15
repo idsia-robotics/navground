@@ -29,54 +29,62 @@ class EnkiExperiment:
 
     def prepare_run(self, seed: int) -> None:
         self.enki_world = pyenki.World()
-        self.experiment.start_run(seed, True)
-        for agent in self.experiment.world.agents:
+        self.exp_run = self.experiment.init_run(seed)
+        self.world = self.exp_run.world
+        for agent in self.world.agents:
             if agent.type == "thymio":
                 thymio = ThymioWithAgent(agent)
                 thymio.position = world2enki(agent.position)
                 thymio.angle = agent.orientation
                 self.enki_world.add_object(thymio)
-        for obstacle in self.experiment.world.obstacles:
+        for obstacle in self.world.obstacles:
             cylinder = pyenki.CircularObject(100 * obstacle.disc.radius,
                                              100 * self.height, -1,
                                              pyenki.Color(0.5, 0.5, 0.5))
 
             cylinder.position = world2enki(obstacle.disc.position)
             self.enki_world.add_object(cylinder)
-        for wall in self.experiment.world.walls:
+        for wall in self.world.walls:
             pass
 
-    def update(self, dt: float) -> None:
-        for agent in self.experiment.world.agents:
+    def update(self, dt: float) -> bool:
+        for agent in self.world.agents:
             if agent.type == "thymio":
                 thymio = agent.enki_object
                 agent.position = enki2world(thymio.position)
                 agent.orientation = thymio.angle
                 agent.velocity = enki2world(thymio.velocity)
-        self.experiment.world.update_dry(dt)
-        self.experiment.update()
+        self.world.update_dry(dt)
+        self.experiment.update_run(self.exp_run)
+        if self.experiment.terminate_when_all_idle_or_stuck and self.world.agents_are_idle_or_stuck(
+        ):
+            return True
+        if self.world.step >= self.experiment.steps:
+            return True
+        return False
 
     def run_once(self, seed: int) -> None:
         self.prepare_run(seed)
+        self.experiment.start_run(self.exp_run)
         if self.factor > 0:
-            self.enki_world.run_in_viewer(
-                cam_position=(100, 100),
-                cam_altitude=300.0,
-                cam_yaw=0.0,
-                cam_pitch=-1,
-                walls_height=self.height / 100,
-                orthographic=False,
-                realtime_factor=self.factor,
-                callback=self.update)
+            self.enki_world.run_in_viewer(cam_position=(100, 100),
+                                          cam_altitude=300.0,
+                                          cam_yaw=0.0,
+                                          cam_pitch=-1,
+                                          walls_height=self.height / 100,
+                                          orthographic=False,
+                                          realtime_factor=self.factor,
+                                          callback=self.update)
         else:
             self.enki_world.run(self.experiment.steps,
-                                self.experiment.time_step,
-                                self.update)
-        self.experiment.stop_run()
+                                self.experiment.time_step, self.update)
+        self.experiment.stop_run(self.exp_run)
+        print(self.exp_run.poses.shape)
 
     def run(self):
         self.experiment.start()
-        for i in range(self.experiment.runs + self.experiment.run_index):
+        for i in range(self.experiment.number_of_runs +
+                       self.experiment.run_index):
             self.run_once(i)
         self.experiment.stop()
 

@@ -14,6 +14,7 @@
 #include "navground/core/kinematics.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/experiment.h"
+#include "navground/sim/experimental_run.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/scenarios/antipodal.h"
 #include "navground/sim/scenarios/corridor.h"
@@ -36,7 +37,6 @@
 
 using namespace navground::core;
 using namespace navground::sim;
-using Shape = std::vector<ssize_t>;
 
 namespace py = pybind11;
 
@@ -415,10 +415,10 @@ static py::memoryview empty_float_view() {
 // static py::memoryview empty_float_view = py::memoryview::from_memory(
 //     &empty_float_buffer, {0}, {static_cast<unsigned>(sizeof(float))});
 
-static py::memoryview trace_view(const Trace *trace, const float *data) {
-  const std::array<ssize_t, 3> shape{trace->steps, trace->number, 3};
+static py::memoryview run_view(const ExperimentalRun *run, const float *data) {
+  const std::array<ssize_t, 3> shape{run->steps, run->number, 3};
   const std::array<ssize_t, 3> strides{
-      static_cast<ssize_t>(sizeof(float) * 3 * trace->number),
+      static_cast<ssize_t>(sizeof(float) * 3 * run->number),
       3 * sizeof(float), sizeof(float)};
   return py::memoryview::from_buffer(data, shape, strides);
 }
@@ -784,15 +784,96 @@ Creates a rectangular region
       .def_property("loop", &WaypointsTask::get_loop, &WaypointsTask::set_loop,
                     DOC(navground, sim, WaypointsTask, property_loop));
 
-  py::class_<Trace>(m, "Trace", DOC(navground, sim, Trace))
-      .def("index_of_agent", &Trace::index_of_agent, py::arg("agent"),
-           DOC(navground, sim, Trace, index_of_agent))
+  py::class_<RecordConfig>(m, "RecordConfig", DOC(navground, sim, RecordConfig))
+      .def(py::init([](bool time, bool pose, bool twist, bool cmd, bool target,
+                       bool safety_violation, bool collisions, bool task_events,
+                       bool deadlocks, bool efficacy) {
+             return new RecordConfig{time,       pose,        twist,
+                                     cmd,        target,      safety_violation,
+                                     collisions, task_events, deadlocks,
+                                     efficacy};
+           }),
+           py::arg("time") = false, py::arg("pose") = false,
+           py::arg("twist") = false, py::arg("cmd") = false,
+           py::arg("target") = false, py::arg("safety_violation") = false,
+           py::arg("collisions") = false, py::arg("task_events") = false,
+           py::arg("deadlocks") = false, py::arg("efficacy") = false)
+      // DOC(navground, sim, RecordConfig, RecordConfig)
+      .def_readwrite("time", &RecordConfig::time,
+                     DOC(navground, sim, RecordConfig, time))
+      .def_readwrite("pose", &RecordConfig::pose,
+                     DOC(navground, sim, RecordConfig, pose))
+      .def_readwrite("twist", &RecordConfig::twist,
+                     DOC(navground, sim, RecordConfig, twist))
+      .def_readwrite("cmd", &RecordConfig::cmd,
+                     DOC(navground, sim, RecordConfig, cmd))
+      .def_readwrite("target", &RecordConfig::target,
+                     DOC(navground, sim, RecordConfig, target))
+      .def_readwrite("safety_violation", &RecordConfig::safety_violation,
+                     DOC(navground, sim, RecordConfig, safety_violation))
+      .def_readwrite("collisions", &RecordConfig::collisions,
+                     DOC(navground, sim, RecordConfig, collisions))
+      .def_readwrite("task_events", &RecordConfig::task_events,
+                     DOC(navground, sim, RecordConfig, task_events))
+      .def_readwrite("deadlocks", &RecordConfig::deadlocks,
+                     DOC(navground, sim, RecordConfig, deadlocks))
+      .def_readwrite("efficacy", &RecordConfig::efficacy,
+                     DOC(navground, sim, RecordConfig, efficacy))
+      .def_static("all", &RecordConfig::all, py::arg("value"),
+                  DOC(navground, sim, RecordConfig, all))
+      .def("set_all", &RecordConfig::set_all, py::arg("value"),
+           DOC(navground, sim, RecordConfig, set_all))
+      .def("__repr__", [](const RecordConfig &value) -> py::str {
+        py::str r("RecordConfig(time=");
+        r += py::str(py::cast(value.time));
+        r += py::str(", pose=") + py::str(py::cast(value.pose));
+        r += py::str(", twist=") + py::str(py::cast(value.twist));
+        r += py::str(", cmd=") + py::str(py::cast(value.cmd));
+        r += py::str(", target=") + py::str(py::cast(value.target));
+        r += py::str(", safety_violation=") +
+             py::str(py::cast(value.safety_violation));
+        r += py::str(", collisions=") + py::str(py::cast(value.collisions));
+        r += py::str(", task_events=") + py::str(py::cast(value.task_events));
+        r += py::str(", deadlocks=") + py::str(py::cast(value.deadlocks));
+        r += py::str(", efficacy=") + py::str(py::cast(value.efficacy)) +
+             py::str(")");
+        return r;
+      });
+
+  py::class_<ExperimentalRun>(m, "ExperimentalRun",
+                              DOC(navground, sim, ExperimentalRun))
+      .def(py::init<std::shared_ptr<World>, float, int, bool,
+                    const RecordConfig &, int>(),
+           py::arg("world"), py::arg("time_step") = 0.1,
+           py::arg("steps") = 1000,
+           py::arg("terminate_when_all_idle_or_stuck") = true,
+           py::arg("record_config") = RecordConfig(), py::arg("seed") = 0,
+           DOC(navground, sim, ExperimentalRun, ExperimentalRun))
+      .def("index_of_agent", &ExperimentalRun::index_of_agent, py::arg("agent"),
+           DOC(navground, sim, ExperimentalRun, index_of_agent))
+      .def_property(
+          "times",
+          [](const ExperimentalRun *run) {
+            const auto shape = run->get_time_shape();
+            if (!shape.empty()) {
+              return make_readonly_array(shape, run->get_time_data().data());
+            }
+            return make_empty_array<float>();
+          },
+          nullptr, R"doc(
+The recorded simulation times as a numpy array of shape
+``(simulation steps)`` and dtype ``np.float32``::
+
+  [t_0, t_1, ...]
+  
+The array is empty if times have not been recorded in the run.
+)doc")
       .def_property(
           "poses",
-          [](const Trace *trace) {
-            if (trace->record_pose) {
-              return make_readonly_array({trace->steps, trace->number, 3},
-                                         trace->pose_data.data());
+          [](const ExperimentalRun *run) {
+            const auto shape = run->get_pose_shape();
+            if (!shape.empty()) {
+              return make_readonly_array(shape, run->get_pose_data().data());
             }
             return make_empty_array<float>();
           },
@@ -805,14 +886,14 @@ The recorded poses of the agents as a numpy array of shape
     ...], 
    ...]
   
-The array is empty if poses have not been recorded in the trace.
+The array is empty if poses have not been recorded in the run.
 )doc")
       .def_property(
           "twists",
-          [](const Trace *trace) {
-            if (trace->record_twist) {
-              return make_readonly_array({trace->steps, trace->number, 3},
-                                         trace->twist_data.data());
+          [](const ExperimentalRun *run) {
+            const auto shape = run->get_twist_shape();
+            if (!shape.empty()) {
+              return make_readonly_array(shape, run->get_twist_data().data());
             }
             return make_empty_array<float>();
           },
@@ -825,14 +906,14 @@ The recorded twists of the agents as a numpy array of shape
     ...], 
    ...]
   
-The array is empty if twist have not been recorded in the trace.
+The array is empty if twist have not been recorded in the run.
 )doc")
       .def_property(
           "targets",
-          [](const Trace *trace) {
-            if (trace->record_target) {
-              return make_readonly_array({trace->steps, trace->number, 3},
-                                         trace->target_data.data());
+          [](const ExperimentalRun *run) {
+            const auto shape = run->get_target_shape();
+            if (!shape.empty()) {
+              return make_readonly_array(shape, run->get_target_data().data());
             }
             return make_empty_array<float>();
           },
@@ -845,14 +926,14 @@ The recorded targets of the agents as a numpy array of shape
     ...], 
    ...]
   
-The array is empty if targets have not been recorded in the trace.
+The array is empty if targets have not been recorded in the run.
 )doc")
       .def_property(
           "commands",
-          [](const Trace *trace) {
-            if (trace->record_cmd) {
-              return make_readonly_array({trace->steps, trace->number, 3},
-                                         trace->cmd_data.data());
+          [](const ExperimentalRun *run) {
+            const auto shape = run->get_cmd_shape();
+            if (!shape.empty()) {
+              return make_readonly_array(shape, run->get_cmd_data().data());
             }
             return make_empty_array<float>();
           },
@@ -865,14 +946,15 @@ The recorded commands of the agents as a numpy array of shape
     ...], 
    ...]
   
-The array is empty if commands have not been recorded in the trace.
+The array is empty if commands have not been recorded in the run.
 )doc")
       .def_property(
           "safety_violations",
-          [](const Trace *trace) {
-            if (trace->record_safety_violation) {
-              return make_readonly_array({trace->steps, trace->number},
-                                         trace->safety_violation_data.data());
+          [](const ExperimentalRun *run) {
+            const auto shape = run->get_safety_violation_shape();
+            if (!shape.empty()) {
+              return make_readonly_array(
+                  shape, run->get_safety_violation_data().data());
             }
             return make_empty_array<float>();
           },
@@ -885,17 +967,15 @@ The recorded amounts of safety violation as a numpy array of shape
 
 where a value of 0 represents no violations.
 
-The array is empty if safety violations have not been recorded in the trace.
+The array is empty if safety violations have not been recorded in the run.
 )doc")
       .def_property(
           "collisions",
-          [](const Trace *trace) {
-            if (trace->record_collisions) {
-              const ssize_t n = trace->collisions_data.size() / 3;
-              // if (n == 0) {
-              //   return make_empty_array<unsigned>();
-              // }
-              return make_readonly_array({n, 3}, trace->collisions_data.data());
+          [](const ExperimentalRun *run) {
+            const auto shape = run->get_collisions_shape();
+            if (!shape.empty()) {
+              return make_readonly_array(shape,
+                                         run->get_collisions_data().data());
             }
             return make_empty_array<unsigned>();
           },
@@ -907,19 +987,18 @@ and dtype ``np.uint32``::
   [[time_step, uid_0, uid_1], 
    ...]
 
-The array is empty if collisions have not been recorded in the trace.
+The array is empty if collisions have not been recorded in the run.
 
 )doc")
       .def(
           "get_task_events",
-          [](const Trace *trace, const Agent *agent) {
-            const auto index = trace->index_of_agent(agent);
-            if (index && trace->record_task_events) {
-              const auto i = *index;
-              const ssize_t n = trace->task_events[i];
-              const auto &data = trace->task_events_data[i];
-              const ssize_t m = n ? data.size() / n : 0;
-              return make_readonly_array({n, m}, data.data());
+          [](const ExperimentalRun *run, const Agent *agent) {
+            const auto shape = run->get_task_shape(agent);
+            if (!shape.empty()) {
+              const auto data = run->get_task_data(agent);
+              if (data) {
+                return make_readonly_array(shape, data->data());
+              }
             }
             return make_empty_array<float>();
           },
@@ -931,7 +1010,7 @@ The recorded events logged by the task of an agent as a numpy array of shape
   [[data_0, ...], 
    ...]
 
-The array is empty if the agent's task has not been recorded in the trace.
+The array is empty if the agent's task has not been recorded in the run.
 
 :param agent: The agent
 
@@ -939,10 +1018,11 @@ The array is empty if the agent's task has not been recorded in the trace.
 )doc")
       .def_property(
           "deadlocks",
-          [](const Trace *trace) {
-            if (trace->record_deadlocks) {
-              return make_readonly_array({trace->number},
-                                         trace->deadlock_data.data());
+          [](const ExperimentalRun *run) {
+            const auto shape = run->get_deadlock_shape();
+            if (!shape.empty()) {
+              return make_readonly_array(shape,
+                                         run->get_deadlock_data().data());
             }
             return make_empty_array<float>();
           },
@@ -955,15 +1035,16 @@ The time since agents are deadlocked as a numpy array of shape
 If ``time_i`` is negative, the i-th agent is not stuck at the end of the recording.
 Else, it has been stuck since ``time_i``.
 
-The array is empty if deadlocks have not been recorded in the trace.
+The array is empty if deadlocks have not been recorded in the run.
 
 )doc")
       .def_property(
           "efficacy",
-          [](const Trace *trace) {
-            if (trace->record_efficacy) {
-              return make_readonly_array({trace->steps, trace->number},
-                                         trace->efficacy_data.data());
+          [](const ExperimentalRun *run) {
+            const auto shape = run->get_efficacy_shape();
+            if (!shape.empty()) {
+              return make_readonly_array(shape,
+                                         run->get_efficacy_data().data());
             }
             return make_empty_array<float>();
           },
@@ -974,47 +1055,71 @@ The recorded agents' efficacy as a numpy array of shape
   [[efficacy_0, efficacy_1, ...],
    ...]
 
-The array is empty if efficacy has not been recorded in the trace.
+The array is empty if efficacy has not been recorded in the run.
 )doc")
-      .def_readwrite("record_pose", &Trace::record_pose,
-                     DOC(navground, sim, Trace, record_pose))
-      .def_readwrite("record_twist", &Trace::record_twist,
-                     DOC(navground, sim, Trace, record_twist))
-      .def_readwrite("record_cmd", &Trace::record_cmd,
-                     DOC(navground, sim, Trace, record_cmd))
-      .def_readwrite("record_target", &Trace::record_target,
-                     DOC(navground, sim, Trace, record_target))
-      .def_readwrite("record_safety_violation", &Trace::record_safety_violation,
-                     DOC(navground, sim, Trace, record_safety_violation))
-      .def_readwrite("record_collisions", &Trace::record_collisions,
-                     DOC(navground, sim, Trace, record_collisions))
-      .def_readwrite("record_task_events", &Trace::record_task_events,
-                     DOC(navground, sim, Trace, record_task_events))
-      .def_readwrite("record_deadlocks", &Trace::record_deadlocks,
-                     DOC(navground, sim, Trace, record_deadlocks))
-      .def_readwrite("record_efficacy", &Trace::record_efficacy,
-                     DOC(navground, sim, Trace, record_efficacy))
-      .def_readonly("number", &Trace::number,
-                    DOC(navground, sim, Trace, number))
-      .def_readonly("steps", &Trace::steps, DOC(navground, sim, Trace, steps));
+      .def_property("has_finished", &ExperimentalRun::has_finished, nullptr,
+                    DOC(navground, sim, ExperimentalRun, property_has_finished))
+      .def_property(
+          "recorded_steps", &ExperimentalRun::get_recorded_steps, nullptr,
+          DOC(navground, sim, ExperimentalRun, property_recorded_steps))
+      .def_property(
+          "number_of_agents", &ExperimentalRun::get_number_of_agents, nullptr,
+          DOC(navground, sim, ExperimentalRun, property_number_of_agents))
+      .def_property("seed", &ExperimentalRun::get_seed, nullptr,
+                    DOC(navground, sim, ExperimentalRun, property_seed))
+      .def_property("world", &ExperimentalRun::get_world, nullptr,
+                    DOC(navground, sim, ExperimentalRun, property_world))
+      // .def("update", &ExperimentalRun::update,
+      //      DOC(navground, sim, ExperimentalRun, update))
+      .def("run", &ExperimentalRun::run,
+           DOC(navground, sim, ExperimentalRun, run))
+      .def_property("duration", &ExperimentalRun::get_duration_ns, nullptr,
+                    DOC(navground, sim, ExperimentalRun, property, duration_ns))
+      .def_property("record_config", &ExperimentalRun::get_record_config,
+                    nullptr,
+                    DOC(navground, sim, ExperimentalRun, record_config))
+      // .def_readonly("run_config", &ExperimentalRun::run_config,
+      //               DOC(navground, sim, ExperimentalRun, run_config))
+      .def_property("time_step", &ExperimentalRun::get_time_step, nullptr,
+                    DOC(navground, sim, ExperimentalRun, property_time_step))
+      .def_property("maximal_steps", &ExperimentalRun::get_maximal_steps,
+                    nullptr,
+                    DOC(navground, sim, ExperimentalRun, property_steps))
+      .def_property("terminate_when_all_idle_or_stuck",
+                    &ExperimentalRun::get_terminate_when_all_idle_or_stuck,
+                    nullptr,
+                    DOC(navground, sim, ExperimentalRun,
+                        property_terminate_when_all_idle_or_stuck));
 
   py::class_<PyExperiment>(m, "Experiment", DOC(navground, sim, Experiment))
       .def(py::init<float, int>(), py::arg("time_step") = 0.1,
            py::arg("steps") = 1000, DOC(navground, sim, Experiment, Experiment))
-      .def_readwrite("time_step", &Experiment::time_step,
-                     DOC(navground, sim, Experiment, time_step))
-      .def_readwrite("steps", &Experiment::steps,
-                     DOC(navground, sim, Experiment, steps))
-      .def_readonly("trace", &Experiment::trace,
-                    DOC(navground, sim, Experiment, trace))
+      .def_property("has_finished", &Experiment::has_finished, nullptr,
+                    DOC(navground, sim, Experiment, property_has_finished))
+      .def_property("is_running", &Experiment::is_running, nullptr,
+                    DOC(navground, sim, Experiment, property_is_running))
+      .def_property("time_step", &Experiment::get_time_step,
+                    &Experiment::set_time_step,
+                    DOC(navground, sim, Experiment, property_time_step))
+      .def_property("steps", &Experiment::get_steps, &Experiment::set_steps,
+                    DOC(navground, sim, Experiment, property_steps))
+      .def_property("terminate_when_all_idle_or_stuck",
+                    &Experiment::get_terminate_when_all_idle_or_stuck,
+                    &Experiment::set_terminate_when_all_idle_or_stuck,
+                    DOC(navground, sim, Experiment,
+                        property_terminate_when_all_idle_or_stuck))
+      .def_readwrite("record_config", &Experiment::record_config,
+                     DOC(navground, sim, Experiment, record_config))
+      // .def_readwrite("run_config", &Experiment::run_config,
+      //                DOC(navground, sim, Experiment, run_config))
+      .def_property("runs", &Experiment::get_runs, nullptr,
+                    DOC(navground, sim, Experiment, property_runs))
       .def_property(
           "scenario", [](const PyExperiment *exp) { return exp->scenario; },
           &PyExperiment::set_scenario,
           DOC(navground, sim, Experiment, scenario))
-      .def_property("world", &Experiment::get_world, nullptr,
-                    DOC(navground, sim, Experiment, world))
-      .def_readwrite("runs", &Experiment::runs,
-                     DOC(navground, sim, Experiment, runs))
+      .def_readwrite("number_of_runs", &Experiment::number_of_runs,
+                     DOC(navground, sim, Experiment, number_of_runs))
       .def_readwrite("run_index", &Experiment::run_index,
                      DOC(navground, sim, Experiment, run_index))
       .def_readwrite("save_directory", &Experiment::save_directory,
@@ -1029,25 +1134,28 @@ The array is empty if efficacy has not been recorded in the trace.
            py::arg("callback"),
            DOC(navground, sim, Experiment, add_run_callback))
       .def("run_once", &Experiment::run_once, py::arg("seed"),
+           py::return_value_policy::reference,
            DOC(navground, sim, Experiment, run_once))
-      .def("run", &Experiment::run, DOC(navground, sim, Experiment, run))
+      .def("run", &Experiment::run, py::arg("keep") = true,
+           py::arg("start_index") = py::none(), py::arg("number") = py::none(),
+           DOC(navground, sim, Experiment, run))
       // .def("init_run", &Experiment::init_run, py::arg("seed"), DOC(navground,
       // sim, Experiment, init_run))
       .def("start", &Experiment::start, DOC(navground, sim, Experiment, start))
       .def("stop", &Experiment::stop, DOC(navground, sim, Experiment, stop))
-      .def("start_run", &Experiment::start_run, py::arg("seed"),
-           py::arg("init_world") = false,
+      .def("init_run", &Experiment::init_run, py::arg("seed"),
+           py::arg("world") = py::none(),
+           DOC(navground, sim, Experiment, init_run))
+      .def("update_run", &Experiment::update_run, py::arg("run"),
+           DOC(navground, sim, Experiment, update_run))
+      .def("start_run", &Experiment::start_run, py::arg("run"),
            DOC(navground, sim, Experiment, start_run))
-      .def("stop_run", &Experiment::stop_run,
+      .def("stop_run", &Experiment::stop_run, py::arg("run"),
            DOC(navground, sim, Experiment, stop_run))
-      .def("update", &Experiment::update,
-           DOC(navground, sim, Experiment, update))
-      .def_readwrite(
-          "terminate_when_all_idle_or_stuck",
-          &Experiment::terminate_when_all_idle_or_stuck,
-          DOC(navground, sim, Experiment, terminate_when_all_idle_or_stuck))
-      .def_property("run_duration", &Experiment::get_run_duration_ns, nullptr,
-                    DOC(navground, sim, Experiment, property, run_duration_ns))
+      .def("remove_all_runs", &Experiment::remove_all_runs,
+           DOC(navground, sim, Experiment, remove_all_runs))
+      .def("remove_run", &Experiment::remove_run, py::arg("seed"),
+           DOC(navground, sim, Experiment, remove_run))
       .def_property("duration", &Experiment::get_duration_ns, nullptr,
                     DOC(navground, sim, Experiment, property, duration_ns))
       .def_property("begin_time", &Experiment::get_begin_time, nullptr,

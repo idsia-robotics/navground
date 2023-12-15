@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
@@ -223,7 +223,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/experiment.html">Experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/experiment.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/yaml.html">YAML</a></li>
 </ul>
 </li>
@@ -233,7 +233,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment.html">Experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
 </ul>
 </li>
@@ -877,9 +877,29 @@ function move_element(g, x, y, angle) {
 </pre></div>
 </div>
 </div>
+<p>You should a similar outcome as in this video, with some agents collising shoulder-to-shoulder.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Video</span>
+
+<span class="n">Video</span><span class="p">(</span><span class="s2">&quot;collisions.mp4&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<video src="collisions.mp4" controls  width="300" >
+      Your browser does not support the <code>video</code> element.
+    </video></div>
+</div>
 <p>Try now to increase the safety margin to 0.5, which is so large that it will rapidly lead to deadlocked agents, which are colored in blue.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yaml</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
@@ -914,7 +934,7 @@ function move_element(g, x, y, angle) {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">notebook_view</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
@@ -922,7 +942,7 @@ function move_element(g, x, y, angle) {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1312,7 +1332,7 @@ function move_element(g, x, y, angle) {
 </html></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
@@ -1327,9 +1347,29 @@ function move_element(g, x, y, angle) {
 </pre></div>
 </div>
 </div>
+<p>You should a similar outcome has in this video</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Video</span>
+
+<span class="n">Video</span><span class="p">(</span><span class="s2">&quot;deadlocks.mp4&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<video src="deadlocks.mp4" controls  width="300" >
+      Your browser does not support the <code>video</code> element.
+    </video></div>
+</div>
 <p>In between these two extrema, there should be good trade-off with no collisions and no deadlocks. We invistigate it with an experiment where we vary the safety margin.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
@@ -1344,6 +1384,7 @@ function move_element(g, x, y, angle) {
 <span class="s2">record_efficacy: true</span>
 <span class="s2">terminated_when_idle_or_stuck: true</span>
 <span class="s2">runs: 250</span>
+<span class="s2">run_index: 0</span>
 <span class="s2">scenario:</span>
 <span class="s2">  type: Cross</span>
 <span class="s2">  agent_margin: 0.1</span>
@@ -1379,8 +1420,32 @@ function move_element(g, x, y, angle) {
 </pre></div>
 </div>
 </div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml = sim.dump(experiment.runs[0].world)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sim.load_world(yaml)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># print(yaml)</span>
+</pre></div>
+</div>
+</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_experiment</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
@@ -1394,11 +1459,11 @@ function move_element(g, x, y, angle) {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "dcfb81f1ecb84379928bac982843f538", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e4aebfa3070a4e349992e48df0d5e0cb", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <p>We import all relevant data into a pandas frame where we also define - “safe”: no collisions - “fluid”: no deadlocks - “ok”: when safe and fluid</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">h5py</span>
@@ -1445,7 +1510,7 @@ function move_element(g, x, y, angle) {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">extract_data</span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span>
@@ -1454,7 +1519,7 @@ function move_element(g, x, y, angle) {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1504,10 +1569,10 @@ function move_element(g, x, y, angle) {
       <th>mean</th>
       <td>124.500000</td>
       <td>0.122522</td>
-      <td>1.664000</td>
+      <td>1.668000</td>
       <td>6.45600</td>
       <td>1.570796</td>
-      <td>0.730600</td>
+      <td>0.730516</td>
       <td>0.820000</td>
       <td>0.844000</td>
       <td>0.664000</td>
@@ -1516,10 +1581,10 @@ function move_element(g, x, y, angle) {
       <th>std</th>
       <td>72.312977</td>
       <td>0.072869</td>
-      <td>4.344491</td>
+      <td>4.346186</td>
       <td>23.32863</td>
       <td>0.000000</td>
-      <td>0.103670</td>
+      <td>0.103718</td>
       <td>0.384958</td>
       <td>0.363583</td>
       <td>0.473286</td>
@@ -1590,7 +1655,7 @@ function move_element(g, x, y, angle) {
 </div>
 <p>We plot the consequences of the safety margin on deadlocks and collisions. We see that - for low safety margins, there are collisions - for high safety margins, there are deadlocks</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;safety_margin&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;collisions&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
@@ -1602,12 +1667,12 @@ function move_element(g, x, y, angle) {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_deadlocks_and_collisions_18_0.png" src="../_images/tutorials_deadlocks_and_collisions_18_0.png" />
+<img alt="../_images/tutorials_deadlocks_and_collisions_25_0.png" src="../_images/tutorials_deadlocks_and_collisions_25_0.png" />
 </div>
 </div>
 <p>Efficacy measures how much agents are progressing towards their target (1 = ideal, 0 = stuck). Looking at efficacy gives a more fine-grained picture than deadlocks, which are still visible on the right (points lower than the slowing degrading line).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;safety_margin&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;efficacy&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">);</span>
@@ -1618,12 +1683,12 @@ function move_element(g, x, y, angle) {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_deadlocks_and_collisions_20_0.png" src="../_images/tutorials_deadlocks_and_collisions_20_0.png" />
+<img alt="../_images/tutorials_deadlocks_and_collisions_27_0.png" src="../_images/tutorials_deadlocks_and_collisions_27_0.png" />
 </div>
 </div>
 <p>Deadlocks can be mitigated by reducing the barrier angle but this may cause collisions. We investigate the effect of safety margin <em>and</em> barrier angle with a larger experiment where we vary both parameters.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
@@ -1684,7 +1749,7 @@ function move_element(g, x, y, angle) {
 </pre></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">multiprocess</span> <span class="kn">import</span> <span class="n">Pool</span>
@@ -1693,7 +1758,7 @@ function move_element(g, x, y, angle) {
 
     <span class="k">def</span> <span class="nf">_run_experiment</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
         <span class="n">experiment</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_experiment</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
-        <span class="n">experiment</span><span class="o">.</span><span class="n">runs</span> <span class="o">=</span> <span class="n">chunks</span>
+        <span class="n">experiment</span><span class="o">.</span><span class="n">number_of_runs</span> <span class="o">=</span> <span class="n">chunks</span>
         <span class="n">experiment</span><span class="o">.</span><span class="n">run_index</span> <span class="o">=</span> <span class="n">index</span>
         <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">extract_data</span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span>
@@ -1707,7 +1772,7 @@ function move_element(g, x, y, angle) {
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">run_in_parallel</span><span class="p">(</span><span class="n">yaml</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span>
@@ -1715,7 +1780,7 @@ function move_element(g, x, y, angle) {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
@@ -1723,7 +1788,7 @@ function move_element(g, x, y, angle) {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1773,25 +1838,25 @@ function move_element(g, x, y, angle) {
       <th>mean</th>
       <td>2499.500000</td>
       <td>0.125604</td>
-      <td>0.462200</td>
-      <td>30.465000</td>
+      <td>0.468400</td>
+      <td>30.438400</td>
       <td>1.171667</td>
-      <td>0.747864</td>
-      <td>0.598000</td>
-      <td>0.955200</td>
-      <td>0.553200</td>
+      <td>0.747737</td>
+      <td>0.597600</td>
+      <td>0.954800</td>
+      <td>0.552400</td>
     </tr>
     <tr>
       <th>std</th>
       <td>1443.520003</td>
       <td>0.072464</td>
-      <td>2.381366</td>
-      <td>76.225946</td>
+      <td>2.397447</td>
+      <td>76.167059</td>
       <td>0.229486</td>
-      <td>0.070987</td>
-      <td>0.490351</td>
-      <td>0.206885</td>
-      <td>0.497211</td>
+      <td>0.071402</td>
+      <td>0.490431</td>
+      <td>0.207763</td>
+      <td>0.497296</td>
     </tr>
     <tr>
       <th>min</th>
@@ -1812,7 +1877,7 @@ function move_element(g, x, y, angle) {
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.972600</td>
-      <td>0.720860</td>
+      <td>0.720954</td>
       <td>0.000000</td>
       <td>1.000000</td>
       <td>0.000000</td>
@@ -1824,7 +1889,7 @@ function move_element(g, x, y, angle) {
       <td>0.000000</td>
       <td>0.000000</td>
       <td>1.165859</td>
-      <td>0.762424</td>
+      <td>0.762449</td>
       <td>1.000000</td>
       <td>1.000000</td>
       <td>1.000000</td>
@@ -1859,7 +1924,7 @@ function move_element(g, x, y, angle) {
 </div>
 <p>Lower barrier angles reduce safety:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;safety_margin&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;barrier_angle&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">&quot;safe&quot;</span><span class="p">,</span>
@@ -1871,12 +1936,12 @@ function move_element(g, x, y, angle) {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_deadlocks_and_collisions_28_0.png" src="../_images/tutorials_deadlocks_and_collisions_28_0.png" />
+<img alt="../_images/tutorials_deadlocks_and_collisions_35_0.png" src="../_images/tutorials_deadlocks_and_collisions_35_0.png" />
 </div>
 </div>
 <p>Higher barrier angles increase the probability of deadlocks:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;safety_margin&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;barrier_angle&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">&quot;fluid&quot;</span><span class="p">,</span>
@@ -1888,12 +1953,12 @@ function move_element(g, x, y, angle) {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_deadlocks_and_collisions_30_0.png" src="../_images/tutorials_deadlocks_and_collisions_30_0.png" />
+<img alt="../_images/tutorials_deadlocks_and_collisions_37_0.png" src="../_images/tutorials_deadlocks_and_collisions_37_0.png" />
 </div>
 </div>
 <p>For parameters in the dark green region below, agents are behaving well:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;safety_margin&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;barrier_angle&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
@@ -1905,7 +1970,7 @@ function move_element(g, x, y, angle) {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_deadlocks_and_collisions_32_0.png" src="../_images/tutorials_deadlocks_and_collisions_32_0.png" />
+<img alt="../_images/tutorials_deadlocks_and_collisions_39_0.png" src="../_images/tutorials_deadlocks_and_collisions_39_0.png" />
 </div>
 </div>
 <p>Finally, we also plot the efficacy:</p>
@@ -1922,7 +1987,7 @@ function move_element(g, x, y, angle) {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_deadlocks_and_collisions_34_0.png" src="../_images/tutorials_deadlocks_and_collisions_34_0.png" />
+<img alt="../_images/tutorials_deadlocks_and_collisions_41_0.png" src="../_images/tutorials_deadlocks_and_collisions_41_0.png" />
 </div>
 </div>
 </section>

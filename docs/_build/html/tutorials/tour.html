@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
@@ -223,7 +223,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/experiment.html">Experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/experiment.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/yaml.html">YAML</a></li>
 </ul>
 </li>
@@ -233,7 +233,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment.html">Experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
 </ul>
 </li>
@@ -1185,7 +1185,7 @@ Action has finished with State.success.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">record_pose</span> <span class="o">=</span> <span class="kc">True</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">record_config</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 </div>
 </div>
@@ -1194,7 +1194,7 @@ Action has finished with State.success.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">run_once</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run_once</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1203,7 +1203,7 @@ Action has finished with State.success.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">run_duration</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="o">.</span><span class="n">duration</span>
 </pre></div>
 </div>
 </div>
@@ -1213,7 +1213,7 @@ Action has finished with State.success.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-datetime.timedelta(microseconds=101)
+datetime.timedelta(microseconds=103)
 </pre></div></div>
 </div>
 <p>as well as the agents’ trajectory, as an array of <code class="docutils literal notranslate"><span class="pre">steps</span> <span class="pre">x</span> <span class="pre">agents</span> <span class="pre">x</span> <span class="pre">3</span></code> coordinates.</p>
@@ -1221,8 +1221,7 @@ datetime.timedelta(microseconds=101)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trajectories</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">poses</span><span class="p">)</span>
-<span class="n">trajectories</span><span class="o">.</span><span class="n">shape</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="o">.</span><span class="n">poses</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
@@ -1243,7 +1242,7 @@ datetime.timedelta(microseconds=101)
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">h5py</span>
 <span class="kn">import</span> <span class="nn">pathlib</span>
 
-<span class="n">experiment</span><span class="o">.</span><span class="n">runs</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">experiment</span><span class="o">.</span><span class="n">number_of_runs</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">experiment</span><span class="o">.</span><span class="n">save_directory</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 
 <span class="c1"># experiment.run()</span>
@@ -1300,7 +1299,7 @@ datetime.timedelta(microseconds=101)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_experiment</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
-<span class="n">experiment</span><span class="o">.</span><span class="n">run_once</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">run</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run_once</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1309,7 +1308,7 @@ datetime.timedelta(microseconds=101)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">world</span><span class="p">))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">world</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1366,6 +1365,7 @@ agents:
     state_estimation:
       type: Bounded
       range: 5
+      update_static_obstacles: false
     position:
       - 0.0844370797
       - 0.0417474806
@@ -1377,6 +1377,7 @@ agents:
     radius: 1
     control_period: 0.100000001
     type: thymio
+    color: &#34;&#34;
     id: 0
     uid: 4
 </pre></div></div>
@@ -1389,8 +1390,28 @@ agents:
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install websockets
 </pre></div>
 </div>
+<p>If you are visualizing this notebook without running it … you won’t see the real-time simulation. This short video capture shows you what you are missing.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Video</span>
+
+<span class="n">Video</span><span class="p">(</span><span class="s2">&quot;tour_real_time_simulation.mp4&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<video src="tour_real_time_simulation.mp4" controls  width="400" >
+      Your browser does not support the <code>video</code> element.
+    </video></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground.sim.ui.web_ui</span> <span class="kn">import</span> <span class="n">WebUI</span>
@@ -1403,7 +1424,7 @@ agents:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1412,15 +1433,15 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">notebook_view</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">notebook_view</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1452,6 +1473,11 @@ polyline.wall{
   stroke:black;
   stroke-width:0.01;
 }
+
+.body {
+    fill: inherit;
+}
+
 
 
   </style>
@@ -1523,6 +1549,7 @@ var agents = new Set();
 var entity = {};
 var NS = "http://www.w3.org/2000/svg";
 var prototypes = {'': '#N0agent', 'thymio': '#N0thymio', 'wheelchair': '#N0wheelchair', 'human': '#N0human'}
+var colors = {'': '#cccccc', 'thymio': '#e6e6e6', 'wheelchair': '#wheelchair', 'human': '#human'}
 
 function add_wall(id, points) {
   var e = document.createElementNS(NS,"polyline");
@@ -1546,7 +1573,15 @@ function add_obstacle(id, point, radius) {
   return e
 }
 
-function add_agent(id, type, size)
+function color_for_agent(type, color)
+{
+  if (color) {
+    return color;
+  }
+  return colors[type] || "#cccccc";
+}
+
+function add_agent(id, type, size, color)
 {
   var g = document.createElementNS(NS,"g");
   var agent = document.createElementNS(NS,"use");
@@ -1556,6 +1591,7 @@ function add_agent(id, type, size)
   g.appendChild(agent)
   g.setAttribute("class", type);
   g.setAttribute("id", id);
+  g.setAttribute("fill", color_for_agent(type, color))
   return g;
 };
 
@@ -1581,7 +1617,7 @@ function add_entity(uid, data) {
       e = add_obstacle(id, data['point'], data['radius']);
       break;
     case 'a':
-      e = add_agent(id, data['type'], data['size']);
+      e = add_agent(id, data['type'], data['size'], data['color']);
       state = data['pose']
       var [x, y, theta] = state;
       move_element(e, x, y, theta);
@@ -1615,10 +1651,11 @@ function set_entity(_id, data) {
 
 function set(data) {
   for (var _id in data) {
-    if (_id in entity) {
-      set_entity('N0' + _id, data[_id])
+    var _nid = 'N0' + _id
+    if (_nid in entity) {
+      set_entity(_nid, data[_id])
     } else {
-      var e = document.getElementById("N0" + _id);
+      var e = document.getElementById(_nid);
       if (e) {
         var e_data = data[_id];
         for (a in e_data) {
@@ -1704,12 +1741,14 @@ function move_element(g, x, y, angle) {
   <div>
     <h1></h1>
   </div>
-  <svg id="N0svg" width="500" height="500" viewBox="0 0 1 1 ">
+  <svg id="N0svg" width="300" height="300" viewBox="0 0 1 1 ">
     <defs>
-        <circle id="N0agent" cx="0" cy="0" r="1"/>
-        <g id="N0thymio" transform="rotate(90) scale(0.125)" fill="#e6e6e6">
+        <circle id="N0agent" cx="0" cy="0" r="1" class="body"/>
+        <g id="N0thymio" transform="rotate(90) scale(0.125)">
             <path
-               style="stroke:none"
+               class="body"
+               fill="#e6e6e6"
+               stroke="none"
                d="M -5.4999227 -5.8058472 L -5.4999227 2.9998169 L 5.4999227 2.9998169 L 5.4999227     -5.8089478 A 8 8 0 0 0 0 -8.0000285 A 8 8 0 0 0 -5.4999227 -5.8058472 z " />
             <rect
                style="fill:#333333;stroke:none"
@@ -1727,8 +1766,9 @@ function move_element(g, x, y, angle) {
                y="-2.0999999"
                rx="0.5" />
         </g>
-<g id="N0wheelchair" transform="scale(0.02) rotate(180) translate(-55,-173)">
+<g id="N0wheelchair" transform="scale(0.02) rotate(180) translate(-55,-173)" >
       <path
+         class="body"
          id="path7"
          style="fill:#c8beb7;stroke:none;stroke-width:214.829"
          d="m 48.06149,189.83177 h -38.89 v -33.33 h 38.89 z"
@@ -1743,6 +1783,7 @@ function move_element(g, x, y, angle) {
          d="m 81.382974,204.0666 v -4.11718 -4.21485 H 53.61149 v 8.33203 z"
          id="path9" />
       <path
+         class="body"
          id="path10"
          style="fill:#483e37;stroke:none;stroke-width:314.501"
          d="m 92.497232,199.91402 h -50 v -55.55999 h 50 z" />
@@ -1790,11 +1831,11 @@ function move_element(g, x, y, angle) {
 </html></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># we run 5x faster than real-time</span>
-<span class="n">world</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">world</span>
+<span class="n">world</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">world</span>
 <span class="n">rt_sim</span> <span class="o">=</span> <span class="n">RealTimeSimulation</span><span class="p">(</span><span class="n">world</span><span class="o">=</span><span class="n">world</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">web_ui</span><span class="o">=</span><span class="n">web_ui</span><span class="p">,</span>
                             <span class="n">bounds</span><span class="o">=</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
 <span class="k">await</span> <span class="n">rt_sim</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>

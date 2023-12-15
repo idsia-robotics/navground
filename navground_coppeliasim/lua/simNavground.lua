@@ -1,6 +1,3 @@
 local simNavground={}
 
-
-
-
 return simNavground

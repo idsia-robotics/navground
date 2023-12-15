@@ -7,6 +7,7 @@
 #include <cmath>
 #include <string>
 #include <tuple>
+#include <valarray>
 #include <vector>
 #include <visualization_msgs/msg/marker.hpp>
 #include <visualization_msgs/msg/marker_array.hpp>
@@ -88,7 +89,8 @@ struct MarkersPublisher {
   }
 
   visualization_msgs::msg::Marker hl_collisions_marker(
-      const std::vector<std::tuple<float, float>> &map, float margin = 0.0) {
+      const std::valarray<float> &angles, const std::valarray<float> &ranges,
+      float margin = 0.0) {
     visualization_msgs::msg::Marker lines;
     lines.header.frame_id = add_ns("base_link");
     // lines.header.stamp = node.now();
@@ -102,17 +104,18 @@ struct MarkersPublisher {
     lines.color.b = 0.0;
     lines.color.a = 1.0f;
     lines.lifetime = rclcpp::Duration(0, 0);
-    for (auto &[angle, d] : map) {
-      if (d < 0) continue;
-      lines.points.push_back(to_msg((margin + d) * unit3(angle)));
+    for (int i = 0; i < angles.size(); ++i) {
+      if (ranges[i] < 0) continue;
+      lines.points.push_back(to_msg((margin + ranges[i]) * unit3(angles[i])));
     }
     return lines;
   }
 
-  void publish_hl_collisions(const std::vector<std::tuple<float, float>> &map,
+  void publish_hl_collisions(const std::valarray<float> &angles,
+                             const std::valarray<float> &ranges,
                              float margin = 0.0) {
     visualization_msgs::msg::MarkerArray msg;
-    msg.markers.push_back(hl_collisions_marker(map, margin));
+    msg.markers.push_back(hl_collisions_marker(angles, ranges, margin));
     pub->publish(msg);
   }
 

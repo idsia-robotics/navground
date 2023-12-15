@@ -331,7 +331,7 @@ class ROSControllerNode : public rclcpp::Node {
         HLBehavior *hl = dynamic_cast<HLBehavior *>(behavior);
         if (hl) {
           // TODO(Jerome): should publish them only when moving, not turning
-          markers_pub.publish_hl_collisions(hl->get_collision_distance());
+          markers_pub.publish_hl_collisions(hl->get_collision_angles(), hl->get_collision_distance());
         }
         if (behavior) {
           markers_pub.publish_desired_velocity(

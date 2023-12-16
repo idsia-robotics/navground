@@ -4,8 +4,8 @@
 #include <iostream>
 #include <memory>
 
-#include "navground/sim/scenario.h"
 #include "navground/sim/sampling/agent.h"
+#include "navground/sim/scenario.h"
 #include "navground/sim/yaml/sampling.h"
 #include "navground/sim/yaml/world.h"
 #include "yaml-cpp/yaml.h"
@@ -29,10 +29,10 @@ struct convert_scenario {
     node["walls"] = rhs.walls;
     for (const auto& group : rhs.groups) {
 #ifndef _UNSAFE_GROUP_CASTING
-      if (AS* g = dynamic_cast<AS*>(group.get())) 
+      if (AS* g = dynamic_cast<AS*>(group.get()))
 #else
       AS* g = static_cast<AS*>(group.get());
-#endif // _UNSAFE_GROUP_CASTING
+#endif  // _UNSAFE_GROUP_CASTING
       {
         node["groups"].push_back(*g);
       }

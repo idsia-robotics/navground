@@ -49,7 +49,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/cpp/index';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Geometry" href="common.html" />
+    <link rel="next" title="Types" href="types.html" />
     <link rel="prev" title="Core" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -175,6 +175,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Core</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">C++ API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yaml.html">YAML</a></li>
@@ -430,6 +431,7 @@ document.write(`
 
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="types.html">Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="common.html">Geometry</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="common.html#two-dimensional">Two dimensional</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="common.html#_CPPv4N9navground4core7RadiansE"><code class="docutils literal notranslate"><span class="pre">Radians</span></code></a></li>
@@ -437,9 +439,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E"><code class="docutils literal notranslate"><span class="pre">Vector2</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="common.html#_CPPv4N9navground4core14orientation_ofERK7Vector2"><code class="docutils literal notranslate"><span class="pre">orientation_of()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="common.html#_CPPv4N9navground4core9normalizeE7Radians"><code class="docutils literal notranslate"><span class="pre">normalize()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#_CPPv4N9navground4core4unitEf"><code class="docutils literal notranslate"><span class="pre">unit()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#_CPPv4N9navground4core6rotateEK7Vector2f"><code class="docutils literal notranslate"><span class="pre">rotate()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#_CPPv4N9navground4core10clamp_normERK7Vector2f"><code class="docutils literal notranslate"><span class="pre">clamp_norm()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.html#_CPPv4N9navground4core4unitE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">unit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.html#_CPPv4N9navground4core6rotateEK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">rotate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.html#_CPPv4N9navground4core10clamp_normERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">clamp_norm()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="common.html#_CPPv4N9navground4core5Pose2E"><code class="docutils literal notranslate"><span class="pre">Pose2</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="common.html#_CPPv4N9navground4core6Twist2E"><code class="docutils literal notranslate"><span class="pre">Twist2</span></code></a></li>
 </ul>
@@ -501,12 +503,12 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="target.html">Target</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="target.html#_CPPv4N9navground4core6TargetE"><code class="docutils literal notranslate"><span class="pre">Target</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target6TargetERKNSt8optionalI7Vector2EERKNSt8optionalI7RadiansEERKNSt8optionalIfEERKNSt8optionalI7Vector2EERKNSt8optionalIfEEff"><code class="docutils literal notranslate"><span class="pre">Target::Target()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target6TargetERKNSt8optionalI7Vector2EERKNSt8optionalI7RadiansEERKNSt8optionalI10ng_float_tEERKNSt8optionalI7Vector2EERKNSt8optionalI10ng_float_tEE10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Target::Target()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4NK9navground4core6Target5validEv"><code class="docutils literal notranslate"><span class="pre">Target::valid()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4NK9navground4core6Target9satisfiedE7Radians"><code class="docutils literal notranslate"><span class="pre">Target::satisfied()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4NK9navground4core6Target9satisfiedERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Target::satisfied()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4NK9navground4core6Target9satisfiedERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Target::satisfied()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4NK9navground4core6Target18get_ideal_velocityERK7Vector2f"><code class="docutils literal notranslate"><span class="pre">Target::get_ideal_velocity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4NK9navground4core6Target18get_ideal_velocityERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Target::get_ideal_velocity()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target8positionE"><code class="docutils literal notranslate"><span class="pre">Target::position</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target11orientationE"><code class="docutils literal notranslate"><span class="pre">Target::orientation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target5speedE"><code class="docutils literal notranslate"><span class="pre">Target::speed</span></code></a></li>
@@ -514,8 +516,8 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target13angular_speedE"><code class="docutils literal notranslate"><span class="pre">Target::angular_speed</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target18position_toleranceE"><code class="docutils literal notranslate"><span class="pre">Target::position_tolerance</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target21orientation_toleranceE"><code class="docutils literal notranslate"><span class="pre">Target::orientation_tolerance</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target5PointERK7Vector2f"><code class="docutils literal notranslate"><span class="pre">Target::Point()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target4PoseERK5Pose2ff"><code class="docutils literal notranslate"><span class="pre">Target::Pose()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target5PointERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Target::Point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target4PoseERK5Pose210ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Target::Pose()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target11OrientationE7Radians7Radians"><code class="docutils literal notranslate"><span class="pre">Target::Orientation()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target8VelocityERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Target::Velocity()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="target.html#_CPPv4N9navground4core6Target9DirectionERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Target::Direction()</span></code></a></li>
@@ -639,11 +641,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="common.html"
+       href="types.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Geometry</p>
+        <p class="prev-next-title">Types</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

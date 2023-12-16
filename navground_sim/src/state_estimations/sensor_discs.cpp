@@ -18,8 +18,8 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
     const auto obstacles =
         world->get_static_obstacles_in_region(envelop(xy, range));
 
-    std::vector<std::tuple<float, size_t>> distance(neighbors.size() +
-                                                    obstacles.size());
+    std::vector<std::tuple<ng_float_t, size_t>> distance(neighbors.size() +
+                                                         obstacles.size());
     size_t i = 0;
 
     for (; i < neighbors.size(); ++i) {
@@ -33,9 +33,9 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
 
     std::sort(distance.begin(), distance.end());
 
-    std::valarray<float> radius(0.0f, number);
-    std::valarray<float> position(0.0f, 2 * number);
-    std::valarray<float> velocity(0.0f, 2 * number);
+    std::valarray<ng_float_t> radius(0.0, number);
+    std::valarray<ng_float_t> position(0.0, 2 * number);
+    std::valarray<ng_float_t> velocity(0.0, 2 * number);
 
     for (size_t i = 0; i < std::min<size_t>(number, distance.size()); ++i) {
       const auto index = std::get<1>(distance[i]);

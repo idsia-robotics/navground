@@ -7,12 +7,14 @@
 
 #include <Eigen/Core>
 #include <algorithm>
+#include <cmath>
 #include <memory>
 #include <vector>
 
 #include "navground/core/behavior.h"
 #include "navground/core/controller.h"
 #include "navground/core/states/geometric.h"
+#include "navground/core/types.h"
 #include "navground_core_export.h"
 
 namespace navground::core {
@@ -21,7 +23,7 @@ namespace navground::core {
  * A three-dimensional vector, see <a
  * href="https://eigen.tuxfamily.org/dox/group__matrixtypedefs.html">Eigen</a>
  */
-using Vector3 = Eigen::Vector3f;
+using Vector3 = Eigen::Vector3<ng_float_t>;
 
 /**
  * @brief      Three dimensional unit vector.
@@ -30,7 +32,9 @@ using Vector3 = Eigen::Vector3f;
  *
  * @return     Vector of norm one and orientation ``angle``
  */
-inline Vector3 unit3(float angle) { return {cosf(angle), sinf(angle), 0.0f}; }
+inline Vector3 unit3(ng_float_t angle) {
+  return {std::cos(angle), std::sin(angle), 0};
+}
 
 // TODO: check velocity 2D vs 3D
 
@@ -45,11 +49,11 @@ struct Cylinder {
   /**
    * Radius of the cylinder
    */
-  float radius;
+  ng_float_t radius;
   /**
    * Height of the cylinder
    */
-  float height;
+  ng_float_t height;
 
   /**
    * @brief      Constructs a new instance.
@@ -58,7 +62,7 @@ struct Cylinder {
    * @param[in]  radius    Radius of the cylinder
    * @param[in]  height    Height of the cylinder
    */
-  Cylinder(const Vector3 position, float radius, float height = -1.0)
+  Cylinder(const Vector3 position, ng_float_t radius, ng_float_t height = -1.0)
       : position(position), radius(radius), height(height) {}
 
   /**
@@ -91,7 +95,7 @@ struct Neighbor3 : Cylinder {
    * @param[in]  velocity       Planar velocity
    * @param[in]  id             Neighbor identifier
    */
-  Neighbor3(const Vector3 position, float radius, float height = -1.0,
+  Neighbor3(const Vector3 position, ng_float_t radius, ng_float_t height = -1.0,
             Vector2 velocity = Vector2::Zero(), unsigned id = 0.0)
       : Cylinder(position, radius, height), velocity(velocity), id(id) {}
 
@@ -112,32 +116,32 @@ struct SimpleControl {
     speed,
   };
 
-  float value;
-  float speed;
-  float target;
-  float tau;
-  float optimal_speed;
-  float target_speed;
+  ng_float_t value;
+  ng_float_t speed;
+  ng_float_t target;
+  ng_float_t tau;
+  ng_float_t optimal_speed;
+  ng_float_t target_speed;
   bool value_set;
   bool target_speed_set;
   bool target_set;
   Mode mode;
 
   SimpleControl()
-      : value(0.0f),
-        speed(0.0f),
-        target(0.0f),
-        tau(0.125f),
-        optimal_speed(1.0f),
-        target_speed(0.0f),
+      : value(0),
+        speed(0),
+        target(0),
+        tau(0.125),
+        optimal_speed(1.0),
+        target_speed(0),
         value_set(false),
         target_speed_set(false),
         target_set(false),
         mode(Mode::idle) {}
 
-  float update(float dt) {
+  ng_float_t update(ng_float_t dt) {
     if (mode == Mode::value && target_set && value_set) {
-      float desired_speed =
+      ng_float_t desired_speed =
           std::clamp((target - value) / tau, -optimal_speed, optimal_speed);
       return desired_speed + dt * (speed - desired_speed) / tau;
     }
@@ -145,7 +149,7 @@ struct SimpleControl {
       target_speed = std::clamp(target_speed, -optimal_speed, optimal_speed);
       return target_speed + (target_speed - speed) / tau;
     }
-    return 0.0f;
+    return 0;
   }
 
   bool enabled() const {
@@ -178,7 +182,7 @@ struct Twist3 {
          Frame frame = Frame::absolute)
       : velocity(velocity), angular_speed(angular_speed), frame(frame) {}
   Twist3() : Twist3(Vector3{}) {}
-  Twist3(const Twist2& twist, float vz)
+  Twist3(const Twist2& twist, ng_float_t vz)
       : velocity{twist.velocity.x(), twist.velocity.x(), vz},
         angular_speed(twist.angular_speed),
         frame(twist.frame) {}
@@ -208,7 +212,7 @@ struct Pose3 {
   Pose3(const Vector3& position, Radians orientation = 0.0)
       : position(position), orientation(orientation) {}
   Pose3() : Pose3(Vector3{}) {}
-  Pose3(const Pose2& pose, float z)
+  Pose3(const Pose2& pose, ng_float_t z)
       : position{pose.position.x(), pose.position.x(), z},
         orientation(pose.orientation) {}
   /**
@@ -219,7 +223,7 @@ struct Pose3 {
    *
    * @return     ``pose + dt * twist``
    */
-  Pose3 integrate(const Twist3& twist, float dt) {
+  Pose3 integrate(const Twist3& twist, ng_float_t dt) {
     return {position + dt * twist.velocity,
             orientation + dt * twist.angular_speed};
   }
@@ -350,7 +354,7 @@ class NAVGROUND_CORE_EXPORT Controller3 : public Controller {
    * @param[in]  twist  The twist
    * @param[in]  time_step     the time step
    */
-  void actuate(const Twist3& twist, float time_step) {
+  void actuate(const Twist3& twist, ng_float_t time_step) {
     altitude.speed = twist.velocity[2];
     altitude.value += altitude.speed * time_step;
     if (behavior) {
@@ -362,13 +366,15 @@ class NAVGROUND_CORE_EXPORT Controller3 : public Controller {
    *
    * @return     The altitude optimal speed.
    */
-  float get_altitude_optimal_speed() const { return altitude.optimal_speed; }
+  ng_float_t get_altitude_optimal_speed() const {
+    return altitude.optimal_speed;
+  }
   /**
    * @brief      Sets the altitude optimal speed.
    *
    * @param[in]  value  The desired value
    */
-  void set_altitude_optimal_speed(float value) {
+  void set_altitude_optimal_speed(ng_float_t value) {
     altitude.optimal_speed = value;
   }
   /**
@@ -376,13 +382,13 @@ class NAVGROUND_CORE_EXPORT Controller3 : public Controller {
    *
    * @return     The altitude relaxation time.
    */
-  float get_altitude_tau() const { return altitude.tau; }
+  ng_float_t get_altitude_tau() const { return altitude.tau; }
   /**
    * @brief      Sets the altitude relaxation time.
    *
    * @param[in]  value  The desired value
    */
-  void set_altitude_tau(float value) { altitude.tau = value; }
+  void set_altitude_tau(ng_float_t value) { altitude.tau = value; }
   /**
    * @brief      Starts an action to go to a 3D point.
    *
@@ -396,7 +402,8 @@ class NAVGROUND_CORE_EXPORT Controller3 : public Controller {
    *
    * @return     The new action.
    */
-  std::shared_ptr<Action> go_to_position(const Vector3& point, float tolerance);
+  std::shared_ptr<Action> go_to_position(const Vector3& point,
+                                         ng_float_t tolerance);
   /**
    * @brief      Starts an action to go to a 3D pose.
    *
@@ -412,8 +419,8 @@ class NAVGROUND_CORE_EXPORT Controller3 : public Controller {
    * @return     The new action.
    */
   std::shared_ptr<Action> go_to_pose(const Pose3& pose,
-                                     float position_tolerance,
-                                     float orientation_tolerance);
+                                     ng_float_t position_tolerance,
+                                     ng_float_t orientation_tolerance);
   /**
    * @brief      Starts an action to follow a 3D point.
    *
@@ -466,9 +473,9 @@ class NAVGROUND_CORE_EXPORT Controller3 : public Controller {
   /**
    * @private
    */
-  float estimate_time_until_target_satisfied() const override {
+  ng_float_t estimate_time_until_target_satisfied() const override {
     // Expect[tolerance >= 0];
-    const float t = Controller::estimate_time_until_target_satisfied();
+    const ng_float_t t = Controller::estimate_time_until_target_satisfied();
     if (limit_to_2d) {
       return t;
     }
@@ -493,7 +500,7 @@ class NAVGROUND_CORE_EXPORT Controller3 : public Controller {
    *
    * @return     The command twist to execute the current action
    */
-  Twist3 update_3d(float time_step);
+  Twist3 update_3d(ng_float_t time_step);
 
   /**
    * @brief      Sets the callback called each time a command is computed for an

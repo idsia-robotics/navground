@@ -13,7 +13,6 @@
 #include "navground/core/register.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/world.h"
-
 #include "navground_sim_export.h"
 
 using navground::core::Disc;
@@ -28,7 +27,7 @@ namespace navground::sim {
  * that can be sampled to perform an experiment.
  */
 struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
-                  virtual public HasRegister<Scenario> {
+                                       virtual public HasRegister<Scenario> {
   /**
    * @brief      A group of agents that can be generated and added to the world.
    */
@@ -88,9 +87,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
    *
    * @return     The initializers.
    */
-  const Inits & get_initializers() const {
-    return initializers;
-  }
+  const Inits& get_initializers() const { return initializers; }
 
   /**
    * Groups

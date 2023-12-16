@@ -9,6 +9,7 @@
 #include "navground/core/common.h"
 #include "navground/core/property.h"
 #include "navground/core/register.h"
+#include "navground/core/types.h"
 #include "navground_core_export.h"
 
 namespace navground::core {
@@ -26,12 +27,13 @@ namespace navground::core {
  *
  * - store the number of degrees of freedom
  */
-class NAVGROUND_CORE_EXPORT Kinematics : virtual public HasProperties,
-                                        virtual public HasRegister<Kinematics> {
+class NAVGROUND_CORE_EXPORT Kinematics
+    : virtual public HasProperties,
+      virtual public HasRegister<Kinematics> {
  public:
   using HasRegister<Kinematics>::C;
 
-  Kinematics(float max_speed, float max_angular_speed = 0.0)
+  Kinematics(ng_float_t max_speed, float max_angular_speed = 0)
       : max_speed(max_speed), max_angular_speed(max_angular_speed) {}
 
   virtual ~Kinematics() = default;
@@ -78,37 +80,39 @@ class NAVGROUND_CORE_EXPORT Kinematics : virtual public HasProperties,
    *
    * @return     The maximal speed.
    */
-  float get_max_speed() const { return max_speed; }
+  ng_float_t get_max_speed() const { return max_speed; }
   /**
    * @brief      Sets the maximum speed.
    *
    * @param[in]  value  A positive value.
    */
-  void set_max_speed(float value) { max_speed = std::max(0.0f, value); }
+  void set_max_speed(ng_float_t value) {
+    max_speed = std::max<ng_float_t>(0, value);
+  }
   /**
    * @brief      Gets the maximal angular speed.
    *
    * @return     The maximal angular speed.
    */
-  virtual float get_max_angular_speed() const { return max_angular_speed; }
+  virtual ng_float_t get_max_angular_speed() const { return max_angular_speed; }
   /**
    * @brief      Sets the maximum angular speed.
    *
    * @param[in]  value  A positive value.
    */
-  void set_max_angular_speed(float value) {
-    max_angular_speed = std::max(0.0f, value);
+  void set_max_angular_speed(ng_float_t value) {
+    max_angular_speed = std::max<ng_float_t>(0, value);
   }
 
  private:
   /**
    * The maximal speed
    */
-  float max_speed;
+  ng_float_t max_speed;
   /**
    * The maximal angular speed
    */
-  float max_angular_speed;
+  ng_float_t max_angular_speed;
 };
 
 /**
@@ -122,8 +126,8 @@ class NAVGROUND_CORE_EXPORT OmnidirectionalKinematics : public Kinematics {
    * @param[in]  max_speed          The maximal speed
    * @param[in]  max_angular_speed  The maximal angular speed
    */
-  OmnidirectionalKinematics(float max_speed = 0.0f,
-                            float max_angular_speed = 0.0f)
+  OmnidirectionalKinematics(ng_float_t max_speed = 0,
+                            ng_float_t max_angular_speed = 0)
       : Kinematics(max_speed, max_angular_speed) {}
 
   /**
@@ -165,7 +169,7 @@ class NAVGROUND_CORE_EXPORT AheadKinematics : public Kinematics {
    * @param[in]  max_speed          The maximal speed
    * @param[in]  max_angular_speed  The maximal angular speed
    */
-  AheadKinematics(float max_speed = 0.0f, float max_angular_speed = 0.0f)
+  AheadKinematics(ng_float_t max_speed = 0, ng_float_t max_angular_speed = 0)
       : Kinematics(max_speed, max_angular_speed) {}
 
   /**
@@ -196,14 +200,15 @@ class NAVGROUND_CORE_EXPORT AheadKinematics : public Kinematics {
 
 /**
  * @brief      Abstract wheeled kinematics
- * 
- * *Registered properties*: 
- * 
+ *
+ * *Registered properties*:
+ *
  *   - `wheel_axis` (float, \ref get_axis)
  */
 class NAVGROUND_CORE_EXPORT WheeledKinematics : public Kinematics {
  public:
-  WheeledKinematics(float max_speed, float max_angular_speed, float axis)
+  WheeledKinematics(ng_float_t max_speed, ng_float_t max_angular_speed,
+                    ng_float_t axis)
       : Kinematics(max_speed, max_angular_speed), axis(axis) {}
 
   virtual ~WheeledKinematics() = default;
@@ -242,13 +247,13 @@ class NAVGROUND_CORE_EXPORT WheeledKinematics : public Kinematics {
    *
    * @return     The axis.
    */
-  float get_axis() const { return axis; }
+  ng_float_t get_axis() const { return axis; }
   /**
    * @brief      Sets the wheel axis.
    *
    * @param[in]  value  A positive value
    */
-  void set_axis(float value) {
+  void set_axis(ng_float_t value) {
     if (value > 0) axis = value;
   }
 
@@ -263,13 +268,13 @@ class NAVGROUND_CORE_EXPORT WheeledKinematics : public Kinematics {
    * @private
    */
   static inline std::map<std::string, Property> properties = Properties{
-      {"wheel_axis", make_property<float, WheeledKinematics>(
+      {"wheel_axis", make_property<ng_float_t, WheeledKinematics>(
                          &WheeledKinematics::get_axis,
-                         &WheeledKinematics::set_axis, 0.0f, "Wheel Axis")},
+                         &WheeledKinematics::set_axis, 0, "Wheel Axis")},
   };
 
  protected:
-  float axis;
+  ng_float_t axis;
 };
 
 /**
@@ -285,9 +290,9 @@ class NAVGROUND_CORE_EXPORT TwoWheelsDifferentialDriveKinematics
    * @param[in]  axis               The wheel axis (i.e., the distance between
    * the wheels)
    */
-  TwoWheelsDifferentialDriveKinematics(float max_speed = 0.0f,
-                                       float axis = 0.0f)
-      : WheeledKinematics(max_speed, (axis > 0) ? 2 * max_speed / axis : 0.0f,
+  TwoWheelsDifferentialDriveKinematics(ng_float_t max_speed = 0,
+                                       ng_float_t axis = 0)
+      : WheeledKinematics(max_speed, (axis > 0) ? 2 * max_speed / axis : 0,
                           axis) {}
 
   /**
@@ -300,16 +305,16 @@ class NAVGROUND_CORE_EXPORT TwoWheelsDifferentialDriveKinematics
   /**
    * @private
    */
-  float get_max_angular_speed() const override {
+  ng_float_t get_max_angular_speed() const override {
     if (get_axis() > 0) {
       return 2 * get_max_speed() / get_axis();
     }
-    return 0.0f;
+    return 0;
   }
 
   /**
    * @brief      See \ref WheeledKinematics::twist.
-   * 
+   *
    * @param[in]  speeds  The wheel speeds in the order {left, right}
    *
    * @return     The corresponding twist
@@ -353,9 +358,8 @@ class NAVGROUND_CORE_EXPORT FourWheelsOmniDriveKinematics
    * @param[in]  axis               The wheel axis (i.e., the distance between
    * the wheels)
    */
-  FourWheelsOmniDriveKinematics(float max_speed = 0.0f, float axis = 0.0f)
-      : WheeledKinematics(max_speed, axis > 0 ? max_speed / axis : 0.0f, axis) {
-  }
+  FourWheelsOmniDriveKinematics(ng_float_t max_speed = 0, ng_float_t axis = 0)
+      : WheeledKinematics(max_speed, axis > 0 ? max_speed / axis : 0, axis) {}
 
   /**
    * @brief      Returns the degrees of freedom
@@ -367,11 +371,11 @@ class NAVGROUND_CORE_EXPORT FourWheelsOmniDriveKinematics
   /**
    * @private
    */
-  float get_max_angular_speed() const override {
+  ng_float_t get_max_angular_speed() const override {
     if (get_axis() > 0) {
       return get_max_speed() / get_axis();
     }
-    return 0.0f;
+    return 0;
   }
 
   /**

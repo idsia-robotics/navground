@@ -12,6 +12,7 @@
 #include "docstrings.h"
 #include "navground/core/behavior.h"
 #include "navground/core/kinematics.h"
+#include "navground/core/types.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/experiment.h"
 #include "navground/sim/experimental_run.h"
@@ -85,7 +86,7 @@ struct PyTask : Task, virtual PyHasRegister<Task> {
   using PyHasRegister<Task>::C;
   using Native = Task;
 
-  void update(Agent *agent, World *world, float time) override {
+  void update(Agent *agent, World *world, ng_float_t time) override {
     PYBIND11_OVERRIDE(void, Task, update, agent, world, time);
   }
 
@@ -146,11 +147,11 @@ class PyAgent : public Agent {
 
   using C = py::object;
 
-  PyAgent(float radius = 0.0f, const py::object &behavior = py::none(),
+  PyAgent(ng_float_t radius = 0, const py::object &behavior = py::none(),
           const py::object &kinematics = py::none(),
           const py::object &task = py::none(),
           const py::object &estimation = py::none(),
-          float control_period = 0.0f, unsigned id = 0)
+          ng_float_t control_period = 0, unsigned id = 0)
       : Agent(radius, nullptr, nullptr, nullptr, nullptr, control_period, id) {
     set_kinematics(kinematics);
     set_behavior(behavior);
@@ -158,12 +159,12 @@ class PyAgent : public Agent {
     set_task(task);
   }
 
-  static py::object make(float radius = 0.0f,
+  static py::object make(ng_float_t radius = 0,
                          const py::object &behavior = py::none(),
                          const py::object &kinematics = py::none(),
                          const py::object &task = py::none(),
                          const py::object &estimation = py::none(),
-                         float control_period = 0.0f, unsigned id = 0) {
+                         ng_float_t control_period = 0, unsigned id = 0) {
     auto a = std::make_shared<PyAgent>(radius, behavior, kinematics, task,
                                        estimation, control_period, id);
 #if 0
@@ -457,16 +458,17 @@ PYBIND11_MODULE(_navground_sim, m) {
 
   py::class_<Obstacle, Entity, std::shared_ptr<Obstacle>>(
       m, "Obstacle", DOC(navground, sim, Obstacle))
-      .def(py::init<Vector2, float>(), py::arg("position"), py::arg("radius"),
-           DOC(navground, sim, Obstacle, Obstacle))
+      .def(py::init<Vector2, ng_float_t>(), py::arg("position"),
+           py::arg("radius"), DOC(navground, sim, Obstacle, Obstacle))
       .def(py::init<Disc>(), py::arg("disc"),
            DOC(navground, sim, Obstacle, Obstacle, 3))
       .def_readwrite("disc", &Obstacle::disc,
                      DOC(navground, sim, Obstacle, disc));
 
   py::class_<BoundingBox>(m, "BoundingBox", "A rectangular region")
-      .def(py::init<float, float, float, float>(), py::arg("min_x"),
-           py::arg("max_x"), py::arg("min_y"), py::arg("max_x"),
+      .def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t>(),
+           py::arg("min_x"), py::arg("max_x"), py::arg("min_y"),
+           py::arg("max_x"),
            R"doc(
 Creates a rectangular region
 
@@ -503,7 +505,7 @@ Creates a rectangular region
       .def_property(
           "orientation",
           [](const Agent *agent) { return agent->pose.orientation; },
-          [](Agent *agent, const float value) {
+          [](Agent *agent, const ng_float_t value) {
             agent->pose.orientation = value;
           },
           "Orientation")
@@ -516,7 +518,7 @@ Creates a rectangular region
       .def_property(
           "angular_speed",
           [](const Agent *agent) { return agent->twist.angular_speed; },
-          [](Agent *agent, const float value) {
+          [](Agent *agent, const ng_float_t value) {
             agent->twist.angular_speed = value;
           },
           "Angular speed")
@@ -552,27 +554,29 @@ Creates a rectangular region
           DOC(navground, sim, Agent, property_kinematics))
       .def_property("idle", &Agent::idle, nullptr,
                     DOC(navground, sim, Agent, idle))
-      .def("actuate", py::overload_cast<const Twist2 &, float>(&Agent::actuate),
+      .def("actuate",
+           py::overload_cast<const Twist2 &, ng_float_t>(&Agent::actuate),
            py::arg("cmd"), py::arg("time_step"),
            DOC(navground, sim, Agent, actuate, 2));
 
   py::class_<PyAgent, Agent, Entity, std::shared_ptr<PyAgent>>(
       m, "Agent", py::dynamic_attr(), DOC(navground, sim, Agent))
-      .def(py::init<float, const py::object &, const py::object &,
-                    const py::object &, const py::object &, float, unsigned>(),
-           py::arg("radius") = 0.0f, py::arg("behavior") = py::none(),
+      .def(py::init<ng_float_t, const py::object &, const py::object &,
+                    const py::object &, const py::object &, ng_float_t,
+                    unsigned>(),
+           py::arg("radius") = 0, py::arg("behavior") = py::none(),
            py::arg("kinematics") = py::none(), py::arg("task") = py::none(),
            py::arg("state_estimation") = py::none(),
-           py::arg("control_period") = 0.0f, py::arg("id") = 0,
+           py::arg("control_period") = 0, py::arg("id") = 0,
            DOC(navground, sim, Agent, Agent))
 #if 0
       .def(py::init<float, std::shared_ptr<Behavior>,
                     std::shared_ptr<Kinematics>, std::shared_ptr<Task>,
                     std::shared_ptr<StateEstimation>, float, unsigned>(),
-           py::arg("radius") = 0.0f, py::arg("behavior") = nullptr,
+           py::arg("radius") = 0, py::arg("behavior") = nullptr,
            py::arg("kinematics") = nullptr, py::arg("task") = nullptr,
            py::arg("state_estimation") = nullptr,
-           py::arg("control_period") = 0.0f, py::arg("id") = 0)
+           py::arg("control_period") = 0, py::arg("id") = 0)
 #endif
       .def_property("task", &PyAgent::get_task, &PyAgent::set_task)
       .def_property("state_estimation", &PyAgent::get_state_estimation,
@@ -652,7 +656,7 @@ Creates a rectangular region
       .def("agents_are_idle", &World::agents_are_idle,
            DOC(navground, sim, World, agents_are_idle))
       .def("space_agents_apart", &World::space_agents_apart,
-           py::arg("minimal_distance") = 0.0f,
+           py::arg("minimal_distance") = 0,
            py::arg("with_safety_margin") = false,
            py::arg("max_iterations") = 10,
            DOC(navground, sim, World, space_agents_apart))
@@ -689,7 +693,7 @@ Creates a rectangular region
   py::class_<BoundedStateEstimation, StateEstimation,
              std::shared_ptr<BoundedStateEstimation>>(
       m, "BoundedStateEstimation", DOC(navground, sim, BoundedStateEstimation))
-      .def(py::init<float, bool>(),
+      .def(py::init<ng_float_t, bool>(),
            // py::arg("field_of_view") = 0.0,
            py::arg("range") = 0.0, py::arg("update_static_obstacles") = false,
            DOC(navground, sim, BoundedStateEstimation, BoundedStateEstimation))
@@ -720,9 +724,9 @@ Creates a rectangular region
   py::class_<LidarStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<LidarStateEstimation>>(
       m, "LidarStateEstimation", DOC(navground, sim, LidarStateEstimation))
-      .def(py::init<float, float, float, unsigned>(), py::arg("range") = 0.0,
-           py::arg("start_angle") = -M_PI, py::arg("field_of_view") = 2 * M_PI,
-           py::arg("resolution") = 100,
+      .def(py::init<ng_float_t, ng_float_t, ng_float_t, unsigned>(),
+           py::arg("range") = 0.0, py::arg("start_angle") = -M_PI,
+           py::arg("field_of_view") = 2 * M_PI, py::arg("resolution") = 100,
            DOC(navground, sim, LidarStateEstimation, LidarStateEstimation))
       .def_property("range", &LidarStateEstimation::get_range,
                     &LidarStateEstimation::set_range,
@@ -743,7 +747,7 @@ Creates a rectangular region
   py::class_<DiscsStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<DiscsStateEstimation>>(
       m, "DiscsStateEstimation", DOC(navground, sim, DiscsStateEstimation))
-      .def(py::init<float, unsigned>(), py::arg("range") = 1.0,
+      .def(py::init<ng_float_t, unsigned>(), py::arg("range") = 1.0,
            py::arg("number") = 1,
            DOC(navground, sim, DiscsStateEstimation, DiscsStateEstimation))
       .def_property("range", &DiscsStateEstimation::get_range,
@@ -768,7 +772,7 @@ Creates a rectangular region
 
   py::class_<WaypointsTask, Task, std::shared_ptr<WaypointsTask>>(
       m, "WaypointsTask", DOC(navground, sim, WaypointsTask))
-      .def(py::init<Waypoints, bool, float>(),
+      .def(py::init<Waypoints, bool, ng_float_t>(),
            py::arg("waypoints") = Waypoints{},
            py::arg("loop") = WaypointsTask::default_loop,
            py::arg("tolerance") = WaypointsTask::default_tolerance,
@@ -842,7 +846,7 @@ Creates a rectangular region
 
   py::class_<ExperimentalRun>(m, "ExperimentalRun",
                               DOC(navground, sim, ExperimentalRun))
-      .def(py::init<std::shared_ptr<World>, float, int, bool,
+      .def(py::init<std::shared_ptr<World>, ng_float_t, int, bool,
                     const RecordConfig &, int>(),
            py::arg("world"), py::arg("time_step") = 0.1,
            py::arg("steps") = 1000,
@@ -858,11 +862,11 @@ Creates a rectangular region
             if (!shape.empty()) {
               return make_readonly_array(shape, run->get_time_data().data());
             }
-            return make_empty_array<float>();
+            return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
 The recorded simulation times as a numpy array of shape
-``(simulation steps)`` and dtype ``np.float32``::
+``(simulation steps)`` and dtype ``float``::
 
   [t_0, t_1, ...]
   
@@ -875,11 +879,11 @@ The array is empty if times have not been recorded in the run.
             if (!shape.empty()) {
               return make_readonly_array(shape, run->get_pose_data().data());
             }
-            return make_empty_array<float>();
+            return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
 The recorded poses of the agents as a numpy array of shape 
-``(simulation steps, number of agents, 3)`` and dtype ``np.float32``::
+``(simulation steps, number of agents, 3)`` and dtype ``float``::
 
   [[[x_0, y_0, theta_0], 
     [x_1, y_1, theta_1], 
@@ -895,11 +899,11 @@ The array is empty if poses have not been recorded in the run.
             if (!shape.empty()) {
               return make_readonly_array(shape, run->get_twist_data().data());
             }
-            return make_empty_array<float>();
+            return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
 The recorded twists of the agents as a numpy array of shape 
-``(simulation steps, number of agents, 3)`` and dtype ``np.float32``::
+``(simulation steps, number of agents, 3)`` and dtype ``float``::
 
   [[[vx_0, vy_0, omega_0], 
     [vx_1, vy_1, omega_1], 
@@ -915,11 +919,11 @@ The array is empty if twist have not been recorded in the run.
             if (!shape.empty()) {
               return make_readonly_array(shape, run->get_target_data().data());
             }
-            return make_empty_array<float>();
+            return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
 The recorded targets of the agents as a numpy array of shape 
-``(simulation steps, number of agents, 3)`` and dtype ``np.float32``::
+``(simulation steps, number of agents, 3)`` and dtype ``float``::
 
   [[[x_0, y_0, theta_0], 
     [x_1, y_1, theta_1], 
@@ -935,11 +939,11 @@ The array is empty if targets have not been recorded in the run.
             if (!shape.empty()) {
               return make_readonly_array(shape, run->get_cmd_data().data());
             }
-            return make_empty_array<float>();
+            return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
 The recorded commands of the agents as a numpy array of shape 
-``(simulation steps, number of agents, 3)`` and dtype ``np.float32``::
+``(simulation steps, number of agents, 3)`` and dtype ``float``::
 
   [[[vx_0, vy_0, omega_0], 
     [vx_1, vy_1, omega_1], 
@@ -956,11 +960,11 @@ The array is empty if commands have not been recorded in the run.
               return make_readonly_array(
                   shape, run->get_safety_violation_data().data());
             }
-            return make_empty_array<float>();
+            return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
 The recorded amounts of safety violation as a numpy array of shape 
-``(simulation steps, number of agents)`` and dtype ``np.float32``::
+``(simulation steps, number of agents)`` and dtype ``float``::
 
   [[violation_0, violation_1, ...],
    ...]
@@ -1000,12 +1004,12 @@ The array is empty if collisions have not been recorded in the run.
                 return make_readonly_array(shape, data->data());
               }
             }
-            return make_empty_array<float>();
+            return make_empty_array<ng_float_t>();
           },
           py::arg("agent"),
           R"doc(
 The recorded events logged by the task of an agent as a numpy array of shape 
-``(number events, size of event log)`` and dtype ``np.float32``::
+``(number events, size of event log)`` and dtype ``float``::
 
   [[data_0, ...], 
    ...]
@@ -1024,11 +1028,11 @@ The array is empty if the agent's task has not been recorded in the run.
               return make_readonly_array(shape,
                                          run->get_deadlock_data().data());
             }
-            return make_empty_array<float>();
+            return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
 The time since agents are deadlocked as a numpy array of shape 
-``(number of agents, )`` and dtype ``np.float32``::
+``(number of agents, )`` and dtype ``float``::
 
   [time_0, time_1, ...]
 
@@ -1046,11 +1050,11 @@ The array is empty if deadlocks have not been recorded in the run.
               return make_readonly_array(shape,
                                          run->get_efficacy_data().data());
             }
-            return make_empty_array<float>();
+            return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
 The recorded agents' efficacy as a numpy array of shape 
-``(simulation steps, number of agents)`` and dtype ``np.float32``::
+``(simulation steps, number of agents)`` and dtype ``float``::
 
   [[efficacy_0, efficacy_1, ...],
    ...]
@@ -1092,7 +1096,7 @@ The array is empty if efficacy has not been recorded in the run.
                         property_terminate_when_all_idle_or_stuck));
 
   py::class_<PyExperiment>(m, "Experiment", DOC(navground, sim, Experiment))
-      .def(py::init<float, int>(), py::arg("time_step") = 0.1,
+      .def(py::init<ng_float_t, int>(), py::arg("time_step") = 0.1,
            py::arg("steps") = 1000, DOC(navground, sim, Experiment, Experiment))
       .def_property("has_finished", &Experiment::has_finished, nullptr,
                     DOC(navground, sim, Experiment, property_has_finished))
@@ -1211,7 +1215,7 @@ The array is empty if efficacy has not been recorded in the run.
   py::class_<AntipodalScenario, Scenario, std::shared_ptr<AntipodalScenario>>(
       m, "AntipodalScenario", DOC(navground, sim, AntipodalScenario))
       .def(
-          py::init<float, float, float, float, bool>(),
+          py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, bool>(),
           py::arg("radius") = AntipodalScenario::default_radius,
           py::arg("tolerance") = AntipodalScenario::default_tolerance,
           py::arg("position_noise") = AntipodalScenario::default_position_noise,
@@ -1236,7 +1240,7 @@ The array is empty if efficacy has not been recorded in the run.
 
   py::class_<CrossScenario, Scenario, std::shared_ptr<CrossScenario>>(
       m, "CrossScenario", DOC(navground, sim, CrossScenario, CrossScenario))
-      .def(py::init<float, float, float, bool, float>(),
+      .def(py::init<ng_float_t, ng_float_t, ng_float_t, bool, ng_float_t>(),
            py::arg("side") = CrossScenario::default_side,
            py::arg("tolerance") = CrossScenario::default_tolerance,
            py::arg("agent_margin") = CrossScenario::default_agent_margin,
@@ -1263,7 +1267,7 @@ The array is empty if efficacy has not been recorded in the run.
 
   py::class_<CorridorScenario, Scenario, std::shared_ptr<CorridorScenario>>(
       m, "CorridorScenario", DOC(navground, sim, CorridorScenario))
-      .def(py::init<float, float, float, bool>(),
+      .def(py::init<ng_float_t, ng_float_t, ng_float_t, bool>(),
            py::arg("width") = CorridorScenario::default_width,
            py::arg("length") = CorridorScenario::default_length,
            py::arg("agent_margin") = CorridorScenario::default_agent_margin,
@@ -1288,7 +1292,7 @@ The array is empty if efficacy has not been recorded in the run.
 
   py::class_<CrossTorusScenario, Scenario, std::shared_ptr<CrossTorusScenario>>(
       m, "CrossTorusScenario", DOC(navground, sim, CrossTorusScenario))
-      .def(py::init<float, float, bool>(),
+      .def(py::init<ng_float_t, ng_float_t, bool>(),
            py::arg("side") = CrossTorusScenario::default_side,
            py::arg("agent_margin") = CrossTorusScenario::default_agent_margin,
            py::arg("add_safety_to_agent_margin") =

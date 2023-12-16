@@ -9,14 +9,15 @@
 
 namespace navground::sim {
 
-void WaypointsTask::update(Agent *agent, [[maybe_unused]] World * world, float time) {
+void WaypointsTask::update(Agent *agent, [[maybe_unused]] World *world,
+                           ng_float_t time) {
   auto c = agent->get_controller();
   if (c->idle()) {
     if (waypoint != waypoints.end()) {
       c->go_to_position(*waypoint, tolerance);
       running = true;
       for (const auto &cb : callbacks) {
-        cb({time, 1.0f, waypoint->x(), waypoint->y()});
+        cb({time, 1.0, waypoint->x(), waypoint->y()});
       }
       ++waypoint;
       if (loop && waypoint == waypoints.end()) {
@@ -24,15 +25,15 @@ void WaypointsTask::update(Agent *agent, [[maybe_unused]] World * world, float t
       }
     } else if (running) {
       for (const auto &cb : callbacks) {
-        cb({time, 0.0f, 0.0f, 0.0f});
+        cb({time, 0.0, 0.0, 0.0});
       }
       running = false;
     }
   }
 }
 
-bool WaypointsTask::done() const { 
-  // return waypoint == waypoints.end(); 
+bool WaypointsTask::done() const {
+  // return waypoint == waypoints.end();
   return !running;
 }
 

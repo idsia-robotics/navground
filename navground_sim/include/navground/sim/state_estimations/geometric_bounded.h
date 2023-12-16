@@ -7,6 +7,7 @@
 
 #include <vector>
 
+#include "navground/core/types.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/world.h"
 #include "navground_sim_export.h"
@@ -25,7 +26,7 @@ namespace navground::sim {
  *   - `range` (float, \ref get_range), deprecated synonym `range_of_view`
  */
 struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
-  inline static const float default_range = 1.0f;
+  inline static const ng_float_t default_range = 1.0;
   inline static const bool default_update_static_obstacles = false;
   /**
    * @brief      Constructs a new instance.
@@ -33,7 +34,7 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
    * @param[in]  range_  The range of view
    */
   BoundedStateEstimation(
-      float range_ = default_range,
+      ng_float_t range_ = default_range,
       bool update_static_obstacles_ = default_update_static_obstacles)
       // float field_of_view_ = 0.0f,
       : StateEstimation(),
@@ -48,14 +49,14 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
    *
    * @param[in]  value     The new value
    */
-  void set_range(float value) { range = value; }
+  void set_range(ng_float_t value) { range = value; }
 
   /**
    * @brief      Gets the maximal range of view.
    *
    * @return     The range of view.
    */
-  float get_range() const { return range; }
+  ng_float_t get_range() const { return range; }
 
   /**
    * @brief      Sets whether to set the static obstacles
@@ -95,7 +96,7 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
           //                       &BoundedStateEstimation::get_field_of_view,
           //                       &BoundedStateEstimation::set_field_of_view,
           //                       0.0f, "Field of view (< 0 infinite)")},
-          {"range", make_property<float, BoundedStateEstimation>(
+          {"range", make_property<ng_float_t, BoundedStateEstimation>(
                         &BoundedStateEstimation::get_range,
                         &BoundedStateEstimation::set_range, default_range,
                         "Maximal range (< 0 =infinite)", {"range_of_view"})},
@@ -167,7 +168,7 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
 
  private:
   // float field_of_view;
-  float range;
+  ng_float_t range;
   bool update_static_obstacles;
   inline const static std::string type =
       register_type<BoundedStateEstimation>("Bounded");

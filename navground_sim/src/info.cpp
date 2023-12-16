@@ -2,12 +2,13 @@
  * @author Jerome Guzzi - <jerome@idsia.ch>
  */
 
+#include "navground/core/info.h"
+
 #include <iostream>
 #include <optional>
 #include <vector>
 
 #include "navground/core/behavior.h"
-#include "navground/core/info.h"
 #include "navground/core/plugins.h"
 #include "navground/core/property.h"
 #include "navground/core/utilities.h"

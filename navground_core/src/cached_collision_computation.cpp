@@ -6,11 +6,12 @@
 
 namespace navground::core {
 
-float CachedCollisionComputation::static_free_distance(Radians angle,
-                                                       bool include_neighbors) {
+ng_float_t CachedCollisionComputation::static_free_distance(
+    Radians angle, bool include_neighbors) {
   int k = index_of(normalize(angle - pose.orientation));
   const bool can_be_cached = (k >= 0 && k < static_cast<int>(resolution));
-  float value = can_be_cached ? static_cache[include_neighbors][k] : uncomputed;
+  ng_float_t value =
+      can_be_cached ? static_cache[include_neighbors][k] : uncomputed;
   if (value == uncomputed) {
     if (include_neighbors) {
       value = static_free_distance(angle, false);
@@ -29,10 +30,10 @@ float CachedCollisionComputation::static_free_distance(Radians angle,
   return value;
 }
 
-float CachedCollisionComputation::dynamic_free_distance(Radians angle) {
+ng_float_t CachedCollisionComputation::dynamic_free_distance(Radians angle) {
   int k = index_of(normalize(angle - pose.orientation));
   const bool can_be_cached = (k >= 0 && k < static_cast<int>(resolution));
-  float value = can_be_cached ? dynamic_cache[k] : uncomputed;
+  ng_float_t value = can_be_cached ? dynamic_cache[k] : uncomputed;
   if (value == uncomputed) {
     value =
         CollisionComputation::dynamic_free_distance(angle, max_distance, speed);
@@ -43,13 +44,13 @@ float CachedCollisionComputation::dynamic_free_distance(Radians angle) {
   return value;
 }
 
-std::valarray<float> CachedCollisionComputation::get_free_distance(
+std::valarray<ng_float_t> CachedCollisionComputation::get_free_distance(
     bool dynamic) {
   // TODO(Jerome): check the size [res vs res + 1]
-  std::valarray<float> d(resolution);
+  std::valarray<ng_float_t> d(resolution);
   if (resolution < 1) return d;
   Radians a = from_relative_angle;
-  Radians da = length / static_cast<float>(resolution - 1);
+  Radians da = length / static_cast<ng_float_t>(resolution - 1);
   for (size_t i = 0; i < resolution; i++, a += da) {
     d[i] = dynamic ? (dynamic_cache[i] != uncomputed) ? dynamic_cache[i]
                                                       : dynamic_free_distance(a)

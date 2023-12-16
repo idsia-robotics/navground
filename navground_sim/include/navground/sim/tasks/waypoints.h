@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "navground/core/common.h"
+#include "navground/core/types.h"
 #include "navground/sim/task.h"
 #include "navground_sim_export.h"
 
@@ -30,14 +31,13 @@ using Waypoints = std::vector<navground::core::Vector2>;
  *
  * The task notifies when a new waypoint is set by calling a callback.
  *
- * *Registered properties*: 
- * 
+ * *Registered properties*:
+ *
  *   - `waypoints` (list of \ref navground::core::Vector2, \ref get_waypoints)
- *   
+ *
  *   - `loop` (bool, \ref get_loop)
  */
 struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
-
   /**
    * Whether by default the task loops.
    */
@@ -45,7 +45,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * The default goal tolerance.
    */
-  inline static const bool default_tolerance = 1.0f;
+  inline static const bool default_tolerance = 1;
 
   /**
    * @brief      Constructs a new instance.
@@ -56,7 +56,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @param[in]  tolerance_  The goal tolerance applied to each waypoint.
    */
   WaypointsTask(Waypoints waypoints_ = {}, bool loop_ = default_loop,
-                float tolerance_ = default_tolerance)
+                ng_float_t tolerance_ = default_tolerance)
       : Task(),
         waypoints(waypoints_),
         waypoint(waypoints.begin()),
@@ -95,7 +95,9 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    *
    * @param[in]  value  The desired value
    */
-  void set_tolerance(float value) { tolerance = std::max(value, 0.0f); }
+  void set_tolerance(ng_float_t value) {
+    tolerance = std::max<ng_float_t>(value, 0);
+  }
   /**
    * @brief      Sets whether it should start from begin after reaching the last
    * waypoint
@@ -114,14 +116,14 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    *
    * @return     The tolerance.
    */
-  float get_tolerance() const { return tolerance; }
+  ng_float_t get_tolerance() const { return tolerance; }
   /**
    * @brief      Gets whether it should start from begin after reaching the last
    * waypoint.
    *
    * @return     True if it should loop.
    */
-  float get_loop() const { return loop; }
+  ng_float_t get_loop() const { return loop; }
   /**
    * @brief      Gets the properties.
    *
@@ -144,9 +146,9 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
                                                   &WaypointsTask::set_loop,
                                                   default_loop, "loop")},
       {"tolerance",
-       make_property<float, WaypointsTask>(&WaypointsTask::get_tolerance,
-                                           &WaypointsTask::set_tolerance,
-                                           default_tolerance, "tolerance")},
+       make_property<ng_float_t, WaypointsTask>(
+           &WaypointsTask::get_tolerance, &WaypointsTask::set_tolerance,
+           default_tolerance, "tolerance")},
   };
 
   /**
@@ -158,13 +160,13 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @private
    */
-  void update(Agent *agent, World *world, float time) override;
+  void update(Agent *agent, World *world, ng_float_t time) override;
 
  private:
   Waypoints waypoints;
   Waypoints::iterator waypoint;
   bool loop;
-  float tolerance;
+  ng_float_t tolerance;
   bool running;
   inline const static std::string type =
       register_type<WaypointsTask>("Waypoints");

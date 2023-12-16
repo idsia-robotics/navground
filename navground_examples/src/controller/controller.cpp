@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
   behavior->set_horizon(1.0);
   const auto &r = *behavior.get();
   printf("Use behavior %s - %s\n", behavior_name, typeid(r).name());
-  behavior->set_position({0.0f, 0.0f});
+  behavior->set_position({0, 0});
   // behavior->set_orientation(0.5f);
   // Go to 1, 0, -1.5
   const auto action = controller.go_to_position({-1.0, 0.0}, 0.1f);

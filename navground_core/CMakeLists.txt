@@ -15,6 +15,8 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+option(NAVGROUND_USES_DOUBLE "Whether to use double instead of float" OFF)
+
 include(GenerateExportHeader)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
@@ -68,6 +70,11 @@ add_library(navground_core SHARED
 generate_export_header(navground_core)
 
 target_link_libraries(navground_core PUBLIC Eigen3::Eigen)
+if (NAVGROUND_USES_DOUBLE)
+  message("Building navground using doubles instead of floats")
+  target_compile_definitions(navground_core PUBLIC NAVGROUND_USES_DOUBLE)
+endif()
+
 
 ament_export_dependencies(Eigen3)
 

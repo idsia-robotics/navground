@@ -10,6 +10,7 @@
 #include <highfive/H5File.hpp>
 #include <memory>
 
+#include "navground/core/types.h"
 #include "navground/sim/world.h"
 #include "navground_sim_export.h"
 
@@ -90,7 +91,7 @@ struct RunConfig {
   /**
    * Simulation time step
    */
-  float time_step;
+  ng_float_t time_step;
   /**
    * Maximal number of steps to perform
    */
@@ -161,7 +162,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    * @param[in]  seed                              The seed used to initialize
    * the world
    */
-  ExperimentalRun(std::shared_ptr<World> world, float time_step,
+  ExperimentalRun(std::shared_ptr<World> world, ng_float_t time_step,
                   unsigned max_steps, bool terminate_when_all_idle_or_stuck,
                   const RecordConfig& record_config, unsigned seed = 0)
       : ExperimentalRun(
@@ -200,13 +201,13 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The time step.
    */
-  float get_time_step() const { return _run_config.time_step; }
+  ng_float_t get_time_step() const { return _run_config.time_step; }
   /**
    * @brief      Gets the maximal number of steps to simulate.
    *
    * @return     The maximal number of steps.
    */
-  float get_maximal_steps() const { return _run_config.steps; }
+  ng_float_t get_maximal_steps() const { return _run_config.steps; }
   /**
    * @brief      Gets whether to terminate when all agents are idle or stuck.
    *
@@ -221,7 +222,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The recorded times data.
    */
-  const std::vector<float>& get_time_data() const { return _time_data; }
+  const std::vector<ng_float_t>& get_time_data() const { return _time_data; }
   /**
    * @brief      Gets the shape of the recorded times.
    *
@@ -238,7 +239,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The recorded poses data.
    */
-  const std::vector<float>& get_pose_data() const { return _pose_data; }
+  const std::vector<ng_float_t>& get_pose_data() const { return _pose_data; }
   /**
    * @brief      Gets the shape of the recorded poses.
    *
@@ -255,7 +256,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The recorded twists data.
    */
-  const std::vector<float>& get_twist_data() const { return _twist_data; }
+  const std::vector<ng_float_t>& get_twist_data() const { return _twist_data; }
   /**
    * @brief      Gets the shape of the recorded twists.
    *
@@ -272,7 +273,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The recorded commands data.
    */
-  const std::vector<float>& get_cmd_data() const { return _cmd_data; }
+  const std::vector<ng_float_t>& get_cmd_data() const { return _cmd_data; }
   /**
    * @brief      Gets the shape of the recorded commands.
    *
@@ -289,7 +290,9 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The recorded targets data.
    */
-  const std::vector<float>& get_target_data() const { return _target_data; }
+  const std::vector<ng_float_t>& get_target_data() const {
+    return _target_data;
+  }
   /**
    * @brief      Gets the shape of the recorded targets.
    *
@@ -306,7 +309,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The recorded safety margin violations data.
    */
-  const std::vector<float>& get_safety_violation_data() const {
+  const std::vector<ng_float_t>& get_safety_violation_data() const {
     return _safety_violation_data;
   }
   /**
@@ -344,7 +347,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The recorded task logs data.
    */
-  const std::vector<float>* get_task_data(const Agent* agent) const {
+  const std::vector<ng_float_t>* get_task_data(const Agent* agent) const {
     const auto index = index_of_agent(agent);
     if (index) {
       return &_task_events_data.at(*index);
@@ -372,7 +375,9 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The recorded deadlocks data.
    */
-  const std::vector<float>& get_deadlock_data() const { return _deadlock_data; }
+  const std::vector<ng_float_t>& get_deadlock_data() const {
+    return _deadlock_data;
+  }
   /**
    * @brief      Gets the shape of the recorded deadlocks.
    *
@@ -387,7 +392,9 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The recorded efficacy data.
    */
-  const std::vector<float>& get_efficacy_data() const { return _efficacy_data; }
+  const std::vector<ng_float_t>& get_efficacy_data() const {
+    return _efficacy_data;
+  }
   /**
    * @brief      Gets the shape of the recorded efficacy.
    *
@@ -525,17 +532,18 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   unsigned _number;
 
   bool _record;
-  std::vector<float> _time_data;
-  std::vector<float> _pose_data;
-  std::vector<float> _twist_data;
-  std::vector<float> _cmd_data;
-  std::vector<float> _target_data;
-  std::vector<float> _safety_violation_data;
+  std::vector<ng_float_t> _time_data;
+  std::vector<ng_float_t> _pose_data;
+  std::vector<ng_float_t> _twist_data;
+  std::vector<ng_float_t> _cmd_data;
+  std::vector<ng_float_t> _target_data;
+  std::vector<ng_float_t> _safety_violation_data;
   std::vector<unsigned> _collisions_data;
-  std::vector<std::vector<float>> _task_events_data;  // one vector per agent
+  std::vector<std::vector<ng_float_t>>
+      _task_events_data;  // one vector per agent
   std::vector<unsigned> _task_events;
-  std::vector<float> _deadlock_data;
-  std::vector<float> _efficacy_data;
+  std::vector<ng_float_t> _deadlock_data;
+  std::vector<ng_float_t> _efficacy_data;
 
   std::map<const Agent*, unsigned> _indices;
   std::chrono::time_point<std::chrono::steady_clock> _begin;

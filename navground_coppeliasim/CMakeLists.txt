@@ -27,6 +27,15 @@ list(APPEND CMAKE_MODULE_PATH
   ${COPPELIASIM_INCLUDE_DIR}/cmake
 )
 
+option(NAVGROUND_USES_DOUBLE "Whether to use double instead of float" OFF)
+
+if (NAVGROUND_USES_DOUBLE)
+  set(NG_FLOAT_T double)
+else()
+  set(NG_FLOAT_T float)
+endif()
+
+
 find_package(CoppeliaSim 4 REQUIRED)
 find_package(navground_core REQUIRED)
 find_package(navground_sim REQUIRED)
@@ -34,7 +43,8 @@ find_package(navground_sim REQUIRED)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/generated)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
 
-coppeliasim_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAKE_CURRENT_SOURCE_DIR}/lua/callbacks.xml LUA_FILE ${CMAKE_CURRENT_SOURCE_DIR}/lua/simNavground.lua)
+execute_process(COMMAND bash -c "sed s/ng_float_t/${NG_FLOAT_T}/g ${CMAKE_CURRENT_SOURCE_DIR}/lua/callbacks.xml > callbacks.xml" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+coppeliasim_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAKE_CURRENT_BINARY_DIR}/callbacks.xml LUA_FILE ${CMAKE_CURRENT_SOURCE_DIR}/lua/simNavground.lua)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h ESCAPE_QUOTES)
 

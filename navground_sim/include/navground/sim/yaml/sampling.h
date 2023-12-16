@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 
+#include "navground/core/types.h"
 #include "navground/core/yaml/property.h"
 #include "navground/sim/sampling/agent.h"
 #include "navground/sim/sampling/register.h"
@@ -172,8 +173,8 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
         if (node["max"]) {
           max = node["max"].as<T>();
         }
-        const auto mean = node["mean"].as<float>();
-        const auto std_dev = node["std_dev"].as<float>();
+        const auto mean = node["mean"].as<ng_float_t>();
+        const auto std_dev = node["std_dev"].as<ng_float_t>();
         return std::make_unique<NormalSampler<T>>(mean, std_dev, min, max,
                                                   once);
       }
@@ -435,20 +436,20 @@ struct convert<BehaviorSampler<T>> {
     bool r = decode_sr<T>(node, &rhs);
     if (!r) return false;
     if (node["optimal_speed"]) {
-      rhs.optimal_speed = read_sampler<float>(node["optimal_speed"]);
+      rhs.optimal_speed = read_sampler<ng_float_t>(node["optimal_speed"]);
     }
     if (node["optimal_angular_speed"]) {
       rhs.optimal_angular_speed =
-          read_sampler<float>(node["optimal_angular_speed"]);
+          read_sampler<ng_float_t>(node["optimal_angular_speed"]);
     }
     if (node["rotation_tau"]) {
-      rhs.rotation_tau = read_sampler<float>(node["rotation_tau"]);
+      rhs.rotation_tau = read_sampler<ng_float_t>(node["rotation_tau"]);
     }
     if (node["safety_margin"]) {
-      rhs.safety_margin = read_sampler<float>(node["safety_margin"]);
+      rhs.safety_margin = read_sampler<ng_float_t>(node["safety_margin"]);
     }
     if (node["horizon"]) {
-      rhs.horizon = read_sampler<float>(node["horizon"]);
+      rhs.horizon = read_sampler<ng_float_t>(node["horizon"]);
     }
     if (node["heading"]) {
       rhs.heading = read_sampler<std::string>(node["heading"]);
@@ -473,10 +474,11 @@ struct convert<KinematicsSampler<T>> {
     bool r = decode_sr<T>(node, &rhs);
     if (!r) return false;
     if (node["max_speed"]) {
-      rhs.max_speed = read_sampler<float>(node["max_speed"]);
+      rhs.max_speed = read_sampler<ng_float_t>(node["max_speed"]);
     }
     if (node["max_angular_speed"]) {
-      rhs.max_angular_speed = read_sampler<float>(node["max_angular_speed"]);
+      rhs.max_angular_speed =
+          read_sampler<ng_float_t>(node["max_angular_speed"]);
     }
     return true;
   }
@@ -564,13 +566,13 @@ struct convert<AgentSampler<W>> {
       rhs.position = read_sampler<Vector2>(node["position"]);
     }
     if (node["orientation"]) {
-      rhs.orientation = read_sampler<float>(node["orientation"]);
+      rhs.orientation = read_sampler<ng_float_t>(node["orientation"]);
     }
     if (node["radius"]) {
-      rhs.radius = read_sampler<float>(node["radius"]);
+      rhs.radius = read_sampler<ng_float_t>(node["radius"]);
     }
     if (node["control_period"]) {
-      rhs.control_period = read_sampler<float>(node["control_period"]);
+      rhs.control_period = read_sampler<ng_float_t>(node["control_period"]);
     }
     if (node["number"]) {
       rhs.number = node["number"].as<unsigned>(0);

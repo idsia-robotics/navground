@@ -11,9 +11,9 @@ Twist2 OmnidirectionalKinematics::feasible(const Twist2& twist) const {
 
 Twist2 AheadKinematics::feasible(const Twist2& twist) const {
   assert(twist.frame == Frame::relative);
-  return {{std::clamp(twist.velocity[0], 0.0f, get_max_speed()), 0},
-          std::clamp(twist.angular_speed, -get_max_angular_speed(),
-                     get_max_angular_speed()),
+  return {{std::clamp<ng_float_t>(twist.velocity[0], 0, get_max_speed()), 0},
+          std::clamp<ng_float_t>(twist.angular_speed, -get_max_angular_speed(),
+                                 get_max_angular_speed()),
           twist.frame};
 }
 
@@ -25,7 +25,7 @@ Twist2 TwoWheelsDifferentialDriveKinematics::twist(
     const WheelSpeeds& speeds) const {
   if (speeds.size() == 2) {
     // {left, right}
-    return {{0.5f * (speeds[0] + speeds[1]), 0.0f},
+    return {{(speeds[0] + speeds[1]) / 2, 0},
             (speeds[1] - speeds[0]) / axis,
             Frame::relative};
   }
@@ -36,12 +36,13 @@ WheelSpeeds TwoWheelsDifferentialDriveKinematics::wheel_speeds(
     const Twist2& twist) const {
   assert(twist.frame == Frame::relative);
   // {left, right}
-  float max_speed = get_max_speed();
-  const float rotation =
-      std::clamp(0.5f * twist.angular_speed * axis, -max_speed, max_speed);
-  const float linear = std::clamp(twist.velocity[0], 0.0f, max_speed);
-  float left = linear - rotation;
-  float right = linear + rotation;
+  ng_float_t max_speed = get_max_speed();
+  const ng_float_t rotation = std::clamp<ng_float_t>(
+      0.5 * twist.angular_speed * axis, -max_speed, max_speed);
+  const ng_float_t linear =
+      std::clamp<ng_float_t>(twist.velocity[0], 0, max_speed);
+  ng_float_t left = linear - rotation;
+  ng_float_t right = linear + rotation;
   if (abs(left) > max_speed) {
     left = std::clamp(left, -max_speed, max_speed);
     right = left + 2 * rotation;
@@ -55,9 +56,9 @@ WheelSpeeds TwoWheelsDifferentialDriveKinematics::wheel_speeds(
 Twist2 FourWheelsOmniDriveKinematics::twist(const WheelSpeeds& speeds) const {
   if (speeds.size() == 4) {
     // {front left, rear left, rear right, rear left}
-    return {{0.25f * (speeds[0] + speeds[1] + speeds[2] + speeds[3]),
-             0.25f * (-speeds[0] + speeds[1] - speeds[2] + speeds[3])},
-            0.25f * (-speeds[0] - speeds[1] + speeds[2] + speeds[3]) / axis,
+    return {{(speeds[0] + speeds[1] + speeds[2] + speeds[3]) / 4,
+             (-speeds[0] + speeds[1] - speeds[2] + speeds[3]) / 4},
+            (-speeds[0] - speeds[1] + speeds[2] + speeds[3]) / 4 / axis,
             Frame::relative};
   }
   return {};
@@ -67,16 +68,17 @@ WheelSpeeds FourWheelsOmniDriveKinematics::wheel_speeds(
     const Twist2& twist) const {
   assert(twist.frame == Frame::relative);
   // {front left, rear left, rear right, rear left}
-  float max_speed = get_max_speed();
-  const float rotation =
+  ng_float_t max_speed = get_max_speed();
+  const ng_float_t rotation =
       std::clamp(twist.angular_speed * axis, -max_speed, max_speed);
-  const float longitudinal =
+  const ng_float_t longitudinal =
       std::clamp(twist.velocity[0], -max_speed, max_speed);
-  const float lateral = std::clamp(twist.velocity[1], -max_speed, max_speed);
-  float front_left = longitudinal - lateral - rotation;
-  float front_right = longitudinal + lateral + rotation;
-  float rear_left = longitudinal + lateral - rotation;
-  float rear_right = longitudinal - lateral + rotation;
+  const ng_float_t lateral =
+      std::clamp(twist.velocity[1], -max_speed, max_speed);
+  ng_float_t front_left = longitudinal - lateral - rotation;
+  ng_float_t front_right = longitudinal + lateral + rotation;
+  ng_float_t rear_left = longitudinal + lateral - rotation;
+  ng_float_t rear_right = longitudinal - lateral + rotation;
   if (abs(front_left) > max_speed) {
     front_left = std::clamp(front_left, -max_speed, max_speed);
     front_right = front_left + 2 * lateral + 2 * rotation;

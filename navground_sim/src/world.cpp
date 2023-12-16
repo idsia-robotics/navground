@@ -12,8 +12,8 @@ namespace navground::sim {
 
 void World::set_seed(unsigned seed) { set_random_seed(seed); }
 
-static bool wrap_lattice(float &x, float from, float length) {
-  const float delta = x - from;
+static bool wrap_lattice(ng_float_t &x, ng_float_t from, ng_float_t length) {
+  const ng_float_t delta = x - from;
   if (delta > length) {
     x = from + std::fmod(delta, length);
     return true;
@@ -27,36 +27,37 @@ static bool wrap_lattice(float &x, float from, float length) {
 
 std::optional<Vector2> penetration_vector_inside_line(const LineSegment &line,
                                                       const Vector2 &center,
-                                                      float radius) {
-  float y = (center - line.p1).dot(line.e2);
+                                                      ng_float_t radius) {
+  ng_float_t y = (center - line.p1).dot(line.e2);
   if (abs(y) < radius) {
-    float x = (center - line.p1).dot(line.e1);
+    ng_float_t x = (center - line.p1).dot(line.e1);
     if (x < radius + 1e-3 || x > line.length - radius - 1e-3)
       return std::nullopt;
-    float p = radius - abs(y);
+    ng_float_t p = radius - abs(y);
     if (y < 0) p *= -1;
     return p * line.e2;
   }
   return std::nullopt;
 }
 
-float penetration_inside_line(const LineSegment &line, const Vector2 &center,
-                              float radius) {
-  float y = (center - line.p1).dot(line.e2);
+ng_float_t penetration_inside_line(const LineSegment &line,
+                                   const Vector2 &center, ng_float_t radius) {
+  ng_float_t y = (center - line.p1).dot(line.e2);
   if (abs(y) < radius) {
-    float x = (center - line.p1).dot(line.e1);
+    ng_float_t x = (center - line.p1).dot(line.e1);
     if (x < radius + 1e-3 || x > line.length - radius - 1e-3) return 0.0;
     return radius - abs(y);
   }
-  return 0.0f;
+  return 0;
 }
 
-float penetration_inside_disc(const Disc &disc, const Vector2 &center,
-                              float radius) {
-  return std::max(0.0f, radius + disc.radius - (disc.position - center).norm());
+ng_float_t penetration_inside_disc(const Disc &disc, const Vector2 &center,
+                                   ng_float_t radius) {
+  return std::max<ng_float_t>(
+      0, radius + disc.radius - (disc.position - center).norm());
 }
 
-void World::update(float time_step) {
+void World::update(ng_float_t time_step) {
   if (!ready) {
     prepare();
   }
@@ -83,7 +84,7 @@ void World::update(float time_step) {
   }
 }
 
-void World::actuate(float time_step) {
+void World::actuate(ng_float_t time_step) {
   if (!ready) {
     prepare();
   }
@@ -99,7 +100,7 @@ void World::actuate(float time_step) {
   step++;
 }
 
-void World::update_dry(float time_step, bool advance_time) {
+void World::update_dry(ng_float_t time_step, bool advance_time) {
   if (!ready) {
     prepare();
   } else {
@@ -204,13 +205,13 @@ void World::prepare() {
   ready = true;
 }
 
-void World::run(unsigned steps, float time_step) {
+void World::run(unsigned steps, ng_float_t time_step) {
   for (size_t i = 0; i < steps; i++) {
     update(time_step);
   }
 }
 
-void World::run_until(std::function<bool()> condition, float time_step) {
+void World::run_until(std::function<bool()> condition, ng_float_t time_step) {
   while (!condition()) {
     update(time_step);
   }
@@ -230,7 +231,7 @@ std::vector<Agent *> World::get_agents_in_region(const BoundingBox &bb) const {
 
 // TODO(Jerome): add agent/obstacle radius to narrow phase
 std::vector<Neighbor> World::get_neighbors(const Agent *agent,
-                                           float distance) const {
+                                           ng_float_t distance) const {
   std::vector<Neighbor> rs;
   const auto bb = envelop(agent->pose.position, distance);
   const unsigned n = agents.size() + (has_lattice ? ghosts.size() : 0);
@@ -291,9 +292,9 @@ std::vector<LineSegment *> World::get_line_obstacles_in_region(
   return {};
 }
 
-bool World::resolve_collision(Agent *a1, Agent *a2, float margin) {
+bool World::resolve_collision(Agent *a1, Agent *a2, ng_float_t margin) {
   auto delta = a1->pose.position - a2->pose.position;
-  float p = delta.norm() - a1->radius - a2->radius - margin;
+  ng_float_t p = delta.norm() - a1->radius - a2->radius - margin;
   if (p > 0) {
     return false;
   }
@@ -301,7 +302,7 @@ bool World::resolve_collision(Agent *a1, Agent *a2, float margin) {
   auto correction = (-p * 0.5 + 1e-3) * u;
   a1->collision_correction += correction;
   a2->collision_correction -= correction;
-  float d = a1->twist.velocity.dot(-u);
+  ng_float_t d = a1->twist.velocity.dot(-u);
   if (d > 0) {
     a1->twist.velocity += d * u;
   }
@@ -317,29 +318,30 @@ bool World::resolve_collision(Agent *a1, Agent *a2, float margin) {
 }
 
 // TODO(J): avoid repetitions
-bool World::resolve_collision(Agent *agent, Disc *disc, float margin) {
+bool World::resolve_collision(Agent *agent, Disc *disc, ng_float_t margin) {
   auto delta = agent->pose.position - disc->position;
-  float p = delta.norm() - agent->radius - disc->radius - margin;
+  ng_float_t p = delta.norm() - agent->radius - disc->radius - margin;
   if (p > 0) {
     return false;
   }
   auto u = delta / delta.norm();
   auto correction = (-p * 1.0 + 1e-3) * u;
   agent->collision_correction += correction;
-  float d = agent->twist.velocity.dot(-u);
+  ng_float_t d = agent->twist.velocity.dot(-u);
   if (d > 0) {
     agent->twist.velocity += d * u;
   }
   return true;
 }
 
-bool World::resolve_collision(Agent *agent, LineSegment *line, float margin) {
+bool World::resolve_collision(Agent *agent, LineSegment *line,
+                              ng_float_t margin) {
   if (auto p = penetration_vector_inside_line(*line, agent->pose.position,
                                               agent->radius + margin)) {
     auto n = p->norm();
     auto u = *p / n;
     agent->collision_correction = (n + 1e-3) * u;
-    float d = agent->twist.velocity.dot(u);
+    ng_float_t d = agent->twist.velocity.dot(u);
     if (d > 0) {
       agent->twist.velocity += d * u;
     }
@@ -358,7 +360,7 @@ bool World::in_collision(const Entity *e1, const Entity *e2) const {
   return collisions.count({e1, e2}) > 0 || collisions.count({e2, e1}) > 0;
 }
 
-std::vector<Agent *> World::get_agents_in_collision(float duration) const {
+std::vector<Agent *> World::get_agents_in_collision(ng_float_t duration) const {
   std::vector<Agent *> rs;
   for (const auto &agent : agents) {
     if (agent->has_been_in_collision_since(time - duration)) {
@@ -368,7 +370,7 @@ std::vector<Agent *> World::get_agents_in_collision(float duration) const {
   return rs;
 }
 
-std::vector<Agent *> World::get_agents_in_deadlock(float duration) const {
+std::vector<Agent *> World::get_agents_in_deadlock(ng_float_t duration) const {
   std::vector<Agent *> rs;
   for (const auto &agent : agents) {
     if (agent->has_been_stuck_since(time - duration)) {
@@ -479,22 +481,22 @@ void World::update_static_strtree() {
   }
   for (const auto &obstacle : obstacles) {
     const Vector2 &p = obstacle.disc.position;
-    const float r = obstacle.disc.radius;
+    const ng_float_t r = obstacle.disc.radius;
     auto &bb =
         static_envelops.emplace_back(p[0] - r, p[0] + r, p[1] - r, p[1] + r);
     obstacles_index->insert(&bb, (void *)(&obstacle));
   }
 }
 
-float World::compute_safety_violation(const Agent *agent) const {
+ng_float_t World::compute_safety_violation(const Agent *agent) const {
   if (Behavior *b = agent->get_behavior()) {
-    const float safety_margin = b->get_safety_margin();
-    if (safety_margin == 0) return 0.0f;
-    const float radius = agent->radius + safety_margin;
+    const ng_float_t safety_margin = b->get_safety_margin();
+    if (safety_margin == 0) return 0;
+    const ng_float_t radius = agent->radius + safety_margin;
     const auto p = agent->pose.position;
     const BoundingBox bb{p[0] - radius, p[0] + radius, p[1] - radius,
                          p[1] + radius};
-    float d = 0.0f;
+    ng_float_t d = 0;
     agent_index->query(bb, [&d, &p, &radius, &agent](Agent *other) {
       if (agent != other) {
         d = std::max(penetration_inside_disc(
@@ -517,7 +519,7 @@ float World::compute_safety_violation(const Agent *agent) const {
     }
     return d;
   }
-  return 0.0f;
+  return 0;
 }
 
 bool World::agents_are_idle() const {
@@ -526,12 +528,13 @@ bool World::agents_are_idle() const {
 }
 
 bool World::agents_are_idle_or_stuck() const {
-  return std::all_of(agents.cbegin(), agents.cend(),
-                     [](auto a) { return a->idle() || a->has_been_stuck_since(1.0f); });
+  return std::all_of(agents.cbegin(), agents.cend(), [](auto a) {
+    return a->idle() || a->has_been_stuck_since(1.0);
+  });
 }
 
 // TODO(Jerome) (extend to lattice)
-bool World::space_agents_apart_once(float minimal_distance,
+bool World::space_agents_apart_once(ng_float_t minimal_distance,
                                     bool with_safety_margin) {
   bool r = false;
   for (const auto &agent : agents) {
@@ -539,12 +542,12 @@ bool World::space_agents_apart_once(float minimal_distance,
   }
   for (const auto &agent : agents) {
     Agent *a1 = agent.get();
-    float margin = minimal_distance;
+    ng_float_t margin = minimal_distance;
     if (with_safety_margin && agent->get_behavior()) {
       margin += agent->get_behavior()->get_safety_margin();
     }
     const auto p = agent->pose.position;
-    const float radius = agent->radius + margin;
+    const ng_float_t radius = agent->radius + margin;
     const BoundingBox bb{p[0] - radius, p[0] + radius, p[1] - radius,
                          p[1] + radius};
     agent_index->query(bb, [this, &r, &a1, margin](Agent *a2) {
@@ -565,7 +568,8 @@ bool World::space_agents_apart_once(float minimal_distance,
   return r;
 }
 
-void World::space_agents_apart(float minimal_distance, bool with_safety_margin,
+void World::space_agents_apart(ng_float_t minimal_distance,
+                               bool with_safety_margin,
                                unsigned max_iterations) {
   update_static_strtree();
   update_agents_strtree();
@@ -614,7 +618,7 @@ void World::wrap_agents_on_lattice() {
     if (lattice[i]) {
       auto [from, length] = *(lattice[i]);
       for (const auto &agent : agents) {
-        float c = agent->pose.position[i];
+        ng_float_t c = agent->pose.position[i];
         if (wrap_lattice(c, from, length)) {
           agent->pose.position[i] = c;
         }

@@ -66,7 +66,7 @@ struct MarkersPublisher {
     marker.ns = add_ns("hl_desired_velocity");
     marker.type = visualization_msgs::msg::Marker::ARROW;
 
-    marker.scale.x = std::max(0.01f, relative_velocity.norm());
+    marker.scale.x = std::max<double>(0, relative_velocity.norm());
     marker.scale.y = 0.05;
     marker.scale.z = 0.05;
 
@@ -89,7 +89,7 @@ struct MarkersPublisher {
   }
 
   visualization_msgs::msg::Marker hl_collisions_marker(
-      const std::valarray<float> &angles, const std::valarray<float> &ranges,
+      const std::valarray<ng_float_t> &angles, const std::valarray<ng_float_t> &ranges,
       float margin = 0.0) {
     visualization_msgs::msg::Marker lines;
     lines.header.frame_id = add_ns("base_link");
@@ -111,8 +111,8 @@ struct MarkersPublisher {
     return lines;
   }
 
-  void publish_hl_collisions(const std::valarray<float> &angles,
-                             const std::valarray<float> &ranges,
+  void publish_hl_collisions(const std::valarray<ng_float_t> &angles,
+                             const std::valarray<ng_float_t> &ranges,
                              float margin = 0.0) {
     visualization_msgs::msg::MarkerArray msg;
     msg.markers.push_back(hl_collisions_marker(angles, ranges, margin));
@@ -214,7 +214,7 @@ struct MarkersPublisher {
     // Set the scale of the marker -- 1x1x1 here means 1m on a side
     marker.scale.x = obstacle.radius * 2;
     marker.scale.y = obstacle.radius * 2;
-    marker.scale.z = std::max(0.1f, obstacle.height);
+    marker.scale.z = std::max<double>(0.1, obstacle.height);
 
     // Set the color -- be sure to set alpha to something non-zero!
 

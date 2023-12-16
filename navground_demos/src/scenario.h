@@ -29,7 +29,7 @@ struct ThymioDemo : public sim::Scenario {
       : sim::Scenario(), behavior_type(behavior_type) {}
 
   void init_world(sim::World *world, [[maybe_unused]] std::optional<int> seed = std::nullopt) override {
-    const std::vector<Vector2> targets{{1.0f, 0.0f}, {-1.0f, 0.0f}};
+    const std::vector<Vector2> targets{{1, 0}, {-1.0, 0}};
     for (size_t i = 0; i < 2; i++) {
       auto task = std::make_shared<sim::WaypointsTask>(targets, true, 0.2);
       auto se = std::make_shared<sim::BoundedStateEstimation>(1.0);
@@ -40,11 +40,11 @@ struct ThymioDemo : public sim::Scenario {
       behavior->set_horizon(1.0);
       behavior->set_safety_margin(0.02);
       agent->get_controller()->set_speed_tolerance(0.01);
-      agent->pose = {{i ? -0.5f : 0.5f, 0.5f}, 0.0f};
+      agent->pose = {{i ? -0.5 : 0.5, 0.5}, 0};
       agent->type = "thymio";
       world->add_agent(agent);
     }
-    world->add_obstacle(sim::Obstacle{{0.0f, 0.0f}, 0.1f});
+    world->add_obstacle(sim::Obstacle{{0, 0}, 0.5});
   }
 
   void set_behavior_type(const std::string &value) { behavior_type = value; }

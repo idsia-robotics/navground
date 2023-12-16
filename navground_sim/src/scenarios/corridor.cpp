@@ -5,8 +5,8 @@
 #include "navground/sim/scenarios/corridor.h"
 
 #include <memory>
-#include <utility>
 #include <tuple>
+#include <utility>
 #include <vector>
 
 #include "navground/core/common.h"
@@ -17,24 +17,25 @@ namespace navground::sim {
 
 using namespace navground::core;
 
-void CorridorScenario::init_world(World *world, [[maybe_unused]] std::optional<int> seed) {
+void CorridorScenario::init_world(World *world,
+                                  [[maybe_unused]] std::optional<int> seed) {
   Scenario::init_world(world, seed);
   for (int side = 0; side < 2; ++side) {
     world->add_wall(Wall{{-length, side * width}, {2 * length, side * width}});
   }
-  UniformSampler<float> x(0.0f, length);
-  UniformSampler<float> y(0.0f, width);
+  UniformSampler<ng_float_t> x(0.0, length);
+  UniformSampler<ng_float_t> y(0.0, width);
   for (const auto &agent : world->get_agents()) {
     agent->pose.position = {x.sample(), y.sample()};
     agent->set_task(nullptr);
   }
-  world->set_lattice(0, std::make_tuple<float>(0.0f, length));
+  world->set_lattice(0, std::make_tuple<ng_float_t>(0.0, length));
   world->space_agents_apart(agent_margin, add_safety_to_agent_margin);
   unsigned index = 0;
   world->prepare();
   for (const auto &agent : world->get_agents()) {
-    float orientation = 0;
-    Vector2 direction{1.0f, 0.0f};
+    ng_float_t orientation = 0;
+    Vector2 direction{1.0, 0.0};
     if (index % 2) {
       orientation = M_PI;
       direction *= -1;

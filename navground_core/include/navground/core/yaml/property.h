@@ -5,6 +5,7 @@
 
 #include "navground/core/common.h"
 #include "navground/core/property.h"
+#include "navground/core/types.h"
 #include "yaml-cpp/yaml.h"
 
 using navground::core::Property;
@@ -25,8 +26,8 @@ struct convert<Vector2> {
       return false;
     }
     // std::cout << "convert to Vector2 from " << node << std::endl;
-    rhs[0] = node[0].as<float>();
-    rhs[1] = node[1].as<float>();
+    rhs[0] = node[0].as<ng_float_t>();
+    rhs[1] = node[1].as<ng_float_t>();
     return true;
   }
 };
@@ -53,7 +54,8 @@ struct convert<std::vector<bool>> {
   }
 };
 
-inline Property::Field decode_property(const Property& property, const Node& node) {
+inline Property::Field decode_property(const Property& property,
+                                       const Node& node) {
   return std::visit(
       [&node](auto&& arg) -> Property::Field {
         using T = std::decay_t<decltype(arg)>;

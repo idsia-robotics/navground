@@ -34,8 +34,8 @@ using BufferData =
 
 /**
  * @brief      Gets the type code corresponding to a numerical type:
- * ``"<kind><number of bytes>"`` (like `numpy`). 
- * 
+ * ``"<kind><number of bytes>"`` (like `numpy`).
+ *
  * For example, ``get_type<float>() -> "f4"``)
  *
  * @tparam     T     A numerical type
@@ -54,7 +54,7 @@ inline std::string get_type() {
 
 /**
  * @brief      Gets the type code corresponding to a numerical type:
- * ``"<kind><number of bytes>"`` (like `numpy`). 
+ * ``"<kind><number of bytes>"`` (like `numpy`).
  *
  * @param[in]  value  A value
  *
@@ -71,7 +71,7 @@ inline std::string get_type(BufferType value) {
 
 /**
  * @brief      Gets the type code corresponding to a numerical type:
- * ``"<kind><number of bytes>"`` (like `numpy`). 
+ * ``"<kind><number of bytes>"`` (like `numpy`).
  *
  * @param[in]  data  An array of values
  *
@@ -104,7 +104,7 @@ inline BufferType get_zero(const std::string& dtype) {
   if (dtype == "u4") return static_cast<uint32_t>(0);
   if (dtype == "u2") return static_cast<uint16_t>(0);
   if (dtype == "u1") return static_cast<uint8_t>(0);
-  return 0.0f;
+  return 0.0;
 }
 
 /**
@@ -135,11 +135,10 @@ inline size_t get_size(BufferData data) {
 
 /**
  * @brief      Describes a typed, bounded, multi-dimensional buffer.
- * 
+ *
  * Mimics Gymnasium Box spaces (https://gymnasium.farama.org/api/spaces/).
  */
 struct BufferDescription {
-
   /**
    * The shape of the buffer
    */
@@ -214,7 +213,8 @@ inline BufferDescription get_description(const BufferData& data) {
 }
 
 /**
- * @brief      A typed, bounded, multi-dimensional array, similar to ``numpy`` arrays.
+ * @brief      A typed, bounded, multi-dimensional array, similar to ``numpy``
+ * arrays.
  */
 class Buffer {
  public:
@@ -264,9 +264,9 @@ class Buffer {
 
   /**
    * @brief      Returns the buffer size
-   * 
    *
-   * @return    The number of elements in the buffer 
+   *
+   * @return    The number of elements in the buffer
    */
   size_t size() const { return get_size(data); }
 
@@ -303,13 +303,15 @@ class Buffer {
 
   /**
    * @brief      Sets the data in the buffer
-   * 
-   * If force is set, it will set the data and possibly change type 
-   * and shape of the buffer when no compatible. If force is not set, it won't change the data
-   * when the shape has a different size or the type is different.
+   *
+   * If force is set, it will set the data and possibly change type
+   * and shape of the buffer when no compatible. If force is not set, it won't
+   * change the data when the shape has a different size or the type is
+   * different.
    *
    * @param[in]  value  The new data
-   * @param[in]  force  Whenever shape and type should be changed to match the new data.
+   * @param[in]  force  Whenever shape and type should be changed to match the
+   * new data.
    *
    * @return     Whether the data was set or not.
    */
@@ -352,14 +354,16 @@ class Buffer {
   /**
    * @brief      Sets data from a pointer.
    *
-   * If force is set, it will set the data and possibly change type 
-   * and shape of the buffer when no compatible. If force is not set, it won't change the data
-   * when the shape has a different size or the type is different.
+   * If force is set, it will set the data and possibly change type
+   * and shape of the buffer when no compatible. If force is not set, it won't
+   * change the data when the shape has a different size or the type is
+   * different.
    *
    * @param      ptr    A pointer to the first element of the new data
    * @param[in]  shape  The new shape
    * @param[in]  _type  The new type
-   * @param[in]  force  Whenever shape and type should be changed to match the new data.
+   * @param[in]  force  Whenever shape and type should be changed to match the
+   * new data.
    *
    * @return     Whether the data was set or not.
    */
@@ -390,10 +394,11 @@ class Buffer {
   /**
    * @brief      Sets the description.
    *
-   * If force is set, it will set the description and possibly reset the buffer 
-   * if the type or size have changed. If force is not set, 
-   * it won't allow changing shape to a different size or type to a different type.
-   * 
+   * If force is set, it will set the description and possibly reset the buffer
+   * if the type or size have changed. If force is not set,
+   * it won't allow changing shape to a different size or type to a different
+   * type.
+   *
    * @param[in]  value  The value
    * @param[in]  force  Whenever data may be reset.
    *
@@ -459,10 +464,10 @@ class Buffer {
   /**
    * @brief      Sets the shape.
    *
-   * If force is set, it will set the shape and possibly reset the buffer 
-   * if the size has changed. If force is not set, 
+   * If force is set, it will set the shape and possibly reset the buffer
+   * if the size has changed. If force is not set,
    * it won't allow changing shape to a different size.
-   * 
+   *
    * @param[in]  value  The value
    * @param[in]  force  Whenever data may be reset.
    *
@@ -485,10 +490,10 @@ class Buffer {
   /**
    * @brief      Sets the type.
    *
-   * If force is set, it will set the shape and possibly reset the buffer 
-   * if the type has changed. If force is not set, 
+   * If force is set, it will set the shape and possibly reset the buffer
+   * if the type has changed. If force is not set,
    * it won't allow changing type.
-   * 
+   *
    * @param[in]  force  Whenever data may be reset.
    *
    * @tparam     T      The desired type
@@ -512,10 +517,10 @@ class Buffer {
   /**
    * @brief      Sets the type.
    *
-   * If force is set, it will set the shape and possibly reset the buffer 
-   * if the type has changed. If force is not set, 
+   * If force is set, it will set the shape and possibly reset the buffer
+   * if the type has changed. If force is not set,
    * it won't allow changing type.
-   * 
+   *
    * @param[in]  force  Whenever data may be reset.
    * @param[in]  value  The desired type code.
    *

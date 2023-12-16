@@ -20,17 +20,18 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "geometry_msgs/msg/twist_stamped.hpp"
 #include "geometry_msgs/msg/vector3_stamped.hpp"
+#include "nav_msgs/msg/odometry.hpp"
 #include "navground/core/behavior.h"
 #include "navground/core/behaviors/HL.h"
 #include "navground/core/behaviors/HRVO.h"
 #include "navground/core/behaviors/ORCA.h"
 #include "navground/core/controller.h"
 #include "navground/core/controller_3d.h"
+#include "navground/core/types.h"
 #include "navground/core/property.h"
 #include "navground_msgs/action/go_to_target.hpp"
 #include "navground_msgs/msg/neighbors.hpp"
 #include "navground_msgs/msg/obstacles.hpp"
-#include "nav_msgs/msg/odometry.hpp"
 #include "rcl_interfaces/msg/set_parameters_result.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
@@ -68,19 +69,21 @@ template <>
 struct is_ros_param_type<std::vector<std::string>> : std::true_type {};
 
 static std::shared_ptr<Kinematics> make_kinematics(const std::string &name,
-                                                 float max_speed,
-                                                 float max_angular_speed,
-                                                 float axis) {
+                                                   float max_speed,
+                                                   float max_angular_speed,
+                                                   float axis) {
   auto kinematics = Kinematics::make_type(name);
   if (kinematics) {
     kinematics->set_max_speed(max_speed);
     kinematics->set_max_angular_speed(max_angular_speed);
-    if (WheeledKinematics * wk = dynamic_cast<WheeledKinematics *>(kinematics.get())) {
+    if (WheeledKinematics *wk =
+            dynamic_cast<WheeledKinematics *>(kinematics.get())) {
       wk->set_axis(axis);
     }
     return kinematics;
   }
-  return std::make_shared<OmnidirectionalKinematics>(max_speed, max_angular_speed);
+  return std::make_shared<OmnidirectionalKinematics>(max_speed,
+                                                     max_angular_speed);
 }
 
 static Behavior::Heading heading_from_string(const std::string &name) {
@@ -107,19 +110,21 @@ static Vector3 point_from(const geometry_msgs::msg::Point &v) {
   return {v.x, v.y, v.z};
 }
 
-static Eigen::Isometry3f transform_from(
-    const geometry_msgs::msg::Transform &t) {
-  return Eigen::Isometry3f(
-      Eigen::Translation3f(t.translation.x, t.translation.y, t.translation.z) *
-      Eigen::Quaternionf(t.rotation.w, t.rotation.x, t.rotation.y,
-                         t.rotation.z));
+using Transform = Eigen::Transform<ng_float_t, 3, Eigen::Isometry>;
+
+static Transform transform_from(const geometry_msgs::msg::Transform &t) {
+  return Transform(Eigen::Translation<ng_float_t, 3>(
+                       t.translation.x, t.translation.y, t.translation.z) *
+                   Eigen::Quaternion<ng_float_t>(t.rotation.w, t.rotation.x,
+                                                 t.rotation.y, t.rotation.z));
 }
 
-static Eigen::Isometry3f transform_from(const geometry_msgs::msg::Pose &t) {
-  return Eigen::Isometry3f(
-      Eigen::Translation3f(t.position.x, t.position.y, t.position.z) *
-      Eigen::Quaternionf(t.orientation.w, t.orientation.x, t.orientation.y,
-                         t.orientation.z));
+static Transform transform_from(const geometry_msgs::msg::Pose &t) {
+  return Transform(
+      Eigen::Translation<ng_float_t, 3>(t.position.x, t.position.y,
+                                        t.position.z) *
+      Eigen::Quaternion<ng_float_t>(t.orientation.w, t.orientation.x,
+                                    t.orientation.y, t.orientation.z));
 }
 
 static float yaw_from(const geometry_msgs::msg::Quaternion &q) {
@@ -132,7 +137,7 @@ static float yaw_from(const geometry_msgs::msg::Quaternion &q) {
 //                     1 - 2 * (q.y() * q.y() + q.z() * q.z()));
 // }
 
-static float yaw_from(const Eigen::Isometry3f &t) {
+static float yaw_from(const Transform &t) {
   const auto rpy = t.linear().eulerAngles(2, 1, 0);
   if (abs(rpy[1]) > M_PI_2 && abs(rpy[2]) > M_PI_2) {
     return rpy[0] + M_PI;
@@ -140,7 +145,7 @@ static float yaw_from(const Eigen::Isometry3f &t) {
   return rpy[0];
 }
 
-static Pose3 pose_from(const Eigen::Isometry3f &value) {
+static Pose3 pose_from(const Transform &value) {
   return {value.translation(), yaw_from(value)};
 }
 
@@ -149,7 +154,8 @@ static Pose3 pose_from(const geometry_msgs::msg::Pose &pose) {
 }
 
 static Twist3 twist_from(const geometry_msgs::msg::Twist &t) {
-  return {vector_from(t.linear), static_cast<Radians>(t.angular.z), Frame::absolute};
+  return {vector_from(t.linear), static_cast<Radians>(t.angular.z),
+          Frame::absolute};
 }
 
 static std::string tolower(const std::string &value) {
@@ -179,8 +185,7 @@ static std::optional<Property::Field> get_from_param(
   return std::visit(
       [&param](auto &&arg) -> std::optional<Property::Field> {
         using T = std::decay_t<decltype(arg)>;
-        if constexpr (std::is_same_v<T, bool> ||
-                      std::is_same_v<T, int> ||
+        if constexpr (std::is_same_v<T, bool> || std::is_same_v<T, int> ||
                       std::is_same_v<T, float> ||
                       std::is_same_v<T, std::string> ||
                       std::is_same_v<T, std::vector<bool>> ||
@@ -193,12 +198,12 @@ static std::optional<Property::Field> get_from_param(
           std::transform(vs.begin(), vs.end(), rs.begin(),
                          [](auto v) { return static_cast<int>(v); });
           return rs;
-        } else if constexpr (std::is_same_v<T, std::vector<float>>) {
+        } else if constexpr (std::is_same_v<T, std::vector<ng_float_t>>) {
           const auto vs = param.as_double_array();
-          std::vector<float> rs;
+          std::vector<ng_float_t> rs;
           rs.reserve(vs.size());
           std::transform(vs.begin(), vs.end(), rs.begin(),
-                         [](auto v) { return static_cast<float>(v); });
+                         [](auto v) { return static_cast<ng_float_t>(v); });
           return rs;
         } else {
           return std::nullopt;
@@ -244,22 +249,17 @@ class ROSControllerNode : public rclcpp::Node {
         create_subscription<geometry_msgs::msg::PointStamped>(
             "target_point", 1,
             std::bind(&ROSControllerNode::target_point_cb, this, _1));
-    obstacles_subscriber =
-        create_subscription<navground_msgs::msg::Obstacles>(
-            "obstacles", 1,
-            std::bind(&ROSControllerNode::obstacles_cb, this, _1));
-    neighbors_subscriber =
-        create_subscription<navground_msgs::msg::Neighbors>(
-            "neighbors", 1,
-            std::bind(&ROSControllerNode::neighbors_cb, this, _1));
+    obstacles_subscriber = create_subscription<navground_msgs::msg::Obstacles>(
+        "obstacles", 1, std::bind(&ROSControllerNode::obstacles_cb, this, _1));
+    neighbors_subscriber = create_subscription<navground_msgs::msg::Neighbors>(
+        "neighbors", 1, std::bind(&ROSControllerNode::neighbors_cb, this, _1));
     odometry_subscriber = create_subscription<nav_msgs::msg::Odometry>(
         "odom", 1, std::bind(&ROSControllerNode::odom_cb, this, _1));
     action_server = rclcpp_action::create_server<GoToTarget>(
         this, "go_to", std::bind(&ROSControllerNode::handle_goal, this, _1, _2),
         std::bind(&ROSControllerNode::handle_cancel, this, _1),
         std::bind(&ROSControllerNode::handle_accepted, this, _1));
-    controller.set_cmd_cb(
-        std::bind(&ROSControllerNode::publish_cmd, this, _1));
+    controller.set_cmd_cb(std::bind(&ROSControllerNode::publish_cmd, this, _1));
     timer = create_wall_timer(
         std::chrono::milliseconds((unsigned)(1e3 * update_period)),
         std::bind(&ROSControllerNode::update, this));
@@ -331,7 +331,8 @@ class ROSControllerNode : public rclcpp::Node {
         HLBehavior *hl = dynamic_cast<HLBehavior *>(behavior);
         if (hl) {
           // TODO(Jerome): should publish them only when moving, not turning
-          markers_pub.publish_hl_collisions(hl->get_collision_angles(), hl->get_collision_distance());
+          markers_pub.publish_hl_collisions(hl->get_collision_angles(),
+                                            hl->get_collision_distance());
         }
         if (behavior) {
           markers_pub.publish_desired_velocity(
@@ -341,7 +342,7 @@ class ROSControllerNode : public rclcpp::Node {
     }
   }
 
-  std::optional<Eigen::Isometry3f> get_transform(const std::string &from,
+  std::optional<Transform> get_transform(const std::string &from,
                                                  const std::string &to,
                                                  const tf2::TimePoint &tp) {
     try {
@@ -407,7 +408,7 @@ class ROSControllerNode : public rclcpp::Node {
       const nav_msgs::msg::Odometry &msg, const std::string &frame_id) {
     Pose3 pose;
     Twist3 twist;
-    std::optional<Eigen::Isometry3f> t;
+    std::optional<Transform> t;
     if (frame_id == msg.header.frame_id) {
       pose = pose_from(msg.pose.pose);
     } else {
@@ -524,8 +525,8 @@ class ROSControllerNode : public rclcpp::Node {
       goal_handle = nullptr;
     } else if (target_point) {
       RCLCPP_WARN(get_logger(), "go_to_position");
-      auto action = controller.go_to_position(*target_point,
-                                                  goal->position_tolerance);
+      auto action =
+          controller.go_to_position(*target_point, goal->position_tolerance);
       action->running_cb = std::bind(&ROSControllerNode::running, this, _1);
       action->done_cb = std::bind(&ROSControllerNode::done, this, _1);
       if (markers_pub.enabled) {
@@ -591,7 +592,7 @@ class ROSControllerNode : public rclcpp::Node {
       if (!position) return;
       auto velocity = vector_from_msg(msg.velocity, fixed_frame);
       if (!velocity) return;
-      *position -= Vector3(0.0f, 0.0f, msg.obstacle.height);
+      *position -= Vector3(0, 0, msg.obstacle.height);
       neighbors.emplace_back(*position, msg.obstacle.radius,
                              msg.obstacle.height, velocity->head<2>(), msg.id);
     }
@@ -606,7 +607,7 @@ class ROSControllerNode : public rclcpp::Node {
     for (auto msg : msg.obstacles) {
       auto position = point_from_msg(msg.top_position, fixed_frame);
       if (!position) return;
-      *position -= Vector3(0.0f, 0.0f, msg.height);
+      *position -= Vector3(0, 0, msg.height);
       obstacles.emplace_back(*position, msg.radius, msg.height);
     }
     controller.set_static_obstacles(obstacles);
@@ -619,14 +620,15 @@ class ROSControllerNode : public rclcpp::Node {
     auto param_desc = rcl_interfaces::msg::ParameterDescriptor{};
     param_desc.read_only = true;
     auto kinematics = make_kinematics(
-        declare_parameter("kinematics.type", std::string("2WDiff"),param_desc),
+        declare_parameter("kinematics.type", std::string("2WDiff"), param_desc),
         declare_parameter("kinematics.max_speed", 1.0, param_desc),
         declare_parameter("kinematics.max_angular_speed", 1.0, param_desc),
         declare_parameter("kinematics.wheel_axis", 1.0, param_desc));
     const float radius = declare_parameter("radius", 0.0, param_desc);
     should_publish_cmd_stamped =
         declare_parameter("publish_cmd_stamped", false, param_desc);
-    controller.set_cmd_frame(should_publish_cmd_stamped ? Frame::absolute : Frame::relative);
+    controller.set_cmd_frame(should_publish_cmd_stamped ? Frame::absolute
+                                                        : Frame::relative);
     fixed_frame = declare_parameter("frame_id", "world", param_desc);
     declare_parameter("altitude.tau", 1.0);
     declare_parameter("altitude.optimal_speed", 0.1);
@@ -771,7 +773,7 @@ class ROSControllerNode : public rclcpp::Node {
   }
 };
 
-}  // namespace navground_core
+}  // namespace navground::core
 
 int main(int argc, char *argv[]) {
   rclcpp::init(argc, argv);

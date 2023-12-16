@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 
+#include "navground/core/types.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/experiment.h"
 #include "navground/sim/scenario.h"
@@ -32,7 +33,8 @@ struct convert_experiment {
     node["record_task_events"] = rhs.record_config.task_events;
     node["record_deadlocks"] = rhs.record_config.deadlocks;
     node["record_efficacy"] = rhs.record_config.efficacy;
-    node["terminate_when_all_idle_or_stuck"] = rhs.run_config.terminate_when_all_idle_or_stuck;
+    node["terminate_when_all_idle_or_stuck"] =
+        rhs.run_config.terminate_when_all_idle_or_stuck;
     node["name"] = rhs.name;
     node["run_index"] = rhs.run_index;
     return node;
@@ -42,7 +44,7 @@ struct convert_experiment {
       return false;
     }
     if (node["time_step"]) {
-      rhs.run_config.time_step = node["time_step"].as<float>(0.1f);
+      rhs.run_config.time_step = node["time_step"].as<ng_float_t>(0.1);
     }
     if (node["steps"]) {
       rhs.run_config.steps = node["steps"].as<unsigned>(0);
@@ -72,7 +74,8 @@ struct convert_experiment {
       rhs.record_config.collisions = node["record_collisions"].as<bool>();
     }
     if (node["record_safety_violation"]) {
-      rhs.record_config.safety_violation = node["record_safety_violation"].as<bool>();
+      rhs.record_config.safety_violation =
+          node["record_safety_violation"].as<bool>();
     }
     if (node["record_task_events"]) {
       rhs.record_config.task_events = node["record_task_events"].as<bool>();
@@ -87,7 +90,8 @@ struct convert_experiment {
       rhs.name = node["name"].as<std::string>();
     }
     if (node["terminate_when_all_idle_or_stuck"]) {
-      rhs.run_config.terminate_when_all_idle_or_stuck = node["terminate_when_all_idle_or_stuck"].as<bool>();
+      rhs.run_config.terminate_when_all_idle_or_stuck =
+          node["terminate_when_all_idle_or_stuck"].as<bool>();
     }
     if (node["run_index"]) {
       rhs.run_index = std::max(node["run_index"].as<int>(), 0);

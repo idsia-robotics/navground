@@ -149,7 +149,8 @@ void Experiment::save_run(ExperimentalRun &sim_run) {
 // TODO()
 ExperimentalRun &Experiment::run_once(int index) {
   if (state == State::running) {
-    std::cerr << "Should not call run_once when already running an experiment" << std::endl;
+    std::cerr << "Should not call run_once when already running an experiment"
+              << std::endl;
   }
   remove_run(index);
   auto &sim_run = init_run(index);
@@ -167,9 +168,7 @@ void Experiment::start_run(ExperimentalRun &sim_run) {
   start();
 }
 
-void Experiment::update_run(ExperimentalRun &sim_run) {
-  sim_run.update();
-}
+void Experiment::update_run(ExperimentalRun &sim_run) { sim_run.update(); }
 
 void Experiment::start() {
   if (state == State::running) return;

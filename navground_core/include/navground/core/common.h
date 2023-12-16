@@ -13,6 +13,7 @@
 #include <cmath>
 #include <ostream>
 
+#include "navground/core/types.h"
 #include "navground_core_export.h"
 
 typedef unsigned int uint;
@@ -23,12 +24,12 @@ namespace navground::core {
  * A two-dimensional vector, see <a
  * href="https://eigen.tuxfamily.org/dox/group__matrixtypedefs.html">Eigen</a>
  */
-using Vector2 = Eigen::Vector2f;
+using Vector2 = Eigen::Vector2<ng_float_t>;
 
 /**
  * Angle in radians.
  */
-using Radians = float;
+using Radians = ng_float_t;
 
 enum class Frame {
   /**
@@ -44,7 +45,7 @@ enum class Frame {
 /**
  * A vector that holds wheel speeds. The order depends on the kinematics.
  */
-using WheelSpeeds = std::vector<float>;
+using WheelSpeeds = std::vector<ng_float_t>;
 
 /**
  * @brief      The orientation of a two dimensional vector
@@ -82,7 +83,9 @@ inline Radians normalize(Radians value) {
  *
  * @return     Vector of norm one and desired orientation
  */
-inline Vector2 unit(float angle) { return {cosf(angle), sinf(angle)}; }
+inline Vector2 unit(ng_float_t angle) {
+  return {std::cos(angle), std::sin(angle)};
+}
 
 /**
  * @brief      Rotate a two-dimensional vector.
@@ -92,8 +95,8 @@ inline Vector2 unit(float angle) { return {cosf(angle), sinf(angle)}; }
  *
  * @return     The rotated vector
  */
-inline Vector2 rotate(const Vector2 vector, float angle) {
-  Eigen::Rotation2D<float> rot(angle);
+inline Vector2 rotate(const Vector2 vector, ng_float_t angle) {
+  Eigen::Rotation2D<ng_float_t> rot(angle);
   return rot * vector;
 }
 
@@ -106,8 +109,8 @@ inline Vector2 rotate(const Vector2 vector, float angle) {
  * @return     A vector with the original orientation but norm clamped to
  * ``max_length``.
  */
-inline Vector2 clamp_norm(const Vector2& vector, float max_length) {
-  float n = vector.norm();
+inline Vector2 clamp_norm(const Vector2& vector, ng_float_t max_length) {
+  ng_float_t n = vector.norm();
   if (n > 0 && n > max_length) {
     return vector / n * max_length;
   }
@@ -136,10 +139,10 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    */
   Frame frame;
 
-  Twist2(const Vector2& velocity, Radians angular_speed = 0.0,
+  Twist2(const Vector2& velocity, Radians angular_speed = 0,
          Frame frame = Frame::absolute)
       : velocity(velocity), angular_speed(angular_speed), frame(frame) {}
-  Twist2() : Twist2({0.0f, 0.0f}) {}
+  Twist2() : Twist2({0, 0}) {}
   /**
    * @brief      Rotate the twist by an angle.
    *
@@ -180,17 +183,17 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    * @return     The same twist in \ref Frame::absolute
    *             (unchanged if already in \ref Frame::absolute)
    */
-  Twist2 absolute(const Pose2 & reference) const;
+  Twist2 absolute(const Pose2& reference) const;
 
   /**
    * @brief      Transform a twist to \ref Frame::relative.
    *
    * @param[in]  frame  The reference pose
-   * 
+   *
    * @return     The same twist in \ref Frame::relative
    *             (unchanged if already in \ref Frame::relative)
    */
-  Twist2 relative(const Pose2 & reference) const;
+  Twist2 relative(const Pose2& reference) const;
 
   /**
    * @brief      Convert a twist to a reference frame.
@@ -200,7 +203,7 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    *
    * @return     The twist in the desired frame of reference.
    */
-  Twist2 to_frame(Frame frame, const Pose2 & reference) const;
+  Twist2 to_frame(Frame frame, const Pose2& reference) const;
 
   /**
    * @brief      Determines if almost zero.
@@ -210,10 +213,11 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    *
    * @return     True if almost zero, False otherwise.
    */
-  bool is_almost_zero(float epsilon_speed = 1e-6, float epsilon_angular_speed = 1e-6) const {
-    return velocity.norm() < epsilon_speed and abs(angular_speed) < epsilon_angular_speed;
+  bool is_almost_zero(ng_float_t epsilon_speed = 1e-6,
+                      ng_float_t epsilon_angular_speed = 1e-6) const {
+    return velocity.norm() < epsilon_speed and
+           abs(angular_speed) < epsilon_angular_speed;
   }
-
 };
 
 /**
@@ -230,9 +234,9 @@ struct Pose2 {
    */
   Radians orientation;
 
-  Pose2(const Vector2& position, Radians orientation = 0.0)
+  Pose2(const Vector2& position, Radians orientation = 0)
       : position(position), orientation(orientation) {}
-  Pose2() : Pose2({0.0f, 0.0f}) {}
+  Pose2() : Pose2({0, 0}) {}
   /**
    * @brief      Rotate the pose by an angle.
    *
@@ -252,7 +256,7 @@ struct Pose2 {
    *
    * @return     The result of ``pose + dt * twist`` (in world frame)
    */
-  Pose2 integrate(const Twist2& twist, float dt) {
+  Pose2 integrate(const Twist2& twist, ng_float_t dt) {
     return {position + dt * (twist.frame == Frame::relative
                                  ? ::navground::core::rotate(twist.velocity,
                                                              orientation)
@@ -282,13 +286,15 @@ struct Pose2 {
 
   /**
    * @brief      Transform a relative pose to an absolute pose.
-   *             
+   *
    * @param[in]  reference  The reference pose
    *
    * @return     The absolute pose
    */
-  Pose2 absolute(const Pose2 & reference) const {
-    return Pose2(::navground::core::rotate(position, reference.orientation) + reference.position, orientation + reference.orientation);
+  Pose2 absolute(const Pose2& reference) const {
+    return Pose2(::navground::core::rotate(position, reference.orientation) +
+                     reference.position,
+                 orientation + reference.orientation);
   }
 
   /**
@@ -298,10 +304,11 @@ struct Pose2 {
    *
    * @return     The relative pose
    */
-  Pose2 relative(const Pose2 &reference) const {
-    return Pose2(::navground::core::rotate(position - reference.position, -reference.orientation), orientation - reference.orientation);
+  Pose2 relative(const Pose2& reference) const {
+    return Pose2(::navground::core::rotate(position - reference.position,
+                                           -reference.orientation),
+                 orientation - reference.orientation);
   }
-
 };
 
 /**
@@ -312,7 +319,7 @@ struct Pose2 {
  *
  * @return     The relative vector
  */
-inline Vector2 to_absolute(const Vector2 &value, const Pose2 & reference) {
+inline Vector2 to_absolute(const Vector2& value, const Pose2& reference) {
   return rotate(value, reference.orientation);
 }
 
@@ -324,7 +331,7 @@ inline Vector2 to_absolute(const Vector2 &value, const Pose2 & reference) {
  *
  * @return     The absolute vector
  */
-inline Vector2 to_relative(const Vector2 &value, const Pose2 & reference) {
+inline Vector2 to_relative(const Vector2& value, const Pose2& reference) {
   return rotate(value, -reference.orientation);
 }
 

@@ -17,12 +17,13 @@ namespace navground::sim {
 
 using namespace navground::core;
 
-void CrossTorusScenario::init_world(World *world, [[maybe_unused]] std::optional<int> seed) {
+void CrossTorusScenario::init_world(World *world,
+                                    [[maybe_unused]] std::optional<int> seed) {
   Scenario::init_world(world, seed);
-  World::Lattice lattice = std::make_tuple<float>(0.0f, side);
+  World::Lattice lattice = std::make_tuple<ng_float_t>(0.0, side);
   world->set_lattice(0, lattice);
   world->set_lattice(1, lattice);
-  UniformSampler<float> x(0.0f, side);
+  UniformSampler<ng_float_t> x(0.0, side);
   for (const auto &agent : world->get_agents()) {
     agent->pose.position = {x.sample(), x.sample()};
   }
@@ -30,7 +31,8 @@ void CrossTorusScenario::init_world(World *world, [[maybe_unused]] std::optional
   unsigned index = 0;
   world->prepare();
   for (const auto &agent : world->get_agents()) {
-    agent->pose.orientation = M_PI_2 * (index % 4);;
+    agent->pose.orientation = M_PI_2 * (index % 4);
+    ;
     agent->get_controller()->follow_direction(unit(agent->pose.orientation));
     index++;
   }

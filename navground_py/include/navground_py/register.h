@@ -50,11 +50,11 @@ struct PyHasRegister : public virtual navground::core::HasRegister<T> {
     }
   }
 
-  static void add_property_py(const std::string &type, const std::string &name,
-                              const py::object &py_property,
-                              const Property::Field &default_value,
-                              const std::string &description = "",
-                              const std::vector<std::string> & deprecated_names = {}) {
+  static void add_property_py(
+      const std::string &type, const std::string &name,
+      const py::object &py_property, const Property::Field &default_value,
+      const std::string &description = "",
+      const std::vector<std::string> &deprecated_names = {}) {
     std::string type_name = std::visit(
         [](auto &&arg) {
           using V = std::decay_t<decltype(arg)>;

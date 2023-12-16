@@ -13,6 +13,7 @@
 #include "navground/core/behavior.h"
 #include "navground/core/collision_computation.h"
 #include "navground/core/common.h"
+#include "navground/core/types.h"
 #include "navground_core_export.h"
 
 namespace navground::core {
@@ -33,11 +34,11 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    */
   CachedCollisionComputation()
       : CollisionComputation(),
-        from_relative_angle(0.0),
-        length(0.0),
+        from_relative_angle(0),
+        length(0),
         resolution(0),
-        speed(0.0),
-        max_distance(0.0),
+        speed(0),
+        max_distance(0),
         dynamic_cache(),
         static_cache() {}
 
@@ -81,16 +82,16 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @return     The lower bound.
    */
-  float get_min_angle() const { return from_relative_angle; }
+  ng_float_t get_min_angle() const { return from_relative_angle; }
 
   /**
    * @brief      Sets the cache interval length \f$\Delta\f$.
    *
    * @param[in]  value  The interval length
    */
-  void set_length(float value) {
+  void set_length(ng_float_t value) {
     if (value > 0) {
-      value = std::min<float>(value, 2 * M_PI);
+      value = std::min<ng_float_t>(value, 2 * M_PI);
       if (length != value) {
         length = value;
         reset();
@@ -103,14 +104,14 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @return     The interval length
    */
-  float get_length() const { return length; }
+  ng_float_t get_length() const { return length; }
 
   /**
    * @brief      Sets the maximal distance \f$D\f$ to consider
    *
    * @param[in]  value  The maximal distance
    */
-  void set_max_distance(float value) {
+  void set_max_distance(ng_float_t value) {
     if (value > 0 && value != max_distance) {
       max_distance = value;
       reset();
@@ -122,14 +123,14 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @return     The maximal distance
    */
-  float get_max_distance() const { return max_distance; }
+  ng_float_t get_max_distance() const { return max_distance; }
 
   /**
    * @brief      Sets the agent speed.
    *
    * @param[in]  value  The speed
    */
-  void set_speed(float value) {
+  void set_speed(ng_float_t value) {
     if (value > 0 && value != speed) {
       speed = value;
     }
@@ -141,7 +142,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @return     The agent speed.
    */
-  float get_speed() const { return speed; }
+  ng_float_t get_speed() const { return speed; }
 
   /**
    * @brief      Returns the free distance if the agent will be static
@@ -152,7 +153,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @return     The distance in direction `angle` before possibly colliding
    */
-  float static_free_distance(Radians angle, bool include_neighbors = true);
+  ng_float_t static_free_distance(Radians angle, bool include_neighbors = true);
 
   /**
    * @brief      Returns the free distance if the agent will be move
@@ -161,9 +162,9 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @return     The distance in direction `angle` before possibly colliding
    */
-  float dynamic_free_distance(Radians angle);
+  ng_float_t dynamic_free_distance(Radians angle);
 
-  void setup(Pose2 pose_, float margin_,
+  void setup(Pose2 pose_, ng_float_t margin_,
              const std::vector<LineSegment> &line_segments,
              const std::vector<DiscCache> &static_discs,
              const std::vector<DiscCache> &dynamic_discs) {
@@ -172,7 +173,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
     reset();
   }
 
-  void setup(Pose2 pose_, float margin_,
+  void setup(Pose2 pose_, ng_float_t margin_,
              const std::vector<LineSegment> &line_segments,
              const std::vector<Disc> &static_discs,
              const std::vector<Neighbor> &dynamic_discs) {
@@ -187,7 +188,8 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
   void reset() {
     std::fill(std::begin(static_cache[false]), std::end(static_cache[false]),
               uncomputed);
-    std::fill(std::begin(static_cache[true]), std::end(static_cache[true]), uncomputed);
+    std::fill(std::begin(static_cache[true]), std::end(static_cache[true]),
+              uncomputed);
     std::fill(std::begin(dynamic_cache), std::end(dynamic_cache), uncomputed);
   }
 
@@ -201,8 +203,8 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @return     The collision distance cache.
    */
-  const std::valarray<float> &get_cache(bool assuming_static = false,
-                                      bool include_neighbors = true) {
+  const std::valarray<ng_float_t> &get_cache(bool assuming_static = false,
+                                             bool include_neighbors = true) {
     if (assuming_static) return static_cache[include_neighbors];
     return dynamic_cache;
   }
@@ -216,7 +218,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    * @return     The distance before possibly colliding for each direction
    * in the interval \f$[\alpha, \alpha + \Delta]\f$.
    */
-  std::valarray<float> get_free_distance(bool dynamic = false);
+  std::valarray<ng_float_t> get_free_distance(bool dynamic = false);
 
  private:
   /**
@@ -224,19 +226,19 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    */
   static constexpr int uncomputed = -2;
 
-  float from_relative_angle;
-  float length;
+  ng_float_t from_relative_angle;
+  ng_float_t length;
   size_t resolution;
-  float speed;
-  float max_distance;
-  std::valarray<float> dynamic_cache;
-  std::array<std::valarray<float>, 2> static_cache;
+  ng_float_t speed;
+  ng_float_t max_distance;
+  std::valarray<ng_float_t> dynamic_cache;
+  std::array<std::valarray<ng_float_t>, 2> static_cache;
 
   // can be outsize of 0 ... resolution range
   int index_of(Radians delta_relative_angle) {
     if (resolution < 2) return 0;
     return (delta_relative_angle - from_relative_angle) / length *
-           static_cast<float>(resolution - 1);
+           static_cast<ng_float_t>(resolution - 1);
   }
 };
 

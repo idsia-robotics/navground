@@ -86,8 +86,9 @@ int main(int argc, char *argv[]) {
   if (should_display_tqdm) {
     tqdm bar;
     unsigned i = 0;
-    experiment.add_run_callback(
-        [&bar, &experiment, &i]() { bar.progress(++i, experiment.number_of_runs); });
+    experiment.add_run_callback([&bar, &experiment, &i]() {
+      bar.progress(++i, experiment.number_of_runs);
+    });
     experiment.run(false);
     bar.finish();
   } else {

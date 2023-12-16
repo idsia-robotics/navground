@@ -100,7 +100,7 @@ static property_field_t to_property_field_t(const core::Property::Field &v) {
       value.int_value = std::get<int>(v);
       break;
     case 2:
-      value.float_value = std::get<float>(v);
+      value.float_value = std::get<ng_float_t>(v);
       break;
     case 3:
       value.string_value = std::get<std::string>(v);
@@ -115,7 +115,7 @@ static property_field_t to_property_field_t(const core::Property::Field &v) {
       value.int_list = std::get<std::vector<int>>(v);
       break;
     case 7:
-      value.float_list = std::get<std::vector<float>>(v);
+      value.float_list = std::get<std::vector<ng_float_t>>(v);
       break;
     case 8:
       value.string_list = std::get<std::vector<std::string>>(v);
@@ -651,7 +651,7 @@ class Plugin : public sim::Plugin {
   void set_lattice(set_lattice_in *in, set_lattice_out *out) {
     get_world()->set_lattice(
         in->coordinate_index,
-        std::make_tuple<float>((float)in->from, (float)in->to));
+        std::make_tuple(in->from, in->to));
   }
 
   void get_lattice(get_lattice_in *in, get_lattice_out *out) {

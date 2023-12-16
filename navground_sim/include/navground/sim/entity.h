@@ -5,6 +5,7 @@
 #ifndef NAVGROUND_SIM_ENTITY_H_
 #define NAVGROUND_SIM_ENTITY_H_
 
+#include "navground/core/types.h"
 #include "navground_sim_export.h"
 
 namespace navground::sim {
@@ -44,7 +45,7 @@ struct NAVGROUND_SIM_EXPORT Entity {
    *
    * @return     True if been in collision since, False otherwise.
    */
-  bool has_been_in_collision_since(float time) const {
+  bool has_been_in_collision_since(ng_float_t time) const {
     return last_collision_time >= 0 && last_collision_time >= time;
   }
 
@@ -54,11 +55,11 @@ struct NAVGROUND_SIM_EXPORT Entity {
    *
    * @param[in]  time  The time
    */
-  void set_as_colliding_at(float time) { last_collision_time = time; }
+  void set_as_colliding_at(ng_float_t time) { last_collision_time = time; }
 
  private:
   static inline unsigned _uid = 0;
-  float last_collision_time;
+  ng_float_t last_collision_time;
 };
 
 }  // namespace navground::sim

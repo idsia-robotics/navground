@@ -175,6 +175,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../index.html">Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/yaml.html">YAML</a></li>
@@ -398,11 +399,11 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenarioE"><code class="docutils literal notranslate"><span class="pre">CorridorScenario</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim16CorridorScenario9get_widthEv"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::get_width()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario9set_widthEf"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_width()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario9set_widthE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_width()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim16CorridorScenario10get_lengthEv"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::get_length()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario10set_lengthEf"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_length()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario10set_lengthE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_length()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim16CorridorScenario16get_agent_marginEv"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::get_agent_margin()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario16set_agent_marginEf"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_agent_margin()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario16set_agent_marginE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_agent_margin()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim16CorridorScenario30get_add_safety_to_agent_marginEv"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::get_add_safety_to_agent_margin()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario30set_add_safety_to_agent_marginEb"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_add_safety_to_agent_margin()</span></code></a></li>
 </ul>
@@ -429,9 +430,9 @@ document.write(`
 <dd><p>A scenario where agents travel along an infinite corridor in opposite directions. Agents are initialize at non-overlapping random poses. </p>
 <p><em>Registered properties</em>:</p>
 <p><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">width</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_corridor_scenario_1a4a739bfb2856fea579d565b5da6b3d37"><span class="std std-ref">get_width</span></a>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">length</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_corridor_scenario_1a2c6c63dce076460791eff6f917f06dc1"><span class="std std-ref">get_length</span></a>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">agent_margin</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_corridor_scenario_1a74877432d7b0595b30dbb0ac867ba7ed"><span class="std std-ref">get_agent_margin</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">width</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_corridor_scenario_1a22a07ca4dbc9a82d40443131c724e032"><span class="std std-ref">get_width</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">length</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_corridor_scenario_1ac6383158db46504a28c1bfb4feb5e964"><span class="std std-ref">get_length</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">agent_margin</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_corridor_scenario_1a30696b6cf3cbc54ccfb3425a36e0d75b"><span class="std std-ref">get_agent_margin</span></a>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">add_safety_to_agent_margin</span></code> (bool, <a class="reference internal" href="#structnavground_1_1sim_1_1_corridor_scenario_1a7ebf13c92d239e9ec2da47add14c02bd"><span class="std std-ref">get_add_safety_to_agent_margin</span></a>) </p></li>
 </ul>
 </p>
@@ -439,7 +440,7 @@ document.write(`
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim16CorridorScenario9get_widthEv">
-<span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1a4a739bfb2856fea579d565b5da6b3d37"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_width</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim16CorridorScenario9get_widthEv" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1a22a07ca4dbc9a82d40443131c724e032"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_width</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim16CorridorScenario9get_widthEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the width of the corridor. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -449,8 +450,8 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim16CorridorScenario9set_widthEf">
-<span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1ad364a021a3c9552ddea09c63ad55e3a5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_width</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim16CorridorScenario9set_widthEf" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim16CorridorScenario9set_widthE10ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1a8995915c51e906ed593e63982fefed28"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_width</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim16CorridorScenario9set_widthE10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the width of the corridor. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -461,7 +462,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim16CorridorScenario10get_lengthEv">
-<span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1a2c6c63dce076460791eff6f917f06dc1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_length</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim16CorridorScenario10get_lengthEv" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1ac6383158db46504a28c1bfb4feb5e964"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_length</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim16CorridorScenario10get_lengthEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the length of the simulated portion of corridor. Agents experience an infinite corridor, as it wraps around. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -471,8 +472,8 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim16CorridorScenario10set_lengthEf">
-<span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1a9d5b1c8400e84749f81e1f07e6d93d4d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_length</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim16CorridorScenario10set_lengthEf" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim16CorridorScenario10set_lengthE10ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1adb413715927156c1b1c3fa4d16d94ebc"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_length</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim16CorridorScenario10set_lengthE10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the length of the simulated portion of corridor. Agents experience an infinite corridor, as it wraps around. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -483,7 +484,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim16CorridorScenario16get_agent_marginEv">
-<span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1a74877432d7b0595b30dbb0ac867ba7ed"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_agent_margin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim16CorridorScenario16get_agent_marginEv" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1a30696b6cf3cbc54ccfb3425a36e0d75b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_agent_margin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim16CorridorScenario16get_agent_marginEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the initial minimal distance between agents. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -493,8 +494,8 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim16CorridorScenario16set_agent_marginEf">
-<span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1a6c1b789dded0eb306d701a1e1c5562b4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_agent_margin</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim16CorridorScenario16set_agent_marginEf" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim16CorridorScenario16set_agent_marginE10ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1aa955921af9fd5f9e0947b9f97d071967"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_agent_margin</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim16CorridorScenario16set_agent_marginE10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the initial minimal distance between agents. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -506,7 +507,7 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim16CorridorScenario30get_add_safety_to_agent_marginEv">
 <span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1a7ebf13c92d239e9ec2da47add14c02bd"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_add_safety_to_agent_margin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim16CorridorScenario30get_add_safety_to_agent_marginEv" title="Link to this definition">#</a><br /></dt>
-<dd><p>Whenever the agent’s safety margin should be considered in addition to <a class="reference internal" href="#structnavground_1_1sim_1_1_corridor_scenario_1a74877432d7b0595b30dbb0ac867ba7ed"><span class="std std-ref">get_agent_margin</span></a> when initializing the agents’ poses. </p>
+<dd><p>Whenever the agent’s safety margin should be considered in addition to <a class="reference internal" href="#structnavground_1_1sim_1_1_corridor_scenario_1a30696b6cf3cbc54ccfb3425a36e0d75b"><span class="std std-ref">get_agent_margin</span></a> when initializing the agents’ poses. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The add safety to agent margin. </p>
@@ -517,7 +518,7 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim16CorridorScenario30set_add_safety_to_agent_marginEb">
 <span class="target" id="structnavground_1_1sim_1_1_corridor_scenario_1a45f75dcea4564e155837b0a19b01ccef"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_add_safety_to_agent_margin</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim16CorridorScenario30set_add_safety_to_agent_marginEb" title="Link to this definition">#</a><br /></dt>
-<dd><p>Sets whenever the agent’s safety margin should be considered in addition to <a class="reference internal" href="#structnavground_1_1sim_1_1_corridor_scenario_1a74877432d7b0595b30dbb0ac867ba7ed"><span class="std std-ref">get_agent_margin</span></a> when initializing the agents’ poses. </p>
+<dd><p>Sets whenever the agent’s safety margin should be considered in addition to <a class="reference internal" href="#structnavground_1_1sim_1_1_corridor_scenario_1a30696b6cf3cbc54ccfb3425a36e0d75b"><span class="std std-ref">get_agent_margin</span></a> when initializing the agents’ poses. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> Whenever to consider the safety margin or not. </p>
@@ -576,11 +577,11 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenarioE"><code class="docutils literal notranslate"><span class="pre">CorridorScenario</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim16CorridorScenario9get_widthEv"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::get_width()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario9set_widthEf"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_width()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario9set_widthE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_width()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim16CorridorScenario10get_lengthEv"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::get_length()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario10set_lengthEf"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_length()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario10set_lengthE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_length()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim16CorridorScenario16get_agent_marginEv"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::get_agent_margin()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario16set_agent_marginEf"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_agent_margin()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario16set_agent_marginE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_agent_margin()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim16CorridorScenario30get_add_safety_to_agent_marginEv"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::get_add_safety_to_agent_margin()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim16CorridorScenario30set_add_safety_to_agent_marginEb"><code class="docutils literal notranslate"><span class="pre">CorridorScenario::set_add_safety_to_agent_margin()</span></code></a></li>
 </ul>

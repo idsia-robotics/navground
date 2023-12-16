@@ -16,8 +16,8 @@ using navground::core::Vector2;
 
 int main() {
   sim::Scenario scenario;
-  scenario.walls.emplace_back(Vector2{-1.0f, -1.f}, Vector2{-1.f, 1.f});
-  scenario.obstacles.emplace_back(Vector2{2.f, 0.f}, 0.5f);
+  scenario.walls.emplace_back(Vector2{-1.0, -1.0}, Vector2{-1.0, 1.0});
+  scenario.obstacles.emplace_back(Vector2{2.0, 0.0}, 0.5);
   scenario.groups.push_back(std::make_unique<sim::AgentSampler<>>(robots()));
   std::cout << "\nSCENARIO\n========\n" << std::endl;
   std::cout << YAML::dump<sim::Scenario>(&scenario) << std::endl;

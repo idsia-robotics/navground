@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "navground/core/types.h"
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/property.h"
 #include "navground/core/yaml/register.h"
@@ -15,11 +16,11 @@ using navground::core::Kinematics;
 using navground::core::LineSegment;
 using navground::core::Vector2;
 using navground::sim::Agent;
+using navground::sim::Obstacle;
 using navground::sim::StateEstimation;
 using navground::sim::Task;
-using navground::sim::World;
-using navground::sim::Obstacle;
 using navground::sim::Wall;
+using navground::sim::World;
 
 namespace YAML {
 
@@ -137,7 +138,7 @@ struct convert<Agent> {
       node["external"] = true;
     }
     if (rhs.tags.size()) {
-      for(const auto & tag : rhs.tags) {
+      for (const auto& tag : rhs.tags) {
         node["tags"].push_back(tag);
       }
     }
@@ -157,25 +158,26 @@ struct convert<Agent> {
       rhs.set_task(node["task"].as<std::shared_ptr<Task>>());
     }
     if (node["state_estimation"]) {
-      rhs.set_state_estimation(node["state_estimation"].as<std::shared_ptr<StateEstimation>>());
+      rhs.set_state_estimation(
+          node["state_estimation"].as<std::shared_ptr<StateEstimation>>());
     }
     if (node["position"]) {
       rhs.pose.position = node["position"].as<Vector2>();
     }
     if (node["orientation"]) {
-      rhs.pose.orientation = node["orientation"].as<float>();
+      rhs.pose.orientation = node["orientation"].as<ng_float_t>();
     }
     if (node["velocity"]) {
       rhs.twist.velocity = node["velocity"].as<Vector2>();
     }
     if (node["angular_speed"]) {
-      rhs.twist.angular_speed = node["angular_speed"].as<float>();
+      rhs.twist.angular_speed = node["angular_speed"].as<ng_float_t>();
     }
     if (node["radius"]) {
-      rhs.radius = node["radius"].as<float>();
+      rhs.radius = node["radius"].as<ng_float_t>();
     }
     if (node["control_period"]) {
-      rhs.control_period = node["control_period"].as<float>();
+      rhs.control_period = node["control_period"].as<ng_float_t>();
     }
     if (node["type"]) {
       rhs.type = node["type"].as<std::string>();

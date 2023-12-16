@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "navground/core/states/geometric.h"
+#include "navground/core/types.h"
 #include "navground/sim/agent.h"
 #include "navground/sim/entity.h"
 #include "navground_sim_export.h"
@@ -30,7 +31,7 @@ namespace navground::sim {
  */
 using BoundingBox = geos::geom::Envelope;
 
-inline BoundingBox envelop(const Vector2 &position, float radius) {
+inline BoundingBox envelop(const Vector2 &position, ng_float_t radius) {
   return {position[0] - radius, position[0] + radius, position[1] - radius,
           position[1] + radius};
 }
@@ -49,13 +50,13 @@ inline BoundingBox envelop(const Vector2 &position, float radius) {
  */
 std::optional<Vector2> penetration_vector_inside_line(const LineSegment &line,
                                                       const Vector2 &center,
-                                                      float radius);
+                                                      ng_float_t radius);
 
-float penetration_inside_line(const LineSegment &line, const Vector2 &center,
-                              float radius);
+ng_float_t penetration_inside_line(const LineSegment &line,
+                                   const Vector2 &center, ng_float_t radius);
 
-float penetration_inside_disc(const Disc &disc, const Vector2 &center,
-                              float radius);
+ng_float_t penetration_inside_disc(const Disc &disc, const Vector2 &center,
+                                   ng_float_t radius);
 
 /**
  * @brief      A static wall.
@@ -101,7 +102,7 @@ struct NAVGROUND_SIM_EXPORT Obstacle : Entity {
    * @param[in]  position  The position of the circle
    * @param[in]  radius    The radius of the circle
    */
-  Obstacle(const Vector2 &position, float radius)
+  Obstacle(const Vector2 &position, ng_float_t radius)
       : Entity(), disc(position, radius) {}
   /**
    * @brief      Constructs a new instance.
@@ -168,7 +169,7 @@ class NAVGROUND_SIM_EXPORT World {
  public:
   friend struct Experiment;
 
-  using Lattice = std::optional<std::tuple<float, float>>;
+  using Lattice = std::optional<std::tuple<ng_float_t, ng_float_t>>;
   using Callback = std::function<void()>;
 
   using A = Agent;
@@ -186,7 +187,7 @@ class NAVGROUND_SIM_EXPORT World {
         collisions(),
         entities(),
         ready(false),
-        time(0.0f),
+        time(0),
         has_lattice(false),
         callbacks() {}
 
@@ -195,7 +196,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @param[in]  time_step  The time step
    */
-  void update(float time_step);
+  void update(ng_float_t time_step);
   /**
    * @brief      Updates world for a single time step
    *             without actuation and collisions resolution.
@@ -203,33 +204,33 @@ class NAVGROUND_SIM_EXPORT World {
    * @param[in]  time_step  The time step
    * @param[in]  advance_time  Whenever to advance time too.
    */
-  void update_dry(float time_step, bool advance_time = true);
+  void update_dry(ng_float_t time_step, bool advance_time = true);
   /**
    * @brief      Actuate then controllers and perform collisions resolutions.
    *
    * @param[in]  time_step  The duration of each time step
    */
-  void actuate(float time_step);
+  void actuate(ng_float_t time_step);
   /**
    * @brief      Updates the world for one or more time steps
    *
    * @param[in]  steps      The number of steps
    * @param[in]  time_step  The duration of each time step
    */
-  void run(unsigned steps, float time_step);
+  void run(unsigned steps, ng_float_t time_step);
   /**
    * @brief      Updates the world until a condition is satisfied
    *
    * @param[in]  condition  The condition
    * @param[in]  time_step  The duration of each time step
    */
-  void run_until(std::function<bool()> condition, float time_step);
+  void run_until(std::function<bool()> condition, ng_float_t time_step);
   /**
    * @brief      Gets the simulation time.
    *
    * @return     The simulation time.
    */
-  float get_time() const { return time; }
+  ng_float_t get_time() const { return time; }
 
   /**
    * @brief      Gets the simulation step.
@@ -284,7 +285,8 @@ class NAVGROUND_SIM_EXPORT World {
    * @return     All neighbor within a circle of radius ``radius`` centered
    * around the agent.
    */
-  std::vector<Neighbor> get_neighbors(const Agent *agent, float distance) const;
+  std::vector<Neighbor> get_neighbors(const Agent *agent,
+                                      ng_float_t distance) const;
 
   /**
    * @brief      Gets all agents in a bounding box.
@@ -368,7 +370,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     The safety violation or 0 if no violation.
    */
-  float compute_safety_violation(const Agent *agent) const;
+  ng_float_t compute_safety_violation(const Agent *agent) const;
 
   /**
    * @brief      Sets the random seed
@@ -402,7 +404,7 @@ class NAVGROUND_SIM_EXPORT World {
    * to the minimal distance
    * @param[in]  max_iterations  The maximal number of iterations to perform.
    */
-  void space_agents_apart(float minimal_distance = 0.0f,
+  void space_agents_apart(ng_float_t minimal_distance = 0,
                           bool with_safety_margin = false,
                           unsigned max_iterations = 10);
 
@@ -455,7 +457,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     The agents in collision.
    */
-  std::vector<Agent *> get_agents_in_collision(float duration = 0.0) const;
+  std::vector<Agent *> get_agents_in_collision(ng_float_t duration = 0.0) const;
   /**
    * @brief      Gets the agents that are in stuck since ``now - duration``.
    *
@@ -463,17 +465,18 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     The agents in deadlock.
    */
-  std::vector<Agent *> get_agents_in_deadlock(float duration = 0.0) const;
+  std::vector<Agent *> get_agents_in_deadlock(ng_float_t duration = 0.0) const;
 
  private:
   void record_collision(Entity *e1, Entity *e2);
 
-  bool resolve_collision(Agent *a1, Agent *a2, float margin = 0.0f);
+  bool resolve_collision(Agent *a1, Agent *a2, ng_float_t margin = 0);
 
   // TODO(J): avoid repetitions
-  bool resolve_collision(Agent *agent, Disc *disc, float margin = 0.0f);
+  bool resolve_collision(Agent *agent, Disc *disc, ng_float_t margin = 0);
 
-  bool resolve_collision(Agent *agent, LineSegment *line, float margin = 0.0f);
+  bool resolve_collision(Agent *agent, LineSegment *line,
+                         ng_float_t margin = 0);
 
   void update_collisions();
 
@@ -481,7 +484,8 @@ class NAVGROUND_SIM_EXPORT World {
 
   void update_static_strtree();
 
-  bool space_agents_apart_once(float minimal_distance, bool with_safety_margin);
+  bool space_agents_apart_once(ng_float_t minimal_distance,
+                               bool with_safety_margin);
 
   void update_agent_collisions(Agent *a1);
 
@@ -507,7 +511,7 @@ class NAVGROUND_SIM_EXPORT World {
   std::map<unsigned, Entity *> entities;
   bool ready;
   unsigned step;
-  float time;
+  ng_float_t time;
   bool has_lattice;
   std::array<Lattice, 2> lattice;
   std::vector<Callback> callbacks;

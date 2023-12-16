@@ -7,6 +7,7 @@
 
 #include <memory>
 
+#include "navground/core/types.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/tasks/waypoints.h"
 #include "navground/sim/world.h"
@@ -21,47 +22,47 @@ namespace navground::sim {
 /**
  * @brief      A scenario that place the agents around a circle at regular
  * intervals and task them to reach the opposite ("antipode") side.
- * 
- * *Registered properties*: 
- * 
+ *
+ * *Registered properties*:
+ *
  *   - `radius` (float, \ref get_radius)
- *   
+ *
  *   - `tolerance` (float, \ref get_tolerance)
- *   
+ *
  *   - `position_noise` (float, \ref get_position_noise)
- *   
+ *
  *   - `orientation_noise` (float, \ref get_orientation_noise)
- *   
+ *
  *   - `shuffle` (bool, \ref get_shuffle)
  */
 struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
   /**
    * The default circle radius
    */
-  static constexpr float default_radius = 1.0f;
+  static constexpr ng_float_t default_radius = 1.0;
   /**
    * The default goal tolerance
    */
-  static constexpr float default_tolerance = 0.1f;
+  static constexpr ng_float_t default_tolerance = 0.1;
   /**
    * The default position noise
    */
-  static constexpr float default_position_noise = 0.0f;
+  static constexpr ng_float_t default_position_noise = 0;
   /**
    * The default orientation noise
    */
-  static constexpr float default_orientation_noise = 0.0f;
+  static constexpr ng_float_t default_orientation_noise = 0;
   /**
    * The default shuffle
    */
-  static constexpr float default_shuffle = false;
+  static constexpr ng_float_t default_shuffle = false;
   /**
    * @brief      Constructs a new instance.
    */
-  AntipodalScenario(float radius = default_radius,
-                    float tolerance = default_tolerance,
-                    float position_noise = default_position_noise,
-                    float orientation_noise = default_orientation_noise,
+  AntipodalScenario(ng_float_t radius = default_radius,
+                    ng_float_t tolerance = default_tolerance,
+                    ng_float_t position_noise = default_position_noise,
+                    ng_float_t orientation_noise = default_orientation_noise,
                     bool shuffle = default_shuffle)
       : Scenario(),
         radius(radius),
@@ -75,39 +76,41 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
    *
    * @return     The radius.
    */
-  float get_radius() const { return radius; }
+  ng_float_t get_radius() const { return radius; }
   /**
    * @brief      Sets the circle radius.
    *
    * @param[in]  value  The desired value
    */
-  void set_radius(float value) { radius = std::max(value, 0.0f); }
+  void set_radius(ng_float_t value) { radius = std::max<ng_float_t>(value, 0); }
   /**
    * @brief      Gets the goal tolerance.
    *
    * @return     The tolerance.
    */
-  float get_tolerance() const { return tolerance; }
+  ng_float_t get_tolerance() const { return tolerance; }
   /**
    * @brief      Sets the goal tolerance.
    *
    * @param[in]  value  The desired value
    */
-  void set_tolerance(float value) { tolerance = std::max(value, 0.0f); }
+  void set_tolerance(ng_float_t value) {
+    tolerance = std::max<ng_float_t>(value, 0);
+  }
 
   /**
    * @brief      Gets the position_noise.
    *
    * @return     The position_noise.
    */
-  float get_position_noise() const { return position_noise; }
+  ng_float_t get_position_noise() const { return position_noise; }
   /**
    * @brief      Sets the position noise.
    *
    * @param[in]  value  The desired value
    */
-  void set_position_noise(float value) {
-    position_noise = std::max(value, 0.0f);
+  void set_position_noise(ng_float_t value) {
+    position_noise = std::max<ng_float_t>(value, 0);
   }
 
   /**
@@ -115,14 +118,14 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
    *
    * @return     The orientation noise.
    */
-  float get_orientation_noise() const { return orientation_noise; }
+  ng_float_t get_orientation_noise() const { return orientation_noise; }
   /**
    * @brief      Sets the position_noise.
    *
    * @param[in]  value  The desired value
    */
-  void set_orientation_noise(float value) {
-    orientation_noise = std::max(value, 0.0f);
+  void set_orientation_noise(ng_float_t value) {
+    orientation_noise = std::max<ng_float_t>(value, 0);
   }
 
   /**
@@ -142,7 +145,8 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
   /**
    * @private
    */
-  void init_world(World *world, std::optional<int> seed = std::nullopt) override;
+  void init_world(World *world,
+                  std::optional<int> seed = std::nullopt) override;
 
   /**
    * @private
@@ -154,20 +158,20 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
    */
   inline const static std::map<std::string, Property> properties = Properties{
       {"radius",
-       make_property<float, AntipodalScenario>(
+       make_property<ng_float_t, AntipodalScenario>(
            &AntipodalScenario::get_radius, &AntipodalScenario::set_radius,
            default_radius, "Radius of the circle")},
       {"tolerance",
-       make_property<float, AntipodalScenario>(
+       make_property<ng_float_t, AntipodalScenario>(
            &AntipodalScenario::get_tolerance, &AntipodalScenario::set_tolerance,
            default_tolerance, "Goal tolerance")},
       {"position_noise",
-       make_property<float, AntipodalScenario>(
+       make_property<ng_float_t, AntipodalScenario>(
            &AntipodalScenario::get_position_noise,
            &AntipodalScenario::set_position_noise, default_position_noise,
            "Noise added to the initial position")},
       {"orientation_noise",
-       make_property<float, AntipodalScenario>(
+       make_property<ng_float_t, AntipodalScenario>(
            &AntipodalScenario::get_orientation_noise,
            &AntipodalScenario::set_orientation_noise, default_orientation_noise,
            "Noise added to the initial orientation")},
@@ -182,10 +186,10 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
    */
   std::string get_type() const override { return type; }
 
-  float radius;
-  float tolerance;
-  float position_noise;
-  float orientation_noise;
+  ng_float_t radius;
+  ng_float_t tolerance;
+  ng_float_t position_noise;
+  ng_float_t orientation_noise;
   bool shuffle;
 
  private:

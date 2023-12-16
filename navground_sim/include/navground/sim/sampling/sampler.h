@@ -12,6 +12,7 @@
 
 #include "navground/core/common.h"
 #include "navground/core/property.h"
+#include "navground/core/types.h"
 #include "navground_sim_export.h"
 
 using navground::core::Vector2;
@@ -26,7 +27,7 @@ namespace navground::sim {
  *
  * @return     The random generator
  */
-NAVGROUND_SIM_EXPORT RandomGenerator & random_generator();
+NAVGROUND_SIM_EXPORT RandomGenerator& random_generator();
 
 /**
  * @brief      Sets the random seed.
@@ -164,7 +165,8 @@ struct Sampler {
   // }
 
   /**
-   * Whenever to sample only once and than output the same constant value until reset.
+   * Whenever to sample only once and than output the same constant value until
+   * reset.
    */
   bool once;
 
@@ -295,7 +297,8 @@ struct RegularSampler final : public Sampler<T> {
    */
   static RegularSampler make_with_interval(const T& from, const T& to,
                                            unsigned number,
-                                           Wrap wrap = Wrap::loop, bool _once = false) {
+                                           Wrap wrap = Wrap::loop,
+                                           bool _once = false) {
     RegularSampler r(from, number, wrap, _once);
     r.to = to;
     if (number > 1) {
@@ -319,7 +322,8 @@ struct RegularSampler final : public Sampler<T> {
    */
   static RegularSampler make_with_step(
       const T& from, const T& step,
-      std::optional<unsigned> number = std::nullopt, Wrap wrap = Wrap::loop, bool _once = false) {
+      std::optional<unsigned> number = std::nullopt, Wrap wrap = Wrap::loop,
+      bool _once = false) {
     RegularSampler r(from, number, wrap, _once);
     r.step = step;
     if (number && *number > 0) {
@@ -375,7 +379,8 @@ struct GridSampler final : public Sampler<Vector2> {
    *
    */
   explicit GridSampler(const Vector2& from, const Vector2& to,
-                       std::array<unsigned, 2> numbers, Wrap wrap = Wrap::loop, bool _once = false)
+                       std::array<unsigned, 2> numbers, Wrap wrap = Wrap::loop,
+                       bool _once = false)
       : Sampler<Vector2>{_once},
         from(from),
         to(to),
@@ -430,7 +435,7 @@ using uniform_distribution = typename std::conditional<
 template <typename T>
 struct UniformSampler final : public Sampler<T> {
   using Sampler<T>::_index;
-  
+
   UniformSampler(T min, T max, bool _once = false)
       : Sampler<T>(_once), min{min}, max{max}, dist{min, max} {}
 
@@ -438,9 +443,7 @@ struct UniformSampler final : public Sampler<T> {
   T max;
 
  protected:
-  T s() override { 
-    return dist(random_generator());
-  }
+  T s() override { return dist(random_generator()); }
 
   uniform_distribution<T> dist;
 };
@@ -464,14 +467,15 @@ struct NormalSampler final : public Sampler<T> {
    * @param[in]  min      The minimum value
    * @param[in]  max      The maximum value
    */
-  NormalSampler(float mean, float std_dev, std::optional<T> min = std::nullopt,
+  NormalSampler(ng_float_t mean, ng_float_t std_dev,
+                std::optional<T> min = std::nullopt,
                 std::optional<T> max = std::nullopt, bool _once = false)
       : Sampler<T>(_once), min(min), max(max), dist{mean, std_dev} {}
 
   std::optional<T> min;
   std::optional<T> max;
-  float mean;
-  float std_dev;
+  ng_float_t mean;
+  ng_float_t std_dev;
 
  protected:
   T s() override {
@@ -486,7 +490,7 @@ struct NormalSampler final : public Sampler<T> {
   }
 
  private:
-  std::normal_distribution<float> dist;
+  std::normal_distribution<ng_float_t> dist;
 };
 
 /**
@@ -545,9 +549,9 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
   using ST = std::decay_t<decltype(std::declval<S>().sample())>;
 
   using S =
-      std::variant<US<bool>, US<int>, US<float>, US<std::string>, US<Vector2>,
-                   US<std::vector<bool>>, US<std::vector<int>>,
-                   US<std::vector<float>>, US<std::vector<std::string>>,
+      std::variant<US<bool>, US<int>, US<ng_float_t>, US<std::string>,
+                   US<Vector2>, US<std::vector<bool>>, US<std::vector<int>>,
+                   US<std::vector<ng_float_t>>, US<std::vector<std::string>>,
                    US<std::vector<Vector2>>>;
 
   /**

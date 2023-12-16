@@ -175,6 +175,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../index.html">Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../../index.html">Core</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">C++ API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml.html">YAML</a></li>
@@ -397,9 +398,9 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12ORCABehaviorE"><code class="docutils literal notranslate"><span class="pre">ORCABehavior</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12ORCABehavior12ORCABehaviorENSt10shared_ptrI10KinematicsEEf"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::ORCABehavior()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12ORCABehavior12ORCABehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::ORCABehavior()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12ORCABehavior16get_time_horizonEv"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::get_time_horizon()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12ORCABehavior16set_time_horizonEf"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::set_time_horizon()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12ORCABehavior16set_time_horizonE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::set_time_horizon()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12ORCABehavior25is_using_effective_centerEv"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::is_using_effective_center()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12ORCABehavior27should_use_effective_centerEb"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::should_use_effective_center()</span></code></a></li>
 </ul>
@@ -427,7 +428,7 @@ document.write(`
 <p>A wrapper of the open-source implementation from <a class="reference external" href="http://gamma.cs.unc.edu/RVO2/">http://gamma.cs.unc.edu/RVO2/</a></p>
 <p><em>Registered properties</em>:</p>
 <p><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">time_horizon</span></code> (float, <a class="reference internal" href="#classnavground_1_1core_1_1_o_r_c_a_behavior_1a7beb5e9e030d202995212632e56eaf5e"><span class="std std-ref">get_time_horizon</span></a>),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time_horizon</span></code> (float, <a class="reference internal" href="#classnavground_1_1core_1_1_o_r_c_a_behavior_1a64c21135408496174516d2ccdd55ae54"><span class="std std-ref">get_time_horizon</span></a>),</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">effective_center</span></code> (float, <a class="reference internal" href="#classnavground_1_1core_1_1_o_r_c_a_behavior_1af92c492506afcd7ba838b203c3ed6812"><span class="std std-ref">is_using_effective_center</span></a>),</p></li>
 </ul>
 </p>
@@ -435,8 +436,8 @@ document.write(`
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12ORCABehavior12ORCABehaviorENSt10shared_ptrI10KinematicsEEf">
-<span class="target" id="classnavground_1_1core_1_1_o_r_c_a_behavior_1afbe1db3b2706a1b051ed76497e27457e"></span><span class="sig-name descname"><span class="n"><span class="pre">ORCABehavior</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">kinematics</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0f</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehavior12ORCABehaviorENSt10shared_ptrI10KinematicsEEf" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12ORCABehavior12ORCABehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_o_r_c_a_behavior_1a952d3a1a2ad4adafdfc95679be3e2287"></span><span class="sig-name descname"><span class="n"><span class="pre">ORCABehavior</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">kinematics</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehavior12ORCABehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Contruct a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -450,7 +451,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground4core12ORCABehavior16get_time_horizonEv">
-<span class="target" id="classnavground_1_1core_1_1_o_r_c_a_behavior_1a7beb5e9e030d202995212632e56eaf5e"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_time_horizon</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core12ORCABehavior16get_time_horizonEv" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1core_1_1_o_r_c_a_behavior_1a64c21135408496174516d2ccdd55ae54"></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_time_horizon</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core12ORCABehavior16get_time_horizonEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the time horizon. Collisions predicted to happen after this time are ignored. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -460,8 +461,8 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12ORCABehavior16set_time_horizonEf">
-<span class="target" id="classnavground_1_1core_1_1_o_r_c_a_behavior_1afea5724cee3d5460e4c3053832e774eb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_time_horizon</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehavior16set_time_horizonEf" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12ORCABehavior16set_time_horizonE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_o_r_c_a_behavior_1a01b85625726f45aec177f7ea8493600a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_time_horizon</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehavior16set_time_horizonE10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the time horizon. Collisions predicted to happen after this time are ignored. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -492,7 +493,7 @@ Conference on Intelligent, Robots and Systems, 2010, pp. 4584–4589.
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core12ORCABehavior27should_use_effective_centerEb">
 <span class="target" id="classnavground_1_1core_1_1_o_r_c_a_behavior_1a1f88efc2b3b7f78f0a137832fd0f9be4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">should_use_effective_center</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehavior27should_use_effective_centerEb" title="Link to this definition">#</a><br /></dt>
-<dd><p>Specifies if the kinematics should be using an shifted effective center, see <a class="reference internal" href="#classnavground_1_1core_1_1_o_r_c_a_behavior_1afea5724cee3d5460e4c3053832e774eb"><span class="std std-ref">set_time_horizon</span></a>. </p>
+<dd><p>Specifies if the kinematics should be using an shifted effective center, see <a class="reference internal" href="#classnavground_1_1core_1_1_o_r_c_a_behavior_1a01b85625726f45aec177f7ea8493600a"><span class="std std-ref">set_time_horizon</span></a>. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> Whenever is should use an effective center when kinematics is wheeled and constrained. </p>
@@ -550,9 +551,9 @@ Conference on Intelligent, Robots and Systems, 2010, pp. 4584–4589.
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12ORCABehaviorE"><code class="docutils literal notranslate"><span class="pre">ORCABehavior</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12ORCABehavior12ORCABehaviorENSt10shared_ptrI10KinematicsEEf"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::ORCABehavior()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12ORCABehavior12ORCABehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::ORCABehavior()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12ORCABehavior16get_time_horizonEv"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::get_time_horizon()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12ORCABehavior16set_time_horizonEf"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::set_time_horizon()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12ORCABehavior16set_time_horizonE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::set_time_horizon()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12ORCABehavior25is_using_effective_centerEv"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::is_using_effective_center()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12ORCABehavior27should_use_effective_centerEb"><code class="docutils literal notranslate"><span class="pre">ORCABehavior::should_use_effective_center()</span></code></a></li>
 </ul>

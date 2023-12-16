@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "navground/core/behavior.h"
+#include "navground/core/types.h"
 #include "navground_core_export.h"
 
 namespace navground::core {
@@ -49,14 +50,14 @@ struct NAVGROUND_CORE_EXPORT Action {
    * @param      controller  The controller ticking the action
    * @param[in]  dt          The time step
    */
-  void update(Controller *controller, float dt);
+  void update(Controller *controller, ng_float_t dt);
 
   /**
    * A callback called when the action is running
    *
    * The callback argument is the minimal expected time to terminate the action.
    */
-  std::optional<std::function<void(float)>> running_cb;
+  std::optional<std::function<void(ng_float_t)>> running_cb;
   /**
    * A callback called when the action terminates
    *
@@ -94,7 +95,7 @@ struct NAVGROUND_CORE_EXPORT Action {
    *
    * @return     A measure of progress
    */
-  virtual float tick(Controller *controller, float dt);
+  virtual ng_float_t tick(Controller *controller, ng_float_t dt);
 
   virtual ~Action() { abort(); }
 };
@@ -109,7 +110,7 @@ struct NAVGROUND_CORE_EXPORT FollowAction : Action {
 
 struct NAVGROUND_CORE_EXPORT MoveAction : Action {
   using Action::Action;
-  float tick(Controller *controller, float dt) override;
+  ng_float_t tick(Controller *controller, ng_float_t dt) override;
 };
 
 /**
@@ -157,11 +158,11 @@ class NAVGROUND_CORE_EXPORT Controller {
   /**
    * @private
    */
-  virtual float estimate_time_until_target_satisfied() const {
+  virtual ng_float_t estimate_time_until_target_satisfied() const {
     if (behavior) {
       return behavior->estimate_time_until_target_satisfied();
     }
-    return std::numeric_limits<float>::infinity();
+    return std::numeric_limits<ng_float_t>::infinity();
   }
 
   /**
@@ -205,34 +206,32 @@ class NAVGROUND_CORE_EXPORT Controller {
    *
    * @return     The speed tolerance.
    */
-  float get_speed_tolerance() const { return speed_tolerance; }
+  ng_float_t get_speed_tolerance() const { return speed_tolerance; }
   /**
    * @brief      Sets the minimal speed to consider the agent as stopped.
    *
    * @param[in]  value  The speed tolerance
    */
-  void set_speed_tolerance(float value) {
-    speed_tolerance = std::max(0.0f, value);
+  void set_speed_tolerance(ng_float_t value) {
+    speed_tolerance = std::max<ng_float_t>(0, value);
   }
 
-  
   /**
-   * @brief      Gets the frame of reference for the command. 
-   * 
+   * @brief      Gets the frame of reference for the command.
+   *
    * @return     The frame of reference.
    */
-  std::optional<Frame> get_cmd_frame() const {
-    return cmd_frame;
-  }
+  std::optional<Frame> get_cmd_frame() const { return cmd_frame; }
 
   /**
-   * @brief      Sets the frame of reference for the command. 
-   * 
-   * Leave empty to use the default frame of the kinematics, see \ref Behavior::default_cmd_frame.
+   * @brief      Sets the frame of reference for the command.
+   *
+   * Leave empty to use the default frame of the kinematics, see \ref
+   * Behavior::default_cmd_frame.
    *
    * @param[in]  frame  The desired value
    */
-  void set_cmd_frame(const std::optional<Frame> & frame) { cmd_frame = frame; }
+  void set_cmd_frame(const std::optional<Frame> &frame) { cmd_frame = frame; }
 
   /**
    * @brief      Starts an action to go to a point.
@@ -247,7 +246,8 @@ class NAVGROUND_CORE_EXPORT Controller {
    *
    * @return     The new action.
    */
-  std::shared_ptr<Action> go_to_position(const Vector2 &point, float tolerance);
+  std::shared_ptr<Action> go_to_position(const Vector2 &point,
+                                         ng_float_t tolerance);
   /**
    * @brief      Starts an action to go to a pose.
    *
@@ -263,8 +263,8 @@ class NAVGROUND_CORE_EXPORT Controller {
    * @return     The new action.
    */
   std::shared_ptr<Action> go_to_pose(const Pose2 &pose,
-                                     float position_tolerance,
-                                     float orientation_tolerance);
+                                     ng_float_t position_tolerance,
+                                     ng_float_t orientation_tolerance);
   /**
    * @brief      Starts an action to follow a point.
    *
@@ -346,7 +346,7 @@ class NAVGROUND_CORE_EXPORT Controller {
    *
    * @return     The command twist to execute the current action
    */
-  Twist2 update(float time_step);
+  Twist2 update(ng_float_t time_step);
   /**
    * @brief      Sets the callback called each time a command is computed for an
    * active action.
@@ -361,7 +361,7 @@ class NAVGROUND_CORE_EXPORT Controller {
   /**
    * Speed tolerance to transition to idle
    */
-  float speed_tolerance;
+  ng_float_t speed_tolerance;
   std::optional<Frame> cmd_frame;
 
  private:

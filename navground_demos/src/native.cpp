@@ -54,8 +54,8 @@ static void run(const char *behavior = "HL") {
   // invalid an alternative could be to use shared pointers
   controllers.reserve(2);
   std::vector<Behavior *> agents;
-  std::vector<Disc> obstacles = {Disc({0.0f, 0.0f}, 0.1)};
-  Vector2 target{1.0, 0.0};
+  std::vector<Disc> obstacles = {Disc({0, 0}, 0.1)};
+  Vector2 target{1, 0};
   for (size_t i = 0; i < 2; i++) {
     auto kinematics = std::make_shared<TwoWheelsDifferentialDriveKinematics>(0.166, 0.094);
     auto agent = Behavior::make_type(behavior);
@@ -64,7 +64,7 @@ static void run(const char *behavior = "HL") {
     agent->set_horizon(1.0);
     agent->set_safety_margin(0.02);
     agent->set_optimal_speed(0.12);
-    agent->set_position(Vector2(i ? -0.5f : 0.5f, 0.0f));
+    agent->set_position(Vector2(i ? -0.5 : 0.5, 0));
     if (GeometricState *state = dynamic_cast<GeometricState *>(agent->get_environment_state())) {
       state->set_static_obstacles(obstacles);
     }

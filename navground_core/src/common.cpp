@@ -6,7 +6,7 @@
 
 namespace navground::core {
 
-Twist2 Twist2::relative(const Pose2 & reference) const {
+Twist2 Twist2::relative(const Pose2& reference) const {
   if (frame == Frame::absolute) {
     auto r_value = rotate(-reference.orientation);
     r_value.frame = Frame::relative;
@@ -15,7 +15,7 @@ Twist2 Twist2::relative(const Pose2 & reference) const {
   return *this;
 }
 
-Twist2 Twist2::absolute(const Pose2 & reference) const {
+Twist2 Twist2::absolute(const Pose2& reference) const {
   if (frame == Frame::relative) {
     auto a_value = rotate(reference.orientation);
     a_value.frame = Frame::absolute;
@@ -24,7 +24,7 @@ Twist2 Twist2::absolute(const Pose2 & reference) const {
   return *this;
 }
 
-Twist2 Twist2::to_frame(Frame frame, const Pose2 & reference) const {
+Twist2 Twist2::to_frame(Frame frame, const Pose2& reference) const {
   return frame == Frame::relative ? relative(reference) : absolute(reference);
 }
 

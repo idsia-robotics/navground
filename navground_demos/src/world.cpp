@@ -23,7 +23,7 @@ class ThymioDemo : public WorldSampler {
  public:
 
   void init(World * world) {
-    const std::vector<Vector2> targets{{1.0f, 0.0f}, {-1.0f, 0.0f}};
+    const std::vector<Vector2> targets{{1.0, 0}, {-1.0, 0}};
     for (size_t i = 0; i < 2; i++) {
       auto task = std::make_shared<WaypointsTask>(targets, true, 0.2);
       auto se = std::make_shared<BoundedStateEstimation>(1.0);
@@ -34,10 +34,10 @@ class ThymioDemo : public WorldSampler {
       agent->behavior->set_horizon(1.0);
       agent->behavior->set_safety_margin(0.02);
       agent->controller.set_speed_tolerance(0.01);
-      agent->pose = {{i ? -0.5f : 0.5f, 0.5f}, 0.0f};
+      agent->pose = {{i ? -0.5 : 0.5, 0.5}, 0};
       world->add_agent(agent);
     }
-    world->obstacles.emplace_back(Vector2{0.0f, 0.0f}, 0.1f);
+    world->obstacles.emplace_back(Vector2{0, 0}, 0.1);
   }
 
   explicit ThymioDemo(const std::string &behavior_type = "HL")

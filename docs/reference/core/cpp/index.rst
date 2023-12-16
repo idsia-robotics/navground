@@ -13,6 +13,7 @@ C++ API
 .. toctree::
    :maxdepth: 3
 
+   types
    common
    auto_registration
    yaml

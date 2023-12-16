@@ -10,6 +10,7 @@
 #include "navground/core/behavior.h"
 #include "navground/core/property.h"
 #include "navground/core/states/geometric.h"
+#include "navground/core/types.h"
 #include "navground_core_export.h"
 
 namespace RVO {
@@ -27,13 +28,13 @@ namespace navground::core {
  * A wrapper of the open-source implementation from
  * http://gamma.cs.unc.edu/RVO2/
  *
- * *Registered properties*: 
- * 
- * - `time_horizon` (float, \ref get_time_horizon), 
- * 
- * - `effective_center` (float, \ref is_using_effective_center), 
- *     
- * *State*: \ref GeometricState 
+ * *Registered properties*:
+ *
+ * - `time_horizon` (float, \ref get_time_horizon),
+ *
+ * - `effective_center` (float, \ref is_using_effective_center),
+ *
+ * *State*: \ref GeometricState
  */
 class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
  public:
@@ -44,7 +45,7 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
    * @param[in]  radius      The radius
    */
   ORCABehavior(std::shared_ptr<Kinematics> kinematics = nullptr,
-               float radius = 0.0f);
+               ng_float_t radius = 0);
   ~ORCABehavior();
 
   // ---------------------------------- BEHAVIOR PARAMETERS
@@ -55,14 +56,14 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
    *
    * @return     The time horizon.
    */
-  float get_time_horizon() const;
+  ng_float_t get_time_horizon() const;
   /**
    * @brief      Sets the time horizon. Collisions predicted to happen after
    * this time are ignored
    *
    * @param[in]  value
    */
-  void set_time_horizon(float value);
+  void set_time_horizon(ng_float_t value);
   /**
    * @brief      Determines if an effective center is being used.
    *
@@ -95,8 +96,8 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
    */
   void should_use_effective_center(bool value) { use_effective_center = value; }
 
-  void set_time_step(float value);
-  float get_time_step() const;
+  void set_time_step(ng_float_t value);
+  ng_float_t get_time_step() const;
 
   /**
    * @private
@@ -111,9 +112,9 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
   static inline std::map<std::string, Property> properties =
       Properties{
           {"time_horizon",
-           make_property<float, ORCABehavior>(&ORCABehavior::get_time_horizon,
-                                              &ORCABehavior::set_time_horizon,
-                                              10.0f, "Time horizon")},
+           make_property<ng_float_t, ORCABehavior>(
+               &ORCABehavior::get_time_horizon, &ORCABehavior::set_time_horizon,
+               10, "Time horizon")},
           {"effective_center",
            make_property<bool, ORCABehavior>(
                &ORCABehavior::is_using_effective_center,
@@ -128,34 +129,34 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
    */
   std::string get_type() const override { return type; }
 
-  /** 
+  /**
    * @private
-  */
-  EnvironmentState * get_environment_state() override {
-    return &state;
-  }
+   */
+  EnvironmentState* get_environment_state() override { return &state; }
 
  protected:
   Twist2 twist_towards_velocity(const Vector2& absolute_velocity,
                                 Frame frame) override;
-  Vector2 desired_velocity_towards_point(const Vector2 & point, float speed, float time_step) override;
-  Vector2 desired_velocity_towards_velocity(const Vector2 & velocity, float time_step) override;
+  Vector2 desired_velocity_towards_point(const Vector2& point, ng_float_t speed,
+                                         ng_float_t time_step) override;
+  Vector2 desired_velocity_towards_velocity(const Vector2& velocity,
+                                            ng_float_t time_step) override;
 
  private:
   GeometricState state;
   bool use_effective_center;
-  float D;
+  ng_float_t D;
   std::unique_ptr<RVO::Agent> _RVOAgent;
   std::vector<std::unique_ptr<const RVO::Agent>> rvo_neighbors;
   std::vector<std::unique_ptr<const RVO::Obstacle>> rvo_obstacles;
 
   void add_line_obstacle(const LineSegment& line);
   void add_neighbor(const Neighbor& disc, float range, bool push_away = false,
-                    float epsilon = 2e-3);
+                    ng_float_t epsilon = 2e-3);
   void add_obstacle(const Disc& disc, float range, bool push_away = false,
-                    float epsilon = 2e-3);
+                    ng_float_t epsilon = 2e-3);
   void prepare_line_obstacles();
-  void prepare(const Vector2 & target_velocity, float dt);
+  void prepare(const Vector2& target_velocity, ng_float_t dt);
 
   Vector2 effective_position() const;
 

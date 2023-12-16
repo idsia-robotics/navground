@@ -2,8 +2,8 @@
 #define NAVGROUND_CORE_YAML_YAML_H
 
 #include <iostream>
-#include <string>
 #include <memory>
+#include <string>
 
 #include "yaml-cpp/yaml.h"
 
@@ -16,7 +16,8 @@ namespace YAML {
  *
  * @tparam     T     The type of the object
  *
- * @return     A shared pointer with the loaded object or ``nullptr`` if loading fails.
+ * @return     A shared pointer with the loaded object or ``nullptr`` if loading
+ * fails.
  */
 template <typename T>
 inline std::shared_ptr<T> load_node(const Node &node) {
@@ -30,7 +31,8 @@ inline std::shared_ptr<T> load_node(const Node &node) {
  *
  * @tparam     T     The type of the object
  *
- * @return     A shared pointer with the loaded object or ``nullptr`` if loading fails.
+ * @return     A shared pointer with the loaded object or ``nullptr`` if loading
+ * fails.
  */
 template <typename T>
 inline std::shared_ptr<T> load_string(const std::string &value) {
@@ -58,8 +60,8 @@ std::string dump(const T *object) {
   if (!object) return "";
   YAML::Emitter out;
   // TODO(?): these are not working
-  // out.SetFloatPrecision(6);
-  // out << YAML::Precision(6) << YAML::Node(*object);
+  out.SetFloatPrecision(6);
+  out << YAML::Precision(6) << YAML::Node(*object);
   out << YAML::Node(*object);
   return std::string(out.c_str());
 }

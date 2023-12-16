@@ -8,11 +8,11 @@
 
 #include "navground/core/plugins.h"
 #include "navground/core/yaml/yaml.h"
+#include "navground/sim/sampling/sampler.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/scenarios/antipodal.h"
 #include "navground/sim/scenarios/simple.h"
 #include "navground/sim/yaml/scenario.h"
-#include "navground/sim/sampling/sampler.h"
 #include "yaml-cpp/yaml.h"
 
 int main(int argc, char *argv[]) {
@@ -21,10 +21,7 @@ int main(int argc, char *argv[]) {
   parser.add_description("Samples a world from a scenario.");
   parser.add_argument("YAML").help(
       "YAML string, or path to a YAML file, describing a scenario");
-  parser.add_argument("--seed")
-      .help("Seed")
-      .default_value(0)
-      .scan<'i', int>();
+  parser.add_argument("--seed").help("Seed").default_value(0).scan<'i', int>();
 
   try {
     parser.parse_args(argc, argv);
@@ -56,7 +53,8 @@ int main(int argc, char *argv[]) {
   try {
     scenario = YAML::load_node<navground::sim::Scenario>(node);
   } catch (const std::exception &e) {
-    std::cerr << "[Error] Could not load the scenario " << e.what() << std::endl;
+    std::cerr << "[Error] Could not load the scenario " << e.what()
+              << std::endl;
     std::exit(1);
   }
   // std::cout << "Scenario" << std::endl;
@@ -72,7 +70,7 @@ int main(int argc, char *argv[]) {
   World world;
   world.set_seed(seed);
   // is equivalent to:
-  //navground::sim::set_random_seed(seed);
+  // navground::sim::set_random_seed(seed);
   scenario->init_world(&world);
   std::cout << YAML::dump<navground::sim::World>(&world);
   std::cout << std::endl;

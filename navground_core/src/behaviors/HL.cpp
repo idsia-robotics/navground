@@ -12,17 +12,18 @@
 #include "navground/core/collision_computation.h"
 #include "navground/core/common.h"
 
-static float relax(float x0, float x1, float tau, float dt) {
+static ng_float_t relax(ng_float_t x0, ng_float_t x1, ng_float_t tau,
+                        ng_float_t dt) {
   if (tau == 0) return x1;
   // float dt=0.1;
   return exp(-dt / tau) * (x0 - x1) + x1;
 }
 
-static std::vector<float> relax(const std::vector<float> &v0,
-                                const std::vector<float> &v1, float tau,
-                                float dt) {
+static std::vector<ng_float_t> relax(const std::vector<ng_float_t> &v0,
+                                     const std::vector<ng_float_t> &v1,
+                                     ng_float_t tau, ng_float_t dt) {
   if (tau == 0) return v1;
-  auto v2 = std::vector<float>(v0.size());
+  auto v2 = std::vector<ng_float_t>(v0.size());
   for (size_t i = 0; i < v0.size(); i++) {
     v2[i] = relax(v0[i], v1[i], tau, dt);
   }
@@ -31,7 +32,7 @@ static std::vector<float> relax(const std::vector<float> &v0,
 
 static navground::core::Twist2 relax(const navground::core::Twist2 &v0,
                                      const navground::core::Twist2 &v1,
-                                     float tau, float dt) {
+                                     ng_float_t tau, ng_float_t dt) {
   assert(v1.frame == v0.frame);
   if (tau == 0) {
     return v1;
@@ -46,8 +47,8 @@ namespace navground::core {
 
 DiscCache HLBehavior::make_neighbor_cache(const Neighbor &neighbor) {
   Vector2 delta = neighbor.position - pose.position;
-  float margin = radius + safety_margin + neighbor.radius;
-  float distance = delta.norm() - margin;
+  ng_float_t margin = radius + safety_margin + neighbor.radius;
+  ng_float_t distance = delta.norm() - margin;
   if (epsilon > 0 && distance < epsilon) {
     delta = delta / delta.norm() * (margin + epsilon);
     distance = epsilon;
@@ -58,8 +59,8 @@ DiscCache HLBehavior::make_neighbor_cache(const Neighbor &neighbor) {
 
 DiscCache HLBehavior::make_obstacle_cache(const Disc &obstacle) {
   Vector2 delta = obstacle.position - pose.position;
-  const float margin = radius + safety_margin + obstacle.radius;
-  const float distance = delta.norm() - margin;
+  const ng_float_t margin = radius + safety_margin + obstacle.radius;
+  const ng_float_t distance = delta.norm() - margin;
   if (epsilon > 0 && distance < epsilon) {
     delta = delta / delta.norm() * (margin + epsilon);
   }
@@ -68,23 +69,24 @@ DiscCache HLBehavior::make_obstacle_cache(const Disc &obstacle) {
 
 // HLBehavior::~HLBehavior() = default;
 
-std::valarray<float> HLBehavior::get_collision_distance(
-    bool assuming_static, std::optional<float> speed) {
-  float target_speed = speed.value_or(cached_target_speed);
+std::valarray<ng_float_t> HLBehavior::get_collision_distance(
+    bool assuming_static, std::optional<ng_float_t> speed) {
+  ng_float_t target_speed = speed.value_or(cached_target_speed);
   prepare(target_speed);
   return collision_computation.get_free_distance_for_sector(
       pose.orientation - aperture, 2 * aperture, resolution, effective_horizon,
       !assuming_static, target_speed);
 }
 
-std::valarray<float> HLBehavior::get_collision_angles() const {
+std::valarray<ng_float_t> HLBehavior::get_collision_angles() const {
   return collision_computation.get_angles_for_sector(
       pose.orientation - aperture, 2 * aperture, resolution);
 }
 
 // distance from agent center to target
-static inline float distance_from_target(Radians angle, float free_distance,
-                                         float horizon) {
+static inline ng_float_t distance_from_target(Radians angle,
+                                              ng_float_t free_distance,
+                                              ng_float_t horizon) {
   if (cos(angle) * horizon < free_distance) {
     return fabs(sin(angle) * horizon);
   }
@@ -94,9 +96,9 @@ static inline float distance_from_target(Radians angle, float free_distance,
 
 // TODO(J:revision2023): check why we need effective_horizon
 // output is in absolute frame
-Vector2 HLBehavior::desired_velocity_towards_point(const Vector2 &point,
-                                                   float target_speed,
-                                                   [[maybe_unused]] float dt) {
+Vector2 HLBehavior::desired_velocity_towards_point(
+    const Vector2 &point, ng_float_t target_speed,
+    [[maybe_unused]] ng_float_t dt) {
   prepare(target_speed);
   const Vector2 delta_target = point - pose.position;
   const Radians start_angle = orientation_of(delta_target);
@@ -106,31 +108,33 @@ Vector2 HLBehavior::desired_velocity_towards_point(const Vector2 &point,
   // effective_horizon = horizon;
   // effective_horizon=fmin(horizon,D);
   // Vector2 effectiveTarget = agentToTarget / D * effective_horizon;
-  const float max_distance = effective_horizon;  // - radius;
-  const Radians max_angle{1.6f};                 // Radians::PI_OVER_TW0;
-  Radians angle = 0.0f;
+  const ng_float_t max_distance = effective_horizon;  // - radius;
+  const Radians max_angle{1.6};                       // Radians::PI_OVER_TW0;
+  Radians angle = 0;
   // relative to target direction
-  Radians optimal_angle = 0.0f;
-  float optimal_distance_from_target = max_distance;
+  Radians optimal_angle = 0;
+  ng_float_t optimal_distance_from_target = max_distance;
   int out[2] = {0, 0};
   bool found = false;
   while (angle < max_angle && !(out[0] == 2 && out[1] == 2)) {
-    float distance_from_target_lower_bound = fabs(sin(angle) * max_distance);
+    ng_float_t distance_from_target_lower_bound =
+        fabs(sin(angle) * max_distance);
     // distance_from_target_lower_bound=2*D*Sin(0.5*optimal_angle);
     if (optimal_distance_from_target <= distance_from_target_lower_bound) {
       // break;
     }
     for (int i = 0; i < 2; ++i) {
-      const float s_angle = i == 0 ? angle : -angle;
+      const ng_float_t s_angle = i == 0 ? angle : -angle;
       const bool inside =
           abs(normalize(relative_start_angle + s_angle)) < aperture;
       if (out[i] == 1 && !inside) out[i] = 2;
       if (out[i] == 0 && inside) out[i] = 1;
       if (inside) {
         // free distance to travel before collision
-        const float free_distance = collision_computation.dynamic_free_distance(
-            start_angle + s_angle, max_distance, target_speed);
-        const float dist =
+        const ng_float_t free_distance =
+            collision_computation.dynamic_free_distance(
+                start_angle + s_angle, max_distance, target_speed);
+        const ng_float_t dist =
             distance_from_target(angle, free_distance, max_distance);
         if (dist < optimal_distance_from_target) {
           optimal_distance_from_target = dist;
@@ -143,15 +147,15 @@ Vector2 HLBehavior::desired_velocity_towards_point(const Vector2 &point,
     angle += da;
   }
   if (!found) return Vector2::Zero();
-  const float static_distance = collision_computation.static_free_distance(
+  const ng_float_t static_distance = collision_computation.static_free_distance(
       start_angle + optimal_angle, max_distance);
-  const float desired_speed = fmin(target_speed, static_distance / eta);
+  const ng_float_t desired_speed = fmin(target_speed, static_distance / eta);
   return desired_speed * unit(start_angle + optimal_angle);
 }
 
 Vector2 HLBehavior::desired_velocity_towards_velocity(
-    const Vector2 &target_velocity, float dt) {
-  const float speed = target_velocity.norm();
+    const Vector2 &target_velocity, ng_float_t dt) {
+  const ng_float_t speed = target_velocity.norm();
   if (speed) {
     return desired_velocity_towards_point(
         pose.position + target_velocity / speed * effective_horizon, speed, dt);
@@ -159,7 +163,7 @@ Vector2 HLBehavior::desired_velocity_towards_velocity(
   return Vector2::Zero();
 }
 
-void HLBehavior::prepare(float target_speed) {
+void HLBehavior::prepare(ng_float_t target_speed) {
   effective_horizon = horizon;
   if (state.changed() ||
       Behavior::changed(POSITION | ORIENTATION | RADIUS | HORIZON |
@@ -193,7 +197,7 @@ void HLBehavior::prepare(float target_speed) {
 }
 
 Twist2 HLBehavior::relax(const Twist2 &current_value, const Twist2 &value,
-                         float dt) const {
+                         ng_float_t dt) const {
   if (kinematics->is_wheeled()) {
     auto wheel_speeds = wheel_speeds_from_twist(value);
     auto current_wheel_speeds = wheel_speeds_from_twist(current_value);
@@ -210,7 +214,7 @@ Twist2 HLBehavior::relax(const Twist2 &current_value, const Twist2 &value,
   }
 }
 
-Twist2 HLBehavior::compute_cmd(float dt, std::optional<Frame> frame) {
+Twist2 HLBehavior::compute_cmd(ng_float_t dt, std::optional<Frame> frame) {
   if (!kinematics) {
     std::cerr << "Missing kinematics" << std::endl;
     return {};

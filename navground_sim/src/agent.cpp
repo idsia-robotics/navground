@@ -6,7 +6,7 @@
 
 namespace navground::sim {
 
-void Agent::update(float dt, float time, World *world) {
+void Agent::update(ng_float_t dt, ng_float_t time, World *world) {
   if (external) return;
   // TODO(J): should update the task anyway to record the logs
   control_deadline -= dt;
@@ -26,20 +26,20 @@ void Agent::update(float dt, float time, World *world) {
         is_stuck_since_time = time;
       }
     } else {
-      is_stuck_since_time = -1.0f;
+      is_stuck_since_time = -1.0;
     }
   }
   last_cmd = controller.update(std::max(control_period, dt));
   // last_cmd = behavior->get_actuated_twist(true);
 }
 
-void Agent::actuate(float dt) {
+void Agent::actuate(ng_float_t dt) {
   if (external) return;
   twist = last_cmd;  // + collision_force / mass * dt;
   pose = pose.integrate(twist, dt);
 }
 
-void Agent::actuate(const Twist2 &cmd, float dt) {
+void Agent::actuate(const Twist2 &cmd, ng_float_t dt) {
   if (!kinematics) return;
   last_cmd = kinematics->feasible(cmd.to_frame(kinematics->cmd_frame(), pose));
   twist = last_cmd;

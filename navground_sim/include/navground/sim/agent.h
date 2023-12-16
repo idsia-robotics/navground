@@ -14,6 +14,7 @@
 #include "navground/core/common.h"
 #include "navground/core/controller.h"
 #include "navground/core/states/geometric.h"
+#include "navground/core/types.h"
 #include "navground/sim/entity.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/task.h"
@@ -45,8 +46,8 @@ namespace navground::sim {
  *
  * Agents have a public identifies \ref id that is accessible by the
  * other agents' state estimation and may be passed to their behavior as \ref
- * navground::core::Neighbor::id. This identifier may not be unique (e.g., may be
- * used to identifies *groups* of agents).
+ * navground::core::Neighbor::id. This identifier may not be unique (e.g., may
+ * be used to identifies *groups* of agents).
  *
  * Agents runs their update at the rate set by \ref control_period even if
  * the world is updated at a faster rate.
@@ -76,11 +77,11 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    * @param[in]  control_period  The control period
    * @param[in]  id              The public identifier
    */
-  Agent(float radius = 0.0f, std::shared_ptr<Behavior> behavior = nullptr,
+  Agent(ng_float_t radius = 0, std::shared_ptr<Behavior> behavior = nullptr,
         std::shared_ptr<Kinematics> kinematics = nullptr,
         std::shared_ptr<Task> task = nullptr,
         std::shared_ptr<StateEstimation> estimation = nullptr,
-        float control_period = 0.0f, unsigned id = 0)
+        ng_float_t control_period = 0, unsigned id = 0)
       : Entity(),
         id(id),
         radius(radius),
@@ -112,11 +113,11 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    * @return     A new agent
    */
   static std::shared_ptr<Agent> make(
-      float radius = 0.0f, std::shared_ptr<Behavior> behavior = nullptr,
+      ng_float_t radius = 0, std::shared_ptr<Behavior> behavior = nullptr,
       std::shared_ptr<Kinematics> kinematics = nullptr,
       std::shared_ptr<Task> task = nullptr,
       std::shared_ptr<StateEstimation> estimation = nullptr,
-      float control_period = 0.0f, unsigned id = 0) {
+      ng_float_t control_period = 0, unsigned id = 0) {
     return std::make_shared<Agent>(radius, behavior, kinematics, task,
                                    estimation, control_period, id);
   }
@@ -227,11 +228,11 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   /**
    * The agent radius
    */
-  float radius;
+  ng_float_t radius;
   /**
    * The control period
    */
-  float control_period;
+  ng_float_t control_period;
   /**
    * The current pose
    */
@@ -255,7 +256,8 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   /**
    * @brief The color of the agent.
    *
-   * A valid CSS color to fill the agent in the UI or empty to use the default color.
+   * A valid CSS color to fill the agent in the UI or empty to use the default
+   * color.
    */
   std::string color;
 
@@ -271,10 +273,10 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   /**
    * @brief Whether the agent is controlled externally.
    *
-   * External agents are not controlled by this simulation but are part of the state estimation used
-   * by the agents controlled in this simulation.
+   * External agents are not controlled by this simulation but are part of the
+   * state estimation used by the agents controlled in this simulation.
    */
-  bool external;  
+  bool external;
 
   /**
    * @brief      Actuate the current agent control command.
@@ -282,7 +284,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    * @param[in]  dt    The time step
    * @param[in]  cmd The desired command
    */
-  void actuate(const Twist2 & cmd, float dt);
+  void actuate(const Twist2 &cmd, ng_float_t dt);
 
   /**
    * @brief      Determines if the agent has been stuck since a given time.
@@ -291,7 +293,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    *
    * @return     True if been stuck since, False otherwise.
    */
-  bool has_been_stuck_since(float time) const {
+  bool has_been_stuck_since(ng_float_t time) const {
     return is_stuck_since_time >= 0 && is_stuck_since_time < time;
   }
 
@@ -300,9 +302,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    *
    * @return     The time since stuck.
    */
-  float get_time_since_stuck() const {
-    return is_stuck_since_time;
-  }
+  ng_float_t get_time_since_stuck() const { return is_stuck_since_time; }
 
  private:
   std::shared_ptr<Task> task;
@@ -310,9 +310,9 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   std::shared_ptr<Behavior> behavior;
   std::shared_ptr<Kinematics> kinematics;
   Controller controller;
-  float control_deadline;
+  ng_float_t control_deadline;
   Vector2 collision_correction;
-  float is_stuck_since_time;
+  ng_float_t is_stuck_since_time;
 
   /**
    * @brief      Tick the agent for a time step.
@@ -321,14 +321,14 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    * @param[in]  time    The current time
    * @param[in]  world    The that the agent is part of
    */
-  void update(float dt, float time, World *world);
+  void update(ng_float_t dt, ng_float_t time, World *world);
 
   /**
    * @brief      Actuate the current agent control command.
    *
    * @param[in]  dt    The time step
    */
-  void actuate(float dt);
+  void actuate(ng_float_t dt);
 };
 
 }  // namespace navground::sim

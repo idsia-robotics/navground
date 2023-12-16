@@ -17,12 +17,13 @@ namespace navground::sim {
 
 using namespace navground::core;
 
-void CrossScenario::init_world(World *world, [[maybe_unused]] std::optional<int> seed) {
+void CrossScenario::init_world(World *world,
+                               [[maybe_unused]] std::optional<int> seed) {
   Scenario::init_world(world, seed);
-  const float t = 0.5f * side;
-  const float p = std::max(0.0f, 0.5f * side - target_margin);
-  UniformSampler<float> x(-p, p);
-  const Waypoints targets{{t, 0.0f}, {-t, 0.0f}, {0.0f, t}, {0.0f, -t}};
+  const ng_float_t t = 0.5 * side;
+  const ng_float_t p = std::max<ng_float_t>(0, 0.5 * side - target_margin);
+  UniformSampler<ng_float_t> x(-p, p);
+  const Waypoints targets{{t, 0}, {-t, 0}, {0, t}, {0, -t}};
   for (const auto &agent : world->get_agents()) {
     agent->pose.position = {x.sample(), x.sample()};
   }
@@ -30,8 +31,8 @@ void CrossScenario::init_world(World *world, [[maybe_unused]] std::optional<int>
   unsigned index = 0;
   for (const auto &agent : world->get_agents()) {
     const auto target = targets[index % 4];
-    agent->set_task(
-        std::make_shared<WaypointsTask>(Waypoints{target, -target}, true, tolerance));
+    agent->set_task(std::make_shared<WaypointsTask>(Waypoints{target, -target},
+                                                    true, tolerance));
     agent->pose.orientation = orientation_of(target - agent->pose.position);
     index++;
   }

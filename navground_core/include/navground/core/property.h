@@ -10,6 +10,7 @@
 
 #include "./common.h"
 #include "./utilities.h"
+#include "navground/core/types.h"
 #include "navground_core_export.h"
 
 namespace navground::core {
@@ -17,14 +18,14 @@ namespace navground::core {
 struct HasProperties;
 
 /**
- * @brief      This class defines a property (similar to Python built-in properties),
- * i.e., a pair of getter and setter. In addition, it holds (for auto-documentation) 
- * a default value, a description, and the name of the involved types.
- * A property has a value of type
- * \ref Field, which is one of ``bool``, ``int``, ``float``, ``string``, \ref
- * navground::core::Vector2 or a collection (a vector in C++, a list in Python) thereof.
- * Properties are used to configure sub-classes of \ref navground::core::HasProperties when using
- * bindings like YAML or Python. Properties values are accessed 
+ * @brief      This class defines a property (similar to Python built-in
+ * properties), i.e., a pair of getter and setter. In addition, it holds (for
+ * auto-documentation) a default value, a description, and the name of the
+ * involved types. A property has a value of type \ref Field, which is one of
+ * ``bool``, ``int``, ``float``, ``string``, \ref navground::core::Vector2 or a
+ * collection (a vector in C++, a list in Python) thereof. Properties are used
+ * to configure sub-classes of \ref navground::core::HasProperties when using
+ * bindings like YAML or Python. Properties values are accessed
  * using the methods exposed by \ref navground::core::HasProperties.
  */
 struct Property {
@@ -32,8 +33,8 @@ struct Property {
    * The type of the value held by the property.
    */
   using Field =
-      std::variant<bool, int, float, std::string, Vector2, std::vector<bool>,
-                   std::vector<int>, std::vector<float>,
+      std::variant<bool, int, ng_float_t, std::string, Vector2,
+                   std::vector<bool>, std::vector<int>, std::vector<ng_float_t>,
                    std::vector<std::string>, std::vector<Vector2>>;
   /**
    * The type of the property value getter, i.e., a function that gets the
@@ -123,11 +124,10 @@ using TypedSetter = std::function<void(C*, const T&)>;
  * @return     A property
  */
 template <typename T, class C>
-inline Property make_property(const TypedGetter<T, C>& getter,
-                              const TypedSetter<T, C>& setter,
-                              const T& default_value,
-                              const std::string& description = "",
-                              const std::vector<std::string>& deprecated_names = {}) {
+inline Property make_property(
+    const TypedGetter<T, C>& getter, const TypedSetter<T, C>& setter,
+    const T& default_value, const std::string& description = "",
+    const std::vector<std::string>& deprecated_names = {}) {
   Property property;
   property.description = description;
   property.default_value = default_value;

@@ -7,6 +7,7 @@
 
 #include <vector>
 
+#include "navground/core/types.h"
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/world.h"
 #include "navground_sim_export.h"
@@ -34,11 +35,11 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   /**
    * The default range
    */
-  inline static const float default_range = 1.0f;
+  inline static const ng_float_t default_range = 1;
   /**
    * The default start angle
    */
-  inline static const float default_number = 1;
+  inline static const ng_float_t default_number = 1;
 
   /**
    * @brief      Constructs a new instance.
@@ -46,7 +47,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    * @param[in]  range_   The range of view
    * @param[in]  number_  Number of discs
    */
-  explicit DiscsStateEstimation(float range_ = default_range,
+  explicit DiscsStateEstimation(ng_float_t range_ = default_range,
                                 unsigned number_ = default_number)
       : Sensor(), range(range_), number(number_) {}
 
@@ -57,14 +58,14 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_range(float value) { range = value; }
+  void set_range(ng_float_t value) { range = value; }
 
   /**
    * @brief      Gets the range of view.
    *
    * @return     The range of view.
    */
-  float get_range() const { return range; }
+  ng_float_t get_range() const { return range; }
 
   /**
    * @brief      Sets the number of discs.
@@ -92,7 +93,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    */
   static inline std::map<std::string, Property> properties =
       Properties{
-          {"range", make_property<float, DiscsStateEstimation>(
+          {"range", make_property<ng_float_t, DiscsStateEstimation>(
                         &DiscsStateEstimation::get_range,
                         &DiscsStateEstimation::set_range, default_range,
                         "Maximal range")},
@@ -117,14 +118,15 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   // {(x, y, v_x, v_y, radius)}
   // TODO(Jerome): max_radius / max_velocity
   Description get_description() const override {
-    return {
-        {"radius", BufferDescription::make<float>({number}, 0.0, 1.0f)},
-        {"position", BufferDescription::make<float>({number, 2}, 0.0, range)},
-        {"velocity", BufferDescription::make<float>({number, 2}, 0.0, 1.0f)}};
+    return {{"radius", BufferDescription::make<ng_float_t>({number}, 0.0, 1.0)},
+            {"position",
+             BufferDescription::make<ng_float_t>({number, 2}, 0.0, range)},
+            {"velocity",
+             BufferDescription::make<ng_float_t>({number, 2}, 0.0, 1.0)}};
   }
 
  private:
-  float range;
+  ng_float_t range;
   unsigned number;
   inline const static std::string type =
       register_type<DiscsStateEstimation>("Discs");

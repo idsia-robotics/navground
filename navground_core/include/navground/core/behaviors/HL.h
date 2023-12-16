@@ -14,6 +14,7 @@
 #include "navground/core/collision_computation.h"
 #include "navground/core/property.h"
 #include "navground/core/states/geometric.h"
+#include "navground/core/types.h"
 #include "navground_core_export.h"
 
 // TODO(J): verify if behavior for tau < step is correct (non smooth)
@@ -31,18 +32,18 @@ namespace navground::core {
  *     Robotics and Automation (ICRA), 2013 IEEE International Conference on,
  *     vol., no., pp.423,430, 6-10 May 2013
  *
- * *Registered properties*: 
- * 
- * - `tau` (float, \ref get_tau), 
- * 
- * - `eta` (float, \ref get_eta), 
- * 
- * - `aperture` (float, \ref get_aperture), 
- * 
+ * *Registered properties*:
+ *
+ * - `tau` (float, \ref get_tau),
+ *
+ * - `eta` (float, \ref get_eta),
+ *
+ * - `aperture` (float, \ref get_aperture),
+ *
  * - `resolution` (float, \ref get_resolution),
- *  
- * - `epsilon` (float, \ref get_epsilon), 
- * 
+ *
+ * - `epsilon` (float, \ref get_epsilon),
+ *
  * - `barrier_angle` (float, \ref get_barrier_angle)
  *
  * *State*: \ref GeometricState
@@ -52,15 +53,15 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   /**
    * Default \f$\eta\f$
    */
-  static constexpr float default_eta = 0.5f;
+  static constexpr ng_float_t default_eta = 0.5;
   /**
    * Default \f$\tau\f$
    */
-  static constexpr float default_tau = 0.125f;
+  static constexpr ng_float_t default_tau = 0.125;
   /**
    * Default aperture (full circular sector)
    */
-  static constexpr float default_aperture = M_PI;
+  static constexpr ng_float_t default_aperture = M_PI;
   /**
    * Maximal resolution
    */
@@ -72,11 +73,11 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   /**
    * Default epsilon.
    */
-  static constexpr unsigned default_epsilon = 0.0f;
+  static constexpr unsigned default_epsilon = 0;
   /**
    * Default barrier angle.
    */
-  static constexpr float default_barrier_angle = M_PI_2;
+  static constexpr ng_float_t default_barrier_angle = M_PI_2;
 
   /**
    * @brief      Contruct a new instance
@@ -85,9 +86,9 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    * @param[in]  radius      The radius
    */
   HLBehavior(std::shared_ptr<Kinematics> kinematics = nullptr,
-             float radius = 0.0f)
+             ng_float_t radius = 0)
       : Behavior(kinematics, radius),
-        effective_horizon(0.0f),
+        effective_horizon(0),
         tau(default_tau),
         eta(default_eta),
         aperture(default_aperture),
@@ -96,7 +97,7 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
         barrier_angle(default_barrier_angle),
         collision_computation(),
         state(),
-        cached_target_speed(0.0f) {}
+        cached_target_speed(0) {}
   ~HLBehavior() = default;
 
   // -------------------------- BEHAVIOR PARAMETERS
@@ -107,26 +108,28 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    *
    * @return     \f$\eta\f$
    */
-  float get_eta() const { return eta; }
+  ng_float_t get_eta() const { return eta; }
   /**
    * @brief      Sets the time \f$\eta\f$ that the behavior keeps away from
    * collisions. Higher values lead to slower speeds.
    *
    * @param[in]  value  A strict positive value.
    */
-  void set_eta(float value) { eta = value; }
+  void set_eta(ng_float_t value) { eta = value; }
   /**
-   * @brief      Gets the relaxation time \f$\tau\f$. Higher values lead to lower accelerations.
+   * @brief      Gets the relaxation time \f$\tau\f$. Higher values lead to
+   * lower accelerations.
    *
    * @return     \f$\eta\f$
    */
-  float get_tau() const { return tau; }
+  ng_float_t get_tau() const { return tau; }
   /**
-   * @brief      Sets the relaxation time \f$\tau\f$. Higher values lead to lower accelerations.
+   * @brief      Sets the relaxation time \f$\tau\f$. Higher values lead to
+   * lower accelerations.
    *
    * @param[in]  value  A positive value. If zero, relaxation is disabled.
    */
-  void set_tau(float value) { tau = value; }
+  void set_tau(ng_float_t value) { tau = value; }
   /**
    * @brief      Gets the aperture \f$\alpha\f$: desired velocity is searched on
    * a circular sector \f$[-\alpha, \alpha]\f$.
@@ -167,39 +170,41 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   Radians get_angular_resolution() const { return 2 * aperture / resolution; }
 
   /**
-   * @brief      Gets the lowest margin to an obstacle or neighbor. 
-   * 
-   * Any obstacles nearer than this this value will be virtually pushing away from the agent.
+   * @brief      Gets the lowest margin to an obstacle or neighbor.
+   *
+   * Any obstacles nearer than this this value will be virtually pushing away
+   * from the agent.
    *
    * @return     Epsilon.
    */
-  float get_epsilon() const { return epsilon; }
+  ng_float_t get_epsilon() const { return epsilon; }
   /**
    * @brief      Sets the lowest margin to an obstacle or neighbor.
-   * 
-   * Any obstacles nearer than this this value will be virtually pushing away from the agent.
    *
-   * @param[in]  value  Zero or negative values disable virtually pushing away obstacles. 
+   * Any obstacles nearer than this this value will be virtually pushing away
+   * from the agent.
+   *
+   * @param[in]  value  Zero or negative values disable virtually pushing away
+   * obstacles.
    */
-  void set_epsilon(float value) {
-    epsilon = value;
-  }
+  void set_epsilon(ng_float_t value) { epsilon = value; }
 
   /**
    * @brief      Gets the barrier angle, i.e., the minimal angle
-   * with respect to a currently virtually colliding obstacle to ignore it. 
+   * with respect to a currently virtually colliding obstacle to ignore it.
    *
    * @return     Epsilon.
    */
-  float get_barrier_angle() const { return barrier_angle; }
+  ng_float_t get_barrier_angle() const { return barrier_angle; }
   /**
    * @brief      Sets the barrier angle, i.e., the minimal angle
-   * with respect to a currently virtually colliding obstacle to ignore it. 
+   * with respect to a currently virtually colliding obstacle to ignore it.
    *
-   * @param[in]  value  A positive value. Higher values makes the agent more cautious. 
+   * @param[in]  value  A positive value. Higher values makes the agent more
+   * cautious.
    */
-  void set_barrier_angle(float value) {
-    barrier_angle = std::max(0.0f, value);
+  void set_barrier_angle(ng_float_t value) {
+    barrier_angle = std::max<ng_float_t>(0, value);
   }
 
   /**
@@ -213,8 +218,9 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    * @return     A vector of distances of size \ref
    * get_resolution. Angles are in the agent frame.
    */
-  std::valarray<float> get_collision_distance(
-      bool assuming_static = false, std::optional<float> speed = std::nullopt);
+  std::valarray<ng_float_t> get_collision_distance(
+      bool assuming_static = false,
+      std::optional<ng_float_t> speed = std::nullopt);
 
   /**
    * @brief      Gets the angles in \f$[-\alpha, \alpha]\f$
@@ -223,7 +229,7 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    * @return     A vector of angles in the fixed frame of size \ref
    * get_resolution.
    */
-  std::valarray<float> get_collision_angles() const;
+  std::valarray<ng_float_t> get_collision_angles() const;
 
   /** @private
    */
@@ -238,26 +244,25 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   static inline std::map<std::string, Property> properties =
       Properties{
           {"tau",
-           make_property<float, HLBehavior>(
+           make_property<ng_float_t, HLBehavior>(
                &HLBehavior::get_tau, &HLBehavior::set_tau, default_tau, "Tau")},
           {"eta",
-           make_property<float, HLBehavior>(
+           make_property<ng_float_t, HLBehavior>(
                &HLBehavior::get_eta, &HLBehavior::set_eta, default_eta, "Eta")},
-          {"aperture", make_property<float, HLBehavior>(
+          {"aperture", make_property<ng_float_t, HLBehavior>(
                            &HLBehavior::get_aperture, &HLBehavior::set_aperture,
                            default_aperture, "Aperture angle")},
           {"resolution",
            make_property<int, HLBehavior>(&HLBehavior::get_resolution,
                                           &HLBehavior::set_resolution,
                                           default_resolution, "Safety margin")},
-          {"epsilon",
-           make_property<float, HLBehavior>(&HLBehavior::get_epsilon,
-                                          &HLBehavior::set_epsilon,
-                                          default_epsilon, "Epsilon")},
+          {"epsilon", make_property<ng_float_t, HLBehavior>(
+                          &HLBehavior::get_epsilon, &HLBehavior::set_epsilon,
+                          default_epsilon, "Epsilon")},
           {"barrier_angle",
-           make_property<float, HLBehavior>(&HLBehavior::get_barrier_angle,
-                                          &HLBehavior::set_barrier_angle,
-                                          default_barrier_angle, "Barrier angle")},
+           make_property<ng_float_t, HLBehavior>(
+               &HLBehavior::get_barrier_angle, &HLBehavior::set_barrier_angle,
+               default_barrier_angle, "Barrier angle")},
       } +
       Behavior::properties;
 
@@ -282,37 +287,39 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    * is returned.
    *
    */
-  Twist2 compute_cmd(float time_step,
+  Twist2 compute_cmd(ng_float_t time_step,
                      std::optional<Frame> frame = std::nullopt) override;
 
  protected:
-  float effective_horizon;
-  float tau;
-  float eta;
+  ng_float_t effective_horizon;
+  ng_float_t tau;
+  ng_float_t eta;
   Radians aperture;
   unsigned int resolution;
-  float epsilon;
-  float barrier_angle;
+  ng_float_t epsilon;
+  ng_float_t barrier_angle;
   CollisionComputation collision_computation;
   GeometricState state;
-  float cached_target_speed;
+  ng_float_t cached_target_speed;
 
-  Vector2 desired_velocity_towards_point(const Vector2 &value, float speed,
-                                         float time_step) override;
+  Vector2 desired_velocity_towards_point(const Vector2 &value, ng_float_t speed,
+                                         ng_float_t time_step) override;
   Vector2 desired_velocity_towards_velocity(const Vector2 &value,
-                                            float time_step) override;
+                                            ng_float_t time_step) override;
 
-  void prepare(float speed);
+  void prepare(ng_float_t speed);
   Vector2 compute_repulsive_force(bool &inside_obstacle);
-  Twist2 relax(const Twist2 &current_twist, const Twist2 &twist, float dt) const;
+  Twist2 relax(const Twist2 &current_twist, const Twist2 &twist,
+               ng_float_t dt) const;
   unsigned int index_of_relative_angle(Radians relative_angle);
-  float distance_to_segment(const LineSegment &line, Radians absolute_angle);
-  float dist_for_angle(const DiscCache *agent, Radians angle);
-  float compute_distance_to_collision_at_relative_angle(Radians relative_angle,
-                                                        float *staticCache);
-  float feared_distance_to_collision_at_relative_angle(Radians angle);
-  float static_dist_for_angle(const DiscCache *agent, Radians angle);
-  float distance_to_collision_at_relative_angle(Radians angle);
+  ng_float_t distance_to_segment(const LineSegment &line,
+                                 Radians absolute_angle);
+  ng_float_t dist_for_angle(const DiscCache *agent, Radians angle);
+  ng_float_t compute_distance_to_collision_at_relative_angle(
+      Radians relative_angle, ng_float_t *staticCache);
+  ng_float_t feared_distance_to_collision_at_relative_angle(Radians angle);
+  ng_float_t static_dist_for_angle(const DiscCache *agent, Radians angle);
+  ng_float_t distance_to_collision_at_relative_angle(Radians angle);
 
   DiscCache make_neighbor_cache(const Neighbor &neighbor);
   DiscCache make_obstacle_cache(const Disc &obstacle);

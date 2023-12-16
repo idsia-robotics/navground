@@ -11,6 +11,7 @@
 #include <highfive/H5File.hpp>
 #include <memory>
 
+#include "navground/core/types.h"
 #include "navground/sim/experimental_run.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/world.h"
@@ -56,7 +57,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * @param[in]  time_step  The default simulation time step
    * @param[in]  steps      The default number of simulation steps
    */
-  explicit Experiment(float time_step = 0.1, unsigned steps = 1000)
+  explicit Experiment(ng_float_t time_step = 0.1, unsigned steps = 1000)
       : record_config(),
         run_config({time_step, steps, true}),
         number_of_runs(1),
@@ -347,13 +348,13 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @return     The time step.
    */
-  float get_time_step() const { return run_config.time_step; }
+  ng_float_t get_time_step() const { return run_config.time_step; }
   /**
    * @brief      Sets the default time step used for simulation during each run
    *
    * @param[in]  value  The desired value
    */
-  void set_time_step(float value) { run_config.time_step = value; }
+  void set_time_step(ng_float_t value) { run_config.time_step = value; }
   /**
    * @brief      Gets the default maximal number of steps to simulate during
    * each run.
@@ -367,7 +368,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @param[in]  value  The desired value
    */
-  void set_steps(float value) { run_config.steps = value; }
+  void set_steps(ng_float_t value) { run_config.steps = value; }
   /**
    * @brief      Gets whether to terminate when all agents are idle or stuck.
    *

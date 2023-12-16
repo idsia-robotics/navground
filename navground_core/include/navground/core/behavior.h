@@ -19,6 +19,7 @@
 #include "navground/core/social_margin.h"
 #include "navground/core/state.h"
 #include "navground/core/target.h"
+#include "navground/core/types.h"
 #include "navground_core_export.h"
 
 namespace navground::core {
@@ -46,8 +47,8 @@ namespace navground::core {
  *
  * 1. update the agent's state with \ref set_pose and \ref set_twist (or other
  *    convenience methods)
- *    
- * 2. update the target with \ref set_target 
+ *
+ * 2. update the target with \ref set_target
  *
  * 3. update the environment state \ref get_environment_state
  *
@@ -56,8 +57,8 @@ namespace navground::core {
  * 5. actuate the control commands through user code
  */
 class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
-                                      virtual public HasRegister<Behavior>,
-                                      protected TrackChanges {
+                                       virtual public HasRegister<Behavior>,
+                                       protected TrackChanges {
  public:
   using HasRegister<Behavior>::C;
 
@@ -111,15 +112,15 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
   /**
    * Default rotation tau
    */
-  static constexpr float default_rotation_tau = 0.5f;
+  static constexpr ng_float_t default_rotation_tau = 0.5;
   /**
    * Default horizon
    */
-  static constexpr float default_horizon = 5.0f;
+  static constexpr ng_float_t default_horizon = 5;
   /**
    * Default safety margin
    */
-  static constexpr float default_safety_margin = 0.0f;
+  static constexpr ng_float_t default_safety_margin = 0;
 
   /**
    * @brief      Constructs a new instance.
@@ -128,7 +129,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @param  radius      The radius of the agent.
    */
   Behavior(std::shared_ptr<Kinematics> kinematics = nullptr,
-           float radius = 0.0f)
+           ng_float_t radius = 0)
       : TrackChanges(),
         social_margin(),
         kinematics(kinematics),
@@ -137,9 +138,9 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
         twist(),
         horizon(default_horizon),
         safety_margin(default_safety_margin),
-        optimal_speed(kinematics ? kinematics->get_max_speed() : 0.0f),
+        optimal_speed(kinematics ? kinematics->get_max_speed() : 0),
         optimal_angular_speed(kinematics ? kinematics->get_max_angular_speed()
-                                         : 0.0f),
+                                         : 0),
         rotation_tau(default_rotation_tau),
         heading_behavior(Heading::idle),
         assume_cmd_is_actuated(true),
@@ -163,10 +164,10 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
   void set_kinematics(std::shared_ptr<Kinematics> value) {
     if (value) {
       if (!kinematics) {
-        if (optimal_speed == 0.0f) {
+        if (optimal_speed == 0) {
           optimal_speed = value->get_max_speed();
         }
-        if (optimal_angular_speed == 0.0f) {
+        if (optimal_angular_speed == 0) {
           optimal_angular_speed = value->get_max_angular_speed();
         }
       }
@@ -179,14 +180,14 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *
    * @return     The agent's radius.
    */
-  float get_radius() const { return radius; }
+  ng_float_t get_radius() const { return radius; }
   /**
    * @brief      Sets the radius of the agent.
    *
    * @param      value  A positive value.
    */
-  void set_radius(float value) {
-    radius = std::max(0.0f, value);
+  void set_radius(ng_float_t value) {
+    radius = std::max<ng_float_t>(0, value);
     change(RADIUS);
   }
   /**
@@ -194,15 +195,15 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *
    * @return     The maximal speed returned from \ref Kinematics::get_max_speed
    */
-  float get_max_speed() const {
-    return kinematics ? kinematics->get_max_speed() : 0.0f;
+  ng_float_t get_max_speed() const {
+    return kinematics ? kinematics->get_max_speed() : 0;
   }
   /**
    * @brief      Sets the maximal speed.
    *
    * @param[in]  value  The value to pass to \ref Kinematics::set_max_speed
    */
-  void set_max_speed(float value) {
+  void set_max_speed(ng_float_t value) {
     if (kinematics) kinematics->set_max_speed(value);
   }
 
@@ -213,7 +214,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * Kinematics::get_max_angular_speed
    */
   Radians get_max_angular_speed() const {
-    return kinematics ? kinematics->get_max_angular_speed() : 0.0f;
+    return kinematics ? kinematics->get_max_angular_speed() : 0;
   }
   /**
    * @brief      Sets the maximal angular speed speed.
@@ -235,14 +236,14 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *
    * @return     The desired optimal speed.
    */
-  float get_optimal_speed() const { return optimal_speed; }
+  ng_float_t get_optimal_speed() const { return optimal_speed; }
   /**
    * @brief      Sets the desired optimal speed.
    *
    * @param[in]  value A positive linear speed.
    */
-  void set_optimal_speed(float value) {
-    optimal_speed = std::max(value, 0.0f);
+  void set_optimal_speed(ng_float_t value) {
+    optimal_speed = std::max<ng_float_t>(value, 0);
     change(OPTIMAL_SPEED);
   }
 
@@ -254,8 +255,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *
    * @return the nearest feasible value
    */
-  float feasible_speed(float value) const {
-    return std::clamp(value, 0.0f, get_max_speed());
+  ng_float_t feasible_speed(ng_float_t value) const {
+    return std::clamp<ng_float_t>(value, 0, get_max_speed());
   }
 
   /**
@@ -266,8 +267,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *
    * @return the nearest feasible value
    */
-  float feasible_angular_speed(float value) const {
-    return std::clamp(value, 0.0f, get_max_angular_speed());
+  ng_float_t feasible_angular_speed(ng_float_t value) const {
+    return std::clamp<ng_float_t>(value, 0, get_max_angular_speed());
   }
 
   /**
@@ -297,7 +298,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @param[in]  value  A positive angular speed in radians/time unit.
    */
   void set_optimal_angular_speed(Radians value) {
-    optimal_angular_speed = std::max(value, 0.0f);
+    optimal_angular_speed = std::max<ng_float_t>(value, 0);
   }
   /**
    * @brief      Gets the relaxation time to rotate towards a desired
@@ -308,7 +309,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *
    * @return     The rotation relaxation time.
    */
-  float get_rotation_tau() const { return rotation_tau; }
+  ng_float_t get_rotation_tau() const { return rotation_tau; }
   /**
    * @brief      Sets the relaxation time to rotate towards a desired
    * orientation. See \ref get_rotation_tau.
@@ -316,21 +317,21 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @param[in]  value  The rotation relaxation time. Set it to a zero or
    * negative to rotate as fast as possible.
    */
-  void set_rotation_tau(float value) { rotation_tau = value; }
+  void set_rotation_tau(ng_float_t value) { rotation_tau = value; }
 
   /**
    * @brief      Gets the minimal safety margin to keep away from obstacles
    *
    * @return     The safety margin.
    */
-  float get_safety_margin() const { return safety_margin; }
+  ng_float_t get_safety_margin() const { return safety_margin; }
   /**
    * @brief      Sets the safety margin to keep away from obstacles.
    *
    * @param[in]  value  A positive value.
    */
-  void set_safety_margin(float value) {
-    safety_margin = std::max(0.0f, value);
+  void set_safety_margin(ng_float_t value) {
+    safety_margin = std::max<ng_float_t>(0, value);
     change(SAFETY_MARGIN);
   }
   /**
@@ -341,14 +342,14 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *
    * @return     The horizon.
    */
-  float get_horizon() const { return horizon; }
+  ng_float_t get_horizon() const { return horizon; }
   /**
    * @brief      Sets the horizon, see \ref get_horizon.
    *
    * @param[in]  value  A positive value.
    */
-  void set_horizon(float value) {
-    horizon = std::max(0.0f, value);
+  void set_horizon(ng_float_t value) {
+    horizon = std::max<ng_float_t>(0, value);
     change(HORIZON);
   }
 
@@ -479,7 +480,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *
    * @return     The current speed.
    */
-  float get_speed() const { return twist.velocity.norm(); }
+  ng_float_t get_speed() const { return twist.velocity.norm(); }
   /**
    * @brief      Convenience method to get the current the angular speed.
    *
@@ -507,7 +508,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    */
   void set_wheel_speeds(const WheelSpeeds &value) {
     if (kinematics && kinematics->is_wheeled()) {
-      WheeledKinematics *wk = dynamic_cast<WheeledKinematics *>(kinematics.get());
+      WheeledKinematics *wk =
+          dynamic_cast<WheeledKinematics *>(kinematics.get());
       set_twist(wk->twist(value));
     }
   }
@@ -546,7 +548,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @param[in]  twist_cmd  The twist
    * @param[in]  time_step  The time step
    */
-  void actuate(const Twist2 &twist_cmd, float time_step) {
+  void actuate(const Twist2 &twist_cmd, ng_float_t time_step) {
     actuated_twist = twist_cmd;
     if (twist_cmd.frame == Frame::relative) {
       twist = to_absolute(twist_cmd);
@@ -562,7 +564,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *
    * @param[in]  time_step  The time step
    */
-  void actuate(float time_step) { actuate(actuated_twist, time_step); }
+  void actuate(ng_float_t time_step) { actuate(actuated_twist, time_step); }
 
   /**
    * @brief      Clone the state of this behavior from another behavior
@@ -641,7 +643,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @return     The control command as a twist in the specified frame.
    */
 
-  virtual Twist2 compute_cmd(float time_step,
+  virtual Twist2 compute_cmd(ng_float_t time_step,
                              std::optional<Frame> frame = std::nullopt);
 
   /**
@@ -673,9 +675,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @return     The same twist in \ref Frame::absolute
    *             (unchanged if already in \ref Frame::absolute)
    */
-  Twist2 to_absolute(const Twist2 &value) const {
-    return value.absolute(pose);
-  }
+  Twist2 to_absolute(const Twist2 &value) const { return value.absolute(pose); }
 
   /**
    * @brief      Transform a twist to \ref Frame::relative.
@@ -685,9 +685,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @return     The same twist in \ref Frame::relative
    *             (unchanged if already in \ref Frame::relative)
    */
-  Twist2 to_relative(const Twist2 &value) const {
-    return value.relative(pose);
-  }
+  Twist2 to_relative(const Twist2 &value) const { return value.relative(pose); }
 
   /**
    * @brief      Transform a vector (e.g., a velocity)
@@ -725,7 +723,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    */
   WheelSpeeds wheel_speeds_from_twist(const Twist2 &value) const {
     if (kinematics && kinematics->is_wheeled()) {
-      WheeledKinematics *wk = dynamic_cast<WheeledKinematics *>(kinematics.get());
+      WheeledKinematics *wk =
+          dynamic_cast<WheeledKinematics *>(kinematics.get());
       return wk->wheel_speeds(
           value.frame == Frame::relative ? value : to_relative(value));
     }
@@ -743,7 +742,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    */
   Twist2 twist_from_wheel_speeds(const WheelSpeeds &value) const {
     if (kinematics && kinematics->is_wheeled()) {
-      WheeledKinematics *wk = dynamic_cast<WheeledKinematics *>(kinematics.get());
+      WheeledKinematics *wk =
+          dynamic_cast<WheeledKinematics *>(kinematics.get());
       return wk->twist(value);
     }
     return {};
@@ -773,24 +773,26 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *
    * @return     A positive value if the target is not yet satisfied, else 0.
    */
-  float estimate_time_until_target_satisfied() const;
+  ng_float_t estimate_time_until_target_satisfied() const;
 
   /**
-   * @brief      Determines if the agent is stuck: if should move but it is still.
+   * @brief      Determines if the agent is stuck: if should move but it is
+   * still.
    *
    * @return     True if stuck, False otherwise.
    */
   bool is_stuck() const;
 
   /**
-   * @brief      Gets the efficacy: the projection of the current velocity on the ideal velocity (ignoring obstacles) towards the target.
-   * 
-   * A value of 1.0 denotes ideal efficacy, value of 0.0 that the agent is stuck.
+   * @brief      Gets the efficacy: the projection of the current velocity on
+   * the ideal velocity (ignoring obstacles) towards the target.
+   *
+   * A value of 1.0 denotes ideal efficacy, value of 0.0 that the agent is
+   * stuck.
    *
    * @return     The efficacy.
    */
-  float get_efficacy() const;
-
+  ng_float_t get_efficacy() const;
 
  protected:
   enum {
@@ -806,15 +808,15 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
   };
 
   std::shared_ptr<Kinematics> kinematics;
-  float radius;
+  ng_float_t radius;
   Pose2 pose;
   Twist2 twist;
   Twist2 actuated_twist;
-  float horizon;
-  float safety_margin;
-  float optimal_speed;
+  ng_float_t horizon;
+  ng_float_t safety_margin;
+  ng_float_t optimal_speed;
   Radians optimal_angular_speed;
-  float rotation_tau;
+  ng_float_t rotation_tau;
   Heading heading_behavior;
   bool assume_cmd_is_actuated;
   // Last computed desired velocity in \ref Frame::absolute
@@ -822,25 +824,26 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
   Target target;
 
   bool should_stop() const;
-  bool is_stopped(float epsilon_speed = 1e-6, float epsilon_angular_speed = 1e-6) const;
-  
+  bool is_stopped(ng_float_t epsilon_speed = 1e-6,
+                  ng_float_t epsilon_angular_speed = 1e-6) const;
 
   virtual Vector2 desired_velocity_towards_point(const Vector2 &point,
-                                                 float speed, float time_step);
+                                                 ng_float_t speed,
+                                                 ng_float_t time_step);
   virtual Vector2 desired_velocity_towards_velocity(const Vector2 &velocity,
-                                                    float time_step);
+                                                    ng_float_t time_step);
   virtual Twist2 twist_towards_velocity(const Vector2 &absolute_velocity,
                                         Frame frame);
-  virtual Twist2 cmd_twist_towards_point(const Vector2 &point, float speed,
-                                         float dt, Frame frame);
-  virtual Twist2 cmd_twist_towards_velocity(const Vector2 &velocity, float dt,
-                                            Frame frame);
+  virtual Twist2 cmd_twist_towards_point(const Vector2 &point, ng_float_t speed,
+                                         ng_float_t dt, Frame frame);
+  virtual Twist2 cmd_twist_towards_velocity(const Vector2 &velocity,
+                                            ng_float_t dt, Frame frame);
   virtual Twist2 cmd_twist_towards_orientation(Radians orientation,
-                                               float angular_speed, float dt,
-                                               Frame frame);
-  virtual Twist2 cmd_twist_towards_angular_speed(float angular_speed, float dt,
-                                                 Frame frame);
-  virtual Twist2 cmd_twist_towards_stopping(float dt, Frame frame);
+                                               ng_float_t angular_speed,
+                                               ng_float_t dt, Frame frame);
+  virtual Twist2 cmd_twist_towards_angular_speed(ng_float_t angular_speed,
+                                                 ng_float_t dt, Frame frame);
+  virtual Twist2 cmd_twist_towards_stopping(ng_float_t dt, Frame frame);
 };
 
 }  // namespace navground::core

@@ -175,6 +175,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../index.html">Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/yaml.html">YAML</a></li>
@@ -398,15 +399,15 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenarioE"><code class="docutils literal notranslate"><span class="pre">CrossScenario</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim13CrossScenario8get_sideEv"><code class="docutils literal notranslate"><span class="pre">CrossScenario::get_side()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario8set_sideEf"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_side()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario8set_sideE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_side()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim13CrossScenario13get_toleranceEv"><code class="docutils literal notranslate"><span class="pre">CrossScenario::get_tolerance()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario13set_toleranceEf"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_tolerance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario13set_toleranceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_tolerance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim13CrossScenario16get_agent_marginEv"><code class="docutils literal notranslate"><span class="pre">CrossScenario::get_agent_margin()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario16set_agent_marginEf"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_agent_margin()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario16set_agent_marginE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_agent_margin()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim13CrossScenario30get_add_safety_to_agent_marginEv"><code class="docutils literal notranslate"><span class="pre">CrossScenario::get_add_safety_to_agent_margin()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario30set_add_safety_to_agent_marginEb"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_add_safety_to_agent_margin()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim13CrossScenario17get_target_marginEv"><code class="docutils literal notranslate"><span class="pre">CrossScenario::get_target_margin()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario17set_target_marginEf"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_target_margin()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario17set_target_marginE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_target_margin()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -431,18 +432,18 @@ document.write(`
 <dd><p>A scenario where agents move between two waypoints, one half of the agents vertically and the other horizontally. Agents are initialize at non-overlapping random poses in a box. </p>
 <p><em>Registered properties</em>:</p>
 <p><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">side</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1a1d39e0b2c5bc97bd389f8cc222988652"><span class="std std-ref">get_side</span></a>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">tolerance</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1a90e523a56ca350f2f6ff5899027ab0fa"><span class="std std-ref">get_tolerance</span></a>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">agent_margin</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1a05db822212f8693d40ac6069a37698c0"><span class="std std-ref">get_agent_margin</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">side</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1a43cb391c24cd07dedb2af0a7ebed5214"><span class="std std-ref">get_side</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tolerance</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1adb39d472ecda3790fcb1c086d07e0e26"><span class="std std-ref">get_tolerance</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">agent_margin</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1a029cea5e581890e456339924a206e470"><span class="std std-ref">get_agent_margin</span></a>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">add_safety_to_agent_margin</span></code> (bool, <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1ad4397f4126da0bbfad9569a5de948bc9"><span class="std std-ref">get_add_safety_to_agent_margin</span></a>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">target_margin</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1a199ac6a4259d1513ab9c1a2f41640fee"><span class="std std-ref">get_target_margin</span></a>) </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">target_margin</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1a4eb38526436b98406afbda68996be283"><span class="std std-ref">get_target_margin</span></a>) </p></li>
 </ul>
 </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim13CrossScenario8get_sideEv">
-<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1a1d39e0b2c5bc97bd389f8cc222988652"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_side</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim13CrossScenario8get_sideEv" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1a43cb391c24cd07dedb2af0a7ebed5214"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_side</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim13CrossScenario8get_sideEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the half-length of the squared arena. Waypoints are placed at (+/-side, 0) and (0, +/-side) </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -452,8 +453,8 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13CrossScenario8set_sideEf">
-<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1a96a946ad61f753cf13d659fb02456054"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_side</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13CrossScenario8set_sideEf" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13CrossScenario8set_sideE10ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1a34f62cacffe56e159b026dde65eac794"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_side</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13CrossScenario8set_sideE10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the half-length of the squared arena. Waypoints are placed at (+/-side, 0) and (0, +/-side) </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -464,7 +465,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim13CrossScenario13get_toleranceEv">
-<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1a90e523a56ca350f2f6ff5899027ab0fa"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_tolerance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim13CrossScenario13get_toleranceEv" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1adb39d472ecda3790fcb1c086d07e0e26"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_tolerance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim13CrossScenario13get_toleranceEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the task goal tolerance (i.e., agents will change target when they arrive closer than this to their current target). </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -474,8 +475,8 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13CrossScenario13set_toleranceEf">
-<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1a217194e5da0e4ba44dd82211c2a282e2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_tolerance</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13CrossScenario13set_toleranceEf" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13CrossScenario13set_toleranceE10ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1afb07703d79141fcc87e110a67329ed78"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_tolerance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13CrossScenario13set_toleranceE10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the task goal tolerance (i.e., agents will change target when they arrive closer than this to their current target). </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -486,7 +487,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim13CrossScenario16get_agent_marginEv">
-<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1a05db822212f8693d40ac6069a37698c0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_agent_margin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim13CrossScenario16get_agent_marginEv" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1a029cea5e581890e456339924a206e470"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_agent_margin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim13CrossScenario16get_agent_marginEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the initial minimal distance between agents. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -496,8 +497,8 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13CrossScenario16set_agent_marginEf">
-<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1ae5ceedef1e94245f25923833f2d64e8d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_agent_margin</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13CrossScenario16set_agent_marginEf" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13CrossScenario16set_agent_marginE10ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1aa5839bc43ab9a9e0c2fec420932b87c1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_agent_margin</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13CrossScenario16set_agent_marginE10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the initial minimal distance between agents. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -509,7 +510,7 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim13CrossScenario30get_add_safety_to_agent_marginEv">
 <span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1ad4397f4126da0bbfad9569a5de948bc9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_add_safety_to_agent_margin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim13CrossScenario30get_add_safety_to_agent_marginEv" title="Link to this definition">#</a><br /></dt>
-<dd><p>Whenever the agent’s safety margin should be considered in addition to <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1a05db822212f8693d40ac6069a37698c0"><span class="std std-ref">get_agent_margin</span></a> when initializing the agents’ poses. </p>
+<dd><p>Whenever the agent’s safety margin should be considered in addition to <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1a029cea5e581890e456339924a206e470"><span class="std std-ref">get_agent_margin</span></a> when initializing the agents’ poses. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The add safety to agent margin. </p>
@@ -520,7 +521,7 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13CrossScenario30set_add_safety_to_agent_marginEb">
 <span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1aec31e0070dbf230c325e645d4012a4ae"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_add_safety_to_agent_margin</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13CrossScenario30set_add_safety_to_agent_marginEb" title="Link to this definition">#</a><br /></dt>
-<dd><p>Sets whenever the agent’s safety margin should be considered in addition to <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1a05db822212f8693d40ac6069a37698c0"><span class="std std-ref">get_agent_margin</span></a> when initializing the agents’ poses. </p>
+<dd><p>Sets whenever the agent’s safety margin should be considered in addition to <a class="reference internal" href="#structnavground_1_1sim_1_1_cross_scenario_1a029cea5e581890e456339924a206e470"><span class="std std-ref">get_agent_margin</span></a> when initializing the agents’ poses. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> Whenever to consider the safety margin or not. </p>
@@ -530,7 +531,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim13CrossScenario17get_target_marginEv">
-<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1a199ac6a4259d1513ab9c1a2f41640fee"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_target_margin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim13CrossScenario17get_target_marginEv" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1a4eb38526436b98406afbda68996be283"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_target_margin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim13CrossScenario17get_target_marginEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the minimal distance between agents and targets at initialization. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -540,8 +541,8 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13CrossScenario17set_target_marginEf">
-<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1a6dd01d4ab1f55ee26f60fb39bd43af00"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_target_margin</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13CrossScenario17set_target_marginEf" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13CrossScenario17set_target_marginE10ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_cross_scenario_1a05f68ce4419f2205dc0cc35bd6b74917"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_target_margin</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13CrossScenario17set_target_marginE10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the minimal distance between agents and targets at initialization. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -601,15 +602,15 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenarioE"><code class="docutils literal notranslate"><span class="pre">CrossScenario</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim13CrossScenario8get_sideEv"><code class="docutils literal notranslate"><span class="pre">CrossScenario::get_side()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario8set_sideEf"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_side()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario8set_sideE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_side()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim13CrossScenario13get_toleranceEv"><code class="docutils literal notranslate"><span class="pre">CrossScenario::get_tolerance()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario13set_toleranceEf"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_tolerance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario13set_toleranceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_tolerance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim13CrossScenario16get_agent_marginEv"><code class="docutils literal notranslate"><span class="pre">CrossScenario::get_agent_margin()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario16set_agent_marginEf"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_agent_margin()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario16set_agent_marginE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_agent_margin()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim13CrossScenario30get_add_safety_to_agent_marginEv"><code class="docutils literal notranslate"><span class="pre">CrossScenario::get_add_safety_to_agent_margin()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario30set_add_safety_to_agent_marginEb"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_add_safety_to_agent_margin()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim13CrossScenario17get_target_marginEv"><code class="docutils literal notranslate"><span class="pre">CrossScenario::get_target_margin()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario17set_target_marginEf"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_target_margin()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13CrossScenario17set_target_marginE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CrossScenario::set_target_margin()</span></code></a></li>
 </ul>
 </li>
 </ul>

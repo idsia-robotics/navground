@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "navground/core/collision_computation.h"
+#include "navground/core/types.h"
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/world.h"
 #include "navground_sim_export.h"
@@ -37,15 +38,15 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
   /**
    * The default range
    */
-  inline static const float default_range = 1.0f;
+  inline static const ng_float_t default_range = 1.0;
   /**
    * The default start angle [radians]
    */
-  inline static const float default_start_angle = -M_PI;
+  inline static const ng_float_t default_start_angle = -M_PI;
   /**
    * The default field of view [radians]
    */
-  inline static const float default_field_of_view = 2 * M_PI;
+  inline static const ng_float_t default_field_of_view = 2 * M_PI;
   /**
    * The default resolution
    */
@@ -63,10 +64,11 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
    * @param[in]  field_of_view_  The field of view
    * @param[in]  resolution_  The number of ranging measurements per scan
    */
-  explicit LidarStateEstimation(float range_ = default_range,
-                                float start_angle_ = default_start_angle,
-                                float field_of_view_ = default_field_of_view,
-                                unsigned resolution_ = default_resolution)
+  explicit LidarStateEstimation(
+      ng_float_t range_ = default_range,
+      ng_float_t start_angle_ = default_start_angle,
+      ng_float_t field_of_view_ = default_field_of_view,
+      unsigned resolution_ = default_resolution)
       : Sensor(),
         range(range_),
         start_angle(start_angle_),
@@ -81,42 +83,42 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_range(float value) { range = value; }
+  void set_range(ng_float_t value) { range = value; }
 
   /**
    * @brief      Gets the range of view.
    *
    * @return     The range of view.
    */
-  float get_range() const { return range; }
+  ng_float_t get_range() const { return range; }
 
   /**
    * @brief      Sets the range of view.
    *
    * @param[in]  value     The new value
    */
-  void set_start_angle(float value) { start_angle = value; }
+  void set_start_angle(ng_float_t value) { start_angle = value; }
 
   /**
    * @brief      Gets the range of view.
    *
    * @return     The range of view.
    */
-  float get_start_angle() const { return start_angle; }
+  ng_float_t get_start_angle() const { return start_angle; }
 
   /**
    * @brief      Sets the range of view.
    *
    * @param[in]  value     The new value
    */
-  void set_field_of_view(float value) { field_of_view = value; }
+  void set_field_of_view(ng_float_t value) { field_of_view = value; }
 
   /**
    * @brief      Gets the range of view.
    *
    * @return     The range of view.
    */
-  float get_field_of_view() const { return field_of_view; }
+  ng_float_t get_field_of_view() const { return field_of_view; }
 
   /**
    * @brief      Sets the range of view.
@@ -144,15 +146,15 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
    */
   static inline std::map<std::string, Property> properties =
       Properties{
-          {"range", make_property<float, LidarStateEstimation>(
+          {"range", make_property<ng_float_t, LidarStateEstimation>(
                         &LidarStateEstimation::get_range,
                         &LidarStateEstimation::set_range, default_range,
                         "Maximal range")},
-          {"start_angle", make_property<float, LidarStateEstimation>(
+          {"start_angle", make_property<ng_float_t, LidarStateEstimation>(
                               &LidarStateEstimation::get_start_angle,
                               &LidarStateEstimation::set_start_angle,
                               default_start_angle, "Start angle")},
-          {"field_of_view", make_property<float, LidarStateEstimation>(
+          {"field_of_view", make_property<ng_float_t, LidarStateEstimation>(
                                 &LidarStateEstimation::get_field_of_view,
                                 &LidarStateEstimation::set_field_of_view,
                                 default_field_of_view, "Total angle")},
@@ -175,14 +177,14 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
                       EnvironmentState *state) const override;
 
   Description get_description() const override {
-    return {
-        {field_name, BufferDescription::make<float>({resolution}, 0.0, range)}};
+    return {{field_name,
+             BufferDescription::make<ng_float_t>({resolution}, 0.0, range)}};
   }
 
  private:
-  float range;
-  float start_angle;
-  float field_of_view;
+  ng_float_t range;
+  ng_float_t start_angle;
+  ng_float_t field_of_view;
   int resolution;
   CollisionComputation cc;
   inline const static std::string type =

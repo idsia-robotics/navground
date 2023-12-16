@@ -5,7 +5,8 @@
 
 namespace navground::core {
 
-static bool overlaps(float a1, float a2, float b1, float b2) {
+static bool overlaps(ng_float_t a1, ng_float_t a2, ng_float_t b1,
+                     ng_float_t b2) {
   return b1 <= a2 || a1 <= b2;
 }
 
@@ -20,7 +21,7 @@ void Controller3::set_neighbors(const std::vector<Neighbor3>& neighbors) {
   std::vector<Neighbor> neighbors_2d;
   for (const auto& cylinder : neighbors) {
     if (!limit_to_2d && altitude.value_set && cylinder.height > 0) {
-      float z1, z2;
+      ng_float_t z1, z2;
       if (altitude.target_set) {
         if (altitude.target < altitude.value) {
           z1 = altitude.target;
@@ -51,7 +52,7 @@ void Controller3::set_static_obstacles(const std::vector<Cylinder>& neighbors) {
   std::vector<Disc> obstacles_2d;
   for (const auto& cylinder : neighbors) {
     if (!limit_to_2d && altitude.value_set && cylinder.height > 0) {
-      float z1, z2;
+      ng_float_t z1, z2;
       if (altitude.target_set) {
         if (altitude.target < altitude.value) {
           z1 = altitude.target;
@@ -74,16 +75,16 @@ void Controller3::set_static_obstacles(const std::vector<Cylinder>& neighbors) {
 }
 
 std::shared_ptr<Action> Controller3::go_to_position(const Vector3& point,
-                                                    float tolerance) {
+                                                    ng_float_t tolerance) {
   altitude.target = point[2];
   altitude.mode = SimpleControl::Mode::value;
   altitude.target_set = true;
   return Controller::go_to_position(point.head<2>(), tolerance);
 }
 
-std::shared_ptr<Action> Controller3::go_to_pose(const Pose3& pose,
-                                                float position_tolerance,
-                                                float orientation_tolerance) {
+std::shared_ptr<Action> Controller3::go_to_pose(
+    const Pose3& pose, ng_float_t position_tolerance,
+    ng_float_t orientation_tolerance) {
   altitude.target = pose.position[2];
   altitude.target_set = true;
   altitude.mode = SimpleControl::Mode::value;
@@ -119,7 +120,7 @@ std::shared_ptr<Action> Controller3::follow_twist(const Twist3& twist) {
   return Controller::follow_twist(twist.project());
 }
 
-Twist3 Controller3::update_3d(float time_step) {
+Twist3 Controller3::update_3d(ng_float_t time_step) {
   if (action && behavior) {
     action->update(this, time_step);
     if (action->done()) {
@@ -127,7 +128,7 @@ Twist3 Controller3::update_3d(float time_step) {
       behavior->set_target(Target::Stop());
     }
     Twist2 twist = behavior->compute_cmd(time_step);
-    const float cmd_z = limit_to_2d ? 0.0f : altitude.update(time_step);
+    const ng_float_t cmd_z = limit_to_2d ? 0 : altitude.update(time_step);
     Twist3 cmd = Twist3(twist, cmd_z);
     if (cmd_cb_3) {
       (*cmd_cb_3)(cmd);

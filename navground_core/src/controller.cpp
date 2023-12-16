@@ -6,13 +6,14 @@
 
 namespace navground::core {
 
-float Action::tick(Controller *controller, [[maybe_unused]] float dt) {
+ng_float_t Action::tick(Controller *controller,
+                        [[maybe_unused]] ng_float_t dt) {
   return controller->estimate_time_until_target_satisfied();
 }
 
-void Action::update(Controller *controller, float dt) {
+void Action::update(Controller *controller, ng_float_t dt) {
   if (state == State::running) {
-    const float progress = tick(controller, dt);
+    const ng_float_t progress = tick(controller, dt);
     if (done()) {
       if (done_cb) (*done_cb)(state);
     } else {
@@ -28,16 +29,16 @@ void Action::abort() {
   }
 }
 
-float MoveAction::tick(Controller *controller, float dt) {
-  float time = Action::tick(controller, dt);
-  if (time == 0.0f && controller->is_still()) {
+ng_float_t MoveAction::tick(Controller *controller, ng_float_t dt) {
+  ng_float_t time = Action::tick(controller, dt);
+  if (time == 0 && controller->is_still()) {
     state = State::success;
   }
   return time;
 }
 
 std::shared_ptr<Action> Controller::go_to_position(const Vector2 &point,
-                                                   float tolerance) {
+                                                   ng_float_t tolerance) {
   if (action) {
     action->abort();
   }
@@ -50,9 +51,9 @@ std::shared_ptr<Action> Controller::go_to_position(const Vector2 &point,
   return action;
 }
 
-std::shared_ptr<Action> Controller::go_to_pose(const Pose2 &pose,
-                                               float position_tolerance,
-                                               float orientation_tolerance) {
+std::shared_ptr<Action> Controller::go_to_pose(
+    const Pose2 &pose, ng_float_t position_tolerance,
+    ng_float_t orientation_tolerance) {
   if (action) {
     action->abort();
   }
@@ -141,7 +142,7 @@ std::shared_ptr<Action> Controller::follow_twist(const Twist2 &twist) {
   return action;
 }
 
-Twist2 Controller::update(float time_step) {
+Twist2 Controller::update(ng_float_t time_step) {
   if (action) {
     action->update(this, time_step);
     if (action && action->done()) {

@@ -20,6 +20,7 @@
 #include "navground/core/kinematics.h"
 #include "navground/core/plugins.h"
 #include "navground/core/states/sensing.h"
+#include "navground/core/types.h"
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground_py/buffer.h"
@@ -132,16 +133,17 @@ class PyBehavior : public Behavior, virtual public PyHasRegister<Behavior> {
   using Native = Behavior;
 
   /* Trampolines (need one for each virtual function) */
-  Twist2 compute_cmd(float time_step, std::optional<Frame> frame) override {
+  Twist2 compute_cmd(ng_float_t time_step,
+                     std::optional<Frame> frame) override {
     PYBIND11_OVERRIDE(Twist2, Behavior, compute_cmd, time_step, frame);
   }
-  Vector2 desired_velocity_towards_point(const Vector2 &point, float speed,
-                                         float time_step) override {
+  Vector2 desired_velocity_towards_point(const Vector2 &point, ng_float_t speed,
+                                         ng_float_t time_step) override {
     PYBIND11_OVERRIDE(Vector2, Behavior, desired_velocity_towards_point, point,
                       speed, time_step);
   }
   Vector2 desired_velocity_towards_velocity(const Vector2 &velocity,
-                                            float time_step) override {
+                                            ng_float_t time_step) override {
     PYBIND11_OVERRIDE(Vector2, Behavior, desired_velocity_towards_velocity,
                       velocity, time_step);
   }
@@ -150,27 +152,32 @@ class PyBehavior : public Behavior, virtual public PyHasRegister<Behavior> {
     PYBIND11_OVERRIDE(Twist2, Behavior, twist_towards_velocity,
                       absolute_velocity, frame);
   }
-  Twist2 cmd_twist_towards_point(const Vector2 &point, float speed,
-                                 float time_step, Frame frame) override {
+  Twist2 cmd_twist_towards_point(const Vector2 &point, ng_float_t speed,
+                                 ng_float_t time_step, Frame frame) override {
     PYBIND11_OVERRIDE(Twist2, Behavior, cmd_twist_towards_point, point, speed,
                       time_step, frame);
   }
-  Twist2 cmd_twist_towards_velocity(const Vector2 &velocity, float time_step,
+  Twist2 cmd_twist_towards_velocity(const Vector2 &velocity,
+                                    ng_float_t time_step,
                                     Frame frame) override {
     PYBIND11_OVERRIDE(Twist2, Behavior, cmd_twist_towards_velocity, velocity,
                       time_step, frame);
   }
-  Twist2 cmd_twist_towards_orientation(float orientation, float angular_speed,
-                                       float time_step, Frame frame) override {
+  Twist2 cmd_twist_towards_orientation(ng_float_t orientation,
+                                       ng_float_t angular_speed,
+                                       ng_float_t time_step,
+                                       Frame frame) override {
     PYBIND11_OVERRIDE(Twist2, Behavior, cmd_twist_towards_orientation,
                       orientation, angular_speed, time_step, frame);
   }
-  Twist2 cmd_twist_towards_angular_speed(float angular_speed, float time_step,
+  Twist2 cmd_twist_towards_angular_speed(ng_float_t angular_speed,
+                                         ng_float_t time_step,
                                          Frame frame) override {
     PYBIND11_OVERRIDE(Twist2, Behavior, cmd_twist_towards_angular_speed,
                       angular_speed, time_step, frame);
   }
-  Twist2 cmd_twist_towards_stopping(float time_step, Frame frame) override {
+  Twist2 cmd_twist_towards_stopping(ng_float_t time_step,
+                                    Frame frame) override {
     PYBIND11_OVERRIDE(Twist2, Behavior, cmd_twist_towards_stopping, time_step,
                       frame);
   }
@@ -215,8 +222,8 @@ class PyKinematics : public Kinematics,
     PYBIND11_OVERRIDE_PURE(bool, Kinematics, dof);
   }
 
-  float get_max_angular_speed() const override {
-    PYBIND11_OVERRIDE(float, Kinematics, get_max_angular_speed);
+  ng_float_t get_max_angular_speed() const override {
+    PYBIND11_OVERRIDE(ng_float_t, Kinematics, get_max_angular_speed);
   }
 
   // HACK(J): should not happen but as of now, it can be that get_type returns
@@ -275,8 +282,8 @@ PYBIND11_MODULE(_navground, m) {
         DOC(navground, core, to_relative));
 
   py::class_<Twist2>(m, "Twist2", DOC(navground, core, Twist2))
-      .def(py::init<Vector2, float, Frame>(), py::arg("velocity"),
-           py::arg("angular_speed") = 0.0f, py::arg("frame") = Frame::absolute,
+      .def(py::init<Vector2, ng_float_t, Frame>(), py::arg("velocity"),
+           py::arg("angular_speed") = 0, py::arg("frame") = Frame::absolute,
            DOC(navground, core, Twist2, Twist2))
       .def(py::self == py::self)
       .def(py::self != py::self)
@@ -295,8 +302,8 @@ PYBIND11_MODULE(_navground, m) {
       .def("__repr__", &to_string<Twist2>);
 
   py::class_<Pose2>(m, "Pose2", DOC(navground, core, Pose2))
-      .def(py::init<Vector2, float>(), py::arg("position"),
-           py::arg("orientation") = 0.0f, DOC(navground, core, Pose2, Pose2))
+      .def(py::init<Vector2, ng_float_t>(), py::arg("position"),
+           py::arg("orientation") = 0, DOC(navground, core, Pose2, Pose2))
       .def_readwrite("position", &Pose2::position,
                      DOC(navground, core, Pose2, position))
       .def_readwrite("orientation", &Pose2::orientation,
@@ -313,14 +320,14 @@ PYBIND11_MODULE(_navground, m) {
 
   py::class_<Target>(m, "Target", DOC(navground, core, Target))
       .def(py::init<std::optional<Vector2>, std::optional<Radians>,
-                    std::optional<float>, std::optional<Vector2>,
-                    std::optional<float>, float, float>(),
+                    std::optional<ng_float_t>, std::optional<Vector2>,
+                    std::optional<ng_float_t>, ng_float_t, ng_float_t>(),
            py::arg("position") = py::none(),
            py::arg("orientation") = py::none(), py::arg("speed") = py::none(),
            py::arg("direction") = py::none(),
            py::arg("angular_speed") = py::none(),
-           py::arg("position_tolerance") = 0.0f,
-           py::arg("orientation_tolerance") = 0.0f,
+           py::arg("position_tolerance") = 0,
+           py::arg("orientation_tolerance") = 0,
            DOC(navground, core, Target, Target))
       .def_readwrite("position", &Target::position,
                      DOC(navground, core, Target, position))
@@ -340,7 +347,7 @@ PYBIND11_MODULE(_navground, m) {
            py::overload_cast<const Vector2 &>(&Target::satisfied, py::const_),
            DOC(navground, core, Target, satisfied))
       .def("satisfied",
-           py::overload_cast<float>(&Target::satisfied, py::const_),
+           py::overload_cast<ng_float_t>(&Target::satisfied, py::const_),
            DOC(navground, core, Target, satisfied, 2))
       .def("satisfied",
            py::overload_cast<const Pose2 &>(&Target::satisfied, py::const_),
@@ -348,14 +355,13 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("valid", &Target::valid, nullptr,
                     DOC(navground, core, Target, valid))
       .def_static("Point", &Target::Point, py::arg("point"),
-                  py::arg("tolerance") = 0.0f,
-                  DOC(navground, core, Target, Point))
+                  py::arg("tolerance") = 0, DOC(navground, core, Target, Point))
       .def_static("Pose", &Target::Pose, py::arg("pose"),
-                  py::arg("position_tolerance") = 0.0f,
-                  py::arg("orientation_tolerance") = 0.0f,
+                  py::arg("position_tolerance") = 0,
+                  py::arg("orientation_tolerance") = 0,
                   DOC(navground, core, Target, Pose))
       .def_static("Orientation", &Target::Orientation, py::arg("orientation"),
-                  py::arg("tolerance") = 0.0f,
+                  py::arg("tolerance") = 0,
                   DOC(navground, core, Target, Orientation))
       .def_static("Velocity", &Target::Velocity, py::arg("velocity"),
                   DOC(navground, core, Target, Velocity))
@@ -367,8 +373,8 @@ PYBIND11_MODULE(_navground, m) {
       .def("__repr__", &to_string<Target>);
 
   py::class_<Disc>(m, "Disc", DOC(navground, core, Disc))
-      .def(py::init<Vector2, float>(), py::arg("position"), py::arg("radius"),
-           DOC(navground, core, Disc, Disc))
+      .def(py::init<Vector2, ng_float_t>(), py::arg("position"),
+           py::arg("radius"), DOC(navground, core, Disc, Disc))
       .def_readwrite("position", &Disc::position,
                      DOC(navground, core, Disc, position))
       .def_readwrite("radius", &Disc::radius,
@@ -376,8 +382,8 @@ PYBIND11_MODULE(_navground, m) {
       .def("__repr__", &to_string<Disc>);
 
   py::class_<Neighbor, Disc>(m, "Neighbor", DOC(navground, core, Neighbor))
-      .def(py::init<Vector2, float, Vector2, int>(), py::arg("position"),
-           py::arg("radius"), py::arg("velocity") = Vector2(0.0, 0.0),
+      .def(py::init<Vector2, ng_float_t, Vector2, int>(), py::arg("position"),
+           py::arg("radius"), py::arg("velocity") = Vector2(0, 0),
            py::arg("id") = 0, DOC(navground, core, Neighbor, Neighbor))
       .def_readwrite("velocity", &Neighbor::velocity,
                      DOC(navground, core, Neighbor, velocity))
@@ -411,8 +417,8 @@ PYBIND11_MODULE(_navground, m) {
   py::class_<Kinematics, PyKinematics, HasRegister<Kinematics>, HasProperties,
              std::shared_ptr<Kinematics>>(m, "Kinematics",
                                           DOC(navground, core, Kinematics))
-      .def(py::init<float, float>(), py::arg("max_speed"),
-           py::arg("max_angular_speed") = 0.0,
+      .def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
+           py::arg("max_angular_speed") = 0,
            DOC(navground, core, Kinematics, Kinematics))
       .def_property("max_speed", &Kinematics::get_max_speed,
                     &Kinematics::set_max_speed,
@@ -437,14 +443,14 @@ PYBIND11_MODULE(_navground, m) {
              std::shared_ptr<OmnidirectionalKinematics>>(
       m, "OmnidirectionalKinematics",
       DOC(navground, core, OmnidirectionalKinematics))
-      .def(py::init<float, float>(), py::arg("max_speed"),
+      .def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
            py::arg("max_angular_speed"),
            DOC(navground, core, OmnidirectionalKinematics,
                OmnidirectionalKinematics));
 
   py::class_<AheadKinematics, Kinematics, std::shared_ptr<AheadKinematics>>(
       m, "AheadKinematics", DOC(navground, core, AheadKinematics))
-      .def(py::init<float, float>(), py::arg("max_speed"),
+      .def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
            py::arg("max_angular_speed"),
            DOC(navground, core, AheadKinematics, AheadKinematics));
 
@@ -462,7 +468,8 @@ PYBIND11_MODULE(_navground, m) {
              std::shared_ptr<TwoWheelsDifferentialDriveKinematics>>(
       m, "TwoWheelsDifferentialDriveKinematics",
       DOC(navground, core, TwoWheelsDifferentialDriveKinematics))
-      .def(py::init<float, float>(), py::arg("max_speed"), py::arg("axis"),
+      .def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
+           py::arg("axis"),
            DOC(navground, core, TwoWheelsDifferentialDriveKinematics,
                TwoWheelsDifferentialDriveKinematics));
 
@@ -470,7 +477,8 @@ PYBIND11_MODULE(_navground, m) {
              std::shared_ptr<FourWheelsOmniDriveKinematics>>(
       m, "FourWheelsOmniDriveKinematics",
       DOC(navground, core, FourWheelsOmniDriveKinematics))
-      .def(py::init<float, float>(), py::arg("max_speed"), py::arg("axis"),
+      .def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
+           py::arg("axis"),
            DOC(navground, core, FourWheelsOmniDriveKinematics,
                FourWheelsOmniDriveKinematics));
 
@@ -480,8 +488,8 @@ PYBIND11_MODULE(_navground, m) {
       DOC(navground, core, SocialMargin_Modulation))
       .def(
           "__call__",
-          [](const SocialMargin::Modulation *mod, float margin,
-             std::optional<float> distance) {
+          [](const SocialMargin::Modulation *mod, ng_float_t margin,
+             std::optional<ng_float_t> distance) {
             if (distance) {
               return (*mod)(margin, *distance);
             }
@@ -506,14 +514,14 @@ PYBIND11_MODULE(_navground, m) {
              std::shared_ptr<SocialMargin::LinearModulation>>(
       m, "SocialMarginLinearModulation",
       DOC(navground, core, SocialMargin_LinearModulation))
-      .def(py::init<float>(), py::arg("upper_distance"),
+      .def(py::init<ng_float_t>(), py::arg("upper_distance"),
            DOC(navground, core, SocialMargin_LinearModulation,
                LinearModulation));
   py::class_<SocialMargin::QuadraticModulation, SocialMargin::Modulation,
              std::shared_ptr<SocialMargin::QuadraticModulation>>(
       m, "SocialMarginQuadraticModulation",
       DOC(navground, core, SocialMargin_QuadraticModulation))
-      .def(py::init<float>(), py::arg("upper_distance"),
+      .def(py::init<ng_float_t>(), py::arg("upper_distance"),
            DOC(navground, core, SocialMargin_QuadraticModulation,
                QuadraticModulation));
   py::class_<SocialMargin::LogisticModulation, SocialMargin::Modulation,
@@ -525,7 +533,7 @@ PYBIND11_MODULE(_navground, m) {
 
   py::class_<SocialMargin, std::shared_ptr<SocialMargin>>(
       m, "SocialMargin", DOC(navground, core, SocialMargin))
-      .def(py::init<float>(), py::arg("value") = 0.0f,
+      .def(py::init<ng_float_t>(), py::arg("value") = 0,
            DOC(navground, core, SocialMargin, SocialMargin))
       .def_property("modulation", &SocialMargin::get_modulation,
                     &SocialMargin::set_modulation,
@@ -533,7 +541,7 @@ PYBIND11_MODULE(_navground, m) {
       .def(
           "get",
           [](SocialMargin *sm, std::optional<unsigned> type,
-             std::optional<float> distance) {
+             std::optional<ng_float_t> distance) {
             if (!type) {
               return sm->get();
             }
@@ -546,7 +554,7 @@ PYBIND11_MODULE(_navground, m) {
           DOC(navground, core, SocialMargin, get))
       .def(
           "set",
-          [](SocialMargin *sm, float value, std::optional<unsigned> type) {
+          [](SocialMargin *sm, ng_float_t value, std::optional<unsigned> type) {
             if (!type) {
               return sm->set(value);
             }
@@ -573,8 +581,8 @@ PYBIND11_MODULE(_navground, m) {
              DOC(navground, core, Behavior_Heading, velocity));
 
   behavior
-      .def(py::init<std::shared_ptr<Kinematics>, float>(),
-           py::arg("kinematics") = py::none(), py::arg("radius") = 0.0,
+      .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
+           py::arg("kinematics") = py::none(), py::arg("radius") = 0,
            DOC(navground, core, Behavior, Behavior))
       .def_property(
           "kinematics", &Behavior::get_kinematics,
@@ -660,10 +668,10 @@ PYBIND11_MODULE(_navground, m) {
           nullptr,
           DOC(navground, core, Behavior, property_actuated_wheel_speeds))
       .def("actuate",
-           py::overload_cast<const Twist2 &, float>(&Behavior::actuate),
+           py::overload_cast<const Twist2 &, ng_float_t>(&Behavior::actuate),
            py::arg("twist"), py::arg("time_step"),
            DOC(navground, core, Behavior, actuate))
-      .def("actuate", py::overload_cast<float>(&Behavior::actuate),
+      .def("actuate", py::overload_cast<ng_float_t>(&Behavior::actuate),
            py::arg("time_step"), DOC(navground, core, Behavior, actuate, 2))
       .def_property("heading_behavior", &Behavior::get_heading_behavior,
                     &Behavior::set_heading_behavior,
@@ -755,7 +763,8 @@ PYBIND11_MODULE(_navground, m) {
           "type",
           [](const BufferDescription &value) { return py::dtype(value.type); },
           nullptr, DOC(navground, core, BufferDescription, type))
-      .def_readonly("low", &BufferDescription::low, DOC(navground, core, BufferDescription, low))
+      .def_readonly("low", &BufferDescription::low,
+                    DOC(navground, core, BufferDescription, low))
       .def_readonly("high", &BufferDescription::high,
                     DOC(navground, core, BufferDescription, high))
       .def_readonly("categorical", &BufferDescription::categorical,
@@ -790,8 +799,9 @@ PYBIND11_MODULE(_navground, m) {
           [](Buffer &buffer, const py::object &value) {
             const auto dtype = make_dtype(value);
             buffer.set_type(type_from_dtype(dtype), true);
-          }, "The buffer type")
-          //DOC(navground, core, Buffer, property_type))
+          },
+          "The buffer type")
+      // DOC(navground, core, Buffer, property_type))
       .def_property(
           "data",
           [](const Buffer &buffer) { return get_array_from_buffer(buffer); },
@@ -863,8 +873,8 @@ PYBIND11_MODULE(_navground, m) {
 
   py::class_<HLBehavior, Behavior, std::shared_ptr<HLBehavior>>(
       m, "HLBehavior", DOC(navground, core, HLBehavior))
-      .def(py::init<std::shared_ptr<Kinematics>, float>(),
-           py::arg("kinematics") = py::none(), py::arg("radius") = 0.0f,
+      .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
+           py::arg("kinematics") = py::none(), py::arg("radius") = 0,
            DOC(navground, core, HLBehavior, HLBehavior))
       .def_property("eta", &HLBehavior::get_eta, &HLBehavior::set_eta,
                     DOC(navground, core, HLBehavior, property_eta))
@@ -888,8 +898,8 @@ PYBIND11_MODULE(_navground, m) {
 
   py::class_<ORCABehavior, Behavior, std::shared_ptr<ORCABehavior>>(
       m, "ORCABehavior", DOC(navground, core, ORCABehavior))
-      .def(py::init<std::shared_ptr<Kinematics>, float>(),
-           py::arg("kinematics") = py::none(), py::arg("radius") = 0.0f,
+      .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
+           py::arg("kinematics") = py::none(), py::arg("radius") = 0,
            DOC(navground, core, ORCABehavior, ORCABehavior))
       .def_property("time_horizon", &ORCABehavior::get_time_horizon,
                     &ORCABehavior::set_time_horizon,
@@ -901,14 +911,14 @@ PYBIND11_MODULE(_navground, m) {
 
   py::class_<HRVOBehavior, Behavior, std::shared_ptr<HRVOBehavior>>(
       m, "HRVOBehavior", DOC(navground, core, HRVOBehavior))
-      .def(py::init<std::shared_ptr<Kinematics>, float>(),
-           py::arg("kinematics") = py::none(), py::arg("radius") = 0.0f,
+      .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
+           py::arg("kinematics") = py::none(), py::arg("radius") = 0,
            DOC(navground, core, HRVOBehavior, HRVOBehavior));
 
   py::class_<DummyBehavior, Behavior, std::shared_ptr<DummyBehavior>>(
       m, "DummyBehavior", DOC(navground, core, DummyBehavior))
-      .def(py::init<std::shared_ptr<Kinematics>, float>(),
-           py::arg("kinematics") = py::none(), py::arg("radius") = 0.0f,
+      .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
+           py::arg("kinematics") = py::none(), py::arg("radius") = 0,
            DOC(navground, core, Behavior, Behavior));
 
   py::class_<Action, std::shared_ptr<Action>> action(
@@ -980,16 +990,17 @@ PYBIND11_MODULE(_navground, m) {
                                    DOC(navground, core, CollisionComputation))
       .def(py::init<>(),
            DOC(navground, core, CollisionComputation, CollisionComputation))
-      .def("setup",
-           py::overload_cast<Pose2, float, const std::vector<LineSegment> &,
-                             const std::vector<Disc> &,
-                             const std::vector<Neighbor> &>(
-               &CollisionComputation::setup),
-           py::arg("pose") = Pose2(), py::arg("margin") = 0.0f,
-           py::arg("line_segments") = std::vector<LineSegment>(),
-           py::arg("static_discs") = std::vector<Disc>(),
-           py::arg("dynamic_discs") = std::vector<Neighbor>(),
-           DOC(navground, core, CollisionComputation, setup, 2))
+      .def(
+          "setup",
+          py::overload_cast<Pose2, ng_float_t, const std::vector<LineSegment> &,
+                            const std::vector<Disc> &,
+                            const std::vector<Neighbor> &>(
+              &CollisionComputation::setup),
+          py::arg("pose") = Pose2(), py::arg("margin") = 0,
+          py::arg("line_segments") = std::vector<LineSegment>(),
+          py::arg("static_discs") = std::vector<Disc>(),
+          py::arg("dynamic_discs") = std::vector<Neighbor>(),
+          DOC(navground, core, CollisionComputation, setup, 2))
       .def("static_free_distance", &CollisionComputation::static_free_distance,
            py::arg("angle"), py::arg("max_distance"),
            py::arg("include_neighbors") = true,
@@ -1007,13 +1018,13 @@ PYBIND11_MODULE(_navground, m) {
       .def("get_free_distance_for_sector",
            &CollisionComputation::get_free_distance_for_sector,
            py::arg("from_angle"), py::arg("length"), py::arg("resolution"),
-           py::arg("max_distance"), py::arg("dynamic"), py::arg("speed") = 0.0f,
+           py::arg("max_distance"), py::arg("dynamic"), py::arg("speed") = 0,
            DOC(navground, core, CollisionComputation,
                get_free_distance_for_sector))
       .def("get_contour_for_sector",
            &CollisionComputation::get_free_distance_for_sector,
            py::arg("from_angle"), py::arg("length"), py::arg("resolution"),
-           py::arg("max_distance"), py::arg("dynamic"), py::arg("speed") = 0.0f,
+           py::arg("max_distance"), py::arg("dynamic"), py::arg("speed") = 0,
            DOC(navground, core, CollisionComputation, get_contour_for_sector));
 
   py::class_<CachedCollisionComputation, CollisionComputation>(

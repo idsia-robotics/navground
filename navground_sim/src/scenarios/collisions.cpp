@@ -19,10 +19,11 @@ using navground::core::Property;
 
 namespace navground::sim {
 
-void CollisionsScenario::init_world(World *world, [[maybe_unused]] std::optional<int> seed) {
+void CollisionsScenario::init_world(World *world,
+                                    [[maybe_unused]] std::optional<int> seed) {
   Scenario::init_world(world, seed);
-  const float agent_radius = 0.1f;
-  Vector2 target{10.0f, 10.0f};
+  const ng_float_t agent_radius = 0.1;
+  Vector2 target{10, 10};
   auto task =
       std::make_shared<WaypointsTask>(Waypoints{target, -target}, true, 0.1);
   auto se = std::make_shared<BoundedStateEstimation>(nullptr, 10.0);
@@ -37,33 +38,33 @@ void CollisionsScenario::init_world(World *world, [[maybe_unused]] std::optional
   behavior->set_safety_margin(0.1);
   // agent.controller.distance_tolerance = 1.0;
   // agent.controller.angle_tolerance = 4.0;
-  agent->get_controller()->set_speed_tolerance(0.1f);
-  agent->pose = {{-8.0f, -7.9f}};
-  world->add_wall(Wall{Vector2{-5.0f, -5.0f}, Vector2{-5.0f, -8.0f}});
-  world->add_wall(Wall{Vector2{-3.0f, -1.0f}, Vector2{-0.0f, -2.0f}});
-  // world.walls.emplace_back(Vector2{-3.0f, -1.0f}, Vector2{-3.0f, -0.0f});
-  world->add_obstacle(Obstacle{Vector2{3.0f, 2.0f}, 3.0f});
+  agent->get_controller()->set_speed_tolerance(0.1);
+  agent->pose = {{-8.0, -7.9}};
+  world->add_wall(Wall{Vector2{-5.0, -5.0}, Vector2{-5.0, -8.0}});
+  world->add_wall(Wall{Vector2{-3.0, -1.0}, Vector2{-0, -2.0}});
+  // world.walls.emplace_back(Vector2{-3.0, -1.0}, Vector2{-3.0, -0});
+  world->add_obstacle(Obstacle{Vector2{3.0, 2.0}, 3.0});
 }
 
 const std::map<std::string, Property> CollisionsScenario::properties =
-    Properties{
-        {"behavior_name",
-         make_property<std::string, CollisionsScenario>(
-             [](const CollisionsScenario *obj) -> std::string {
-               return obj->behavior_name;
-             },
-             [](CollisionsScenario *obj, const std::string &value) {
-               obj->behavior_name = value;
-             },
-             "HL", "Behavior name")},
-        {"control_period", make_property<float, CollisionsScenario>(
-                               [](const CollisionsScenario *obj) -> float {
-                                 return obj->control_period;
-                               },
-                               [](CollisionsScenario *obj, const float &value) {
-                                 obj->control_period = value;
-                               },
-                               0.1f, "Control period")}};
+    Properties{{"behavior_name",
+                make_property<std::string, CollisionsScenario>(
+                    [](const CollisionsScenario *obj) -> std::string {
+                      return obj->behavior_name;
+                    },
+                    [](CollisionsScenario *obj, const std::string &value) {
+                      obj->behavior_name = value;
+                    },
+                    "HL", "Behavior name")},
+               {"control_period",
+                make_property<ng_float_t, CollisionsScenario>(
+                    [](const CollisionsScenario *obj) -> ng_float_t {
+                      return obj->control_period;
+                    },
+                    [](CollisionsScenario *obj, const ng_float_t &value) {
+                      obj->control_period = value;
+                    },
+                    0.1, "Control period")}};
 
 const std::string CollisionsScenario::type =
     register_type<CollisionsScenario>("Collisions");

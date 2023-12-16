@@ -10,10 +10,11 @@
 #include <random>
 
 #include "navground/core/behavior.h"
+#include "navground/core/behaviors/HL.h"
 #include "navground/core/kinematics.h"
+#include "navground/core/types.h"
 #include "navground/sim/sampling/sampler.h"
 #include "navground/sim/world.h"
-#include "navground/core/behaviors/HL.h"
 
 using navground::core::Behavior;
 using navground::core::Kinematics;
@@ -95,8 +96,6 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
   }
 };
 
-
-
 /**
  * @brief      Samples \ref navground::core::Behavior
  *
@@ -162,11 +161,11 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
     if (heading) heading->reset();
   }
 
-  std::shared_ptr<Sampler<float>> optimal_speed;
-  std::shared_ptr<Sampler<float>> optimal_angular_speed;
-  std::shared_ptr<Sampler<float>> rotation_tau;
-  std::shared_ptr<Sampler<float>> safety_margin;
-  std::shared_ptr<Sampler<float>> horizon;
+  std::shared_ptr<Sampler<ng_float_t>> optimal_speed;
+  std::shared_ptr<Sampler<ng_float_t>> optimal_angular_speed;
+  std::shared_ptr<Sampler<ng_float_t>> rotation_tau;
+  std::shared_ptr<Sampler<ng_float_t>> safety_margin;
+  std::shared_ptr<Sampler<ng_float_t>> horizon;
   std::shared_ptr<Sampler<std::string>> heading;
 };
 
@@ -203,8 +202,8 @@ struct KinematicsSampler : public SamplerFromRegister<T> {
     if (max_angular_speed) max_angular_speed->reset();
   }
 
-  std::shared_ptr<Sampler<float>> max_speed;
-  std::shared_ptr<Sampler<float>> max_angular_speed;
+  std::shared_ptr<Sampler<ng_float_t>> max_speed;
+  std::shared_ptr<Sampler<ng_float_t>> max_angular_speed;
 
  protected:
   C s() override {

@@ -60,14 +60,14 @@ void ExperimentalRun::prepare() {
   }
   if (_record_config.task_events) {
     _record = true;
-    _task_events_data = std::vector<std::vector<float>>(_number);
+    _task_events_data = std::vector<std::vector<ng_float_t>>(_number);
     _task_events = std::vector<unsigned>(_number, 0);
     int index = 0;
     for (const auto &agent : _world->get_agents()) {
       if (Task *task = agent->get_task()) {
         auto &ds = _task_events_data[index];
         auto &n = _task_events[index];
-        task->add_callback([&ds, &n](const std::vector<float> &data) {
+        task->add_callback([&ds, &n](const std::vector<ng_float_t> &data) {
           ds.insert(std::end(ds), std::begin(data), std::end(data));
           n++;
         });
@@ -158,7 +158,7 @@ void ExperimentalRun::update() {
         // TODO(Jerome): adapt to the changed target format
         const auto target = b->get_target();
         const auto position = target.position.value_or(Vector2::Zero());
-        const auto orientation = target.orientation.value_or(0.0f);
+        const auto orientation = target.orientation.value_or(0.0);
         _target_data[i++] = position[0];
         _target_data[i++] = position[1];
         _target_data[i++] = orientation;
@@ -183,7 +183,7 @@ void ExperimentalRun::update() {
     size_t i = _steps * _number;
     for (const auto &agent : _world->get_agents()) {
       const auto b = agent->get_behavior();
-      _efficacy_data[i++] = b ? b->get_efficacy() : 1.0f;
+      _efficacy_data[i++] = b ? b->get_efficacy() : 1.0;
     }
   }
   _steps++;
@@ -228,11 +228,11 @@ void ExperimentalRun::finalize() {
 
 void ExperimentalRun::save(HighFive::Group &group) {
   store_world(_world_yaml, group);
-  store_attribute<float>(_run_config.time_step, "time_step", group);
+  store_attribute<ng_float_t>(_run_config.time_step, "time_step", group);
   store_attribute<unsigned>(_run_config.steps, "maximal_steps", group);
   store_attribute<unsigned>(_steps, "steps", group);
   store_attribute<unsigned>(get_seed(), "seed", group);
-  store_attribute<float>(_world->get_time(), "final_sim_time", group);
+  store_attribute<ng_float_t>(_world->get_time(), "final_sim_time", group);
   const unsigned long d = get_duration_ns().count();
   group
       .createAttribute<unsigned long>("duration_ns",
@@ -240,29 +240,29 @@ void ExperimentalRun::save(HighFive::Group &group) {
       .write(d);
   const std::vector<size_t> dims{static_cast<size_t>(_steps), _number, 3};
   if (_record_config.time) {
-    group.createDataSet<float>("times", HighFive::DataSpace({_steps}))
+    group.createDataSet<ng_float_t>("times", HighFive::DataSpace({_steps}))
         .write_raw(_time_data.data());
   }
   if (_record_config.pose) {
-    group.createDataSet<float>("poses", HighFive::DataSpace(dims))
+    group.createDataSet<ng_float_t>("poses", HighFive::DataSpace(dims))
         .write_raw(_pose_data.data());
   }
   if (_record_config.twist) {
-    group.createDataSet<float>("twists", HighFive::DataSpace(dims))
+    group.createDataSet<ng_float_t>("twists", HighFive::DataSpace(dims))
         .write_raw(_twist_data.data());
   }
   if (_record_config.cmd) {
-    group.createDataSet<float>("cmds", HighFive::DataSpace(dims))
+    group.createDataSet<ng_float_t>("cmds", HighFive::DataSpace(dims))
         .write_raw(_cmd_data.data());
   }
   if (_record_config.target) {
-    group.createDataSet<float>("targets", HighFive::DataSpace(dims))
+    group.createDataSet<ng_float_t>("targets", HighFive::DataSpace(dims))
         .write_raw(_target_data.data());
   }
   if (_record_config.safety_violation) {
     group
-        .createDataSet<float>("safety_violations",
-                              HighFive::DataSpace({_steps, _number}))
+        .createDataSet<ng_float_t>("safety_violations",
+                                   HighFive::DataSpace({_steps, _number}))
         .write_raw(_safety_violation_data.data());
   }
   if (_record_config.collisions) {
@@ -280,7 +280,7 @@ void ExperimentalRun::save(HighFive::Group &group) {
       if (!n) continue;
       const auto ds = _task_events_data[i];
       unsigned uid = agents[i]->uid;
-      auto dataset = task_group.createDataSet<float>(
+      auto dataset = task_group.createDataSet<ng_float_t>(
           "agent_" + std::to_string(uid),
           HighFive::DataSpace({n, ds.size() / n}));
       dataset.write_raw(ds.data());
@@ -289,13 +289,13 @@ void ExperimentalRun::save(HighFive::Group &group) {
     }
   }
   if (_record_config.deadlocks) {
-    group.createDataSet<float>("deadlocks", HighFive::DataSpace({_number}))
+    group.createDataSet<ng_float_t>("deadlocks", HighFive::DataSpace({_number}))
         .write_raw(_deadlock_data.data());
   }
   if (_record_config.efficacy) {
     group
-        .createDataSet<float>("efficacy",
-                              HighFive::DataSpace({_steps, _number}))
+        .createDataSet<ng_float_t>("efficacy",
+                                   HighFive::DataSpace({_steps, _number}))
         .write_raw(_efficacy_data.data());
   }
 }

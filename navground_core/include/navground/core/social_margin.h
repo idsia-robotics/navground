@@ -7,6 +7,8 @@
 #include <memory>
 #include <optional>
 
+#include "navground/core/types.h"
+
 namespace navground::core {
 
 /**
@@ -27,11 +29,11 @@ class SocialMargin {
    public:
     virtual ~Modulation() = default;
     Modulation(){};
-    virtual float operator()(float margin,
-                             [[maybe_unused]] float distance) const {
+    virtual ng_float_t operator()(ng_float_t margin,
+                                  [[maybe_unused]] ng_float_t distance) const {
       return margin;
     }
-    virtual float operator()(float margin) const { return margin; }
+    virtual ng_float_t operator()(ng_float_t margin) const { return margin; }
   };
 
   /**
@@ -40,12 +42,12 @@ class SocialMargin {
   class ZeroModulation : public Modulation {
    public:
     using Modulation::Modulation;
-    float operator()([[maybe_unused]] float margin,
-                     [[maybe_unused]] float distance) const override {
-      return 0.0f;
+    ng_float_t operator()([[maybe_unused]] ng_float_t margin,
+                          [[maybe_unused]] ng_float_t distance) const override {
+      return 0;
     }
-    float operator()([[maybe_unused]] float margin) const override {
-      return 0.0f;
+    ng_float_t operator()([[maybe_unused]] ng_float_t margin) const override {
+      return 0;
     }
   };
 
@@ -70,19 +72,20 @@ class SocialMargin {
      *
      * @param[in]  upper_distance  The upper distance
      */
-    explicit LinearModulation(float upper_distance)
+    explicit LinearModulation(ng_float_t upper_distance)
         : Modulation(), upper_distance(upper_distance) {}
-    float operator()(float margin, float distance) const override {
-      if (distance < 0) return 0.0;
-      float upper = std::max(upper_distance, margin);
+    ng_float_t operator()(ng_float_t margin,
+                          ng_float_t distance) const override {
+      if (distance < 0) return 0;
+      const ng_float_t upper = std::max(upper_distance, margin);
       if (distance > upper) return margin;
       return margin * distance / upper;
     }
 
-    float get_upper_distance() const { return upper_distance; }
+    ng_float_t get_upper_distance() const { return upper_distance; }
 
    private:
-    float upper_distance;
+    ng_float_t upper_distance;
   };
 
   /**
@@ -92,20 +95,21 @@ class SocialMargin {
    */
   class QuadraticModulation : public Modulation {
    public:
-    explicit QuadraticModulation(float upper_distance)
+    explicit QuadraticModulation(ng_float_t upper_distance)
         : Modulation(), upper_distance(upper_distance) {}
-    float operator()(float margin, float distance) const override {
-      if (distance < 0) return 0.0;
-      const float upper = std::max(upper_distance, 2 * margin);
+    ng_float_t operator()(ng_float_t margin,
+                          ng_float_t distance) const override {
+      if (distance < 0) return 0;
+      const ng_float_t upper = std::max(upper_distance, 2 * margin);
       if (distance > upper) return margin;
-      const float x = distance / upper;
+      const ng_float_t x = distance / upper;
       return -margin * x * x + 2 * margin * x;
     }
 
-    float get_upper_distance() const { return upper_distance; }
+    ng_float_t get_upper_distance() const { return upper_distance; }
 
    private:
-    float upper_distance;
+    ng_float_t upper_distance;
   };
 
   /**
@@ -114,8 +118,9 @@ class SocialMargin {
   class LogisticModulation : public Modulation {
    public:
     using Modulation::Modulation;
-    float operator()(float margin, float distance) const override {
-      if (distance < 0) return 0.0;
+    ng_float_t operator()(ng_float_t margin,
+                          ng_float_t distance) const override {
+      if (distance < 0) return 0;
       return 2 * distance + margin -
              margin * std::log2(1 + std::exp2(2 * distance / margin));
     }
@@ -126,8 +131,8 @@ class SocialMargin {
    *
    * @param[in]  value  The default value of social margins
    */
-  explicit SocialMargin(float value = 0.0f)
-      : default_social_margin(std::max(0.0f, value)),
+  explicit SocialMargin(ng_float_t value = 0)
+      : default_social_margin(std::max<ng_float_t>(0, value)),
         social_margins(),
         modulation(std::make_shared<ConstantModulation>()) {}
 
@@ -153,13 +158,15 @@ class SocialMargin {
    *
    * @return     The social margin
    */
-  float get() const { return (*modulation)(default_social_margin); }
+  ng_float_t get() const { return (*modulation)(default_social_margin); }
   /**
    * @brief      Set the default value, ignoring type.
    *
    * @param[in]  value  The desired social margin
    */
-  void set(float value) { default_social_margin = std::max(0.0f, value); }
+  void set(ng_float_t value) {
+    default_social_margin = std::max<ng_float_t>(0, value);
+  }
   /**
    * @brief      Get the value for a specific type, ignoring distance
    *
@@ -167,15 +174,15 @@ class SocialMargin {
    *
    * @return     The social margin
    */
-  float get(unsigned type) { return (*modulation)(get_value(type)); }
+  ng_float_t get(unsigned type) { return (*modulation)(get_value(type)); }
   /**
    * @brief      Set the value for the specified type.
    *
    * @param[in]  type   The neighbor type
    * @param[in]  value  The desired social margin
    */
-  void set(unsigned type, float value) {
-    social_margins[type] = std::max(0.0f, value);
+  void set(unsigned type, ng_float_t value) {
+    social_margins[type] = std::max<ng_float_t>(0, value);
   }
   /**
    * @brief      Get the value for a specific type and distance
@@ -185,7 +192,7 @@ class SocialMargin {
    *
    * @return     The modulated social margin
    */
-  float get(unsigned type, float distance) {
+  ng_float_t get(unsigned type, ng_float_t distance) {
     return (*modulation)(get_value(type), distance);
   }
 
@@ -196,7 +203,7 @@ class SocialMargin {
    *
    * @return     The stored social margin
    */
-  float get_value(unsigned type) {
+  ng_float_t get_value(unsigned type) {
     return social_margins[type].value_or(default_social_margin);
   }
 
@@ -205,20 +212,20 @@ class SocialMargin {
    *
    * @return     The default social margin.
    */
-  float get_default_value() const { return default_social_margin; }
+  ng_float_t get_default_value() const { return default_social_margin; }
 
   /**
    * @brief      Gets the stored [non-modulated] values for the specific types
    *
    * @return     A map of type -> social margin.
    */
-  const std::map<unsigned, std::optional<float>>& get_values() const {
+  const std::map<unsigned, std::optional<ng_float_t>>& get_values() const {
     return social_margins;
   }
 
  private:
-  float default_social_margin;
-  std::map<unsigned, std::optional<float>> social_margins;
+  ng_float_t default_social_margin;
+  std::map<unsigned, std::optional<ng_float_t>> social_margins;
   std::shared_ptr<Modulation> modulation;
 };
 

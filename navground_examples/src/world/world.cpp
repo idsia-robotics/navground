@@ -19,8 +19,8 @@ namespace sim = navground::sim;
 
 int main() {
   sim::World world;
-  world.add_wall(sim::Wall{Vector2{-1.0f, -1.f}, Vector2{-1.f, 1.f}});
-  world.add_obstacle(sim::Obstacle{Vector2{2.f, 0.f}, 0.5f});
+  world.add_wall(sim::Wall{Vector2{-1.0, -1.0}, Vector2{-1.0, 1.0}});
+  world.add_obstacle(sim::Obstacle{Vector2{2.0, 0.0}, 0.5});
   auto a = std::make_shared<sim::Agent>(
       0.1, std::make_shared<DummyBehavior>(), std::make_shared<OmnidirectionalKinematics>(1.0),
       std::make_shared<sim::WaypointsTask>(sim::Waypoints{{1, 0}}, false, 0.1),

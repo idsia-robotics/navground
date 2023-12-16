@@ -6,6 +6,7 @@
 
 #include "navground/core/common.h"
 #include "navground/core/state.h"
+#include "navground/core/types.h"
 #include "navground_core_export.h"
 
 namespace navground::core {
@@ -25,17 +26,17 @@ struct Disc {
   /**
    * Radius
    */
-  float radius;
+  ng_float_t radius;
   /**
    * @brief      Constructs a new instance.
    *
    * @param  position       The position
    * @param  radius         The radius
    */
-  Disc(const Vector2& position, float radius)
+  Disc(const Vector2& position, ng_float_t radius)
       : position(position), radius(radius) {}
 
-  Disc() : Disc(Vector2::Zero(), 0.0f) {}
+  Disc() : Disc(Vector2::Zero(), 0) {}
 
   bool operator==(const Disc& other) const {
     return position == other.position && radius == other.radius;
@@ -70,7 +71,7 @@ struct Neighbor : public Disc {
    * @param[in]  velocity  The velocity
    * @param[in]  id        The identifier
    */
-  Neighbor(const Vector2& position, float radius, const Vector2 velocity,
+  Neighbor(const Vector2& position, ng_float_t radius, const Vector2 velocity,
            unsigned id = 0)
       : Disc(position, radius), velocity(velocity), id(id) {}
   /**
@@ -137,7 +138,7 @@ struct LineSegment {
   /**
    * The segment length
    */
-  float length;
+  ng_float_t length;
 
   /**
    * @brief      Constructs a new instance.
@@ -152,7 +153,7 @@ struct LineSegment {
         e2(-e1[1], e1[0]),
         length((p2 - p1).norm()) {}
 
-  LineSegment() : LineSegment({0.0f, 0.0f}, {1.0f, 0.0f}) {}
+  LineSegment() : LineSegment({0, 0}, {1, 0}) {}
 
   void update() {
     e1 = (p2 - p1).normalized();
@@ -168,17 +169,17 @@ struct LineSegment {
     return !(operator==(other));
   }
 
-  float distance(const Vector2& point) const {
+  ng_float_t distance(const Vector2& point) const {
     const Vector2 delta = point - p1;
-    const float x = delta.dot(e1);
+    const ng_float_t x = delta.dot(e1);
     if (x < 0) return delta.norm();
     if (x > length) return (point - p2).norm();
     return abs(delta.dot(e2));
   }
 
   // negative <=> penetration
-  float distance(const Disc& disc, bool penetration = false) const {
-    const float dist = distance(disc.position) - disc.radius;
+  ng_float_t distance(const Disc& disc, bool penetration = false) const {
+    const ng_float_t dist = distance(disc.position) - disc.radius;
     return (penetration || dist > 0) ? dist : 0.0;
   }
 
@@ -196,10 +197,15 @@ inline std::ostream& operator<<(std::ostream& os, const LineSegment& line) {
   return os;
 }
 
-class NAVGROUND_CORE_EXPORT GeometricState : public TrackChanges, virtual public EnvironmentState {
+class NAVGROUND_CORE_EXPORT GeometricState : public TrackChanges,
+                                             virtual public EnvironmentState {
  public:
   GeometricState()
-      : EnvironmentState(), TrackChanges(), static_obstacles(), neighbors(), line_obstacles() {}
+      : EnvironmentState(),
+        TrackChanges(),
+        static_obstacles(),
+        neighbors(),
+        line_obstacles() {}
 
   virtual ~GeometricState() = default;
 

@@ -7,7 +7,8 @@
 
 #include <optional>
 
-#include "navground/core/common.h"
+#include "./common.h"
+#include "navground/core/types.h"
 
 namespace navground::core {
 
@@ -28,7 +29,7 @@ struct Target {
   /**
    * The speed
    */
-  std::optional<float> speed = std::nullopt;
+  std::optional<ng_float_t> speed = std::nullopt;
   /**
    * The direction
    */
@@ -36,15 +37,15 @@ struct Target {
   /**
    * The angular speed
    */
-  std::optional<float> angular_speed = std::nullopt;
+  std::optional<ng_float_t> angular_speed = std::nullopt;
   /**
    * The position tolerance
    */
-  float position_tolerance = 0.0f;
+  ng_float_t position_tolerance = 0;
   /**
    * The orientation tolerance
    */
-  float orientation_tolerance = 0.0f;
+  ng_float_t orientation_tolerance = 0;
 
   /**
    * @brief      Constructs a new instance.
@@ -59,10 +60,11 @@ struct Target {
    */
   Target(const std::optional<Vector2>& position = std::nullopt,
          const std::optional<Radians>& orientation = std::nullopt,
-         const std::optional<float>& speed = std::nullopt,
+         const std::optional<ng_float_t>& speed = std::nullopt,
          const std::optional<Vector2>& direction = std::nullopt,
-         const std::optional<float>& angular_speed = std::nullopt,
-         float position_tolerance = 0.0f, float orientation_tolerance = 0.0f)
+         const std::optional<ng_float_t>& angular_speed = std::nullopt,
+         ng_float_t position_tolerance = 0,
+         ng_float_t orientation_tolerance = 0)
       : position(position),
         orientation(orientation),
         speed(speed),
@@ -90,7 +92,8 @@ struct Target {
   }
 
   // TODO(Jerome): extend to orientation / angular_speed
-  Vector2 get_ideal_velocity(const Vector2 & position_, float speed_) const {
+  Vector2 get_ideal_velocity(const Vector2& position_,
+                             ng_float_t speed_) const {
     if (position) {
       const auto delta = *position - position_;
       const auto n = delta.norm();
@@ -104,15 +107,15 @@ struct Target {
     return Vector2();
   }
 
-  static Target Point(const Vector2& position, float tolerance = 0.0f) {
+  static Target Point(const Vector2& position, ng_float_t tolerance = 0) {
     Target t;
     t.position = position;
     t.position_tolerance = tolerance;
     return t;
   }
 
-  static Target Pose(const Pose2& pose, float position_tolerance = 0.0f,
-                     float orientation_tolerance = 0.0f) {
+  static Target Pose(const Pose2& pose, ng_float_t position_tolerance = 0,
+                     ng_float_t orientation_tolerance = 0) {
     Target t;
     t.position = pose.position;
     t.position_tolerance = position_tolerance;
@@ -121,7 +124,7 @@ struct Target {
     return t;
   }
 
-  static Target Orientation(Radians orientation, Radians tolerance = 0.0f) {
+  static Target Orientation(Radians orientation, Radians tolerance = 0) {
     Target t;
     t.orientation = orientation;
     t.orientation_tolerance = tolerance;

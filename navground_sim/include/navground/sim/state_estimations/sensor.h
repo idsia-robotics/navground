@@ -7,9 +7,9 @@
 
 #include <vector>
 
-#include "navground/sim/state_estimation.h"
 #include "navground/core/buffer.h"
 #include "navground/core/states/sensing.h"
+#include "navground/sim/state_estimation.h"
 #include "navground/sim/world.h"
 #include "navground_sim_export.h"
 
@@ -18,10 +18,8 @@ namespace navground::sim {
 /**
  * @brief      Base class for agents using a \ref SensingState.
  *
-*/
-struct NAVGROUND_SIM_EXPORT Sensor
-    : public StateEstimation {
-
+ */
+struct NAVGROUND_SIM_EXPORT Sensor : public StateEstimation {
   using Description = std::map<std::string, core::BufferDescription>;
 
   /**
@@ -62,8 +60,8 @@ struct NAVGROUND_SIM_EXPORT Sensor
    *
    * @param      state  The state
    */
-  void prepare(core::SensingState & state) const {
-    for (const auto & [k, v] : get_description()) {
+  void prepare(core::SensingState &state) const {
+    for (const auto &[k, v] : get_description()) {
       state.init_buffer(k, v);
     }
   }
@@ -74,7 +72,6 @@ struct NAVGROUND_SIM_EXPORT Sensor
    * @return     The description.
    */
   virtual Description get_description() const = 0;
-
 };
 
 }  // namespace navground::sim

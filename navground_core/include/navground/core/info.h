@@ -26,7 +26,7 @@ void print_register(const std::string& title, const std::string& name = "") {
                 << p.type_name << "]";
       if (!p.deprecated_names.empty()) {
         std::cout << ", deprecated synonyms: ";
-        for (const auto & alt_name : p.deprecated_names) {
+        for (const auto& alt_name : p.deprecated_names) {
           std::cout << alt_name << " ";
         }
       }

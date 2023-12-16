@@ -10,11 +10,12 @@
 
 namespace navground::core {
 
-HRVOBehavior::HRVOBehavior(std::shared_ptr<Kinematics> kinematics, float radius)
+HRVOBehavior::HRVOBehavior(std::shared_ptr<Kinematics> kinematics,
+                           ng_float_t radius)
     : Behavior(kinematics, radius),
       state(),
       agentIndex(0),
-      rangeSq(0.0f),
+      rangeSq(0),
       _HRVOAgent(std::make_unique<HRVO::Agent>()) {
   _HRVOAgent->maxNeighbors_ = 1000;
 }
@@ -68,18 +69,20 @@ void HRVOBehavior::prepare(const Vector2 &target_velocity) {
   Behavior::reset_changes();
 }
 
-void HRVOBehavior::add_obstacle(const Disc &d, bool push_away, float epsilon) {
+void HRVOBehavior::add_obstacle(const Disc &d, bool push_away,
+                                ng_float_t epsilon) {
   HRVO::Agent *a = new HRVO::Agent();
   // a->velocity_ = HRVO::Vector2((float)d.velocity.x(), (float)d.velocity.y());
   // a->prefVelocity_ = a->velocity_;
   Vector2 p = d.position;
-  const float margin = d.radius + safety_margin + radius;
+  const ng_float_t margin = d.radius + safety_margin + radius;
   const Vector2 delta = d.position - pose.position;
-  const float distance = delta.norm() - margin;
+  const ng_float_t distance = delta.norm() - margin;
   if (push_away && distance < epsilon) {
     p += delta / delta.norm() * (-distance + epsilon);
   }
-  a->position_ = HRVO::Vector2((float)p.x(), (float)p.y());
+  a->position_ =
+      HRVO::Vector2(static_cast<ng_float_t>(p.x()), static_cast<ng_float_t>(p.y()));
   a->radius_ = d.radius + safety_margin;
   _HRVOAgent->agents_.push_back(a);
   _HRVOAgent->insertAgentNeighbor(agentIndex, rangeSq);
@@ -87,21 +90,22 @@ void HRVOBehavior::add_obstacle(const Disc &d, bool push_away, float epsilon) {
 }
 
 void HRVOBehavior::add_neighbor(const Neighbor &neighbor, bool push_away,
-                                float epsilon) {
+                                ng_float_t epsilon) {
   HRVO::Agent *a = new HRVO::Agent();
-  a->velocity_ =
-      HRVO::Vector2((float)neighbor.velocity.x(), (float)neighbor.velocity.y());
+  a->velocity_ = HRVO::Vector2(static_cast<ng_float_t>(neighbor.velocity.x()),
+                               static_cast<ng_float_t>(neighbor.velocity.y()));
   a->prefVelocity_ = a->velocity_;
 
   Vector2 p = neighbor.position;
-  const float margin = neighbor.radius + safety_margin + radius;
+  const ng_float_t margin = neighbor.radius + safety_margin + radius;
   const Vector2 delta = neighbor.position - pose.position;
-  float distance = delta.norm() - margin;
+  ng_float_t distance = delta.norm() - margin;
   if (push_away && distance < epsilon) {
     p += delta / delta.norm() * (-distance + epsilon);
     distance = epsilon;
   }
-  a->position_ = HRVO::Vector2((float)p.x(), (float)p.y());
+  a->position_ =
+      HRVO::Vector2(static_cast<ng_float_t>(p.x()), static_cast<ng_float_t>(p.y()));
   a->radius_ = neighbor.radius + safety_margin + social_margin.get(0, distance);
 
   // float distance;
@@ -127,19 +131,21 @@ void HRVOBehavior::add_neighbor(const Neighbor &neighbor, bool push_away,
 // DONE: HRVO reduce the speed if it would overshoot the target,
 // see L545 in HRVO/Agent.cpp. We do the same here.
 Vector2 HRVOBehavior::desired_velocity_towards_point(const Vector2 &point,
-                                                     float speed, float dt) {
+                                                     ng_float_t speed,
+                                                     ng_float_t dt) {
   const auto delta = point - pose.position;
-  const float n = delta.norm();
+  const ng_float_t n = delta.norm();
   Vector2 velocity;
   if (n) {
     velocity =
-        delta / n * std::max(0.0f, dt ? std::min(speed, n / dt) : speed);
+        delta / n *
+        std::max<ng_float_t>(0, dt ? std::min<ng_float_t>(speed, n / dt) : speed);
   }
   return desired_velocity_towards_velocity(velocity, dt);
 }
 
 Vector2 HRVOBehavior::desired_velocity_towards_velocity(
-    const Vector2 &velocity, [[maybe_unused]] float dt) {
+    const Vector2 &velocity, [[maybe_unused]] ng_float_t dt) {
   prepare(velocity);
   _HRVOAgent->computeNewVelocity();
   return {_HRVOAgent->newVelocity_.x(), _HRVOAgent->newVelocity_.y()};

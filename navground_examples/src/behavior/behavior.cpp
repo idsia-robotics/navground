@@ -54,13 +54,13 @@ int main(int argc, char* argv[]) {
   float dt = 0.1;
   behavior->set_horizon(5.0);
   //  behavior->set_heading_behavior(Behavior::Heading::idle);
-  behavior->set_position({0.0f, 0.05f});
+  behavior->set_position({0, 0.05});
   // Go to 10, 0
-  behavior->set_target(Target::Point({10.0f, 0.0f}));
+  behavior->set_target(Target::Point({10, 0}));
 
   GeometricState * geometric_state = dynamic_cast<GeometricState *>(behavior->get_environment_state());
   if(geometric_state) {
-    geometric_state->set_static_obstacles({Disc({1.5f, 0.0f}, 0.5f)});
+    geometric_state->set_static_obstacles({Disc({1.5, 0}, 0.5)});
   }
 
   // std::cout << *geometric_state << std::endl;

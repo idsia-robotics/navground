@@ -41,7 +41,8 @@ class NAVGROUND_CORE_EXPORT SensingState : virtual public EnvironmentState {
    *
    * @return     The buffer if successfully initialized else a null pointer
    */
-  Buffer * init_buffer(const std::string& key, const BufferDescription & desc, BufferType value) {
+  Buffer* init_buffer(const std::string& key, const BufferDescription& desc,
+                      BufferType value) {
     auto r = buffers.try_emplace(key, desc, value);
     if (r.second) {
       return &(r.first->second);
@@ -57,7 +58,7 @@ class NAVGROUND_CORE_EXPORT SensingState : virtual public EnvironmentState {
    *
    * @return     The buffer if successfully initialized else a null pointer
    */
-  Buffer * init_buffer(const std::string& key, const BufferDescription & desc) {
+  Buffer* init_buffer(const std::string& key, const BufferDescription& desc) {
     auto r = buffers.try_emplace(key, desc);
     if (r.second) {
       return &(r.first->second);
@@ -73,7 +74,7 @@ class NAVGROUND_CORE_EXPORT SensingState : virtual public EnvironmentState {
    *
    * @return     The buffer if successfully initialized else a null pointer
    */
-  Buffer * init_buffer(const std::string& key, const BufferData & value) {
+  Buffer* init_buffer(const std::string& key, const BufferData& value) {
     auto r = buffers.try_emplace(key, value);
     if (r.second) {
       return &(r.first->second);
@@ -98,7 +99,7 @@ class NAVGROUND_CORE_EXPORT SensingState : virtual public EnvironmentState {
    *
    * @return     The buffer.
    */
-  Buffer * get_buffer(const std::string& key) {
+  Buffer* get_buffer(const std::string& key) {
     if (!buffers.count(key)) {
       return nullptr;
     }

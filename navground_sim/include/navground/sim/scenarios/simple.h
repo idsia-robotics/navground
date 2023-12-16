@@ -24,21 +24,22 @@ namespace navground::sim {
  *
  * The scenario add a single agent with a waypoints task,
  * dummy behavior, and holonomic kinematics.
- * 
+ *
  * *Registered properties*: none
  */
 struct NAVGROUND_SIM_EXPORT SimpleScenario : public Scenario {
   SimpleScenario() : Scenario() {}
 
-  void init_world(World *world, std::optional<int> seed = std::nullopt) override {
+  void init_world(World *world,
+                  std::optional<int> seed = std::nullopt) override {
     Scenario::init_world(world, seed);
-    auto agent =
-        std::make_shared<Agent>(0.1f, std::make_shared<DummyBehavior>(),
-                                std::make_shared<OmnidirectionalKinematics>(1.0f),
-                                std::make_shared<WaypointsTask>(
-                                    Waypoints{Vector2(1.0f, 0.0f)}, false, 0.1),
-                                nullptr, 0.1f);
-    agent->get_behavior()->set_optimal_speed(1.0f);
+    auto agent = std::make_shared<Agent>(
+        0.1, std::make_shared<DummyBehavior>(),
+        std::make_shared<OmnidirectionalKinematics>(1.0),
+        std::make_shared<WaypointsTask>(Waypoints{Vector2(1.0, 0.0)}, false,
+                                        0.1),
+        nullptr, 0.1);
+    agent->get_behavior()->set_optimal_speed(1.0);
     world->add_agent(agent);
   }
 

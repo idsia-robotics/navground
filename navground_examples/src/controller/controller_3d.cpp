@@ -58,9 +58,9 @@ int main(int argc, char *argv[]) {
   behavior->set_horizon(1.0);
   const auto &r = *behavior.get();
   printf("Use behavior %s - %s\n", behavior_name, typeid(r).name());
-  controller.set_pose({Vector3{0.0f, 0.0f, 0.0f}, 0.0f});
+  controller.set_pose({Vector3{0, 0, 0}, 0});
   // Go to 1, 0, -1.5
-  const auto action = controller.go_to_position({1.0, 0.0, 2.0}, 0.1f);
+  const auto action = controller.go_to_position({1.0, 0.0, 2.0}, 0.1);
   action->done_cb = [](Action::State state) {
     if (state == Action::State::success) {
       printf("Arrived\n");

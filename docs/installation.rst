@@ -181,6 +181,16 @@ Once all dependencies are installed, compile the package using ``colcon``.
 
    $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_core
 
+.. note::
+
+   By default, navground uses ``float`` for floating point numbers. You can switch to ``double`` by specifying the option ``NAVGROUND_USES_DOUBLE``. You do this by adding
+
+   .. code-block:: console
+
+      --cmake-args -DNAVGROUND_USES_DOUBLE=ON
+
+   to the command above.
+
 
 .. _Core Python:
 

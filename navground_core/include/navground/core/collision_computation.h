@@ -11,6 +11,7 @@
 
 #include "navground/core/common.h"
 #include "navground/core/states/geometric.h"
+#include "navground/core/types.h"
 #include "navground_core_export.h"
 
 namespace navground::core {
@@ -33,8 +34,8 @@ struct NAVGROUND_CORE_EXPORT DiscCache {
   /**
    * The distance between disc and agent (computed)
    */
-  float distance;
-  float C;
+  ng_float_t distance;
+  ng_float_t C;
   Radians gamma;
   Radians visible_angle;
 
@@ -46,8 +47,9 @@ struct NAVGROUND_CORE_EXPORT DiscCache {
    * @param[in]  margin    The margin (sum of the radii and safety margin)
    * @param[in]  velocity  The disc velocity
    */
-  DiscCache(Vector2 delta, float margin, Vector2 velocity = Vector2::Zero(),
-            float visible_angle = M_PI_2);
+  DiscCache(Vector2 delta, ng_float_t margin,
+            Vector2 velocity = Vector2::Zero(),
+            ng_float_t visible_angle = M_PI_2);
 };
 
 /**
@@ -84,9 +86,9 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
    * @return     The free distance for each angle in the interval [from, from +
    * length].
    */
-  std::valarray<float> get_free_distance_for_sector(
-      Radians from, Radians length, size_t resolution, float max_distance,
-      bool dynamic = false, float speed = 0.0f);
+  std::valarray<ng_float_t> get_free_distance_for_sector(
+      Radians from, Radians length, size_t resolution, ng_float_t max_distance,
+      bool dynamic = false, ng_float_t speed = 0);
 
   /**
    * @brief      Return regularly sampled angles.
@@ -98,8 +100,8 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
    * @return     Angles regularly sampled in the interval [from, from +
    * length].
    */
-  std::valarray<float> get_angles_for_sector(Radians from, Radians length,
-                                             size_t resolution) const;
+  std::valarray<ng_float_t> get_angles_for_sector(Radians from, Radians length,
+                                                  size_t resolution) const;
 
   /**
    * @brief      Return the polar contour for an interval of
@@ -117,9 +119,10 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
    * @return     An arrays of angles sampled regularly in the interval [from,
    * from + length] and one array with the free distance in their direction.
    */
-  std::tuple<std::valarray<float>, std::valarray<float>> get_contour_for_sector(
-      Radians from, Radians length, size_t resolution, float max_distance,
-      bool dynamic = false, float speed = 0.0f) {
+  std::tuple<std::valarray<ng_float_t>, std::valarray<ng_float_t>>
+  get_contour_for_sector(Radians from, Radians length, size_t resolution,
+                         ng_float_t max_distance, bool dynamic = false,
+                         ng_float_t speed = 0) {
     return {get_angles_for_sector(from, length, resolution),
             get_free_distance_for_sector(from, length, resolution, max_distance,
                                          dynamic, speed)};
@@ -135,7 +138,7 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
    * @param[in]  static_discs   The static discs
    * @param[in]  dynamic_discs  The dynamic discs
    */
-  void setup(Pose2 pose_, float margin_,
+  void setup(Pose2 pose_, ng_float_t margin_,
              const std::vector<LineSegment> &line_segments,
              std::vector<DiscCache> static_discs,
              std::vector<DiscCache> dynamic_discs) {
@@ -156,7 +159,7 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
    * @param[in]  static_discs   The static discs
    * @param[in]  dynamic_discs  The dynamic discs
    */
-  void setup(Pose2 pose_, float margin_,
+  void setup(Pose2 pose_, ng_float_t margin_,
              const std::vector<LineSegment> &line_segments,
              const std::vector<Disc> &static_discs,
              const std::vector<Neighbor> &dynamic_discs) {
@@ -187,8 +190,8 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
    *
    * @return     The distance in direction `angle` before possibly colliding
    */
-  float static_free_distance(Radians angle, float max_distance,
-                             bool include_neighbors = true);
+  ng_float_t static_free_distance(Radians angle, ng_float_t max_distance,
+                                  bool include_neighbors = true);
   /**
    * @brief      Returns the free distance if the agent will be move
    *
@@ -198,7 +201,8 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
    *
    * @return     The distance in direction `angle` before possibly colliding
    */
-  float dynamic_free_distance(Radians angle, float max_distance, float speed);
+  ng_float_t dynamic_free_distance(Radians angle, ng_float_t max_distance,
+                                   ng_float_t speed);
 
   /**
    * @brief      Tentatively checks whenever a moving disc-cache may collide
@@ -211,8 +215,8 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
    * @return     False if it is impossible that the agent collides with the
    * obstacle within `max_distance`.
    */
-  bool dynamic_may_collide(const DiscCache &obstacle, float max_distance,
-                           float speed);
+  bool dynamic_may_collide(const DiscCache &obstacle, ng_float_t max_distance,
+                           ng_float_t speed);
   /**
    * @brief      Tentatively checks whenever a static disc-cache may collide
    * with the agent within an horizon
@@ -223,7 +227,7 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
    * @return     False if it is impossible that the agent collides with the
    * obstacle within `max_distance`.
    */
-  bool static_may_collide(const DiscCache &obstacle, float max_distance);
+  bool static_may_collide(const DiscCache &obstacle, ng_float_t max_distance);
 
  protected:
   // Should be a ref to avoid copies
@@ -231,25 +235,26 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
   std::vector<DiscCache> neighbors_cache;
   std::vector<DiscCache> static_obstacles_cache;
   Pose2 pose;
-  float margin;
+  ng_float_t margin;
 
   /**
    * Marks absence of collisions
    */
   static constexpr int no_collision = -1;
-  float static_free_distance_to(const LineSegment &line, Radians alpha);
+  ng_float_t static_free_distance_to(const LineSegment &line, Radians alpha);
 
-  float static_free_distance_to(const DiscCache &disc, Radians alpha);
+  ng_float_t static_free_distance_to(const DiscCache &disc, Radians alpha);
 
-  float dynamic_free_distance_to(const DiscCache &disc, Radians alpha,
-                                 float speed);
+  ng_float_t dynamic_free_distance_to(const DiscCache &disc, Radians alpha,
+                                      ng_float_t speed);
 
   template <typename T>
-  float static_free_distance_to_collection(Radians angle, float max_distance,
-                                           const std::vector<T> &objects) {
-    float min_distance = max_distance;
+  ng_float_t static_free_distance_to_collection(Radians angle,
+                                                ng_float_t max_distance,
+                                                const std::vector<T> &objects) {
+    ng_float_t min_distance = max_distance;
     for (const auto &object : objects) {
-      float distance = static_free_distance_to(object, angle);
+      ng_float_t distance = static_free_distance_to(object, angle);
       if (distance < 0) continue;
       min_distance = fmin(min_distance, distance);
       if (min_distance == 0) return 0;
@@ -258,12 +263,12 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
   }
 
   template <typename T>
-  float dynamic_free_distance_to_collection(Radians angle, float max_distance,
-                                            float speed,
-                                            const std::vector<T> &objects) {
-    float min_distance = max_distance;
+  ng_float_t dynamic_free_distance_to_collection(
+      Radians angle, ng_float_t max_distance, ng_float_t speed,
+      const std::vector<T> &objects) {
+    ng_float_t min_distance = max_distance;
     for (const auto &object : objects) {
-      float distance = dynamic_free_distance_to(object, angle, speed);
+      ng_float_t distance = dynamic_free_distance_to(object, angle, speed);
       if (distance < 0) continue;
       min_distance = fmin(min_distance, distance);
       if (min_distance == 0) return 0;

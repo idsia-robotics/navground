@@ -8,6 +8,7 @@
 #include <iostream>
 #include <memory>
 
+#include "navground/core/types.h"
 #include "navground/sim/sampling/register.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/world.h"
@@ -83,9 +84,9 @@ struct AgentSampler : virtual public Sampler<typename W::A::C>,
   SamplerFromRegister<T> task;
   SamplerFromRegister<S> state_estimation;
   std::shared_ptr<Sampler<Vector2>> position;
-  std::shared_ptr<Sampler<float>> orientation;
-  std::shared_ptr<Sampler<float>> radius;
-  std::shared_ptr<Sampler<float>> control_period;
+  std::shared_ptr<Sampler<ng_float_t>> orientation;
+  std::shared_ptr<Sampler<ng_float_t>> radius;
+  std::shared_ptr<Sampler<ng_float_t>> control_period;
   std::shared_ptr<Sampler<int>> id;
   std::shared_ptr<Sampler<std::string>> type;
   std::shared_ptr<Sampler<std::string>> color;
@@ -93,9 +94,9 @@ struct AgentSampler : virtual public Sampler<typename W::A::C>,
 
  protected:
   C s() override {
-    C c = A::make(radius ? radius->sample() : 0.0f, behavior.sample(),
+    C c = A::make(radius ? radius->sample() : 0, behavior.sample(),
                   kinematics.sample(), task.sample(), state_estimation.sample(),
-                  control_period ? control_period->sample() : 0.0f);
+                  control_period ? control_period->sample() : 0);
     A* agent = get<A, C>::ptr(c);
     if (position) {
       agent->pose.position = position->sample();

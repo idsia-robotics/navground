@@ -5,6 +5,7 @@
 #include "navground/core/common.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/states/geometric.h"
+#include "navground/core/types.h"
 #include "navground/core/yaml/register.h"
 #include "yaml-cpp/yaml.h"
 
@@ -51,7 +52,7 @@ struct convert<Disc> {
       return false;
     }
     rhs.position = node["position"].as<Vector2>();
-    rhs.radius = node["radius"].as<float>();
+    rhs.radius = node["radius"].as<ng_float_t>();
     return true;
   }
 };
@@ -107,22 +108,23 @@ struct convert<Behavior> {
   static bool decode(const Node& node, Behavior& rhs) {
     decode_properties(node, rhs);
     if (node["optimal_speed"]) {
-      rhs.set_optimal_speed(node["optimal_speed"].as<float>());
+      rhs.set_optimal_speed(node["optimal_speed"].as<ng_float_t>());
     }
     if (node["optimal_angular_speed"]) {
-      rhs.set_optimal_angular_speed(node["optimal_angular_speed"].as<float>());
+      rhs.set_optimal_angular_speed(
+          node["optimal_angular_speed"].as<ng_float_t>());
     }
     if (node["rotation_tau"]) {
-      rhs.set_rotation_tau(node["rotation_tau"].as<float>());
+      rhs.set_rotation_tau(node["rotation_tau"].as<ng_float_t>());
     }
     if (node["safety_margin"]) {
-      rhs.set_safety_margin(node["safety_margin"].as<float>());
+      rhs.set_safety_margin(node["safety_margin"].as<ng_float_t>());
     }
     if (node["horizon"]) {
-      rhs.set_horizon(node["horizon"].as<float>());
+      rhs.set_horizon(node["horizon"].as<ng_float_t>());
     }
     if (node["radius"]) {
-      rhs.set_radius(node["radius"].as<float>());
+      rhs.set_radius(node["radius"].as<ng_float_t>());
     }
     if (node["heading"]) {
       rhs.set_heading_behavior(node["heading"].as<Behavior::Heading>());
@@ -160,10 +162,10 @@ struct convert<Kinematics> {
   static bool decode(const Node& node, Kinematics& rhs) {
     decode_properties(node, rhs);
     if (node["max_speed"]) {
-      rhs.set_max_speed(node["max_speed"].as<float>());
+      rhs.set_max_speed(node["max_speed"].as<ng_float_t>());
     }
     if (node["max_angular_speed"]) {
-      rhs.set_max_angular_speed(node["max_angular_speed"].as<float>());
+      rhs.set_max_angular_speed(node["max_angular_speed"].as<ng_float_t>());
     }
     return true;
   }
@@ -206,11 +208,11 @@ struct convert<SocialMargin> {
     }
     if (node["values"] && node["values"].IsMap()) {
       for (const auto& p : node["values"]) {
-        rhs.set(p.first.as<unsigned>(), p.second.as<float>());
+        rhs.set(p.first.as<unsigned>(), p.second.as<ng_float_t>());
       }
     }
     if (node["default"]) {
-      rhs.set(node["default"].as<float>());
+      rhs.set(node["default"].as<ng_float_t>());
     }
     return true;
   }
@@ -251,10 +253,10 @@ struct convert<std::shared_ptr<SocialMargin::Modulation>> {
         rhs = std::make_shared<SocialMargin::ConstantModulation>();
       } else if (type == "linear") {
         rhs = std::make_shared<SocialMargin::LinearModulation>(
-            node["upper"].as<float>(10.0));
+            node["upper"].as<ng_float_t>(10.0));
       } else if (type == "quadratic") {
         rhs = std::make_shared<SocialMargin::QuadraticModulation>(
-            node["upper"].as<float>(10.0));
+            node["upper"].as<ng_float_t>(10.0));
       } else if (type == "logistic") {
         rhs = std::make_shared<SocialMargin::LogisticModulation>();
       }

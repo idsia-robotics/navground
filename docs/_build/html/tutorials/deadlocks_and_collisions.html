@@ -178,6 +178,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/yaml.html">YAML</a></li>
@@ -401,7 +402,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <div class="nbinput nblast docutils container">
+  <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -414,6 +415,14 @@ document.write(`
 <span class="k">await</span> <span class="n">web_ui</span><span class="o">.</span><span class="n">prepare</span><span class="p">();</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+[Errno 48] error while attempting to bind on address (&#39;127.0.0.1&#39;, 8000): address already in use
+</pre></div></div>
 </div>
 <section id="Deadlocks-and-Collisions">
 <h1>Deadlocks and Collisions<a class="headerlink" href="#Deadlocks-and-Collisions" title="Link to this heading">#</a></h1>
@@ -1459,7 +1468,7 @@ function move_element(g, x, y, angle) {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e4aebfa3070a4e349992e48df0d5e0cb", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "6066f5bc0b61473a9e89c84f063a79e8", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <p>We import all relevant data into a pandas frame where we also define - “safe”: no collisions - “fluid”: no deadlocks - “ok”: when safe and fluid</p>
 <div class="nbinput nblast docutils container">
@@ -1558,8 +1567,8 @@ function move_element(g, x, y, angle) {
       <td>250.000000</td>
       <td>250.000000</td>
       <td>250.000000</td>
-      <td>250.00000</td>
       <td>250.000000</td>
+      <td>2.500000e+02</td>
       <td>250.000000</td>
       <td>250.000000</td>
       <td>250.000000</td>
@@ -1568,35 +1577,35 @@ function move_element(g, x, y, angle) {
     <tr>
       <th>mean</th>
       <td>124.500000</td>
-      <td>0.122522</td>
-      <td>1.668000</td>
-      <td>6.45600</td>
-      <td>1.570796</td>
-      <td>0.730516</td>
-      <td>0.820000</td>
-      <td>0.844000</td>
-      <td>0.664000</td>
+      <td>0.127183</td>
+      <td>2.256000</td>
+      <td>7.096000</td>
+      <td>1.570796e+00</td>
+      <td>0.714525</td>
+      <td>0.816000</td>
+      <td>0.796000</td>
+      <td>0.616000</td>
     </tr>
     <tr>
       <th>std</th>
       <td>72.312977</td>
-      <td>0.072869</td>
-      <td>4.346186</td>
-      <td>23.32863</td>
-      <td>0.000000</td>
-      <td>0.103718</td>
-      <td>0.384958</td>
-      <td>0.363583</td>
-      <td>0.473286</td>
+      <td>0.073709</td>
+      <td>4.972865</td>
+      <td>30.356628</td>
+      <td>2.224900e-16</td>
+      <td>0.123694</td>
+      <td>0.388261</td>
+      <td>0.403777</td>
+      <td>0.487334</td>
     </tr>
     <tr>
       <th>min</th>
       <td>0.000000</td>
-      <td>0.002141</td>
+      <td>0.001417</td>
       <td>0.000000</td>
-      <td>0.00000</td>
-      <td>1.570796</td>
-      <td>0.317669</td>
+      <td>0.000000</td>
+      <td>1.570796e+00</td>
+      <td>0.216404</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.000000</td>
@@ -1604,11 +1613,11 @@ function move_element(g, x, y, angle) {
     <tr>
       <th>25%</th>
       <td>62.250000</td>
-      <td>0.055579</td>
+      <td>0.054341</td>
       <td>0.000000</td>
-      <td>0.00000</td>
-      <td>1.570796</td>
-      <td>0.713094</td>
+      <td>0.000000</td>
+      <td>1.570796e+00</td>
+      <td>0.698324</td>
       <td>1.000000</td>
       <td>1.000000</td>
       <td>0.000000</td>
@@ -1616,11 +1625,11 @@ function move_element(g, x, y, angle) {
     <tr>
       <th>50%</th>
       <td>124.500000</td>
-      <td>0.125724</td>
+      <td>0.126612</td>
       <td>0.000000</td>
-      <td>0.00000</td>
-      <td>1.570796</td>
-      <td>0.760173</td>
+      <td>0.000000</td>
+      <td>1.570796e+00</td>
+      <td>0.760005</td>
       <td>1.000000</td>
       <td>1.000000</td>
       <td>1.000000</td>
@@ -1628,11 +1637,11 @@ function move_element(g, x, y, angle) {
     <tr>
       <th>75%</th>
       <td>186.750000</td>
-      <td>0.187246</td>
+      <td>0.193269</td>
       <td>0.000000</td>
-      <td>0.00000</td>
-      <td>1.570796</td>
-      <td>0.793476</td>
+      <td>0.000000</td>
+      <td>1.570796e+00</td>
+      <td>0.794111</td>
       <td>1.000000</td>
       <td>1.000000</td>
       <td>1.000000</td>
@@ -1640,11 +1649,11 @@ function move_element(g, x, y, angle) {
     <tr>
       <th>max</th>
       <td>249.000000</td>
-      <td>0.247253</td>
+      <td>0.249757</td>
       <td>18.000000</td>
-      <td>167.00000</td>
-      <td>1.570796</td>
-      <td>0.831107</td>
+      <td>271.000000</td>
+      <td>1.570796e+00</td>
+      <td>0.824171</td>
       <td>1.000000</td>
       <td>1.000000</td>
       <td>1.000000</td>
@@ -1826,7 +1835,7 @@ function move_element(g, x, y, angle) {
       <th>count</th>
       <td>5000.000000</td>
       <td>5000.000000</td>
-      <td>5000.000000</td>
+      <td>5000.00000</td>
       <td>5000.000000</td>
       <td>5000.000000</td>
       <td>5000.000000</td>
@@ -1837,35 +1846,35 @@ function move_element(g, x, y, angle) {
     <tr>
       <th>mean</th>
       <td>2499.500000</td>
-      <td>0.125604</td>
-      <td>0.468400</td>
-      <td>30.438400</td>
-      <td>1.171667</td>
-      <td>0.747737</td>
-      <td>0.597600</td>
-      <td>0.954800</td>
-      <td>0.552400</td>
+      <td>0.123464</td>
+      <td>0.48220</td>
+      <td>30.603200</td>
+      <td>1.179999</td>
+      <td>0.749192</td>
+      <td>0.593000</td>
+      <td>0.951600</td>
+      <td>0.544600</td>
     </tr>
     <tr>
       <th>std</th>
       <td>1443.520003</td>
-      <td>0.072464</td>
-      <td>2.397447</td>
-      <td>76.167059</td>
-      <td>0.229486</td>
-      <td>0.071402</td>
-      <td>0.490431</td>
-      <td>0.207763</td>
-      <td>0.497296</td>
+      <td>0.072286</td>
+      <td>2.36601</td>
+      <td>74.791503</td>
+      <td>0.227654</td>
+      <td>0.068233</td>
+      <td>0.491324</td>
+      <td>0.214631</td>
+      <td>0.498057</td>
     </tr>
     <tr>
       <th>min</th>
       <td>0.000000</td>
-      <td>0.000054</td>
+      <td>0.000033</td>
+      <td>0.00000</td>
       <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.785811</td>
-      <td>0.200008</td>
+      <td>0.785570</td>
+      <td>0.253935</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.000000</td>
@@ -1873,11 +1882,11 @@ function move_element(g, x, y, angle) {
     <tr>
       <th>25%</th>
       <td>1249.750000</td>
-      <td>0.062673</td>
+      <td>0.061341</td>
+      <td>0.00000</td>
       <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.972600</td>
-      <td>0.720954</td>
+      <td>0.982294</td>
+      <td>0.722176</td>
       <td>0.000000</td>
       <td>1.000000</td>
       <td>0.000000</td>
@@ -1885,11 +1894,11 @@ function move_element(g, x, y, angle) {
     <tr>
       <th>50%</th>
       <td>2499.500000</td>
-      <td>0.127100</td>
+      <td>0.122854</td>
+      <td>0.00000</td>
       <td>0.000000</td>
-      <td>0.000000</td>
-      <td>1.165859</td>
-      <td>0.762449</td>
+      <td>1.184699</td>
+      <td>0.764398</td>
       <td>1.000000</td>
       <td>1.000000</td>
       <td>1.000000</td>
@@ -1897,11 +1906,11 @@ function move_element(g, x, y, angle) {
     <tr>
       <th>75%</th>
       <td>3749.250000</td>
-      <td>0.187673</td>
-      <td>0.000000</td>
-      <td>16.000000</td>
-      <td>1.374103</td>
-      <td>0.793915</td>
+      <td>0.185237</td>
+      <td>0.00000</td>
+      <td>15.000000</td>
+      <td>1.374994</td>
+      <td>0.794099</td>
       <td>1.000000</td>
       <td>1.000000</td>
       <td>1.000000</td>
@@ -1909,11 +1918,11 @@ function move_element(g, x, y, angle) {
     <tr>
       <th>max</th>
       <td>4999.000000</td>
-      <td>0.249940</td>
-      <td>20.000000</td>
-      <td>758.000000</td>
-      <td>1.570597</td>
-      <td>0.830706</td>
+      <td>0.249975</td>
+      <td>19.00000</td>
+      <td>684.000000</td>
+      <td>1.570611</td>
+      <td>0.828940</td>
       <td>1.000000</td>
       <td>1.000000</td>
       <td>1.000000</td>

@@ -36,23 +36,18 @@ void ExperimentalRun::prepare() {
     _record = true;
   }
   if (_record_config.pose) {
-    _pose_data.resize(_run_config.steps * _number * 3);
     _record = true;
   }
   if (_record_config.twist) {
-    _twist_data.resize(_run_config.steps * _number * 3);
     _record = true;
   }
   if (_record_config.cmd) {
-    _cmd_data.resize(_run_config.steps * _number * 3);
     _record = true;
   }
   if (_record_config.target) {
-    _target_data.resize(_run_config.steps * _number * 3);
     _record = true;
   }
   if (_record_config.safety_violation) {
-    _safety_violation_data.resize(_run_config.steps * _number);
     _record = true;
   }
   if (_record_config.collisions) {
@@ -76,11 +71,9 @@ void ExperimentalRun::prepare() {
     }
   }
   if (_record_config.deadlocks) {
-    _deadlock_data.resize(_number);
     _record = true;
   }
   if (_record_config.efficacy) {
-    _efficacy_data.resize(_run_config.steps * _number);
     _record = true;
   }
 }
@@ -125,51 +118,46 @@ void ExperimentalRun::update() {
     _time_data.push_back(_world->get_time());
   }
   if (_record_config.pose) {
-    size_t i = _steps * _number * 3;
     for (const auto &agent : _world->get_agents()) {
       const auto pose = agent->pose;
-      _pose_data[i++] = pose.position[0];
-      _pose_data[i++] = pose.position[1];
-      _pose_data[i++] = pose.orientation;
+      _pose_data.push_back(pose.position[0]);
+      _pose_data.push_back(pose.position[1]);
+      _pose_data.push_back(pose.orientation);
     }
   }
   if (_record_config.twist) {
-    size_t i = _steps * _number * 3;
     for (const auto &agent : _world->get_agents()) {
       const auto twist = agent->twist;
-      _twist_data[i++] = twist.velocity[0];
-      _twist_data[i++] = twist.velocity[1];
-      _twist_data[i++] = twist.angular_speed;
+      _twist_data.push_back(twist.velocity[0]);
+      _twist_data.push_back(twist.velocity[1]);
+      _twist_data.push_back(twist.angular_speed);
     }
   }
   if (_record_config.cmd) {
-    size_t i = _steps * _number * 3;
     for (const auto &agent : _world->get_agents()) {
       const auto twist = agent->last_cmd;
-      _cmd_data[i++] = twist.velocity[0];
-      _cmd_data[i++] = twist.velocity[1];
-      _cmd_data[i++] = twist.angular_speed;
+      _cmd_data.push_back(twist.velocity[0]);
+      _cmd_data.push_back(twist.velocity[1]);
+      _cmd_data.push_back(twist.angular_speed);
     }
   }
   if (_record_config.target) {
-    size_t i = _steps * _number * 3;
     for (const auto &agent : _world->get_agents()) {
       if (auto b = agent->get_behavior()) {
         // TODO(Jerome): adapt to the changed target format
         const auto target = b->get_target();
         const auto position = target.position.value_or(Vector2::Zero());
         const auto orientation = target.orientation.value_or(0.0);
-        _target_data[i++] = position[0];
-        _target_data[i++] = position[1];
-        _target_data[i++] = orientation;
+        _target_data.push_back(position[0]);
+        _target_data.push_back(position[1]);
+        _target_data.push_back(orientation);
       }
     }
   }
   if (_record_config.safety_violation) {
-    size_t i = _steps * _number;
     for (const auto &agent : _world->get_agents()) {
-      _safety_violation_data[i++] =
-          _world->compute_safety_violation(agent.get());
+      _safety_violation_data.push_back(
+          _world->compute_safety_violation(agent.get()));
     }
   }
   if (_record_config.collisions) {
@@ -180,10 +168,9 @@ void ExperimentalRun::update() {
     }
   }
   if (_record_config.efficacy) {
-    size_t i = _steps * _number;
     for (const auto &agent : _world->get_agents()) {
       const auto b = agent->get_behavior();
-      _efficacy_data[i++] = b ? b->get_efficacy() : 1.0;
+      _efficacy_data.push_back(b ? b->get_efficacy() : 1.0);
     }
   }
   _steps++;
@@ -199,29 +186,8 @@ void ExperimentalRun::finalize() {
     }
   }
   if (_record_config.deadlocks) {
-    size_t i = 0;
     for (const auto &agent : _world->get_agents()) {
-      _deadlock_data[i++] = agent->get_time_since_stuck();
-    }
-  }
-  if (_record && _steps != get_maximal_steps()) {
-    if (_record_config.pose) {
-      _pose_data.shrink_to_fit();
-    }
-    if (_record_config.twist) {
-      _twist_data.shrink_to_fit();
-    }
-    if (_record_config.cmd) {
-      _cmd_data.shrink_to_fit();
-    }
-    if (_record_config.target) {
-      _target_data.shrink_to_fit();
-    }
-    if (_record_config.safety_violation) {
-      _safety_violation_data.shrink_to_fit();
-    }
-    if (_record_config.efficacy) {
-      _efficacy_data.shrink_to_fit();
+      _deadlock_data.push_back(agent->get_time_since_stuck());
     }
   }
 }

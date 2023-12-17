@@ -17,17 +17,18 @@ void AntipodalScenario::init_world(World *world,
   ng_float_t a = 0;
   NormalSampler<ng_float_t> x(0.0, position_noise);
   NormalSampler<ng_float_t> o(0.0, orientation_noise);
+  RandomGenerator & rg = world->get_random_generator();
   if (shuffle) {
-    std::shuffle(std::begin(agents), std::end(agents), random_generator());
+    std::shuffle(std::begin(agents), std::end(agents), rg);
   }
   for (auto &agent : agents) {
     const Vector2 p{radius * std::cos(a), radius * std::sin(a)};
     agent->pose = Pose2(p, a + M_PI);
     if (position_noise) {
-      agent->pose.position += Vector2{x.sample(), x.sample()};
+      agent->pose.position += Vector2{x.sample(rg), x.sample(rg)};
     }
     if (orientation_noise) {
-      agent->pose.orientation += o.sample();
+      agent->pose.orientation += o.sample(rg);
     }
     // TODO(Jerome): maybe better to add noise to the target and/or the target
     // to -position

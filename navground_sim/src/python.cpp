@@ -660,8 +660,8 @@ Creates a rectangular region
            py::arg("with_safety_margin") = false,
            py::arg("max_iterations") = 10,
            DOC(navground, sim, World, space_agents_apart))
-      .def_static("set_seed", &World::set_seed, py::arg("seed"),
-                  DOC(navground, sim, World, set_seed))
+      .def_property("seed", &World::get_seed, &World::set_seed,
+                    DOC(navground, sim, World, property_seed))
       .def("get_entity", &World::get_entity, py::arg("uid"),
            py::return_value_policy::reference,
            DOC(navground, sim, World, get_entity))

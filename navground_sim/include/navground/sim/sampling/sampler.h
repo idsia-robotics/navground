@@ -17,31 +17,10 @@
 
 using navground::core::Vector2;
 
-using RandomGenerator = std::mt19937;
+
 // std::default_random_engine
 
 namespace navground::sim {
-
-/**
- * @brief      The random generator shared by all samplers
- *
- * @return     The random generator
- */
-NAVGROUND_SIM_EXPORT RandomGenerator& random_generator();
-
-/**
- * @brief      Sets the random seed.
- *
- * @param[in]  seed  The seed
- */
-NAVGROUND_SIM_EXPORT void set_random_seed(unsigned seed);
-
-/**
- * @brief      Gets the random seed.
- *
- * @return     The random seed.
- */
-NAVGROUND_SIM_EXPORT unsigned get_random_seed();
 
 /**
  * @brief      What should a generator do at the end of a sequence
@@ -113,14 +92,16 @@ struct Sampler {
    *
    * @throw std::runtime_error If the generator is exhausted (i.e., \ref done
    * returns true)
+   * 
+   * @param[in]  A random generator
    *
    * @return     The sampled value.
    */
-  T sample() {
+  T sample(RandomGenerator & rg) {
     if (done()) {
       throw std::runtime_error("Generator is exhausted");
     }
-    T v = (once && first_sample) ? *first_sample : s();
+    T v = (once && first_sample) ? *first_sample : s(rg);
     if (once) {
       if (!first_sample) {
         first_sample = v;
@@ -171,7 +152,7 @@ struct Sampler {
   bool once;
 
  protected:
-  virtual T s() = 0;
+  virtual T s(RandomGenerator & rg) = 0;
   unsigned _index;
   std::optional<T> first_sample;
 };
@@ -194,7 +175,7 @@ struct ConstantSampler final : public Sampler<T> {
   T value;
 
  protected:
-  T s() override { return value; }
+  T s(RandomGenerator & rg) override { return value; }
   // std::ostream& output(std::ostream& os) const override {
   //   return os << "ConstantSampler(" << value << ")";
   // }
@@ -230,7 +211,7 @@ struct SequenceSampler final : public Sampler<T> {
   Wrap wrap;
 
  protected:
-  T s() override { return values[wrap_index(wrap, _index, values.size())]; }
+  T s(RandomGenerator & rg) override { return values[wrap_index(wrap, _index, values.size())]; }
 
   // std::ostream& output(std::ostream& os) const override {
   //   os << "SequenceSampler({";
@@ -346,7 +327,7 @@ struct RegularSampler final : public Sampler<T> {
   Wrap wrap;
 
  protected:
-  T s() override {
+  T s(RandomGenerator & rg) override {
     unsigned i = _index;
     if (number) {
       i = wrap_index(wrap, i, *number);
@@ -408,7 +389,7 @@ struct GridSampler final : public Sampler<Vector2> {
   Wrap wrap;
 
  protected:
-  Vector2 s() override {
+  Vector2 s(RandomGenerator & rg) override {
     unsigned i = wrap_index(wrap, _index, numbers[0] * numbers[1]);
     return {from[0] + (i % numbers[0]) * step[0],
             from[1] + (i / numbers[0]) * step[1]};
@@ -443,7 +424,7 @@ struct UniformSampler final : public Sampler<T> {
   T max;
 
  protected:
-  T s() override { return dist(random_generator()); }
+  T s(RandomGenerator & rg) override { return dist(rg); }
 
   uniform_distribution<T> dist;
 };
@@ -478,8 +459,8 @@ struct NormalSampler final : public Sampler<T> {
   ng_float_t std_dev;
 
  protected:
-  T s() override {
-    T value = static_cast<T>(dist(random_generator()));
+  T s(RandomGenerator & rg) override {
+    T value = static_cast<T>(dist(rg));
     if (min) {
       value = std::max(*min, value);
     }
@@ -521,7 +502,7 @@ struct ChoiceSampler final : public Sampler<T> {
   std::vector<T> values;
 
  protected:
-  T s() override { return values[dist(random_generator())]; }
+  T s(RandomGenerator & rg) override { return values[dist(rg)]; }
 
  private:
   std::uniform_int_distribution<int> dist;
@@ -639,10 +620,10 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
   }
 
  protected:
-  navground::core::Property::Field s() override {
+  navground::core::Property::Field s(RandomGenerator & rg) override {
     return std::visit(
-        [](auto&& arg) -> navground::core::Property::Field {
-          return arg->sample();
+        [&rg](auto&& arg) -> navground::core::Property::Field {
+          return arg->sample(rg);
         },
         sampler);
   }

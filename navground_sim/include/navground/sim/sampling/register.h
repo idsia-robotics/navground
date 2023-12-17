@@ -79,7 +79,7 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
   std::map<std::string, std::shared_ptr<PropertySampler>> properties;
 
  protected:
-  typename T::C s() override {
+  typename T::C s(RandomGenerator & rg) override {
     C c = T::make_type(type);
     T* t = get<T, C>::ptr(c);
     if (!t) {
@@ -88,7 +88,7 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
     }
     for (const auto& [name, property] : properties) {
       if (property) {
-        auto value = property->sample();
+        auto value = property->sample(rg);
         t->set(name, value);
       }
     }
@@ -121,28 +121,28 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
       : SamplerFromRegister<T>(type) {}
 
  protected:
-  C s() override {
-    C c = SamplerFromRegister<T>::s();
+  C s(RandomGenerator & rg) override {
+    C c = SamplerFromRegister<T>::s(rg);
     T* behavior = get<T, C>::ptr(c);
     if (!behavior) return c;
     if (optimal_speed) {
-      behavior->set_optimal_speed(optimal_speed->sample());
+      behavior->set_optimal_speed(optimal_speed->sample(rg));
     }
     if (optimal_angular_speed) {
-      behavior->set_optimal_angular_speed(optimal_angular_speed->sample());
+      behavior->set_optimal_angular_speed(optimal_angular_speed->sample(rg));
     }
     if (horizon) {
-      behavior->set_horizon(horizon->sample());
+      behavior->set_horizon(horizon->sample(rg));
     }
     if (rotation_tau) {
-      behavior->set_rotation_tau(rotation_tau->sample());
+      behavior->set_rotation_tau(rotation_tau->sample(rg));
     }
     if (safety_margin) {
-      behavior->set_safety_margin(safety_margin->sample());
+      behavior->set_safety_margin(safety_margin->sample(rg));
     }
     if (heading) {
       behavior->set_heading_behavior(
-          Behavior::heading_from_string(heading->sample()));
+          Behavior::heading_from_string(heading->sample(rg)));
     }
     return c;
   }
@@ -206,15 +206,15 @@ struct KinematicsSampler : public SamplerFromRegister<T> {
   std::shared_ptr<Sampler<ng_float_t>> max_angular_speed;
 
  protected:
-  C s() override {
-    C c = SamplerFromRegister<T>::s();
+  C s(RandomGenerator & rg) override {
+    C c = SamplerFromRegister<T>::s(rg);
     T* kinematics = get<T, C>::ptr(c);
     if (!kinematics) return c;
     if (max_speed) {
-      kinematics->set_max_speed(max_speed->sample());
+      kinematics->set_max_speed(max_speed->sample(rg));
     }
     if (max_angular_speed) {
-      kinematics->set_max_angular_speed(max_angular_speed->sample());
+      kinematics->set_max_angular_speed(max_angular_speed->sample(rg));
     }
     return c;
   }

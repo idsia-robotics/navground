@@ -51,9 +51,10 @@ struct AgentSampler : virtual public Sampler<typename W::A::C>,
    * @private
    */
   void add_to_world(World* world) override {
+    RandomGenerator & rg = world->get_random_generator();
     if (W* w = dynamic_cast<W*>(world)) {
       for (unsigned i = 0; i < number; ++i) {
-        w->add_agent(sample());
+        w->add_agent(sample(rg));
       }
     } else {
       std::cerr << "Trying to add agent sampler to wrong World type"
@@ -93,25 +94,26 @@ struct AgentSampler : virtual public Sampler<typename W::A::C>,
   unsigned number;
 
  protected:
-  C s() override {
-    C c = A::make(radius ? radius->sample() : 0, behavior.sample(),
-                  kinematics.sample(), task.sample(), state_estimation.sample(),
-                  control_period ? control_period->sample() : 0);
+  C s(RandomGenerator& rg) override {
+    C c = A::make(radius ? radius->sample(rg) : 0, behavior.sample(rg),
+                  kinematics.sample(rg), task.sample(rg),
+                  state_estimation.sample(rg),
+                  control_period ? control_period->sample(rg) : 0);
     A* agent = get<A, C>::ptr(c);
     if (position) {
-      agent->pose.position = position->sample();
+      agent->pose.position = position->sample(rg);
     }
     if (orientation) {
-      agent->pose.orientation = orientation->sample();
+      agent->pose.orientation = orientation->sample(rg);
     }
     if (type) {
-      agent->type = type->sample();
+      agent->type = type->sample(rg);
     }
     if (color) {
-      agent->color = color->sample();
+      agent->color = color->sample(rg);
     }
     if (id) {
-      agent->id = id->sample();
+      agent->id = id->sample(rg);
     }
     if (!name.empty()) {
       agent->tags.insert(name);

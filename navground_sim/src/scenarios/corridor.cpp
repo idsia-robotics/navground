@@ -23,10 +23,11 @@ void CorridorScenario::init_world(World *world,
   for (int side = 0; side < 2; ++side) {
     world->add_wall(Wall{{-length, side * width}, {2 * length, side * width}});
   }
+  RandomGenerator & rg = world->get_random_generator();
   UniformSampler<ng_float_t> x(0.0, length);
   UniformSampler<ng_float_t> y(0.0, width);
   for (const auto &agent : world->get_agents()) {
-    agent->pose.position = {x.sample(), y.sample()};
+    agent->pose.position = {x.sample(rg), y.sample(rg)};
     agent->set_task(nullptr);
   }
   world->set_lattice(0, std::make_tuple<ng_float_t>(0.0, length));

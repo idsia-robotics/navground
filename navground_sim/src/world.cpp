@@ -4,13 +4,23 @@
 
 #include "navground/sim/world.h"
 
-#include "navground/sim/sampling/sampler.h"
-
 using navground::core::Frame;
 
 namespace navground::sim {
 
-void World::set_seed(unsigned seed) { set_random_seed(seed); }
+void World::set_seed(unsigned value) { 
+  if (_seed != value) {
+    _seed = value;
+    _generator.seed(_seed);
+  }
+}
+
+unsigned World::get_seed() const { return _seed; }
+
+RandomGenerator & World::get_random_generator() {
+  return _generator;
+}
+
 
 static bool wrap_lattice(ng_float_t &x, ng_float_t from, ng_float_t length) {
   const ng_float_t delta = x - from;

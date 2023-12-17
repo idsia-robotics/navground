@@ -24,8 +24,9 @@ void CrossTorusScenario::init_world(World *world,
   world->set_lattice(0, lattice);
   world->set_lattice(1, lattice);
   UniformSampler<ng_float_t> x(0.0, side);
+  RandomGenerator & rg = world->get_random_generator();
   for (const auto &agent : world->get_agents()) {
-    agent->pose.position = {x.sample(), x.sample()};
+    agent->pose.position = {x.sample(rg), x.sample(rg)};
   }
   world->space_agents_apart(agent_margin, add_safety_to_agent_margin);
   unsigned index = 0;

@@ -107,7 +107,6 @@ std::unique_ptr<HighFive::Group> Experiment::init_dataset_run(unsigned index) {
 }
 
 ExperimentalRun &Experiment::init_run(int index, std::shared_ptr<World> world) {
-  set_random_seed(index);
   if (!world) {
     world = make_world();
     if (scenario) {

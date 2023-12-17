@@ -24,8 +24,9 @@ void CrossScenario::init_world(World *world,
   const ng_float_t p = std::max<ng_float_t>(0, 0.5 * side - target_margin);
   UniformSampler<ng_float_t> x(-p, p);
   const Waypoints targets{{t, 0}, {-t, 0}, {0, t}, {0, -t}};
+  RandomGenerator & rg = world->get_random_generator();
   for (const auto &agent : world->get_agents()) {
-    agent->pose.position = {x.sample(), x.sample()};
+    agent->pose.position = {x.sample(rg), x.sample(rg)};
   }
   world->space_agents_apart(agent_margin, add_safety_to_agent_margin);
   unsigned index = 0;

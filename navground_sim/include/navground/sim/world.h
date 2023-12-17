@@ -189,7 +189,9 @@ class NAVGROUND_SIM_EXPORT World {
         ready(false),
         time(0),
         has_lattice(false),
-        callbacks() {}
+        callbacks(),
+        _seed(0),
+        _generator(_seed) {}
 
   /**
    * @brief      Updates world for a single time step.
@@ -373,11 +375,26 @@ class NAVGROUND_SIM_EXPORT World {
   ng_float_t compute_safety_violation(const Agent *agent) const;
 
   /**
+   * @brief      The random generator shared by all distribution
+   * used to generate and simulate this world
+   *
+   * @return     The random generator
+   */
+  RandomGenerator &get_random_generator();
+
+  /**
+   * @brief      Gets the random seed.
+   *
+   * @return     The random seed.
+   */
+  unsigned get_seed() const;
+
+  /**
    * @brief      Sets the random seed
    *
    * @param[in]  seed  The random seed
    */
-  static void set_seed(unsigned seed);
+  void set_seed(unsigned seed);
 
   /**
    * @brief      Check if all agents are idle
@@ -515,6 +532,8 @@ class NAVGROUND_SIM_EXPORT World {
   bool has_lattice;
   std::array<Lattice, 2> lattice;
   std::vector<Callback> callbacks;
+  unsigned _seed;
+  RandomGenerator _generator;
 };
 
 }  // namespace navground::sim

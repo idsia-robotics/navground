@@ -319,7 +319,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    *
    * @param[in]  dt    The time step
    * @param[in]  time    The current time
-   * @param[in]  world    The that the agent is part of
+   * @param[in]  world    The world that the agent is part of
    */
   void update(ng_float_t dt, ng_float_t time, World *world);
 

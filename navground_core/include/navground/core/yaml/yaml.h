@@ -61,7 +61,8 @@ std::string dump(const T *object) {
   YAML::Emitter out;
   // TODO(?): these are not working
   out.SetFloatPrecision(6);
-  out << YAML::Precision(6) << YAML::Node(*object);
+  out.SetDoublePrecision(6);
+  // out << YAML::Precision(6) << YAML::Node(*object);
   out << YAML::Node(*object);
   return std::string(out.c_str());
 }

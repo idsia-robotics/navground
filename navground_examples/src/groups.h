@@ -13,14 +13,15 @@
 namespace sim = navground::sim;
 
 template <typename T>
-std::unique_ptr<sim::PropertySampler> make_const_property(const T& value) {
-  return std::make_unique<sim::PropertySampler>(sim::ConstantSampler<T>(value));
-}
-
-template <typename T>
 std::unique_ptr<sim::Sampler<T>> make_const(const T& value) {
   return std::make_unique<sim::ConstantSampler<T>>(value);
 }
+
+template <typename T>
+std::unique_ptr<sim::PropertySampler> make_const_property(const T& value) {
+  return std::make_unique<sim::PropertySampler>(make_const<T>(value));
+}
+
 
 /*
  * Equivalent YAML:

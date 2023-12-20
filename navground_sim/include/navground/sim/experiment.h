@@ -184,12 +184,15 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * to \ref run_once.
    *
    * @param[in]  keep  Whether to keep runs in memory
+   * @param[in]  number_of_threads  How many threads to use. 
+   * When more than one, runs will be distributed in parallel over the threads.
    * @param[in]  start_index  The index/seed of the first run.
    * If unspecified, it will use the experiment's \ref run_index
    * @param[in]  number  The number of runs.
    * If unspecified, it will use the experiment's \ref number_of_runs
    */
-  void run(bool keep = true, std::optional<unsigned> start_index = std::nullopt,
+  void run(bool keep = true, unsigned number_of_threads = 1, 
+           std::optional<unsigned> start_index = std::nullopt,
            std::optional<unsigned> number = std::nullopt);
 
   // void run_in_parallel(unsigned number_of_threads, bool keep = true,
@@ -526,6 +529,15 @@ struct NAVGROUND_SIM_EXPORT Experiment {
 
   std::map<std::string, std::function<std::shared_ptr<BaseProbe>()>>
       _extra_probes;
+
+  void run_in_sequence(bool keep = true, 
+           std::optional<unsigned> start_index = std::nullopt,
+           std::optional<unsigned> number = std::nullopt);
+
+  virtual void run_in_parallel(unsigned number_of_threads, bool keep = true,
+           std::optional<unsigned> start_index = std::nullopt,
+           std::optional<unsigned> number = std::nullopt);
+                 
 };
 
 }  // namespace navground::sim

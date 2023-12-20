@@ -15,6 +15,7 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument('--tqdm', help='Display tqdm bar', action='store_true')
     parser.add_argument("--run_index", help="Will overwrite the experiment own run_index if positive.", default=-1, type=int)
     parser.add_argument("--runs", help="Will overwrite the experiment own runs if positive.", default=-1, type=int)
+    parser.add_argument("--threads", help="", default=1, type=int)
     return parser
 
 
@@ -38,15 +39,19 @@ def main() -> None:
             experiment.run_index = arg.run_index
         if arg.runs >= 0:
             experiment.number_of_runs = arg.runs
+        if arg.threads > 0 and sim.uses_python(experiment):
+            print("This experiment requires Python "
+                  "to run and cannot be parallelized")
+            arg.threads = 1
         print("Performing experiment using Python ...")
         if arg.tqdm:
             from tqdm import tqdm
 
             with tqdm(total=experiment.number_of_runs) as bar:
-                experiment.add_run_callback(lambda: bar.update(1))
-                experiment.run(False)
+                experiment.add_run_callback(lambda _: bar.update(1))
+                experiment.run(False, number_of_threads=arg.threads)
         else:
-            experiment.run(False)
+            experiment.run(False, number_of_threads=arg.threads)
 
         print("Experiment done")
         print(f"Duration: {experiment.duration.total_seconds(): .3f} s")

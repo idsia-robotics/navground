@@ -5,7 +5,9 @@
 #include <functional>
 #include <highfive/H5DataSpace.hpp>
 #include <highfive/H5File.hpp>
+#include <mutex>
 #include <string>
+#include <thread>
 
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/world.h"
@@ -125,8 +127,20 @@ ExperimentalRun &Experiment::init_run(int index, std::shared_ptr<World> world) {
   return run;
 }
 
-void Experiment::run(bool keep, std::optional<unsigned> start_index,
+void Experiment::run(bool keep, unsigned number_of_threads,
+                     std::optional<unsigned> start_index,
                      std::optional<unsigned> number) {
+  number_of_threads =
+      std::min(std::thread::hardware_concurrency(), number_of_threads);
+  if (number_of_threads > 1) {
+    run_in_parallel(number_of_threads, keep, start_index, number);
+  } else {
+    run_in_sequence(keep, start_index, number);
+  }
+}
+
+void Experiment::run_in_sequence(bool keep, std::optional<unsigned> start_index,
+                                 std::optional<unsigned> number) {
   start();
   const unsigned max_index =
       start_index.value_or(run_index) + number.value_or(number_of_runs);
@@ -136,6 +150,61 @@ void Experiment::run(bool keep, std::optional<unsigned> start_index,
     save_run(sim_run);
     if (!keep) {
       remove_run(i);
+    }
+  }
+  stop();
+}
+
+void Experiment::run_in_parallel(unsigned number_of_threads, bool keep,
+                                 std::optional<unsigned> start_index,
+                                 std::optional<unsigned> number) {
+  start();
+  std::queue<unsigned> indices;
+  const unsigned max_index =
+      start_index.value_or(run_index) + number.value_or(number_of_runs);
+  for (size_t i = start_index.value_or(run_index); i < max_index; i++) {
+    indices.push(i);
+  }
+
+  std::mutex mutex;
+
+  auto f = [this, &indices, &mutex, keep]() {
+    while (true) {
+      mutex.lock();
+      if (indices.empty()) {
+        mutex.unlock();
+        break;
+      }
+      unsigned i = indices.front();
+      indices.pop();
+      if (runs.count(i)) {
+        mutex.unlock();
+        continue;
+      }
+      auto &sim_run = init_run(i);
+      mutex.unlock();
+      // Only run is parallelized!!
+      sim_run.run();
+      mutex.lock();
+      save_run(sim_run);
+      for (const auto &cb : run_callbacks[false]) {
+        cb(sim_run);
+      }
+      if (!keep) {
+        runs.erase(i);
+      }
+      mutex.unlock();
+    }
+  };
+
+  std::vector<std::thread> threads;
+  for (size_t i = 0; i < number_of_threads - 1; i++) {
+    threads.emplace_back(std::thread(f));
+  }
+  f();
+  for (auto &t : threads) {
+    if (t.joinable()) {
+      t.join();
     }
   }
   stop();

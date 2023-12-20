@@ -1,5 +1,7 @@
+import functools
 from typing import Callable, List
 
+import navground.core
 import pkg_resources
 from navground.core import _register
 from navground.core import load_py_plugins as _load_py_plugins
@@ -75,6 +77,37 @@ def _experiment_tqdm(self):
 
 
 Experiment.tqdm = _experiment_tqdm
+
+
+@functools.singledispatch
+def uses_python(item):
+    return "?"
+
+
+@uses_python.register
+def _(agent: Agent):
+    return any((isinstance(agent.behavior, navground.core.Behavior),
+                isinstance(agent.kinematics, navground.core.Kinematics),
+                isinstance(agent.state_estimation,
+                           StateEstimation), isinstance(agent.task, Task)))
+
+
+@uses_python.register
+def _(world: World):
+    return any(uses_python(agent) for agent in world.agents)
+
+
+@uses_python.register
+def _(scenario: _Scenario):
+    world = World()
+    scenario.init_world(world)
+    return uses_python(world)
+
+
+@uses_python.register
+def _(experiment: Experiment):
+    return uses_python(experiment.scenario)
+
 
 __all__ = [
     'Entity', 'Obstacle', 'Wall', 'World', 'Agent', 'Experiment', 'Scenario',

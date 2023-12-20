@@ -7,6 +7,8 @@
 #include <pybind11/stl.h>
 #include <pybind11/stl/filesystem.h>
 
+#include <mutex>
+#include <thread>
 #include <vector>
 
 #include "docstrings.h"
@@ -364,6 +366,80 @@ struct PyExperiment : public Experiment {
     Experiment::remove_run(seed);
     // !! We need to keep the python objects alive for the lifetime of the run
     _py_probes.erase(seed);
+  }
+
+  void run_in_parallel(unsigned number_of_threads, bool keep = true,
+                       std::optional<unsigned> start_index = std::nullopt,
+                       std::optional<unsigned> number = std::nullopt) override {
+    // std::cout << "run_in_parallel on " << number_of_threads << " threads"
+    //           << std::endl;
+    start();
+    std::queue<unsigned> indices;
+    const unsigned max_index =
+        start_index.value_or(run_index) + number.value_or(number_of_runs);
+    for (size_t i = start_index.value_or(run_index); i < max_index; i++) {
+      indices.push(i);
+    }
+
+    std::mutex mutex;
+
+    auto f = [this, &indices, &mutex, keep]() {
+      while (true) {
+        mutex.lock();
+        if (indices.empty()) {
+          mutex.unlock();
+          break;
+        }
+        unsigned i = indices.front();
+        indices.pop();
+        if (runs.count(i)) {
+          mutex.unlock();
+          continue;
+        }
+        ExperimentalRun *sim_run;
+        {
+          // may call Python => get the GIL
+          py::gil_scoped_acquire acquire;
+          // may call Python
+          sim_run = &(init_run(i));
+        }
+        mutex.unlock();
+        if (!sim_run) continue;
+        // Run is parallelized!!
+        // Only works if there are no Python classes used 
+        // as Behavior, Kinematics, StateEstimation, or Task
+        sim_run->run();
+        mutex.lock();
+        save_run(*sim_run);
+        {
+          // may call Python => get the GIL
+          py::gil_scoped_acquire acquire;
+          for (const auto &cb : run_callbacks[false]) {
+            // may call Python
+            cb(*sim_run);
+          }
+          if (!keep) {
+            // will call Python (world destructor)
+            remove_run(i);
+          }
+        }
+        mutex.unlock();
+      }
+    };
+
+    py::gil_scoped_release release;
+
+    std::vector<std::thread> threads;
+    for (size_t i = 0; i < number_of_threads - 1; i++) {
+      threads.emplace_back(std::thread(f));
+    }
+    f();
+    for (auto &t : threads) {
+      if (t.joinable()) {
+        t.join();
+      }
+    }
+    stop();
   }
 };
 
@@ -1414,6 +1490,7 @@ The array is empty if efficacy has not been recorded in the run.
            py::return_value_policy::reference,
            DOC(navground, sim, Experiment, run_once))
       .def("run", &Experiment::run, py::arg("keep") = true,
+           py::arg("number_of_threads") = 1,
            py::arg("start_index") = py::none(), py::arg("number") = py::none(),
            DOC(navground, sim, Experiment, run))
       // .def("init_run", &Experiment::init_run, py::arg("seed"), DOC(navground,

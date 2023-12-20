@@ -35,6 +35,10 @@ int main(int argc, char *argv[]) {
       .help("Will overwrite the experiment own runs if positive.")
       .default_value(-1)
       .scan<'i', int>();
+  parser.add_argument("--threads")
+      .help("Number of threads")
+      .default_value(1)
+      .scan<'i', int>();
   try {
     parser.parse_args(argc, argv);
   } catch (const std::runtime_error &err) {
@@ -76,26 +80,20 @@ int main(int argc, char *argv[]) {
   if (runs >= 0) {
     experiment.number_of_runs = runs;
   }
-  // if (!experiment) {
-  //   std::cerr << "[Error] Could not load the experiment" << std::endl;
-  //   std::exit(1);
-  // }
-  // std::cout << YAML::dump<Experiment>(&experiment) << std::endl;
   const bool should_display_tqdm = parser.get<bool>("tqdm");
+  const int j = parser.get<int>("threads");
   std::cout << "Performing experiment ..." << std::endl;
   if (should_display_tqdm) {
     tqdm bar;
     unsigned i = 0;
-    experiment.add_run_callback([&bar, &experiment, &i]() {
+    experiment.add_run_callback([&bar, &experiment, &i](ExperimentalRun &) {
       bar.progress(++i, experiment.number_of_runs);
     });
-    experiment.run(false);
+    experiment.run(false, j);
     bar.finish();
   } else {
-    experiment.run(false);
+    experiment.run(false, j);
   }
-
-  // experiment.store_yaml(YAML::dump(&experiment));
 
   std::cout << "Experiment done" << std::endl;
   std::cout << "Duration: " << experiment.get_duration_ns().count() / 1e9

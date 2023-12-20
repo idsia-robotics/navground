@@ -299,6 +299,10 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Twist2, absolute))
       .def("relative", &Twist2::relative, py::arg("reference"),
            DOC(navground, core, Twist2, relative))
+      .def("is_almost_zero", &Twist2::is_almost_zero,
+           py::arg("epsilon_speed") = 1e-6,
+           py::arg("epsilon_angular_speed") = 1e-6,
+           DOC(navground, core, Twist2, is_almost_zero))
       .def("__repr__", &to_string<Twist2>);
 
   py::class_<Pose2>(m, "Pose2", DOC(navground, core, Pose2))

@@ -2,6 +2,23 @@
 Experiments
 ===========
 
+Probes
+======
+
+.. code-block:: cpp
+   
+   #include "navground/sim/probe.h"
+
+.. doxygenclass:: navground::sim::BaseProbe
+    :members:
+
+.. doxygenclass:: navground::sim::Probe
+    :members:
+
+.. doxygenclass:: navground::sim::MapProbe
+    :members:
+
+
 Experimental run
 ================
 

@@ -8,11 +8,13 @@
 
 using namespace navground::sim;
 
+#if 0
 static void store_world(const World &world, HighFive::Group &group) {
   const std::string yaml = YAML::dump<World>(&world);
   group.createAttribute<std::string>("world", HighFive::DataSpace::From(yaml))
       .write(yaml);
 }
+#endif
 
 static void store_world(const std::string &yaml, HighFive::Group &group) {
   group.createAttribute<std::string>("world", HighFive::DataSpace::From(yaml))
@@ -25,6 +27,193 @@ static void store_attribute(T value, const std::string &name,
   group.createAttribute<T>(name, HighFive::DataSpace::From(value)).write(value);
 }
 
+class TimeProbe : public Probe {
+ public:
+  using Probe::Probe;
+
+  void update(const World &world) override {
+    record_step();
+    push(world.get_time());
+  }
+
+  Shape shape() const override { return {size()}; }
+};
+
+class PoseProbe : public Probe {
+ public:
+  using Probe::Probe;
+
+  void update(const World &world) override {
+    record_step();
+    for (const auto &agent : world.get_agents()) {
+      const auto pose = agent->pose;
+      push(pose.position[0]);
+      push(pose.position[1]);
+      push(pose.orientation);
+    }
+  }
+
+  Shape shape() const override {
+    return {get_steps(), get_steps() ? size() / get_steps() / 3 : 0, 3};
+  }
+};
+
+class TwistProbe : public Probe {
+ public:
+  using Probe::Probe;
+
+  void update(const World &world) override {
+    record_step();
+    for (const auto &agent : world.get_agents()) {
+      const auto twist = agent->twist;
+      push(twist.velocity[0]);
+      push(twist.velocity[1]);
+      push(twist.angular_speed);
+    }
+  }
+
+  Shape shape() const override {
+    return {get_steps(), get_steps() ? size() / get_steps() / 3 : 0, 3};
+  }
+};
+
+class CmdProbe : public Probe {
+ public:
+  using Probe::Probe;
+
+  void update(const World &world) override {
+    record_step();
+    for (const auto &agent : world.get_agents()) {
+      const auto twist = agent->last_cmd;
+      push(twist.velocity[0]);
+      push(twist.velocity[1]);
+      push(twist.angular_speed);
+    }
+  }
+
+  Shape shape() const override {
+    return {get_steps(), get_steps() ? size() / get_steps() / 3 : 0, 3};
+  }
+};
+
+class TargetProbe : public Probe {
+ public:
+  using Probe::Probe;
+
+  void update(const World &world) override {
+    record_step();
+    for (const auto &agent : world.get_agents()) {
+      if (auto b = agent->get_behavior()) {
+        const auto target = b->get_target();
+        const auto position = target.position.value_or(Vector2::Zero());
+        push(position[0]);
+        push(position[1]);
+        push(target.orientation.value_or(0.0));
+      } else {
+        push(0);
+        push(0);
+        push(0);
+      }
+    }
+  }
+
+  Shape shape() const override {
+    return {get_steps(), get_steps() ? size() / get_steps() / 3 : 0, 3};
+  }
+};
+
+class SafetyViolationProbe : public Probe {
+ public:
+  using Probe::Probe;
+
+  void update(const World &world) override {
+    record_step();
+    for (const auto &agent : world.get_agents()) {
+      push(world.compute_safety_violation(agent.get()));
+    }
+  }
+
+  Shape shape() const override {
+    return {get_steps(), get_steps() ? size() / get_steps() : 0};
+  }
+};
+
+class CollisionProbe : public Probe {
+ public:
+  using Probe::Probe;
+
+  void update(const World &world) override {
+    for (const auto &[e1, e2] : world.get_collisions()) {
+      push(world.get_step());
+      push(e1->uid);
+      push(e2->uid);
+    }
+  }
+
+  Shape shape() const override { return {size() / 3, 3}; }
+};
+
+class DeadlockProbe : public Probe {
+ public:
+  using Probe::Probe;
+
+  void finalize(const World &world, unsigned) override {
+    for (const auto &agent : world.get_agents()) {
+      push(agent->get_time_since_stuck());
+    }
+  }
+
+  Shape shape() const override { return {size()}; }
+};
+
+class EfficacyProbe : public Probe {
+ public:
+  using Probe::Probe;
+
+  void update(const World &world) override {
+    record_step();
+    for (const auto &agent : world.get_agents()) {
+      const auto b = agent->get_behavior();
+      push(b ? b->get_efficacy() : 1);
+    }
+  }
+
+  Shape shape() const override {
+    return {get_steps(), get_steps() ? size() / get_steps() : 0};
+  }
+};
+
+class TaskEventsProbe : public MapProbe<unsigned> {
+ public:
+  using MapProbe::KeyType;
+  using MapProbe<unsigned>::MapProbe;
+
+  void prepare(const World &world, unsigned) override {
+    for (const auto &agent : world.get_agents()) {
+      if (Task *task = agent->get_task()) {
+        task->add_callback([this, &agent](const std::vector<ng_float_t> &data) {
+          append(agent->uid, data);
+          record_step(agent->uid);
+        });
+      }
+    }
+  }
+
+  void finalize(const World &world, unsigned) override {
+    for (const auto &agent : world.get_agents()) {
+      if (Task *task = agent->get_task()) {
+        // TODO(Jerome): should remove just the callback we added.
+        task->clear_callbacks();
+      }
+    }
+  }
+
+  Shape shape(const unsigned &key) const override {
+    unsigned steps = get_steps(key);
+    return {steps, steps ? size(key) / steps : 0};
+  }
+};
+
 void ExperimentalRun::prepare() {
   _world_yaml = YAML::dump<World>(_world.get());
   _number = _world->get_agents().size();
@@ -33,53 +222,43 @@ void ExperimentalRun::prepare() {
     _indices[agents[i].get()] = i;
   }
   if (_record_config.time) {
-    _record = true;
+    make_probe<TimeProbe, ng_float_t>("times");
   }
   if (_record_config.pose) {
-    _record = true;
+    make_probe<PoseProbe, ng_float_t>("poses");
   }
   if (_record_config.twist) {
-    _record = true;
+    make_probe<TwistProbe, ng_float_t>("twists");
   }
   if (_record_config.cmd) {
-    _record = true;
+    make_probe<CmdProbe, ng_float_t>("cmds");
   }
   if (_record_config.target) {
-    _record = true;
+    make_probe<TargetProbe, ng_float_t>("targets");
   }
   if (_record_config.safety_violation) {
-    _record = true;
+    make_probe<SafetyViolationProbe, ng_float_t>("safety_violations");
   }
   if (_record_config.collisions) {
-    _record = true;
-  }
-  if (_record_config.task_events) {
-    _record = true;
-    _task_events_data = std::vector<std::vector<ng_float_t>>(_number);
-    _task_events = std::vector<unsigned>(_number, 0);
-    int index = 0;
-    for (const auto &agent : _world->get_agents()) {
-      if (Task *task = agent->get_task()) {
-        auto &ds = _task_events_data[index];
-        auto &n = _task_events[index];
-        task->add_callback([&ds, &n](const std::vector<ng_float_t> &data) {
-          ds.insert(std::end(ds), std::begin(data), std::end(data));
-          n++;
-        });
-      }
-      index++;
-    }
+    make_probe<CollisionProbe, unsigned>("collisions");
   }
   if (_record_config.deadlocks) {
-    _record = true;
+    make_probe<DeadlockProbe, ng_float_t>("deadlocks");
   }
   if (_record_config.efficacy) {
-    _record = true;
+    make_probe<EfficacyProbe, ng_float_t>("efficacy");
+  }
+  if (_record_config.task_events) {
+    make_map_probe<TaskEventsProbe, ng_float_t>("task_events");
+  }
+  for (auto &[k, probe] : _probes) {
+    probe->prepare(*_world, _run_config.steps);
   }
 }
 
 void ExperimentalRun::start() {
   if (_state == State::init) {
+    prepare();
     _begin = std::chrono::steady_clock::now();
     _state = State::running;
   }
@@ -112,87 +291,20 @@ void ExperimentalRun::run() {
 }
 
 void ExperimentalRun::update() {
-  if (_state != State::running or !_record or _steps > _run_config.steps)
-    return;
-  if (_record_config.time) {
-    _time_data.push_back(_world->get_time());
-  }
-  if (_record_config.pose) {
-    for (const auto &agent : _world->get_agents()) {
-      const auto pose = agent->pose;
-      _pose_data.push_back(pose.position[0]);
-      _pose_data.push_back(pose.position[1]);
-      _pose_data.push_back(pose.orientation);
-    }
-  }
-  if (_record_config.twist) {
-    for (const auto &agent : _world->get_agents()) {
-      const auto twist = agent->twist;
-      _twist_data.push_back(twist.velocity[0]);
-      _twist_data.push_back(twist.velocity[1]);
-      _twist_data.push_back(twist.angular_speed);
-    }
-  }
-  if (_record_config.cmd) {
-    for (const auto &agent : _world->get_agents()) {
-      const auto twist = agent->last_cmd;
-      _cmd_data.push_back(twist.velocity[0]);
-      _cmd_data.push_back(twist.velocity[1]);
-      _cmd_data.push_back(twist.angular_speed);
-    }
-  }
-  if (_record_config.target) {
-    for (const auto &agent : _world->get_agents()) {
-      if (auto b = agent->get_behavior()) {
-        // TODO(Jerome): adapt to the changed target format
-        const auto target = b->get_target();
-        const auto position = target.position.value_or(Vector2::Zero());
-        const auto orientation = target.orientation.value_or(0.0);
-        _target_data.push_back(position[0]);
-        _target_data.push_back(position[1]);
-        _target_data.push_back(orientation);
-      }
-    }
-  }
-  if (_record_config.safety_violation) {
-    for (const auto &agent : _world->get_agents()) {
-      _safety_violation_data.push_back(
-          _world->compute_safety_violation(agent.get()));
-    }
-  }
-  if (_record_config.collisions) {
-    for (const auto &[e1, e2] : _world->get_collisions()) {
-      _collisions_data.push_back(_world->get_step());
-      _collisions_data.push_back(e1->uid);
-      _collisions_data.push_back(e2->uid);
-    }
-  }
-  if (_record_config.efficacy) {
-    for (const auto &agent : _world->get_agents()) {
-      const auto b = agent->get_behavior();
-      _efficacy_data.push_back(b ? b->get_efficacy() : 1.0);
-    }
+  if (_state != State::running or _steps > _run_config.steps) return;
+  for (auto &[k, probe] : _probes) {
+    probe->update(*_world);
   }
   _steps++;
 }
 
 void ExperimentalRun::finalize() {
-  if (_record_config.task_events) {
-    for (const auto &agent : _world->get_agents()) {
-      if (Task *task = agent->get_task()) {
-        // TODO(Jerome): should remove just the callback we added.
-        task->clear_callbacks();
-      }
-    }
-  }
-  if (_record_config.deadlocks) {
-    for (const auto &agent : _world->get_agents()) {
-      _deadlock_data.push_back(agent->get_time_since_stuck());
-    }
+  for (auto &[k, probe] : _probes) {
+    probe->finalize(*_world, _steps);
   }
 }
 
-void ExperimentalRun::save(HighFive::Group &group) {
+void ExperimentalRun::save(HighFive::Group &group) const {
   store_world(_world_yaml, group);
   store_attribute<ng_float_t>(_run_config.time_step, "time_step", group);
   store_attribute<unsigned>(_run_config.steps, "maximal_steps", group);
@@ -204,64 +316,8 @@ void ExperimentalRun::save(HighFive::Group &group) {
       .createAttribute<unsigned long>("duration_ns",
                                       HighFive::DataSpace::From(d))
       .write(d);
-  const std::vector<size_t> dims{static_cast<size_t>(_steps), _number, 3};
-  if (_record_config.time) {
-    group.createDataSet<ng_float_t>("times", HighFive::DataSpace({_steps}))
-        .write_raw(_time_data.data());
-  }
-  if (_record_config.pose) {
-    group.createDataSet<ng_float_t>("poses", HighFive::DataSpace(dims))
-        .write_raw(_pose_data.data());
-  }
-  if (_record_config.twist) {
-    group.createDataSet<ng_float_t>("twists", HighFive::DataSpace(dims))
-        .write_raw(_twist_data.data());
-  }
-  if (_record_config.cmd) {
-    group.createDataSet<ng_float_t>("cmds", HighFive::DataSpace(dims))
-        .write_raw(_cmd_data.data());
-  }
-  if (_record_config.target) {
-    group.createDataSet<ng_float_t>("targets", HighFive::DataSpace(dims))
-        .write_raw(_target_data.data());
-  }
-  if (_record_config.safety_violation) {
-    group
-        .createDataSet<ng_float_t>("safety_violations",
-                                   HighFive::DataSpace({_steps, _number}))
-        .write_raw(_safety_violation_data.data());
-  }
-  if (_record_config.collisions) {
-    unsigned collisions_number = _collisions_data.size() / 3;
-    group
-        .createDataSet<unsigned>("collisions",
-                                 HighFive::DataSpace({collisions_number, 3}))
-        .write_raw(_collisions_data.data());
-  }
-  if (_record_config.task_events) {
-    const auto &agents = _world->get_agents();
-    auto task_group = group.createGroup("task_events");
-    for (unsigned i = 0; i < _task_events.size(); ++i) {
-      const auto n = _task_events[i];
-      if (!n) continue;
-      const auto ds = _task_events_data[i];
-      unsigned uid = agents[i]->uid;
-      auto dataset = task_group.createDataSet<ng_float_t>(
-          "agent_" + std::to_string(uid),
-          HighFive::DataSpace({n, ds.size() / n}));
-      dataset.write_raw(ds.data());
-      dataset.createAttribute<unsigned>("uid", HighFive::DataSpace::From(uid))
-          .write(uid);
-    }
-  }
-  if (_record_config.deadlocks) {
-    group.createDataSet<ng_float_t>("deadlocks", HighFive::DataSpace({_number}))
-        .write_raw(_deadlock_data.data());
-  }
-  if (_record_config.efficacy) {
-    group
-        .createDataSet<ng_float_t>("efficacy",
-                                   HighFive::DataSpace({_steps, _number}))
-        .write_raw(_efficacy_data.data());
+
+  for (auto &[key, probe] : _probes) {
+    probe->save(key, group);
   }
 }

@@ -6,7 +6,8 @@ from navground.core import load_py_plugins as _load_py_plugins
 from navground.core import registered_property
 
 from ._navground_sim import (Agent, BoundingBox, Entity, Experiment,
-                             ExperimentalRun, Obstacle, RecordConfig)
+                             ExperimentalRun, MapProbe, Obstacle, Probe,
+                             RecordConfig)
 from ._navground_sim import Scenario as _Scenario
 from ._navground_sim import Sensor
 from ._navground_sim import StateEstimation as _StateEstimation
@@ -80,5 +81,6 @@ __all__ = [
     'StateEstimation', 'Task', 'BoundingBox', 'dump', 'TaskCallback',
     'load_agent', 'load_state_estimation', 'load_task', 'load_world',
     'load_scenario', 'load_experiment', 'load_py_plugins',
-    'registered_property', 'Sensor', 'ExperimentalRun', 'RecordConfig'
+    'registered_property', 'Sensor', 'ExperimentalRun', 'RecordConfig',
+    'Probe', 'MapProbe'
 ]

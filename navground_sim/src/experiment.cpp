@@ -115,7 +115,14 @@ ExperimentalRun &Experiment::init_run(int index, std::shared_ptr<World> world) {
   }
   world->prepare();
   runs.try_emplace(index, world, run_config, record_config, index);
-  return runs.at(index);
+  auto &run = runs.at(index);
+  for (const auto &[k, factory] : _extra_probes) {
+    run.add_probe(k, factory());
+  }
+  for (const auto &cb : run_callbacks[true]) {
+    cb(run);
+  }
+  return run;
 }
 
 void Experiment::run(bool keep, std::optional<unsigned> start_index,
@@ -125,20 +132,31 @@ void Experiment::run(bool keep, std::optional<unsigned> start_index,
       start_index.value_or(run_index) + number.value_or(number_of_runs);
   for (size_t i = start_index.value_or(run_index); i < max_index; i++) {
     if (runs.count(i)) continue;
-    auto &sim_run = init_run(i);
-    sim_run.run();
+    auto &sim_run = _run_once(i);
     save_run(sim_run);
-    for (const auto &cb : run_callbacks) {
-      cb();
-    }
     if (!keep) {
-      runs.erase(i);
+      remove_run(i);
     }
   }
   stop();
 }
 
-void Experiment::save_run(ExperimentalRun &sim_run) {
+void Experiment::save(std::optional<fs::path> directory) {
+  if (state != State::finished) {
+    std::cerr << "Experiment has not finished ... won't save it" << std::endl;
+    return;
+  }
+  if (directory) {
+    save_directory = *directory;
+  }
+  init_dataset();
+  for (const auto &[k, run] : runs) {
+    save_run(run);
+  }
+  finalize_dataset();
+}
+
+void Experiment::save_run(const ExperimentalRun &sim_run) {
   auto group = init_dataset_run(sim_run.get_seed());
   if (group) {
     sim_run.save(*group);
@@ -146,23 +164,35 @@ void Experiment::save_run(ExperimentalRun &sim_run) {
 }
 
 // TODO()
-ExperimentalRun &Experiment::run_once(int index) {
+ExperimentalRun &Experiment::run_once(unsigned index) {
   if (state == State::running) {
     std::cerr << "Should not call run_once when already running an experiment"
               << std::endl;
   }
   remove_run(index);
+  return _run_once(index);
+}
+
+ExperimentalRun &Experiment::_run_once(unsigned index) {
   auto &sim_run = init_run(index);
   sim_run.run();
+  for (const auto &cb : run_callbacks[false]) {
+    cb(sim_run);
+  }
   return sim_run;
 }
 
 void Experiment::stop_run(ExperimentalRun &sim_run) {
+  if (!sim_run.is_running()) return;
   sim_run.stop();
+  for (const auto &cb : run_callbacks[false]) {
+    cb(sim_run);
+  }
   save_run(sim_run);
 }
 
 void Experiment::start_run(ExperimentalRun &sim_run) {
+  if (sim_run.has_started()) return;
   sim_run.start();
   start();
 }

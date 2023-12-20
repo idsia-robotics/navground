@@ -2,6 +2,18 @@
 Experiments
 ===========
 
+Probes
+======
+
+.. autoclass:: navground.sim.Probe
+    :members:
+    :exclude-members: __new__, __init__
+
+.. autoclass:: navground.sim.MapProbe
+    :members:
+    :exclude-members: __new__, __init__
+
+
 Experimental run
 ================
 

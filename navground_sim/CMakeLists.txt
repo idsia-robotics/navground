@@ -68,6 +68,7 @@ add_library(navground_sim SHARED
   src/agent.cpp
   src/experiment.cpp 
   src/experimental_run.cpp 
+  src/probe.cpp
   src/scenario.cpp
   src/state_estimation.cpp
   src/world.cpp 
@@ -138,6 +139,7 @@ target_link_libraries(_navground_sim
   navground_sim
 )
 target_link_libraries(_navground_sim INTERFACE navground_py)
+target_compile_definitions(_navground_sim PRIVATE PYBIND11_DETAILED_ERROR_MESSAGES=1)
 # 
 add_dependencies(_navground_sim navground_sim)
 

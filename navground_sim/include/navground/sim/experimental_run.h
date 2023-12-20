@@ -11,12 +11,15 @@
 #include <memory>
 
 #include "navground/core/types.h"
+#include "navground/sim/probe.h"
 #include "navground/sim/world.h"
 #include "navground_sim_export.h"
 
 namespace navground::sim {
 
-using Shape = std::vector<ssize_t>;
+/**
+ * The type of the data stored in a multi-dimensional buffer.
+ */
 
 struct Experiment;
 
@@ -124,8 +127,8 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    * @param[in]  record_config  The record configuration
    * @param[in]  seed           The seed used to initialize the world
    */
-  ExperimentalRun(std::shared_ptr<World> world, const RunConfig& run_config,
-                  const RecordConfig& record_config, unsigned seed = 0)
+  ExperimentalRun(std::shared_ptr<World> world, const RunConfig &run_config,
+                  const RecordConfig &record_config, unsigned seed = 0)
       : _state(State::init),
         _record_config(record_config),
         _run_config(run_config),
@@ -133,20 +136,8 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
         _world(world),
         _steps(0),
         _number(0),
-        _record(false),
-        _pose_data(),
-        _twist_data(),
-        _cmd_data(),
-        _target_data(),
-        _safety_violation_data(),
-        _collisions_data(),
-        _task_events_data(),
-        _task_events(),
-        _deadlock_data(),
-        _efficacy_data(),
-        _indices() {
-    prepare();
-  }
+        _indices(),
+        _probes() {}
 
   /**
    * @brief     Construct an \ref ExperimentalRun
@@ -164,7 +155,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   ExperimentalRun(std::shared_ptr<World> world, ng_float_t time_step,
                   unsigned max_steps, bool terminate_when_all_idle_or_stuck,
-                  const RecordConfig& record_config, unsigned seed = 0)
+                  const RecordConfig &record_config, unsigned seed = 0)
       : ExperimentalRun(
             world, {time_step, max_steps, terminate_when_all_idle_or_stuck},
             record_config, seed) {}
@@ -197,6 +188,20 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   bool has_finished() const { return _state == State::finished; }
 
   /**
+   * @brief      Whether the run is running.
+   *
+   * @return     True if running, False otherwise.
+   */
+  bool is_running() const { return _state == State::running; }
+
+  /**
+   * @brief      Whether the run is running or has already finished.
+   *
+   * @return     True if started, False otherwise.
+   */
+  bool has_started() const { return _state != State::init; }
+
+  /**
    * @brief      Gets the time step used for simulation.
    *
    * @return     The time step.
@@ -218,191 +223,102 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   }
 
   /**
+   * @brief      Gets the probe associated to a given key.
+   *
+   * @param[in]  key   The key
+   *
+   * @tparam     T     The type of probe.
+   *
+   * @return     The probe or null if no probe of type ``T`` is associated to
+   * the key.
+   */
+  template <typename T>
+  const std::shared_ptr<T> get_probe(const std::string &key) const {
+    if (_probes.count(key)) {
+      return std::dynamic_pointer_cast<T>(_probes.at(key));
+    }
+    return nullptr;
+  }
+
+  /**
    * @brief      Gets the recorded times.
    *
-   * @return     The recorded times data.
+   * @return     The record or none if not recorded.
    */
-  const std::vector<ng_float_t>& get_time_data() const { return _time_data; }
-  /**
-   * @brief      Gets the shape of the recorded times.
-   *
-   * @return     The tensor shape.
-   */
-  Shape get_time_shape() const {
-    if (_record_config.time) {
-      return {_steps};
-    }
-    return {};
+  const std::shared_ptr<Probe> get_times() const {
+    return get_probe<Probe>("times");
   }
   /**
    * @brief      Gets the recorded poses.
    *
-   * @return     The recorded poses data.
+   * @return     The record or none if not recorded.
    */
-  const std::vector<ng_float_t>& get_pose_data() const { return _pose_data; }
-  /**
-   * @brief      Gets the shape of the recorded poses.
-   *
-   * @return     The tensor shape.
-   */
-  Shape get_pose_shape() const {
-    if (_record_config.pose) {
-      return {_steps, _number, 3};
-    }
-    return {};
+  const std::shared_ptr<Probe> get_poses() const {
+    return get_probe<Probe>("poses");
   }
   /**
    * @brief      Gets the recorded twists.
    *
-   * @return     The recorded twists data.
+   * @return     The record or none if not recorded.
    */
-  const std::vector<ng_float_t>& get_twist_data() const { return _twist_data; }
-  /**
-   * @brief      Gets the shape of the recorded twists.
-   *
-   * @return     The tensor shape.
-   */
-  Shape get_twist_shape() const {
-    if (_record_config.twist) {
-      return {_steps, _number, 3};
-    }
-    return {};
+  const std::shared_ptr<Probe> get_twists() const {
+    return get_probe<Probe>("twists");
   }
   /**
    * @brief      Gets the recorded commands.
    *
-   * @return     The recorded commands data.
+   * @return     The record or none if not recorded.
    */
-  const std::vector<ng_float_t>& get_cmd_data() const { return _cmd_data; }
-  /**
-   * @brief      Gets the shape of the recorded commands.
-   *
-   * @return     The tensor shape.
-   */
-  Shape get_cmd_shape() const {
-    if (_record_config.cmd) {
-      return {_steps, _number, 3};
-    }
-    return {};
+  const std::shared_ptr<Probe> get_cmds() const {
+    return get_probe<Probe>("cmds");
   }
   /**
    * @brief      Gets the recorded targets.
    *
-   * @return     The recorded targets data.
+   * @return     The record or none if not recorded.
    */
-  const std::vector<ng_float_t>& get_target_data() const {
-    return _target_data;
-  }
-  /**
-   * @brief      Gets the shape of the recorded targets.
-   *
-   * @return     The tensor shape.
-   */
-  Shape get_target_shape() const {
-    if (_record_config.target) {
-      return {_steps, _number, 3};
-    }
-    return {};
+  const std::shared_ptr<Probe> get_targets() const {
+    return get_probe<Probe>("targets");
   }
   /**
    * @brief      Gets the recorded safety margin violations.
    *
-   * @return     The recorded safety margin violations data.
+   * @return     The record or none if not recorded.
    */
-  const std::vector<ng_float_t>& get_safety_violation_data() const {
-    return _safety_violation_data;
-  }
-  /**
-   * @brief      Gets the shape of the recorded safety margin violations.
-   *
-   * @return     The tensor shape.
-   */
-  Shape get_safety_violation_shape() const {
-    if (_record_config.safety_violation) {
-      return {_steps, _number};
-    }
-    return {};
+  const std::shared_ptr<Probe> get_safety_violations() const {
+    return get_probe<Probe>("safety_violations");
   }
   /**
    * @brief      Gets the recorded collisions.
    *
-   * @return     The recorded collisions data.
+   * @return     The record or none if not recorded.
    */
-  const std::vector<unsigned>& get_collisions_data() const {
-    return _collisions_data;
-  }
-  /**
-   * @brief      Gets the shape of the recorded collisions.
-   *
-   * @return     The tensor shape.
-   */
-  Shape get_collisions_shape() const {
-    if (_record_config.collisions) {
-      return {static_cast<ssize_t>(_collisions_data.size()) / 3, 3};
-    }
-    return {};
+  const std::shared_ptr<Probe> get_collisions() const {
+    return get_probe<Probe>("collisions");
   }
   /**
    * @brief      Gets the recorded task logs.
    *
-   * @return     The recorded task logs data.
+   * @return     The record or none if not recorded.
    */
-  const std::vector<ng_float_t>* get_task_data(const Agent* agent) const {
-    const auto index = index_of_agent(agent);
-    if (index) {
-      return &_task_events_data.at(*index);
-    }
-    return nullptr;
-  }
-  /**
-   * @brief      Gets the shape of the recorded task logs.
-   *
-   * @return     The tensor shape.
-   */
-  Shape get_task_shape(const Agent* agent) const {
-    if (!_record_config.task_events) return {};
-    const auto index = index_of_agent(agent);
-    if (index) {
-      const auto& data = _task_events_data.at(*index);
-      const auto n = _task_events.at(*index);
-      const ssize_t m = n ? data.size() / n : 0;
-      return {n, m};
-    }
-    return {};
+  const std::shared_ptr<MapProbe<unsigned>> get_task_events() const {
+    return get_probe<MapProbe<unsigned>>("task_events");
   }
   /**
    * @brief      Gets the recorded deadlocks.
    *
-   * @return     The recorded deadlocks data.
+   * @return     The record or none if not recorded.
    */
-  const std::vector<ng_float_t>& get_deadlock_data() const {
-    return _deadlock_data;
-  }
-  /**
-   * @brief      Gets the shape of the recorded deadlocks.
-   *
-   * @return    The tensor shape.
-   */
-  Shape get_deadlock_shape() const {
-    if (!_record_config.deadlocks) return {};
-    return {static_cast<ssize_t>(_deadlock_data.size())};
+  const std::shared_ptr<Probe> get_deadlocks() const {
+    return get_probe<Probe>("deadlocks");
   }
   /**
    * @brief      Gets the recorded efficacy.
    *
-   * @return     The recorded efficacy data.
+   * @return     The record or none if not recorded.
    */
-  const std::vector<ng_float_t>& get_efficacy_data() const {
-    return _efficacy_data;
-  }
-  /**
-   * @brief      Gets the shape of the recorded efficacy.
-   *
-   * @return     The tensor shape.
-   */
-  Shape get_efficacy_shape() const {
-    if (!_record_config.efficacy) return {};
-    return {_steps, _number};
+  const std::shared_ptr<Probe> get_efficacy() const {
+    return get_probe<Probe>("efficacy");
   }
 
   /**
@@ -443,7 +359,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The index of data related to this agent.
    */
-  std::optional<unsigned> index_of_agent(const Agent* agent) const {
+  std::optional<unsigned> index_of_agent(const Agent *agent) const {
     if (_indices.count(agent)) {
       return _indices.at(agent);
     }
@@ -506,6 +422,62 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   void run();
 
+  /**
+   * @brief      Adds a probe to record data during the simulation.
+   * Will replace the probe associated with the key, if already set.
+   *
+   * @param[in]  key     The key
+   * @param[in]  probe   The probe
+   */
+  void add_probe(const std::string &key,
+                 const std::shared_ptr<BaseProbe> &probe) {
+    _probes[key] = probe;
+  }
+
+  /**
+   * @brief      Add a probe to record data of a given type during the
+   * simulation. Will replace the probe associated with the key, if already set.
+   *
+   * @param[in]  key   The key
+   *
+   * @tparam     C     The class of the probe. Must be subclass of \ref
+   * sim::Probe.
+   * @tparam     T     The type of data to record
+   */
+  template <typename C, typename T>
+  void make_probe(const std::string &key) {
+    _probes[key] = std::dynamic_pointer_cast<BaseProbe>(
+        std::make_shared<C>(std::vector<T>{}));
+  }
+
+  /**
+   * @brief      Add a probe to record data of a given type during the
+   * simulation. Will replace the probe associated with the key, if already set.
+   *
+   * @param[in]  key   The key
+   *
+   * @tparam     C     The class of the probe. Must be subclass of \ref
+   * sim::MapProbe.
+   * @tparam     T     The type of data to record.
+   */
+  template <typename C, typename T>
+  void make_map_probe(const std::string &key) {
+    _probes[key] = std::dynamic_pointer_cast<BaseProbe>(
+        std::make_shared<C>(std::map<typename C::KeyType, std::vector<T>>{}));
+  }
+
+  /**
+   * @brief      Gets the names of all registered probes.
+   *
+   * @return     The probes.
+   */
+  std::vector<std::string> get_probes_names() const {
+    std::vector<std::string> keys;
+    std::transform(std::begin(_probes), std::end(_probes), back_inserter(keys),
+                   [](auto &&item) { return item.first; });
+    return keys;
+  }
+
  private:
   State _state;
   /**
@@ -531,25 +503,13 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   unsigned _number;
 
-  bool _record;
-  std::vector<ng_float_t> _time_data;
-  std::vector<ng_float_t> _pose_data;
-  std::vector<ng_float_t> _twist_data;
-  std::vector<ng_float_t> _cmd_data;
-  std::vector<ng_float_t> _target_data;
-  std::vector<ng_float_t> _safety_violation_data;
-  std::vector<unsigned> _collisions_data;
-  std::vector<std::vector<ng_float_t>>
-      _task_events_data;  // one vector per agent
-  std::vector<unsigned> _task_events;
-  std::vector<ng_float_t> _deadlock_data;
-  std::vector<ng_float_t> _efficacy_data;
-
-  std::map<const Agent*, unsigned> _indices;
+  std::map<const Agent *, unsigned> _indices;
   std::chrono::time_point<std::chrono::steady_clock> _begin;
   std::chrono::time_point<std::chrono::steady_clock> _end;
 
   std::string _world_yaml;
+
+  std::map<std::string, std::shared_ptr<BaseProbe>> _probes;
 
   /**
    * @brief      Called before the simulation starts
@@ -568,7 +528,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @param      group  The dataset group where to store data
    */
-  void save(HighFive::Group& group);
+  void save(HighFive::Group &group) const;
 };
 
 }  // namespace navground::sim

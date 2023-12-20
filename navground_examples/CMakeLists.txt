@@ -18,6 +18,7 @@ add_subdirectory(src/controller)
 add_subdirectory(src/collision)
 add_subdirectory(src/scenario)
 add_subdirectory(src/world)
+add_subdirectory(src/experiment)
 
 ament_export_targets(my_scenarioTargets HAS_LIBRARY_TARGET)
 ament_export_targets(my_behaviorTargets HAS_LIBRARY_TARGET)

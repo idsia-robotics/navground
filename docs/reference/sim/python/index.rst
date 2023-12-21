@@ -12,3 +12,4 @@ Python API
    scenarios/index
    experiment
    yaml
+   helpers

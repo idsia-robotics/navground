@@ -247,13 +247,7 @@ Example
 
 .. note::
 
-    The simulation runs in a single thread. If you want to speed up experiments consisting of multiple runs, you can parallelize them at launch, splitting the runs over multiple sub-experiments. For example, if the experiment described in ``experiment.yaml`` needs 1000 runs, you can split them over 10 experiments with  ``run_index=0, 100, 200, ...`` and ``runs=100``, each running in a separate process:
-
-    .. code-block:: console
-    
-        $ for i in {0..9}; do run experiment.yaml --runs 100 --run_index $((i * 100)) &; done
-
-    This will results in 10 directories, one for each sub-experiment: you can load their data and aggregate it. If you have 10 free cores, it will speed up running the experiment by 10.  
+    Although individual runs in a single thread, we can speed up experiments consisting of *multiple* runs by parallelizing them. Check out :ref:`the related guide <parallelize_guide>` to know more.
 
 .. _run_rt:
 

@@ -47,33 +47,37 @@ static std::string file_name_stamp(
 
 std::string Experiment::dump() const { return YAML::dump<Experiment>(this); }
 
-void Experiment::init_dataset() {
+void Experiment::init_dataset(std::optional<fs::path> path) {
   file = nullptr;
-  if (save_directory.empty()) {
+  if (save_directory.empty() && (!path || path->empty())) {
     return;
   }
-  fs::current_path(save_directory);
   const std::string yaml = dump();
-  const std::size_t hash = std::hash<std::string>{}(yaml);
-  std::string dir_name =
-      name + "_" + std::to_string(hash) + "_" + file_name_stamp(begin);
-  if (std::filesystem::exists(save_directory / dir_name)) {
-    int i = 0;
-    for (;; i++) {
-      if (!std::filesystem::exists(save_directory /
-                                   (dir_name + std::to_string(i)))) {
-        break;
+  if (!path) {
+    fs::current_path(save_directory);
+    const std::size_t hash = std::hash<std::string>{}(yaml);
+    std::string dir_name =
+        name + "_" + std::to_string(hash) + "_" + file_name_stamp(begin);
+    if (std::filesystem::exists(save_directory / dir_name)) {
+      int i = 0;
+      for (;; i++) {
+        if (!std::filesystem::exists(save_directory /
+                                     (dir_name + std::to_string(i)))) {
+          break;
+        }
       }
+      dir_name += "_" + std::to_string(i);
+      std::cout << "Added suffix _" + std::to_string(i) << std::endl;
     }
-    dir_name += "_" + std::to_string(i);
-    std::cout << "Added suffix _" + std::to_string(i) << std::endl;
+    const fs::path dir = save_directory / dir_name;
+    if (!create_directory(dir)) {
+      std::cerr << "Could not create directory " << dir << std::endl;
+      return;
+    }
+    file_path = dir / "data.h5";
+  } else {
+    file_path = path;
   }
-  const fs::path dir = save_directory / dir_name;
-  if (!create_directory(dir)) {
-    std::cerr << "Could not create directory " << dir << std::endl;
-    return;
-  }
-  file_path = dir / "data.h5";
   file = std::make_shared<HighFive::File>(*file_path, HighFive::File::Truncate);
   store_experiment(yaml, *file);
   store_timepoint(begin, "begin_time", *file);
@@ -129,19 +133,21 @@ ExperimentalRun &Experiment::init_run(int index, std::shared_ptr<World> world) {
 
 void Experiment::run(bool keep, unsigned number_of_threads,
                      std::optional<unsigned> start_index,
-                     std::optional<unsigned> number) {
+                     std::optional<unsigned> number,
+                     std::optional<fs::path> data_path) {
   number_of_threads =
       std::min(std::thread::hardware_concurrency(), number_of_threads);
   if (number_of_threads > 1) {
-    run_in_parallel(number_of_threads, keep, start_index, number);
+    run_in_parallel(number_of_threads, keep, start_index, number, data_path);
   } else {
-    run_in_sequence(keep, start_index, number);
+    run_in_sequence(keep, start_index, number, data_path);
   }
 }
 
 void Experiment::run_in_sequence(bool keep, std::optional<unsigned> start_index,
-                                 std::optional<unsigned> number) {
-  start();
+                                 std::optional<unsigned> number,
+                                 std::optional<fs::path> data_path) {
+  start(data_path);
   const unsigned max_index =
       start_index.value_or(run_index) + number.value_or(number_of_runs);
   for (size_t i = start_index.value_or(run_index); i < max_index; i++) {
@@ -157,8 +163,9 @@ void Experiment::run_in_sequence(bool keep, std::optional<unsigned> start_index,
 
 void Experiment::run_in_parallel(unsigned number_of_threads, bool keep,
                                  std::optional<unsigned> start_index,
-                                 std::optional<unsigned> number) {
-  start();
+                                 std::optional<unsigned> number,
+                                 std::optional<fs::path> data_path) {
+  start(data_path);
   std::queue<unsigned> indices;
   const unsigned max_index =
       start_index.value_or(run_index) + number.value_or(number_of_runs);
@@ -210,7 +217,8 @@ void Experiment::run_in_parallel(unsigned number_of_threads, bool keep,
   stop();
 }
 
-void Experiment::save(std::optional<fs::path> directory) {
+void Experiment::save(std::optional<fs::path> directory,
+                      std::optional<fs::path> path) {
   if (state != State::finished) {
     std::cerr << "Experiment has not finished ... won't save it" << std::endl;
     return;
@@ -218,7 +226,7 @@ void Experiment::save(std::optional<fs::path> directory) {
   if (directory) {
     save_directory = *directory;
   }
-  init_dataset();
+  init_dataset(path);
   for (const auto &[k, run] : runs) {
     save_run(run);
   }
@@ -268,11 +276,11 @@ void Experiment::start_run(ExperimentalRun &sim_run) {
 
 void Experiment::update_run(ExperimentalRun &sim_run) { sim_run.update(); }
 
-void Experiment::start() {
+void Experiment::start(std::optional<fs::path> path) {
   if (state == State::running) return;
   begin = std::chrono::system_clock::now();
   experiment_begin = std::chrono::steady_clock::now();
-  init_dataset();
+  init_dataset(path);
   state = State::running;
 }
 

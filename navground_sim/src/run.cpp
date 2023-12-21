@@ -39,6 +39,10 @@ int main(int argc, char *argv[]) {
       .help("Number of threads")
       .default_value(1)
       .scan<'i', int>();
+  parser.add_argument("--processes")
+      .help("Number of processes [only supported by run_py]")
+      .default_value(1)
+      .scan<'i', int>();
   try {
     parser.parse_args(argc, argv);
   } catch (const std::runtime_error &err) {
@@ -81,7 +85,13 @@ int main(int argc, char *argv[]) {
     experiment.number_of_runs = runs;
   }
   const bool should_display_tqdm = parser.get<bool>("tqdm");
+  const int p = parser.get<int>("processes");
   const int j = parser.get<int>("threads");
+  if (p != 1 && j == 1) {
+    std::cout << "Use run_py to parallelize over multiple process or specify "
+                 "the number of threads instead."
+              << std::endl;
+  }
   std::cout << "Performing experiment ..." << std::endl;
   if (should_display_tqdm) {
     tqdm bar;

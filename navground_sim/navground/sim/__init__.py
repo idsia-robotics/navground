@@ -1,5 +1,5 @@
 import functools
-from typing import Callable, List
+from typing import Any, Callable, List, Optional
 
 import navground.core
 import pkg_resources
@@ -17,6 +17,7 @@ from ._navground_sim import Task as _Task
 from ._navground_sim import (Wall, World, dump, load_agent, load_experiment,
                              load_scenario, load_state_estimation, load_task,
                              load_world)
+from .run_mp import run_mp
 
 
 class Scenario(_Scenario):
@@ -65,27 +66,39 @@ def load_py_plugins():
             entry_point.load()
 
 
-def _experiment_tqdm(self):
+def setup_tqdm(self,
+               bar: 'tqdm.tqdm',
+               number_of_runs: Optional[int] = None) -> None:
     """
-        Return a tqdm object that displays experiment progresses
+        Configure a tqdm object that displays the progress of an experiment
+
+        :param bar: a tqdm progress bar
+
+        :param number_of_runs: the number of runs to track. If not provided,
+        it will use :py:attr:`sim.Experiment.number_of_runs`.
     """
-    from tqdm.notebook import tqdm as tqdm_n
 
-    bar = tqdm_n(total=self.number_of_runs)
-    self.add_run_callback(lambda: bar.update(1))
-    return bar
+    bar.total = number_of_runs if number_of_runs is not None else self.number_of_runs
+    self.add_run_callback(lambda _: bar.update(1))
 
 
-Experiment.tqdm = _experiment_tqdm
+Experiment.setup_tqdm = setup_tqdm
+Experiment.run_mp = run_mp
 
 
 @functools.singledispatch
-def uses_python(item):
-    return "?"
+def uses_python(item) -> bool:
+    """
+    Check whether this item uses any Python-class
+    as behavior/kinematics/state estimation/task.
+
+    :param      item:  The item
+    """
+    return False
 
 
 @uses_python.register
-def _(agent: Agent):
+def _(agent: Agent) -> bool:
     return any((isinstance(agent.behavior, navground.core.Behavior),
                 isinstance(agent.kinematics, navground.core.Kinematics),
                 isinstance(agent.state_estimation,
@@ -93,19 +106,19 @@ def _(agent: Agent):
 
 
 @uses_python.register
-def _(world: World):
+def _(world: World) -> bool:
     return any(uses_python(agent) for agent in world.agents)
 
 
 @uses_python.register
-def _(scenario: _Scenario):
+def _(scenario: _Scenario) -> bool:
     world = World()
     scenario.init_world(world)
     return uses_python(world)
 
 
 @uses_python.register
-def _(experiment: Experiment):
+def _(experiment: Experiment) -> bool:
     return uses_python(experiment.scenario)
 
 

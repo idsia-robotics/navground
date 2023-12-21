@@ -48,9 +48,8 @@ struct NAVGROUND_SIM_EXPORT Experiment {
 
   // using Callback = std::function<void()>;
 
-
   /**
-   * The type of callbacks called during an experiment 
+   * The type of callbacks called during an experiment
    */
   using RunCallback = std::function<void(ExperimentalRun&)>;
 
@@ -184,16 +183,21 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * to \ref run_once.
    *
    * @param[in]  keep  Whether to keep runs in memory
-   * @param[in]  number_of_threads  How many threads to use. 
+   * @param[in]  number_of_threads  How many threads to use.
    * When more than one, runs will be distributed in parallel over the threads.
    * @param[in]  start_index  The index/seed of the first run.
    * If unspecified, it will use the experiment's \ref run_index
-   * @param[in]  number  The number of runs.
+   * @param[in]  number_of_runs  The number of runs.
    * If unspecified, it will use the experiment's \ref number_of_runs
+   * @param[in]  data_path  A path to set optionally as \ref file_path.
+   * If set, it will save an HDF5 file, but no YAML, to this path.
+   * If not set, \ref file_path will be automatically set to
+   * ``<save_directory>/data.h5`` if \ref save_directory is set.
    */
-  void run(bool keep = true, unsigned number_of_threads = 1, 
+  void run(bool keep = true, unsigned number_of_threads = 1,
            std::optional<unsigned> start_index = std::nullopt,
-           std::optional<unsigned> number = std::nullopt);
+           std::optional<unsigned> number_of_runs = std::nullopt,
+           std::optional<std::filesystem::path> data_path = std::nullopt);
 
   // void run_in_parallel(unsigned number_of_threads, bool keep = true,
   //                      std::optional<unsigned> start_index = std::nullopt,
@@ -235,9 +239,14 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * once.
    *
    * Calling \ref start is only effective once per experiment.
+   * 
+   * @param[in]  path  A path to set optionally as \ref file_path.
+   * If set, it will save an HDF5 file, but no YAML, to this path.
+   * If not set, \ref file_path will be automatically set to
+   * ``<save_directory>/data.h5`` if \ref save_directory is set.
    *
    */
-  void start();
+  void start(std::optional<std::filesystem::path> path = std::nullopt);
   /**
    * @brief      Signal to stop an experiment
    *
@@ -496,9 +505,16 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   /**
    * @brief      Save all recorded runs.
    *
-   * @param[in]  directory  A path to set optionally as \ref save_directory.
+   * @param[in]  directory  A path to set optionally as \ref save_directory
+   * where to save YAML and HDF5 file.
+   *
+   * @param[in]  path  A path to set optionally as \ref file_path.
+   * If set, it will save an HDF5 file, but no YAML, to this path.
+   * If not set, \ref file_path will be automatically set to
+   * ``<save_directory>/data.h5`` if \ref save_directory is set.
    */
-  void save(std::optional<std::filesystem::path> directory = std::nullopt);
+  void save(std::optional<std::filesystem::path> directory = std::nullopt,
+            std::optional<std::filesystem::path> path = std::nullopt);
 
  protected:
   State state;
@@ -507,7 +523,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
     return std::make_shared<World>();
   }
 
-  void init_dataset();
+  void init_dataset(std::optional<std::filesystem::path> path = std::nullopt);
   void finalize_dataset();
   std::unique_ptr<HighFive::Group> init_dataset_run(unsigned index);
   void store_yaml(const std::string& yaml) const;
@@ -530,14 +546,16 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   std::map<std::string, std::function<std::shared_ptr<BaseProbe>()>>
       _extra_probes;
 
-  void run_in_sequence(bool keep = true, 
-           std::optional<unsigned> start_index = std::nullopt,
-           std::optional<unsigned> number = std::nullopt);
+  void run_in_sequence(
+      bool keep = true, std::optional<unsigned> start_index = std::nullopt,
+      std::optional<unsigned> number = std::nullopt,
+      std::optional<std::filesystem::path> data_path = std::nullopt);
 
-  virtual void run_in_parallel(unsigned number_of_threads, bool keep = true,
-           std::optional<unsigned> start_index = std::nullopt,
-           std::optional<unsigned> number = std::nullopt);
-                 
+  virtual void run_in_parallel(
+      unsigned number_of_threads, bool keep = true,
+      std::optional<unsigned> start_index = std::nullopt,
+      std::optional<unsigned> number = std::nullopt,
+      std::optional<std::filesystem::path> data_path = std::nullopt);
 };
 
 }  // namespace navground::sim

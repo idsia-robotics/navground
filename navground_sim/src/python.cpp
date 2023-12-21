@@ -7,6 +7,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/stl/filesystem.h>
 
+#include <filesystem>
 #include <mutex>
 #include <thread>
 #include <vector>
@@ -368,12 +369,14 @@ struct PyExperiment : public Experiment {
     _py_probes.erase(seed);
   }
 
-  void run_in_parallel(unsigned number_of_threads, bool keep = true,
-                       std::optional<unsigned> start_index = std::nullopt,
-                       std::optional<unsigned> number = std::nullopt) override {
+  void run_in_parallel(
+      unsigned number_of_threads, bool keep = true,
+      std::optional<unsigned> start_index = std::nullopt,
+      std::optional<unsigned> number = std::nullopt,
+      std::optional<std::filesystem::path> data_path = std::nullopt) override {
     // std::cout << "run_in_parallel on " << number_of_threads << " threads"
     //           << std::endl;
-    start();
+    start(data_path);
     std::queue<unsigned> indices;
     const unsigned max_index =
         start_index.value_or(run_index) + number.value_or(number_of_runs);
@@ -406,7 +409,7 @@ struct PyExperiment : public Experiment {
         mutex.unlock();
         if (!sim_run) continue;
         // Run is parallelized!!
-        // Only works if there are no Python classes used 
+        // Only works if there are no Python classes used
         // as Behavior, Kinematics, StateEstimation, or Task
         sim_run->run();
         mutex.lock();
@@ -1491,11 +1494,13 @@ The array is empty if efficacy has not been recorded in the run.
            DOC(navground, sim, Experiment, run_once))
       .def("run", &Experiment::run, py::arg("keep") = true,
            py::arg("number_of_threads") = 1,
-           py::arg("start_index") = py::none(), py::arg("number") = py::none(),
+           py::arg("start_index") = py::none(), py::arg("number_of_runs") = py::none(),
+           py::arg("data_path") = py::none(),
            DOC(navground, sim, Experiment, run))
       // .def("init_run", &Experiment::init_run, py::arg("seed"), DOC(navground,
       // sim, Experiment, init_run))
-      .def("start", &Experiment::start, DOC(navground, sim, Experiment, start))
+      .def("start", &Experiment::start, py::arg("path") = py::none(),
+           DOC(navground, sim, Experiment, start))
       .def("stop", &Experiment::stop, DOC(navground, sim, Experiment, stop))
       .def("init_run", &Experiment::init_run, py::arg("seed"),
            py::arg("world") = py::none(),
@@ -1524,7 +1529,7 @@ It will be used to define HDF5 groups or datasets when saving data.
 :type probe: typing.Callable[[], navground.sim.BaseProbe]
 )doc")
       .def("save", &Experiment::save, py::arg("directory") = py::none(),
-           DOC(navground, sim, Experiment, save))
+           py::arg("path") = py::none(), DOC(navground, sim, Experiment, save))
       .def_property("duration", &Experiment::get_duration_ns, nullptr,
                     DOC(navground, sim, Experiment, property_duration_ns))
       .def_property("begin_time", &Experiment::get_begin_time, nullptr,

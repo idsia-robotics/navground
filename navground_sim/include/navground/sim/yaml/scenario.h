@@ -14,7 +14,7 @@ using navground::sim::AgentSampler;
 using navground::sim::Scenario;
 using navground::sim::World;
 
-#define _UNSAFE_GROUP_CASTING
+// #define _UNSAFE_GROUP_CASTING
 
 namespace YAML {
 

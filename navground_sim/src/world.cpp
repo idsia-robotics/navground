@@ -8,7 +8,7 @@ using navground::core::Frame;
 
 namespace navground::sim {
 
-void World::set_seed(unsigned value) { 
+void World::set_seed(unsigned value) {
   if (_seed != value) {
     _seed = value;
     _generator.seed(_seed);
@@ -17,10 +17,7 @@ void World::set_seed(unsigned value) {
 
 unsigned World::get_seed() const { return _seed; }
 
-RandomGenerator & World::get_random_generator() {
-  return _generator;
-}
-
+RandomGenerator &World::get_random_generator() { return _generator; }
 
 static bool wrap_lattice(ng_float_t &x, ng_float_t from, ng_float_t length) {
   const ng_float_t delta = x - from;
@@ -143,15 +140,15 @@ void World::add_agent(const std::shared_ptr<Agent> &agent) {
 }
 
 void World::add_wall(const LineSegment &wall) {
-  walls.push_back(wall);
-  add_entity(&walls.back());
+  walls.push_back(std::make_shared<Wall>(wall));
+  add_entity(walls.back().get());
   ready = false;
 }
 
 void World::add_wall(const Wall &wall) {
   if (entities.count(wall.uid) == 0) {
-    walls.push_back(wall);
-    add_entity(&walls.back());
+    walls.push_back(std::make_shared<Wall>(wall));
+    add_entity(walls.back().get());
     ready = false;
   } else {
     std::cerr << "This wall was already added!" << std::endl;
@@ -159,15 +156,15 @@ void World::add_wall(const Wall &wall) {
 }
 
 void World::add_obstacle(const Disc &obstacle) {
-  obstacles.push_back(obstacle);
-  add_entity(&obstacles.back());
+  obstacles.push_back(std::make_shared<Obstacle>(obstacle));
+  add_entity(obstacles.back().get());
   ready = false;
 }
 
 void World::add_obstacle(const Obstacle &obstacle) {
   if (entities.count(obstacle.uid) == 0) {
-    obstacles.push_back(obstacle);
-    add_entity(&obstacles.back());
+    obstacles.push_back(std::make_shared<Obstacle>(obstacle));
+    add_entity(obstacles.back().get());
     ready = false;
   } else {
     std::cerr << "This obstacle was already added!" << std::endl;
@@ -267,12 +264,14 @@ std::vector<Neighbor> World::get_neighbors(const Agent *agent,
 std::vector<Disc> World::get_discs() const {
   std::vector<Disc> discs(obstacles.size());
   std::transform(obstacles.cbegin(), obstacles.cend(), discs.begin(),
-                 [](const auto &o) { return o.disc; });
+                 [](const auto &o) { return o->disc; });
   return discs;
 }
 
 // TODO(Jerome) Should cache .. this needs to be fast
-const std::vector<Obstacle> &World::get_obstacles() const { return obstacles; }
+const std::vector<std::shared_ptr<Obstacle>> &World::get_obstacles() const {
+  return obstacles;
+}
 
 // TODO(Jerome): Add [obstacle] ghosts
 std::vector<Disc> World::get_static_obstacles_in_region(
@@ -286,13 +285,15 @@ std::vector<Disc> World::get_static_obstacles_in_region(
 }
 
 // TODO(Jerome) Should cache .. this needs to be fast
-const std::vector<Wall> &World::get_walls() const { return walls; }
+const std::vector<std::shared_ptr<Wall>> &World::get_walls() const {
+  return walls;
+}
 
 // TODO(Jerome) Should cache .. this needs to be fast
 std::vector<LineSegment> World::get_line_obstacles() const {
   std::vector<LineSegment> lines(walls.size());
   std::transform(walls.cbegin(), walls.cend(), lines.begin(),
-                 [](const auto &w) { return w.line; });
+                 [](const auto &w) { return w->line; });
   return lines;
 }
 
@@ -484,17 +485,17 @@ void World::update_static_strtree() {
       walls.size());
   // TODO(J): should coordinates be ordered?
   for (const auto &wall : walls) {
-    const Vector2 &p1 = wall.line.p1;
-    const Vector2 &p2 = wall.line.p2;
+    const Vector2 &p1 = wall->line.p1;
+    const Vector2 &p2 = wall->line.p2;
     auto &bb = static_envelops.emplace_back(p1[0], p2[0], p1[1], p2[1]);
-    walls_index->insert(&bb, (void *)(&wall));
+    walls_index->insert(&bb, (void *)(wall.get()));
   }
   for (const auto &obstacle : obstacles) {
-    const Vector2 &p = obstacle.disc.position;
-    const ng_float_t r = obstacle.disc.radius;
+    const Vector2 &p = obstacle->disc.position;
+    const ng_float_t r = obstacle->disc.radius;
     auto &bb =
         static_envelops.emplace_back(p[0] - r, p[0] + r, p[1] - r, p[1] + r);
-    obstacles_index->insert(&bb, (void *)(&obstacle));
+    obstacles_index->insert(&bb, (void *)(obstacle.get()));
   }
 }
 

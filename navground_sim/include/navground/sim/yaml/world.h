@@ -40,6 +40,24 @@ struct convert<Obstacle> {
 };
 
 template <>
+struct convert<std::shared_ptr<Obstacle>> {
+  static Node encode(const std::shared_ptr<Obstacle>& rhs) {
+    if (rhs) {
+      return convert<Obstacle>::encode(*rhs);
+    }
+    return Node();
+  }
+  static bool decode(const Node& node, std::shared_ptr<Obstacle>& rhs) {
+    rhs = std::make_shared<Obstacle>();
+    if (convert<Obstacle>::decode(node, *rhs)) {
+      return true;
+    }
+    rhs = nullptr;
+    return false;
+  }
+};
+
+template <>
 struct convert<Wall> {
   static Node encode(const Wall& rhs) {
     Node node = convert<LineSegment>::encode(rhs.line);
@@ -51,6 +69,24 @@ struct convert<Wall> {
       rhs.uid = node["uid"].as<unsigned>();
     }
     return convert<LineSegment>::decode(node, rhs.line);
+  }
+};
+
+template <>
+struct convert<std::shared_ptr<Wall>> {
+  static Node encode(const std::shared_ptr<Wall>& rhs) {
+    if (rhs) {
+      return convert<Wall>::encode(*rhs);
+    }
+    return Node();
+  }
+  static bool decode(const Node& node, std::shared_ptr<Wall>& rhs) {
+    rhs = std::make_shared<Wall>();
+    if (convert<Wall>::decode(node, *rhs)) {
+      return true;
+    }
+    rhs = nullptr;
+    return false;
   }
 };
 
@@ -243,12 +279,12 @@ struct convert_world {
     }
     if (node["obstacles"]) {
       for (const auto& c : node["obstacles"]) {
-        rhs.add_obstacle(c.as<Disc>());
+        rhs.add_obstacle(c.as<Obstacle>());
       }
     }
     if (node["walls"]) {
       for (const auto& c : node["walls"]) {
-        rhs.add_wall(c.as<LineSegment>());
+        rhs.add_wall(c.as<Wall>());
       }
     }
     return true;

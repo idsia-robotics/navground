@@ -869,9 +869,9 @@ Creates a rectangular region
            DOC(navground, sim, World, update_dry))
       .def("actuate", &World::actuate, py::arg("time_step"),
            DOC(navground, sim, World, actuate))
-      .def_property("time", &World::get_time, nullptr,
+      .def_property("time", &World::get_time, &World::set_time,
                     DOC(navground, sim, World, property_time))
-      .def_property("step", &World::get_step, nullptr,
+      .def_property("step", &World::get_step, &World::set_step,
                     DOC(navground, sim, World, property_step))
       .def("add_agent", &World::add_agent, py::keep_alive<1, 2>(),
            py::arg("agent"), DOC(navground, sim, World, add_agent))
@@ -906,7 +906,8 @@ Creates a rectangular region
            DOC(navground, sim, World, get_line_obstacles_in_region))
       .def("get_neighbors", &World::get_neighbors, py::arg("agent"),
            py::arg("distance"), DOC(navground, sim, World, get_neighbors))
-      .def_property("collisions", &World::get_collisions, nullptr,
+      .def_property("collisions", &World::get_collisions,
+                    &World::set_collisions,
                     DOC(navground, sim, World, property_collisions))
       .def("compute_safety_violation", &World::compute_safety_violation,
            py::arg("agent"),
@@ -1178,15 +1179,40 @@ of shape ``self.shape(key)``
       .def("index_of_agent", &ExperimentalRun::index_of_agent, py::arg("agent"),
            DOC(navground, sim, ExperimentalRun, index_of_agent))
       .def("add_probe", &ExperimentalRun::add_probe, py::keep_alive<1, 3>(),
-           py::arg("name"), py::arg("probe"))
-      .def_property("probes", &ExperimentalRun::get_probes_names, nullptr)
+           py::arg("name"), py::arg("probe"),
+           DOC(navground, sim, ExperimentalRun, add_probe))
+      .def_property("probes_names", &ExperimentalRun::get_probes_names, nullptr,
+                    DOC(navground, sim, ExperimentalRun, property_probes_names))
       .def(
           "get_record",
           [](const ExperimentalRun *run, const std::string &key) -> py::object {
             auto probe = run->get_probe<Probe>(key);
             if (probe) return as_array(*probe);
             return py::none();
-          })
+          },
+          py::arg("key"), R"doc(
+Gets recorded data.
+
+:param key: the name of the record
+:type key: str
+:return: read-only recorded data array or None if no data has been recorded for the given key
+:rtype: typing.Optional[np.ndarray]
+)doc")
+      .def(
+          "get_map_record",
+          [](const ExperimentalRun *run, const std::string &key) -> py::object {
+            auto probe = run->get_probe<MapProbe<int>>(key);
+            if (probe) return py::cast(as_array_map(*probe));
+            return py::none();
+          },
+          py::arg("key"), R"doc(
+Gets recorded data map.
+
+:param key: the name of the record
+:type key: str
+:return: read-only recorded data dictionary or None if no data map has been recorded for the given key
+:rtype: typing.Optional[Dict[int, np.ndarray]]
+)doc")
       .def_property(
           "times",
           [](const ExperimentalRun *run) {
@@ -1494,7 +1520,8 @@ The array is empty if efficacy has not been recorded in the run.
            DOC(navground, sim, Experiment, run_once))
       .def("run", &Experiment::run, py::arg("keep") = true,
            py::arg("number_of_threads") = 1,
-           py::arg("start_index") = py::none(), py::arg("number_of_runs") = py::none(),
+           py::arg("start_index") = py::none(),
+           py::arg("number_of_runs") = py::none(),
            py::arg("data_path") = py::none(),
            DOC(navground, sim, Experiment, run))
       // .def("init_run", &Experiment::init_run, py::arg("seed"), DOC(navground,

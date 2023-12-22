@@ -242,6 +242,28 @@ class NAVGROUND_SIM_EXPORT World {
   unsigned get_step() const { return step; }
 
   /**
+   * @brief      Sets the simulation time.
+   *
+   * @private
+   *
+   * For play-back
+   *
+   * @param[in]     The simulation time.
+   */
+  void set_time(ng_float_t value) { time = std::max<ng_float_t>(0, value); }
+
+  /**
+   * @brief      Sets the simulation step.
+   *
+   * @private
+   *
+   * For play-back
+   *
+   * @param[in]    The simulation step.
+   */
+  void set_step(unsigned value) { step = value; }
+
+  /**
    * @brief      Adds an agent to the world.
    *
    * @param[in]  agent  The agent
@@ -304,7 +326,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     All obstacles.
    */
-  const std::vector<Obstacle> &get_obstacles() const;
+  const std::vector<std::shared_ptr<Obstacle>> &get_obstacles() const;
   /**
    * @brief      Gets all disc shaped static obstacles in this world.
    *
@@ -324,7 +346,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     All walls.
    */
-  const std::vector<Wall> &get_walls() const;
+  const std::vector<std::shared_ptr<Wall>> &get_walls() const;
   /**
    * @brief      Gets all line obstacles in this world.
    *
@@ -361,6 +383,23 @@ class NAVGROUND_SIM_EXPORT World {
   const std::set<std::tuple<const Entity *, const Entity *>> &get_collisions()
       const {
     return collisions;
+  }
+
+  /**
+   * @brief      Sets the colliding pairs computed during the last simulation
+   * step.
+   *
+   * Use this method to update collisions computed externally or recorded.
+   *
+   * @private
+   *
+   * @param[in]     The colliding pair of entities.
+   */
+  void set_collisions(const std::set<std::tuple<Entity *, Entity *>> &value) {
+    collisions.clear();
+    for (const auto &[e1, e2] : value) {
+      record_collision(e1, e2);
+    }
   }
 
   /**
@@ -513,8 +552,8 @@ class NAVGROUND_SIM_EXPORT World {
   void add_entity(Entity *entity);
 
   std::vector<std::shared_ptr<Agent>> agents;
-  std::vector<Obstacle> obstacles;
-  std::vector<Wall> walls;
+  std::vector<std::shared_ptr<Obstacle>> obstacles;
+  std::vector<std::shared_ptr<Wall>> walls;
   std::vector<Ghost> ghosts;
   std::shared_ptr<geos::index::strtree::TemplateSTRtree<Agent *>> agent_index;
   std::shared_ptr<geos::index::strtree::TemplateSTRtree<Ghost *>> ghost_index;

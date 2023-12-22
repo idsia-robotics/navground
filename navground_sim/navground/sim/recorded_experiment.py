@@ -1,0 +1,322 @@
+import datetime
+import pathlib
+import re
+from typing import Dict, List, Optional, Tuple, Union
+
+import h5py
+import numpy as np
+from navground import core
+
+from . import Agent, World, load_experiment, load_world
+
+
+def _timedelta_from_ns(ns: int):
+    return datetime.timedelta(microseconds=ns / 1e3)
+
+
+class RecordedExperimentalRun:
+    """
+    A recorded experimental run.
+
+    All data is loaded from a HDF5 group
+    and served with the same getter methods and attributes
+    as :py:class:`navground.sim.ExperimentalRun` but limited to read-only.
+    All setters are explicitly blocked.
+
+    It holds a :py:class:`navground.sim.World`.
+    At initialization, the world is set to the state at the begin of the recorded run.
+    By repeatedly calling :py:meth:`do_step`, the world can be advanced,
+    setting the state according to the data stored in the HDF5 group.
+    """
+
+    _frozen = False
+    _mutable = {"_step"}
+    world: World
+    """The world that has been simulated"""
+
+    def __init__(self, group: h5py.Group):
+        """
+        Constructs a new instance.
+
+        :param      group:  The HDF5 group recorded by a :py:class:`navground.sim.ExperimentalRun`
+        """
+
+        self._group = group
+        self.reset()
+        self.collisions: Optional[h5py.Dataset] = group.get('collisions')
+        """The recorded collisions"""
+        self.commands: Optional[h5py.Dataset] = group.get('commands')
+        """The recorded commands"""
+        self.deadlocks: Optional[h5py.Dataset] = group.get('deadlocks')
+        """The recorded deadlocks"""
+        self.efficacy: Optional[h5py.Dataset] = group.get('efficacy')
+        """The recorded efficacy"""
+        self.commands: Optional[h5py.Dataset] = group.get('cmds')
+        """The recorded commands"""
+        self.poses: Optional[h5py.Dataset] = group.get('poses')
+        """The recorded poses"""
+        self.twists: Optional[h5py.Dataset] = group.get('twists')
+        """The recorded twists"""
+        self.times: Optional[h5py.Dataset] = group.get('times')
+        """The recorded times"""
+        self.targets: Optional[h5py.Dataset] = group.get('targets')
+        """The recorded targets"""
+        self.task_events: Optional[h5py.Group] = group.get('task_events')
+        """The recorded task events"""
+        self.safety_violations: Optional[h5py.Dataset] = group.get(
+            'safety_violations')
+        """The recorded safety violations"""
+        self.seed: int = group.attrs['seed']
+        """The seed used during to initialize the world and during the run"""
+        self.duration: datetime.timedelta = _timedelta_from_ns(
+            group.attrs['duration_ns'])
+        """The duration of the run"""
+        self.number_of_agents: int = len(self.world.agents)
+        """The number of agents recorded"""
+        self.probes_names: List[str] = list(group.keys())
+        """The names of all probes active during recording"""
+        self._final_sim_time = group.attrs['final_sim_time']
+        self.maximal_steps: int = group.attrs['maximal_steps']
+        """The maximal steps that could have been performed"""
+        self.recorded_steps: int = group.attrs['steps']
+        """The actual number of steps that have been performed"""
+        self.time_step: float = group.attrs['time_step']
+        """The time step used by the simulation"""
+        self._indices: Dict[int, int] = {
+            agent._uid: i
+            for i, agent in enumerate(self.world.agents)
+        }
+        """A map between agents' uids and their index in the records"""
+
+    def reset(self) -> None:
+        """
+        Reset the run to the state at the begin of the recorded run.
+        """
+        self.world = load_world(self._group.attrs['world'])
+        self.world.seed = self._group.attrs['seed']
+        self._step = -1
+
+    def get_record(self, key: str) -> Optional[h5py.Dataset]:
+        """
+        Gets recorded data.
+
+        :param key: the name of the record
+        :type key: str
+        :return: read-only recorded data array or None if no data
+                 has been recorded for the given key
+        """
+        value = self._group.get(key)
+        if isinstance(value, h5py.Dataset):
+            return value
+        return None
+
+    def get_record_map(self, key: str) -> Optional[h5py.Group]:
+        """
+        Gets recorded data map.
+
+        :param key: the name of the record
+        :type key: str
+        :return: read-only recorded data dictionary or None if no data map
+                 has been recorded for the given key
+        """
+        value = self._group.get(key)
+        if isinstance(value, h5py.Group):
+            return value
+        return None
+
+    def get_task_events(self, agent: Agent):
+        """
+        The recorded events logged by the task of an agent
+        as a HDF5 dataset of shape
+        ``(number events, size of event log)`` and dtype ``float``::
+
+          [[data_0, ...],
+           ...]
+
+        The dataset is empty if the agent's task has not been recorded in the run.
+
+        :param agent: The agent
+        :return: The events logged by the agent task
+        """
+        te = self.task_events
+        if te:
+            return te[agent._uid]
+        return np.array([])
+
+    def index_of_agent(self, agent: Agent) -> int:
+        """
+        Associate an index to a given agent.
+
+        Data related to agents is stored in this order.
+        For example, poses at a given time step are stored
+        as ``[[x_0, y_0, z_0], [x_1, y_1, z_1], ...]``
+
+        where the pose of agent a is at the index returned by this function.
+
+        :param  agent:  The agent
+        :return:    The index of data related to this agent.
+        """
+        return self._indices.get(agent._uid)
+
+    def go_to_step(self, step: int) -> bool:
+        """
+        Try to advance the world to a given recorded simulation step.
+
+        Depending if the data as been recorded, it will update:
+
+        - :py:attr:`navground.sim.World.collisions`,
+        - :py:attr:`navground.sim.World.time`
+        - :py:attr:`navground.sim.Agent.pose`
+        - :py:attr:`navground.sim.Agent.twist`
+        - :py:attr:`navground.sim.Agent.last_cmd`
+
+        :return: True if the operation was possible and False otherwise.
+
+        """
+        if step >= 0 and step < self.recorded_steps:
+            self._step = step
+            self.world.step = self._step
+            if self.poses:
+                for ps, agent in zip(self.poses[self._step],
+                                     self.world.agents):
+                    agent.pose = core.Pose2(ps[:2], ps[2])
+            if self.twists:
+                for ps, agent in zip(self.twists[self._step],
+                                     self.world.agents):
+                    agent.twist = core.Twist2(ps[:2], ps[2])
+            if self.commands:
+                for ps, agent in zip(self.commands[self._step],
+                                     self.world.agents):
+                    agent.last_cmd = core.Twist2(ps[:2], ps[2])
+            # if self.targets:
+            #     for ps, agent in zip(self.targets[self._step],
+            #                          self.world.agents):
+            #         if agent.behavior:
+            #             # TODO(Jerome): we are ignoring that values may be optional
+            #             agent.behavior.task.position = ps[:2]
+            #             agent.behavior.task.orientation = ps[2]
+            if self.collisions:
+                cs = self.collisions[(self.collisions[:, 0] == self._step)]
+                ucs = [(self.world.get_entity(e1), self.world.get_entity(e2))
+                       for _, e1, e2 in cs]
+                self.world.collisions = set([
+                    (e1, e2) for e1, e2 in ucs
+                    if e1 is not None and e2 is not None
+                ])
+
+            if self.times:
+                self.world.time = self.times[self._step]
+            else:
+                self.world.time = self.time_step * (self._step + 1)
+            return True
+        return False
+
+    def do_step(self) -> bool:
+        """
+        Try to advance the world by one recorded simulation step,
+        see :py:meth:`go_to_step`.
+
+        :return: True if the operation was possible and False otherwise.
+
+        """
+        return self.go_to_step(self._step + 1)
+
+    @property
+    def has_finished(self) -> bool:
+        """
+        Determines if play back has finished.
+
+        :returns:   True if there are no more steps to play back, False otherwise
+        """
+        return self._step >= self.recorded_steps - 1
+
+    def __setattr__(self, attr, value):
+        if self._frozen and attr not in self._mutable:
+            raise AttributeError("RecordedExperiment are frozen")
+        return super().__setattr__(attr, value)
+
+    @property
+    def bounds(self) -> Optional[Tuple[np.ndarray, np.ndarray]]:
+        """
+        Computes the rectangle in which agents are contained during the run
+
+        :returns: (lower-left corner, top-right corner)
+                  or None if no poses has been recorded
+        """
+        if not self.poses:
+            return None
+        a = np.min(self.poses, axis=(0, 1))[:2]
+        b = np.max(self.poses, axis=(0, 1))[:2]
+        return a, b
+
+
+class RecordedExperiment:
+    """
+    A recorded experiment.
+
+    All data is loaded from a HDF5
+    recorded by :py:class:`navground.sim.Experiment`,
+    and served with the same getter methods and attributes
+    as :py:class:`navground.sim.Experiment` but limited to read-only.
+
+    All setters are explicitly blocked.
+    """
+
+    _frozen = False
+
+    def __init__(self,
+                 path: Union[str, pathlib.Path] = '',
+                 file: Optional[h5py.File] = None):
+        """
+        Constructs a new instance.
+
+        :param      path:  An optional path to the HDF5 file to load
+        :param      file:  An optional HDF5 file. When not specified,
+                           the file is loaded from the path.
+        """
+
+        if file:
+            self._file = file
+        else:
+            self._file = h5py.File(path)
+
+        self.runs: Dict[int, RecordedExperimentalRun] = {
+            int(re.match("run_(\d+)", k).groups()[0]):
+            RecordedExperimentalRun(v)
+            for k, v in self._file.items()
+        }
+        """The recorded runs, indexed by their seed"""
+
+        self.has_finished = True
+        """Set to ``True``: the experiment is no more running"""
+        self.is_running = False
+        """Set to ``False``: the experiment is no more running"""
+        self.path = pathlib.Path(path)
+        """The path of the HDF5 file"""
+        self._experiment = load_experiment(self._file.attrs['experiment'])
+        self.name = self._experiment.name
+        """The experiment name"""
+        self.number_of_runs = self._experiment.number_of_runs
+        """The number of runs that the experiment should have performed"""
+        self.record_config = self._experiment.record_config
+        """The record config used by the experiment"""
+        self.run_index = self._experiment.run_index
+        """The first seed/index"""
+        self.save_directory = self._experiment.save_directory
+        """Where the experiment saved its result"""
+        self.steps = self._experiment.steps
+        """The maximal steps performed by the experiment"""
+        self.terminate_when_all_idle_or_stuck = self._experiment.terminate_when_all_idle_or_stuck
+        self.scenario = self._experiment.scenario
+        """The scenario of the experiment"""
+        self.begin_time = datetime.datetime.fromisoformat(
+            self._file.attrs['begin_time'])
+        """The time stamp of the experiment"""
+        self.duration = _timedelta_from_ns(self._file.attrs['duration_ns'])
+        """The duration of the experiment"""
+        self._frozen = True
+
+    def __setattr__(self, attr, value):
+        if self._frozen:
+            raise AttributeError("RecordedExperiment are frozen")
+        return super().__setattr__(attr, value)

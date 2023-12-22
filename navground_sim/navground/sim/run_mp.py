@@ -2,7 +2,7 @@ import itertools
 import multiprocessing as mp
 import pathlib
 import warnings
-from typing import Any, Callable, List, Optional
+from typing import Callable, List, Optional
 
 import h5py
 import numpy as np
@@ -37,7 +37,7 @@ def run_mp(experiment: sim.Experiment,
            number_of_runs: Optional[int] = None,
            start_index: Optional[int] = None,
            callback: Optional[Callable[[int], None]] = None,
-           bar: Any = None) -> None:
+           bar: Optional['tdqm.tqdm'] = None) -> None:
     """
 
     Run an experiment distributing its runs in parallel over multiple processes.
@@ -55,7 +55,7 @@ def run_mp(experiment: sim.Experiment,
     :param      number_of_runs:       The number of runs
     :param      start_index:          The index of the first run
     :param      callback:             An optional callback to run after each run is completed
-    :param      bar:                 An optional tqdm bar to display the progresses.
+    :param      bar:                  An optional tqdm bar to display the progresses.
 
     """
 

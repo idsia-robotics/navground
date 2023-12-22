@@ -8,41 +8,73 @@ from typing import Optional
 import h5py
 
 from .real_time import RealTimeSimulation
-from .recording import Recording, Run
+from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
 from .ui import view_path
-from .ui.web_ui import WebUI
+from .ui.web_ui import Rect, WebUI
 
 
 class RealTimeReplay(RealTimeSimulation):
+    """
+    Helper class to replay an :py:class:`navground.sim.RecordedExperimentalRun`
+    in real-time.
+    """
 
     def __init__(self,
-                 run: Run,
+                 run: RecordedExperimentalRun,
                  factor: float = 1.0,
-                 web_ui: Optional[WebUI] = None):
+                 web_ui: Optional[WebUI] = None,
+                 bounds: Optional[Rect] = None):
+        """
+        Constructs a new instance.
+
+        :param      run:     The recorded run
+        :param      factor:  The real time factor
+        :param      web_ui:  An optional web user interface to sync with
+        :param      bounds:     The region to display in the web_ui.
+                                If not set, it will compute it from
+                                the recorded poses.
+
+        The run should contain at least recorded poses, else it would
+        be useless to replay it.
+        """
         self._run = run
+        assert run.bounds is not None, "Will not replay a run without recorded poses"
         super().__init__(world=run.world,
                          time_step=run.time_step,
                          web_ui=web_ui,
                          factor=factor,
-                         bounds=run.bounds)
+                         bounds=bounds or run.bounds)
 
     def _step(self) -> bool:
         return self._run.do_step()
 
 
 def parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description='Replay an experiment in real-time')
+    parser = argparse.ArgumentParser(
+        description='Replay an experiment in real-time')
     parser.add_argument('path',
                         help='The path an HDF5 file that store an experiment',
                         type=str)
-    parser.add_argument('--factor',
-                        help='Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)',
+    parser.add_argument(
+        '--factor',
+        help=
+        'Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)',
+        type=float,
+        default=1.0)
+    parser.add_argument('--no-ui',
+                        help='Do not use a view',
+                        action='store_true')
+    parser.add_argument('--no-browser',
+                        help='Do not open a browser view',
+                        action='store_true')
+    parser.add_argument('--ui-fps',
+                        help='Maximal update rate of the view',
                         type=float,
-                        default=1.0)
-    parser.add_argument('--no-ui', help='Do not use a view', action='store_true')
-    parser.add_argument('--no-browser', help='Do not open a browser view', action='store_true')
-    parser.add_argument('--ui-fps', help='Maximal update rate of the view', type=float, default=25.0)
-    parser.add_argument('--background-color', help='View background color', type=str, default="lightgray")
+                        default=25.0)
+    parser.add_argument('--background-color',
+                        help='View background color',
+                        type=str,
+                        default="lightgray")
     return parser
 
 
@@ -60,10 +92,13 @@ async def run(file: h5py.File,
         await web_ui.set_background_color(background)
     else:
         web_ui = None
-    recording = Recording(file)
-    for run in recording:
+    recording = RecordedExperiment(file)
+    for run in recording.runs:
+        if run.poses is None or len(run.poses) == 0:
+            logging.warning(f"Run {run.seed} has no poses")
+            continue
         rt_sim = RealTimeReplay(run=run, factor=factor, web_ui=web_ui)
-        logging.info(f"Start run {run.index}")
+        logging.info(f"Start run {run.seed}")
         await rt_sim.run()
         sleep_percent = 100 * rt_sim.slept / rt_sim.total
         logging.info(f"Done. Total time: {rt_sim.total:.3f} s: "

@@ -74,6 +74,32 @@ def agent_msg(agent: Agent) -> EntityMsg:
 
 
 class WebUI:
+    """
+    Uses an HTML UI to display a world.
+    The state is synchronized through websockets.
+
+    Users should not use this class directly but delegate updating the view
+    to :py:class:`navground.sim.RealTimeSimulation` or
+    :py:class:`navground.sim.RealTimeReplay`:
+
+    >>> ui = WebUI(host='127.0.0.1')
+    >>> sim = RealTimeSimulation(..., web_ui=ui)
+    >>> await sim.run()
+
+    In case you are using it in a notebook, you should :py:class:`prepare`
+    before instantiating the HTML view, else the HTML view will not connect
+    to the websocket server:
+
+
+    >>> ui = WebUI(host='127.0.0.1')
+    >>> await ui.prepare()
+
+    >>> notebook_view(width=250)
+
+    >>> sim = RealTimeSimulation(..., web_ui=ui)
+    >>> await sim.run()
+
+    """
 
     _instances: Dict[int, 'WebUI'] = {}
 
@@ -83,6 +109,15 @@ class WebUI:
                  max_rate: float = 30,
                  display_deadlocks: bool = False,
                  display_collisions: bool = False) -> None:
+        """
+        Constructs a new instance.
+
+        :param      host:                The host address serving the HTML page.
+        :param      port:                The port serving the HTML page.
+        :param      max_rate:            The maximum synchronization rate [fps]
+        :param      display_deadlocks:   Whether to color deadlocked agents
+        :param      display_collisions:  Whether to color agents in collision
+        """
         self.port = port
         self.host = host
         self.queues: List[asyncio.Queue] = []
@@ -103,10 +138,15 @@ class WebUI:
         return self._prepared
 
     async def prepare(self) -> bool:
+        """
+        Initialize the websockets server
+
+        :returns:   If the server could be initialized
+        """
         if not self._prepared:
             try:
-                self.server = await websockets.server.serve(self.handle_ws, self.host,
-                                                            self.port)
+                self.server = await websockets.server.serve(
+                    self.handle_ws, self.host, self.port)
             except OSError as e:
                 print(e, file=sys.stderr)
                 return False
@@ -115,6 +155,9 @@ class WebUI:
 
     @property
     def number_of_client(self) -> int:
+        """
+        :returns:   The number of connected clients.
+        """
         return len(self.queues)
 
     async def handle_ws(self,
@@ -184,20 +227,22 @@ class WebUI:
     async def update_colors(self, world: World) -> None:
         rs = {}
         if self.display_collisions:
-            in_collision = set([a._uid for a in world.get_agents_in_collision(1.0)])
+            in_collision = set(
+                [a._uid for a in world.get_agents_in_collision(1.0)])
             for e in in_collision - self.in_collision:
                 rs[e] = {'fill': 'red'}
             for e in self.in_collision - in_collision:
-                rs[e] = {'fill': 'white'}
+                rs[e] = {'fill': '#e6e6e6'}
             self.in_collision = in_collision
         if self.display_deadlocks:
-            in_deadlock = set([a._uid for a in world.get_agents_in_deadlock(5.0)])
+            in_deadlock = set(
+                [a._uid for a in world.get_agents_in_deadlock(5.0)])
             for e in in_deadlock - self.in_deadlock:
                 if e not in rs:
                     rs[e] = {'fill': 'blue'}
             for e in self.in_deadlock - in_deadlock:
                 if e not in rs:
-                    rs[e] = {'fill': 'white'}
+                    rs[e] = {'fill': '#e6e6e6'}
             self.in_deadlock = in_deadlock
         if rs:
             await self.send(['s', rs])

@@ -17,6 +17,7 @@ from ._navground_sim import Task as _Task
 from ._navground_sim import (Wall, World, dump, load_agent, load_experiment,
                              load_scenario, load_state_estimation, load_task,
                              load_world)
+from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
 from .run_mp import run_mp
 
 
@@ -75,7 +76,8 @@ def setup_tqdm(self,
         :param bar: a tqdm progress bar
 
         :param number_of_runs: the number of runs to track. If not provided,
-        it will use :py:attr:`sim.Experiment.number_of_runs`.
+                               it will use :py:attr:`sim.Experiment.number_of_runs`.
+
     """
 
     bar.total = number_of_runs if number_of_runs is not None else self.number_of_runs
@@ -128,5 +130,5 @@ __all__ = [
     'load_agent', 'load_state_estimation', 'load_task', 'load_world',
     'load_scenario', 'load_experiment', 'load_py_plugins',
     'registered_property', 'Sensor', 'ExperimentalRun', 'RecordConfig',
-    'Probe', 'MapProbe'
+    'Probe', 'MapProbe', 'RecordedExperiment', 'RecordedExperimentalRun'
 ]

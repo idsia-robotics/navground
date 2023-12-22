@@ -72,7 +72,7 @@ def main() -> None:
             with tqdm(total=experiment.number_of_runs) as bar:
                 if arg.processes > 1:
                     experiment.run_mp(number_of_processes=arg.processes,
-                                      tqdm=bar)
+                                      bar=bar)
                 else:
                     experiment.add_run_callback(lambda _: bar.update(1))
                     experiment.run(keep=False, number_of_threads=arg.threads)

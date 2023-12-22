@@ -99,7 +99,16 @@ def html_for_world(world: Optional[World] = None,
         **dims)
 
 
-def notebook_view(width: int = 600, **kwargs: Any):
+def notebook_view(width: int = 600, **kwargs: Any) -> HTML:
+    """
+    Display an empty world view in a jupyter notebook ready for a
+    a :py:func:`navground.sim.ui.web_ui.WebUI` to keep it up-to-date.
+
+    :param      width:   The width in pixels
+    :param      kwargs:  Additional keywords passed to :py:func:`html_for_world`
+
+    :returns:   A HTML view
+    """
     return HTML(
         html_for_world(world=None,
                        with_websocket=True,

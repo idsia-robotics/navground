@@ -701,7 +701,6 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Behavior, feasible_angular_speed))
       .def("feasible_twist", &Behavior::feasible_twist,
            DOC(navground, core, Behavior, feasible_twist))
-
       .def("estimate_time_until_target_satisfied",
            &Behavior::estimate_time_until_target_satisfied,
            DOC(navground, core, Behavior, estimate_time_until_target_satisfied))
@@ -716,7 +715,11 @@ PYBIND11_MODULE(_navground, m) {
       .def("wheel_speeds_from_twist", &Behavior::wheel_speeds_from_twist,
            DOC(navground, core, Behavior, wheel_speeds_from_twist))
       .def("twist_from_wheel_speeds", &Behavior::twist_from_wheel_speeds,
-           DOC(navground, core, Behavior, twist_from_wheel_speeds));
+           DOC(navground, core, Behavior, twist_from_wheel_speeds))
+      .def_property("efficacy", &Behavior::get_efficacy, nullptr,
+                    DOC(navground, core, Behavior, property_efficacy))
+      .def_property("is_stuck", &Behavior::is_stuck, nullptr,
+                    DOC(navground, core, Behavior, property_is_stuck));
 
   m.def("behavior_has_geometric_state", [](Behavior *obj) {
     return (dynamic_cast<GeometricState *>(obj->get_environment_state())) !=

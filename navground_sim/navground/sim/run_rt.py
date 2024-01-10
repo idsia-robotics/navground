@@ -2,10 +2,11 @@ import argparse
 import asyncio
 import logging
 import os
+import pathlib
+import random
 import sys
 import tempfile
 import webbrowser
-import pathlib
 from typing import Optional
 
 from . import Scenario, World, load_experiment, load_py_plugins
@@ -34,9 +35,12 @@ async def run(scenario: Scenario,
               background: str = 'lightgray',
               bounds: Optional[Rect] = None,
               display_deadlocks: bool = False,
-              display_collisions: bool = False) -> None:
+              display_collisions: bool = False,
+              seed: int = -1) -> None:
     world = World()
-    scenario.init_world(world)
+    if seed < 0:
+        seed = random.randint(0, 2**31)
+    scenario.init_world(world, seed=seed)
     world.run(1, 0.0)
     if with_ui:
         web_ui = WebUI(host='127.0.0.1',
@@ -83,6 +87,10 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument('--no-ui',
                         help='Do not use a view',
                         action='store_true')
+    parser.add_argument('--seed',
+                        help='The random seed of the simulation. If negative, it will be picked randomly',
+                        default=-1,
+                        type=int)
     parser.add_argument('--port',
                         help='The websocket port',
                         default=8000)
@@ -160,6 +168,7 @@ def main() -> None:
             background=arg.background_color,
             bounds=bounds,
             display_deadlocks=arg.display_deadlocks,
-            display_collisions=arg.display_collisions))
+            display_collisions=arg.display_collisions,
+            seed=arg.seed))
     if fp:
         fp.close()

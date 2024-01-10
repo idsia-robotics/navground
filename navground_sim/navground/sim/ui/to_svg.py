@@ -85,7 +85,9 @@ def svg_g_use(proto: str,
         f'<g {flat(attributes)} transform="translate({cx}, {cy}) rotate({angle})">'
         f'<use xlink:href="#{proto}" transform="scale({r}, {r})"/>')
     if shape:
-        g += f'<circle cx="0" cy="0" r="{r}" class="shape"/></g>'
+        g += f'<circle cx="0" cy="0" r="{r}" class="shape"/>'
+    g += '</g>'
+    return g
 
 
 def entity_attributes(e: Entity,

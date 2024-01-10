@@ -78,34 +78,28 @@ class WebUI:
     Displays the world on HTML client views.
     The state is synchronized through websockets.
 
-    >>> # initialize and populate a world
-    >>> world = ...
+    After creating an instance, you need to call :py:class:`prepare`
+    to finalize the initialization of the websocket server,
+    else the HTML clients will not be able to connect.
+
     >>> ui = WebUI()
+    >>> await ui.prepare()
     >>> # initialize the views with the current state of the world
+    >>> world = ...
     >>> await ui.init(world)
     >>> # update the world, for example with
     >>> world.update(0.1)
     >>> # synchronize the views
     >>> await ui.update(world)
-    >>> # set entity attributes, for example to change the color of the first agent:
+    >>> # set entity attributes, for example to change the color of the first agent
     >>> await ui.set(world.agents[0], style="fill:red")
-
-    In case you are using WebUI in a notebook, you should call :py:class:`prepare`
-    before instantiating the HTML view, else the HTML view will not connect
-    to the websocket server:
-
-    >>> ui = WebUI(host='127.0.0.1')
-    >>> await ui.prepare()
-    >>> notebook_view(width=250)
-
-    >>> await ui.init(world)
-
 
     In general, users will not use this class directly but delegate updating the view
     to :py:class:`navground.sim.RealTimeSimulation` or
     :py:class:`navground.sim.RealTimeReplay`, like the following:
 
     >>> ui = WebUI(host='127.0.0.1')
+    >>> await ui.prepare()
     >>> sim = RealTimeSimulation(..., web_ui=ui)
     >>> await sim.run()
     """
@@ -117,7 +111,8 @@ class WebUI:
                  port: int = 8000,
                  max_rate: float = 30,
                  display_deadlocks: bool = False,
-                 display_collisions: bool = False) -> None:
+                 display_collisions: bool = False,
+                 callback: Optional[Callable[[World], None]] = None) -> None:
         """
         Constructs a new instance.
 
@@ -141,6 +136,7 @@ class WebUI:
         self.display_deadlocks = display_deadlocks
         self.in_collision: Set[int] = set()
         self.in_deadlock: Set[int] = set()
+        self.update_callback = callback
 
     @property
     def is_ready(self) -> bool:
@@ -229,6 +225,8 @@ class WebUI:
         self.last_update_stamp = stamp
         await self.update_poses(world)
         await self.update_colors(world)
+        if self.update_callback:
+            await self.update_callback(world)
 
     async def update_poses(self, world: World) -> None:
         msg = ['m', {a._uid: pose_msg(a) for a in world.agents}]

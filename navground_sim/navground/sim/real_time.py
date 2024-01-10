@@ -56,8 +56,7 @@ class RealTimeSimulation:
             Initializes the simulation and the UI
         """
         if self.web_ui:
-            await self.web_ui.init(self.world)
-            await self.web_ui.update_world_size(self.world, bounds=self.bounds)
+            await self.web_ui.init(self.world, bounds=self.bounds)
         self._initialized = True
         self._stop = False
 

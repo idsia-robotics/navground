@@ -3,14 +3,15 @@ import asyncio
 import logging
 import os
 import sys
+import tempfile
 import webbrowser
-from pathlib import Path
+import pathlib
 from typing import Optional
 
 from . import Scenario, World, load_experiment, load_py_plugins
 from .real_time import RealTimeSimulation
+from .ui import html_for_world
 from .ui.web_ui import Rect, WebUI
-from .ui import view_path
 
 
 def until_done(world: World, max_duration: float = -1):
@@ -18,7 +19,7 @@ def until_done(world: World, max_duration: float = -1):
     def f():
         done = [a.task.done() for a in world.agents if a.task]
         return ((done and all(done))
-                 or (max_duration > 0 and world.time > max_duration))
+                or (max_duration > 0 and world.time > max_duration))
 
     return f
 
@@ -29,6 +30,7 @@ async def run(scenario: Scenario,
               time_step: float = 0.04,
               ui_fps: float = 25.0,
               max_duration: float = -1,
+              port: int = 8000,
               background: str = 'lightgray',
               bounds: Optional[Rect] = None,
               display_deadlocks: bool = False,
@@ -37,10 +39,11 @@ async def run(scenario: Scenario,
     scenario.init_world(world)
     world.run(1, 0.0)
     if with_ui:
-        web_ui = WebUI(
-            host='127.0.0.1', max_rate=ui_fps,
-            display_deadlocks=display_deadlocks,
-            display_collisions=display_collisions)
+        web_ui = WebUI(host='127.0.0.1',
+                       port=port,
+                       max_rate=ui_fps,
+                       display_deadlocks=display_deadlocks,
+                       display_collisions=display_collisions)
         await web_ui.prepare()
         logging.info("Waiting for a client")
         while web_ui.number_of_client == 0:
@@ -65,23 +68,54 @@ async def run(scenario: Scenario,
 
 def parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description='Runs an experiment using the Python interpreter in real-time')
-    parser.add_argument('YAML',
-                        help='YAML string, or path to a YAML file, describing an experiment',
-                        type=str)
-    parser.add_argument('--factor',
-                        help='Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)',
+        description=
+        'Runs an experiment using the Python interpreter in real-time')
+    parser.add_argument(
+        'YAML',
+        help='YAML string, or path to a YAML file, describing an experiment',
+        type=str)
+    parser.add_argument(
+        '--factor',
+        help=
+        'Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)',
+        type=float,
+        default=1.0)
+    parser.add_argument('--no-ui',
+                        help='Do not use a view',
+                        action='store_true')
+    parser.add_argument('--port',
+                        help='The websocket port',
+                        default=8000)
+    parser.add_argument('--width',
+                        help='Size of the view in pixels',
+                        default=500,
+                        type=int)
+    parser.add_argument('--no-browser',
+                        help='Do not open a browser view',
+                        action='store_true')
+    parser.add_argument('--ui-fps',
+                        help='Maximal update rate of the view',
                         type=float,
-                        default=1.0)
-    parser.add_argument('--no-ui', help='Do not use a view', action='store_true')
-    parser.add_argument('--no-browser', help='Do not open a browser view', action='store_true')
-    parser.add_argument('--ui-fps', help='Maximal update rate of the view', type=float, default=25.0)
-    parser.add_argument('--background-color', help='View background color', type=str, default="lightgray")
-    parser.add_argument('--area', help='Minimal area rendered in the view', type=float,
-                        default=(0.0, 0.0, 0.0, 0.0), nargs=4,
+                        default=25.0)
+    parser.add_argument('--background-color',
+                        help='View background color',
+                        type=str,
+                        default="lightgray")
+    parser.add_argument('--area',
+                        help='Minimal area rendered in the view',
+                        type=float,
+                        default=(0.0, 0.0, 0.0, 0.0),
+                        nargs=4,
                         metavar=("MIN_X", "MIN_Y", "MAX_X", "MAX_Y"))
-    parser.add_argument('--display-deadlocks', help='Color deadlocked agent in blue', action='store_true')
-    parser.add_argument('--display-collisions', help='Color deadlocked agent in red', action='store_true')
+    parser.add_argument('--display-shape',
+                        help='Display effective agent shape',
+                        action='store_true')
+    parser.add_argument('--display-deadlocks',
+                        help='Color deadlocked agent in blue',
+                        action='store_true')
+    parser.add_argument('--display-collisions',
+                        help='Color deadlocked agent in red',
+                        action='store_true')
     return parser
 
 
@@ -95,8 +129,19 @@ def main() -> None:
     else:
         yaml = arg.YAML
     should_open_view = not (arg.no_ui or arg.no_browser)
+
     if should_open_view:
-        webbrowser.open(f"file://{view_path}")
+        d = pathlib.Path(tempfile.mkdtemp())
+        f = d / "world.html"
+        with open(f, "w+") as fp:
+            data = html_for_world(
+                with_websocket=True, width=arg.width, port=arg.port,
+                display_shape=arg.display_shape)
+            fp.write(data)
+        webbrowser.open(f"file://{f}")
+    else:
+        fp = None
+
     try:
         experiment = load_experiment(yaml)
     except RuntimeError as e:
@@ -111,8 +156,10 @@ def main() -> None:
             time_step=experiment.time_step,
             max_duration=experiment.steps * experiment.time_step,
             ui_fps=arg.ui_fps,
+            port=arg.port,
             background=arg.background_color,
             bounds=bounds,
             display_deadlocks=arg.display_deadlocks,
-            display_collisions=arg.display_collisions
-            ))
+            display_collisions=arg.display_collisions))
+    if fp:
+        fp.close()

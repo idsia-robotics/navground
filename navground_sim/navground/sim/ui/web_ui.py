@@ -1,14 +1,14 @@
 import asyncio
 import json
 import logging
-import time
-from typing import Any, Callable, Dict, List, Optional, Tuple, Set
 import sys
+import time
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 
 import websockets
 import websockets.server
 
-from .. import Agent, Obstacle, Wall, World, Entity
+from .. import Agent, Entity, Obstacle, Wall, World
 from .to_svg import Rect, size
 
 PoseMsg = Tuple[float, float, float]
@@ -75,30 +75,39 @@ def agent_msg(agent: Agent) -> EntityMsg:
 
 class WebUI:
     """
-    Uses an HTML UI to display a world.
+    Displays the world on HTML client views.
     The state is synchronized through websockets.
 
-    Users should not use this class directly but delegate updating the view
-    to :py:class:`navground.sim.RealTimeSimulation` or
-    :py:class:`navground.sim.RealTimeReplay`:
+    >>> # initialize and populate a world
+    >>> world = ...
+    >>> ui = WebUI()
+    >>> # initialize the views with the current state of the world
+    >>> await ui.init(world)
+    >>> # update the world, for example with
+    >>> world.update(0.1)
+    >>> # synchronize the views
+    >>> await ui.update(world)
+    >>> # set entity attributes, for example to change the color of the first agent:
+    >>> await ui.set(world.agents[0], style="fill:red")
 
-    >>> ui = WebUI(host='127.0.0.1')
-    >>> sim = RealTimeSimulation(..., web_ui=ui)
-    >>> await sim.run()
-
-    In case you are using it in a notebook, you should :py:class:`prepare`
+    In case you are using WebUI in a notebook, you should call :py:class:`prepare`
     before instantiating the HTML view, else the HTML view will not connect
     to the websocket server:
 
-
     >>> ui = WebUI(host='127.0.0.1')
     >>> await ui.prepare()
-
     >>> notebook_view(width=250)
 
+    >>> await ui.init(world)
+
+
+    In general, users will not use this class directly but delegate updating the view
+    to :py:class:`navground.sim.RealTimeSimulation` or
+    :py:class:`navground.sim.RealTimeReplay`, like the following:
+
+    >>> ui = WebUI(host='127.0.0.1')
     >>> sim = RealTimeSimulation(..., web_ui=ui)
     >>> await sim.run()
-
     """
 
     _instances: Dict[int, 'WebUI'] = {}
@@ -185,16 +194,16 @@ class WebUI:
             cls._instances[port] = object.__new__(cls)
         return cls._instances[port]
 
-    async def update_world_size(self,
-                                world: World,
-                                bounds: Optional[Rect] = None) -> None:
-        _, _, view_box, _ = size(world, bounds=bounds)
+    async def update_size(self,
+                          world: Optional[World] = None,
+                          bounds: Optional[Rect] = None) -> None:
+        _, _, view_box, _ = size(world=world, bounds=bounds)
         msg = ('v', view_box)
         data = json.dumps(msg)
         for queue in self.queues:
             await queue.put(data)
 
-    async def init(self, world: World) -> None:
+    async def init(self, world: World, bounds: Optional[Rect] = None) -> None:
         reset_msg = ('r', None)
         entities = {}
         for wall in world.walls:
@@ -208,6 +217,7 @@ class WebUI:
             data = json.dumps(msg)
             for queue in self.queues:
                 await queue.put(data)
+        await self.update_size(world=world, bounds=bounds)
 
     async def update(self, world: World) -> None:
         if not self.queues:
@@ -230,19 +240,22 @@ class WebUI:
             in_collision = set(
                 [a._uid for a in world.get_agents_in_collision(1.0)])
             for e in in_collision - self.in_collision:
-                rs[e] = {'fill': 'red'}
+                rs[e] = {'style': 'fill:red'}
             for e in self.in_collision - in_collision:
-                rs[e] = {'fill': '#e6e6e6'}
+                a = world.get_entity(e)
+                if isinstance(a, Agent):
+                    rs[e] = {'style': '' if not a.color else f'fill:{a.color}'}
             self.in_collision = in_collision
         if self.display_deadlocks:
             in_deadlock = set(
                 [a._uid for a in world.get_agents_in_deadlock(5.0)])
             for e in in_deadlock - self.in_deadlock:
                 if e not in rs:
-                    rs[e] = {'fill': 'blue'}
+                    rs[e] = {'style': 'fill:blue'}
             for e in self.in_deadlock - in_deadlock:
-                if e not in rs:
-                    rs[e] = {'fill': '#e6e6e6'}
+                a = world.get_entity(e)
+                if isinstance(a, Agent):
+                    rs[e] = {'style': '' if not a.color else f'fill:{a.color}'}
             self.in_deadlock = in_deadlock
         if rs:
             await self.send(['s', rs])

@@ -1,13 +1,13 @@
 import os
 import shutil
 from collections import ChainMap
-from typing import Any, Dict, List, Mapping, Optional, cast
+from typing import Any, List, Mapping, Optional
 
 import jinja2
 from IPython.display import HTML
 
 from .. import World
-from .to_svg import svg_for_world
+from .to_svg import _svg_for_world
 
 folder = os.path.dirname(os.path.realpath(__file__))
 template_folder = os.path.join(folder, 'templates')
@@ -58,13 +58,15 @@ notebook_count = 0
 
 def html_for_world(world: Optional[World] = None,
                    world_name: str = '',
+                   include_default_style: bool = True,
+                   external_style_path: str = '',
                    style: str = '',
-                   include_style_path: Optional[str] = None,
                    include_script_path: Optional[str] = None,
                    with_websocket: bool = False,
                    notebook: bool = False,
                    port: int = 8000,
                    width: float = 600,
+                   display_shape: bool = False,
                    **kwargs: Any) -> str:
     if notebook:
         global notebook_count
@@ -72,30 +74,25 @@ def html_for_world(world: Optional[World] = None,
         notebook_count += 1
     else:
         prefix = ''
-    if not world:
-        svg_world = ''
-        dims = {
-            "viewBox": "0 0 1 1",
-            "width": f"{width}",
-            "height": f"{width}"
-        }
-    else:
-        svg_world, dims = svg_for_world(world,
-                                        standalone=False,
-                                        prefix=prefix,
-                                        width=width,
-                                        **kwargs)
-        dims = cast(Dict[str, str], dims)
+    svg, dims = _svg_for_world(world=world,
+                               standalone=False,
+                               prefix=prefix,
+                               width=width,
+                               external_style_path='',
+                               style='',
+                               include_default_style=include_default_style,
+                               **kwargs)
     return jinjia_env.get_template('world.html').render(
-        svg_world=svg_world,
+        svg=svg,
         world_name=world_name,
         style=style,
-        include_style_path=include_style_path,
+        external_style_path=external_style_path,
         include_script_path=include_script_path,
         with_websocket=with_websocket,
         notebook=notebook,
         prefix=prefix,
         port=port,
+        display_shape=display_shape,
         **dims)
 
 
@@ -113,4 +110,5 @@ def notebook_view(width: int = 600, **kwargs: Any) -> HTML:
         html_for_world(world=None,
                        with_websocket=True,
                        width=width,
-                       notebook=True, **kwargs))
+                       notebook=True,
+                       **kwargs))

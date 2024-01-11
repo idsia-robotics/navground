@@ -222,7 +222,7 @@ Twist2 HLBehavior::compute_cmd(ng_float_t dt, std::optional<Frame> frame) {
   Twist2 old_actuated_twist = actuated_twist;
   Twist2 cmd_twist = Behavior::compute_cmd(dt, frame);
   if (tau > 0) {
-    cmd_twist = to_frame(relax(old_actuated_twist, cmd_twist, dt), twist.frame);
+    cmd_twist = to_frame(relax(old_actuated_twist, cmd_twist, dt), cmd_twist.frame);
   }
   if (assume_cmd_is_actuated) {
     actuated_twist = cmd_twist;

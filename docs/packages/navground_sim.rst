@@ -73,7 +73,7 @@ Lists registered components (behaviors, kinematics, state estimations, tasks, an
 
 
 .. argparse::
-   :module: navground.sim.list
+   :module: navground.sim.info
    :func: parser
    :prog: info|info_py
    :nodescription:
@@ -298,9 +298,9 @@ Replays an experiment in real-time. You can visualize the world in a browser vie
 
 
 .. argparse::
-   :module: navground.sim.run_rt
+   :module: navground.sim.replay
    :func: parser
-   :prog: run_rt
+   :prog: replay
    :nodescription:
 
 Example

@@ -73,7 +73,7 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument(
         '--record_video',
         help=
-        'The path to a folder where to save videos instead of replaying in an UI',
+        'The path to a folder where to save videos instead of replaying in an UI. If left empty, it will not create videos.',
         type=str,
         default='')
     parser.add_argument('--no-browser',
@@ -100,7 +100,7 @@ async def run(file: h5py.File,
               with_ui: bool = True,
               factor: float = 1.0,
               ui_fps: float = 25.0,
-              background: str = 'lightgray',
+              background_color: str = 'snow',
               seed: int = -1,
               video: Union[str, pathlib.Path] = '') -> None:
     if with_ui:
@@ -109,7 +109,7 @@ async def run(file: h5py.File,
         logging.info("Waiting for a client")
         while web_ui.number_of_client == 0:
             await asyncio.sleep(1.0)
-        await web_ui.set_background_color(background)
+        await web_ui.set_background_color(background_color)
     else:
         web_ui = None
     recording = RecordedExperiment(file=file)
@@ -128,7 +128,7 @@ async def run(file: h5py.File,
             record_video_from_run(path,
                                   run,
                                   factor=factor,
-                                  background_color=background)
+                                  background_color=background_color)
         else:
             rt_sim = RealTimeReplay(run=run, factor=factor, web_ui=web_ui)
             logging.info(f"Start run {run.seed}")
@@ -159,4 +159,5 @@ def main() -> None:
             factor=arg.factor,
             ui_fps=arg.ui_fps,
             seed=arg.seed,
-            video=arg.record_video))
+            video=arg.record_video,
+            background_color=arg.background_color))

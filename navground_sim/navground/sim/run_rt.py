@@ -32,7 +32,7 @@ async def run(scenario: Scenario,
               ui_fps: float = 25.0,
               max_duration: float = -1,
               port: int = 8000,
-              background: str = 'lightgray',
+              background_color: str = 'lightgray',
               bounds: Optional[Rect] = None,
               display_deadlocks: bool = False,
               display_collisions: bool = False,
@@ -54,7 +54,7 @@ async def run(scenario: Scenario,
         logging.info("Waiting for a client")
         while web_ui.number_of_client == 0:
             await asyncio.sleep(1.0)
-        await web_ui.set_background_color(background)
+        await web_ui.set_background_color(background_color)
     else:
         web_ui = None
     rt_sim = RealTimeSimulation(world,
@@ -173,7 +173,7 @@ def main(decorate: Optional[Decorate] = None) -> None:
             max_duration=experiment.steps * experiment.time_step,
             ui_fps=arg.ui_fps,
             port=arg.port,
-            background=arg.background_color,
+            background_color=arg.background_color,
             bounds=bounds,
             display_deadlocks=arg.display_deadlocks,
             display_collisions=arg.display_collisions,

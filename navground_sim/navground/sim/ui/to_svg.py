@@ -146,15 +146,47 @@ def svg_for_agent(agent: Agent,
                      shape)
 
 
-def svg_for_world(*args: Any, **kwargs: Any) -> str:
-    return _svg_for_world(*args, **kwargs)[0]
+def svg_for_world(world: Optional[World] = None,
+                  precision: int = 3,
+                  decorate: Optional[Decorate] = None,
+                  bounds: Optional[Rect] = None,
+                  width: float = 600,
+                  min_height: float = 100,
+                  relative_margin: float = 0.05,
+                  background_color: str = 'snow',
+                  display_shape: bool = False) -> str:
+    """
+    Draw the world as a SVG.
+
+    :param      world:                  The world to display
+    :param      precision:              The number of decimal digits for poses
+    :param      decorate:               A function to decorate entities.
+                                        Should return a dictionary of valid SVG style attributes, e.g.
+                                        ``{"fill": "red"}`` for a given entity.
+    :param      bounds:                 The rectangular area to be displayed
+    :param      width:                  The width in pixels
+    :param      min_height:             The minimum height in pixels
+    :param      relative_margin:        The relative margin
+    :param      background_color:       A valid SVG color for the background
+    :param      display_shape:          Whether to display the agent circular shape
+
+    :returns:   An SVG string
+    """
+    return _svg_for_world(world=world,
+                          precision=precision,
+                          decorate=decorate,
+                          bounds=bounds,
+                          width=width,
+                          min_height=min_height,
+                          relative_margin=relative_margin,
+                          background_color=background_color,
+                          display_shape=display_shape)[0]
 
 
 def _svg_for_world(world: Optional[World] = None,
                    prefix: str = '',
                    precision: int = 2,
                    decorate: Optional[Decorate] = None,
-                   interactive: bool = False,
                    standalone: bool = True,
                    bounds: Optional[Rect] = None,
                    width: float = 600,

@@ -1,12 +1,12 @@
 import pathlib
-from typing import Any, Optional, Union
+from typing import Any, Union
 
 import cairosvg
 import moviepy.editor as mpy
 import numpy as np
 
 from .. import RecordedExperimentalRun, World
-from .to_svg import Decorate, Rect, svg_for_world
+from .to_svg import svg_for_world
 
 
 def _surface_to_npim(surface):
@@ -31,11 +31,8 @@ def make_video(world: World,
                time_step: float,
                duration: float,
                factor: float = 1.0,
-               width: int = 640,
-               bounds: Optional[Rect] = None,
-               precision: int = 4,
                background_color: str = "snow",
-               decorate: Optional[Decorate] = None) -> mpy.VideoClip:
+               **kwargs: Any) -> mpy.VideoClip:
     t0 = world.time
 
     def make_frame(t: float) -> np.ndarray:
@@ -45,11 +42,7 @@ def make_video(world: World,
         dt = t - world.time - t0
         if dt > 0:
             world.update(dt)
-        svg_data = svg_for_world(world,
-                                 width=width,
-                                 bounds=bounds,
-                                 precision=precision,
-                                 decorate=decorate)
+        svg_data = svg_for_world(world, **kwargs)
         # TODO(Jerome): they don't have always the same size ...
         r = _svg_to_npim(svg_data, background_color=background_color)
         return r
@@ -59,9 +52,8 @@ def make_video(world: World,
 
 def make_video_from_run(run: RecordedExperimentalRun,
                         factor: float = 1.0,
-                        width: int = 640,
-                        precision: int = 4,
-                        background_color: str = "snow") -> mpy.VideoClip:
+                        background_color: str = "snow",
+                        **kwargs: Any) -> mpy.VideoClip:
 
     frame = None
     bounds = run.bounds
@@ -72,10 +64,7 @@ def make_video_from_run(run: RecordedExperimentalRun,
         new_step = int(t // run.time_step)
         if new_step != run._step or frame is None:
             if run.go_to_step(new_step):
-                svg_data = svg_for_world(run.world,
-                                         width=width,
-                                         bounds=bounds,
-                                         precision=precision)
+                svg_data = svg_for_world(run.world, bounds=bounds, **kwargs)
                 # TODO(Jerome): they don't have always the same size ...
                 frame = _svg_to_npim(svg_data,
                                      background_color=background_color)
@@ -90,13 +79,21 @@ def record_video(path: Union[str, pathlib.Path],
                  duration: float,
                  factor: float = 1.0,
                  fps: int = 30,
-                 width: int = 640,
-                 bounds: Optional[Rect] = None,
-                 precision: int = 4,
-                 background_color: str = "snow",
-                 decorate: Optional[Decorate] = None):
-    clip = make_video(world, time_step, duration, factor, width, bounds,
-                      precision, background_color, decorate=decorate)
+                 **kwargs: Any):
+    """
+    Record a video while performing a simulation.
+
+    :param      path:              The path where to save the video.
+                                   Should have a valid video format suffix
+                                   supported by ffmpeg (e.g., ``.mp4``) or ``.gif``.
+    :param      world:             The world to simulate
+    :param      time_step:         The time step
+    :param      duration:          The simulation duration
+    :param      factor:            The real-time factor
+    :param      fps:               The video fps
+    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    """
+    clip = make_video(world, time_step, duration, factor, **kwargs)
     suffix = pathlib.Path(path).suffix
     if suffix.lower() == ".gif":
         clip.write_gif(str(path), fps=fps)
@@ -108,10 +105,19 @@ def record_video_from_run(path: Union[str, pathlib.Path],
                           run: RecordedExperimentalRun,
                           factor: float = 1.0,
                           fps: int = 30,
-                          width: int = 640,
-                          precision: int = 4,
-                          background_color: str = "snow"):
-    clip = make_video_from_run(run, factor, width, precision, background_color)
+                          **kwargs: Any):
+    """
+    Create a video from a recorded simulation.
+
+    :param      path:              The path where to save the video.
+                                   Should have a valid video format suffix
+                                   supported by ffmpeg (e.g., ``.mp4``) or ``.gif``.
+    :param      run:               The recorded run
+    :param      factor:            The real-time factor
+    :param      fps:               The video fps
+    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    """
+    clip = make_video_from_run(run, factor, **kwargs)
     suffix = pathlib.Path(path).suffix
     if suffix.lower() == ".gif":
         clip.write_gif(str(path), fps=fps)
@@ -124,23 +130,36 @@ def display_video(world: World,
                   duration: float,
                   factor: float = 1.0,
                   fps: int = 30,
-                  width: int = 640,
-                  bounds: Optional[Rect] = None,
-                  precision: int = 4,
-                  background_color: str = "snow",
                   display_width: int = 640,
-                  decorate: Optional[Decorate] = None) -> Any:
-    clip = make_video(world, time_step, duration, factor, width, bounds,
-                      precision, background_color, decorate=decorate)
+                  **kwargs: Any) -> Any:
+    """
+    Perform a simulation and displays the recorded video in a notebook
+
+    :param      world:             The world to simulate
+    :param      time_step:         The time step
+    :param      duration:          The simulation duration
+    :param      factor:            The real-time factor
+    :param      fps:               The video fps
+    :param      display_width:     The size of the video view
+    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    """
+    clip = make_video(world, time_step, duration, factor, **kwargs)
     return clip.ipython_display(fps=fps, width=display_width)
 
 
 def display_video_from_run(run: RecordedExperimentalRun,
                            factor: float = 1.0,
                            fps: int = 30,
-                           width: int = 640,
-                           precision: int = 4,
-                           background_color: str = "snow",
-                           display_width: int = 640) -> Any:
-    clip = make_video_from_run(run, factor, width, precision, background_color)
+                           display_width: int = 640,
+                           **kwargs: Any) -> Any:
+    """
+    Displays a video created from a recorded simulation in a notebook
+
+    :param      run:               The recorded run
+    :param      factor:            The real-time factor
+    :param      fps:               The video fps
+    :param      display_width:     The size of the video view
+    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    """
+    clip = make_video_from_run(run, factor, **kwargs)
     return clip.ipython_display(fps=fps, width=display_width)

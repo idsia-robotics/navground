@@ -3,10 +3,11 @@ import logging
 import os
 import random
 import sys
-from typing import Optional
+from typing import Any, Optional
 
 from . import Scenario, World, load_experiment, load_py_plugins
-from .ui.video import record_video, Rect, Decorate
+from .ui.video import record_video
+from .ui import Decorate
 
 
 def run(path: str,
@@ -15,13 +16,9 @@ def run(path: str,
         time_step: float = 0.04,
         fps: int = 24,
         duration: float = 60.0,
-        width: int = 640,
-        background: str = 'lightgray',
-        bounds: Optional[Rect] = None,
-        display_deadlocks: bool = False,
-        display_collisions: bool = False,
         seed: int = -1,
-        decorate: Optional[Decorate] = None) -> None:
+        decorate: Optional[Decorate] = None,
+        **kwargs: Any) -> None:
     world = World()
     if seed < 0:
         seed = random.randint(0, 2**31)
@@ -30,11 +27,8 @@ def run(path: str,
                  world,
                  time_step,
                  duration,
-                 width=width,
                  factor=factor,
-                 bounds=bounds,
-                 background_color=background,
-                 decorate=decorate)
+                 decorate=decorate, **kwargs)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -76,12 +70,12 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument('--display-shape',
                         help='Display effective agent shape',
                         action='store_true')
-    parser.add_argument('--display-deadlocks',
-                        help='Color deadlocked agent in blue',
-                        action='store_true')
-    parser.add_argument('--display-collisions',
-                        help='Color deadlocked agent in red',
-                        action='store_true')
+    # parser.add_argument('--display-deadlocks',
+    #                     help='Color deadlocked agent in blue',
+    #                     action='store_true')
+    # parser.add_argument('--display-collisions',
+    #                     help='Color deadlocked agent in red',
+    #                     action='store_true')
     return parser
 
 
@@ -108,9 +102,7 @@ def main(decorate: Optional[Decorate] = None) -> None:
         duration=experiment.steps * experiment.time_step,
         fps=arg.fps,
         width=arg.width,
-        background=arg.background_color,
+        background_color=arg.background_color,
         bounds=bounds,
-        display_deadlocks=arg.display_deadlocks,
-        display_collisions=arg.display_collisions,
         seed=arg.seed,
         decorate=decorate)

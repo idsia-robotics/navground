@@ -58,16 +58,32 @@ notebook_count = 0
 
 def html_for_world(world: Optional[World] = None,
                    world_name: str = '',
-                   include_default_style: bool = True,
-                   external_style_path: str = '',
-                   style: str = '',
-                   include_script_path: Optional[str] = None,
                    with_websocket: bool = False,
                    notebook: bool = False,
                    port: int = 8000,
-                   width: float = 600,
                    display_shape: bool = False,
+                   external_style_path: str = '',
+                   style: str = '',
+                   include_script_path: Optional[str] = None,
                    **kwargs: Any) -> str:
+    """
+    Draw the world as a SVG embedded in HTML, optionally with a javascript script to keep
+    the view in sync with :py:class:``navground.sim.ui.WebUI`
+
+    :param      world:                  The world to display
+    :param      world_name:             The world name used as title
+    :param      with_websocket:         Whether to add a websocket client to keep the view in sync
+    :param      notebook:               Whether the HTML will be embedded in a notebook
+    :param      port:                   The websocket port
+    :param      display_shape:          Whether to display the agent circular shape
+    :param      external_style_path:    The external style path
+    :param      style:                  An inline CSS style to include
+    :param      include_script_path:    An alternative script path to be included
+    :param      kwargs:                 Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+
+    :returns:   An HTML string
+    """
+
     if notebook:
         global notebook_count
         prefix = f'N{notebook_count}'
@@ -77,10 +93,8 @@ def html_for_world(world: Optional[World] = None,
     svg, dims = _svg_for_world(world=world,
                                standalone=False,
                                prefix=prefix,
-                               width=width,
                                external_style_path='',
                                style='',
-                               include_default_style=include_default_style,
                                **kwargs)
     return jinjia_env.get_template('world.html').render(
         svg=svg,

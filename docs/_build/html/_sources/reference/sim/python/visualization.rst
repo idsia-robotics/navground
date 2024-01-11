@@ -2,20 +2,12 @@
 Visualization
 =============
 
-Display the simulation as SVG
-=============================
+Display a simulated world
+=========================
 
 .. autofunction:: navground.sim.ui.svg_for_world
 
-
-Display the simulation as HTML
-==============================
-
 .. autofunction:: navground.sim.ui.html_for_world
-
-
-Display the simulation in a notebook HTML
-==============================
 
 .. autofunction:: navground.sim.ui.notebook_view
 

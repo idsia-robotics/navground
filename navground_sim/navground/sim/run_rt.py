@@ -11,7 +11,7 @@ from typing import Optional
 
 from . import Scenario, World, load_experiment, load_py_plugins
 from .real_time import RealTimeSimulation
-from .ui import html_for_world
+from .ui import html_for_world, Decorate
 from .ui.web_ui import Rect, WebUI
 
 
@@ -36,7 +36,8 @@ async def run(scenario: Scenario,
               bounds: Optional[Rect] = None,
               display_deadlocks: bool = False,
               display_collisions: bool = False,
-              seed: int = -1) -> None:
+              seed: int = -1,
+              decorate: Optional[Decorate] = None) -> None:
     world = World()
     if seed < 0:
         seed = random.randint(0, 2**31)
@@ -47,7 +48,8 @@ async def run(scenario: Scenario,
                        port=port,
                        max_rate=ui_fps,
                        display_deadlocks=display_deadlocks,
-                       display_collisions=display_collisions)
+                       display_collisions=display_collisions,
+                       decorate=decorate)
         await web_ui.prepare()
         logging.info("Waiting for a client")
         while web_ui.number_of_client == 0:
@@ -87,13 +89,13 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument('--no-ui',
                         help='Do not use a view',
                         action='store_true')
-    parser.add_argument('--seed',
-                        help='The random seed of the simulation. If negative, it will be picked randomly',
-                        default=-1,
-                        type=int)
-    parser.add_argument('--port',
-                        help='The websocket port',
-                        default=8000)
+    parser.add_argument(
+        '--seed',
+        help=
+        'The random seed of the simulation. If negative, it will be picked randomly',
+        default=-1,
+        type=int)
+    parser.add_argument('--port', help='The websocket port', default=8000)
     parser.add_argument('--width',
                         help='Size of the view in pixels',
                         default=500,
@@ -127,7 +129,21 @@ def parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main() -> None:
+def make_html(width: int = 640,
+              port: int = 8000,
+              display_shape: bool = False) -> None:
+    d = pathlib.Path(tempfile.mkdtemp())
+    f = d / "world.html"
+    with open(f, "w+") as fp:
+        data = html_for_world(with_websocket=True,
+                              width=width,
+                              port=port,
+                              display_shape=display_shape)
+        fp.write(data)
+    webbrowser.open(f"file://{f}")
+
+
+def main(decorate: Optional[Decorate] = None) -> None:
     logging.basicConfig(level=logging.INFO)
     load_py_plugins()
     arg = parser().parse_args()
@@ -139,17 +155,9 @@ def main() -> None:
     should_open_view = not (arg.no_ui or arg.no_browser)
 
     if should_open_view:
-        d = pathlib.Path(tempfile.mkdtemp())
-        f = d / "world.html"
-        with open(f, "w+") as fp:
-            data = html_for_world(
-                with_websocket=True, width=arg.width, port=arg.port,
-                display_shape=arg.display_shape)
-            fp.write(data)
-        webbrowser.open(f"file://{f}")
-    else:
-        fp = None
-
+        make_html(width=arg.width,
+                  port=arg.port,
+                  display_shape=arg.display_shape)
     try:
         experiment = load_experiment(yaml)
     except RuntimeError as e:
@@ -169,6 +177,5 @@ def main() -> None:
             bounds=bounds,
             display_deadlocks=arg.display_deadlocks,
             display_collisions=arg.display_collisions,
-            seed=arg.seed))
-    if fp:
-        fp.close()
+            seed=arg.seed,
+            decorate=decorate))

@@ -15,6 +15,11 @@ class RealTimeSimulation:
     """
     Helper class to simulated a :py:class:`navground.sim.World`
     in real-time using an ayncio.
+
+    >>> word = ...
+    >>> sim = RealTimeSimulation(world=world, time_step=0.1, web_ui=WebUI())
+    >>> await sim.run()
+
     """
 
     def __init__(self,

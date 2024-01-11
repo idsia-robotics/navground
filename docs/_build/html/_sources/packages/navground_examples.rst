@@ -7,8 +7,6 @@ A packages with examples of using navground from C++.
 Behaviors
 =========
 
-
-
 :directory:  `src/behavior <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/behavior>`_
 
 Rely only on ``navground_core``.
@@ -172,3 +170,14 @@ YAML
 :file:  `world_with_groups.cpp <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/world/world_with_groups.cpp>`_
 
 How to instantiate a world using groups.
+
+.. _custom_recordings:
+
+Custom recordings 
+=================
+
+:file:  `experiment_with_custom_probes.cpp <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/experiment/experiment_with_custom_probes.cpp>`_
+and :file:  `run_with_custom_probes.cpp <https://github.com/idsia-robotics/navground/tree/main/navground_examples_py/navground_examples_py/run_with_custom_probes>`_
+
+How to use the experiment API to record custom data.
+See the equivalent :ref:`C++ example <recordings>`.

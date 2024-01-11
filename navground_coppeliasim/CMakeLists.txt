@@ -40,14 +40,24 @@ find_package(CoppeliaSim 4 REQUIRED)
 find_package(navground_core REQUIRED)
 find_package(navground_sim REQUIRED)
 
+if(${COPPELIASIM_VERSION} VERSION_GREATER_EQUAL 4.6)
+    set(_PLUGIN_NAME simNavground)
+    set(_PLUGIN_NAME_XML simNavground)
+    set(_KEYWORD PRIVATE)
+else()
+    set(_PLUGIN_NAME simExtNavground)
+    set(_PLUGIN_NAME_XML Navground)    
+endif()  
+
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/generated)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
 
-execute_process(COMMAND bash -c "sed s/ng_float_t/${NG_FLOAT_T}/g ${CMAKE_CURRENT_SOURCE_DIR}/lua/callbacks.xml > callbacks.xml" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+execute_process(COMMAND bash -c "sed 's/ng_float_t/${NG_FLOAT_T}/g; s/PLUGIN_NAME/${_PLUGIN_NAME_XML}/'  ${CMAKE_CURRENT_SOURCE_DIR}/lua/callbacks.xml > callbacks.xml" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+
 coppeliasim_generate_stubs(${CMAKE_CURRENT_BINARY_DIR}/generated XML_FILE ${CMAKE_CURRENT_BINARY_DIR}/callbacks.xml LUA_FILE ${CMAKE_CURRENT_SOURCE_DIR}/lua/simNavground.lua)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h ESCAPE_QUOTES)
 
-coppeliasim_add_plugin(simExtNavground SOURCES src/plugin.cpp)
+coppeliasim_add_plugin(${_PLUGIN_NAME} SOURCES src/plugin.cpp)
 
-target_link_libraries(simExtNavground navground_core::navground_core navground_sim::navground_sim)
+target_link_libraries(${_PLUGIN_NAME} ${_KEYWORD} navground_core::navground_core navground_sim::navground_sim)

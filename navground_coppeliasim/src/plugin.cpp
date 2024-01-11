@@ -134,7 +134,11 @@ class Plugin : public sim::Plugin {
  public:
   Plugin() : sim::Plugin(), controllers(), frame(-1) {}
 
+#if SIM_PROGRAM_VERSION_NB < 40600
   void onStart() {
+#else
+  void onInit() {
+#endif
     if (!registerScriptStuff())
       throw std::runtime_error("script stuff initialization failed");
     setExtVersion("Navground");
@@ -158,7 +162,11 @@ class Plugin : public sim::Plugin {
     agent_handles.clear();
   }
 
+#if SIM_PROGRAM_VERSION_NB < 40600
   void onModuleHandle(char *customData) {
+#else
+  void onSimulationBeforeActuation() {
+#endif
     if (world) {
       if (experiment && !experiment->is_running()) {
         experiment->start();
@@ -219,6 +227,7 @@ class Plugin : public sim::Plugin {
     if (i < controllers.size()) {
       return controllers[i].get();
     }
+    std::cerr << "No controller with handle " << i << std::endl;
     return nullptr;
   }
 
@@ -676,5 +685,10 @@ class Plugin : public sim::Plugin {
   int seed;
 };
 
+#if SIM_PROGRAM_VERSION_NB < 40600
 SIM_PLUGIN(PLUGIN_NAME, PLUGIN_VERSION, Plugin)
+#else
+SIM_PLUGIN(Plugin)
+#endif
+
 #include "stubsPlusPlus.cpp"

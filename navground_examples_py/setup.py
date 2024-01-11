@@ -24,6 +24,7 @@ setup(
             'controller = navground_examples_py.controller:main',
             'run = navground_examples_py.run:main',
             'experiment = navground_examples_py.experiment:main',
+            'rt_decorate = navground_examples_py.rt_decorate:main',
         ],
     },
 )

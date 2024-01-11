@@ -7,7 +7,7 @@ A packages with examples of using ``navground`` from Python.
 Behavior 
 --------
 
-:module:`behavior.py <https://github.com/idsia-robotics/navground/tree/main/navground_examples_py/navground_examples_py/behavior.py>`_
+:module:  `behavior.py <https://github.com/idsia-robotics/navground/tree/main/navground_examples_py/navground_examples_py/behavior.py>`_
 
 How to instantiate and apply a behavior to avoid a circular obstacle.
 See the equivalent :ref:`C++ example <basics_behavior>`.

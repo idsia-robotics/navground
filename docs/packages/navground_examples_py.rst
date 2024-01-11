@@ -20,3 +20,18 @@ Controller
 How to use the controller API to move to a target point.
 See the equivalent :ref:`C++ example <basics_controller>`.
 
+Custom recordings 
+-----------------
+
+:module:  `experiment.py <https://github.com/idsia-robotics/navground/tree/main/navground_examples_py/navground_examples_py/experiment.py>`_
+and :module:  `run.py <https://github.com/idsia-robotics/navground/tree/main/navground_examples_py/navground_examples_py/run.py>`_
+
+How to use the experiment API to record custom data.
+See the equivalent :ref:`C++ examples <custom_recordings>`.
+
+Decorate 
+--------
+
+:module:  `rt_decorate.py <https://github.com/idsia-robotics/navground/tree/main/navground_examples_py/navground_examples_py/rt_decorate.py>`_
+
+How to decorate the live view.

@@ -272,10 +272,29 @@ Example
    $ run_rt experiment.yaml --factor 5.0
 
 
+record video
+------------
+
+Record a video from an experiment.
+
+
+.. argparse::
+   :module: navground.sim.record_video
+   :func: parser
+   :prog: record_video
+   :nodescription:
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ record_video experiment.yaml video.mp4 --factor 5.0
+
 replay
 ------
 
-Replays an experiment in real-time. You can visualize the world in a browser view, similarly to run_rt_ but for recorded experiment.
+Replays an experiment in real-time. You can visualize the world in a browser view, similarly to run_rt_ but for recorded experiment, or create a video from it.
 
 
 .. argparse::

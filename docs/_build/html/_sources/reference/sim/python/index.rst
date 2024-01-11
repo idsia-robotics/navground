@@ -11,4 +11,8 @@ Python API
    state_estimations/index
    scenarios/index
    experiment
+   visualization
+   recorded_experiment
+   real_time
    yaml
+   helpers

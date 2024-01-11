@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -37,13 +37,13 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
+    <script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
     <script src="_static/documentation_options.js?v=f131489c"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/jquery.js?v=5d32c60e"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
     <script src="_static/tabs.js?v=3030b3cb"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script src="_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
@@ -134,7 +134,18 @@
     <p class="title logo__title">navground 0.0.2 documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="nav bd-sidenav">
@@ -156,12 +167,16 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/designing_an_experiment.html">Designing an experiment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/running_an_experiment.html">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/display.html">Visualize a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="guides/register.html">How to register a component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -230,7 +245,11 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/sim/python/visualization.html">Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/sim/python/recorded_experiment.html">Recorded Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/sim/python/real_time.html">Real-time simulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/sim/python/helpers.html">Helpers</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -454,6 +473,14 @@ document.write(`
 </li>
         <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.__init__">(PyLidarStateEstimation method)</a>
 </li>
+        <li><a href="reference/sim/python/real_time.html#navground.sim.replay.RealTimeReplay.__init__">(RealTimeReplay method)</a>
+</li>
+        <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation.__init__">(RealTimeSimulation method)</a>
+</li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.__init__">(RecordedExperiment method)</a>
+</li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.__init__">(RecordedExperimentalRun method)</a>
+</li>
         <li><a href="reference/core/python/state.html#navground.core.SensingState.__init__">(SensingState method)</a>
 </li>
         <li><a href="reference/sim/python/scenarios/simple.html#navground.sim.scenarios.SimpleScenario.__init__">(SimpleScenario method)</a>
@@ -485,6 +512,8 @@ document.write(`
         <li><a href="reference/sim/python/world.html#navground.sim.Wall.__init__">(Wall method)</a>
 </li>
         <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.__init__">(WaypointsTask method)</a>
+</li>
+        <li><a href="reference/sim/python/visualization.html#navground.sim.ui.WebUI.__init__">(WebUI method)</a>
 </li>
         <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.WheeledKinematics.__init__">(WheeledKinematics method)</a>
 </li>
@@ -523,11 +552,9 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.add_agent">add_agent() (World method)</a>
 </li>
-      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.add_callback">add_callback() (Experiment method)</a>
+      <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.add_callback">add_callback() (Task method)</a>
 
       <ul>
-        <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.add_callback">(Task method)</a>
-</li>
         <li><a href="reference/sim/python/world.html#navground.sim.World.add_callback">(World method)</a>
 </li>
       </ul></li>
@@ -535,6 +562,12 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.add_obstacle">add_obstacle() (World method)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.add_probe">add_probe() (Experiment method)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.add_probe">(ExperimentalRun method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.add_run_callback">add_run_callback() (Experiment method)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.add_safety_to_agent_margin">add_safety_to_agent_margin (CorridorScenario property)</a>
@@ -585,6 +618,12 @@ document.write(`
 </li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.aperture">aperture (HLBehavior property)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.MapProbe.append">append() (MapProbe method)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.Probe.append">(Probe method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.assume_cmd_is_actuated">assume_cmd_is_actuated (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.WheeledKinematics.axis">axis (WheeledKinematics property)</a>
@@ -598,7 +637,11 @@ document.write(`
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.barrier_angle">barrier_angle (HLBehavior property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.begin_time">begin_time (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.begin_time">(RecordedExperiment attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior">Behavior (class in navground.core)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.behavior">behavior (Controller property)</a>
@@ -609,12 +652,14 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox">BoundingBox (class in navground.sim)</a>
 </li>
-      <li><a href="reference/core/python/state.html#navground.core.Buffer">Buffer (class in navground.core)</a>
+      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.bounds">bounds (RecordedExperimentalRun property)</a>
 </li>
-      <li><a href="reference/core/python/state.html#navground.core.BufferDescription">BufferDescription (class in navground.core)</a>
+      <li><a href="reference/core/python/state.html#navground.core.Buffer">Buffer (class in navground.core)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/state.html#navground.core.BufferDescription">BufferDescription (class in navground.core)</a>
+</li>
       <li><a href="reference/core/python/state.html#navground.core.SensingState.buffers">buffers (SensingState property)</a>
 </li>
       <li>
@@ -654,6 +699,8 @@ document.write(`
       </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.check_if_target_satisfied">check_if_target_satisfied() (Behavior method)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.clear_run_callbacks">clear_run_callbacks() (Experiment method)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.cmd">cmd (RecordConfig property)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.cmd_frame">cmd_frame (Controller property)</a>
@@ -669,6 +716,8 @@ document.write(`
       <ul>
         <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.collisions">(RecordConfig property)</a>
 </li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.collisions">(RecordedExperimentalRun attribute)</a>
+</li>
         <li><a href="reference/sim/python/world.html#navground.sim.World.collisions">(World property)</a>
 </li>
       </ul></li>
@@ -677,7 +726,11 @@ document.write(`
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.color">color (Agent property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.commands">commands (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.commands">(RecordedExperimentalRun attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.compute_cmd">compute_cmd() (Behavior method)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.compute_safety_violation">compute_safety_violation() (World method)</a>
@@ -699,11 +752,19 @@ document.write(`
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/state.html#navground.core.Buffer.data">data (Buffer property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.MapProbe.data">(MapProbe property)</a>
 </li>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.Probe.data">(Probe property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.deadlocks">deadlocks (ExperimentalRun property)</a>
 
       <ul>
         <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.deadlocks">(RecordConfig property)</a>
+</li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.deadlocks">(RecordedExperimentalRun attribute)</a>
 </li>
       </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.default_cmd_frame">default_cmd_frame (Behavior property)</a>
@@ -738,19 +799,25 @@ document.write(`
 </li>
       <li><a href="reference/core/python/target.html#navground.core.Target.Direction">Direction() (Target static method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/state.html#navground.core.Disc">Disc (class in navground.core)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/world.html#navground.sim.Obstacle.disc">disc (Obstacle property)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.discs">discs (World property)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation">DiscsStateEstimation (class in navground.sim.state_estimations)</a>
 </li>
+      <li><a href="reference/sim/python/visualization.html#navground.sim.ui.video.display_video">display_video() (in module navground.sim.ui.video)</a>
+</li>
+      <li><a href="reference/sim/python/visualization.html#navground.sim.ui.video.display_video_from_run">display_video_from_run() (in module navground.sim.ui.video)</a>
+</li>
       <li><a href="reference/core/python/state.html#navground.core.LineSegment.distance_from_disc">distance_from_disc() (LineSegment method)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.LineSegment.distance_from_point">distance_from_point() (LineSegment method)</a>
+</li>
+      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.do_step">do_step() (RecordedExperimentalRun method)</a>
 </li>
       <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.dof">dof (Kinematics property)</a>
 </li>
@@ -775,6 +842,10 @@ document.write(`
       <ul>
         <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.duration">(ExperimentalRun property)</a>
 </li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.duration">(RecordedExperiment attribute)</a>
+</li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.duration">(RecordedExperimentalRun attribute)</a>
+</li>
       </ul></li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation.dynamic_free_distance">dynamic_free_distance() (CollisionComputation method)</a>
 </li>
@@ -788,18 +859,22 @@ document.write(`
 </li>
       <li><a href="reference/core/python/state.html#navground.core.LineSegment.e2">e2 (LineSegment property)</a>
 </li>
-      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.efficacy">efficacy (ExperimentalRun property)</a>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.efficacy">efficacy (Behavior property)</a>
 
       <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.efficacy">(ExperimentalRun property)</a>
+</li>
         <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.efficacy">(RecordConfig property)</a>
+</li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.efficacy">(RecordedExperimentalRun attribute)</a>
 </li>
       </ul></li>
       <li><a href="reference/sim/python/world.html#navground.sim.Entity">Entity (class in navground.sim)</a>
 </li>
-      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.environment_state">environment_state (Behavior property)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.environment_state">environment_state (Behavior property)</a>
+</li>
       <li><a href="reference/core/python/state.html#navground.core.EnvironmentState">EnvironmentState (class in navground.core)</a>
 </li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.epsilon">epsilon (HLBehavior property)</a>
@@ -886,14 +961,14 @@ document.write(`
 </li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.get_collision_distance">get_collision_distance() (HLBehavior method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation.get_contour_for_sector">get_contour_for_sector() (CollisionComputation method)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.get_description">get_description() (PyLidarStateEstimation method)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_entity">get_entity() (World method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.get_environment_state">get_environment_state() (Behavior method)</a>
 
       <ul>
@@ -906,12 +981,28 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_line_obstacles_in_region">get_line_obstacles_in_region() (World method)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.get_map_record">get_map_record() (ExperimentalRun method)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_neighbors">get_neighbors() (World method)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.get_record">get_record() (ExperimentalRun method)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.get_record">(RecordedExperimentalRun method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.get_record_map">get_record_map() (RecordedExperimentalRun method)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_static_obstacles_in_region">get_static_obstacles_in_region() (World method)</a>
 </li>
-      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.get_task_events">get_task_events() (ExperimentalRun method)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.MapProbe.get_steps">get_steps() (MapProbe method)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.get_task_events">get_task_events() (ExperimentalRun method)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.get_task_events">(RecordedExperimentalRun method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.get_twist">get_twist() (Behavior method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.get_velocity">get_velocity() (Behavior method)</a>
@@ -919,6 +1010,8 @@ document.write(`
       <li><a href="reference/core/python/controller.html#navground.core.Controller.go_to_pose">go_to_pose() (Controller method)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.go_to_position">go_to_position() (Controller method)</a>
+</li>
+      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.go_to_step">go_to_step() (RecordedExperimentalRun method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -931,15 +1024,19 @@ document.write(`
       <ul>
         <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.has_finished">(ExperimentalRun property)</a>
 </li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.has_finished">(RecordedExperiment attribute)</a>
+</li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.has_finished">(RecordedExperimentalRun property)</a>
+</li>
       </ul></li>
       <li><a href="reference/core/python/property.html#navground.core._navground.HasProperties">HasProperties (class in navground.core._navground)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading">Heading (class in navground.core.Behavior)</a>
 </li>
-      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.heading_behavior">heading_behavior (Behavior property)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.heading_behavior">heading_behavior (Behavior property)</a>
+</li>
       <li><a href="reference/core/python/state.html#navground.core.Buffer.high">high (Buffer property)</a>
 
       <ul>
@@ -951,6 +1048,8 @@ document.write(`
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.horizon">horizon (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/HRVO.html#navground.core.behaviors.HRVOBehavior">HRVOBehavior (class in navground.core.behaviors)</a>
+</li>
+      <li><a href="reference/sim/python/visualization.html#navground.sim.ui.html_for_world">html_for_world() (in module navground.sim.ui)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -978,10 +1077,20 @@ document.write(`
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.in_sight">in_sight() (SocialForceBehavior method)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.index_of_agent">index_of_agent() (ExperimentalRun method)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.index_of_agent">(RecordedExperimentalRun method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation.init">init() (RealTimeSimulation method)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/visualization.html#navground.sim.ui.WebUI.init">(WebUI method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.index_of_agent">index_of_agent() (ExperimentalRun method)</a>
-</li>
       <li><a href="reference/core/python/state.html#navground.core.SensingState.init_buffer">init_buffer() (SensingState method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.init_run">init_run() (Experiment method)</a>
@@ -990,7 +1099,15 @@ document.write(`
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Pose2.integrate">integrate() (Pose2 method)</a>
 </li>
+      <li><a href="reference/core/python/common.html#navground.core.Twist2.is_almost_zero">is_almost_zero() (Twist2 method)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.is_running">is_running (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.is_running">(RecordedExperiment attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.is_stuck">is_stuck (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior.is_using_effective_center">is_using_effective_center (ORCABehavior property)</a>
 </li>
@@ -1130,6 +1247,8 @@ document.write(`
         <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.make_type">(Task static method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.MapProbe">MapProbe (class in navground.sim)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.max_angular_speed">max_angular_speed (Behavior property)</a>
 
       <ul>
@@ -1151,7 +1270,11 @@ document.write(`
 </li>
       </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.maximal_steps">maximal_steps (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.maximal_steps">(RecordedExperimentalRun attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation.min_angle">min_angle (CachedCollisionComputation property)</a>
 </li>
       <li><a href="reference/core/python/social_margin.html#navground.core.SocialMargin.modulation">modulation (SocialMargin property)</a>
@@ -1168,6 +1291,8 @@ document.write(`
         <li><a href="reference/core/python/common.html#navground.core.Frame.name">(Frame property)</a>
 </li>
         <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.name">(Heading property)</a>
+</li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.name">(RecordedExperiment attribute)</a>
 </li>
         <li><a href="reference/core/python/controller.html#navground.core.Action.State.name">(State property)</a>
 </li>
@@ -1934,8 +2059,6 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/helper.html#_CPPv4N9navground4core12TrackChanges13reset_changesEv">navground::core::TrackChanges::reset_changes (C++ function)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/cpp/helper.html#_CPPv4N9navground4core12TrackChanges12TrackChangesEv">navground::core::TrackChanges::TrackChanges (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core6Twist2E">navground::core::Twist2 (C++ struct)</a>
@@ -1968,6 +2091,8 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/common.html#_CPPv4NK9navground4core6Twist37projectEv">navground::core::Twist3::project (C++ function)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core6Twist38velocityE">navground::core::Twist3::velocity (C++ member)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematicsE">navground::core::TwoWheelsDifferentialDriveKinematics (C++ class)</a>
@@ -2126,6 +2251,18 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/scenarios/antipodal.html#_CPPv4N9navground3sim17AntipodalScenario13set_toleranceE10ng_float_t">navground::sim::AntipodalScenario::set_tolerance (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim9BaseProbeE">navground::sim::BaseProbe (C++ class)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim9BaseProbe8finalizeERK5Worldj">navground::sim::BaseProbe::finalize (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim9BaseProbe7prepareERK5Worldj">navground::sim::BaseProbe::prepare (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim9BaseProbe5ShapeE">navground::sim::BaseProbe::Shape (C++ type)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim9BaseProbe4TypeE">navground::sim::BaseProbe::Type (C++ type)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim9BaseProbe6updateERK5World">navground::sim::BaseProbe::update (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4I0EN9navground3sim15BehaviorSamplerE">navground::sim::BehaviorSampler (C++ struct)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler15BehaviorSamplerERKNSt6stringE">navground::sim::BehaviorSampler::BehaviorSampler (C++ function)</a>
@@ -2248,11 +2385,11 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10ExperimentE">navground::sim::Experiment (C++ struct)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment12add_callbackERK8Callback">navground::sim::Experiment::add_callback (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment9add_probeERKNSt6stringERKNSt8functionIFNSt10shared_ptrI9BaseProbeEEvEEE">navground::sim::Experiment::add_probe (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment16add_run_callbackERK8Callback">navground::sim::Experiment::add_run_callback (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment16add_run_callbackERK11RunCallbackb">navground::sim::Experiment::add_run_callback (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment8CallbackE">navground::sim::Experiment::Callback (C++ type)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment19clear_run_callbacksEv">navground::sim::Experiment::clear_run_callbacks (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment10ExperimentE10ng_float_tj">navground::sim::Experiment::Experiment (C++ function)</a>
 </li>
@@ -2278,6 +2415,10 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim10Experiment10is_runningEv">navground::sim::Experiment::is_running (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I00EN9navground3sim10Experiment14make_map_probeEvRKNSt6stringE">navground::sim::Experiment::make_map_probe (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I00EN9navground3sim10Experiment10make_probeEvRKNSt6stringE">navground::sim::Experiment::make_probe (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment4nameE">navground::sim::Experiment::name (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment14number_of_runsE">navground::sim::Experiment::number_of_runs (C++ member)</a>
@@ -2288,15 +2429,19 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment10remove_runEj">navground::sim::Experiment::remove_run (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment3runEbNSt8optionalIjEENSt8optionalIjEE">navground::sim::Experiment::run (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment3runEbjNSt8optionalIjEENSt8optionalIjEENSt8optionalINSt10filesystem4pathEEE">navground::sim::Experiment::run (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment10run_configE">navground::sim::Experiment::run_config (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment9run_indexE">navground::sim::Experiment::run_index (C++ member)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment8run_onceEi">navground::sim::Experiment::run_once (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment8run_onceEj">navground::sim::Experiment::run_once (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment11RunCallbackE">navground::sim::Experiment::RunCallback (C++ type)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment4runsE">navground::sim::Experiment::runs (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment4saveENSt8optionalINSt10filesystem4pathEEENSt8optionalINSt10filesystem4pathEEE">navground::sim::Experiment::save (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment14save_directoryE">navground::sim::Experiment::save_directory (C++ member)</a>
 </li>
@@ -2308,7 +2453,7 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment13set_time_stepE10ng_float_t">navground::sim::Experiment::set_time_step (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment5startEv">navground::sim::Experiment::start (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment5startENSt8optionalINSt10filesystem4pathEEE">navground::sim::Experiment::start (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment9start_runER15ExperimentalRun">navground::sim::Experiment::start_run (C++ function)</a>
 </li>
@@ -2320,69 +2465,63 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim15ExperimentalRunE">navground::sim::ExperimentalRun (C++ class)</a>
 </li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim15ExperimentalRun9add_probeERKNSt6stringERKNSt10shared_ptrI9BaseProbeEE">navground::sim::ExperimentalRun::add_probe (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim15ExperimentalRun15ExperimentalRunENSt10shared_ptrI5WorldEE10ng_float_tjbRK12RecordConfigj">navground::sim::ExperimentalRun::ExperimentalRun (C++ function)</a>, <a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim15ExperimentalRun15ExperimentalRunENSt10shared_ptrI5WorldEERK9RunConfigRK12RecordConfigj">[1]</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun12get_cmd_dataEv">navground::sim::ExperimentalRun::get_cmd_data (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun8get_cmdsEv">navground::sim::ExperimentalRun::get_cmds (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun13get_cmd_shapeEv">navground::sim::ExperimentalRun::get_cmd_shape (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun14get_collisionsEv">navground::sim::ExperimentalRun::get_collisions (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun19get_collisions_dataEv">navground::sim::ExperimentalRun::get_collisions_data (C++ function)</a>
-</li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun20get_collisions_shapeEv">navground::sim::ExperimentalRun::get_collisions_shape (C++ function)</a>
-</li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun17get_deadlock_dataEv">navground::sim::ExperimentalRun::get_deadlock_data (C++ function)</a>
-</li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun18get_deadlock_shapeEv">navground::sim::ExperimentalRun::get_deadlock_shape (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun13get_deadlocksEv">navground::sim::ExperimentalRun::get_deadlocks (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun15get_duration_nsEv">navground::sim::ExperimentalRun::get_duration_ns (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun17get_efficacy_dataEv">navground::sim::ExperimentalRun::get_efficacy_data (C++ function)</a>
-</li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun18get_efficacy_shapeEv">navground::sim::ExperimentalRun::get_efficacy_shape (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun12get_efficacyEv">navground::sim::ExperimentalRun::get_efficacy (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun17get_maximal_stepsEv">navground::sim::ExperimentalRun::get_maximal_steps (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun20get_number_of_agentsEv">navground::sim::ExperimentalRun::get_number_of_agents (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun13get_pose_dataEv">navground::sim::ExperimentalRun::get_pose_data (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun9get_posesEv">navground::sim::ExperimentalRun::get_poses (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun14get_pose_shapeEv">navground::sim::ExperimentalRun::get_pose_shape (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I0ENK9navground3sim15ExperimentalRun9get_probeEKNSt10shared_ptrI1TEERKNSt6stringE">navground::sim::ExperimentalRun::get_probe (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun16get_probes_namesEv">navground::sim::ExperimentalRun::get_probes_names (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun17get_record_configEv">navground::sim::ExperimentalRun::get_record_config (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun18get_recorded_stepsEv">navground::sim::ExperimentalRun::get_recorded_steps (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun25get_safety_violation_dataEv">navground::sim::ExperimentalRun::get_safety_violation_data (C++ function)</a>
-</li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun26get_safety_violation_shapeEv">navground::sim::ExperimentalRun::get_safety_violation_shape (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun21get_safety_violationsEv">navground::sim::ExperimentalRun::get_safety_violations (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun8get_seedEv">navground::sim::ExperimentalRun::get_seed (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun15get_target_dataEv">navground::sim::ExperimentalRun::get_target_data (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun11get_targetsEv">navground::sim::ExperimentalRun::get_targets (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun16get_target_shapeEv">navground::sim::ExperimentalRun::get_target_shape (C++ function)</a>
-</li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun13get_task_dataEPK5Agent">navground::sim::ExperimentalRun::get_task_data (C++ function)</a>
-</li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun14get_task_shapeEPK5Agent">navground::sim::ExperimentalRun::get_task_shape (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun15get_task_eventsEv">navground::sim::ExperimentalRun::get_task_events (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun36get_terminate_when_all_idle_or_stuckEv">navground::sim::ExperimentalRun::get_terminate_when_all_idle_or_stuck (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun13get_time_dataEv">navground::sim::ExperimentalRun::get_time_data (C++ function)</a>
-</li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun14get_time_shapeEv">navground::sim::ExperimentalRun::get_time_shape (C++ function)</a>
-</li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun13get_time_stepEv">navground::sim::ExperimentalRun::get_time_step (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun14get_twist_dataEv">navground::sim::ExperimentalRun::get_twist_data (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun9get_timesEv">navground::sim::ExperimentalRun::get_times (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun15get_twist_shapeEv">navground::sim::ExperimentalRun::get_twist_shape (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun10get_twistsEv">navground::sim::ExperimentalRun::get_twists (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun9get_worldEv">navground::sim::ExperimentalRun::get_world (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun12has_finishedEv">navground::sim::ExperimentalRun::has_finished (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun11has_startedEv">navground::sim::ExperimentalRun::has_started (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun14index_of_agentEPK5Agent">navground::sim::ExperimentalRun::index_of_agent (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun10is_runningEv">navground::sim::ExperimentalRun::is_running (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I00EN9navground3sim15ExperimentalRun14make_map_probeEvRKNSt6stringE">navground::sim::ExperimentalRun::make_map_probe (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I00EN9navground3sim15ExperimentalRun10make_probeEvRKNSt6stringE">navground::sim::ExperimentalRun::make_probe (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim15ExperimentalRun3runEv">navground::sim::ExperimentalRun::run (C++ function)</a>
 </li>
@@ -2391,8 +2530,6 @@ document.write(`
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim15ExperimentalRun4stopEv">navground::sim::ExperimentalRun::stop (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim15ExperimentalRun6updateEv">navground::sim::ExperimentalRun::update (C++ function)</a>
-</li>
-      <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15get_random_seedEv">navground::sim::get_random_seed (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim11GridSamplerE">navground::sim::GridSampler (C++ struct)</a>
 </li>
@@ -2438,6 +2575,30 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation15set_start_angleE10ng_float_t">navground::sim::LidarStateEstimation::set_start_angle (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I0EN9navground3sim8MapProbeE">navground::sim::MapProbe (C++ class)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I0EN9navground3sim8MapProbe6appendEvRK1KRKNSt6vectorI1TEE">navground::sim::MapProbe::append (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim8MapProbe4DataE">navground::sim::MapProbe::Data (C++ type)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim8MapProbe8get_dataEv">navground::sim::MapProbe::get_data (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim8MapProbe9get_stepsERK1K">navground::sim::MapProbe::get_steps (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I0ENK9navground3sim8MapProbe14get_typed_dataEPKNSt3mapI1KNSt6vectorI1TEEEEv">navground::sim::MapProbe::get_typed_data (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim8MapProbe7KeyTypeE">navground::sim::MapProbe::KeyType (C++ type)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I0EN9navground3sim8MapProbe4pushEvRK1KRK1T">navground::sim::MapProbe::push (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim8MapProbe11record_stepERK1K">navground::sim::MapProbe::record_step (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I0EN9navground3sim8MapProbe8set_typeEvv">navground::sim::MapProbe::set_type (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim8MapProbe5shapeERK1K">navground::sim::MapProbe::shape (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim8MapProbe4sizeERK1K">navground::sim::MapProbe::size (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4I0EN9navground3sim13NormalSamplerE">navground::sim::NormalSampler (C++ struct)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim13NormalSampler13NormalSamplerE10ng_float_t10ng_float_tNSt8optionalI1TEENSt8optionalI1TEEb">navground::sim::NormalSampler::NormalSampler (C++ function)</a>
@@ -2450,11 +2611,31 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim8Obstaclecv4DiscEv">navground::sim::Obstacle::operator Disc (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim5ProbeE">navground::sim::Probe (C++ class)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I0EN9navground3sim5Probe6appendEvRKNSt6vectorI1TEE">navground::sim::Probe::append (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim5Probe4DataE">navground::sim::Probe::Data (C++ type)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim5Probe8get_dataEv">navground::sim::Probe::get_data (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim5Probe9get_stepsEv">navground::sim::Probe::get_steps (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I0ENK9navground3sim5Probe14get_typed_dataEPKNSt6vectorI1TEEv">navground::sim::Probe::get_typed_data (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I0EN9navground3sim5Probe4pushEvRK1T">navground::sim::Probe::push (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim5Probe11record_stepEv">navground::sim::Probe::record_step (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4I0EN9navground3sim5Probe8set_typeEvv">navground::sim::Probe::set_type (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim5Probe5shapeEv">navground::sim::Probe::shape (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim5Probe4sizeEv">navground::sim::Probe::size (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15PropertySamplerE">navground::sim::PropertySampler (C++ struct)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4I00EN9navground3sim15PropertySampler15PropertySamplerENSt10unique_ptrI7SamplerI1TEEE">navground::sim::PropertySampler::PropertySampler (C++ function)</a>, <a href="reference/sim/cpp/sampling.html#_CPPv4I00EN9navground3sim15PropertySampler15PropertySamplerERR1S">[1]</a>, <a href="reference/sim/cpp/sampling.html#_CPPv4I0Dp0EN9navground3sim15PropertySampler15PropertySamplerEDp5Targs">[2]</a>
-</li>
-      <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim16random_generatorEv">navground::sim::random_generator (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim12RecordConfigE">navground::sim::RecordConfig (C++ struct)</a>
 </li>
@@ -2506,7 +2687,7 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim7Sampler5resetEv">navground::sim::Sampler::reset (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim7Sampler6sampleEv">navground::sim::Sampler::sample (C++ function)</a>
+      <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim7Sampler6sampleER15RandomGenerator">navground::sim::Sampler::sample (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4I0EN9navground3sim19SamplerFromRegisterE">navground::sim::SamplerFromRegister (C++ struct)</a>
 </li>
@@ -2555,8 +2736,6 @@ document.write(`
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4I0EN9navground3sim15SequenceSamplerE">navground::sim::SequenceSampler (C++ struct)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15SequenceSampler15SequenceSamplerERKNSt6vectorI1TEE4Wrapb">navground::sim::SequenceSampler::SequenceSampler (C++ function)</a>
-</li>
-      <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15set_random_seedEj">navground::sim::set_random_seed (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/scenarios/simple.html#_CPPv4N9navground3sim14SimpleScenarioE">navground::sim::SimpleScenario (C++ struct)</a>
 </li>
@@ -2658,6 +2837,10 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim5World13get_obstaclesEv">navground::sim::World::get_obstacles (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim5World20get_random_generatorEv">navground::sim::World::get_random_generator (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim5World8get_seedEv">navground::sim::World::get_seed (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim5World30get_static_obstacles_in_regionERK11BoundingBox">navground::sim::World::get_static_obstacles_in_region (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim5World8get_stepEv">navground::sim::World::get_step (C++ function)</a>
@@ -2702,12 +2885,24 @@ document.write(`
 </li>
       <li><a href="reference/core/python/state.html#navground.core.GeometricState.neighbors">neighbors (GeometricState property)</a>
 </li>
+      <li><a href="reference/sim/python/visualization.html#navground.sim.ui.notebook_view">notebook_view() (in module navground.sim.ui)</a>
+</li>
       <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.number">number (DiscsStateEstimation property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.number_of_agents">number_of_agents (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.number_of_agents">(RecordedExperimentalRun attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/visualization.html#navground.sim.ui.WebUI.number_of_client">number_of_client (WebUI property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.number_of_runs">number_of_runs (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.number_of_runs">(RecordedExperiment attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -2765,7 +2960,11 @@ document.write(`
       <li><a href="reference/core/python/state.html#navground.core.LineSegment.p2">p2 (LineSegment property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.path">path (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.path">(RecordedExperiment attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/target.html#navground.core.Target.Point">Point() (Target static method)</a>
 </li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.pose">pose (Agent property)</a>
@@ -2781,7 +2980,11 @@ document.write(`
       <li><a href="reference/core/python/common.html#navground.core.Pose2">Pose2 (class in navground.core)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.poses">poses (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.poses">(RecordedExperimentalRun attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.position">position (Agent property)</a>
 
       <ul>
@@ -2794,16 +2997,28 @@ document.write(`
         <li><a href="reference/core/python/target.html#navground.core.Target.position">(Target property)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario.position_noise">position_noise (AntipodalScenario property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/target.html#navground.core.Target.position_tolerance">position_tolerance (Target property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.potential">potential() (SocialForceBehavior method)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor.html#navground.sim.state_estimations.Sensor.prepare">prepare() (Sensor method)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/visualization.html#navground.sim.ui.WebUI.prepare">(WebUI method)</a>
 </li>
+      </ul></li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Probe">Probe (class in navground.sim)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.probes_names">probes_names (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.probes_names">(RecordedExperimentalRun attribute)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.properties">properties (Behavior property)</a>
 
       <ul>
@@ -2822,6 +3037,12 @@ document.write(`
 </li>
       <li><a href="reference/core/python/property.html#navground.core.PropertyField">PropertyField (class in navground.core)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.MapProbe.push">push() (MapProbe method)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.Probe.push">(Probe method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/py_dummy.html#navground.core.behaviors.PyDummyBehavior">PyDummyBehavior (class in navground.core.behaviors)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation">PyLidarStateEstimation (class in navground.sim.state_estimations)</a>
@@ -2850,15 +3071,39 @@ document.write(`
         <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.range">(LidarStateEstimation property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/real_time.html#navground.sim.replay.RealTimeReplay">RealTimeReplay (class in navground.sim.replay)</a>
+</li>
+      <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation">RealTimeSimulation (class in navground.sim.real_time)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.record_config">record_config (Experiment property)</a>
 
       <ul>
         <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.record_config">(ExperimentalRun property)</a>
 </li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.record_config">(RecordedExperiment attribute)</a>
+</li>
       </ul></li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.MapProbe.record_step">record_step() (MapProbe method)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.Probe.record_step">(Probe method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/visualization.html#navground.sim.ui.video.record_video">record_video() (in module navground.sim.ui.video)</a>
+</li>
+      <li><a href="reference/sim/python/visualization.html#navground.sim.ui.video.record_video_from_run">record_video_from_run() (in module navground.sim.ui.video)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig">RecordConfig (class in navground.sim)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.recorded_steps">recorded_steps (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.recorded_steps">(RecordedExperimentalRun attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment">RecordedExperiment (class in navground.sim)</a>
+</li>
+      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun">RecordedExperimentalRun (class in navground.sim)</a>
 </li>
       <li><a href="reference/core/python/register.html#navground.core.registered_property">registered_property() (in module navground.core)</a>
 </li>
@@ -2870,12 +3115,14 @@ document.write(`
         <li><a href="reference/core/python/common.html#navground.core.Twist2.relative">(Twist2 method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.remove_all_runs">remove_all_runs() (Experiment method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.remove_run">remove_run() (Experiment method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.reset">reset() (RecordedExperimentalRun method)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.reset_callbacks">reset_callbacks() (World method)</a>
 </li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation.resolution">resolution (CachedCollisionComputation property)</a>
@@ -2901,12 +3148,22 @@ document.write(`
       <ul>
         <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.run">(ExperimentalRun method)</a>
 </li>
+        <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation.run">(RealTimeSimulation method)</a>
+</li>
         <li><a href="reference/sim/python/world.html#navground.sim.World.run">(World method)</a>
 </li>
       </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.run_index">run_index (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.run_index">(RecordedExperiment attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.run_mp">run_mp() (Experiment method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.run_once">run_once() (Experiment method)</a>
+</li>
+      <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation.run_threaded">run_threaded() (RealTimeSimulation method)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.run_until">run_until() (World method)</a>
 </li>
@@ -2919,7 +3176,11 @@ document.write(`
       <li><a href="reference/core/python/controller.html#navground.core.Action.running_cb">running_cb (Action property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.runs">runs (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.runs">(RecordedExperiment attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -2931,19 +3192,39 @@ document.write(`
       <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.safety_violation">safety_violation (RecordConfig property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.safety_violations">safety_violations (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.safety_violations">(RecordedExperimentalRun attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/target.html#navground.core.Target.satisfied">satisfied() (Target method)</a>
 </li>
-      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.save_directory">save_directory (Experiment property)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.save">save() (Experiment method)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.save_directory">save_directory (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.save_directory">(RecordedExperiment attribute)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario">Scenario (class in navground.sim)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.scenario">scenario (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.scenario">(RecordedExperiment attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.Group">Scenario.Group (class in navground.sim)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.seed">seed (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.seed">(RecordedExperimentalRun attribute)</a>
 </li>
+        <li><a href="reference/sim/python/world.html#navground.sim.World.seed">(World property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.segment_potential">segment_potential() (SocialForceBehavior method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.segment_repulsion_force">segment_repulsion_force() (SocialForceBehavior method)</a>
@@ -2967,20 +3248,26 @@ document.write(`
 </li>
         <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.set">(Task method)</a>
 </li>
+        <li><a href="reference/sim/python/visualization.html#navground.sim.ui.WebUI.set">(WebUI method)</a>
+</li>
       </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.set_all">set_all() (RecordConfig method)</a>
+</li>
+      <li><a href="reference/sim/python/visualization.html#navground.sim.ui.WebUI.set_background_color">set_background_color() (WebUI method)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.SensingState.set_buffer">set_buffer() (SensingState method)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.set_cmd_cb">set_cmd_cb() (Controller method)</a>
 </li>
-      <li><a href="reference/core/python/state.html#navground.core.Buffer.set_description">set_description() (Buffer method)</a>
+      <li><a href="reference/sim/python/visualization.html#navground.sim.ui.WebUI.set_color">set_color() (WebUI method)</a>
 </li>
-      <li><a href="reference/sim/python/world.html#navground.sim.World.set_seed">set_seed() (World static method)</a>
+      <li><a href="reference/core/python/state.html#navground.core.Buffer.set_description">set_description() (Buffer method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.set_velocity">set_velocity() (Behavior method)</a>
 </li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation.setup">setup() (CollisionComputation method)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.setup_tqdm">setup_tqdm() (Experiment method)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.Buffer.shape">shape (Buffer property)</a>
 
@@ -3020,10 +3307,10 @@ document.write(`
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.make_controller">simNavground.make_controller() (built-in function)</a>
 </li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_cmd_frame">simNavground.set_cmd_frame() (built-in function)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.set_cmd_frame">simNavground.set_cmd_frame() (built-in function)</a>
+</li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.set_heading_behavior">simNavground.set_heading_behavior() (built-in function)</a>
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.set_horizon">simNavground.set_horizon() (built-in function)</a>
@@ -3055,6 +3342,12 @@ document.write(`
       <li><a href="reference/sim/python/scenarios/simple.html#navground.sim.scenarios.SimpleScenario">SimpleScenario (class in navground.sim.scenarios)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.Buffer.size">size (Buffer property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.Probe.size">(Probe property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.MapProbe.size">size() (MapProbe method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.social_margin">social_margin (Behavior property)</a>
 </li>
@@ -3108,12 +3401,22 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.step">step (World property)</a>
 </li>
-      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.steps">steps (Experiment property)</a>
+      <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation.step">step() (RealTimeSimulation method)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.steps">steps (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.Probe.steps">(Probe property)</a>
+</li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.steps">(RecordedExperiment attribute)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.stop">stop() (Controller method)</a>
 
       <ul>
         <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.stop">(Experiment method)</a>
+</li>
+        <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation.stop">(RealTimeSimulation method)</a>
 </li>
       </ul></li>
       <li><a href="reference/core/python/target.html#navground.core.Target.Stop">Stop() (Target static method)</a>
@@ -3121,6 +3424,8 @@ document.write(`
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.stop_run">stop_run() (Experiment method)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Action.State.success">success (State attribute)</a>
+</li>
+      <li><a href="reference/sim/python/visualization.html#navground.sim.ui.svg_for_world">svg_for_world() (in module navground.sim.ui)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -3145,11 +3450,21 @@ document.write(`
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.target_point">target_point (Heading attribute)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.targets">targets (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.targets">(RecordedExperimentalRun attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task">Task (class in navground.sim)</a>
 </li>
-      <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.task_events">task_events (RecordConfig property)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.task_events">task_events (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.task_events">(RecordConfig property)</a>
 </li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.task_events">(RecordedExperimentalRun attribute)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/tasks/task.html#navground.sim.TaskCallback">TaskCallback (class in navground.sim)</a>
 </li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.tau">tau (HLBehavior property)</a>
@@ -3173,11 +3488,19 @@ document.write(`
       <ul>
         <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.time_step">(ExperimentalRun property)</a>
 </li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.time_step">(RecordedExperimentalRun attribute)</a>
+</li>
       </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.times">times (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.times">(RecordedExperimentalRun attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/py_dummy.html#navground.core.behaviors.PyDummyBehavior.tired">tired (PyDummyBehavior property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.to_frame">to_frame() (Behavior method)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario.tolerance">tolerance (AntipodalScenario property)</a>
@@ -3188,10 +3511,6 @@ document.write(`
         <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.tolerance">(WaypointsTask property)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.tqdm">tqdm() (Experiment method)</a>
-</li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.twist">twist (Agent property)</a>
 
       <ul>
@@ -3209,7 +3528,11 @@ document.write(`
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.twist_from_wheel_speeds">twist_from_wheel_speeds() (Behavior method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.twists">twists (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.twists">(RecordedExperimentalRun attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics">TwoWheelsDifferentialDriveKinematics (class in navground.core.kinematics)</a>
 </li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.type">type (Agent property)</a>
@@ -3222,6 +3545,10 @@ document.write(`
         <li><a href="reference/core/python/state.html#navground.core.BufferDescription.type">(BufferDescription property)</a>
 </li>
         <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.type">(Kinematics property)</a>
+</li>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.MapProbe.type">(MapProbe property)</a>
+</li>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.Probe.type">(Probe property)</a>
 </li>
         <li><a href="reference/sim/python/state_estimations/state_estimation.html#navground.sim.StateEstimation.type">(StateEstimation property)</a>
 </li>
@@ -3253,7 +3580,11 @@ document.write(`
       <ul>
         <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.update">(PyLidarStateEstimation method)</a>
 </li>
+        <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation.update">(RealTimeSimulation method)</a>
+</li>
         <li><a href="reference/sim/python/state_estimations/state_estimation.html#navground.sim.StateEstimation.update">(StateEstimation method)</a>
+</li>
+        <li><a href="reference/sim/python/visualization.html#navground.sim.ui.WebUI.update">(WebUI method)</a>
 </li>
         <li><a href="reference/sim/python/world.html#navground.sim.World.update">(World method)</a>
 </li>
@@ -3265,6 +3596,8 @@ document.write(`
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.update_run">update_run() (Experiment method)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/geometric_bounded.html#navground.sim.state_estimations.BoundedStateEstimation.update_static_obstacles">update_static_obstacles (BoundedStateEstimation property)</a>
+</li>
+      <li><a href="reference/sim/python/helpers.html#navground.sim.uses_python">uses_python() (in module navground.sim)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -3320,6 +3653,8 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask">WaypointsTask (class in navground.sim.tasks)</a>
 </li>
+      <li><a href="reference/sim/python/visualization.html#navground.sim.ui.WebUI">WebUI (class in navground.sim.ui)</a>
+</li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.weight">weight() (SocialForceBehavior method)</a>
 </li>
   </ul></td>
@@ -3339,7 +3674,11 @@ document.write(`
       <li><a href="reference/sim/python/world.html#navground.sim.World">World (class in navground.sim)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.world">world (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.world">(RecordedExperimentalRun attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 

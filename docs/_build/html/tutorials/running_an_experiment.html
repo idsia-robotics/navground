@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Running and analysing experiments &#8212; navground 0.0.2 documentation</title>
+    <title>Running and analysing experiments (HFD5) &#8212; navground 0.0.2 documentation</title>
   
   
   
@@ -29,7 +29,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -39,12 +39,12 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
+    <script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
     <script src="../_static/documentation_options.js?v=f131489c"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/jquery.js?v=5d32c60e"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -52,8 +52,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/running_an_experiment';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Deadlocks and Collisions" href="deadlocks_and_collisions.html" />
-    <link rel="prev" title="Designing an experiment" href="designing_an_experiment.html" />
+    <link rel="next" title="Visualize a simulation" href="display.html" />
+    <link rel="prev" title="Running and analysing experiments (in memory)" href="running_an_experiment_no_hdf5.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -139,7 +139,18 @@
     <p class="title logo__title">navground 0.0.2 documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current nav bd-sidenav">
@@ -161,12 +172,16 @@
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Tutorials</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="designing_an_experiment.html">Designing an experiment</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Running and analysing experiments (HFD5)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html">Visualize a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -235,7 +250,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/visualization.html">Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/recorded_experiment.html">Recorded Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/real_time.html">Real-time simulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -390,7 +409,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Running and analysing experiments</h1>
+    <h1>Running and analysing experiments (HFD5)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -403,6 +422,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Configuring-an-experiment">Configuring an experiment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Running-the-experiment">Running the experiment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Analysing-the-data">Analysing the data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Parallelize-the-execution">Parallelize the execution</a></li>
 </ul>
             </nav>
         </div>
@@ -414,9 +434,10 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="Running-and-analysing-experiments">
-<h1>Running and analysing experiments<a class="headerlink" href="#Running-and-analysing-experiments" title="Link to this heading">#</a></h1>
-<p>In this tutorial, you learn how to perform an experiment and then access the recorded data to analyse it. <a class="reference external" href="running_an_experiment_no_hdf5.html">Another version</a> perform the same experiment and analysis without saving to HFD5 and then loading from HDF5.</p>
+  <section id="Running-and-analysing-experiments-(HFD5)">
+<h1>Running and analysing experiments (HFD5)<a class="headerlink" href="#Running-and-analysing-experiments-(HFD5)" title="Link to this heading">#</a></h1>
+<p>In this tutorial, you learn how to perform an experiment and then access the recorded HDF5 data to analyse it. <a class="reference external" href="running_an_experiment_no_hdf5.html">Another version</a> perform the same experiment and analysis without saving to HFD5 and then loading from HDF5.</p>
+<p><a class="reference external" href="playback.html">This other tutorial</a> showcases an alternative to access the recorded data through a <a class="reference external" href="../reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment">Python class</a> that mimics the interface exposed by <a class="reference external" href="../reference/sim/python/experiment.html#navground.sim.Experiment">Experiment</a>.</p>
 <section id="Configuring-an-experiment">
 <h2>Configuring an experiment<a class="headerlink" href="#Configuring-an-experiment" title="Link to this heading">#</a></h2>
 <p>You can look at an experiment as a machine that produces data from a configuration, which defines the simulation we want to perform, how many runs of it, which data to collect, and where to save it.</p>
@@ -499,7 +520,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-1.391912
+1.403469
 </pre></div></div>
 </div>
 <p>and saves the results to an H5DF file</p>
@@ -517,7 +538,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-PosixPath(&#39;experiment_14075819843957476660_2023-12-15_21-45-31/data.h5&#39;)
+PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-25/data.h5&#39;)
 </pre></div></div>
 </div>
 </section>
@@ -571,7 +592,7 @@ PosixPath(&#39;experiment_14075819843957476660_2023-12-15_21-45-31/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-1.391912875
+1.403469584
 </pre></div></div>
 </div>
 <p>The metadata contains the YAML dump of the experiment itself. This way, users can reload and potentially rerun the same experiment.</p>
@@ -644,7 +665,7 @@ PosixPath(&#39;experiment_14075819843957476660_2023-12-15_21-45-31/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.675304917
+0.687362875
 </pre></div></div>
 </div>
 <p>Other attributes includes the seed</p>
@@ -701,9 +722,9 @@ PosixPath(&#39;experiment_14075819843957476660_2023-12-15_21-45-31/data.h5&#39;)
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">SVG</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">from</span> <span class="nn">navground.sim.ui</span> <span class="kn">import</span> <span class="n">to_svg</span>
+<span class="kn">from</span> <span class="nn">navground.sim.ui</span> <span class="kn">import</span> <span class="n">svg_for_world</span>
 
-<span class="n">SVG</span><span class="p">(</span><span class="n">to_svg</span><span class="o">.</span><span class="n">svg_for_world</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">))</span>
+<span class="n">SVG</span><span class="p">(</span><span class="n">svg_for_world</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -766,7 +787,7 @@ PosixPath(&#39;experiment_14075819843957476660_2023-12-15_21-45-31/data.h5&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">run</span><span class="p">[</span><span class="s1">&#39;safety_violations&#39;</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">run</span><span class="p">[</span><span class="s1">&#39;safety_violations&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -865,7 +886,7 @@ Safety margin was violated 9.6% of the time
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;KeysViewHDF5 [&#39;agent_0&#39;, &#39;agent_1&#39;, &#39;agent_2&#39;, &#39;agent_3&#39;, &#39;agent_4&#39;, &#39;agent_5&#39;, &#39;agent_6&#39;, &#39;agent_7&#39;, &#39;agent_8&#39;, &#39;agent_9&#39;]&gt;
+&lt;KeysViewHDF5 [&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;]&gt;
 </pre></div></div>
 </div>
 <p>For each agents, their <a class="reference external" href="../reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.log_size">WaypointsTask</a> tells us when it started moving towards which waypoint as a list <code class="docutils literal notranslate"><span class="pre">[time,</span> <span class="pre">target_x,</span> <span class="pre">target_y,</span> <span class="pre">target_theta]</span></code>. Let’s check the first few events for the first agent.</p>
@@ -936,6 +957,165 @@ and 99% of the time between 4.90 and 16.20 seconds
 </div>
 </div>
 </section>
+<section id="Parallelize-the-execution">
+<h2>Parallelize the execution<a class="headerlink" href="#Parallelize-the-execution" title="Link to this heading">#</a></h2>
+<p>We can distribute the execution of an experiment over multiple threads or multiple processes. See the <a class="reference external" href="../guides/parallelize.html">guide on how to parallelize</a> for more information.</p>
+<p>Let’s run a larger experiment (20 vs 2 runs) but using 4 processes instead of 1. We will also display the progresses using tqdm.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="n">processes</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">runs</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="c1"># remove the previous runs</span>
+<span class="n">experiment</span><span class="o">.</span><span class="n">remove_all_runs</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">runs</span><span class="p">)</span> <span class="k">as</span> <span class="n">bar</span><span class="p">:</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">run_mp</span><span class="p">(</span><span class="n">number_of_processes</span><span class="o">=</span><span class="n">processes</span><span class="p">,</span>
+                      <span class="n">number_of_runs</span><span class="o">=</span><span class="n">runs</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="n">bar</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Performed </span><span class="si">{</span><span class="n">runs</span><span class="si">}</span><span class="s2"> runs in &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">duration</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="si">}</span><span class="s2"> seconds &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;over </span><span class="si">{</span><span class="n">processes</span><span class="si">}</span><span class="s2"> processes &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "af2d13184c714804a4ce8f4b2c0b53e3", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Performed 20 runs in 5.777927 seconds over 4 processes
+</pre></div></div>
+</div>
+<p>As before, the results are stored in <code class="docutils literal notranslate"><span class="pre">experiment.path</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-43/data.h5&#39;)
+</pre></div></div>
+</div>
+<p>We find other HDF5 files stored alongside:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.h5&quot;</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;data.h5&#39;, &#39;data_0.h5&#39;, &#39;data_1.h5&#39;, &#39;data_2.h5&#39;, &#39;data_3.h5&#39;]
+</pre></div></div>
+</div>
+<p>In fact, by parallelizing 20 runs over 4 processes, we have effectively split the experiment in 4 sub-experiments of 5 runs each:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span> <span class="s1">&#39;data_0.h5&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;run_0&#39;, &#39;run_1&#39;, &#39;run_2&#39;, &#39;run_3&#39;, &#39;run_4&#39;]
+</pre></div></div>
+</div>
+<p>The main file <code class="docutils literal notranslate"><span class="pre">data.h5</span></code> contains runs <em>linked</em> to these files</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;run_0&#39;, &#39;run_1&#39;, &#39;run_10&#39;, &#39;run_11&#39;, &#39;run_12&#39;, &#39;run_13&#39;, &#39;run_14&#39;, &#39;run_15&#39;, &#39;run_16&#39;, &#39;run_17&#39;, &#39;run_18&#39;, &#39;run_19&#39;, &#39;run_2&#39;, &#39;run_3&#39;, &#39;run_4&#39;, &#39;run_5&#39;, &#39;run_6&#39;, &#39;run_7&#39;, &#39;run_8&#39;, &#39;run_9&#39;]
+</pre></div></div>
+</div>
+<p>which we can access as usual, for example to compute the overall statistics of safety violations:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">svs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">run</span><span class="p">[</span><span class="s1">&#39;safety_violations&#39;</span><span class="p">]</span>
+                          <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">svs</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">svs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Safety margin was violated </span><span class="si">{</span><span class="n">f</span><span class="si">:</span><span class="s1">.1%</span><span class="si">}</span><span class="s1"> of the time&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Safety margin was violated 9.7% of the time
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">svs</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mi">51</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;safety margin violation [m]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;probability&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span> <span class="o">=</span> <span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_running_an_experiment_66_0.png" src="../_images/tutorials_running_an_experiment_66_0.png" />
+</div>
+</div>
+</section>
 </section>
 
 
@@ -950,20 +1130,20 @@ and 99% of the time between 4.90 and 16.20 seconds
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="designing_an_experiment.html"
+       href="running_an_experiment_no_hdf5.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Designing an experiment</p>
+        <p class="prev-next-title">Running and analysing experiments (in memory)</p>
       </div>
     </a>
     <a class="right-next"
-       href="deadlocks_and_collisions.html"
+       href="display.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Deadlocks and Collisions</p>
+        <p class="prev-next-title">Visualize a simulation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -985,6 +1165,7 @@ and 99% of the time between 4.90 and 16.20 seconds
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Configuring-an-experiment">Configuring an experiment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Running-the-experiment">Running the experiment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Analysing-the-data">Analysing the data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Parallelize-the-execution">Parallelize the execution</a></li>
 </ul>
   </nav></div>
 

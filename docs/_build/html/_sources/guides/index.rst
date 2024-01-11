@@ -6,3 +6,4 @@ Guides
    :maxdepth: 1
 
    register
+   parallelize

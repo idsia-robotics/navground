@@ -29,7 +29,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -38,12 +38,12 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
     <script src="../../../_static/documentation_options.js?v=f131489c"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/python/index';</script>
@@ -136,7 +136,18 @@
     <p class="title logo__title">navground 0.0.2 documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current nav bd-sidenav">
@@ -158,12 +169,16 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment.html">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/display.html">Visualize a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/register.html">How to register a component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -175,6 +190,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/cpp/yaml.html">YAML</a></li>
@@ -231,7 +247,11 @@
 <li class="toctree-l4"><a class="reference internal" href="state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualization.html">Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="recorded_experiment.html">Recorded Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="real_time.html">Real-time simulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="helpers.html">Helpers</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -439,7 +459,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.reset_callbacks"><code class="docutils literal notranslate"><span class="pre">World.reset_callbacks()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.run"><code class="docutils literal notranslate"><span class="pre">World.run()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.run_until"><code class="docutils literal notranslate"><span class="pre">World.run_until()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.set_seed"><code class="docutils literal notranslate"><span class="pre">World.set_seed()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.space_agents_apart"><code class="docutils literal notranslate"><span class="pre">World.space_agents_apart()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.update"><code class="docutils literal notranslate"><span class="pre">World.update()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.update_dry"><code class="docutils literal notranslate"><span class="pre">World.update_dry()</span></code></a></li>
@@ -448,6 +467,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.discs"><code class="docutils literal notranslate"><span class="pre">World.discs</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.line_obstacles"><code class="docutils literal notranslate"><span class="pre">World.line_obstacles</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.obstacles"><code class="docutils literal notranslate"><span class="pre">World.obstacles</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.seed"><code class="docutils literal notranslate"><span class="pre">World.seed</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.step"><code class="docutils literal notranslate"><span class="pre">World.step</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.time"><code class="docutils literal notranslate"><span class="pre">World.time</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.walls"><code class="docutils literal notranslate"><span class="pre">World.walls</span></code></a></li>
@@ -545,6 +565,11 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="experiment.html">Experiments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="experiment.html#probes">Probes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Probe"><code class="docutils literal notranslate"><span class="pre">Probe</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.MapProbe"><code class="docutils literal notranslate"><span class="pre">MapProbe</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="experiment.html#experimental-run">Experimental run</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.RecordConfig"><code class="docutils literal notranslate"><span class="pre">RecordConfig</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.ExperimentalRun"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun</span></code></a></li>
@@ -552,6 +577,48 @@ document.write(`
 </li>
 <li class="toctree-l2"><a class="reference internal" href="experiment.html#experiment">Experiment</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="experiment.html#navground.sim.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="visualization.html#display-a-simulated-world">Display a simulated world</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="visualization.html#navground.sim.ui.svg_for_world"><code class="docutils literal notranslate"><span class="pre">svg_for_world()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="visualization.html#navground.sim.ui.html_for_world"><code class="docutils literal notranslate"><span class="pre">html_for_world()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="visualization.html#navground.sim.ui.notebook_view"><code class="docutils literal notranslate"><span class="pre">notebook_view()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="visualization.html#synchronize-html-clients-with-a-simulation">Synchronize HTML clients with a simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="visualization.html#navground.sim.ui.WebUI"><code class="docutils literal notranslate"><span class="pre">WebUI</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="visualization.html#video">Video</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="visualization.html#navground.sim.ui.video.record_video"><code class="docutils literal notranslate"><span class="pre">record_video()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="visualization.html#navground.sim.ui.video.record_video_from_run"><code class="docutils literal notranslate"><span class="pre">record_video_from_run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="visualization.html#navground.sim.ui.video.display_video"><code class="docutils literal notranslate"><span class="pre">display_video()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="visualization.html#navground.sim.ui.video.display_video_from_run"><code class="docutils literal notranslate"><span class="pre">display_video_from_run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="recorded_experiment.html">Recorded Experiments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="recorded_experiment.html#recorded-run">Recorded Run</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="recorded_experiment.html#navground.sim.RecordedExperimentalRun"><code class="docutils literal notranslate"><span class="pre">RecordedExperimentalRun</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="recorded_experiment.html#recorded-experiment">Recorded Experiment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="recorded_experiment.html#navground.sim.RecordedExperiment"><code class="docutils literal notranslate"><span class="pre">RecordedExperiment</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="real_time.html">Real-time simulations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="real_time.html#perform-an-experiment-in-real-time">Perform an experiment in real-time</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="real_time.html#navground.sim.real_time.RealTimeSimulation"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="real_time.html#replay-an-experiment-in-real-time">Replay an experiment in real-time</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="real_time.html#navground.sim.replay.RealTimeReplay"><code class="docutils literal notranslate"><span class="pre">RealTimeReplay</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -564,6 +631,10 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="yaml.html#load_world"><code class="docutils literal notranslate"><span class="pre">load_world()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="yaml.html#load_experiment"><code class="docutils literal notranslate"><span class="pre">load_experiment()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html">Helpers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html#navground.sim.uses_python"><code class="docutils literal notranslate"><span class="pre">uses_python()</span></code></a></li>
 </ul>
 </li>
 </ul>

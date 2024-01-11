@@ -29,7 +29,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -39,12 +39,12 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
+    <script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
     <script src="../_static/documentation_options.js?v=f131489c"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/jquery.js?v=5d32c60e"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -139,7 +139,18 @@
     <p class="title logo__title">navground 0.0.2 documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current nav bd-sidenav">
@@ -161,12 +172,16 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="designing_an_experiment.html">Designing an experiment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="running_an_experiment.html">Running and analysing experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html">Visualize a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -235,7 +250,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/visualization.html">Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/recorded_experiment.html">Recorded Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/real_time.html">Real-time simulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1214,7 +1233,7 @@ Action has finished with State.success.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-datetime.timedelta(microseconds=108)
+datetime.timedelta(microseconds=270)
 </pre></div></div>
 </div>
 <p>as well as the agents’ trajectory, as an array of <code class="docutils literal notranslate"><span class="pre">steps</span> <span class="pre">x</span> <span class="pre">agents</span> <span class="pre">x</span> <span class="pre">3</span></code> coordinates.</p>
@@ -1381,70 +1400,6 @@ agents:
     color: &#34;&#34;
     id: 0
     uid: 4
----
-obstacles:
-  - position:
-      - 5
-      - 0.10000000000000001
-    radius: 1
-    uid: 5
-walls:
-  []
-agents:
-  - behavior:
-      type: ORCA
-      effective_center: false
-      time_horizon: 10
-      optimal_speed: 1
-      optimal_angular_speed: 1
-      rotation_tau: 0.5
-      safety_margin: 0
-      horizon: 5
-      radius: 1
-      heading: velocity
-      kinematics:
-        type: 2WDiff
-        wheel_axis: 2
-        max_speed: 1
-        max_angular_speed: 1
-      social_margin:
-        modulation:
-          type: constant
-        default: 0
-    kinematics:
-      type: 2WDiff
-      wheel_axis: 2
-      max_speed: 1
-      max_angular_speed: 1
-    task:
-      type: Waypoints
-      loop: true
-      tolerance: 0.10000000000000001
-      waypoints:
-        -
-          - 10
-          - 0
-        -
-          - 0
-          - 0
-    state_estimation:
-      type: Bounded
-      range: 5
-      update_static_obstacles: false
-    position:
-      - 0.084434494078052452
-      - 0.041746142367328452
-    orientation: 4.7004980184147644
-    velocity:
-      - 0
-      - -0
-    angular_speed: 1
-    radius: 1
-    control_period: 0.10000000000000001
-    type: thymio
-    color: &#34;&#34;
-    id: 0
-    uid: 4
 </pre></div></div>
 </div>
 </section>
@@ -1479,8 +1434,7 @@ agents:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground.sim.ui.web_ui</span> <span class="kn">import</span> <span class="n">WebUI</span>
-<span class="kn">from</span> <span class="nn">navground.sim.ui.to_html</span> <span class="kn">import</span> <span class="n">notebook_view</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground.sim.ui</span> <span class="kn">import</span> <span class="n">notebook_view</span><span class="p">,</span> <span class="n">WebUI</span>
 <span class="kn">from</span> <span class="nn">navground.sim.real_time</span> <span class="kn">import</span> <span class="n">RealTimeSimulation</span>
 
 <span class="n">web_ui</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">max_rate</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
@@ -1498,7 +1452,7 @@ True
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">notebook_view</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
@@ -1506,7 +1460,7 @@ True
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1561,7 +1515,7 @@ var svg_world;
 // })
 
 // require(["svg-pan-zoom"], function(svgPanZoom) {
-//   window.svgPanZoom = svgPanZoom('#N1svg', {
+//   window.svgPanZoom = svgPanZoom('#N0svg', {
 //     panEnabled: true,
 //     controlIconsEnabled: true,
 //     zoomEnabled: true,
@@ -1570,7 +1524,7 @@ var svg_world;
 //     minZoom: 0.1
 //   });
 //   svg = document.getElementsByClassName("svg-pan-zoom_viewport")[0];
-//   svg_world = document.getElementById("N1world");
+//   svg_world = document.getElementById("N0world");
 // });
 
 
@@ -1583,7 +1537,7 @@ var ws_address = "ws://127.0.0.1:8000/"
 var ws = new WebSocket(ws_address);
 
 ws.onopen = function(event) {
-  console.log('N1 Opened Web socket ' + ws_address)
+  console.log('N0 Opened Web socket ' + ws_address)
 };
 
 ws.onmessage = function(event) {
@@ -1613,7 +1567,7 @@ ws.onmessage = function(event) {
 var agents = new Set();
 var entity = {};
 var NS = "http://www.w3.org/2000/svg";
-var prototypes = {'': '#N1agent', 'thymio': '#N1thymio', 'wheelchair': '#N1wheelchair', 'human': '#N1human'}
+var prototypes = {'': '#N0agent', 'thymio': '#N0thymio', 'wheelchair': '#N0wheelchair', 'human': '#N0human'}
 var colors = {'': '#cccccc', 'thymio': '#e6e6e6', 'wheelchair': '#wheelchair', 'human': '#human'}
 
 function add_wall(id, points) {
@@ -1650,7 +1604,7 @@ function add_agent(id, type, size, color)
 {
   var g = document.createElementNS(NS,"g");
   var agent = document.createElementNS(NS,"use");
-  var uid = prototypes[type] || '#N1agent';
+  var uid = prototypes[type] || '#N0agent';
   agent.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", uid);
   agent.setAttribute("transform", `scale(${size}, ${size})`)
   g.appendChild(agent)
@@ -1661,13 +1615,13 @@ function add_agent(id, type, size, color)
 };
 
 function add_entity(uid, data) {
-  var id = "N1" + uid
+  var id = "N0" + uid
   if (id in entity) {
     console.warn(`Entity ${id} already present`)
     return;
   }
   var kind = data['kind'];
-  var svg_world = document.getElementById("N1world");
+  var svg_world = document.getElementById("N0world");
   var e = document.getElementById(id);
   if (e) {
     svg_world.removeChild(e);
@@ -1716,7 +1670,7 @@ function set_entity(_id, data) {
 
 function set(data) {
   for (var _id in data) {
-    var _nid = 'N1' + _id
+    var _nid = 'N0' + _id
     if (_nid in entity) {
       set_entity(_nid, data[_id])
     } else {
@@ -1745,13 +1699,13 @@ function move_entity(_id, data) {
 
 function move(data) {
   for (var _id in data) {
-    move_entity('N1' + _id, data[_id])
+    move_entity('N0' + _id, data[_id])
   }
   window.requestAnimationFrame(update);
 };
 
 function reset() {
-  var svg_world = document.getElementById("N1world");
+  var svg_world = document.getElementById("N0world");
   for (var _id in entity) {
     svg_world.removeChild(entity[_id]['svg'])
   }
@@ -1763,7 +1717,7 @@ function reset() {
 
 function view(data) {
   var [x, y, width, height] = data;
-  var svg = document.getElementById("N1svg");
+  var svg = document.getElementById("N0svg");
   svg.setAttribute("viewBox", `${x} ${y} ${width} ${height}`)
   window.requestAnimationFrame(update);
 };
@@ -1786,7 +1740,7 @@ function update(step) {
 };
 
 function remove_entity(_id) {
-    var svg_world = document.getElementById("N1world");
+    var svg_world = document.getElementById("N0world");
     console.log(`remove ${_id}`)
     svg_world.removeChild(entity[_id]['svg'])
     agents.delete(_id);
@@ -1806,10 +1760,10 @@ function move_element(g, x, y, angle) {
   <div>
     <h1></h1>
   </div>
-  <svg id="N1svg" width="300" height="300" viewBox="0 0 1 1 ">
+  <svg id="N0svg" width="300" height="300" viewBox="0 0 1 1 ">
     <defs>
-        <circle id="N1agent" cx="0" cy="0" r="1" class="body"/>
-        <g id="N1thymio" transform="rotate(90) scale(0.125)">
+        <circle id="N0agent" cx="0" cy="0" r="1" class="body"/>
+        <g id="N0thymio" transform="rotate(90) scale(0.125)">
             <path
                class="body"
                fill="#e6e6e6"
@@ -1831,7 +1785,7 @@ function move_element(g, x, y, angle) {
                y="-2.0999999"
                rx="0.5" />
         </g>
-<g id="N1wheelchair" transform="scale(0.02) rotate(180) translate(-55,-173)" >
+<g id="N0wheelchair" transform="scale(0.02) rotate(180) translate(-55,-173)" >
       <path
          class="body"
          id="path7"
@@ -1857,7 +1811,7 @@ function move_element(g, x, y, angle) {
          d="m 92.497232,199.91332 v -2.77148 -52.78711 h -5.558593 v 55.55859 z"
          id="path11" />
     </g>
-    <g id="N1human" transform="scale(0.02) rotate(180) translate(-50,-175)">
+    <g id="N0human" transform="scale(0.02) rotate(180) translate(-50,-175)">
     <ellipse
        style="fill:#666666;fill-opacity:1;stroke:none;stroke-width:0.605428;stroke-dasharray:none"
        id="circle11"
@@ -1888,7 +1842,7 @@ function move_element(g, x, y, angle) {
        ry="6.961535" />
     </g>
     </defs>
-    <g id='N1world' transform="scale(1, -1)">
+    <g id='N0world' transform="scale(1, -1)">
 
     </g>
   </svg>
@@ -1896,7 +1850,7 @@ function move_element(g, x, y, angle) {
 </html></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># we run 5x faster than real-time</span>
@@ -1908,19 +1862,11 @@ function move_element(g, x, y, angle) {
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">until_time</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">60</span>
 <span class="k">await</span> <span class="n">rt_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">until</span><span class="o">=</span><span class="k">lambda</span> <span class="p">:</span> <span class="n">world</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;</span> <span class="n">until_time</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>

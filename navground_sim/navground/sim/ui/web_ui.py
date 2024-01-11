@@ -1,4 +1,5 @@
 import asyncio
+import itertools
 import json
 import logging
 import sys
@@ -9,7 +10,7 @@ import websockets
 import websockets.server
 
 from .. import Agent, Entity, Obstacle, Wall, World
-from .to_svg import Rect, size
+from .to_svg import Attributes, Decorate, Rect, flat_dict, size
 
 PoseMsg = Tuple[float, float, float]
 EntityMsg = Dict[str, Any]
@@ -78,7 +79,10 @@ class WebUI:
     Displays the world on HTML client views.
     The state is synchronized through websockets.
 
-    After creating an instance, you need to call :py:class:`prepare`
+    :ivar decorate: A function to decorate entities, called at each update
+    :vartype decorate: :py:class:`typing.Mapping[str, str]`
+
+    After creating an instance, you need to call :py:meth:`prepare`
     to finalize the initialization of the websocket server,
     else the HTML clients will not be able to connect.
 
@@ -93,6 +97,8 @@ class WebUI:
     >>> await ui.update(world)
     >>> # set entity attributes, for example to change the color of the first agent
     >>> await ui.set(world.agents[0], style="fill:red")
+    >>> # or analogously
+    >>> await ui.set_color(world.agents[0], "red")
 
     In general, users will not use this class directly but delegate updating the view
     to :py:class:`navground.sim.RealTimeSimulation` or
@@ -112,7 +118,7 @@ class WebUI:
                  max_rate: float = 30,
                  display_deadlocks: bool = False,
                  display_collisions: bool = False,
-                 callback: Optional[Callable[[World], None]] = None) -> None:
+                 decorate: Optional[Decorate] = None) -> None:
         """
         Constructs a new instance.
 
@@ -121,6 +127,7 @@ class WebUI:
         :param      max_rate:            The maximum synchronization rate [fps]
         :param      display_deadlocks:   Whether to color deadlocked agents
         :param      display_collisions:  Whether to color agents in collision
+        :param      decorate:            A function to decorate entities, called at each update
         """
         self.port = port
         self.host = host
@@ -136,7 +143,7 @@ class WebUI:
         self.display_deadlocks = display_deadlocks
         self.in_collision: Set[int] = set()
         self.in_deadlock: Set[int] = set()
-        self.update_callback = callback
+        self.decorate = decorate
 
     @property
     def is_ready(self) -> bool:
@@ -161,7 +168,7 @@ class WebUI:
     @property
     def number_of_client(self) -> int:
         """
-        :returns:   The number of connected clients.
+        :returns:   The number of connected client views.
         """
         return len(self.queues)
 
@@ -200,6 +207,14 @@ class WebUI:
             await queue.put(data)
 
     async def init(self, world: World, bounds: Optional[Rect] = None) -> None:
+        """
+        Initialize the client views to display a world
+
+        :param      world:   The world to be displayed
+        :param      bounds:  The area to display. If not set, it will displays
+                             an area that contains all world entities
+                             at their current positions
+        """
         reset_msg = ('r', None)
         entities = {}
         for wall in world.walls:
@@ -214,8 +229,18 @@ class WebUI:
             for queue in self.queues:
                 await queue.put(data)
         await self.update_size(world=world, bounds=bounds)
+        await self.update_style(world)
 
     async def update(self, world: World) -> None:
+        """
+        Synchronized all client views with the current world state.
+
+        :param      world:  The world
+        :type       world:  World
+
+        :returns:   { description_of_the_return_value }
+        :rtype:     None
+        """
         if not self.queues:
             return
         stamp = time.time()
@@ -224,43 +249,74 @@ class WebUI:
             return
         self.last_update_stamp = stamp
         await self.update_poses(world)
-        await self.update_colors(world)
-        if self.update_callback:
-            await self.update_callback(world)
+        await self.update_style(world)
 
     async def update_poses(self, world: World) -> None:
         msg = ['m', {a._uid: pose_msg(a) for a in world.agents}]
         await self.send(msg)
 
-    async def update_colors(self, world: World) -> None:
-        rs = {}
+    def compute_style(self, world: World) -> Dict[int, Attributes]:
+        rs: Dict[int, Attributes] = {}
+        if self.decorate:
+            for e in itertools.chain(world.walls, world.obstacles,
+                                     world.agents):
+                r = self.decorate(e)
+                if r:
+                    rs[e._uid] = r
         if self.display_collisions:
             in_collision = set(
                 [a._uid for a in world.get_agents_in_collision(1.0)])
             for e in in_collision - self.in_collision:
-                rs[e] = {'style': 'fill:red'}
+                if e not in rs:
+                    rs[e] = {}
+                rs[e]['fill'] = 'red'
             for e in self.in_collision - in_collision:
                 a = world.get_entity(e)
                 if isinstance(a, Agent):
-                    rs[e] = {'style': '' if not a.color else f'fill:{a.color}'}
+                    if e not in rs:
+                        rs[e] = {}
+                    rs[e]['fill'] = a.color
             self.in_collision = in_collision
         if self.display_deadlocks:
             in_deadlock = set(
                 [a._uid for a in world.get_agents_in_deadlock(5.0)])
             for e in in_deadlock - self.in_deadlock:
                 if e not in rs:
-                    rs[e] = {'style': 'fill:blue'}
+                    rs[e] = {}
+                rs[e]['fill'] = 'blue'
             for e in self.in_deadlock - in_deadlock:
                 a = world.get_entity(e)
                 if isinstance(a, Agent):
-                    rs[e] = {'style': '' if not a.color else f'fill:{a.color}'}
+                    if e not in rs:
+                        rs[e] = {}
+                    rs[e]['fill'] = a.color
             self.in_deadlock = in_deadlock
-        if rs:
-            await self.send(['s', rs])
+        return rs
 
-    async def set(self, entity: Entity, **kwargs) -> None:
+    async def update_style(self, world: World) -> None:
+        rs = self.compute_style(world)
+        if rs:
+            ds = {e: flat_dict(v) for e, v in rs.items()}
+            await self.send(['s', ds])
+
+    async def set(self, entity: Entity, **kwargs: Any) -> None:
+        """
+        Set attributes for an entity
+
+        :param      entity:  The entity
+        :param      kwargs:  The attributes (string-valued)
+        """
         msg = ['s', {entity._uid: kwargs}]
         await self.send(msg)
+
+    async def set_color(self, entity: Entity, color: str) -> None:
+        """
+        Sets the color of an entity.
+
+        :param      entity:  The entity
+        :param      color:   The color
+        """
+        await self.set(entity, style=f'fill:{color}')
 
     async def send(self, msg: Any) -> None:
         data = json.dumps(msg)
@@ -268,6 +324,11 @@ class WebUI:
             await queue.put(data)
 
     async def set_background_color(self, color: str) -> None:
+        """
+        Sets the background color.
+
+        :param      color:  The color
+        """
         msg = ['s', {'svg': {'style': f"background-color:{color}"}}]
         await self.send(msg)
 
@@ -277,6 +338,7 @@ class WebUI:
             if r:
                 await r
         self.server = None
+        self._prepared = False
 
     def add_callback(self, cb: Callback) -> None:
         self._callbacks.append(cb)

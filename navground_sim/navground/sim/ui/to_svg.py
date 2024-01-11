@@ -1,7 +1,7 @@
 import math
 import os
 from collections import ChainMap
-from typing import Any, Callable, List, Mapping, Optional, Tuple, cast
+from typing import Any, Callable, Dict, List, Mapping, Optional, Tuple, cast
 
 import jinja2
 import numpy as np
@@ -20,6 +20,10 @@ jinjia_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(template_folder))
 
 
+def svg_color(r: float, g: float, b: float) -> str:
+    return f"#{int(r * 255):02x}{int(g * 255):02x}{int(b * 255):02x}"
+
+
 def flat(attributes: Attributes) -> str:
     attributes = dict(attributes)
     r = ''
@@ -30,6 +34,15 @@ def flat(attributes: Attributes) -> str:
     if attributes:
         value = ';'.join(f"{k}:{v}" for k, v in attributes.items())
         r += f'style="{value}"'
+    return r
+
+
+def flat_dict(attributes: Attributes) -> Dict[str, str]:
+    attributes = dict(attributes)
+    r: Dict[str, str] = {}
+    if 'class' in attributes:
+        r['class'] = attributes.pop('class')
+    r['style'] = ';'.join(f"{k}:{v}" for k, v in attributes.items())
     return r
 
 
@@ -129,7 +142,8 @@ def svg_for_agent(agent: Agent,
                                    prefix,
                                    attributes,
                                    fill=agent.color)
-    return svg_g_use(proto, agent.pose, agent.radius, precision, attributes, shape)
+    return svg_g_use(proto, agent.pose, agent.radius, precision, attributes,
+                     shape)
 
 
 def svg_for_world(*args: Any, **kwargs: Any) -> str:
@@ -139,7 +153,7 @@ def svg_for_world(*args: Any, **kwargs: Any) -> str:
 def _svg_for_world(world: Optional[World] = None,
                    prefix: str = '',
                    precision: int = 2,
-                   decorate: Decorate = default_decoration,
+                   decorate: Optional[Decorate] = None,
                    interactive: bool = False,
                    standalone: bool = True,
                    bounds: Optional[Rect] = None,
@@ -154,12 +168,15 @@ def _svg_for_world(world: Optional[World] = None,
     g = ""
     if world:
         for wall in world.walls:
-            g += svg_for_wall(wall, precision, prefix, decorate(wall))
+            g += svg_for_wall(wall, precision, prefix,
+                              decorate(wall) if decorate else {})
         for obstacle in world.obstacles:
             g += svg_for_obstacle(obstacle, precision, prefix,
-                                  decorate(obstacle))
+                                  decorate(obstacle) if decorate else {})
         for agent in world.agents:
-            g += svg_for_agent(agent, precision, prefix, decorate(agent), display_shape)
+            g += svg_for_agent(agent, precision, prefix,
+                               decorate(agent) if decorate else {},
+                               display_shape)
         width, height, view_box, min_y = size(world, bounds, width, min_height,
                                               relative_margin)
     else:

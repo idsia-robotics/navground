@@ -416,7 +416,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.registered_property"><code class="docutils literal notranslate"><span class="pre">registered_property()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core._navground.BehaviorRegister"><code class="docutils literal notranslate"><span class="pre">BehaviorRegister</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core._navground.BehaviorRegister.types"><code class="docutils literal notranslate"><span class="pre">BehaviorRegister.types</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core._navground.BehaviorRegister.type_properties"><code class="docutils literal notranslate"><span class="pre">BehaviorRegister.type_properties</span></code></a></li>
@@ -449,12 +449,11 @@ with name ending by <code class="docutils literal notranslate"><span class="pre"
 </div>
 <p>will register type <code class="docutils literal notranslate"><span class="pre">SubClassOfT</span></code> under the name <code class="docutils literal notranslate"><span class="pre">&quot;SubClassOfT&quot;</span></code>.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="navground.core.registered_property">
-<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-name descname"><span class="pre">registered_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="property.html#navground.core.PropertyField" title="navground.core.PropertyField"><span class="pre">PropertyField</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deprecated_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.core.registered_property" title="Link to this definition">#</a></dt>
-<dd><p>A decorator that define and automatically register a property.
-The use it similar to <code class="xref py py-func docutils literal notranslate"><span class="pre">property()</span></code>, except for the
-two additional arguments</p>
-<p>For example, the following code adds a boolean valued auto
+<dt class="sig sig-object py" id="navground.core.register">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="property.html#navground.core.PropertyField" title="navground.core.PropertyField"><span class="pre">PropertyField</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deprecated_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.core.register" title="Link to this definition">#</a></dt>
+<dd><p>A decorator to register a property.
+It must be used below the <code class="docutils literal notranslate"><span class="pre">&#64;property</span></code> decorator.</p>
+<p>For example, the following code adds a boolean valued
 registered property to a registered sub-class <code class="docutils literal notranslate"><span class="pre">C</span></code> of class <code class="docutils literal notranslate"><span class="pre">T</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;C&quot;</span><span class="p">):</span>
 
@@ -462,7 +461,8 @@ registered property to a registered sub-class <code class="docutils literal notr
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_my_field</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="nd">@registered_property</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;...&quot;</span><span class="p">)</span>
+    <span class="nd">@property</span>
+    <span class="nd">@register</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;...&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">my_property</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_my_field</span><span class="p">;</span>
 
@@ -477,7 +477,7 @@ registered property to a registered sub-class <code class="docutils literal notr
 <li><p><strong>default_value</strong> – The default value of the property
 when the object is initialized</p></li>
 <li><p><strong>description</strong> – The description of the property</p></li>
-<li><p><strong>description</strong> – A list of alternative deprecated names</p></li>
+<li><p><strong>deprecated_names</strong> – A list of alternative deprecated names</p></li>
 </ul>
 </dd>
 </dl>
@@ -567,7 +567,7 @@ as registered Python sub-classes of <a class="reference internal" href="kinemati
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.registered_property"><code class="docutils literal notranslate"><span class="pre">registered_property()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core._navground.BehaviorRegister"><code class="docutils literal notranslate"><span class="pre">BehaviorRegister</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core._navground.BehaviorRegister.types"><code class="docutils literal notranslate"><span class="pre">BehaviorRegister.types</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core._navground.BehaviorRegister.type_properties"><code class="docutils literal notranslate"><span class="pre">BehaviorRegister.type_properties</span></code></a></li>

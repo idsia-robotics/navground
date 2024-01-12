@@ -15,8 +15,7 @@ Python sub-classes of ``T`` by adding ``name=<name>`` to the class, where the ``
 will register type ``SubClassOfT`` under the name ``"SubClassOfT"``.
 
 
-
-.. autodecorator:: navground.core.registered_property
+.. autodecorator:: navground.core.register
 
 
 .. autoclass:: navground.core._navground.BehaviorRegister

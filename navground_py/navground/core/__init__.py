@@ -30,7 +30,7 @@ def register(default_value: PropertyField,
              deprecated_names: list[str] = []) -> Callable[[T], T]:
     """
     A decorator to register a property.
-    It must be used below the @property decorator.
+    It must be used below the ``@property`` decorator.
 
     For example, the following code adds a boolean valued
     registered property to a registered sub-class ``C`` of class ``T``:
@@ -59,7 +59,7 @@ def register(default_value: PropertyField,
 
     :param description: The description of the property
 
-    :param description: A list of alternative deprecated names
+    :param deprecated_names: A list of alternative deprecated names
     """
 
     def g(f: T) -> T:

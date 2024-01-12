@@ -507,8 +507,9 @@ document.write(`
 <h3>Python<a class="headerlink" href="#python" title="Link to this heading">#</a></h3>
 <p>Registering a Python sub-class <code class="docutils literal notranslate"><span class="pre">MyClass</span></code> in the parent class <code class="docutils literal notranslate"><span class="pre">T</span></code>  register, requires to</p>
 <ol class="arabic">
-<li><p>Optionally, in case <code class="docutils literal notranslate"><span class="pre">MyClass</span></code> should exposed properties, register all properties using <a class="reference internal" href="../reference/core/python/register.html#navground.core.registered_property" title="navground.core.registered_property"><code class="xref py py-func docutils literal notranslate"><span class="pre">navground.registered_property()</span></code></a>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@registered_property</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;my property description&quot;</span><span class="p">)</span>
+<li><p>Optionally, in case <code class="docutils literal notranslate"><span class="pre">MyClass</span></code> should exposed properties, register all properties using <a class="reference internal" href="../reference/core/python/register.html#navground.core.register" title="navground.core.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">navground.register()</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span>
+<span class="nd">@register</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;my property description&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_property</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_my_field</span><span class="p">;</span>
 
@@ -527,7 +528,7 @@ document.write(`
 </ol>
 <section id="id1">
 <h4>Complete example<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">navground.core</span> <span class="kn">import</span> <span class="n">registered_property</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">navground.core</span> <span class="kn">import</span> <span class="n">register</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span>
 <span class="linenos"> 4</span><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyClass&quot;</span><span class="p">):</span>
@@ -536,13 +537,14 @@ document.write(`
 <span class="linenos"> 7</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 <span class="linenos"> 8</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_my_field</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="linenos"> 9</span>
-<span class="linenos">10</span>    <span class="nd">@registered_property</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;my property description&quot;</span><span class="p">)</span>
-<span class="linenos">11</span>    <span class="k">def</span> <span class="nf">my_property</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="linenos">12</span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_my_field</span>
-<span class="linenos">13</span>
-<span class="linenos">14</span>    <span class="nd">@my_property</span><span class="o">.</span><span class="n">setter</span>
-<span class="linenos">15</span>    <span class="k">def</span> <span class="nf">my_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="linenos">16</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_my_field</span> <span class="o">=</span> <span class="n">value</span>
+<span class="linenos">10</span>    <span class="nd">@property</span>
+<span class="linenos">11</span>    <span class="nd">@register</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;my property description&quot;</span><span class="p">)</span>
+<span class="linenos">12</span>    <span class="k">def</span> <span class="nf">my_property</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="linenos">13</span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_my_field</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span>    <span class="nd">@my_property</span><span class="o">.</span><span class="n">setter</span>
+<span class="linenos">16</span>    <span class="k">def</span> <span class="nf">my_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos">17</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_my_field</span> <span class="o">=</span> <span class="n">value</span>
 </pre></div>
 </div>
 </section>

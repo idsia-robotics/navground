@@ -1,30 +1,11 @@
 import pathlib
 from typing import Any, Union
 
-import cairosvg
 import moviepy.editor as mpy
 import numpy as np
 
 from .. import RecordedExperimentalRun, World
-from .to_svg import svg_for_world
-
-
-def _surface_to_npim(surface):
-    """ Transforms a Cairo surface into a numpy array. """
-    im = +np.frombuffer(surface.get_data(), np.uint8)
-    H, W = surface.get_height(), surface.get_width()
-    im.shape = (H, W, 4)  # for RGBA
-    return im[:, :, 2::-1]
-
-
-def _svg_to_npim(svg_bytestring, dpi=96, background_color="snow"):
-    """ Renders a svg bytestring as a RGB image in a numpy array """
-    tree = cairosvg.parser.Tree(bytestring=svg_bytestring)
-    surf = cairosvg.surface.PNGSurface(tree,
-                                       None,
-                                       dpi,
-                                       background_color=background_color).cairo
-    return _surface_to_npim(surf)
+from .render import image_for_world
 
 
 def make_video(world: World,
@@ -42,10 +23,10 @@ def make_video(world: World,
         dt = t - world.time - t0
         if dt > 0:
             world.update(dt)
-        svg_data = svg_for_world(world, **kwargs)
         # TODO(Jerome): they don't have always the same size ...
-        r = _svg_to_npim(svg_data, background_color=background_color)
-        return r
+        return image_for_world(world,
+                               background_color=background_color,
+                               **kwargs)
 
     return mpy.VideoClip(make_frame, duration=duration / factor)
 
@@ -64,10 +45,11 @@ def make_video_from_run(run: RecordedExperimentalRun,
         new_step = int(t // run.time_step)
         if new_step != run._step or frame is None:
             if run.go_to_step(new_step):
-                svg_data = svg_for_world(run.world, bounds=bounds, **kwargs)
                 # TODO(Jerome): they don't have always the same size ...
-                frame = _svg_to_npim(svg_data,
-                                     background_color=background_color)
+                frame = image_for_world(run.world,
+                                        bounds=bounds,
+                                        background_color=background_color,
+                                        **kwargs)
         return frame
 
     return mpy.VideoClip(make_frame, duration=run._final_sim_time / factor)

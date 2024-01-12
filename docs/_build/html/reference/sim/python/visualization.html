@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Visualization &#8212; navground 0.0.2 documentation</title>
+    <title>Visualization &#8212; navground 0.0.3 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=f131489c"></script>
+    <script src="../../../_static/documentation_options.js?v=4acdca81"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.2 documentation</p>
+    <p class="title logo__title">navground 0.0.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -420,6 +420,9 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ui.svg_for_world"><code class="docutils literal notranslate"><span class="pre">svg_for_world()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ui.html_for_world"><code class="docutils literal notranslate"><span class="pre">html_for_world()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ui.notebook_view"><code class="docutils literal notranslate"><span class="pre">notebook_view()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ui.render.image_for_world"><code class="docutils literal notranslate"><span class="pre">image_for_world()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ui.render.png_for_world"><code class="docutils literal notranslate"><span class="pre">png_for_world()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ui.render.pdf_for_world"><code class="docutils literal notranslate"><span class="pre">pdf_for_world()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synchronize-html-clients-with-a-simulation">Synchronize HTML clients with a simulation</a><ul class="nav section-nav flex-column">
@@ -456,8 +459,15 @@ document.write(`
                   
   <section id="visualization">
 <h1>Visualization<a class="headerlink" href="#visualization" title="Link to this heading">#</a></h1>
+<p>Visualization related functionality are provided in sub package
+:module:  <code class="xref py py-mod docutils literal notranslate"><span class="pre">navground.sim.ui</span></code> and not imported in the top-level package to minimize dependencies.</p>
 <section id="display-a-simulated-world">
 <h2>Display a simulated world<a class="headerlink" href="#display-a-simulated-world" title="Link to this heading">#</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">module<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">navground.sim.ui</span></code></p>
+</dd>
+</dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="navground.sim.ui.svg_for_world">
 <span class="sig-name descname"><span class="pre">svg_for_world</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="world.html#navground.sim.World" title="navground.sim.World"><span class="pre">World</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decorate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="world.html#navground.sim.Entity" title="navground.sim.Entity"><span class="pre">Entity</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'snow'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#navground.sim.ui.svg_for_world" title="Link to this definition">#</a></dt>
@@ -528,9 +538,74 @@ a <a class="reference internal" href="#navground.sim.ui.WebUI" title="navground.
 </dl>
 </dd></dl>
 
+<dl class="field-list simple">
+<dt class="field-odd">module<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">navground.sim.ui.render</span></code></p>
+</dd>
+</dl>
+<p>Render SVGs using <code class="docutils literal notranslate"><span class="pre">cairosvg</span></code>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="navground.sim.ui.render.image_for_world">
+<span class="sig-name descname"><span class="pre">image_for_world</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="world.html#navground.sim.World" title="navground.sim.World"><span class="pre">World</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'snow'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#navground.sim.ui.render.image_for_world" title="Link to this definition">#</a></dt>
+<dd><p>Renders the world as a raw image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>world</strong> – The world to be rendered</p></li>
+<li><p><strong>background_color</strong> – A valid SVG color for the background</p></li>
+<li><p><strong>kwargs</strong> – Arguments forwarded to <a class="reference internal" href="#navground.sim.ui.svg_for_world" title="navground.sim.ui.svg_for_world"><code class="xref py py-func docutils literal notranslate"><span class="pre">navground.sim.ui.svg_for_world()</span></code></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An RGB image as a numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="navground.sim.ui.render.png_for_world">
+<span class="sig-name descname"><span class="pre">png_for_world</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="world.html#navground.sim.World" title="navground.sim.World"><span class="pre">World</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'snow'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#navground.sim.ui.render.png_for_world" title="Link to this definition">#</a></dt>
+<dd><p>Renders the world as an png image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>world</strong> – The world to be rendered</p></li>
+<li><p><strong>background_color</strong> – A valid SVG color for the background</p></li>
+<li><p><strong>kwargs</strong> – Arguments forwarded to <a class="reference internal" href="#navground.sim.ui.svg_for_world" title="navground.sim.ui.svg_for_world"><code class="xref py py-func docutils literal notranslate"><span class="pre">navground.sim.ui.svg_for_world()</span></code></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A png bytestring</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="navground.sim.ui.render.pdf_for_world">
+<span class="sig-name descname"><span class="pre">pdf_for_world</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="world.html#navground.sim.World" title="navground.sim.World"><span class="pre">World</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'snow'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#navground.sim.ui.render.pdf_for_world" title="Link to this definition">#</a></dt>
+<dd><p>Renders the world as an pdf image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>world</strong> – The world to be rendered</p></li>
+<li><p><strong>background_color</strong> – A valid SVG color for the background</p></li>
+<li><p><strong>kwargs</strong> – Arguments forwarded to <a class="reference internal" href="#navground.sim.ui.svg_for_world" title="navground.sim.ui.svg_for_world"><code class="xref py py-func docutils literal notranslate"><span class="pre">navground.sim.ui.svg_for_world()</span></code></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pdf bytestring</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="synchronize-html-clients-with-a-simulation">
 <h2>Synchronize HTML clients with a simulation<a class="headerlink" href="#synchronize-html-clients-with-a-simulation" title="Link to this heading">#</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">module<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">navground.sim.ui</span></code></p>
+</dd>
+</dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="navground.sim.ui.WebUI">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">WebUI</span></span><a class="headerlink" href="#navground.sim.ui.WebUI" title="Link to this definition">#</a></dt>
@@ -684,6 +759,12 @@ at their current positions</p></li>
 </section>
 <section id="video">
 <h2>Video<a class="headerlink" href="#video" title="Link to this heading">#</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">module<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">navground.sim.ui.video</span></code></p>
+</dd>
+</dl>
+<p>Requires <code class="docutils literal notranslate"><span class="pre">moviepy</span></code>.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="navground.sim.ui.video.record_video">
 <span class="sig-name descname"><span class="pre">record_video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="world.html#navground.sim.World" title="navground.sim.World"><span class="pre">World</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#navground.sim.ui.video.record_video" title="Link to this definition">#</a></dt>
@@ -811,6 +892,9 @@ supported by ffmpeg (e.g., <code class="docutils literal notranslate"><span clas
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ui.svg_for_world"><code class="docutils literal notranslate"><span class="pre">svg_for_world()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ui.html_for_world"><code class="docutils literal notranslate"><span class="pre">html_for_world()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ui.notebook_view"><code class="docutils literal notranslate"><span class="pre">notebook_view()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ui.render.image_for_world"><code class="docutils literal notranslate"><span class="pre">image_for_world()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ui.render.png_for_world"><code class="docutils literal notranslate"><span class="pre">png_for_world()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ui.render.pdf_for_world"><code class="docutils literal notranslate"><span class="pre">pdf_for_world()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synchronize-html-clients-with-a-simulation">Synchronize HTML clients with a simulation</a><ul class="nav section-nav flex-column">

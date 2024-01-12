@@ -377,14 +377,34 @@ To be able to reload a simulation from a saved experiment, install ``h5py``
 
    $ python3 -m pip install h5py
 
-h5py [optional]
-^^^^^^^^^^^^^^^
+websockets [optional]
+^^^^^^^^^^^^^^^^^^^^^
 
 To visualize a simulation in real-time from a browser, install ``websockets``
 
 .. code-block:: console
 
    $ python3 -m pip install websockets
+
+
+cairosvg [optional]
+^^^^^^^^^^^^^^^^^^^
+
+To render a world to png, pdf or raw images, install ``cairosvg``
+
+.. code-block:: console
+
+   $ python3 -m pip install cairosvg
+
+
+moviepy [optional]
+^^^^^^^^^^^^^^^^^^
+
+To record a video from a simulation, install ``moviepy``
+
+.. code-block:: console
+
+   $ python3 -m pip install moviepy
 
 
 Package

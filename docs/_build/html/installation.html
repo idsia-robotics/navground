@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Installation &#8212; navground 0.0.2 documentation</title>
+    <title>Installation &#8212; navground 0.0.3 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 
     <script src="_static/jquery.js?v=5d32c60e"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="_static/documentation_options.js?v=f131489c"></script>
+    <script src="_static/documentation_options.js?v=4acdca81"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/tabs.js?v=3030b3cb"></script>
@@ -134,7 +134,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.2 documentation</p>
+    <p class="title logo__title">navground 0.0.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -458,10 +458,12 @@ document.write(`
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#highfive">HighFive</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#h5py-optional">h5py [optional]</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">h5py [optional]</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#websockets-optional">websockets [optional]</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cairosvg-optional">cairosvg [optional]</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#moviepy-optional">moviepy [optional]</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Package</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Package</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-and-demos">Examples and demos</a></li>
@@ -736,16 +738,30 @@ Just install the python package of the corresponding version.</p>
 </pre></div>
 </div>
 </section>
-<section id="id12">
-<h4>h5py [optional]<a class="headerlink" href="#id12" title="Link to this heading">#</a></h4>
+<section id="websockets-optional">
+<h4>websockets [optional]<a class="headerlink" href="#websockets-optional" title="Link to this heading">#</a></h4>
 <p>To visualize a simulation in real-time from a browser, install <code class="docutils literal notranslate"><span class="pre">websockets</span></code></p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>websockets
 </pre></div>
 </div>
 </section>
+<section id="cairosvg-optional">
+<h4>cairosvg [optional]<a class="headerlink" href="#cairosvg-optional" title="Link to this heading">#</a></h4>
+<p>To render a world to png, pdf or raw images, install <code class="docutils literal notranslate"><span class="pre">cairosvg</span></code></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>cairosvg
+</pre></div>
+</div>
 </section>
-<section id="id13">
-<h3>Package<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<section id="moviepy-optional">
+<h4>moviepy [optional]<a class="headerlink" href="#moviepy-optional" title="Link to this heading">#</a></h4>
+<p>To record a video from a simulation, install <code class="docutils literal notranslate"><span class="pre">moviepy</span></code></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>moviepy
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id12">
+<h3>Package<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
 <p>Once all dependencies are installed, compile the package using <code class="docutils literal notranslate"><span class="pre">colcon</span></code>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>colcon<span class="w"> </span>build<span class="w"> </span>--merge-install<span class="w"> </span>--cmake-args<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span>--packages-select<span class="w"> </span>navground_sim
 </pre></div>
@@ -861,10 +877,12 @@ Just install the python package of the corresponding version.</p>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#highfive">HighFive</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#h5py-optional">h5py [optional]</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">h5py [optional]</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#websockets-optional">websockets [optional]</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cairosvg-optional">cairosvg [optional]</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#moviepy-optional">moviepy [optional]</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Package</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Package</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-and-demos">Examples and demos</a></li>

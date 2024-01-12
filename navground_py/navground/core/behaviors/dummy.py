@@ -1,8 +1,7 @@
 from typing import Optional
 
 import numpy as np
-from navground.core import (Behavior, Kinematics, Vector2,
-                            registered_property)
+from navground.core import (Behavior, Kinematics, Vector2, register)
 
 
 class PyDummyBehavior(Behavior, name="PyDummy"):
@@ -27,15 +26,17 @@ class PyDummyBehavior(Behavior, name="PyDummy"):
         Behavior.__init__(self, kinematics, radius)
         self._tired = False
 
-    @registered_property(True, "Am I dummy?", ["not_so_smart"])
+    @property
+    @register(True, "Am I dummy?", ["not_so_smart"])
     def dummy(self) -> bool:
         return True
 
-    @registered_property(False, "Am I tired?")
+    @property
+    @register(False, "Am I tired?")
     def tired(self) -> bool:
         return self._tired
 
-    @tired.setter  # type: ignore[no-redef]
+    @tired.setter
     def tired(self, value: bool) -> None:
         self._tired = value
 

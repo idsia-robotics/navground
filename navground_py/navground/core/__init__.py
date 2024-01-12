@@ -22,21 +22,17 @@ Vector2: TypeAlias = "numpy.ndarray[numpy.float32, Any]"
 PropertyField = Union[bool, int, float, str, Vector2, List[bool], List[int],
                       List[float], List[str], List[Vector2]]
 
-
-T = TypeVar('T')
-C = TypeVar('C')
-P = Callable[[C], T]
+T = TypeVar('T', bound=Any)
 
 
-def registered_property(default_value: PropertyField,
-                        description: str = "",
-                        deprecated_names: list[str] = []) -> Callable[[P], P]:
+def register(default_value: PropertyField,
+             description: str = "",
+             deprecated_names: list[str] = []) -> Callable[[T], T]:
     """
-    A decorator that define and automatically register a property.
-    The use it similar to :py:func:`property`, except for the
-    two additional arguments
+    A decorator to register a property.
+    It must be used below the @property decorator.
 
-    For example, the following code adds a boolean valued auto
+    For example, the following code adds a boolean valued
     registered property to a registered sub-class ``C`` of class ``T``:
 
     .. code-block:: python
@@ -47,7 +43,8 @@ def registered_property(default_value: PropertyField,
                 super().__init__()
                 self._my_field = True
 
-            @registered_property(True, "...")
+            @property
+            @register(True, "...")
             def my_property(self) -> bool:
                 return self._my_field;
 
@@ -65,11 +62,11 @@ def registered_property(default_value: PropertyField,
     :param description: A list of alternative deprecated names
     """
 
-    def g(f):
+    def g(f: T) -> T:
         f.__default_value__ = default_value
         f.__desc__ = description
         f.__deprecated_names__ = deprecated_names
-        return property(f)
+        return f
 
     return g
 

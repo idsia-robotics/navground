@@ -1,5 +1,5 @@
 import functools
-from typing import Callable, List, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable, List, Optional
 
 if TYPE_CHECKING:
     import tqdm
@@ -8,7 +8,7 @@ import navground.core
 import pkg_resources
 from navground.core import _register
 from navground.core import load_py_plugins as _load_py_plugins
-from navground.core import registered_property
+from navground.core import register
 
 from ._navground_sim import (Agent, BoundingBox, Entity, Experiment,
                              ExperimentalRun, MapProbe, Obstacle, Probe,
@@ -132,6 +132,6 @@ __all__ = [
     'StateEstimation', 'Task', 'BoundingBox', 'dump', 'TaskCallback',
     'load_agent', 'load_state_estimation', 'load_task', 'load_world',
     'load_scenario', 'load_experiment', 'load_py_plugins',
-    'registered_property', 'Sensor', 'ExperimentalRun', 'RecordConfig',
+    'register', 'Sensor', 'ExperimentalRun', 'RecordConfig',
     'Probe', 'MapProbe', 'RecordedExperiment', 'RecordedExperimentalRun'
 ]

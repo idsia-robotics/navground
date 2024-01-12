@@ -33,35 +33,39 @@ class PyLidarStateEstimation(sim.Sensor, sim.StateEstimation,
         self.resolution = resolution
         self.range = range_
 
-    @sim.registered_property(-np.pi, "Start angle")
+    @property
+    @sim.register(-np.pi, "Start angle")
     def start_angle(self) -> float:
         return self._start_angle
 
-    @start_angle.setter  # type: ignore[no-redef]
+    @start_angle.setter
     def start_angle(self, value: float) -> None:
         self._start_angle = value
 
-    @sim.registered_property(2 * np.pi, "Length")
+    @property
+    @sim.register(2 * np.pi, "Length")
     def length(self) -> float:
         return self._length
 
-    @length.setter  # type: ignore[no-redef]
+    @length.setter
     def length(self, value: float) -> None:
         self._length = max(0.0, value)
 
-    @sim.registered_property(4.0, "Range")
+    @property
+    @sim.register(4.0, "Range")
     def max_distance(self) -> float:
         return self._range
 
-    @max_distance.setter  # type: ignore[no-redef]
+    @max_distance.setter
     def max_distance(self, value: float) -> None:
         self._range = max(0.0, value)
 
-    @sim.registered_property(11, "Resolution")
+    @property
+    @sim.register(11, "Resolution")
     def resolution(self) -> int:
         return self._resolution
 
-    @resolution.setter  # type: ignore[no-redef]
+    @resolution.setter
     def resolution(self, value: int) -> None:
         self._resolution = max(1, value)
 

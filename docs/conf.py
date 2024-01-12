@@ -133,7 +133,7 @@ reftarget_aliases['py'] = {
     'navground.sim.NativeWorld': 'navground.sim.World',
     'navground.core.Property': 'navground.core._navground.Property',
     'Controller.go_to_position': 'navground.core.Controller.go_to_position',
-    'navground.registered_property': 'navground.core.registered_property',
+    'navground.register': 'navground.core.register',
     'Vector2': 'navground.Vector2',
     'navground::sim::Scenario': 'navground.sim.Scenario',
     'navground.core.SocialMarginModulation': 'navground.core.SocialMargin.Modulation',

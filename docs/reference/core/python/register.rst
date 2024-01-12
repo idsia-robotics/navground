@@ -16,7 +16,7 @@ will register type ``SubClassOfT`` under the name ``"SubClassOfT"``.
 
 
 
-.. autodecorator:: navground.core.registered_property
+.. autodecorator:: navground.core.register
 
 
 .. autoclass:: navground.core._navground.BehaviorRegister

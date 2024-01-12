@@ -29,11 +29,12 @@ class ThymioDemo(sim.Scenario, name="PyThymioDemo"):  # type: ignore[call-arg]
             world.add_agent(agent)
         world.add_obstacle(core.Disc((0.0, 0.0), 0.1))
 
-    @sim.registered_property("HL", "Behavior name")
+    @property
+    @sim.register("HL", "Behavior name")
     def behavior_type(self) -> str:
         return self._behavior_type
 
-    @behavior_type.setter  # type: ignore[no-redef]
+    @behavior_type.setter
     def behavior_type(self, value: str) -> None:
         self._behavior_type = value
 

@@ -74,11 +74,12 @@ Python
 
 Registering a Python sub-class ``MyClass`` in the parent class ``T``  register, requires to
 
-#. Optionally, in case ``MyClass`` should exposed properties, register all properties using :py:func:`navground.registered_property`:
+#. Optionally, in case ``MyClass`` should exposed properties, register all properties using :py:func:`navground.register`:
 
    .. code-block:: python
    
-      @registered_property(False, "my property description")
+      @property
+      @register(False, "my property description")
       def my_property(self) -> bool:
           return self._my_field;
     
@@ -99,7 +100,7 @@ Complete example
 .. code-block:: python
     :linenos:
 
-    from navground.core import registered_property
+    from navground.core import register
     
     
     class MyClass(T, name="MyClass"):
@@ -108,7 +109,8 @@ Complete example
             super().__init__()
             self._my_field = False
     
-        @registered_property(False, "my property description")
+        @property
+        @register(False, "my property description")
         def my_property(self) -> bool:
             return self._my_field
        

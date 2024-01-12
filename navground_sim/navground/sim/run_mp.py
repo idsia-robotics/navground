@@ -2,11 +2,15 @@ import itertools
 import multiprocessing as mp
 import pathlib
 import warnings
-from typing import Callable, List, Optional
+from queue import Empty
+from typing import TYPE_CHECKING, Callable, List, Optional
 
 import h5py
 import numpy as np
 from navground import sim
+
+if TYPE_CHECKING:
+    import tqdm
 
 
 def _load_and_run_experiment(yaml: str,
@@ -85,17 +89,16 @@ def run_mp(experiment: sim.Experiment,
     if bar:
         bar.total = experiment.number_of_runs
 
-    number_of_runs = _divide(experiment.number_of_runs, number_of_processes)
-    ss = np.cumsum(number_of_runs)
-    start_index = np.insert(ss, 0, 0) + experiment.run_index
+    chunks = _divide(experiment.number_of_runs, number_of_processes)
+    ss = np.cumsum(chunks)
+    start_indices = np.insert(ss, 0, 0) + experiment.run_index
     paths = [
         experiment.path.parent / f"data_{i}.h5"
         for i in range(number_of_processes)
     ]
     yaml = itertools.repeat(sim.dump(experiment), number_of_processes)
     queues = itertools.repeat(queue, number_of_processes)
-    partial_experiments = list(
-        zip(yaml, start_index, number_of_runs, paths, queues))
+    partial_experiments = list(zip(yaml, start_indices, chunks, paths, queues))
 
     with mp.Pool(number_of_processes) as p:
         r = p.starmap_async(_load_and_run_experiment, partial_experiments)
@@ -107,14 +110,13 @@ def run_mp(experiment: sim.Experiment,
                         callback(i)
                     if bar:
                         bar.update(1)
-                except mp.queues.Empty:
+                except Empty:
                     pass
         else:
             r.wait()
     experiment.stop()
     path = experiment.path
     with h5py.File(path, 'a') as file:
-        for (_, start_index, number_of_runs, data_path,
-             _) in partial_experiments:
-            for j in range(start_index, start_index + number_of_runs):
+        for (_, i, number_of_runs, data_path, _) in partial_experiments:
+            for j in range(i, i + number_of_runs):
                 file[f'run_{j}'] = h5py.ExternalLink(data_path, f"run_{j}")

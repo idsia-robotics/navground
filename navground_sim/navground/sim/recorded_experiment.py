@@ -45,8 +45,6 @@ class RecordedExperimentalRun:
         self.reset()
         self.collisions: Optional[h5py.Dataset] = group.get('collisions')
         """The recorded collisions"""
-        self.commands: Optional[h5py.Dataset] = group.get('commands')
-        """The recorded commands"""
         self.deadlocks: Optional[h5py.Dataset] = group.get('deadlocks')
         """The recorded deadlocks"""
         self.efficacy: Optional[h5py.Dataset] = group.get('efficacy')
@@ -154,9 +152,9 @@ class RecordedExperimentalRun:
         where the pose of agent a is at the index returned by this function.
 
         :param  agent:  The agent
-        :return:    The index of data related to this agent.
+        :return:    The index of data related to this agent or -1 if not found.
         """
-        return self._indices.get(agent._uid)
+        return self._indices.get(agent._uid, -1)
 
     def go_to_step(self, step: int) -> bool:
         """
@@ -281,7 +279,7 @@ class RecordedExperiment:
             self._file = h5py.File(path)
 
         self.runs: Dict[int, RecordedExperimentalRun] = {
-            int(re.match("run_(\d+)", k).groups()[0]):
+            int(re.match("run_(\d+)", k).groups()[0]):  # type: ignore
             RecordedExperimentalRun(v)
             for k, v in self._file.items()
         }

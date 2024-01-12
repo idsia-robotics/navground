@@ -1,5 +1,8 @@
 import functools
-from typing import Any, Callable, List, Optional
+from typing import Callable, List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import tqdm
 
 import navground.core
 import pkg_resources

@@ -1,7 +1,8 @@
 import math
 import os
 from collections import ChainMap
-from typing import Any, Callable, Dict, List, Mapping, Optional, Tuple, cast
+from typing import (Any, Callable, Dict, List, MutableMapping, Optional, Tuple,
+                    cast)
 
 import jinja2
 import numpy as np
@@ -11,7 +12,7 @@ from .. import Agent, Entity, Obstacle, Wall, World
 
 Point = np.ndarray
 Rect = Tuple[Point, Point]
-Attributes = Mapping[str, str]
+Attributes = MutableMapping[str, str]
 Decorate = Callable[[Entity], Attributes]
 
 folder = os.path.dirname(os.path.realpath(__file__))
@@ -196,7 +197,7 @@ def _svg_for_world(world: Optional[World] = None,
                    external_style_path: str = '',
                    style: str = '',
                    background_color: str = 'snow',
-                   display_shape: bool = False) -> str:
+                   display_shape: bool = False) -> Tuple[str, Dict[str, str]]:
     g = ""
     if world:
         for wall in world.walls:
@@ -267,8 +268,10 @@ def size(
         if bounds:
             min_p = np.min((min_p, bounds[0]), axis=0)
             max_p = np.max((max_p, bounds[1]), axis=0)
-    else:
+    elif bounds:
         min_p, max_p = bounds
+    else:
+        min_p, max_p = np.zeros(2), np.ones(2)
     min_x, min_y = min_p
     max_x, max_y = max_p
     world_width = max_x - min_x
@@ -285,7 +288,7 @@ def size(
 
 
 def save(world: World, path: str = '', **kwargs: Any) -> None:
-    svg = svg_for_world(world, standalone=True, **kwargs)
+    svg = svg_for_world(world, **kwargs)
     svg = cast(str, svg)
     with open(path, 'w') as f:
         f.write(svg)

@@ -50,6 +50,8 @@ def make_video_from_run(run: RecordedExperimentalRun,
                                         bounds=bounds,
                                         background_color=background_color,
                                         **kwargs)
+            else:
+                raise RuntimeError("Could not make frame")
         return frame
 
     return mpy.VideoClip(make_frame, duration=run._final_sim_time / factor)

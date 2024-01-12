@@ -10,11 +10,11 @@
     - gradient in case of divergence
 """
 
-from typing import Callable, Optional, Tuple
+from typing import Callable, Optional, Tuple, cast
 
 import numpy as np
 from navground.core import (Behavior, Disc, GeometricState, Kinematics,
-                                LineSegment, Neighbor, Vector2)
+                            LineSegment, Neighbor, Vector2)
 
 # Jerome: what about the radius and safety margin?
 
@@ -41,7 +41,7 @@ def neighbor_distance(position: Vector2, neighbor: Neighbor,
 
 def disc_distance(position: Vector2, disc: Disc) -> Tuple[float, Vector2]:
     delta = position - disc.position
-    distance = np.linalg.norm(delta)
+    distance = cast(float, np.linalg.norm(delta))
     if distance:
         grad = delta / distance
     else:
@@ -64,7 +64,7 @@ def segment_distance(position: Vector2,
         y = delta.dot(line.e2)
         distance = abs(delta.dot(line.e2))
         grad = line.e2 if y > 0 else -line.e2
-    return distance, grad
+    return cast(float, distance), grad
 
 
 class Potential:
@@ -72,7 +72,7 @@ class Potential:
 
     def __call__(self, x: float) -> Tuple[float, Vector2]:
         "Return the value and gradient of the potential"
-        ...
+        return 0.0, np.zeros(2)
 
 
 class ExponentialPotential(Potential):
@@ -93,7 +93,6 @@ class ExponentialPotential(Potential):
 
 
 class SocialForceBehavior(Behavior, name="SocialForce"):
-
     """
     Basic social force algorithm from
 
@@ -189,13 +188,13 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         _, p_grad = self.u(value)
         return -grad * p_grad
 
-    def in_sight(self, force: Vector2, e: Vector2) -> bool:
+    def in_sight(self, force: Vector2, e: Vector2) -> np.bool_:
         return np.all(np.dot(e, force) > self.cos_phi * np.linalg.norm(force))
 
     def weight(self, force: Vector2, e: Vector2) -> float:
         return 1.0 if self.in_sight(force, e) else self.c
 
-    def weighted(self, force: Vector2, e: Vector2, sign: int) -> float:
+    def weighted(self, force: Vector2, e: Vector2, sign: int) -> Vector2:
         return self.weight(sign * force, e) * force
 
     # TODO attractive effects
@@ -206,7 +205,7 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         # acceleration towards desired velocity
         speed = np.linalg.norm(target_velocity)
         if not speed:
-            return (0, 0)
+            return np.zeros(2)
         e = target_velocity / speed
         force = (target_velocity - self.velocity) / self.tau
         # repulsion from neighbors
@@ -231,6 +230,6 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         delta = point - self.position
         dist = np.linalg.norm(delta)
         if not dist:
-            return (0, 0)
+            return np.zeros(2)
         velocity = delta / np.linalg.norm(delta) * speed
         return self.desired_velocity_towards_velocity(velocity, time_step)

@@ -35,7 +35,7 @@ class PyDummyBehavior(Behavior, name="PyDummy"):
     def tired(self) -> bool:
         return self._tired
 
-    @tired.setter
+    @tired.setter  # type: ignore[no-redef]
     def tired(self, value: bool) -> None:
         self._tired = value
 
@@ -50,4 +50,4 @@ class PyDummyBehavior(Behavior, name="PyDummy"):
         if distance:
             return self.desired_velocity_towards_velocity(
                 speed * delta / distance, time_step)
-        return (0, 0)
+        return np.zeros(2)

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, List, Type, TypeVar, Union
+from typing import Any, Callable, List, Type, TypeAlias, TypeVar, Union
 
 import numpy
 import pkg_resources
@@ -16,12 +16,16 @@ from ._navground import (LineSegment, Neighbor, Pose2, SensingState,
                          SocialMargin, Target, Twist2, dump, load_behavior,
                          load_kinematics, to_absolute, to_relative)
 
-Vector2 = 'numpy.ndarray[numpy.float32[2, 1]]'
+# TODO(Jerome): Add vector shape = (2, )
+# numpy.ndarray[numpy.float32[2, 1]]
+Vector2: TypeAlias = "numpy.ndarray[numpy.float32, Any]"
 PropertyField = Union[bool, int, float, str, Vector2, List[bool], List[int],
                       List[float], List[str], List[Vector2]]
 
+
 T = TypeVar('T')
-P = Callable[[], T]
+C = TypeVar('C')
+P = Callable[[C], T]
 
 
 def registered_property(default_value: PropertyField,
@@ -76,7 +80,7 @@ def _register(super_cls: Type, cls: Type, name: str):
     super_cls._register_type(name, cls)
     cls._type = name
     for k, v in vars(cls).items():
-        if isinstance(v, property) and hasattr(v.fget, "__default_value__"):
+        if isinstance(v, property) and v.fget and hasattr(v.fget, "__default_value__"):
             return_type = v.fget.__annotations__['return']
             if return_type == Vector2:
                 return_type = numpy.array
@@ -87,8 +91,8 @@ def _register(super_cls: Type, cls: Type, name: str):
                 except AttributeError:
                     pass
             default_value = return_type(v.fget.__default_value__)
-            desc = v.fget.__desc__
-            deprecated_names = v.fget.__deprecated_names__
+            desc = v.fget.__desc__  # type: ignore
+            deprecated_names = v.fget.__deprecated_names__ # type: ignore
             super_cls._add_property(name, k, v, default_value, desc,
                                     deprecated_names)
 

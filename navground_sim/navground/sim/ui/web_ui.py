@@ -144,6 +144,7 @@ class WebUI:
         self.in_collision: Set[int] = set()
         self.in_deadlock: Set[int] = set()
         self.decorate = decorate
+        self.server: Optional[websockets.WebSocketServer] = None
 
     @property
     def is_ready(self) -> bool:
@@ -334,9 +335,8 @@ class WebUI:
 
     async def stop(self) -> None:
         if self.server:
-            r = self.server.close()
-            if r:
-                await r
+            self.server.close()
+            await self.server.wait_closed()
         self.server = None
         self._prepared = False
 

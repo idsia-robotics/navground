@@ -40,9 +40,6 @@ include_directories(include ${PROJECT_BINARY_DIR})
 add_library(navground_py INTERFACE )
 target_include_directories(navground_py INTERFACE include)
 
-
-
-
 # ament_python_install_package seems to not support namespace packages
 # For those: we should install the pkg to <site-packages>/navground
 # and the metainformation in <site-packages>/core-0.0.0-py3.10.egg-info

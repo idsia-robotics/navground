@@ -41,7 +41,7 @@ def run_mp(experiment: sim.Experiment,
            number_of_runs: Optional[int] = None,
            start_index: Optional[int] = None,
            callback: Optional[Callable[[int], None]] = None,
-           bar: Optional['tdqm.tqdm'] = None) -> None:
+           bar: Optional['tqdm.tqdm'] = None) -> None:
     """
 
     Run an experiment distributing its runs in parallel over multiple processes.

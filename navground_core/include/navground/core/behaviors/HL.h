@@ -255,7 +255,7 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
           {"resolution",
            make_property<int, HLBehavior>(&HLBehavior::get_resolution,
                                           &HLBehavior::set_resolution,
-                                          default_resolution, "Safety margin")},
+                                          default_resolution, "Resolution")},
           {"epsilon", make_property<ng_float_t, HLBehavior>(
                           &HLBehavior::get_epsilon, &HLBehavior::set_epsilon,
                           default_epsilon, "Epsilon")},

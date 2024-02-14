@@ -23,7 +23,7 @@
           </param>
         </return>
     </command>
-    <command name="get_property">
+    <command name="get_behavior_property">
         <description>Get the value of one of the navigation behavior properties
         </description>
         <params>
@@ -40,12 +40,80 @@
           </param>
         </return>
     </command>
-    <command name="set_property">
+    <command name="set_behavior_property">
         <description>Set the value of one of the navigation behavior properties
         </description>
         <params>
          <param name="handle" type="int">
             <description>The controller handle</description>
+          </param>
+          <param name="name" type="string">
+            <description>The property name</description>
+          </param>
+          <param name="value" type="property_field_t">
+            <description>The property value</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
+    <command name="agents">
+        <description>Get the handles of all the agents
+        </description>
+        <params>
+        </params>
+        <return>
+          <param name="handles" type="table" item-type="int">
+            <description>The handles</description>
+          </param>
+        </return>
+    </command>
+    <command name="properties">
+        <description>Get all the agent properties
+        </description>
+        <params>
+         <param name="handle" type="int">
+            <description>The agent handle</description>
+          </param>
+          <param name="owner" type="int" default="-1">
+            <description>See `PropertyOwner`. Set to negative to get all properties</description>
+          </param>
+        </params>
+        <return>
+          <param name="properties" type="table" item-type="property_t">
+            <description>The properties</description>
+          </param>
+        </return>
+    </command>
+    <command name="_get_property">
+        <description>Get the value of an agent's property
+        </description>
+        <params>
+         <param name="handle" type="int">
+            <description>The agent handle</description>
+          </param>
+          <param name="owner" type="int">
+            <description>See `PropertyOwner`</description>
+          </param>
+          <param name="name" type="string">
+            <description>The property name</description>
+          </param>
+        </params>
+        <return>
+          <param name="value" type="property_field_t">
+            <description>The property value</description>
+          </param>
+        </return>
+    </command>
+    <command name="_set_property">
+        <description>Set the value of an agent's property
+        </description>
+        <params>
+         <param name="handle" type="int">
+            <description>The agent handle</description>
+          </param>
+          <param name="owner" type="int">
+            <description>See `PropertyOwner`</description>
           </param>
           <param name="name" type="string">
             <description>The property name</description>
@@ -584,6 +652,17 @@
           </param>
         </return>
     </command>
+    <command name="remove_agent">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The agent handle</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="get_last_cmd">
         <description>TODO
         </description>
@@ -696,7 +775,19 @@
         <param name="y" type="ng_float_t" default="0.0">
           <description>y</description>
         </param>
-    </struct>            
+    </struct>    
+    <struct name="property_t">
+      <description>A property</description>
+      <param name="name" type="string">
+        <description>The name</description>
+      </param>
+      <param name="type" type="int">
+        <description>The type</description>
+      </param>
+      <param name="description" type="string">
+        <description>The description</description>
+      </param>
+    </struct>          
     <struct name="property_field_t">
         <description>Union type to describe property values</description>
         <param name="type" type="int">
@@ -786,7 +877,13 @@
       <item name="float_list" />
       <item name="string_list" />
       <item name="vector_list" />
-    </enum>         
+    </enum>  
+    <enum name="PropertyOwner" item-prefix="" base="0">
+      <item name="behavior" />
+      <item name="kinematics" />
+      <item name="state_estimation" />
+      <item name="task" />
+    </enum>          
     <enum name="State" item-prefix="" base="0">
       <item name="idle" />
       <item name="running" />

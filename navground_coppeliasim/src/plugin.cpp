@@ -89,6 +89,10 @@ static std::optional<core::Property::Field> from_property_field_t(
   }
 }
 
+static int property_type(const core::Property &property) {
+  return property.default_value.index();
+}
+
 static property_field_t to_property_field_t(const core::Property::Field &v) {
   property_field_t value;
   value.type = v.index();
@@ -175,25 +179,25 @@ class Plugin : public sim::Plugin {
       }
       const auto dt = simGetSimulationTimeStep();
       // sync the state of all agents from coppeliaSim
-      int i = 0;
       for (const auto &agent : world->get_agents()) {
         // TODO(Jerome): add compatibility with 4.4
         simFloat ps[3];
         simFloat os[3];
-        int r = simGetObjectPosition(agent_handles[i], frame, ps);
+        int uid = agent->uid;
+        int handle = agent_handles[uid];
+        int r = simGetObjectPosition(handle, frame, ps);
         if (r == -1) continue;
-        r = simGetObjectOrientation(agent_handles[i], frame, os);
+        r = simGetObjectOrientation(handle, frame, os);
         if (r == -1) continue;
         const core::Pose2 pose({ps[0], ps[1]}, os[2]);
-        if (!has_set_twist[agent_handles[i]]) {
+        if (!has_set_twist[uid]) {
           // const Vector2 velocity = (pose.position - agent->pose.position) /
           // dt; const auto angular_speed =
           //   core::normalize(pose.orientation - agent->pose.orientation) / dt;
           //   agent->twist = core::Twist2(velocity, angular_speed);
           simFloat linearVelocity[3];
           simFloat angularVelocity[3];
-          simGetObjectVelocity(agent_handles[i], linearVelocity,
-                               angularVelocity);
+          simGetObjectVelocity(handle, linearVelocity, angularVelocity);
           if (abs(linearVelocity[0]) > 20.0 || abs(linearVelocity[1]) > 20.0) {
           } else {
             agent->twist = core::Twist2({linearVelocity[0], linearVelocity[1]},
@@ -201,8 +205,7 @@ class Plugin : public sim::Plugin {
           }
         }
         agent->pose = pose;
-        has_set_twist[agent_handles[i]] = false;
-        i++;
+        has_set_twist[uid] = false;
       }
       // update the world without physics or collisions
       world->update_dry(dt);
@@ -258,10 +261,16 @@ class Plugin : public sim::Plugin {
   }
 
   nsim::Agent *agent_at_index(unsigned i) const {
-    if (world and i < world->get_agents().size()) {
-      return world->get_agents()[i].get();
+    if (world) {
+      return world->get_agent(i);
     }
     return nullptr;
+  }
+
+  void agents(agents_in *in, agents_out *out) {
+    for (const auto &[k, _] : agent_handles) {
+      out->handles.push_back(k);
+    }
   }
 
   void make_controller(make_controller_in *in, make_controller_out *out) {
@@ -549,7 +558,8 @@ class Plugin : public sim::Plugin {
     }
   }
 
-  void set_property(set_property_in *in, set_property_out *out) {
+  void set_behavior_property(set_behavior_property_in *in,
+                             set_behavior_property_out *out) {
     auto behavior = behavior_at_index(in->handle);
     if (behavior) {
       auto value = from_property_field_t(in->value);
@@ -559,11 +569,89 @@ class Plugin : public sim::Plugin {
     }
   }
 
-  void get_property(get_property_in *in, get_property_out *out) {
+  void get_behavior_property(get_behavior_property_in *in,
+                             get_behavior_property_out *out) {
     auto behavior = behavior_at_index(in->handle);
     if (behavior) {
       try {
         auto value = behavior->get(in->name);
+        out->value = to_property_field_t(value);
+      } catch (const std::exception &e) {
+      }
+    }
+  }
+
+  void _set_property(_set_property_in *in, _set_property_out *out) {
+    auto agent = agent_at_index(in->handle);
+    if (agent) {
+      auto value = from_property_field_t(in->value);
+      if (value) {
+        switch (in->owner) {
+          case 0:
+            agent->get_behavior()->set(in->name, *value);
+            break;
+          case 1:
+            agent->get_kinematics()->set(in->name, *value);
+            break;
+          case 2:
+            agent->get_state_estimation()->set(in->name, *value);
+            break;
+          case 3:
+            agent->get_task()->set(in->name, *value);
+            break;
+        }
+      }
+    }
+  }
+
+  void properties(properties_in *in, properties_out *out) {
+    auto agent = agent_at_index(in->handle);
+    if (agent) {
+      core::Properties properties;
+      switch (in->owner) {
+        case 0:
+          properties = agent->get_behavior()->get_properties();
+          break;
+        case 1:
+          properties = agent->get_kinematics()->get_properties();
+          break;
+        case 2:
+          properties = agent->get_state_estimation()->get_properties();
+          break;
+        case 3:
+          properties = agent->get_task()->get_properties();
+          break;
+        default:
+          return;
+      }
+      for (const auto &[name, property] : properties) {
+        out->properties.push_back(
+            {name, property_type(property), property.description});
+      }
+    }
+  }
+
+  void _get_property(_get_property_in *in, _get_property_out *out) {
+    auto agent = agent_at_index(in->handle);
+    if (agent) {
+      core::Property::Field value;
+      switch (in->owner) {
+        case 0:
+          value = agent->get_behavior()->get(in->name);
+          break;
+        case 1:
+          value = agent->get_kinematics()->get(in->name);
+          break;
+        case 2:
+          value = agent->get_state_estimation()->get(in->name);
+          break;
+        case 3:
+          value = agent->get_task()->get(in->name);
+          break;
+        default:
+          return;
+      }
+      try {
         out->value = to_property_field_t(value);
       } catch (const std::exception &e) {
       }
@@ -585,7 +673,7 @@ class Plugin : public sim::Plugin {
 
   void add_agent_from_yaml(add_agent_from_yaml_in *in,
                            add_agent_from_yaml_out *out) {
-    int agent_handle = agent_handles.size();
+    // int agent_handle = agent_handles.size();
     YAML::Node node;
     try {
       node = YAML::Load(in->yaml);
@@ -597,13 +685,20 @@ class Plugin : public sim::Plugin {
     auto agent = node.as<std::shared_ptr<nsim::Agent>>();
     if (agent) {
       // std::cout << YAML::dump<nsim::Agent>(agent.get()) << std::endl;
+      out->handle = agent->uid;
+      agent_handles[agent->uid] = in->handle;
+      has_set_twist[agent->uid] = false;
       get_world()->add_agent(std::move(agent));
-      agent_handles.push_back(in->handle);
-      out->handle = agent_handle;
-      has_set_twist[in->handle] = false;
     } else {
       out->handle = -1;
     }
+  }
+
+  void remove_agent(remove_agent_in *in, remove_agent_out *out) {
+    int uid = in->handle;
+    get_world()->remove_agent_with_uid(uid);
+    agent_handles.erase(uid);
+    has_set_twist.erase(uid);
   }
 
   void get_last_cmd(get_last_cmd_in *in, get_last_cmd_out *out) {
@@ -658,9 +753,8 @@ class Plugin : public sim::Plugin {
   void set_frame(set_frame_in *in, set_frame_out *out) { frame = in->handle; }
 
   void set_lattice(set_lattice_in *in, set_lattice_out *out) {
-    get_world()->set_lattice(
-        in->coordinate_index,
-        std::make_tuple(in->from, in->to));
+    get_world()->set_lattice(in->coordinate_index,
+                             std::make_tuple(in->from, in->to));
   }
 
   void get_lattice(get_lattice_in *in, get_lattice_out *out) {
@@ -679,7 +773,7 @@ class Plugin : public sim::Plugin {
   std::shared_ptr<nsim::World> world;
   std::unique_ptr<nsim::Experiment> experiment;
   nsim::ExperimentalRun *exp_run;
-  std::vector<int> agent_handles;
+  std::map<int, int> agent_handles;
   std::map<int, bool> has_set_twist;
   int frame;
   int seed;

@@ -81,4 +81,8 @@ install(
   INCLUDES DESTINATION include
 )
 
+IF (WIN32)
+install(FILES ${CMAKE_INSTALL_PREFIX}/bin/navground_core.dll DESTINATION "${PYTHON_INSTALL_DIR}/navground/core")
+ENDIF()
+
 ament_package()

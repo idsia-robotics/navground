@@ -174,4 +174,14 @@ install(
   INCLUDES DESTINATION include
 )
 
+IF (WIN32)
+install(
+	FILES 
+	${CMAKE_INSTALL_PREFIX}/bin/navground_core.dll 
+	${CMAKE_INSTALL_PREFIX}/bin/navground_sim.dll 
+	${CMAKE_INSTALL_PREFIX}/bin/hdf5.dll 
+	DESTINATION "${PYTHON_INSTALL_DIR}/navground/sim"
+)
+ENDIF()
+
 ament_package()

@@ -47,7 +47,7 @@ namespace py = pybind11;
 
 template <typename T>
 struct get<T, py::object> {
-  static T::Native *ptr(const py::object &c) { return c.cast<T::Native *>(); }
+  static typename T::Native *ptr(const py::object &c) { return c.cast<typename T::Native *>(); }
 };
 
 struct PyBehavior : public Behavior {

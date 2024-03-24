@@ -81,7 +81,7 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
  protected:
   typename T::C s(RandomGenerator & rg) override {
     C c = T::make_type(type);
-    T* t = get<T, C>::ptr(c);
+    auto t = get<T, C>::ptr(c);
     if (!t) {
       // std::cerr << "Unknown type " << type << std::endl;
       return c;
@@ -123,7 +123,7 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
  protected:
   C s(RandomGenerator & rg) override {
     C c = SamplerFromRegister<T>::s(rg);
-    T* behavior = get<T, C>::ptr(c);
+    auto behavior = get<T, C>::ptr(c);
     if (!behavior) return c;
     if (optimal_speed) {
       behavior->set_optimal_speed(optimal_speed->sample(rg));
@@ -208,7 +208,7 @@ struct KinematicsSampler : public SamplerFromRegister<T> {
  protected:
   C s(RandomGenerator & rg) override {
     C c = SamplerFromRegister<T>::s(rg);
-    T* kinematics = get<T, C>::ptr(c);
+    auto kinematics = get<T, C>::ptr(c);
     if (!kinematics) return c;
     if (max_speed) {
       kinematics->set_max_speed(max_speed->sample(rg));

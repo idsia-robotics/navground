@@ -47,7 +47,7 @@ namespace py = pybind11;
 
 template <typename T>
 struct get<T, py::object> {
-  static T *ptr(const py::object &c) { return c.cast<T *>(); }
+  static T::Native *ptr(const py::object &c) { return c.cast<T::Native *>(); }
 };
 
 struct PyBehavior : public Behavior {
@@ -146,6 +146,7 @@ class PyAgent : public Agent {
   using K = PyKinematics;
   using T = PyTask;
   using S = PyStateEstimation;
+  using Native = PyAgent;
 
   virtual ~PyAgent() = default;
 

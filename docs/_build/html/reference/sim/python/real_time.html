@@ -18,31 +18,34 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
     <script src="../../../_static/documentation_options.js?v=4acdca81"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -60,10 +63,9 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>
@@ -104,11 +106,14 @@
 </form></div>
   </div>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -416,26 +421,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-an-experiment-in-real-time">Perform an experiment in real-time</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.__init__"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.__init__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.init"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.init()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.run"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.run()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.run_threaded"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.run_threaded()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.step"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.step()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.stop"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.stop()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.update"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.update()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replay-an-experiment-in-real-time">Replay an experiment in real-time</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.replay.RealTimeReplay"><code class="docutils literal notranslate"><span class="pre">RealTimeReplay</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.replay.RealTimeReplay.__init__"><code class="docutils literal notranslate"><span class="pre">RealTimeReplay.__init__()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-an-experiment-in-real-time">Perform an experiment in real-time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replay-an-experiment-in-real-time">Replay an experiment in real-time</a></li>
 </ul>
             </nav>
         </div>
@@ -445,132 +432,15 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section id="real-time-simulations">
 <h1>Real-time simulations<a class="headerlink" href="#real-time-simulations" title="Link to this heading">#</a></h1>
 <section id="perform-an-experiment-in-real-time">
 <h2>Perform an experiment in real-time<a class="headerlink" href="#perform-an-experiment-in-real-time" title="Link to this heading">#</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="navground.sim.real_time.RealTimeSimulation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RealTimeSimulation</span></span><a class="headerlink" href="#navground.sim.real_time.RealTimeSimulation" title="Link to this definition">#</a></dt>
-<dd><p>Helper class to simulated a <a class="reference internal" href="world.html#navground.sim.World" title="navground.sim.World"><code class="xref py py-class docutils literal notranslate"><span class="pre">navground.sim.World</span></code></a>
-in real-time using an ayncio.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">word</span> <span class="o">=</span> <span class="o">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RealTimeSimulation</span><span class="p">(</span><span class="n">world</span><span class="o">=</span><span class="n">world</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">web_ui</span><span class="o">=</span><span class="n">WebUI</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">await</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="navground.sim.real_time.RealTimeSimulation.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="world.html#navground.sim.World" title="navground.sim.World"><span class="pre">World</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">web_ui</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="visualization.html#navground.sim.ui.WebUI" title="navground.sim.ui.web_ui.WebUI"><span class="pre">WebUI</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#navground.sim.real_time.RealTimeSimulation.__init__" title="Link to this definition">#</a></dt>
-<dd><p>Constructs a new instance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>world</strong> – The world to simulate</p></li>
-<li><p><strong>time_step</strong> – The time step to apply</p></li>
-<li><p><strong>factor</strong> – The real-time factor</p></li>
-<li><p><strong>web_ui</strong> – An optional web user interface to sync with</p></li>
-<li><p><strong>bounds</strong> – The region to display in the web_ui.
-If not set, it will estimate it from
-the current world state.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="navground.sim.real_time.RealTimeSimulation.init">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#navground.sim.real_time.RealTimeSimulation.init" title="Link to this definition">#</a></dt>
-<dd><p>Initializes the simulation and the UI</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="navground.sim.real_time.RealTimeSimulation.run">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">until</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.real_time.RealTimeSimulation.run" title="Link to this definition">#</a></dt>
-<dd><p>Simulate a world.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>until</strong> – an optional condition to terminate the simulation</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="navground.sim.real_time.RealTimeSimulation.run_threaded">
-<span class="sig-name descname"><span class="pre">run_threaded</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">until</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.real_time.RealTimeSimulation.run_threaded" title="Link to this definition">#</a></dt>
-<dd><p>Run a simulation in a thread.
-Blocks until the simulation is done.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>until</strong> – an optional condition to terminate the simulation</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="navground.sim.real_time.RealTimeSimulation.step">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#navground.sim.real_time.RealTimeSimulation.step" title="Link to this definition">#</a></dt>
-<dd><p>Perform a simulation step.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Whether the step could be performed or not.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="navground.sim.real_time.RealTimeSimulation.stop">
-<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#navground.sim.real_time.RealTimeSimulation.stop" title="Link to this definition">#</a></dt>
-<dd><p>Signals to stop the simulation</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="navground.sim.real_time.RealTimeSimulation.update">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.real_time.RealTimeSimulation.update" title="Link to this definition">#</a></dt>
-<dd><p>Updates the UI with the world state.</p>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 <section id="replay-an-experiment-in-real-time">
 <h2>Replay an experiment in real-time<a class="headerlink" href="#replay-an-experiment-in-real-time" title="Link to this heading">#</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="navground.sim.replay.RealTimeReplay">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RealTimeReplay</span></span><a class="headerlink" href="#navground.sim.replay.RealTimeReplay" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#navground.sim.real_time.RealTimeSimulation" title="navground.sim.real_time.RealTimeSimulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">RealTimeSimulation</span></code></a></p>
-<p>Helper class to replay an <a class="reference internal" href="recorded_experiment.html#navground.sim.RecordedExperimentalRun" title="navground.sim.RecordedExperimentalRun"><code class="xref py py-class docutils literal notranslate"><span class="pre">navground.sim.RecordedExperimentalRun</span></code></a>
-in real-time.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># load a run from a recorded experiment</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">run</span> <span class="o">=</span> <span class="o">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RealTimeSimulation</span><span class="p">(</span><span class="n">run</span><span class="o">=</span><span class="n">run</span><span class="p">,</span> <span class="n">web_ui</span><span class="o">=</span><span class="n">WebUI</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">await</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="navground.sim.replay.RealTimeReplay.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="recorded_experiment.html#navground.sim.RecordedExperimentalRun" title="navground.sim.recorded_experiment.RecordedExperimentalRun"><span class="pre">RecordedExperimentalRun</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">web_ui</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="visualization.html#navground.sim.ui.WebUI" title="navground.sim.ui.web_ui.WebUI"><span class="pre">WebUI</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#navground.sim.replay.RealTimeReplay.__init__" title="Link to this definition">#</a></dt>
-<dd><p>Constructs a new instance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>run</strong> – The recorded run</p></li>
-<li><p><strong>factor</strong> – The real time factor</p></li>
-<li><p><strong>web_ui</strong> – An optional web user interface to sync with</p></li>
-<li><p><strong>bounds</strong> – The region to display in the web_ui.
-If not set, it will compute it from
-the recorded poses.</p></li>
-</ul>
-</dd>
-</dl>
-<p>The run should contain at least recorded poses, else it would
-be useless to replay it.</p>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 
@@ -612,32 +482,15 @@ be useless to replay it.</p>
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-an-experiment-in-real-time">Perform an experiment in real-time</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.__init__"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.__init__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.init"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.init()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.run"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.run()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.run_threaded"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.run_threaded()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.step"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.step()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.stop"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.stop()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.real_time.RealTimeSimulation.update"><code class="docutils literal notranslate"><span class="pre">RealTimeSimulation.update()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replay-an-experiment-in-real-time">Replay an experiment in real-time</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.replay.RealTimeReplay"><code class="docutils literal notranslate"><span class="pre">RealTimeReplay</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.replay.RealTimeReplay.__init__"><code class="docutils literal notranslate"><span class="pre">RealTimeReplay.__init__()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-an-experiment-in-real-time">Perform an experiment in real-time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replay-an-experiment-in-real-time">Replay an experiment in real-time</a></li>
 </ul>
   </nav></div>
 
@@ -686,8 +539,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>

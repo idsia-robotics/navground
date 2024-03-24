@@ -27,7 +27,7 @@ namespace navground::sim {
  *
  * *Registered properties*: none
  */
-struct NAVGROUND_SIM_EXPORT SimpleScenario : public Scenario {
+struct SimpleScenario : public Scenario {
   SimpleScenario() : Scenario() {}
 
   void init_world(World *world,

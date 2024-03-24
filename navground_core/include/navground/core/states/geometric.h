@@ -1,5 +1,5 @@
 #ifndef NAVGROUND_CORE_BEHAVIOR_GEOMETRIC_H
-#define NAVGROUND_CORE_BEHAVIOR_GEOMETRIC_H value
+#define NAVGROUND_CORE_BEHAVIOR_GEOMETRIC_H
 
 #include <iostream>
 #include <vector>
@@ -7,7 +7,6 @@
 #include "navground/core/common.h"
 #include "navground/core/state.h"
 #include "navground/core/types.h"
-#include "navground_core_export.h"
 
 namespace navground::core {
 
@@ -197,7 +196,7 @@ inline std::ostream& operator<<(std::ostream& os, const LineSegment& line) {
   return os;
 }
 
-class NAVGROUND_CORE_EXPORT GeometricState : public TrackChanges,
+class GeometricState : public TrackChanges,
                                              virtual public EnvironmentState {
  public:
   GeometricState()

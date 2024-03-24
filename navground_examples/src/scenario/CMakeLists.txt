@@ -10,11 +10,10 @@ ament_target_dependencies(scenario_registered navground_sim)
 add_executable(benchmark_sim benchmark_sim.cpp)
 ament_target_dependencies(benchmark_sim navground_sim)
 
-add_library(my_scenario SHARED my_scenario.h)
+add_library(my_scenario SHARED my_scenario.cpp)
 ament_target_dependencies(my_scenario navground_sim)
 ament_export_dependencies(my_scenario)
 set_target_properties(my_scenario PROPERTIES LINKER_LANGUAGE CXX)
-
 
 install(TARGETS
   scenario_group 
@@ -31,4 +30,8 @@ install(
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
   INCLUDES DESTINATION include
+)
+
+install(FILES
+ ${PROJECT_BINARY_DIR}/my_scenario_export.h DESTINATION include
 )

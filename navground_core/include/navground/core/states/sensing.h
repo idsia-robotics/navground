@@ -9,14 +9,13 @@
 #include "navground/core/buffer.h"
 #include "navground/core/common.h"
 #include "navground/core/state.h"
-#include "navground_core_export.h"
 
 namespace navground::core {
 
 /**
  * @brief      Generic state to hold data from sensors in keyed buffers.
  */
-class NAVGROUND_CORE_EXPORT SensingState : virtual public EnvironmentState {
+class SensingState : virtual public EnvironmentState {
  public:
   /**
    * Construct an instance

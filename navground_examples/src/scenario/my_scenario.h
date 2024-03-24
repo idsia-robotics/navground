@@ -6,6 +6,7 @@
 #define NAVGROUND_CORE_EXAMPLES_MY_SCENARIO_H_
 
 #include "navground/sim/scenario.h"
+#include "my_scenario_export.h"
 
 namespace navground::sim {
 
@@ -15,7 +16,7 @@ namespace navground::sim {
  * It showcases how to define and use a new behavior from an external shared
  * library.
  */
-struct EmptyScenario : Scenario {
+struct MY_SCENARIO_EXPORT EmptyScenario : Scenario {
  public:
   using Scenario::Scenario;
 
@@ -26,7 +27,7 @@ struct EmptyScenario : Scenario {
     // ...
   }
 
-  static inline const std::string type = register_type<EmptyScenario>("Empty");
+  static const std::string type;
 };
 
 }  // namespace navground::core

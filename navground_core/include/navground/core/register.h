@@ -7,7 +7,6 @@
 
 #include "./property.h"
 #include "./utilities.h"
-#include "navground_core_export.h"
 
 namespace navground::core {
 
@@ -21,7 +20,7 @@ namespace navground::core {
  * @tparam     T     The base class of all to be registered sub-classes.
  */
 template <typename T>
-struct NAVGROUND_CORE_EXPORT HasRegister {
+struct HasRegister {
   /**
    * A shared pointer to an object of type ``T``.
    */

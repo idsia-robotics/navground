@@ -7,11 +7,10 @@ ament_target_dependencies(behavior_yaml navground_core)
 add_executable(behavior_benchmark benchmark.cpp)
 ament_target_dependencies(behavior_benchmark navground_core)
 
-add_library(my_behavior SHARED my_behavior.h)
+add_library(my_behavior SHARED my_behavior.cpp)
 ament_target_dependencies(my_behavior navground_core)
 ament_export_dependencies(my_behavior)
 set_target_properties(my_behavior PROPERTIES LINKER_LANGUAGE CXX)
-
 
 install(TARGETS
   behavior 
@@ -27,4 +26,8 @@ install(
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
   INCLUDES DESTINATION include
+)
+
+install(FILES
+ ${PROJECT_BINARY_DIR}/my_behavior_export.h DESTINATION include
 )

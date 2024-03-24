@@ -198,7 +198,7 @@ class NAVGROUND_SIM_EXPORT Probe : public BaseProbe {
  * @tparam     K     The type of keys to assign to multi-dimensional data
  */
 template <typename K>
-class NAVGROUND_SIM_EXPORT MapProbe : public BaseProbe {
+class MapProbe : public BaseProbe {
  public:
   /**
    * The type of keys

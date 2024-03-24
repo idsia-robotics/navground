@@ -80,7 +80,7 @@ endif()
 
 ament_export_dependencies(Eigen3)
 
-target_link_libraries(navground_core PUBLIC yaml-cpp)
+target_link_libraries(navground_core PUBLIC yaml-cpp::yaml-cpp)
 ament_export_dependencies(yaml-cpp)
 ament_export_dependencies(argparse)
 

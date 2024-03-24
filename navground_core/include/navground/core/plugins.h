@@ -8,8 +8,8 @@
 
 #if defined(WIN32) || defined(_WIN32) || \
     defined(__WIN32) && !defined(__CYGWIN__)
-// #include <Windows.h>
-// #include <libloaderapi.h>
+#include <Windows.h>
+#include <libloaderapi.h>
 #else
 #include <dlfcn.h>
 #endif
@@ -17,8 +17,7 @@
 void load_library(const std::string& path) {
 #if defined(WIN32) || defined(_WIN32) || \
     defined(__WIN32) && !defined(__CYGWIN__)
-  // auto lib = LoadLibraryA(path.c_str());
-  bool lib = false;
+  auto lib = LoadLibraryA(path.c_str());
 #else
   void* lib = dlopen(path.c_str(), RTLD_LAZY);
 #endif

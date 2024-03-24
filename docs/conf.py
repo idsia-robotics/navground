@@ -29,7 +29,8 @@ extensions = [
     'sphinx_design',
     'sphinx_toolbox.collapse',
     'sphinxcontrib.luadomain',
-    'sphinxcontrib.video'
+    'sphinxcontrib.video',
+    'sphinx_copybutton'
     # 'sphinx_autodoc_defaultargs'
 ]
 

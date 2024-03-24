@@ -2,13 +2,31 @@
 Installation
 ============
 
-We provide installation instruction for macOS and Linux. Windows is also supported but not yet documented.
-On macOS start by installing `homebrew <https://brew.sh>`_ if you don't have it already.
+We provide installation instruction for macOS, Linux, and Windows.
+
 
 Preparation
 ===========
 
+
 You will need ``git``, a c++-17 compiler, ``cmake``, and ``Python 3`` with ``pip``. 
+
+To install the necessary binaries, on macOS start by installing `homebrew <https://brew.sh>`_, while on Windows install `Chocolatey <https://chocolatey.org/install>`_, if you don't have them already.
+
+On Windows, install also Visual Studio together with the Clang C++ compiler. All Windows commands should be executed in a "Native Tools Command Prompt for VS" with admin privileges.
+
+.. warning::
+
+   On Windows, add the following option
+
+   .. code-block:: console
+
+      --cmake-args -T ClangCL
+
+   to each colcon build commands below. It will use Clang, which is the only compiler we have tested successfully on Windows.
+
+
+Install the binaries:
 
 .. tabs::
 
@@ -16,13 +34,19 @@ You will need ``git``, a c++-17 compiler, ``cmake``, and ``Python 3`` with ``pip
 
       .. code-block:: console
 
-         $ brew install cmake git python3
+         brew install cmake git python3
 
    .. tab:: Linux
 
       .. code-block:: console
 
-         $ sudo apt install -y build-essential cmake git python3-dev python3-pip
+         sudo apt install -y build-essential cmake git python3-dev python3-pip
+
+   .. tab:: Windows
+
+      .. code-block:: console
+
+         choco install -y cmake git python3
 
 
 ROS is not required (except for ROS-specific components, see below) but we do use two build tools from ROS which you can install even without ROS:
@@ -31,14 +55,14 @@ ROS is not required (except for ROS-specific components, see below) but we do us
 
   .. code-block:: console
 
-     $ python3 -m pip install -U colcon-common-extensions
+     python3 -m pip install -U colcon-common-extensions
 
 
 - `ament_cmake <https://github.com/ament/ament_cmake>`_ to manage resources and integrate better with ROS. If you installed ROS, you will already have it. Else, only on Linux, you can install it from binary
 
   .. tabs::
   
-     .. tab:: macOS
+     .. tab:: macOS and Windows
   
         Install from source.
   
@@ -46,7 +70,7 @@ ROS is not required (except for ROS-specific components, see below) but we do us
   
         .. code-block:: console
   
-           $ sudo apt install -y build-essential ament-cmake
+           sudo apt install -y build-essential ament-cmake
 
   or you can build it from source (see below).
 
@@ -54,18 +78,17 @@ Then, create a ``colcon`` workspace and clone ``navground``.
 
 .. code-block:: console
 
-    $ mkdir -p my_ws/src
-    $ cd my_ws
-    $ git clone https://github.com/idsia-robotics/navground.git src/navground
+    mkdir -p my_ws/src
+    cd my_ws
+    git clone https://github.com/idsia-robotics/navground.git src/navground
 
 If you need build ``ament_cmake``, clone it and then build it with ``colcon``.
 
 .. code-block:: console
 
-    $ git clone https://github.com/ament/ament_cmake.git src/ament_cmake
-    $ git clone https://github.com/ament/ament_package src/ament_package 
-    $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF --packages-up-to ament_cmake
-
+    git clone https://github.com/ament/ament_cmake.git src/ament_cmake
+    git clone https://github.com/ament/ament_package src/ament_package 
+    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF --packages-up-to ament_cmake
 
 .. warning::
 
@@ -74,7 +97,7 @@ If you need build ``ament_cmake``, clone it and then build it with ``colcon``.
 
     .. code-block:: console
 
-       $ source ./install/setup.bash
+       source ./install/setup.bash
 
 
 .. note::
@@ -82,26 +105,26 @@ If you need build ``ament_cmake``, clone it and then build it with ``colcon``.
 
     .. code-block:: console
 
-       $ ros2 run <name_of_the_package> <name_of_the_executable> 
+       ros2 run <name_of_the_package> <name_of_the_executable> 
 
     like, for instance:
 
     .. code-block:: console
 
-       $ ros2 run navground_core info   
+       ros2 run navground_core info   
 
     If instead you don't have ROS, directly launch the executables from ``install/lib/<name_of_the_package>``.
 
     .. code-block:: console
 
-       $ ./install/lib/navground_core/info
+       ./install/lib/navground_core/info
 
     In the rest of the documentation, we omit ``ros2 run ...`` or the full path prefix and only specify
 
 
     .. code-block:: console
 
-       $ info
+       info
 
 
 .. _Core C++:
@@ -112,7 +135,7 @@ Core (C++)
 Dependencies
 ------------
 
-The core library depends on ``eigen`` and ``yaml-cpp``.
+The core library depends on ``eigen``, ``yaml-cpp``, and ``argparse``
 
 Eigen 3
 ^^^^^^^
@@ -122,8 +145,8 @@ Installation from source
 
 .. code-block:: console
  
-    $ git clone https://gitlab.com/libeigen/eigen src/eigen
-    $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select Eigen3
+    git clone https://gitlab.com/libeigen/eigen src/eigen
+    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select Eigen3
 
 Binary installation
 """""""""""""""""""
@@ -134,14 +157,19 @@ Binary installation
 
       .. code-block:: console
 
-        $ brew install eigen
+        brew install eigen
 
    .. tab:: Linux
 
       .. code-block:: console
 
-        $ sudo apt install -y libeigen3-dev
+        sudo apt install -y libeigen3-dev
 
+   .. tab:: Windows
+
+      .. code-block:: console
+
+        choco install -y eigen
 
 Yaml-cpp
 ^^^^^^^^
@@ -151,8 +179,8 @@ Installation from source
 
 .. code-block:: console
 
-   $ git clone https://github.com/jbeder/yaml-cpp.git src/yaml-cpp
-   $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DYAML_CPP_INSTALL=ON --packages-select YAML_CPP
+   git clone https://github.com/jbeder/yaml-cpp.git src/yaml-cpp
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DYAML_CPP_INSTALL=ON --packages-select YAML_CPP
 
 Binary installation
 """""""""""""""""""
@@ -163,13 +191,28 @@ Binary installation
 
       .. code-block:: console
 
-         $ brew install yaml-cpp
+         brew install yaml-cpp
 
    .. tab:: Linux
 
       .. code-block:: console
 
-         $ sudo apt install -y libyaml-cpp-dev
+         sudo apt install -y libyaml-cpp-dev
+
+   .. tab:: Windows
+
+      Install from source
+
+Argparse
+^^^^^^^^
+
+Installation from source
+""""""""""""""""""""""""
+
+.. code-block:: console
+
+   git clone  https://github.com/p-ranav/argparse.git src/argparse
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select argparse
 
 
 Package
@@ -179,7 +222,7 @@ Once all dependencies are installed, compile the package using ``colcon``.
 
 .. code-block:: console
 
-   $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_core
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_core
 
 .. note::
 
@@ -207,7 +250,7 @@ NumPy
 
 .. code-block:: console
 
-   $ python3 -m pip install -U numpy
+   python3 -m pip install -U numpy
 
 pybind11
 ^^^^^^^^
@@ -217,8 +260,8 @@ Installation from source
  
 .. code-block:: console
 
-   $ git clone https://github.com/pybind/pybind11.git src/pybind11
-   $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DPYBIND11_TEST=OFF  --packages-select pybind11
+   git clone https://github.com/pybind/pybind11.git src/pybind11
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DPYBIND11_TEST=OFF  --packages-select pybind11
 
 Binary installation
 """""""""""""""""""
@@ -229,23 +272,26 @@ Binary installation
 
       .. code-block:: console
 
-         $ brew install pybind11
+         brew install pybind11
 
    .. tab:: Linux
 
       .. code-block:: console
 
-         $ sudo apt install -y pybind11-dev
+         sudo apt install -y pybind11-dev
 
+   .. tab:: Windows
+
+      Install from source
 
 pybind11_mkdoc [optional]
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Install pybind11_mkdoc to import docstrings from C++. It is not necessary but will make the API friendlier to use. 
+Install ``pybind11_mkdoc`` to import docstrings from C++. It is not necessary but will make the API friendlier to use. 
 
 .. code-block:: console
 
-   $ python3 -m pip install git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+   python3 -m pip install git+https://github.com/jeguzzi/pybind11_mkdoc@rst
 
 
 You also need to install libclang.
@@ -259,7 +305,7 @@ You also need to install libclang.
 
       .. code-block:: console
 
-         $ python3 -m pip install clang==14
+         python3 -m pip install clang==14
 
 
    .. tab:: Linux
@@ -268,11 +314,15 @@ You also need to install libclang.
 
       .. code-block:: console
 
-         $ sudo apt install -y libclang-dev
-         $ python3 -m pip install clang==14
+         sudo apt install -y libclang-dev
+         python3 -m pip install clang==14
 
+   .. tab:: Windows
 
+      .. code-block:: console
 
+         clang --version
+         python3 -m pip install clang==<version of the install Clang compiler>
 
 
 Package
@@ -282,7 +332,16 @@ Once all dependencies are installed, compile the package using ``colcon``.
 
 .. code-block:: console
 
-   $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_py
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_py
+
+..
+   warning::
+
+   On Windows, you need to copy the dll library 
+
+   .. code-block:: console
+
+      copy install\bin\navground_core.dll install\Lib\site-packages\navground\core\navground_core.dll 
 
 
 .. _Simulation:
@@ -304,8 +363,8 @@ Installation from source
 
 .. code-block:: console
 
-   $ git clone https://github.com/libgeos/geos.git src/geos
-   $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DGEOS_BUILD_DEVELOPER=OFF --packages-select GEOS
+   git clone https://github.com/libgeos/geos.git src/geos
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DGEOS_BUILD_DEVELOPER=OFF --packages-select GEOS
 
 Binary installation
 """""""""""""""""""
@@ -316,17 +375,21 @@ Binary installation
 
       .. code-block:: console
 
-         $ brew install geos
+         brew install geos
 
    .. tab:: Linux
 
       .. code-block:: console
 
-         $ sudo apt install -y libgeos++-dev
+         sudo apt install -y libgeos++-dev
 
       .. warning::
 
          The current version installed in Ubuntu `is broken <https://answers.launchpad.net/ubuntu/+source/geos/+question/701657>`_. If you encounter any error, consider installing GEOS from source.
+
+   .. tab:: Windows
+
+      Install from source
 
 
 HighFive
@@ -336,11 +399,11 @@ You need to first install Hdf5 from source
 
 .. code-block:: console
 
-   $ git clone https://github.com/HDFGroup/hdf5.git src/hdf5
-   $ cd src/hdf5
-   $ git checkout tags/hdf5-1_14_0
-   $ cd ../..
-   $ colcon build --merge-install --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select HDF5 
+   git clone https://github.com/HDFGroup/hdf5.git src/hdf5
+   cd src/hdf5
+   git checkout tags/hdf5-1_14_0
+   cd ../..
+   colcon build --merge-install --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select HDF5 
 
 or from binary
 
@@ -350,32 +413,35 @@ or from binary
 
       .. code-block:: console
 
-         $ brew install hdf5
+         brew install hdf5
 
 
    .. tab:: Linux
 
       .. code-block:: console
 
-         $ sudo apt install -y libhdf5-dev
+         sudo apt install -y libhdf5-dev
+
+   .. tab:: Windows
+
+      Install from source
 
 
 Then, install HighFive.
 
 .. code-block:: console
 
-   $ git clone https://github.com/BlueBrain/HighFive.git src/HighFive
-   $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DHIGHFIVE_UNIT_TESTS=OFF -DHIGHFIVE_USE_BOOST=OFF -DHIGHFIVE_BUILD_DOCS=OFF --packages-select HighFive
+   git clone https://github.com/BlueBrain/HighFive.git src/HighFive
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DHIGHFIVE_UNIT_TESTS=OFF -DHIGHFIVE_USE_BOOST=OFF -DHIGHFIVE_BUILD_DOCS=OFF --packages-select HighFive
 
-
-h5py [optional]
-^^^^^^^^^^^^^^^
+h5py
+^^^^
 
 To be able to reload a simulation from a saved experiment, install ``h5py``
 
 .. code-block:: console
 
-   $ python3 -m pip install h5py
+   python3 -m pip install h5py
 
 websockets [optional]
 ^^^^^^^^^^^^^^^^^^^^^
@@ -384,7 +450,7 @@ To visualize a simulation in real-time from a browser, install ``websockets``
 
 .. code-block:: console
 
-   $ python3 -m pip install websockets
+   python3 -m pip install websockets
 
 
 cairosvg [optional]
@@ -394,7 +460,7 @@ To render a world to png, pdf or raw images, install ``cairosvg``
 
 .. code-block:: console
 
-   $ python3 -m pip install cairosvg
+   python3 -m pip install cairosvg
 
 
 moviepy [optional]
@@ -404,7 +470,7 @@ To record a video from a simulation, install ``moviepy``
 
 .. code-block:: console
 
-   $ python3 -m pip install moviepy
+   python3 -m pip install moviepy
 
 
 Package
@@ -414,7 +480,16 @@ Once all dependencies are installed, compile the package using ``colcon``.
 
 .. code-block:: console
 
-   $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim
+
+.. 
+   warning::
+
+   On Windows, you need to copy the dll library 
+
+   .. code-block:: console
+
+      copy install\bin\navground_sim.dll install\Lib\site-packages\navground\sim\navground_sim.dll 
 
 
 Examples and demos
@@ -425,7 +500,7 @@ Depends on `Core C++`_, `Core Python`_, and `Simulation`_.
 
 .. code-block:: console
 
-   $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_examples navground_examples_py navground_demos
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_examples navground_examples_py navground_demos
 
 
 ROS
@@ -435,7 +510,7 @@ Depends on `Core C++`_. You also need to have ROS installed and to source its se
 
 .. code-block:: console
 
-   # colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_msgs navground_ros
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_msgs navground_ros
 
 
 CoppeliaSim
@@ -446,8 +521,8 @@ Depends on `Simulation`_. You also need to install `coppeliaSim <https://www.cop
 
 .. code-block:: console
 
-   $ export COPPELIASIM_ROOT_DIR=<path to the folder containing the programming subfolder>
-   $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_coppeliasim
+   export COPPELIASIM_ROOT_DIR=<path to the folder containing the programming subfolder>
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_coppeliasim
 
 
 

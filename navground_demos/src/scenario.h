@@ -15,6 +15,7 @@
 #include "navground/sim/state_estimations/geometric_bounded.h"
 #include "navground/sim/tasks/waypoints.h"
 #include "navground/sim/world.h"
+#include "navground_demos_export.h"
 
 using navground::core::Behavior;
 using navground::core::make_property;
@@ -24,7 +25,7 @@ using navground::core::TwoWheelsDifferentialDriveKinematics;
 using navground::core::Vector2;
 namespace sim = navground::sim;
 
-struct ThymioDemo : public sim::Scenario {
+struct NAVGROUND_DEMOS_EXPORT ThymioDemo : public sim::Scenario {
   explicit ThymioDemo(const std::string &behavior_type = "HL")
       : sim::Scenario(), behavior_type(behavior_type) {}
 
@@ -59,8 +60,7 @@ struct ThymioDemo : public sim::Scenario {
                                   "The navigation behavior")}};
 
   std::string get_type() const override { return type; }
-  inline const static std::string type =
-      register_type<ThymioDemo>("ThymioDemo");
+  const static std::string type;
 
  private:
   std::string behavior_type;

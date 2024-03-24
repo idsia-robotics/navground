@@ -20,14 +20,14 @@ option(NAVGROUND_USES_DOUBLE "Whether to use double instead of float" OFF)
 include(GenerateExportHeader)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-include(FetchContent)
-FetchContent_Declare(
-    argparse
-    GIT_REPOSITORY https://github.com/p-ranav/argparse.git
-)
-FetchContent_MakeAvailable(argparse)
+# include(FetchContent)
+# FetchContent_Declare(
+#     argparse
+#     GIT_REPOSITORY https://github.com/p-ranav/argparse.git
+# )
+# FetchContent_MakeAvailable(argparse)
 
-
+find_package(argparse)
 find_package(ament_cmake REQUIRED)
 find_package(yaml-cpp)
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
@@ -75,16 +75,19 @@ if (NAVGROUND_USES_DOUBLE)
   target_compile_definitions(navground_core PUBLIC NAVGROUND_USES_DOUBLE)
 endif()
 
+# set_target_properties(navground_core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+
 
 ament_export_dependencies(Eigen3)
 
 target_link_libraries(navground_core PUBLIC yaml-cpp)
 ament_export_dependencies(yaml-cpp)
+ament_export_dependencies(argparse)
 
 ament_export_targets(navground_coreTargets HAS_LIBRARY_TARGET)
 
 add_executable(info src/info.cpp)
-target_link_libraries(info navground_core argparse)
+target_link_libraries(info navground_core argparse::argparse)
 add_dependencies(info navground_core)
 
 install(TARGETS

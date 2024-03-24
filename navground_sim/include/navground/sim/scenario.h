@@ -92,7 +92,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
   /**
    * Groups
    */
-  std::vector<std::unique_ptr<Group>> groups;
+  std::vector<std::shared_ptr<Group>> groups;
   /**
    * Obstacles
    */

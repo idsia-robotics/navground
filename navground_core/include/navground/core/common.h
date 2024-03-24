@@ -5,6 +5,7 @@
 #ifndef NAVGROUND_CORE_COMMON_H_
 #define NAVGROUND_CORE_COMMON_H_
 
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include <time.h>
 
@@ -215,7 +216,7 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    */
   bool is_almost_zero(ng_float_t epsilon_speed = 1e-6,
                       ng_float_t epsilon_angular_speed = 1e-6) const {
-    return velocity.norm() < epsilon_speed and
+    return velocity.norm() < epsilon_speed &&
            abs(angular_speed) < epsilon_angular_speed;
   }
 };

@@ -78,7 +78,7 @@ void Experiment::init_dataset(std::optional<fs::path> path) {
   } else {
     file_path = path;
   }
-  file = std::make_shared<HighFive::File>(*file_path, HighFive::File::Truncate);
+  file = std::make_shared<HighFive::File>(file_path->string(), HighFive::File::Truncate);
   store_experiment(yaml, *file);
   store_timepoint(begin, "begin_time", *file);
   store_yaml(yaml);

@@ -6,6 +6,7 @@
 #define NAVGROUND_CORE_EXAMPLES_MY_BEHAVIOR_H_
 
 #include "navground/core/behavior.h"
+#include "my_behavior_export.h"
 
 namespace navground::core {
 
@@ -15,7 +16,7 @@ namespace navground::core {
  * It showcases how to define and use a new behavior from an external shared
  * library.
  */
-class IdleBehavior : public Behavior {
+class MY_BEHAVIOR_EXPORT IdleBehavior : public Behavior {
  public:
   using Behavior::Behavior;
 
@@ -31,7 +32,7 @@ class IdleBehavior : public Behavior {
   }
 
  private:
-  static inline const std::string type = register_type<IdleBehavior>("Idle");
+  static const std::string type;
 };
 
 }  // namespace navground::core

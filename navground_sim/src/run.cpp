@@ -11,7 +11,11 @@
 #include "navground/sim/experiment.h"
 #include "navground/sim/scenarios/simple.h"
 #include "navground/sim/yaml/experiment.h"
+#if !defined(_MSC_VER)
 #include "tqdm.h"
+#define TQDM
+#endif // _MSV
+
 #include "yaml-cpp/yaml.h"
 
 using namespace navground::core;
@@ -93,6 +97,7 @@ int main(int argc, char *argv[]) {
               << std::endl;
   }
   std::cout << "Performing experiment ..." << std::endl;
+#ifdef TQDM
   if (should_display_tqdm) {
     tqdm bar;
     unsigned i = 0;
@@ -101,7 +106,9 @@ int main(int argc, char *argv[]) {
     });
     experiment.run(false, j);
     bar.finish();
-  } else {
+  } else 
+#endif
+  {
     experiment.run(false, j);
   }
 

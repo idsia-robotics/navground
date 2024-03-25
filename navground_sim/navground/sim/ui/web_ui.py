@@ -334,14 +334,20 @@ class WebUI:
         await self.send(msg)
 
     async def stop(self) -> None:
+        logging.info('Stopping UI')
         if self.server:
             self.server.close()
             await self.server.wait_closed()
         self.server = None
         self._prepared = False
+        logging.info('Stopped')
 
     def add_callback(self, cb: Callback) -> None:
         self._callbacks.append(cb)
 
     def remove_callback(self, cb: Callback) -> None:
         self._callbacks.remove(cb)
+
+    def __del__(self):
+        if self.server:
+            self.server.close()

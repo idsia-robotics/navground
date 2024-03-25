@@ -6,22 +6,19 @@
 
 #include "navground/core/states/geometric.h"
 #include "navground/sim/agent.h"
+#include "navground/sim/world.h"
 
 namespace navground::sim {
 
-void WaypointsTask::update(Agent *agent, [[maybe_unused]] World *world,
-                           ng_float_t time) {
+void WaypointsTask::update(Agent *agent, World *world, ng_float_t time) {
   auto c = agent->get_controller();
   if (c->idle()) {
-    if (waypoint != waypoints.end()) {
+    auto waypoint = next_waypoint(world);
+    if (waypoint) {
       c->go_to_position(*waypoint, tolerance);
       running = true;
       for (const auto &cb : callbacks) {
         cb({time, 1.0, waypoint->x(), waypoint->y()});
-      }
-      ++waypoint;
-      if (loop && waypoint == waypoints.end()) {
-        waypoint = waypoints.begin();
       }
     } else if (running) {
       for (const auto &cb : callbacks) {
@@ -30,6 +27,34 @@ void WaypointsTask::update(Agent *agent, [[maybe_unused]] World *world,
       running = false;
     }
   }
+}
+
+std::optional<navground::core::Vector2> WaypointsTask::next_waypoint(
+    World *world) {
+  if (waypoints.size() == 0) return std::nullopt;
+  if (random) {
+    if (first) {
+      std::uniform_int_distribution<int> d(0, waypoints.size() - 1);
+      index = d(world->get_random_generator());
+    } else {
+      std::uniform_int_distribution<int> d(1, waypoints.size() - 1);
+      index = (index + d(world->get_random_generator())) % waypoints.size();
+    }
+  } else {
+    if (first) {
+      index = 0;
+    } else {
+      index++;
+      if (loop && index >= waypoints.size()) {
+        index = 0;
+      }
+    }
+  }
+  first = false;
+  if (index >= 0 && index < waypoints.size()) {
+    return waypoints[index];
+  }
+  return std::nullopt;
 }
 
 bool WaypointsTask::done() const {

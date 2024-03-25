@@ -46,6 +46,10 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * The default goal tolerance.
    */
   inline static const bool default_tolerance = 1;
+  /**
+   * By default moves in sequence.
+   */
+  inline static const bool default_random = false;
 
   /**
    * @brief      Constructs a new instance.
@@ -56,12 +60,16 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @param[in]  tolerance_  The goal tolerance applied to each waypoint.
    */
   WaypointsTask(Waypoints waypoints_ = {}, bool loop_ = default_loop,
-                ng_float_t tolerance_ = default_tolerance)
+                ng_float_t tolerance_ = default_tolerance,
+                bool random_ = default_random)
       : Task(),
         waypoints(waypoints_),
-        waypoint(waypoints.begin()),
         loop(loop_),
-        tolerance(tolerance_) {}
+        tolerance(tolerance_),
+        random(random_),
+        first(true),
+        index(-1),
+        running(false) {}
 
   virtual ~WaypointsTask() = default;
 
@@ -88,7 +96,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    */
   void set_waypoints(const Waypoints &value) {
     waypoints = value;
-    waypoint = waypoints.begin();
+    first = true;
   }
   /**
    * @brief      Sets the goal tolerance applied to each waypoint.
@@ -125,6 +133,18 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    */
   ng_float_t get_loop() const { return loop; }
   /**
+   * @brief      Gets whether to pick the next waypoint randomly
+   *
+   * @return     True if it should pick randomly.
+   */
+  bool get_random() const { return random; }
+  /**
+   * @brief      Sets whether to pick the next waypoint randomly
+   *
+   * @param[in]  value  The desired value
+   */
+  void set_random(bool value) { random = value; }
+  /**
    * @brief      Gets the properties.
    *
    * @private
@@ -149,6 +169,10 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
        make_property<ng_float_t, WaypointsTask>(
            &WaypointsTask::get_tolerance, &WaypointsTask::set_tolerance,
            default_tolerance, "tolerance")},
+      {"random",
+       make_property<bool, WaypointsTask>(
+           &WaypointsTask::get_random, &WaypointsTask::set_random,
+           default_random, "Whether to pick the next waypoint randomly")},
   };
 
   /**
@@ -164,12 +188,15 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
 
  private:
   Waypoints waypoints;
-  Waypoints::iterator waypoint;
   bool loop;
   ng_float_t tolerance;
+  bool random;
+  bool first;
+  int index;
   bool running;
   inline const static std::string type =
       register_type<WaypointsTask>("Waypoints");
+  std::optional<navground::core::Vector2> next_waypoint(World *world);
 };
 
 }  // namespace navground::sim

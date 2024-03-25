@@ -7,6 +7,9 @@
         <description>Instantiate a navigation controller
         </description>
         <params>
+          <param name="handle" type="int">
+            <description>A unique handle to associate to the controller</description>
+          </param>
           <param name="behavior" type="string">
             <description>The obstacle avoidance behavior</description>
           </param>
@@ -19,7 +22,7 @@
         </params>
         <return>
           <param name="handle" type="int">
-              <description>An handle that identifies the controller</description>
+              <description>The handle or -1 in case of failure</description>
           </param>
         </return>
     </command>
@@ -57,7 +60,7 @@
         <return>
         </return>
     </command>
-    <command name="agents">
+    <command name="get_agents">
         <description>Get the handles of all the agents
         </description>
         <params>
@@ -263,6 +266,20 @@
         <return>
         </return>
     </command>
+    <command name="get_target">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The agent handle</description>
+          </param>
+        </params>
+        <return>
+          <param name="point" type="vector2_t">
+            <description>The 2d target</description>
+          </param>
+        </return>
+    </command>    
     <command name="get_pose">
         <description>TODO
         </description>
@@ -648,7 +665,7 @@
         </params>
         <return>
           <param name="handle" type="int">
-              <description>The agent handle</description>
+              <description>The handle or -1 in case of failure</description>
           </param>
         </return>
     </command>

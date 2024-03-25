@@ -163,6 +163,7 @@ class Plugin : public sim::Plugin {
       experiment.release();
     }
     world = nullptr;
+    agents.clear();
     agent_handles.clear();
   }
 
@@ -190,7 +191,7 @@ class Plugin : public sim::Plugin {
         r = simGetObjectOrientation(handle, frame, os);
         if (r == -1) continue;
         const core::Pose2 pose({ps[0], ps[1]}, os[2]);
-        if (!has_set_twist[uid]) {
+        if (!has_set_twist[handle]) {
           // const Vector2 velocity = (pose.position - agent->pose.position) /
           // dt; const auto angular_speed =
           //   core::normalize(pose.orientation - agent->pose.orientation) / dt;
@@ -205,7 +206,7 @@ class Plugin : public sim::Plugin {
           }
         }
         agent->pose = pose;
-        has_set_twist[uid] = false;
+        has_set_twist[handle] = false;
       }
       // update the world without physics or collisions
       world->update_dry(dt);
@@ -219,77 +220,66 @@ class Plugin : public sim::Plugin {
     }
   }
 
-  core::Controller3 *controller_at_index(unsigned i) const {
-    // TODO(Jerome): this returns core::Controller not core::Controller3.
-    // if (world) {
-    //   if (i < world->get_agents().size()) {
-    //     return world->get_agents()[i]->get_controller();
-    //   }
-    //   return nullptr;
-    // }
-    if (i < controllers.size()) {
-      return controllers[i].get();
+  core::Controller3 *controller_with_handle(unsigned handle) const {
+    if (controllers.count(handle)) {
+      return controllers.at(handle).get();
     }
-    std::cerr << "No controller with handle " << i << std::endl;
+    std::cerr << "No controller with handle " << handle << std::endl;
     return nullptr;
   }
 
-  core::Controller *controller2_at_index(unsigned i) const {
-    if (world) {
-      if (i < world->get_agents().size()) {
-        return world->get_agents()[i]->get_controller();
-      }
-      return nullptr;
+  core::Controller *controller2_with_handle(unsigned handle) const {
+    auto agent = agent_with_handle(handle);
+    if (agent) {
+      return agent->get_controller();
     }
-    if (i < controllers.size()) {
-      return controllers[i].get();
+    if (controllers.count(handle)) {
+      return controllers.at(handle).get();
     }
     return nullptr;
   }
 
-  core::Behavior *behavior_at_index(unsigned i) const {
-    if (world) {
-      if (i < world->get_agents().size()) {
-        return world->get_agents()[i]->get_behavior();
-      }
-      return nullptr;
+  core::Behavior *behavior_with_handle(unsigned handle) const {
+    auto agent = agent_with_handle(handle);
+    if (agent) {
+      return agent->get_behavior();
     }
-    if (i < controllers.size()) {
-      return controllers[i]->get_behavior().get();
+    if (controllers.count(handle)) {
+      return controllers.at(handle)->get_behavior().get();
     }
     return nullptr;
   }
 
-  nsim::Agent *agent_at_index(unsigned i) const {
-    if (world) {
-      return world->get_agent(i);
+  nsim::Agent *agent_with_handle(unsigned handle) const {
+    if (agents.count(handle)) {
+      return agents.at(handle).get();
     }
     return nullptr;
   }
 
-  void agents(agents_in *in, agents_out *out) {
-    for (const auto &[k, _] : agent_handles) {
+  void get_agents(get_agents_in *in, get_agents_out *out) {
+    for (const auto &[_, k] : agent_handles) {
       out->handles.push_back(k);
     }
   }
 
   void make_controller(make_controller_in *in, make_controller_out *out) {
-    int handle = controllers.size();
+    int handle = in->handle;
     auto kinematics = make_kinematics(in->kinematics);
     if (!kinematics) {
       out->handle = -1;
       return;
     }
-    out->handle = handle;  // TODO(J): add -1 to mark failures
     auto behavior = core::Behavior::make_type(in->behavior);
     behavior->set_radius(in->radius);
     behavior->set_kinematics(kinematics);
     auto controller = std::make_unique<core::Controller3>(behavior);
-    controllers.push_back(std::move(controller));
+    controllers.emplace(handle, std::move(controller));
+    out->handle = handle;
   }
 
   void go_to_position(go_to_position_in *in, go_to_position_out *out) {
-    auto controller = controller_at_index(in->handle);
+    auto controller = controller_with_handle(in->handle);
     if (controller) {
       controller->go_to_position(
           core::Vector3{in->position[0], in->position[1], in->position[2]},
@@ -298,7 +288,7 @@ class Plugin : public sim::Plugin {
   }
 
   void go_to_pose(go_to_pose_in *in, go_to_pose_out *out) {
-    auto controller = controller_at_index(in->handle);
+    auto controller = controller_with_handle(in->handle);
     if (controller) {
       controller->go_to_pose(
           core::Pose3{{in->position[0], in->position[1], in->position[2]},
@@ -308,7 +298,7 @@ class Plugin : public sim::Plugin {
   }
 
   void follow_point(follow_point_in *in, follow_point_out *out) {
-    auto controller = controller_at_index(in->handle);
+    auto controller = controller_with_handle(in->handle);
     if (controller) {
       controller->follow_point(
           core::Vector3{in->point[0], in->point[1], in->point[2]});
@@ -316,7 +306,7 @@ class Plugin : public sim::Plugin {
   }
 
   void follow_pose(follow_pose_in *in, follow_pose_out *out) {
-    auto controller = controller_at_index(in->handle);
+    auto controller = controller_with_handle(in->handle);
     if (controller) {
       controller->follow_pose(
           core::Pose3{{in->position[0], in->position[1], in->position[2]},
@@ -325,7 +315,7 @@ class Plugin : public sim::Plugin {
   }
 
   void follow_velocity(follow_velocity_in *in, follow_velocity_out *out) {
-    auto controller = controller2_at_index(in->handle);
+    auto controller = controller2_with_handle(in->handle);
     if (controller) {
       controller->follow_velocity(
           core::Vector2(in->velocity[0], in->velocity[1]));
@@ -333,7 +323,7 @@ class Plugin : public sim::Plugin {
   }
 
   // void follow_velocity(follow_velocity_in *in, follow_velocity_out *out) {
-  //   auto controller = controller_at_index(in->handle);
+  //   auto controller = controller_with_handle(in->handle);
   //   if (controller) {
   //     controller->follow_velocity(
   //         core::Vector3(in->velocity[0], in->velocity[1], in->velocity[2]));
@@ -341,7 +331,7 @@ class Plugin : public sim::Plugin {
   // }
 
   void set_pose(set_pose_in *in, set_pose_out *out) {
-    auto controller = controller_at_index(in->handle);
+    auto controller = controller_with_handle(in->handle);
     if (controller) {
       controller->set_pose(
           core::Pose3{{in->position[0], in->position[1], in->position[2]},
@@ -350,7 +340,7 @@ class Plugin : public sim::Plugin {
   }
 
   void get_pose(get_pose_in *in, get_pose_out *out) {
-    auto agent = agent_at_index(in->handle);
+    auto agent = agent_with_handle(in->handle);
     if (agent) {
       const auto &pose = agent->pose;
       const auto &p = pose.position;
@@ -358,7 +348,7 @@ class Plugin : public sim::Plugin {
       out->orientation = pose.orientation;
       return;
     }
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       const auto pose = behavior->get_pose();
       const auto &p = pose.position;
@@ -368,15 +358,25 @@ class Plugin : public sim::Plugin {
     }
   }
 
+  void get_target(get_target_in *in, get_target_out *out) {
+    auto agent = agent_with_handle(in->handle);
+    if (agent) {
+      const auto &target = agent->get_behavior()->get_target();
+      const auto &p = target.position;
+      out->point.x = p->x();
+      out->point.y = p->y();
+    }
+  }
+
   void set_twist(set_twist_in *in, set_twist_out *out) {
-    auto agent = agent_at_index(in->handle);
+    auto agent = agent_with_handle(in->handle);
     if (agent) {
       agent->twist =
           core::Twist2{{in->velocity[0], in->velocity[1]}, in->angular_speed};
       has_set_twist[in->handle] = true;
       return;
     }
-    auto controller = controller_at_index(in->handle);
+    auto controller = controller_with_handle(in->handle);
     if (controller) {
       controller->set_twist(
           core::Twist3{{in->velocity[0], in->velocity[1], in->velocity[2]},
@@ -385,7 +385,7 @@ class Plugin : public sim::Plugin {
   }
 
   void get_twist(get_twist_in *in, get_twist_out *out) {
-    auto agent = agent_at_index(in->handle);
+    auto agent = agent_with_handle(in->handle);
     if (agent) {
       const auto &twist = agent->twist;
       const auto &v = twist.velocity;
@@ -393,7 +393,7 @@ class Plugin : public sim::Plugin {
       out->angular_speed = twist.angular_speed;
       return;
     }
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       const auto twist = behavior->get_twist();
       const auto &v = twist.velocity;
@@ -403,7 +403,7 @@ class Plugin : public sim::Plugin {
   }
 
   void update(update_in *in, update_out *out) {
-    auto controller = controller_at_index(in->handle);
+    auto controller = controller_with_handle(in->handle);
     if (controller) {
       auto twist = controller->update(in->time_step);
       out->velocity = {twist.velocity[0], twist.velocity[1], twist.velocity[2]};
@@ -415,7 +415,7 @@ class Plugin : public sim::Plugin {
   // TODO(J): extend to 3dr
   void set_static_obstacles(set_static_obstacles_in *in,
                             set_static_obstacles_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (GeometricState *state = dynamic_cast<core::GeometricState *>(
             behavior->get_environment_state())) {
       std::vector<core::Disc> obstacles;
@@ -429,7 +429,7 @@ class Plugin : public sim::Plugin {
   }
 
   void set_neighbors(set_neighbors_in *in, set_neighbors_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (core::GeometricState *state = dynamic_cast<core::GeometricState *>(
             behavior->get_environment_state())) {
       std::vector<core::Neighbor> obstacles;
@@ -446,7 +446,7 @@ class Plugin : public sim::Plugin {
 
   void set_line_obstacles(set_line_obstacles_in *in,
                           set_line_obstacles_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (core::GeometricState *state = dynamic_cast<core::GeometricState *>(
             behavior->get_environment_state())) {
       std::vector<core::LineSegment> obstacles;
@@ -464,56 +464,56 @@ class Plugin : public sim::Plugin {
   }
 
   void get_state(get_state_in *in, get_state_out *out) {
-    auto controller = controller_at_index(in->handle);
+    auto controller = controller_with_handle(in->handle);
     if (controller) {
       out->state = static_cast<int>(controller->get_state());
     }
   }
 
   void set_rotation_tau(set_rotation_tau_in *in, set_rotation_tau_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       behavior->set_rotation_tau(in->value);
     }
   }
 
   void set_horizon(set_horizon_in *in, set_horizon_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       behavior->set_horizon(in->value);
     }
   }
 
   void get_horizon(get_horizon_in *in, get_horizon_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       out->value = behavior->get_horizon();
     }
   }
 
   void set_safety_margin(set_safety_margin_in *in, set_safety_margin_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       behavior->set_safety_margin(in->value);
     }
   }
 
   void get_safety_margin(get_safety_margin_in *in, get_safety_margin_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       out->value = behavior->get_safety_margin();
     }
   }
 
   void set_optimal_speed(set_optimal_speed_in *in, set_optimal_speed_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       behavior->set_optimal_speed(in->value);
     }
   }
 
   void get_optimal_speed(get_optimal_speed_in *in, get_optimal_speed_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       out->value = behavior->get_optimal_speed();
     }
@@ -521,7 +521,7 @@ class Plugin : public sim::Plugin {
 
   void set_speed_tolerance(set_speed_tolerance_in *in,
                            set_speed_tolerance_out *out) {
-    auto controller = controller_at_index(in->handle);
+    auto controller = controller_with_handle(in->handle);
     if (controller) {
       controller->set_speed_tolerance(in->value);
     }
@@ -529,7 +529,7 @@ class Plugin : public sim::Plugin {
 
   void set_heading_behavior(set_heading_behavior_in *in,
                             set_heading_behavior_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       behavior->set_heading_behavior(static_cast<Behavior::Heading>(in->value));
     }
@@ -537,14 +537,14 @@ class Plugin : public sim::Plugin {
 
   void should_be_limited_to_2d(should_be_limited_to_2d_in *in,
                                should_be_limited_to_2d_out *out) {
-    auto controller = controller_at_index(in->handle);
+    auto controller = controller_with_handle(in->handle);
     if (controller) {
       controller->should_be_limited_to_2d(in->value);
     }
   }
 
   void set_cmd_frame(set_cmd_frame_in *in, set_cmd_frame_out *out) {
-    auto controller = controller_at_index(in->handle);
+    auto controller = controller_with_handle(in->handle);
     if (controller) {
       controller->set_cmd_frame(static_cast<core::Frame>(in->value));
     }
@@ -552,7 +552,7 @@ class Plugin : public sim::Plugin {
 
   void get_actuated_wheel_speeds(get_actuated_wheel_speeds_in *in,
                                  get_actuated_wheel_speeds_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       out->speeds = behavior->get_actuated_wheel_speeds();
     }
@@ -560,7 +560,7 @@ class Plugin : public sim::Plugin {
 
   void set_behavior_property(set_behavior_property_in *in,
                              set_behavior_property_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       auto value = from_property_field_t(in->value);
       if (value) {
@@ -571,7 +571,7 @@ class Plugin : public sim::Plugin {
 
   void get_behavior_property(get_behavior_property_in *in,
                              get_behavior_property_out *out) {
-    auto behavior = behavior_at_index(in->handle);
+    auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       try {
         auto value = behavior->get(in->name);
@@ -582,7 +582,7 @@ class Plugin : public sim::Plugin {
   }
 
   void _set_property(_set_property_in *in, _set_property_out *out) {
-    auto agent = agent_at_index(in->handle);
+    auto agent = agent_with_handle(in->handle);
     if (agent) {
       auto value = from_property_field_t(in->value);
       if (value) {
@@ -605,7 +605,7 @@ class Plugin : public sim::Plugin {
   }
 
   void properties(properties_in *in, properties_out *out) {
-    auto agent = agent_at_index(in->handle);
+    auto agent = agent_with_handle(in->handle);
     if (agent) {
       core::Properties properties;
       switch (in->owner) {
@@ -632,7 +632,7 @@ class Plugin : public sim::Plugin {
   }
 
   void _get_property(_get_property_in *in, _get_property_out *out) {
-    auto agent = agent_at_index(in->handle);
+    auto agent = agent_with_handle(in->handle);
     if (agent) {
       core::Property::Field value;
       switch (in->owner) {
@@ -685,24 +685,29 @@ class Plugin : public sim::Plugin {
     auto agent = node.as<std::shared_ptr<nsim::Agent>>();
     if (agent) {
       // std::cout << YAML::dump<nsim::Agent>(agent.get()) << std::endl;
-      out->handle = agent->uid;
       agent_handles[agent->uid] = in->handle;
-      has_set_twist[agent->uid] = false;
-      get_world()->add_agent(std::move(agent));
+      has_set_twist[in->handle] = false;
+      get_world()->add_agent(agent);
+      agents[in->handle] = agent;
+      out->handle = in->handle;
     } else {
       out->handle = -1;
     }
   }
 
   void remove_agent(remove_agent_in *in, remove_agent_out *out) {
-    int uid = in->handle;
-    get_world()->remove_agent_with_uid(uid);
-    agent_handles.erase(uid);
-    has_set_twist.erase(uid);
+    int handle = in->handle;
+    auto agent = agent_with_handle(handle);
+    if (agent) {
+      get_world()->remove_agent_with_uid(agent->uid);
+      agent_handles.erase(agent->uid);
+      has_set_twist.erase(handle);
+      agents.erase(handle);
+    }
   }
 
   void get_last_cmd(get_last_cmd_in *in, get_last_cmd_out *out) {
-    auto agent = agent_at_index(in->handle);
+    auto agent = agent_with_handle(in->handle);
     if (agent) {
       const auto twist =
           agent->get_last_cmd(static_cast<core::Frame>(in->frame));
@@ -713,7 +718,7 @@ class Plugin : public sim::Plugin {
 
   void get_last_wheel_cmd(get_last_wheel_cmd_in *in,
                           get_last_wheel_cmd_out *out) {
-    auto agent = agent_at_index(in->handle);
+    auto agent = agent_with_handle(in->handle);
     if (agent) {
       auto twist = agent->get_last_cmd(core::Frame::relative);
       const auto kinematics = agent->get_kinematics();
@@ -769,11 +774,15 @@ class Plugin : public sim::Plugin {
   }
 
  private:
-  std::vector<std::unique_ptr<core::Controller3>> controllers;
+  std::map<int, std::unique_ptr<core::Controller3>> controllers;
   std::shared_ptr<nsim::World> world;
   std::unique_ptr<nsim::Experiment> experiment;
   nsim::ExperimentalRun *exp_run;
+  // uid -> handle
   std::map<int, int> agent_handles;
+  // handle -> agent
+  std::map<int, std::shared_ptr<nsim::Agent>> agents;
+  // handle -> value
   std::map<int, bool> has_set_twist;
   int frame;
   int seed;

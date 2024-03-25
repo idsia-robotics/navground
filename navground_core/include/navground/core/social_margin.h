@@ -5,7 +5,7 @@
 #include <cmath>
 #include <map>
 #include <memory>
-#include <optional>
+// #include <optional>
 
 #include "navground/core/types.h"
 
@@ -204,7 +204,10 @@ class SocialMargin {
    * @return     The stored social margin
    */
   ng_float_t get_value(unsigned type) {
-    return social_margins[type].value_or(default_social_margin);
+    if (social_margins.count(type)) {
+      return social_margins.at(type);
+    }
+    return default_social_margin;
   }
 
   /**
@@ -219,13 +222,28 @@ class SocialMargin {
    *
    * @return     A map of type -> social margin.
    */
-  const std::map<unsigned, std::optional<ng_float_t>>& get_values() const {
+  const std::map<unsigned, ng_float_t>& get_values() const {
     return social_margins;
+  }
+
+  /**
+   * @brief      Gets the maximal possible value across all types
+   *
+   * @return     The maximal value.
+   */
+  ng_float_t get_max_value() const {
+    ng_float_t v = default_social_margin;
+    if (social_margins.size()) {
+      auto e = std::max_element(social_margins.begin(), social_margins.end(),
+                                social_margins.value_comp());
+      v = std::max(v, e->second);
+    }
+    return v;
   }
 
  private:
   ng_float_t default_social_margin;
-  std::map<unsigned, std::optional<ng_float_t>> social_margins;
+  std::map<unsigned, ng_float_t> social_margins;
   std::shared_ptr<Modulation> modulation;
 };
 

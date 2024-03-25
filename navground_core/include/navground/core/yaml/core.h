@@ -196,7 +196,7 @@ struct convert<SocialMargin> {
     node["default"] = rhs.get_default_value();
     for (const auto& [k, v] : rhs.get_values()) {
       if (v) {
-        node["values"][k] = *v;
+        node["values"][k] = v;
       }
     }
     return node;

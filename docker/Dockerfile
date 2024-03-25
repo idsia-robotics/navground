@@ -26,10 +26,14 @@ RUN mkdir -p /ws/src && cd /ws/src \
     && git clone https://github.com/pybind/pybind11.git \
     && git clone https://github.com/BlueBrain/HighFive.git \
     && git clone https://github.com/jbeder/yaml-cpp.git \
-    && git clone https://gitlab.com/libeigen/eigen
+    && git clone https://gitlab.com/libeigen/eigen \
+    && git clone  https://github.com/p-ranav/argparse.git
 
 RUN cd /ws \
     && colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select Eigen3
+
+RUN cd /ws \
+    && colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select argparse
 
 RUN cd /ws \
     && colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release \

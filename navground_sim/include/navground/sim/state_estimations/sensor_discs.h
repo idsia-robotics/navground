@@ -81,7 +81,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_range(ng_float_t value) { range = std::max(0.0, value); }
+  void set_range(ng_float_t value) { range = std::max<ng_float_t>(0, value); }
 
   /**
    * @brief      Gets the range of view.
@@ -95,7 +95,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_number(int value) { number = std::max(0, value); }
+  void set_number(int value) { number = std::max<ng_float_t>(0, value); }
 
   /**
    * @brief      Gets the number of discs.
@@ -109,7 +109,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_max_radius(ng_float_t value) { max_radius = std::max(0.0, value); }
+  void set_max_radius(ng_float_t value) { max_radius = std::max<ng_float_t>(0, value); }
 
   /**
    * @brief      Gets the maximal neighbor radius.
@@ -123,7 +123,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_max_speed(ng_float_t value) { max_speed = std::max(0.0, value); }
+  void set_max_speed(ng_float_t value) { max_speed = std::max<ng_float_t>(0, value); }
 
   /**
    * @brief      Gets the maximal neighbor speed.

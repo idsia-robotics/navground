@@ -191,7 +191,7 @@ bool Behavior::should_stop() const {
 
 bool Behavior::is_stopped(ng_float_t epsilon_speed,
                           ng_float_t epsilon_angular_speed) const {
-  return twist.is_almost_zero(epsilon_speed, epsilon_angular_speed) and
+  return twist.is_almost_zero(epsilon_speed, epsilon_angular_speed) &&
          actuated_twist.is_almost_zero(epsilon_speed, epsilon_angular_speed);
 }
 

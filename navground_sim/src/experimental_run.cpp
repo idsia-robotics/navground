@@ -291,7 +291,7 @@ void ExperimentalRun::run() {
 }
 
 void ExperimentalRun::update() {
-  if (_state != State::running or _steps > _run_config.steps) return;
+  if (_state != State::running || _steps > _run_config.steps) return;
   for (auto &[k, probe] : _probes) {
     probe->update(*_world);
   }

@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 
 SHELL ["/bin/bash", "-c"]
 
-RUN pip3 install -U colcon-common-extensions clang==14 git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+RUN pip3 install -U colcon-common-extensions clang==14 git+https://github.com/jeguzzi/pybind11_mkdoc@rst h5py
 
 RUN mkdir -p /ws/src && cd /ws/src \
     && git clone https://github.com/libgeos/geos.git \
@@ -27,7 +27,7 @@ RUN mkdir -p /ws/src && cd /ws/src \
     && git clone https://github.com/BlueBrain/HighFive.git \
     && git clone https://github.com/jbeder/yaml-cpp.git \
     && git clone https://gitlab.com/libeigen/eigen \
-    && git clone  https://github.com/p-ranav/argparse.git
+    && git clone https://github.com/p-ranav/argparse.git
 
 RUN cd /ws \
     && colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select Eigen3
@@ -52,7 +52,7 @@ RUN cd /ws \
        -DHIGHFIVE_UNIT_TESTS=OFF -DHIGHFIVE_USE_BOOST=OFF -DHIGHFIVE_BUILD_DOCS=OFF --packages-select HighFive
 
 
-RUN cd /ws/src && git clone https://github.com/jeguzzi/navground.git
+RUN cd /ws/src && git clone https://github.com/idsia-robotics/navground.git
 
 RUN cd /ws \
     && colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select  \

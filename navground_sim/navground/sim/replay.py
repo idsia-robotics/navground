@@ -10,7 +10,7 @@ import h5py
 from .real_time import RealTimeSimulation
 from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
 from .ui.web_ui import Rect, WebUI
-from .run_rt import make_html
+from .ui import open_html
 
 
 class RealTimeReplay(RealTimeSimulation):
@@ -146,7 +146,7 @@ def main() -> None:
     arg = parser().parse_args()
     should_open_view = not (arg.no_ui or arg.no_browser or arg.record_video)
     if should_open_view:
-        make_html()
+        open_html()
     try:
         file = h5py.File(arg.path, 'r')
     except:

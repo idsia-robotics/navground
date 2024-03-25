@@ -270,6 +270,18 @@ class NAVGROUND_SIM_EXPORT World {
    */
   void add_agent(const std::shared_ptr<Agent> &agent);
   /**
+   * @brief      Remove an agent from the world.
+   *
+   * @param[in]  agent  The agent
+   */
+  void remove_agent(Agent *agent);
+  /**
+   * @brief      Remove an agent from the world.
+   *
+   * @param[in]  uid  The uid of the agent
+   */
+  void remove_agent_with_uid(unsigned uid);
+  /**
    * @brief      Adds a line to the world as a wall
    *
    * @param[in]  line  The line
@@ -421,6 +433,24 @@ class NAVGROUND_SIM_EXPORT World {
    */
   RandomGenerator &get_random_generator();
 
+
+  /**
+   * @brief      Sets the random generator shared by all distribution
+   * used to generate and simulate this world
+   *
+   * @param[in]  value  The desired random generator
+   */
+  void set_random_generator(RandomGenerator & value);
+
+  /**
+   * @brief      Copy the random generator from another world
+   *
+   * @param[in]  world  The world
+   */
+  void copy_random_generator(World & world) {
+    set_random_generator(world.get_random_generator());
+  }
+
   /**
    * @brief      Gets the random seed.
    *
@@ -499,6 +529,17 @@ class NAVGROUND_SIM_EXPORT World {
   }
 
   /**
+   * @brief      Find an agent by identifier
+   *
+   * @param[in]  uid   The agent uid
+   *
+   * @return     The agent or nullptr if not found.
+   */
+  Agent *get_agent(unsigned uid) {
+    return dynamic_cast<Agent *>(get_entity(uid));
+  }
+
+  /**
    * @brief      Adds a callback to be executed after each simulation step.
    *
    * @param[in]  value  The callback
@@ -550,6 +591,8 @@ class NAVGROUND_SIM_EXPORT World {
   void update_agent_ghosts();
 
   void add_entity(Entity *entity);
+
+  void remove_entity(Entity *entity);
 
   std::vector<std::shared_ptr<Agent>> agents;
   std::vector<std::shared_ptr<Obstacle>> obstacles;

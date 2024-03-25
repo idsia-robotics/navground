@@ -19,6 +19,10 @@ unsigned World::get_seed() const { return _seed; }
 
 RandomGenerator &World::get_random_generator() { return _generator; }
 
+void World::set_random_generator(RandomGenerator & value) {
+  _generator = value;
+}
+
 static bool wrap_lattice(ng_float_t &x, ng_float_t from, ng_float_t length) {
   const ng_float_t delta = x - from;
   if (delta > length) {
@@ -127,6 +131,12 @@ void World::update_dry(ng_float_t time_step, bool advance_time) {
 
 void World::add_entity(Entity *entity) { entities[entity->uid] = entity; }
 
+void World::remove_entity(Entity *entity) {
+  if (entity) {
+    delete entities[entity->uid];
+  }
+}
+
 void World::add_agent(const std::shared_ptr<Agent> &agent) {
   if (agent) {
     if (entities.count(agent->uid) == 0) {
@@ -137,6 +147,23 @@ void World::add_agent(const std::shared_ptr<Agent> &agent) {
       std::cerr << "This agent was already added!" << std::endl;
     }
   }
+}
+
+// TODO(Jerome): will create problems with experiments,
+// as they assume that the number of agents is fixed.
+void World::remove_agent(Agent *agent) {
+  if (agent) {
+    remove_entity(agent);
+    auto it = std::find_if(agents.begin(), agents.end(),
+                           [agent](const auto & p) { return p.get() == agent; });
+    if (it != std::end(agents)) {
+      agents.erase(it);
+    }
+  }
+}
+
+void World::remove_agent_with_uid(unsigned uid) {
+  remove_agent(get_agent(uid));
 }
 
 void World::add_wall(const LineSegment &wall) {

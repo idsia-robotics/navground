@@ -179,8 +179,7 @@ Vector2 ORCABehavior::desired_velocity_towards_point(const Vector2 &point,
                                                      ng_float_t speed,
                                                      ng_float_t dt) {
   // Else there is an error on Windows + MSVC
-  const auto p = effective_position();
-  const auto delta = point - p;
+  const Vector2 delta = point - effective_position();
   const ng_float_t n = delta.norm();
   Vector2 velocity;
   if (n) {

@@ -2,16 +2,13 @@ import argparse
 import asyncio
 import logging
 import os
-import pathlib
 import random
 import sys
-import tempfile
-import webbrowser
 from typing import Optional
 
 from . import Scenario, World, load_experiment, load_py_plugins
 from .real_time import RealTimeSimulation
-from .ui import html_for_world, Decorate
+from .ui import open_html, Decorate
 from .ui.web_ui import Rect, WebUI
 
 
@@ -129,20 +126,6 @@ def parser() -> argparse.ArgumentParser:
     return parser
 
 
-def make_html(width: int = 640,
-              port: int = 8000,
-              display_shape: bool = False) -> None:
-    d = pathlib.Path(tempfile.mkdtemp())
-    f = d / "world.html"
-    with open(f, "w+") as fp:
-        data = html_for_world(with_websocket=True,
-                              width=width,
-                              port=port,
-                              display_shape=display_shape)
-        fp.write(data)
-    webbrowser.open(f"file://{f}")
-
-
 def main(decorate: Optional[Decorate] = None) -> None:
     logging.basicConfig(level=logging.INFO)
     load_py_plugins()
@@ -155,7 +138,7 @@ def main(decorate: Optional[Decorate] = None) -> None:
     should_open_view = not (arg.no_ui or arg.no_browser)
 
     if should_open_view:
-        make_html(width=arg.width,
+        open_html(width=arg.width,
                   port=arg.port,
                   display_shape=arg.display_shape)
     try:

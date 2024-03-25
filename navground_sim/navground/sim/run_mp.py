@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 def _load_and_run_experiment(yaml: str,
                              start_index: int,
                              number_of_runs: int,
-                             data_path: pathlib.Path,
+                             data_path: Optional[pathlib.Path],
                              queue: Optional[mp.Queue] = None) -> None:
     experiment = sim.load_experiment(yaml)
     if queue:
@@ -93,7 +93,7 @@ def run_mp(experiment: sim.Experiment,
     ss = np.cumsum(chunks)
     start_indices = np.insert(ss, 0, 0) + experiment.run_index
     paths = [
-        experiment.path.parent / f"data_{i}.h5"
+        experiment.path.parent / f"data_{i}.h5" if experiment.path else None
         for i in range(number_of_processes)
     ]
     yaml = itertools.repeat(sim.dump(experiment), number_of_processes)
@@ -116,7 +116,10 @@ def run_mp(experiment: sim.Experiment,
             r.wait()
     experiment.stop()
     path = experiment.path
-    with h5py.File(path, 'a') as file:
-        for (_, i, number_of_runs, data_path, _) in partial_experiments:
-            for j in range(i, i + number_of_runs):
-                file[f'run_{j}'] = h5py.ExternalLink(data_path, f"run_{j}")
+    if path:
+        with h5py.File(path, 'a') as file:
+            for (_, i, number_of_runs, data_path, _) in partial_experiments:
+                if data_path:
+                    for j in range(i, i + number_of_runs):
+                        file[f'run_{j}'] = h5py.ExternalLink(
+                            data_path, f"run_{j}")

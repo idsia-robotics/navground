@@ -565,7 +565,12 @@ PYBIND11_MODULE(_navground, m) {
             return sm->set(*type, value);
           },
           py::arg("value"), py::arg("type") = py::none(),
-          DOC(navground, core, SocialMargin, set));
+          DOC(navground, core, SocialMargin, set))
+      .def_property(
+          "max_value",
+          &SocialMargin::get_max_value,
+          nullptr,
+          DOC(navground, core, SocialMargin, property_max_value));
 
   py::class_<Behavior, PyBehavior, HasRegister<Behavior>, HasProperties,
              std::shared_ptr<Behavior>>
@@ -716,6 +721,8 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Behavior, wheel_speeds_from_twist))
       .def("twist_from_wheel_speeds", &Behavior::twist_from_wheel_speeds,
            DOC(navground, core, Behavior, twist_from_wheel_speeds))
+      .def("set_state_from", &Behavior::set_state_from, py::arg("other"),
+           DOC(navground, core, Behavior, set_state_from))
       .def_property("efficacy", &Behavior::get_efficacy, nullptr,
                     DOC(navground, core, Behavior, property_efficacy))
       .def_property("is_stuck", &Behavior::is_stuck, nullptr,

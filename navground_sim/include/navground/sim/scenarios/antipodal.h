@@ -156,30 +156,7 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
   /**
    * @private
    */
-  inline const static std::map<std::string, Property> properties = Properties{
-      {"radius",
-       make_property<ng_float_t, AntipodalScenario>(
-           &AntipodalScenario::get_radius, &AntipodalScenario::set_radius,
-           default_radius, "Radius of the circle")},
-      {"tolerance",
-       make_property<ng_float_t, AntipodalScenario>(
-           &AntipodalScenario::get_tolerance, &AntipodalScenario::set_tolerance,
-           default_tolerance, "Goal tolerance")},
-      {"position_noise",
-       make_property<ng_float_t, AntipodalScenario>(
-           &AntipodalScenario::get_position_noise,
-           &AntipodalScenario::set_position_noise, default_position_noise,
-           "Noise added to the initial position")},
-      {"orientation_noise",
-       make_property<ng_float_t, AntipodalScenario>(
-           &AntipodalScenario::get_orientation_noise,
-           &AntipodalScenario::set_orientation_noise, default_orientation_noise,
-           "Noise added to the initial orientation")},
-      {"shuffle",
-       make_property<bool, AntipodalScenario>(
-           &AntipodalScenario::get_shuffle, &AntipodalScenario::set_shuffle,
-           default_shuffle,
-           "Whether to shuffle the agents before initializing them")}};
+  const static std::map<std::string, Property> properties;;
 
   /**
    * @private
@@ -193,8 +170,7 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
   bool shuffle;
 
  private:
-  inline const static std::string type =
-      register_type<AntipodalScenario>("Antipodal");
+     const static std::string type;
 };
 
 }  // namespace navground::sim

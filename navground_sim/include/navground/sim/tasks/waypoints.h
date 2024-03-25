@@ -157,23 +157,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @private
    */
-  static inline std::map<std::string, Property> properties = Properties{
-      {"waypoints",
-       make_property<Waypoints, WaypointsTask>(&WaypointsTask::get_waypoints,
-                                               &WaypointsTask::set_waypoints,
-                                               Waypoints{}, "waypoints")},
-      {"loop", make_property<bool, WaypointsTask>(&WaypointsTask::get_loop,
-                                                  &WaypointsTask::set_loop,
-                                                  default_loop, "loop")},
-      {"tolerance",
-       make_property<ng_float_t, WaypointsTask>(
-           &WaypointsTask::get_tolerance, &WaypointsTask::set_tolerance,
-           default_tolerance, "tolerance")},
-      {"random",
-       make_property<bool, WaypointsTask>(
-           &WaypointsTask::get_random, &WaypointsTask::set_random,
-           default_random, "Whether to pick the next waypoint randomly")},
-  };
+  static const std::map<std::string, Property> properties;
 
   /**
    * @private
@@ -194,8 +178,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   bool first;
   int index;
   bool running;
-  inline const static std::string type =
-      register_type<WaypointsTask>("Waypoints");
+  const static std::string type;
   std::optional<navground::core::Vector2> next_waypoint(World *world);
 };
 

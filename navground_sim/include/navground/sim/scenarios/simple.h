@@ -27,7 +27,7 @@ namespace navground::sim {
  *
  * *Registered properties*: none
  */
-struct SimpleScenario : public Scenario {
+struct NAVGROUND_SIM_EXPORT SimpleScenario : public Scenario {
   SimpleScenario() : Scenario() {}
 
   void init_world(World *world,
@@ -44,8 +44,7 @@ struct SimpleScenario : public Scenario {
   }
 
   std::string get_type() const override { return type; }
-  inline const static std::string type =
-      register_type<SimpleScenario>("Simple");
+  const static std::string type;
 };
 
 }  // namespace navground::sim

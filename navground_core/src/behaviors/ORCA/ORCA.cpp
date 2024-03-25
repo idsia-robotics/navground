@@ -178,11 +178,13 @@ Vector2 ORCABehavior::desired_velocity_towards_velocity(const Vector2 &velocity,
 Vector2 ORCABehavior::desired_velocity_towards_point(const Vector2 &point,
                                                      ng_float_t speed,
                                                      ng_float_t dt) {
-  const auto delta = point - effective_position();
+  // Else there is an error on Windows + MSVC
+  const auto p = effective_position();
+  const auto delta = point - p;
   const ng_float_t n = delta.norm();
   Vector2 velocity;
   if (n) {
-    velocity = delta / n * std::max<float>(0, speed);
+    velocity = delta / n * std::max<ng_float_t>(0, speed);
   }
   return desired_velocity_towards_velocity(velocity, dt);
 }
@@ -209,5 +211,22 @@ Twist2 ORCABehavior::twist_towards_velocity(const Vector2 &absolute_velocity,
 }
 
 // const char *ORCABehavior::name = register_type<ORCABehavior>("ORCA");
+
+const std::map<std::string, Property> ORCABehavior::properties =
+Properties{
+    {"time_horizon",
+     make_property<ng_float_t, ORCABehavior>(
+         &ORCABehavior::get_time_horizon, &ORCABehavior::set_time_horizon,
+         10, "Time horizon")},
+    {"effective_center",
+     make_property<bool, ORCABehavior>(
+         &ORCABehavior::is_using_effective_center,
+         &ORCABehavior::should_use_effective_center, false,
+         "Whenever to use an effective center to handle non-holonomic "
+         "kinematics")},
+} +
+Behavior::properties;
+
+const std::string ORCABehavior::type = register_type<ORCABehavior>("ORCA");
 
 }  // namespace navground::core

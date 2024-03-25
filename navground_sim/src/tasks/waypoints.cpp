@@ -62,4 +62,24 @@ bool WaypointsTask::done() const {
   return !running;
 }
 
+const std::map<std::string, Property> WaypointsTask::properties = Properties{
+      {"waypoints",
+       make_property<Waypoints, WaypointsTask>(&WaypointsTask::get_waypoints,
+                                               &WaypointsTask::set_waypoints,
+                                               Waypoints{}, "waypoints")},
+      {"loop", make_property<bool, WaypointsTask>(&WaypointsTask::get_loop,
+                                                  &WaypointsTask::set_loop,
+                                                  default_loop, "loop")},
+      {"tolerance",
+       make_property<ng_float_t, WaypointsTask>(
+           &WaypointsTask::get_tolerance, &WaypointsTask::set_tolerance,
+           default_tolerance, "tolerance")},
+      {"random",
+       make_property<bool, WaypointsTask>(
+           &WaypointsTask::get_random, &WaypointsTask::set_random,
+           default_random, "Whether to pick the next waypoint randomly")},
+};
+
+const std::string WaypointsTask::type = register_type<WaypointsTask>("Waypoints");
+
 }  // namespace navground::sim

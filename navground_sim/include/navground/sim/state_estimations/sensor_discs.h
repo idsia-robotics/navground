@@ -6,6 +6,7 @@
 #define NAVGROUND_SIM_STATE_ESTIMATIONS_SENSOR_DISCS_H_
 
 #include <vector>
+#include <algorithm>
 
 #include "navground/core/types.h"
 #include "navground/sim/state_estimations/sensor.h"
@@ -81,7 +82,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_range(ng_float_t value) { range = std::max(0.0, value); }
+  void set_range(ng_float_t value) { range = std::max<ng_float_t>(0, value); }
 
   /**
    * @brief      Gets the range of view.
@@ -95,7 +96,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_number(int value) { number = std::max(0, value); }
+  void set_number(int value) { number = std::max<ng_float_t>(0, value); }
 
   /**
    * @brief      Gets the number of discs.
@@ -109,7 +110,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_max_radius(ng_float_t value) { max_radius = std::max(0.0, value); }
+  void set_max_radius(ng_float_t value) { max_radius = std::max<ng_float_t>(0, value); }
 
   /**
    * @brief      Gets the maximal neighbor radius.
@@ -123,7 +124,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_max_speed(ng_float_t value) { max_speed = std::max(0.0, value); }
+  void set_max_speed(ng_float_t value) { max_speed = std::max<ng_float_t>(0, value); }
 
   /**
    * @brief      Gets the maximal neighbor speed.
@@ -155,30 +156,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   /**
    * @private
    */
-  static inline std::map<std::string, Property> properties =
-      Properties{
-          {"range", make_property<ng_float_t, DiscsStateEstimation>(
-                        &DiscsStateEstimation::get_range,
-                        &DiscsStateEstimation::set_range, default_range,
-                        "Maximal range")},
-          {"number",
-           make_property<int, DiscsStateEstimation>(
-               &DiscsStateEstimation::get_number,
-               &DiscsStateEstimation::set_number, default_number, "Number")},
-          {"max_radius", make_property<ng_float_t, DiscsStateEstimation>(
-                             &DiscsStateEstimation::get_max_radius,
-                             &DiscsStateEstimation::set_max_radius,
-                             default_max_radius, "Maximal radius")},
-          {"max_speed", make_property<ng_float_t, DiscsStateEstimation>(
-                            &DiscsStateEstimation::get_max_speed,
-                            &DiscsStateEstimation::set_max_speed,
-                            default_max_speed, "Maximal speed")},
-          {"include_valid", make_property<bool, DiscsStateEstimation>(
-                            &DiscsStateEstimation::get_include_valid,
-                            &DiscsStateEstimation::set_include_valid,
-                            default_include_valid, "Include validity field")},
-      } +
-      StateEstimation::properties;
+  static const std::map<std::string, Property> properties;
 
   /**
    * @private
@@ -220,8 +198,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   ng_float_t max_radius;
   ng_float_t max_speed;
   bool include_valid;
-  inline const static std::string type =
-      register_type<DiscsStateEstimation>("Discs");
+  const static std::string type;
 
   bool include_velocity() const { return max_speed > 0; }
   bool include_radius() const { return max_radius > 0; }

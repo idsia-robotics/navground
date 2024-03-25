@@ -94,4 +94,31 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
   }
 }
 
+const std::map<std::string, Property> DiscsStateEstimation::properties =
+Properties{
+    {"range", make_property<ng_float_t, DiscsStateEstimation>(
+                  &DiscsStateEstimation::get_range,
+                  &DiscsStateEstimation::set_range, default_range,
+                  "Maximal range")},
+    {"number",
+     make_property<int, DiscsStateEstimation>(
+         &DiscsStateEstimation::get_number,
+         &DiscsStateEstimation::set_number, default_number, "Number")},
+    {"max_radius", make_property<ng_float_t, DiscsStateEstimation>(
+                       &DiscsStateEstimation::get_max_radius,
+                       &DiscsStateEstimation::set_max_radius,
+                       default_max_radius, "Maximal radius")},
+    {"max_speed", make_property<ng_float_t, DiscsStateEstimation>(
+                      &DiscsStateEstimation::get_max_speed,
+                      &DiscsStateEstimation::set_max_speed,
+                      default_max_speed, "Maximal speed")},
+    {"include_valid", make_property<bool, DiscsStateEstimation>(
+                      &DiscsStateEstimation::get_include_valid,
+                      &DiscsStateEstimation::set_include_valid,
+                      default_include_valid, "Include validity field")},
+} +
+StateEstimation::properties;
+
+const std::string DiscsStateEstimation::type = register_type<DiscsStateEstimation>("Discs");
+
 }  // namespace navground::sim

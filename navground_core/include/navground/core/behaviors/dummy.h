@@ -44,7 +44,7 @@ class NAVGROUND_CORE_EXPORT DummyBehavior : public Behavior {
                                             ng_float_t time_step) override;
 
  private:
-  static inline const std::string type = register_type<DummyBehavior>("Dummy");
+     static const std::string type;
 };
 
 }  // namespace navground::core

@@ -71,8 +71,7 @@ class NAVGROUND_CORE_EXPORT HRVOBehavior : public Behavior {
   void prepare(const Vector2& target_velocity);
 
  private:
-  inline static std::string type =
-      Behavior::register_type<HRVOBehavior>("HRVO");
+     const static std::string type;
 };
 
 }  // namespace navground::core

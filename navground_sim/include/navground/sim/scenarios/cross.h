@@ -169,29 +169,7 @@ struct NAVGROUND_SIM_EXPORT CrossScenario : public Scenario {
   /**
    * @private
    */
-  static inline const std::map<std::string, Property> properties{
-      {"side", make_property<ng_float_t, CrossScenario>(
-                   &CrossScenario::get_side, &CrossScenario::set_side,
-                   default_side, "Distance between targets")},
-      {"tolerance",
-       make_property<ng_float_t, CrossScenario>(
-           &CrossScenario::get_tolerance, &CrossScenario::set_tolerance,
-           default_tolerance, "Goal tolerance")},
-      {"agent_margin",
-       make_property<ng_float_t, CrossScenario>(
-           &CrossScenario::get_agent_margin, &CrossScenario::set_agent_margin,
-           0.1f, "initial minimal distance between agents")},
-      {"add_safety_to_agent_margin",
-       make_property<bool, CrossScenario>(
-           &CrossScenario::get_add_safety_to_agent_margin,
-           &CrossScenario::set_add_safety_to_agent_margin,
-           default_add_safety_to_agent_margin,
-           "Whether to add the safety margin to the agent margin")},
-      {"target_margin",
-       make_property<ng_float_t, CrossScenario>(
-           &CrossScenario::get_target_margin, &CrossScenario::set_target_margin,
-           default_target_margin,
-           "Initial minimal distance between agents and targets")}};
+  static const std::map<std::string, Property> properties;
 
   /**
    * @private
@@ -199,7 +177,7 @@ struct NAVGROUND_SIM_EXPORT CrossScenario : public Scenario {
   std::string get_type() const override { return type; }
 
  private:
-  static inline const std::string type = register_type<CrossScenario>("Cross");
+  static const std::string type;
 };
 
 }  // namespace navground::sim

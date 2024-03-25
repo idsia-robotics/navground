@@ -10,8 +10,6 @@
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/sampling/sampler.h"
 #include "navground/sim/scenario.h"
-#include "navground/sim/scenarios/antipodal.h"
-#include "navground/sim/scenarios/simple.h"
 #include "navground/sim/yaml/scenario.h"
 #include "yaml-cpp/yaml.h"
 

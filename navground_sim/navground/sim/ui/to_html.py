@@ -1,18 +1,37 @@
 import os
+import pathlib
 import shutil
+import tempfile
+import webbrowser
 from collections import ChainMap
 from typing import Any, List, Mapping, Optional
 
 import jinja2
-from IPython.display import HTML
+from IPython.display import HTML, display_html
+from ..real_time import RealTimeSimulation
+from .web_ui import WebUI
 
 from .. import World
-from .to_svg import _svg_for_world
+from .to_svg import _svg_for_world, Rect
 
 folder = os.path.dirname(os.path.realpath(__file__))
 template_folder = os.path.join(folder, 'templates')
 jinjia_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(template_folder))
+
+
+def open_html(width: int = 640,
+              port: int = 8000,
+              display_shape: bool = False) -> None:
+    d = pathlib.Path(tempfile.mkdtemp())
+    f = d / "world.html"
+    with open(f, "w+") as fp:
+        data = html_for_world(with_websocket=True,
+                              width=width,
+                              port=port,
+                              display_shape=display_shape)
+        fp.write(data)
+    webbrowser.open(f"file://{f}", new=1)
 
 
 def save(world: Optional[World] = None,
@@ -126,3 +145,36 @@ def notebook_view(width: int = 600, **kwargs: Any) -> HTML:
                        width=width,
                        notebook=True,
                        **kwargs))
+
+
+async def display_in_notebook(world: World,
+                              time_step: float,
+                              duration: float,
+                              factor: float = 1.0,
+                              width: int = 600,
+                              port: int = 8002,
+                              bounds: Rect | None = None,
+                              **kwargs: Any) -> Any:
+    """
+    Perform a simulation and displays the recorded video in a notebook
+
+    :param      world:             The world to simulate
+    :param      time_step:         The time step
+    :param      duration:          The simulation duration
+    :param      factor:            The real-time factor
+    :param      width:             The size of the view
+    :param      port:              The websocket port
+    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.html_for_world`
+    """
+
+    view = notebook_view(width=width, port=port, **kwargs)
+    display_html(view)
+    ui = WebUI(port=port)
+    await ui.prepare()
+    rt = RealTimeSimulation(world=world,
+                            time_step=time_step,
+                            factor=factor,
+                            web_ui=ui,
+                            bounds=bounds)
+    await rt.run()
+    await ui.close()

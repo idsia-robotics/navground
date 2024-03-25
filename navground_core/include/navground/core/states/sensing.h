@@ -15,14 +15,14 @@ namespace navground::core {
 /**
  * @brief      Generic state to hold data from sensors in keyed buffers.
  */
-class SensingState : virtual public EnvironmentState {
+class SensingState : public EnvironmentState {
  public:
   /**
    * Construct an instance
    */
   SensingState() : EnvironmentState(), buffers() {}
 
-  virtual ~SensingState() = default;
+  // virtual ~SensingState() = default;
 
   /**
    * @brief      Gets the buffers.

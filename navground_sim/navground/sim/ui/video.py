@@ -82,7 +82,7 @@ def record_video(path: Union[str, pathlib.Path],
     if suffix.lower() == ".gif":
         clip.write_gif(str(path), fps=fps)
     else:
-        clip.write_videofile(str(path), fps=fps, audio=False)
+        clip.write_videofile(str(path), fps=fps, audio=False, verbose=False, logger=None)
 
 
 def record_video_from_run(path: Union[str, pathlib.Path],
@@ -106,7 +106,7 @@ def record_video_from_run(path: Union[str, pathlib.Path],
     if suffix.lower() == ".gif":
         clip.write_gif(str(path), fps=fps)
     else:
-        clip.write_videofile(str(path), fps=fps, audio=False)
+        clip.write_videofile(str(path), fps=fps, audio=False, verbose=False, logger=None)
 
 
 def display_video(world: World,
@@ -128,7 +128,7 @@ def display_video(world: World,
     :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
     """
     clip = make_video(world, time_step, duration, factor, **kwargs)
-    return clip.ipython_display(fps=fps, width=display_width)
+    return clip.ipython_display(fps=fps, rd_kwargs=dict(verbose=False, logger=None), width=display_width)
 
 
 def display_video_from_run(run: RecordedExperimentalRun,
@@ -146,4 +146,4 @@ def display_video_from_run(run: RecordedExperimentalRun,
     :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
     """
     clip = make_video_from_run(run, factor, **kwargs)
-    return clip.ipython_display(fps=fps, width=display_width)
+    return clip.ipython_display(fps=fps, rd_kwargs=dict(verbose=False, logger=None), width=display_width)

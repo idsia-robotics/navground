@@ -512,6 +512,10 @@ py::object load_scenario(const Node &node) {
   return obj;
 };
 
+void update_scenario(Scenario & scenario, const Node &node) {
+  convert_scenario<PyWorld>::decode(node, scenario);
+};
+
 std::string dump_scenario(Scenario *sampler) {
   auto node = convert_scenario<PyWorld>::encode(*sampler);
   Emitter out;
@@ -935,7 +939,9 @@ Creates a rectangular region
       .def("agents_are_idle_or_stuck", &World::agents_are_idle_or_stuck,
            DOC(navground, sim, World, agents_are_idle_or_stuck))
       .def("in_collision", &World::in_collision, py::arg("e1"), py::arg("e2"),
-           DOC(navground, sim, World, in_collision));
+           DOC(navground, sim, World, in_collision))
+      .def("copy_random_generator", &World::copy_random_generator, py::arg("world"),
+           DOC(navground, sim, World, copy_random_generator));
 
   py::class_<PyWorld, World, std::shared_ptr<PyWorld>>(
       m, "World", py::dynamic_attr(), DOC(navground, sim, World))
@@ -954,7 +960,21 @@ Creates a rectangular region
            DOC(navground, sim, StateEstimation, update))
       .def_property(
           "type", [](StateEstimation *obj) { return obj->get_type(); }, nullptr,
-          "The name associated to the type of an object");
+          "The name associated to the type of an object")
+      .def(py::pickle(
+          [](StateEstimation * se) { 
+            // __getstate__
+            return py::make_tuple(YAML::dump<StateEstimation>(se));
+          },
+          [](py::tuple t) { 
+              // __setstate__
+              if (t.size() != 1)
+                  throw std::runtime_error("Invalid state!");
+              std::string node = t[0].cast<std::string>();
+              auto obj = YAML::load_string_py<PyStateEstimation>(node);
+              return obj.cast<std::shared_ptr<StateEstimation>>();
+          }
+      ));
 
   py::class_<BoundedStateEstimation, StateEstimation,
              std::shared_ptr<BoundedStateEstimation>>(
@@ -976,7 +996,21 @@ Creates a rectangular region
                         property_update_static_obstacles))
       .def("_neighbors_of_agent", &BoundedStateEstimation::neighbors_of_agent,
            py::arg("agent"), py::arg("world"),
-           DOC(navground, sim, BoundedStateEstimation, neighbors_of_agent));
+           DOC(navground, sim, BoundedStateEstimation, neighbors_of_agent))
+      .def(py::pickle(
+          [](BoundedStateEstimation * se) { 
+            // __getstate__
+            return py::make_tuple(YAML::dump<StateEstimation>(se));
+          },
+          [](py::tuple t) { 
+              // __setstate__
+              if (t.size() != 1)
+                  throw std::runtime_error("Invalid state!");
+              std::string node = t[0].cast<std::string>();
+              auto obj = YAML::load_string_py<PyStateEstimation>(node);
+              return obj.cast<std::shared_ptr<BoundedStateEstimation>>();
+          }
+      ));
 
   py::class_<Sensor, PySensor, StateEstimation, std::shared_ptr<Sensor>>(
       m, "Sensor", DOC(navground, sim, Sensor))
@@ -1008,20 +1042,54 @@ Creates a rectangular region
       .def_property(
           "resolution", &LidarStateEstimation::get_resolution,
           &LidarStateEstimation::set_resolution,
-          DOC(navground, sim, LidarStateEstimation, property_resolution));
+          DOC(navground, sim, LidarStateEstimation, property_resolution))
+      .def(py::pickle(
+          [](LidarStateEstimation * se) { 
+            // __getstate__
+            return py::make_tuple(YAML::dump<StateEstimation>(se));
+          },
+          [](py::tuple t) { 
+              // __setstate__
+              if (t.size() != 1)
+                  throw std::runtime_error("Invalid state!");
+              std::string node = t[0].cast<std::string>();
+              auto obj = YAML::load_string_py<PyStateEstimation>(node);
+              return obj.cast<std::shared_ptr<LidarStateEstimation>>();
+          }
+      ));
 
   py::class_<DiscsStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<DiscsStateEstimation>>(
       m, "DiscsStateEstimation", DOC(navground, sim, DiscsStateEstimation))
-      .def(py::init<ng_float_t, unsigned>(), py::arg("range") = 1.0,
-           py::arg("number") = 1,
+      .def(py::init<ng_float_t, unsigned, ng_float_t, ng_float_t, bool>(), py::arg("range") = 1.0,
+           py::arg("number") = 1, py::arg("max_radius") = 1, py::arg("max_speed") = 1, py::arg("include_valid") = true,
            DOC(navground, sim, DiscsStateEstimation, DiscsStateEstimation))
       .def_property("range", &DiscsStateEstimation::get_range,
                     &DiscsStateEstimation::set_range,
                     DOC(navground, sim, DiscsStateEstimation, property_range))
       .def_property("number", &DiscsStateEstimation::get_number,
                     &DiscsStateEstimation::set_number,
-                    DOC(navground, sim, DiscsStateEstimation, property_number));
+                    DOC(navground, sim, DiscsStateEstimation, property_number))
+      .def_property("max_radius", &DiscsStateEstimation::get_max_radius,
+                    &DiscsStateEstimation::set_max_radius,
+                    DOC(navground, sim, DiscsStateEstimation, property_max_radius))
+      .def_property("max_speed", &DiscsStateEstimation::get_max_speed,
+                    &DiscsStateEstimation::set_max_speed,
+                    DOC(navground, sim, DiscsStateEstimation, property_max_speed))
+      .def(py::pickle(
+          [](DiscsStateEstimation * se) { 
+            // __getstate__
+            return py::make_tuple(YAML::dump<StateEstimation>(se));
+          },
+          [](py::tuple t) { 
+              // __setstate__
+              if (t.size() != 1)
+                  throw std::runtime_error("Invalid state!");
+              std::string node = t[0].cast<std::string>();
+              auto obj = YAML::load_string_py<PyStateEstimation>(node);
+              return obj.cast<std::shared_ptr<DiscsStateEstimation>>();
+          }
+      ));
 
   py::class_<Task, PyTask, HasRegister<Task>, HasProperties,
              std::shared_ptr<Task>>(m, "Task", DOC(navground, sim, Task))
@@ -1604,11 +1672,43 @@ It will be used to define HDF5 groups or datasets when saving data.
       // py::return_value_policy::reference) .def_property("initializers",
       // &Scenario::get_initializers, nullptr)
       .def("add_init", &Scenario::add_init, py::arg("initializer"),
-           DOC(navground, sim, Scenario, add_init));
+           DOC(navground, sim, Scenario, add_init))
+      .def("set_yaml", [](Scenario & scenario, const std::string & value) {
+        YAML::Node node = YAML::Load(value);
+        YAML::update_scenario(scenario, node);
+      })
+      .def(py::pickle(
+          [](Scenario * scenario) { 
+            // __getstate__
+            return py::make_tuple(YAML::dump_scenario(scenario));
+          },
+          [](py::tuple t) { 
+              // __setstate__
+              if (t.size() != 1)
+                  throw std::runtime_error("Invalid state!");
+              YAML::Node node = YAML::Load(t[0].cast<std::string>());
+              auto obj = YAML::load_scenario(node);
+              return obj.cast<std::shared_ptr<Scenario>>();
+          }
+      ));
 
   py::class_<SimpleScenario, Scenario, std::shared_ptr<SimpleScenario>>(
       m, "SimpleScenario", DOC(navground, sim, SimpleScenario))
-      .def(py::init<>(), DOC(navground, sim, SimpleScenario, SimpleScenario));
+      .def(py::init<>(), DOC(navground, sim, SimpleScenario, SimpleScenario))
+      .def(py::pickle(
+          [](SimpleScenario * scenario) { 
+            // __getstate__
+            return py::make_tuple(YAML::dump_scenario(scenario));
+          },
+          [](py::tuple t) { 
+              // __setstate__
+              if (t.size() != 1)
+                  throw std::runtime_error("Invalid state!");
+              YAML::Node node = YAML::Load(t[0].cast<std::string>());
+              auto obj = YAML::load_scenario(node);
+              return obj.cast<std::shared_ptr<SimpleScenario>>();
+          }
+      ));
 
   py::class_<AntipodalScenario, Scenario, std::shared_ptr<AntipodalScenario>>(
       m, "AntipodalScenario", DOC(navground, sim, AntipodalScenario))
@@ -1634,7 +1734,21 @@ It will be used to define HDF5 groups or datasets when saving data.
       .def_property(
           "orientation_noise", &AntipodalScenario::get_orientation_noise,
           &AntipodalScenario::set_orientation_noise,
-          DOC(navground, sim, AntipodalScenario, property_orientation_noise));
+          DOC(navground, sim, AntipodalScenario, property_orientation_noise))
+      .def(py::pickle(
+          [](AntipodalScenario * scenario) { 
+            // __getstate__
+            return py::make_tuple(YAML::dump_scenario(scenario));
+          },
+          [](py::tuple t) { 
+              // __setstate__
+              if (t.size() != 1)
+                  throw std::runtime_error("Invalid state!");
+              YAML::Node node = YAML::Load(t[0].cast<std::string>());
+              auto obj = YAML::load_scenario(node);
+              return obj.cast<std::shared_ptr<AntipodalScenario>>();
+          }
+      ));
 
   py::class_<CrossScenario, Scenario, std::shared_ptr<CrossScenario>>(
       m, "CrossScenario", DOC(navground, sim, CrossScenario, CrossScenario))
@@ -1661,7 +1775,21 @@ It will be used to define HDF5 groups or datasets when saving data.
                         property_add_safety_to_agent_margin))
       .def_property("target_margin", &CrossScenario::get_target_margin,
                     &CrossScenario::set_target_margin,
-                    DOC(navground, sim, CrossScenario, property_target_margin));
+                    DOC(navground, sim, CrossScenario, property_target_margin))
+      .def(py::pickle(
+          [](CrossScenario * scenario) { 
+            // __getstate__
+            return py::make_tuple(YAML::dump_scenario(scenario));
+          },
+          [](py::tuple t) { 
+              // __setstate__
+              if (t.size() != 1)
+                  throw std::runtime_error("Invalid state!");
+              YAML::Node node = YAML::Load(t[0].cast<std::string>());
+              auto obj = YAML::load_scenario(node);
+              return obj.cast<std::shared_ptr<CrossScenario>>();
+          }
+      ));
 
   py::class_<CorridorScenario, Scenario, std::shared_ptr<CorridorScenario>>(
       m, "CorridorScenario", DOC(navground, sim, CorridorScenario))
@@ -1686,7 +1814,21 @@ It will be used to define HDF5 groups or datasets when saving data.
                     &CorridorScenario::get_add_safety_to_agent_margin,
                     &CorridorScenario::set_add_safety_to_agent_margin,
                     DOC(navground, sim, CorridorScenario,
-                        property_add_safety_to_agent_margin));
+                        property_add_safety_to_agent_margin))
+      .def(py::pickle(
+          [](CorridorScenario * scenario) { 
+            // __getstate__
+            return py::make_tuple(YAML::dump_scenario(scenario));
+          },
+          [](py::tuple t) { 
+              // __setstate__
+              if (t.size() != 1)
+                  throw std::runtime_error("Invalid state!");
+              YAML::Node node = YAML::Load(t[0].cast<std::string>());
+              auto obj = YAML::load_scenario(node);
+              return obj.cast<std::shared_ptr<CorridorScenario>>();
+          }
+      ));
 
   py::class_<CrossTorusScenario, Scenario, std::shared_ptr<CrossTorusScenario>>(
       m, "CrossTorusScenario", DOC(navground, sim, CrossTorusScenario))
@@ -1707,7 +1849,21 @@ It will be used to define HDF5 groups or datasets when saving data.
                     &CrossTorusScenario::get_add_safety_to_agent_margin,
                     &CrossTorusScenario::set_add_safety_to_agent_margin,
                     DOC(navground, sim, CrossTorusScenario,
-                        property_add_safety_to_agent_margin));
+                        property_add_safety_to_agent_margin))
+      .def(py::pickle(
+          [](CrossTorusScenario * scenario) { 
+            // __getstate__
+            return py::make_tuple(YAML::dump_scenario(scenario));
+          },
+          [](py::tuple t) { 
+              // __setstate__
+              if (t.size() != 1)
+                  throw std::runtime_error("Invalid state!");
+              YAML::Node node = YAML::Load(t[0].cast<std::string>());
+              auto obj = YAML::load_scenario(node);
+              return obj.cast<std::shared_ptr<CrossTorusScenario>>();
+          }
+      ));
 
   m.def("load_task", &YAML::load_string_py<PyTask>, py::arg("value"),
         R"doc(

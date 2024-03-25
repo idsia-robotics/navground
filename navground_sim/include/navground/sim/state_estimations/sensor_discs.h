@@ -30,6 +30,10 @@ namespace navground::sim {
  *
  *   - `number` (int, \ref get_number)
  *
+ *   - `max_radius` (int, \ref get_number)
+ *
+ *   - `max_speed` (int, \ref get_number)
+ *
  */
 struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   /**
@@ -40,7 +44,18 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    * The default start angle
    */
   inline static const ng_float_t default_number = 1;
-
+  /**
+   * The default maximal neighbor radius
+   */
+  inline static const ng_float_t default_max_radius = 1;
+  /**
+   * The default maximal neighbor speed
+   */
+  inline static const ng_float_t default_max_speed = 1;
+  /**
+   * The default maximal neighbor speed
+   */
+  inline static const bool default_include_valid = true;
   /**
    * @brief      Constructs a new instance.
    *
@@ -48,8 +63,16 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    * @param[in]  number_  Number of discs
    */
   explicit DiscsStateEstimation(ng_float_t range_ = default_range,
-                                unsigned number_ = default_number)
-      : Sensor(), range(range_), number(number_) {}
+                                unsigned number_ = default_number,
+                                ng_float_t max_radius_ = default_max_radius,
+                                ng_float_t max_speed_ = default_max_speed,
+                                bool include_valid_ = default_include_valid)
+      : Sensor(),
+        range(range_),
+        number(number_),
+        max_radius(max_radius_),
+        max_speed(max_speed_),
+        include_valid(include_valid_) {}
 
   virtual ~DiscsStateEstimation() = default;
 
@@ -58,7 +81,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_range(ng_float_t value) { range = value; }
+  void set_range(ng_float_t value) { range = std::max(0.0, value); }
 
   /**
    * @brief      Gets the range of view.
@@ -72,7 +95,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_number(int value) { number = value; }
+  void set_number(int value) { number = std::max(0, value); }
 
   /**
    * @brief      Gets the number of discs.
@@ -81,6 +104,47 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    */
   int get_number() const { return number; }
 
+  /**
+   * @brief      Sets the maximal neighbor radius.
+   *
+   * @param[in]  value     The new value
+   */
+  void set_max_radius(ng_float_t value) { max_radius = std::max(0.0, value); }
+
+  /**
+   * @brief      Gets the maximal neighbor radius.
+   *
+   * @return     The maximal radius.
+   */
+  ng_float_t get_max_radius() const { return max_radius; }
+
+  /**
+   * @brief      Sets the maximal neighbor speed.
+   *
+   * @param[in]  value     The new value
+   */
+  void set_max_speed(ng_float_t value) { max_speed = std::max(0.0, value); }
+
+  /**
+   * @brief      Gets the maximal neighbor speed.
+   *
+   * @return     The maximal speed.
+   */
+  ng_float_t get_max_speed() const { return max_speed; }
+
+  /**
+   * @brief      Sets whether to include validity.
+   *
+   * @param[in]  value     The new value
+   */
+  void set_include_valid(bool value) { include_valid = value; }
+
+  /**
+   * @brief      Gets whether to include validity.
+   *
+   * @return     Whether to include validity.
+   */
+  bool get_include_valid() const { return include_valid; }
   /**
    * @private
    */
@@ -101,6 +165,18 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
            make_property<int, DiscsStateEstimation>(
                &DiscsStateEstimation::get_number,
                &DiscsStateEstimation::set_number, default_number, "Number")},
+          {"max_radius", make_property<ng_float_t, DiscsStateEstimation>(
+                             &DiscsStateEstimation::get_max_radius,
+                             &DiscsStateEstimation::set_max_radius,
+                             default_max_radius, "Maximal radius")},
+          {"max_speed", make_property<ng_float_t, DiscsStateEstimation>(
+                            &DiscsStateEstimation::get_max_speed,
+                            &DiscsStateEstimation::set_max_speed,
+                            default_max_speed, "Maximal speed")},
+          {"include_valid", make_property<bool, DiscsStateEstimation>(
+                            &DiscsStateEstimation::get_include_valid,
+                            &DiscsStateEstimation::set_include_valid,
+                            default_include_valid, "Include validity field")},
       } +
       StateEstimation::properties;
 
@@ -115,21 +191,41 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   virtual void update(Agent *agent, World *world,
                       EnvironmentState *state) const override;
 
-  // {(x, y, v_x, v_y, radius)}
-  // TODO(Jerome): max_radius / max_velocity
+  // {(relative x, relative y, v_x, v_y, radius)}
+  // DONE(Jerome): max_radius / max_velocity
   Description get_description() const override {
-    return {{"radius", BufferDescription::make<ng_float_t>({number}, 0.0, 1.0)},
-            {"position",
-             BufferDescription::make<ng_float_t>({number, 2}, 0.0, range)},
-            {"velocity",
-             BufferDescription::make<ng_float_t>({number, 2}, 0.0, 1.0)}};
+    Description desc;
+    if (!number) return desc;
+    if (include_radius()) {
+      desc.emplace("radius", BufferDescription::make<ng_float_t>({number}, 0.0,
+                                                                 max_radius));
+    }
+    if (include_velocity()) {
+      desc.emplace("velocity", BufferDescription::make<ng_float_t>(
+                                   {number, 2}, -max_speed, max_speed));
+    }
+    if (include_position()) {
+      desc.emplace("position", BufferDescription::make<ng_float_t>(
+                                   {number, 2}, -range, range));
+    }
+    if (get_include_valid()) {
+      desc.emplace("valid", BufferDescription::make<uint8_t>({number}, 0, 1));
+    }
+    return desc;
   }
 
  private:
   ng_float_t range;
   unsigned number;
+  ng_float_t max_radius;
+  ng_float_t max_speed;
+  bool include_valid;
   inline const static std::string type =
       register_type<DiscsStateEstimation>("Discs");
+
+  bool include_velocity() const { return max_speed > 0; }
+  bool include_radius() const { return max_radius > 0; }
+  bool include_position() const { return range > 0; }
 };
 
 }  // namespace navground::sim

@@ -75,7 +75,7 @@ def run_mp(experiment: sim.Experiment,
         )
     experiment.start()
 
-    if callback or bar:
+    if callback or bar is not None:
         m = mp.Manager()
         queue = m.Queue()
     else:
@@ -86,7 +86,7 @@ def run_mp(experiment: sim.Experiment,
     if start_index is not None:
         experiment.run_index = start_index
 
-    if bar:
+    if bar is not None:
         bar.total = experiment.number_of_runs
 
     chunks = _divide(experiment.number_of_runs, number_of_processes)
@@ -108,7 +108,7 @@ def run_mp(experiment: sim.Experiment,
                     i = queue.get(timeout=1)
                     if callback:
                         callback(i)
-                    if bar:
+                    if bar is not None:
                         bar.update(1)
                 except Empty:
                     pass

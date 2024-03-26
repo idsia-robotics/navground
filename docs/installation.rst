@@ -11,22 +11,42 @@ Preparation
 
 You will need ``git``, a c++-17 compiler, ``cmake``, and ``Python 3`` with ``pip``. 
 
-To install the necessary binaries, on macOS start by installing `homebrew <https://brew.sh>`_, while on Windows install `Chocolatey <https://chocolatey.org/install>`_, if you don't have them already.
+Install the appropriate package manager for your system
 
-On Windows, install also Visual Studio together with the Clang C++ compiler. All Windows commands should be executed in a "Native Tools Command Prompt for VS" with admin privileges.
+.. tabs::
 
-.. warning::
+   .. tab:: macOS
 
-   On Windows, add the following option
+      We are going to use ``brew``, install it from `homebrew <https://brew.sh>`_.
 
-   .. code-block:: console
+   .. tab:: Linux
 
-      --cmake-args -T ClangCL
-
-   to each colcon build commands below. It will use Clang, which is the only compiler we have tested successfully on Windows.
+      We are going to use ``apt``.
 
 
-Install the binaries:
+   .. tab:: Windows
+
+      We are going to use ``choco``, install it from `Chocolatey <https://chocolatey.org/install>`_.
+
+
+.. note::
+
+   All Windows commands below should be executed in a "Native Tools Command Prompt for VS" with admin privileges.
+
+.. 
+   warning::
+
+..    On Windows, add the following option
+
+..    
+   code-block:: console
+
+..       --cmake-args -T ClangCL
+
+..    to each colcon build commands below. It will use Clang, which is the only compiler we have tested successfully on Windows.
+
+
+Install the binary dependencies:
 
 .. tabs::
 
@@ -62,7 +82,7 @@ ROS is not required (except for ROS-specific components, see below) but we do us
 
   .. tabs::
   
-     .. tab:: macOS and Windows
+     .. tab:: macOS
   
         Install from source.
   
@@ -71,6 +91,10 @@ ROS is not required (except for ROS-specific components, see below) but we do us
         .. code-block:: console
   
            sudo apt install -y build-essential ament-cmake
+
+     .. tab:: Windows
+  
+        Install from source.
 
   or you can build it from source (see below).
 

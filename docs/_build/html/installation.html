@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Installation &#8212; navground 0.0.3 documentation</title>
+    <title>Installation &#8212; navground 0.0.4 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="_static/jquery.js?v=5d32c60e"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="_static/documentation_options.js?v=4acdca81"></script>
+    <script src="_static/documentation_options.js?v=dfd84850"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -139,7 +139,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.3 documentation</p>
+    <p class="title logo__title">navground 0.0.4 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -423,61 +423,65 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation">Preparation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-c">Core (C++)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#eigen-3">Eigen 3</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-from-source">Installation from source</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-installation">Binary installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#all-at-once">All-at-once</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-instructions">Step-by-step instructions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-c">Core (C++)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#eigen-3">Eigen 3</a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-from-source">Installation from source</a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-installation">Binary installation</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#yaml-cpp">Yaml-cpp</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Installation from source</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Binary installation</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#yaml-cpp">Yaml-cpp</a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Installation from source</a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Binary installation</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#argparse">Argparse</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Installation from source</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#argparse">Argparse</a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Installation from source</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#package">Package</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#package">Package</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-python">Core (Python)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Dependencies</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy">NumPy</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pybind11">pybind11</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Installation from source</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Binary installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-python">Core (Python)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Dependencies</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy">NumPy</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#pybind11">pybind11</a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Installation from source</a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Binary installation</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pybind11-mkdoc-optional">pybind11_mkdoc [optional]</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#pybind11-mkdoc-optional">pybind11_mkdoc [optional]</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Package</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Package</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-c-and-python">Simulation (C++ and Python)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Dependencies</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geos">GEOS</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Installation from source</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Binary installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-c-and-python">Simulation (C++ and Python)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Dependencies</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#geos">GEOS</a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Installation from source</a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Binary installation</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#highfive">HighFive</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#h5py">h5py</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#websockets-optional">websockets [optional]</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cairosvg-optional">cairosvg [optional]</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#moviepy-optional">moviepy [optional]</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#highfive">HighFive</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#h5py">h5py</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#websockets-optional">websockets [optional]</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#cairosvg-optional">cairosvg [optional]</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#moviepy-optional">moviepy [optional]</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Package</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Package</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-and-demos">Examples and demos</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ros">ROS</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coppeliasim">CoppeliaSim</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-and-demos">Examples and demos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ros">ROS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coppeliasim">CoppeliaSim</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -517,27 +521,74 @@ document.write(`
 </pre></div>
 </div>
 </div></div>
+</section>
+<section id="all-at-once">
+<h2>All-at-once<a class="headerlink" href="#all-at-once" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In case you prefer using a virtual environment for Python, start by creating and activating it:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-2-2-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-2-2-1" name="2-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-2-2-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-2-2-2" name="2-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m venv &lt;path_to_the_venv&gt;</span>
+<span class="go">. &lt;path_to_the_venv&gt;/bin/activate</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-2-1" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-1" name="2-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m venv &lt;path_to_the_venv&gt;</span>
+<span class="go">. &lt;path_to_the_venv&gt;/bin/activate</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-2-2" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-2" name="2-2" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m venv &lt;path_to_the_venv&gt;</span>
+<span class="go">&lt;path_to_the_venv&gt;/bin/activate.bat</span>
+</pre></div>
+</div>
+</div></div>
+</div>
+<p>The following script install everything needed to run navground simulations.
+Change <code class="docutils literal notranslate"><span class="pre">navground_sim</span></code> to another package name, like <code class="docutils literal notranslate"><span class="pre">navground_examples</span></code>, to install additional packages.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir ws</span>
+<span class="go">cd ws</span>
+<span class="go">python3 -m pip install colcon-common-extensions vcstool numpy h5py</span>
+<span class="go">vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos</span>
+<span class="go">COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can modify the build configuration by editing the files in <code class="docutils literal notranslate"><span class="pre">src/navground/colcon</span></code>, see the <a class="reference external" href="https://colcon.readthedocs.io/en/released/user/configuration.html#colcon-pkg-files">colcon documentation</a>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">defaults.yaml</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">navground.meta</span></code></p></li>
+</ul>
+<p>To keep the build up-to-date, run</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">vcs custom --args remote update</span>
+<span class="go">vcs pull src</span>
+<span class="go">COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="step-by-step-instructions">
+<h2>Step-by-step instructions<a class="headerlink" href="#step-by-step-instructions" title="Link to this heading">#</a></h2>
 <p>ROS is not required (except for ROS-specific components, see below) but we do use two build tools from ROS which you can install even without ROS:</p>
 <ul>
-<li><p><a class="reference external" href="https://colcon.readthedocs.io/en/released/">colcon</a> to coordinate the installation from source of different packages</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install -U colcon-common-extensions</span>
+<li><p><a class="reference external" href="https://colcon.readthedocs.io/en/released/">colcon</a> to coordinate the installation from source of different packages [and <a class="reference external" href="https://github.com/dirk-thomas/vcstool">vcstool</a> to simplify managing source code]</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install -U colcon-common-extensions [vcstool]</span>
 </pre></div>
 </div>
 </li>
 <li><p><a class="reference external" href="https://github.com/ament/ament_cmake">ament_cmake</a> to manage resources and integrate better with ROS. If you installed ROS, you will already have it. Else, only on Linux, you can install it from binary</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-2-2-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-2-2-1" name="2-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-2-2-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-2-2-2" name="2-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"><p>Install from source.</p>
-</div><div aria-labelledby="tab-2-2-1" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-1" name="2-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y build-essential ament-cmake</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-3-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-3-3-0" name="3-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-3-3-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-1" name="3-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-3-3-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-2" name="3-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-3-3-0" class="sphinx-tabs-panel" id="panel-3-3-0" name="3-0" role="tabpanel" tabindex="0"><p>Install from source.</p>
+</div><div aria-labelledby="tab-3-3-1" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-1" name="3-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y build-essential ament-cmake</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-2-2-2" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-2" name="2-2" role="tabpanel" tabindex="0"><p>Install from source.</p>
+</div><div aria-labelledby="tab-3-3-2" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-2" name="3-2" role="tabpanel" tabindex="0"><p>Install from source.</p>
 </div></div>
 <p>or you can build it from source (see below).</p>
 </li>
 </ul>
 <p>Then, create a <code class="docutils literal notranslate"><span class="pre">colcon</span></code> workspace and clone <code class="docutils literal notranslate"><span class="pre">navground</span></code>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir -p my_ws/src</span>
-<span class="go">cd my_ws</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir -p ws/src</span>
+<span class="go">cd ws</span>
 <span class="go">git clone https://github.com/idsia-robotics/navground.git src/navground</span>
 </pre></div>
 </div>
@@ -573,62 +624,61 @@ document.write(`
 </pre></div>
 </div>
 </div>
-</section>
 <section id="core-c">
-<span id="id1"></span><h2>Core (C++)<a class="headerlink" href="#core-c" title="Link to this heading">#</a></h2>
+<span id="id1"></span><h3>Core (C++)<a class="headerlink" href="#core-c" title="Link to this heading">#</a></h3>
 <section id="dependencies">
-<h3>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">#</a></h3>
+<h4>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">#</a></h4>
 <p>The core library depends on <code class="docutils literal notranslate"><span class="pre">eigen</span></code>, <code class="docutils literal notranslate"><span class="pre">yaml-cpp</span></code>, and <code class="docutils literal notranslate"><span class="pre">argparse</span></code></p>
 <section id="eigen-3">
-<h4>Eigen 3<a class="headerlink" href="#eigen-3" title="Link to this heading">#</a></h4>
+<h5>Eigen 3<a class="headerlink" href="#eigen-3" title="Link to this heading">#</a></h5>
 <section id="installation-from-source">
-<h5>Installation from source<a class="headerlink" href="#installation-from-source" title="Link to this heading">#</a></h5>
+<h6>Installation from source<a class="headerlink" href="#installation-from-source" title="Link to this heading">#</a></h6>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://gitlab.com/libeigen/eigen src/eigen</span>
 <span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select Eigen3</span>
 </pre></div>
 </div>
 </section>
 <section id="binary-installation">
-<h5>Binary installation<a class="headerlink" href="#binary-installation" title="Link to this heading">#</a></h5>
+<h6>Binary installation<a class="headerlink" href="#binary-installation" title="Link to this heading">#</a></h6>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-3-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-3-3-0" name="3-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-3-3-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-1" name="3-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-3-3-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-2" name="3-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-3-3-0" class="sphinx-tabs-panel" id="panel-3-3-0" name="3-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install eigen</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-4-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-4-4-0" name="4-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-4-4-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-4-4-1" name="4-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-4-4-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-4-4-2" name="4-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-4-4-0" class="sphinx-tabs-panel" id="panel-4-4-0" name="4-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install eigen</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-3-3-1" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-1" name="3-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libeigen3-dev</span>
+</div><div aria-labelledby="tab-4-4-1" class="sphinx-tabs-panel" hidden="true" id="panel-4-4-1" name="4-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libeigen3-dev</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-3-3-2" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-2" name="3-2" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">choco install -y eigen</span>
+</div><div aria-labelledby="tab-4-4-2" class="sphinx-tabs-panel" hidden="true" id="panel-4-4-2" name="4-2" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">choco install -y eigen</span>
 </pre></div>
 </div>
 </div></div>
 </section>
 </section>
 <section id="yaml-cpp">
-<h4>Yaml-cpp<a class="headerlink" href="#yaml-cpp" title="Link to this heading">#</a></h4>
+<h5>Yaml-cpp<a class="headerlink" href="#yaml-cpp" title="Link to this heading">#</a></h5>
 <section id="id2">
-<h5>Installation from source<a class="headerlink" href="#id2" title="Link to this heading">#</a></h5>
+<h6>Installation from source<a class="headerlink" href="#id2" title="Link to this heading">#</a></h6>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/jbeder/yaml-cpp.git src/yaml-cpp</span>
 <span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DYAML_CPP_INSTALL=ON --packages-select YAML_CPP</span>
 </pre></div>
 </div>
 </section>
 <section id="id3">
-<h5>Binary installation<a class="headerlink" href="#id3" title="Link to this heading">#</a></h5>
+<h6>Binary installation<a class="headerlink" href="#id3" title="Link to this heading">#</a></h6>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-4-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-4-4-0" name="4-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-4-4-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-4-4-1" name="4-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-4-4-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-4-4-2" name="4-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-4-4-0" class="sphinx-tabs-panel" id="panel-4-4-0" name="4-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install yaml-cpp</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-5-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-5-5-0" name="5-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-5-5-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-5-5-1" name="5-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-5-5-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-5-5-2" name="5-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-5-5-0" class="sphinx-tabs-panel" id="panel-5-5-0" name="5-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install yaml-cpp</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-4-4-1" class="sphinx-tabs-panel" hidden="true" id="panel-4-4-1" name="4-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libyaml-cpp-dev</span>
+</div><div aria-labelledby="tab-5-5-1" class="sphinx-tabs-panel" hidden="true" id="panel-5-5-1" name="5-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libyaml-cpp-dev</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-4-4-2" class="sphinx-tabs-panel" hidden="true" id="panel-4-4-2" name="4-2" role="tabpanel" tabindex="0"><p>Install from source</p>
+</div><div aria-labelledby="tab-5-5-2" class="sphinx-tabs-panel" hidden="true" id="panel-5-5-2" name="5-2" role="tabpanel" tabindex="0"><p>Install from source</p>
 </div></div>
 </section>
 </section>
 <section id="argparse">
-<h4>Argparse<a class="headerlink" href="#argparse" title="Link to this heading">#</a></h4>
+<h5>Argparse<a class="headerlink" href="#argparse" title="Link to this heading">#</a></h5>
 <section id="id4">
-<h5>Installation from source<a class="headerlink" href="#id4" title="Link to this heading">#</a></h5>
+<h6>Installation from source<a class="headerlink" href="#id4" title="Link to this heading">#</a></h6>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone  https://github.com/p-ranav/argparse.git src/argparse</span>
 <span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select argparse</span>
 </pre></div>
@@ -637,7 +687,7 @@ document.write(`
 </section>
 </section>
 <section id="package">
-<h3>Package<a class="headerlink" href="#package" title="Link to this heading">#</a></h3>
+<h4>Package<a class="headerlink" href="#package" title="Link to this heading">#</a></h4>
 <p>Once all dependencies are installed, compile the package using <code class="docutils literal notranslate"><span class="pre">colcon</span></code>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_core</span>
 </pre></div>
@@ -653,57 +703,57 @@ document.write(`
 </section>
 </section>
 <section id="core-python">
-<span id="id5"></span><h2>Core (Python)<a class="headerlink" href="#core-python" title="Link to this heading">#</a></h2>
+<span id="id5"></span><h3>Core (Python)<a class="headerlink" href="#core-python" title="Link to this heading">#</a></h3>
 <section id="id6">
-<h3>Dependencies<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<h4>Dependencies<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
 <p>Depends on <a class="reference internal" href="#core-c">Core C++</a> library.</p>
 <section id="numpy">
-<h4>NumPy<a class="headerlink" href="#numpy" title="Link to this heading">#</a></h4>
+<h5>NumPy<a class="headerlink" href="#numpy" title="Link to this heading">#</a></h5>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install -U numpy</span>
 </pre></div>
 </div>
 </section>
 <section id="pybind11">
-<h4>pybind11<a class="headerlink" href="#pybind11" title="Link to this heading">#</a></h4>
+<h5>pybind11<a class="headerlink" href="#pybind11" title="Link to this heading">#</a></h5>
 <section id="id7">
-<h5>Installation from source<a class="headerlink" href="#id7" title="Link to this heading">#</a></h5>
+<h6>Installation from source<a class="headerlink" href="#id7" title="Link to this heading">#</a></h6>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/pybind/pybind11.git src/pybind11</span>
 <span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DPYBIND11_TEST=OFF  --packages-select pybind11</span>
 </pre></div>
 </div>
 </section>
 <section id="id8">
-<h5>Binary installation<a class="headerlink" href="#id8" title="Link to this heading">#</a></h5>
+<h6>Binary installation<a class="headerlink" href="#id8" title="Link to this heading">#</a></h6>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-5-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-5-5-0" name="5-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-5-5-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-5-5-1" name="5-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-5-5-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-5-5-2" name="5-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-5-5-0" class="sphinx-tabs-panel" id="panel-5-5-0" name="5-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install pybind11</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-6-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-6-6-0" name="6-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-6-6-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-6-6-1" name="6-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-6-6-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-6-6-2" name="6-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-6-6-0" class="sphinx-tabs-panel" id="panel-6-6-0" name="6-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install pybind11</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-5-5-1" class="sphinx-tabs-panel" hidden="true" id="panel-5-5-1" name="5-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y pybind11-dev</span>
+</div><div aria-labelledby="tab-6-6-1" class="sphinx-tabs-panel" hidden="true" id="panel-6-6-1" name="6-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y pybind11-dev</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-5-5-2" class="sphinx-tabs-panel" hidden="true" id="panel-5-5-2" name="5-2" role="tabpanel" tabindex="0"><p>Install from source</p>
+</div><div aria-labelledby="tab-6-6-2" class="sphinx-tabs-panel" hidden="true" id="panel-6-6-2" name="6-2" role="tabpanel" tabindex="0"><p>Install from source</p>
 </div></div>
 </section>
 </section>
 <section id="pybind11-mkdoc-optional">
-<h4>pybind11_mkdoc [optional]<a class="headerlink" href="#pybind11-mkdoc-optional" title="Link to this heading">#</a></h4>
+<h5>pybind11_mkdoc [optional]<a class="headerlink" href="#pybind11-mkdoc-optional" title="Link to this heading">#</a></h5>
 <p>Install <code class="docutils literal notranslate"><span class="pre">pybind11_mkdoc</span></code> to import docstrings from C++. It is not necessary but will make the API friendlier to use.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install git+https://github.com/jeguzzi/pybind11_mkdoc@rst</span>
 </pre></div>
 </div>
 <p>You also need to install libclang.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-6-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-6-6-0" name="6-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-6-6-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-6-6-1" name="6-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-6-6-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-6-6-2" name="6-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-6-6-0" class="sphinx-tabs-panel" id="panel-6-6-0" name="6-0" role="tabpanel" tabindex="0"><p>Most probably you already have clang installed.
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-7-7-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-7-7-0" name="7-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-7-7-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-7-7-1" name="7-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-7-7-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-7-7-2" name="7-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-7-7-0" class="sphinx-tabs-panel" id="panel-7-7-0" name="7-0" role="tabpanel" tabindex="0"><p>Most probably you already have clang installed.
 Just install the python package of the corresponding version.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install clang==14</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-6-6-1" class="sphinx-tabs-panel" hidden="true" id="panel-6-6-1" name="6-1" role="tabpanel" tabindex="0"><p>Install the python package of the corresponding version.</p>
+</div><div aria-labelledby="tab-7-7-1" class="sphinx-tabs-panel" hidden="true" id="panel-7-7-1" name="7-1" role="tabpanel" tabindex="0"><p>Install the python package of the corresponding version.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libclang-dev</span>
 <span class="go">python3 -m pip install clang==14</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-6-6-2" class="sphinx-tabs-panel" hidden="true" id="panel-6-6-2" name="6-2" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">clang --version</span>
+</div><div aria-labelledby="tab-7-7-2" class="sphinx-tabs-panel" hidden="true" id="panel-7-7-2" name="7-2" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">clang --version</span>
 <span class="go">python3 -m pip install clang==&lt;version of the install Clang compiler&gt;</span>
 </pre></div>
 </div>
@@ -711,7 +761,7 @@ Just install the python package of the corresponding version.</p>
 </section>
 </section>
 <section id="id9">
-<h3>Package<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<h4>Package<a class="headerlink" href="#id9" title="Link to this heading">#</a></h4>
 <p>Once all dependencies are installed, compile the package using <code class="docutils literal notranslate"><span class="pre">colcon</span></code>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_py</span>
 </pre></div>
@@ -719,38 +769,38 @@ Just install the python package of the corresponding version.</p>
 </section>
 </section>
 <section id="simulation-c-and-python">
-<span id="simulation"></span><h2>Simulation (C++ and Python)<a class="headerlink" href="#simulation-c-and-python" title="Link to this heading">#</a></h2>
+<span id="simulation"></span><h3>Simulation (C++ and Python)<a class="headerlink" href="#simulation-c-and-python" title="Link to this heading">#</a></h3>
 <section id="id10">
-<h3>Dependencies<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<h4>Dependencies<a class="headerlink" href="#id10" title="Link to this heading">#</a></h4>
 <p>Depends on <a class="reference internal" href="#core-c">Core C++</a> and <a class="reference internal" href="#core-python">Core Python</a>.</p>
 <section id="geos">
-<h4>GEOS<a class="headerlink" href="#geos" title="Link to this heading">#</a></h4>
+<h5>GEOS<a class="headerlink" href="#geos" title="Link to this heading">#</a></h5>
 <section id="id11">
-<h5>Installation from source<a class="headerlink" href="#id11" title="Link to this heading">#</a></h5>
+<h6>Installation from source<a class="headerlink" href="#id11" title="Link to this heading">#</a></h6>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/libgeos/geos.git src/geos</span>
 <span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DGEOS_BUILD_DEVELOPER=OFF --packages-select GEOS</span>
 </pre></div>
 </div>
 </section>
 <section id="id12">
-<h5>Binary installation<a class="headerlink" href="#id12" title="Link to this heading">#</a></h5>
+<h6>Binary installation<a class="headerlink" href="#id12" title="Link to this heading">#</a></h6>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-7-7-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-7-7-0" name="7-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-7-7-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-7-7-1" name="7-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-7-7-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-7-7-2" name="7-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-7-7-0" class="sphinx-tabs-panel" id="panel-7-7-0" name="7-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install geos</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-8-8-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-8-8-0" name="8-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-8-8-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-8-8-1" name="8-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-8-8-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-8-8-2" name="8-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-8-8-0" class="sphinx-tabs-panel" id="panel-8-8-0" name="8-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install geos</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-7-7-1" class="sphinx-tabs-panel" hidden="true" id="panel-7-7-1" name="7-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libgeos++-dev</span>
+</div><div aria-labelledby="tab-8-8-1" class="sphinx-tabs-panel" hidden="true" id="panel-8-8-1" name="8-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libgeos++-dev</span>
 </pre></div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The current version installed in Ubuntu <a class="reference external" href="https://answers.launchpad.net/ubuntu/+source/geos/+question/701657">is broken</a>. If you encounter any error, consider installing GEOS from source.</p>
 </div>
-</div><div aria-labelledby="tab-7-7-2" class="sphinx-tabs-panel" hidden="true" id="panel-7-7-2" name="7-2" role="tabpanel" tabindex="0"><p>Install from source</p>
+</div><div aria-labelledby="tab-8-8-2" class="sphinx-tabs-panel" hidden="true" id="panel-8-8-2" name="8-2" role="tabpanel" tabindex="0"><p>Install from source</p>
 </div></div>
 </section>
 </section>
 <section id="highfive">
-<h4>HighFive<a class="headerlink" href="#highfive" title="Link to this heading">#</a></h4>
+<h5>HighFive<a class="headerlink" href="#highfive" title="Link to this heading">#</a></h5>
 <p>You need to first install Hdf5 from source</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/HDFGroup/hdf5.git src/hdf5</span>
 <span class="go">cd src/hdf5</span>
@@ -761,13 +811,13 @@ Just install the python package of the corresponding version.</p>
 </div>
 <p>or from binary</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-8-8-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-8-8-0" name="8-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-8-8-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-8-8-1" name="8-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-8-8-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-8-8-2" name="8-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-8-8-0" class="sphinx-tabs-panel" id="panel-8-8-0" name="8-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install hdf5</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-9-9-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-9-9-0" name="9-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-9-9-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-9-9-1" name="9-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-9-9-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-9-9-2" name="9-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-9-9-0" class="sphinx-tabs-panel" id="panel-9-9-0" name="9-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install hdf5</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-8-8-1" class="sphinx-tabs-panel" hidden="true" id="panel-8-8-1" name="8-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libhdf5-dev</span>
+</div><div aria-labelledby="tab-9-9-1" class="sphinx-tabs-panel" hidden="true" id="panel-9-9-1" name="9-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libhdf5-dev</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-8-8-2" class="sphinx-tabs-panel" hidden="true" id="panel-8-8-2" name="8-2" role="tabpanel" tabindex="0"><p>Install from source</p>
+</div><div aria-labelledby="tab-9-9-2" class="sphinx-tabs-panel" hidden="true" id="panel-9-9-2" name="9-2" role="tabpanel" tabindex="0"><p>Install from source</p>
 </div></div>
 <p>Then, install HighFive.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/BlueBrain/HighFive.git src/HighFive</span>
@@ -776,28 +826,28 @@ Just install the python package of the corresponding version.</p>
 </div>
 </section>
 <section id="h5py">
-<h4>h5py<a class="headerlink" href="#h5py" title="Link to this heading">#</a></h4>
+<h5>h5py<a class="headerlink" href="#h5py" title="Link to this heading">#</a></h5>
 <p>To be able to reload a simulation from a saved experiment, install <code class="docutils literal notranslate"><span class="pre">h5py</span></code></p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install h5py</span>
 </pre></div>
 </div>
 </section>
 <section id="websockets-optional">
-<h4>websockets [optional]<a class="headerlink" href="#websockets-optional" title="Link to this heading">#</a></h4>
+<h5>websockets [optional]<a class="headerlink" href="#websockets-optional" title="Link to this heading">#</a></h5>
 <p>To visualize a simulation in real-time from a browser, install <code class="docutils literal notranslate"><span class="pre">websockets</span></code></p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install websockets</span>
 </pre></div>
 </div>
 </section>
 <section id="cairosvg-optional">
-<h4>cairosvg [optional]<a class="headerlink" href="#cairosvg-optional" title="Link to this heading">#</a></h4>
+<h5>cairosvg [optional]<a class="headerlink" href="#cairosvg-optional" title="Link to this heading">#</a></h5>
 <p>To render a world to png, pdf or raw images, install <code class="docutils literal notranslate"><span class="pre">cairosvg</span></code></p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install cairosvg</span>
 </pre></div>
 </div>
 </section>
 <section id="moviepy-optional">
-<h4>moviepy [optional]<a class="headerlink" href="#moviepy-optional" title="Link to this heading">#</a></h4>
+<h5>moviepy [optional]<a class="headerlink" href="#moviepy-optional" title="Link to this heading">#</a></h5>
 <p>To record a video from a simulation, install <code class="docutils literal notranslate"><span class="pre">moviepy</span></code></p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install moviepy</span>
 </pre></div>
@@ -805,7 +855,7 @@ Just install the python package of the corresponding version.</p>
 </section>
 </section>
 <section id="id13">
-<h3>Package<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<h4>Package<a class="headerlink" href="#id13" title="Link to this heading">#</a></h4>
 <p>Once all dependencies are installed, compile the package using <code class="docutils literal notranslate"><span class="pre">colcon</span></code>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim</span>
 </pre></div>
@@ -813,26 +863,27 @@ Just install the python package of the corresponding version.</p>
 </section>
 </section>
 <section id="examples-and-demos">
-<h2>Examples and demos<a class="headerlink" href="#examples-and-demos" title="Link to this heading">#</a></h2>
+<h3>Examples and demos<a class="headerlink" href="#examples-and-demos" title="Link to this heading">#</a></h3>
 <p>Depends on <a class="reference internal" href="#core-c">Core C++</a>, <a class="reference internal" href="#core-python">Core Python</a>, and <a class="reference internal" href="#simulation">Simulation</a>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_examples navground_examples_py navground_demos</span>
 </pre></div>
 </div>
 </section>
 <section id="ros">
-<h2>ROS<a class="headerlink" href="#ros" title="Link to this heading">#</a></h2>
+<h3>ROS<a class="headerlink" href="#ros" title="Link to this heading">#</a></h3>
 <p>Depends on <a class="reference internal" href="#core-c">Core C++</a>. You also need to have ROS installed and to source its setup script.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_msgs navground_ros</span>
 </pre></div>
 </div>
 </section>
 <section id="coppeliasim">
-<h2>CoppeliaSim<a class="headerlink" href="#coppeliasim" title="Link to this heading">#</a></h2>
+<h3>CoppeliaSim<a class="headerlink" href="#coppeliasim" title="Link to this heading">#</a></h3>
 <p>Depends on <a class="reference internal" href="#simulation">Simulation</a>. You also need to install <a class="reference external" href="https://www.coppeliarobotics.com">coppeliaSim</a> (versions 4.3, 4.4, 4.5, 4.6 [latest]).</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export COPPELIASIM_ROOT_DIR=&lt;path to the folder containing the programming subfolder&gt;</span>
 <span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_coppeliasim</span>
 </pre></div>
 </div>
+</section>
 </section>
 </section>
 
@@ -882,61 +933,65 @@ Just install the python package of the corresponding version.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation">Preparation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-c">Core (C++)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#eigen-3">Eigen 3</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-from-source">Installation from source</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-installation">Binary installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#all-at-once">All-at-once</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-instructions">Step-by-step instructions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-c">Core (C++)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#eigen-3">Eigen 3</a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-from-source">Installation from source</a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-installation">Binary installation</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#yaml-cpp">Yaml-cpp</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Installation from source</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Binary installation</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#yaml-cpp">Yaml-cpp</a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Installation from source</a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Binary installation</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#argparse">Argparse</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Installation from source</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#argparse">Argparse</a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Installation from source</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#package">Package</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#package">Package</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#core-python">Core (Python)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Dependencies</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy">NumPy</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pybind11">pybind11</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Installation from source</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Binary installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-python">Core (Python)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Dependencies</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy">NumPy</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#pybind11">pybind11</a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Installation from source</a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Binary installation</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pybind11-mkdoc-optional">pybind11_mkdoc [optional]</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#pybind11-mkdoc-optional">pybind11_mkdoc [optional]</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Package</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Package</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-c-and-python">Simulation (C++ and Python)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Dependencies</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geos">GEOS</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Installation from source</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Binary installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-c-and-python">Simulation (C++ and Python)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Dependencies</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#geos">GEOS</a><ul class="nav section-nav flex-column">
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Installation from source</a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Binary installation</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#highfive">HighFive</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#h5py">h5py</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#websockets-optional">websockets [optional]</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cairosvg-optional">cairosvg [optional]</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#moviepy-optional">moviepy [optional]</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#highfive">HighFive</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#h5py">h5py</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#websockets-optional">websockets [optional]</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#cairosvg-optional">cairosvg [optional]</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#moviepy-optional">moviepy [optional]</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Package</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Package</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-and-demos">Examples and demos</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ros">ROS</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coppeliasim">CoppeliaSim</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-and-demos">Examples and demos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ros">ROS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coppeliasim">CoppeliaSim</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

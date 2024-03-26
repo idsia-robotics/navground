@@ -69,14 +69,78 @@ Install the binary dependencies:
          choco install -y cmake git python3
 
 
+All-at-once
+===========
+
+
+.. note::
+
+   In case you prefer using a virtual environment for Python, start by creating and activating it:
+
+   .. tabs::
+
+      .. tab:: macOS
+   
+         .. code-block:: console
+      
+            python3 -m venv <path_to_the_venv>
+            . <path_to_the_venv>/bin/activate
+   
+      .. tab:: Linux
+   
+         .. code-block:: console
+      
+            python3 -m venv <path_to_the_venv>
+            . <path_to_the_venv>/bin/activate
+   
+   
+      .. tab:: Windows
+   
+         .. code-block:: console
+   
+            python3 -m venv <path_to_the_venv>
+            <path_to_the_venv>/bin/activate.bat
+
+
+The following script install everything needed to run navground simulations.
+Change ``navground_sim`` to another package name, like ``navground_examples``, to install additional packages.
+
+.. code-block:: console
+      
+   mkdir ws
+   cd ws
+   python3 -m pip install colcon-common-extensions vcstool numpy h5py
+   vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
+   COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
+
+
+.. note::
+
+   You can modify the build configuration by editing the files in ``src/navground/colcon``, see the `colcon documentation <https://colcon.readthedocs.io/en/released/user/configuration.html#colcon-pkg-files>`_:
+
+   - ``defaults.yaml``
+   - ``navground.meta``
+
+
+   To keep the build up-to-date, run
+
+   .. code-block:: console
+
+      vcs custom --args remote update
+      vcs pull src
+      COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
+
+
+Step-by-step instructions
+=========================
+
 ROS is not required (except for ROS-specific components, see below) but we do use two build tools from ROS which you can install even without ROS:
 
-- `colcon <https://colcon.readthedocs.io/en/released/>`_ to coordinate the installation from source of different packages
+- `colcon <https://colcon.readthedocs.io/en/released/>`_ to coordinate the installation from source of different packages [and `vcstool <https://github.com/dirk-thomas/vcstool>`_ to simplify managing source code]
 
   .. code-block:: console
 
-     python3 -m pip install -U colcon-common-extensions
-
+     python3 -m pip install -U colcon-common-extensions [vcstool]
 
 - `ament_cmake <https://github.com/ament/ament_cmake>`_ to manage resources and integrate better with ROS. If you installed ROS, you will already have it. Else, only on Linux, you can install it from binary
 
@@ -102,8 +166,8 @@ Then, create a ``colcon`` workspace and clone ``navground``.
 
 .. code-block:: console
 
-    mkdir -p my_ws/src
-    cd my_ws
+    mkdir -p ws/src
+    cd ws
     git clone https://github.com/idsia-robotics/navground.git src/navground
 
 If you need build ``ament_cmake``, clone it and then build it with ``colcon``.
@@ -154,7 +218,7 @@ If you need build ``ament_cmake``, clone it and then build it with ``colcon``.
 .. _Core C++:
 
 Core (C++)
-==========
+##########
 
 Dependencies
 ------------
@@ -262,7 +326,7 @@ Once all dependencies are installed, compile the package using ``colcon``.
 .. _Core Python:
 
 Core (Python)
-=============
+#############
 
 Dependencies
 ------------
@@ -371,7 +435,7 @@ Once all dependencies are installed, compile the package using ``colcon``.
 .. _Simulation:
 
 Simulation (C++ and Python)
-===========================
+###########################
 
 Dependencies
 ------------
@@ -517,7 +581,7 @@ Once all dependencies are installed, compile the package using ``colcon``.
 
 
 Examples and demos
-==================
+##################
 
 Depends on `Core C++`_, `Core Python`_, and `Simulation`_.
 
@@ -528,7 +592,7 @@ Depends on `Core C++`_, `Core Python`_, and `Simulation`_.
 
 
 ROS
-===
+###
 
 Depends on `Core C++`_. You also need to have ROS installed and to source its setup script.
 
@@ -538,7 +602,7 @@ Depends on `Core C++`_. You also need to have ROS installed and to source its se
 
 
 CoppeliaSim
-===========
+###########
 
 Depends on `Simulation`_. You also need to install `coppeliaSim <https://www.coppeliarobotics.com>`_ (versions 4.3, 4.4, 4.5, 4.6 [latest]).
 
@@ -547,7 +611,4 @@ Depends on `Simulation`_. You also need to install `coppeliaSim <https://www.cop
 
    export COPPELIASIM_ROOT_DIR=<path to the folder containing the programming subfolder>
    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_coppeliasim
-
-
-
 

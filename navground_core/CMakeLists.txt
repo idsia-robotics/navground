@@ -69,6 +69,8 @@ add_library(navground_core SHARED
 
 set(NAVGROUND_PLUGINS_PATH ${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/navground_plugins)
 target_compile_definitions(navground_core PUBLIC NAVGROUND_PLUGINS_PATH="${NAVGROUND_PLUGINS_PATH}")
+# to initialize the index
+ament_index_register_resource(navground_plugins CONTENT "")
 
 generate_export_header(navground_core)
 

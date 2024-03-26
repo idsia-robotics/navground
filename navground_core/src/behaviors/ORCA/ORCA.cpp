@@ -211,19 +211,19 @@ Twist2 ORCABehavior::twist_towards_velocity(const Vector2 &absolute_velocity,
 // const char *ORCABehavior::name = register_type<ORCABehavior>("ORCA");
 
 const std::map<std::string, Property> ORCABehavior::properties =
-Properties{
-    {"time_horizon",
-     make_property<ng_float_t, ORCABehavior>(
-         &ORCABehavior::get_time_horizon, &ORCABehavior::set_time_horizon,
-         10, "Time horizon")},
-    {"effective_center",
-     make_property<bool, ORCABehavior>(
-         &ORCABehavior::is_using_effective_center,
-         &ORCABehavior::should_use_effective_center, false,
-         "Whenever to use an effective center to handle non-holonomic "
-         "kinematics")},
-} +
-Behavior::properties;
+    Properties{
+        {"time_horizon",
+         make_property<ng_float_t, ORCABehavior>(
+             &ORCABehavior::get_time_horizon, &ORCABehavior::set_time_horizon,
+             10, "Time horizon")},
+        {"effective_center",
+         make_property<bool, ORCABehavior>(
+             &ORCABehavior::is_using_effective_center,
+             &ORCABehavior::should_use_effective_center, false,
+             "Whenever to use an effective center to handle non-holonomic "
+             "kinematics")},
+    } +
+    Behavior::properties;
 
 const std::string ORCABehavior::type = register_type<ORCABehavior>("ORCA");
 

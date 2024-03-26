@@ -17,17 +17,17 @@ using navground::sim::BoundedStateEstimation;
 using navground::sim::WaypointsTask;
 using navground::sim::World;
 
- using namespace std::placeholders;
+using namespace std::placeholders;
 
 class ThymioDemo : public WorldSampler {
  public:
-
-  void init(World * world) {
+  void init(World *world) {
     const std::vector<Vector2> targets{{1.0, 0}, {-1.0, 0}};
     for (size_t i = 0; i < 2; i++) {
       auto task = std::make_shared<WaypointsTask>(targets, true, 0.2);
       auto se = std::make_shared<BoundedStateEstimation>(1.0);
-      auto kinematics = std::make_shared<TwoWheelsDifferentialDriveKinematics>(0.166, 0.094);
+      auto kinematics =
+          std::make_shared<TwoWheelsDifferentialDriveKinematics>(0.166, 0.094);
       auto behavior = Behavior::make_type(behavior_type);
       auto agent = Agent::make(0.08, behavior, kinematics, task, se, 0.02);
       agent->behavior->set_optimal_speed(0.12);
@@ -41,10 +41,9 @@ class ThymioDemo : public WorldSampler {
   }
 
   explicit ThymioDemo(const std::string &behavior_type = "HL")
-      : 
-      // WorldSampler({&ThymioDemo::init}), 
-      WorldSampler({std::bind(&ThymioDemo::init, this, _1)}), 
-      behavior_type(behavior_type) {}
+      :  // WorldSampler({&ThymioDemo::init}),
+        WorldSampler({std::bind(&ThymioDemo::init, this, _1)}),
+        behavior_type(behavior_type) {}
 
   const Properties &get_properties() const override { return properties; };
 

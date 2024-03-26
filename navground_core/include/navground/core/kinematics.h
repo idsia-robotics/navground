@@ -153,7 +153,7 @@ class NAVGROUND_CORE_EXPORT OmnidirectionalKinematics : public Kinematics {
   std::string get_type() const override { return type; }
 
  private:
-     const static std::string type;
+  const static std::string type;
 };
 
 /**
@@ -194,7 +194,7 @@ class NAVGROUND_CORE_EXPORT AheadKinematics : public Kinematics {
   std::string get_type() const override { return type; }
 
  private:
-     static const std::string type;
+  static const std::string type;
 };
 
 /**
@@ -331,7 +331,7 @@ class NAVGROUND_CORE_EXPORT TwoWheelsDifferentialDriveKinematics
   std::string get_type() const override { return type; }
 
  private:
-     const static std::string type;
+  const static std::string type;
 };
 
 // TODO(Jerome): make it general
@@ -398,7 +398,7 @@ class NAVGROUND_CORE_EXPORT FourWheelsOmniDriveKinematics
   std::string get_type() const override { return type; }
 
  private:
-     const static std::string type;
+  const static std::string type;
 };
 
 }  // namespace navground::core

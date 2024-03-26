@@ -196,7 +196,7 @@ inline std::ostream& operator<<(std::ostream& os, const LineSegment& line) {
   return os;
 }
 
-class GeometricState : public TrackChanges, public EnvironmentState {
+class GeometricState : public EnvironmentState, public TrackChanges {
  public:
   GeometricState()
       : EnvironmentState(),

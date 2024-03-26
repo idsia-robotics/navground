@@ -5,8 +5,8 @@
 #ifndef NAVGROUND_SIM_STATE_ESTIMATIONS_SENSOR_DISCS_H_
 #define NAVGROUND_SIM_STATE_ESTIMATIONS_SENSOR_DISCS_H_
 
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 #include "navground/core/types.h"
 #include "navground/sim/state_estimations/sensor.h"
@@ -110,7 +110,9 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_max_radius(ng_float_t value) { max_radius = std::max<ng_float_t>(0, value); }
+  void set_max_radius(ng_float_t value) {
+    max_radius = std::max<ng_float_t>(0, value);
+  }
 
   /**
    * @brief      Gets the maximal neighbor radius.
@@ -124,7 +126,9 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_max_speed(ng_float_t value) { max_speed = std::max<ng_float_t>(0, value); }
+  void set_max_speed(ng_float_t value) {
+    max_speed = std::max<ng_float_t>(0, value);
+  }
 
   /**
    * @brief      Gets the maximal neighbor speed.

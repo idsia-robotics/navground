@@ -156,7 +156,7 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
   /**
    * @private
    */
-  const static std::map<std::string, Property> properties;;
+  const static std::map<std::string, Property> properties;
 
   /**
    * @private
@@ -170,7 +170,7 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
   bool shuffle;
 
  private:
-     const static std::string type;
+  const static std::string type;
 };
 
 }  // namespace navground::sim

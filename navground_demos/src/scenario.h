@@ -29,12 +29,14 @@ struct NAVGROUND_DEMOS_EXPORT ThymioDemo : public sim::Scenario {
   explicit ThymioDemo(const std::string &behavior_type = "HL")
       : sim::Scenario(), behavior_type(behavior_type) {}
 
-  void init_world(sim::World *world, [[maybe_unused]] std::optional<int> seed = std::nullopt) override {
+  void init_world(sim::World *world, [[maybe_unused]] std::optional<int> seed =
+                                         std::nullopt) override {
     const std::vector<Vector2> targets{{1, 0}, {-1.0, 0}};
     for (size_t i = 0; i < 2; i++) {
       auto task = std::make_shared<sim::WaypointsTask>(targets, true, 0.2);
       auto se = std::make_shared<sim::BoundedStateEstimation>(1.0);
-      auto kinematics = std::make_shared<TwoWheelsDifferentialDriveKinematics>(0.166, 0.094);
+      auto kinematics =
+          std::make_shared<TwoWheelsDifferentialDriveKinematics>(0.166, 0.094);
       auto behavior = Behavior::make_type(behavior_type);
       auto agent = sim::Agent::make(0.08, behavior, kinematics, task, se, 0.02);
       behavior->set_optimal_speed(0.12);

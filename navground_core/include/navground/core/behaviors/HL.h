@@ -302,7 +302,7 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   DiscCache make_obstacle_cache(const Disc &obstacle);
 
  private:
-     const static std::string type;
+  const static std::string type;
 };
 
 }  // namespace navground::core

@@ -45,13 +45,13 @@ std::optional<navground::core::Vector2> WaypointsTask::next_waypoint(
       index = 0;
     } else {
       index++;
-      if (loop && index >= waypoints.size()) {
+      if (loop && index >= static_cast<int>(waypoints.size())) {
         index = 0;
       }
     }
   }
   first = false;
-  if (index >= 0 && index < waypoints.size()) {
+  if (index >= 0 && index < static_cast<int>(waypoints.size())) {
     return waypoints[index];
   }
   return std::nullopt;

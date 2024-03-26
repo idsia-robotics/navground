@@ -148,7 +148,7 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
   Vector2 effective_position() const;
 
  private:
-     const static std::string type;
+  const static std::string type;
 };
 
 }  // namespace navground::core

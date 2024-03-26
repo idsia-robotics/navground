@@ -129,7 +129,7 @@ struct NAVGROUND_SIM_EXPORT CrossTorusScenario : public Scenario {
   std::string get_type() const override { return type; }
 
  private:
-    static const std::string type;
+  static const std::string type;
 };
 
 }  // namespace navground::sim

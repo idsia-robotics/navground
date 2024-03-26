@@ -31,27 +31,27 @@ void LidarStateEstimation::update(Agent *agent, World *world,
 }
 
 const std::map<std::string, Property> LidarStateEstimation::properties =
-Properties{
-    {"range", make_property<ng_float_t, LidarStateEstimation>(
-                  &LidarStateEstimation::get_range,
-                  &LidarStateEstimation::set_range, default_range,
-                  "Maximal range")},
-    {"start_angle", make_property<ng_float_t, LidarStateEstimation>(
-                        &LidarStateEstimation::get_start_angle,
-                        &LidarStateEstimation::set_start_angle,
-                        default_start_angle, "Start angle")},
-    {"field_of_view", make_property<ng_float_t, LidarStateEstimation>(
-                          &LidarStateEstimation::get_field_of_view,
-                          &LidarStateEstimation::set_field_of_view,
-                          default_field_of_view, "Total angle")},
-    {"resolution", make_property<int, LidarStateEstimation>(
-                       &LidarStateEstimation::get_resolution,
-                       &LidarStateEstimation::set_resolution,
-                       default_resolution, "Resolution")},
-} +
-StateEstimation::properties;
+    Properties{
+        {"range",
+         make_property<ng_float_t, LidarStateEstimation>(
+             &LidarStateEstimation::get_range, &LidarStateEstimation::set_range,
+             default_range, "Maximal range")},
+        {"start_angle", make_property<ng_float_t, LidarStateEstimation>(
+                            &LidarStateEstimation::get_start_angle,
+                            &LidarStateEstimation::set_start_angle,
+                            default_start_angle, "Start angle")},
+        {"field_of_view", make_property<ng_float_t, LidarStateEstimation>(
+                              &LidarStateEstimation::get_field_of_view,
+                              &LidarStateEstimation::set_field_of_view,
+                              default_field_of_view, "Total angle")},
+        {"resolution", make_property<int, LidarStateEstimation>(
+                           &LidarStateEstimation::get_resolution,
+                           &LidarStateEstimation::set_resolution,
+                           default_resolution, "Resolution")},
+    } +
+    StateEstimation::properties;
 
 const std::string LidarStateEstimation::type =
-register_type<LidarStateEstimation>("Lidar");
+    register_type<LidarStateEstimation>("Lidar");
 
 }  // namespace navground::sim

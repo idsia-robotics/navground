@@ -20,9 +20,13 @@ jinjia_env = jinja2.Environment(
 
 def open_html(width: int = 640,
               port: int = 8000,
-              display_shape: bool = False) -> None:
-    d = pathlib.Path(tempfile.mkdtemp())
-    f = d / "world.html"
+              display_shape: bool = False,
+              path: pathlib.Path | None = None) -> None:
+    if path is None:
+        d = pathlib.Path(tempfile.mkdtemp())
+        f = d / "world.html"
+    else:
+        f = path
     with open(f, "w+") as fp:
         data = html_for_world(with_websocket=True,
                               width=width,

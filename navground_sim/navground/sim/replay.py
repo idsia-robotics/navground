@@ -1,16 +1,16 @@
 import argparse
 import asyncio
 import logging
-import sys
 import pathlib
+import sys
 from typing import Optional, Union
 
 import h5py
 
 from .real_time import RealTimeSimulation
 from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
-from .ui.web_ui import Rect, WebUI
 from .ui import open_html
+from .ui.web_ui import Rect, WebUI
 
 
 class RealTimeReplay(RealTimeSimulation):
@@ -93,6 +93,11 @@ def parser() -> argparse.ArgumentParser:
                         help='View background color',
                         type=str,
                         default="lightgray")
+    parser.add_argument(
+        '--html',
+        help=
+        'Where to save the HTML file. Leave empty to use a temporary directory',
+        default='')
     return parser
 
 
@@ -146,7 +151,11 @@ def main() -> None:
     arg = parser().parse_args()
     should_open_view = not (arg.no_ui or arg.no_browser or arg.record_video)
     if should_open_view:
-        open_html()
+        if arg.html:
+            path = pathlib.Path(arg.html)
+        else:
+            path = None
+        open_html(path=path)
     try:
         file = h5py.File(arg.path, 'r')
     except:

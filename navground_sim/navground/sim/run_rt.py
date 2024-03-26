@@ -2,13 +2,14 @@ import argparse
 import asyncio
 import logging
 import os
+import pathlib
 import random
 import sys
 from typing import Optional
 
 from . import Scenario, World, load_experiment, load_plugins
 from .real_time import RealTimeSimulation
-from .ui import open_html, Decorate
+from .ui import Decorate, open_html
 from .ui.web_ui import Rect, WebUI
 
 
@@ -123,6 +124,11 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument('--display-collisions',
                         help='Color deadlocked agent in red',
                         action='store_true')
+    parser.add_argument(
+        '--html',
+        help=
+        'Where to save the HTML file. Leave empty to use a temporary directory',
+        default='')
     return parser
 
 
@@ -138,9 +144,14 @@ def main(decorate: Optional[Decorate] = None) -> None:
     should_open_view = not (arg.no_ui or arg.no_browser)
 
     if should_open_view:
+        if arg.html:
+            path = pathlib.Path(arg.html)
+        else:
+            path = None
         open_html(width=arg.width,
                   port=arg.port,
-                  display_shape=arg.display_shape)
+                  display_shape=arg.display_shape,
+                  path=path)
     try:
         experiment = load_experiment(yaml)
     except RuntimeError as e:

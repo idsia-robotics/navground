@@ -33,7 +33,7 @@ def open_html(width: int = 640,
                               port=port,
                               display_shape=display_shape)
         fp.write(data)
-    webbrowser.open(f"file://{f}", new=1)
+    webbrowser.open(f"file://{f.resolve()}", new=1)
 
 
 def save(world: Optional[World] = None,

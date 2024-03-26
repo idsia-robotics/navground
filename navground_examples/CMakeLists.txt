@@ -32,5 +32,8 @@ ament_export_targets(my_behaviorTargets HAS_LIBRARY_TARGET)
 
 if (NOT WIN32)
 ament_index_register_resource(navground_plugins CONTENT $<TARGET_FILE:my_behavior>;$<TARGET_FILE:my_scenario>)
+else()
+ament_index_register_resource(navground_plugins CONTENT ${CMAKE_INSTALL_PREFIX}/bin/$<TARGET_FILE_NAME:my_behavior>;${CMAKE_INSTALL_PREFIX}/bin/$<TARGET_FILE_NAME:my_scenario>)
 endif()
+
 ament_package()

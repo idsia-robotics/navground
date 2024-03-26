@@ -483,6 +483,10 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hdf5-library-release-mismatched-error">HDF5 library release mismatched error</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -918,6 +922,25 @@ Just install the python package of the corresponding version.</p>
 </pre></div>
 </div>
 </section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="hdf5-library-release-mismatched-error">
+<h3>HDF5 library release mismatched error<a class="headerlink" href="#hdf5-library-release-mismatched-error" title="Link to this heading">#</a></h3>
+<p>In Windows, if Python cannot import <code class="docutils literal notranslate"><span class="pre">navground.sim</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">navground.sim</span>
+
+<span class="go">[...]\Lib\site-packages\h5py\__init__.py:36: UserWarning: h5py is running against HDF5 1.14.0 when it was    built against 1.14.2, this may cause problems</span>
+<span class="go">  _warn((&quot;h5py is running against HDF5 {0} when it was built against {1}, &quot;</span>
+<span class="go">Warning! ***HDF5 library release mismatched error***</span>
+<span class="go">[...]</span>
+</pre></div>
+</div>
+<p>set <code class="docutils literal notranslate"><span class="pre">HDF5_DISABLE_VERSION_CHECK</span></code> to 1</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">set HDF5_DISABLE_VERSION_CHECK=1</span>
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
 
@@ -1026,6 +1049,10 @@ Just install the python package of the corresponding version.</p>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hdf5-library-release-mismatched-error">HDF5 library release mismatched error</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

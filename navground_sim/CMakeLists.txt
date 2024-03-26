@@ -142,7 +142,7 @@ target_link_libraries(_navground_sim
 target_link_libraries(_navground_sim INTERFACE navground_py)
 target_compile_definitions(_navground_sim PRIVATE PYBIND11_DETAILED_ERROR_MESSAGES=1)
 # 
-add_dependencies(_navground_sim navground_sim)
+add_dependencies(_navground_sim navground_sim docstrings)
 
 # target_link_libraries(_navground_sim PRIVATE -Wl,-force_load navground_sim)
 

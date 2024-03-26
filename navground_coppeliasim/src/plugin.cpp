@@ -9,6 +9,7 @@
 #include "navground/core/common.h"
 #include "navground/core/controller_3d.h"
 #include "navground/core/kinematics.h"
+#include "navground/core/plugins.h"
 #include "navground/core/property.h"
 #include "navground/core/states/geometric.h"
 #include "navground/core/yaml/yaml.h"
@@ -147,6 +148,7 @@ class Plugin : public sim::Plugin {
       throw std::runtime_error("script stuff initialization failed");
     setExtVersion("Navground");
     setBuildDate(BUILD_DATE);
+    core::load_plugins();
   }
 
   void onSimulationAboutToEnd() {

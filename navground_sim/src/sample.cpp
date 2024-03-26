@@ -14,7 +14,7 @@
 #include "yaml-cpp/yaml.h"
 
 int main(int argc, char *argv[]) {
-  load_plugins();
+  navground::core::load_plugins();
   argparse::ArgumentParser parser("sample");
   parser.add_description("Samples a world from a scenario.");
   parser.add_argument("YAML").help(

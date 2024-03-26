@@ -1,5 +1,5 @@
 import argparse
-from typing import Any, Optional, Collection, Tuple, Type
+from typing import Any, Optional, Tuple, Type
 
 from navground import core
 # from navground.core import load_plugins
@@ -55,8 +55,7 @@ def display_registers(*components: Component) -> None:
 
 
 def main() -> None:
-    core.load_py_plugins()
-    # load_plugins()
+    core.load_plugins()
     arg = parser().parse_args()
     components = [(cls, title, getattr(arg, k.replace('-', '')))
                   for cls, title, k in registers]

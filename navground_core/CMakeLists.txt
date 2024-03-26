@@ -67,6 +67,9 @@ add_library(navground_core SHARED
   src/common.cpp
 )
 
+set(NAVGROUND_PLUGINS_PATH ${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/navground_plugins)
+target_compile_definitions(navground_core PUBLIC NAVGROUND_PLUGINS_PATH="${NAVGROUND_PLUGINS_PATH}")
+
 generate_export_header(navground_core)
 
 target_link_libraries(navground_core PUBLIC Eigen3::Eigen)

@@ -3,6 +3,7 @@
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/stl/filesystem.h>
 #include <pybind11/stl_bind.h>
 
 #include <vector>
@@ -566,11 +567,8 @@ PYBIND11_MODULE(_navground, m) {
           },
           py::arg("value"), py::arg("type") = py::none(),
           DOC(navground, core, SocialMargin, set))
-      .def_property(
-          "max_value",
-          &SocialMargin::get_max_value,
-          nullptr,
-          DOC(navground, core, SocialMargin, property_max_value));
+      .def_property("max_value", &SocialMargin::get_max_value, nullptr,
+                    DOC(navground, core, SocialMargin, property_max_value));
 
   py::class_<Behavior, PyBehavior, HasRegister<Behavior>, HasProperties,
              std::shared_ptr<Behavior>>
@@ -1088,6 +1086,7 @@ Load a kinematics from a YAML string.
   m.def("dump", &YAML::dump<Kinematics>, py::arg("kinematics"),
         "Dump a kinematics to a YAML-string");
 
-  m.def("load_plugins", &load_plugins,
-        py::arg("environement_variable") = default_plugins_env_name);
+  m.def("load_plugins", &load_plugins, py::arg("plugins") = "",
+        py::arg("env") = "", py::arg("directory") = py::none(),
+        DOC(navground, core, load_plugins));
 }

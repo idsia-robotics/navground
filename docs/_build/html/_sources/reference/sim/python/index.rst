@@ -15,4 +15,5 @@ Python API
    recorded_experiment
    real_time
    yaml
+   plugins
    helpers

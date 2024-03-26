@@ -6,7 +6,7 @@ import random
 import sys
 from typing import Optional
 
-from . import Scenario, World, load_experiment, load_py_plugins
+from . import Scenario, World, load_experiment, load_plugins
 from .real_time import RealTimeSimulation
 from .ui import open_html, Decorate
 from .ui.web_ui import Rect, WebUI
@@ -128,7 +128,7 @@ def parser() -> argparse.ArgumentParser:
 
 def main(decorate: Optional[Decorate] = None) -> None:
     logging.basicConfig(level=logging.INFO)
-    load_py_plugins()
+    load_plugins()
     arg = parser().parse_args()
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
         with open(arg.YAML, 'r') as f:

@@ -21,7 +21,7 @@ using namespace navground::core;
 using namespace navground::sim;
 
 int main(int argc, char *argv[]) {
-  load_plugins();
+  navground::core::load_plugins();
   argparse::ArgumentParser parser("run");
   parser.add_description("Runs an experiment.");
   parser.add_argument("YAML").help(

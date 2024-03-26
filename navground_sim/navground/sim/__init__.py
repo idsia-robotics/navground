@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 import navground.core
 import pkg_resources
 from navground.core import _register
-from navground.core import load_py_plugins as _load_py_plugins
+from navground.core import load_py_plugins as _load_py_core_plugins, load_cpp_plugins
 from navground.core import register
 
 from ._navground_sim import (Agent, BoundingBox, Entity, Experiment,
@@ -63,11 +63,26 @@ TaskCallback = Callable[[List[float]], None]
 
 
 def load_py_plugins():
-    _load_py_plugins()
+    _load_py_core_plugins()
     for name in ('navground_tasks', 'navground_state_estimations',
                  'navground_scenarios'):
         for entry_point in pkg_resources.iter_entry_points(name):
             entry_point.load()
+
+
+def load_plugins() -> None:
+    """
+    Loads registered Python and C++ plugins.
+
+    Python plugins extend
+    :py:class:`navground.core.Behavior`,
+    :py:class:`navground.core.Kinematics`,
+    :py:class:`Scenario`,
+    :py:class:`StateEstimation`, and
+    :py:class:`Task` registers
+    """
+    load_cpp_plugins()
+    load_py_plugins()
 
 
 def setup_tqdm(self,
@@ -131,7 +146,7 @@ __all__ = [
     'Entity', 'Obstacle', 'Wall', 'World', 'Agent', 'Experiment', 'Scenario',
     'StateEstimation', 'Task', 'BoundingBox', 'dump', 'TaskCallback',
     'load_agent', 'load_state_estimation', 'load_task', 'load_world',
-    'load_scenario', 'load_experiment', 'load_py_plugins',
+    'load_scenario', 'load_experiment', 'load_plugins',
     'register', 'Sensor', 'ExperimentalRun', 'RecordConfig',
     'Probe', 'MapProbe', 'RecordedExperiment', 'RecordedExperimentalRun'
 ]

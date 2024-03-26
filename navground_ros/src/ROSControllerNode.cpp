@@ -27,8 +27,9 @@
 #include "navground/core/behaviors/ORCA.h"
 #include "navground/core/controller.h"
 #include "navground/core/controller_3d.h"
-#include "navground/core/types.h"
+#include "navground/core/plugins.h"
 #include "navground/core/property.h"
+#include "navground/core/types.h"
 #include "navground_msgs/action/go_to_target.hpp"
 #include "navground_msgs/msg/neighbors.hpp"
 #include "navground_msgs/msg/obstacles.hpp"
@@ -343,8 +344,8 @@ class ROSControllerNode : public rclcpp::Node {
   }
 
   std::optional<Transform> get_transform(const std::string &from,
-                                                 const std::string &to,
-                                                 const tf2::TimePoint &tp) {
+                                         const std::string &to,
+                                         const tf2::TimePoint &tp) {
     try {
       return transform_from(
           tf_buffer->lookupTransform(from, to, tf2::TimePointZero).transform);
@@ -776,6 +777,7 @@ class ROSControllerNode : public rclcpp::Node {
 }  // namespace navground::core
 
 int main(int argc, char *argv[]) {
+  navground::core::load_plugins();
   rclcpp::init(argc, argv);
   auto node = std::make_shared<navground::core::ROSControllerNode>();
   rclcpp::spin(node);

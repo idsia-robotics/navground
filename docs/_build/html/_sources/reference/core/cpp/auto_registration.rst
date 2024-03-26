@@ -7,3 +7,4 @@ Auto registration
 
    property
    register
+   plugins

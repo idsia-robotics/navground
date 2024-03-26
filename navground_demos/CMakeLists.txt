@@ -27,6 +27,7 @@ ament_export_dependencies(navground_demos)
 set_target_properties(navground_demos PROPERTIES LINKER_LANGUAGE CXX)
 generate_export_header(navground_demos)
 ament_export_targets(navground_demosTargets HAS_LIBRARY_TARGET)
+ament_index_register_resource(navground_plugins CONTENT $<TARGET_FILE:navground_demos>)
 
 add_executable(sim_cpp src/sim.cpp)
 ament_target_dependencies(sim_cpp navground_core navground_sim)

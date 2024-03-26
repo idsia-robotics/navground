@@ -16,7 +16,7 @@
 #include "navground/sim/world.h"
 
 int main(int argc, char* argv[]) {
-  load_plugins();
+  navground::core::load_plugins();
   INFO info("info",
             {{"--behavior", "Behaviors"},
              {"--kinematics", "Kinematics"},

@@ -74,7 +74,7 @@ Python
 
 Registering a Python sub-class ``MyClass`` in the parent class ``T``  register, requires to
 
-#. Optionally, in case ``MyClass`` should exposed properties, register all properties using :py:func:`navground.register`:
+#. Optionally, in case ``MyClass`` should exposed properties, register all properties using :py:func:`navground.core.register`:
 
    .. code-block:: python
    
@@ -122,14 +122,54 @@ Complete example
 Installation
 ============
 
-If the registered component has to be discoverable outside of the code where it is defined, like when
-you want to run an experiment using it, you have to install the component so that it can be discovered.
+If the registered component has to be discoverable outside of the code where it is defined, like when you want to run an experiment using it, you have to install the component so that it can be discovered.
 
-.. warning::
+.. 
+   warning::
 
     Currently installing is only supported for Python components. 
     Support for C++ components is in progress. 
 
+
+C++
+---
+
+Wrap the extensions in one or more shared libraries. Then, 
+in `CMakeLists.txt`, add an entry to the ament index ``navground_plugins`` with
+the paths of the installed libraries.
+
+For example, to build and install behavior ``MyBehavior`` implemented in file ``my_behavior.cpp``, add
+
+.. code-block:: cmake
+
+   add_library(my_behavior SHARED my_behavior.cpp)
+   ament_target_dependencies(my_behavior navground_core)
+   ament_export_dependencies(my_behavior)
+   ament_export_targets(my_behaviorTargets HAS_LIBRARY_TARGET)
+   ament_index_register_resource(navground_plugins CONTENT $<TARGET_FILE:my_behavior>)  
+
+   install(
+     TARGETS my_behavior
+     EXPORT my_behaviorTargets
+     LIBRARY DESTINATION lib/${PROJECT_NAME}
+     ARCHIVE DESTINATION lib/${PROJECT_NAME}
+     RUNTIME DESTINATION bin
+     INCLUDES DESTINATION include/${PROJECT_NAME}
+   )
+
+Then, the behavior will be automatically discovered when calling :cpp:func:`navground::core::load_plugins`.
+
+.. code-block:: C++
+
+   #include "navground/core/plugins.h"
+   #include "navground/core/behavior.h"
+
+   int main(int argc, char* argv[]) {
+      navground::core::load_plugins();
+      auto behavior = navground::core::Behavior::make_type("MyBehavior");
+   }
+
+   
 Python
 ------
 
@@ -137,7 +177,7 @@ Define an entry for each component you want to export in the ``setup.cfg`` or ``
 
 For example, to install behavior ``MyBehavior``, add 
 
-.. code-block:: toml
+.. code-block::
 
    [options.entry_points]
    navground_behaviors = 
@@ -152,12 +192,12 @@ to your ``setup.cfg``. The name ``my_behavior`` is currently ignored.
 
 
 
-Then, when importing ``navground.core``, the behavior will be automatically discovered
+Then, the behavior will be automatically discovered when calling :py:func:`navground.core.load_plugins`.
 
 .. code-block:: python
 
    >>> from navground import core
-
+   >>> core.load_plugins()
    >>> print(core.Behavior.types)
 
    [..., 'MyBehavior']
@@ -166,5 +206,8 @@ Then, when importing ``navground.core``, the behavior will be automatically disc
    <my_packages>.<my_module>.MyBehavior object ...>
 
 
+.. note::
+
+   Using :py:func:`navground.core.load_plugins`, C++ plugins are imported too and available to use from Python.
 
 

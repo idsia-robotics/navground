@@ -19,7 +19,7 @@ def parser() -> argparse.ArgumentParser:
 
 
 def main() -> None:
-    sim.load_py_plugins()
+    sim.load_plugins()
     arg = parser().parse_args()
     components = [(cls, title, getattr(arg, k.replace('-', '')))
                   for cls, title, k in registers]

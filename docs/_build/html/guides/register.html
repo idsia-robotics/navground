@@ -256,6 +256,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/recorded_experiment.html">Recorded Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/real_time.html">Real-time simulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
 </ul>
 </li>
@@ -433,7 +434,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">C++</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Python</a></li>
 </ul>
 </li>
 </ul>
@@ -512,7 +514,7 @@ document.write(`
 <h3>Python<a class="headerlink" href="#python" title="Link to this heading">#</a></h3>
 <p>Registering a Python sub-class <code class="docutils literal notranslate"><span class="pre">MyClass</span></code> in the parent class <code class="docutils literal notranslate"><span class="pre">T</span></code>  register, requires to</p>
 <ol class="arabic">
-<li><p>Optionally, in case <code class="docutils literal notranslate"><span class="pre">MyClass</span></code> should exposed properties, register all properties using <a class="reference internal" href="../reference/core/python/register.html#navground.core.register" title="navground.core.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">navground.register()</span></code></a>:</p>
+<li><p>Optionally, in case <code class="docutils literal notranslate"><span class="pre">MyClass</span></code> should exposed properties, register all properties using <a class="reference internal" href="../reference/core/python/register.html#navground.core.register" title="navground.core.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">navground.core.register()</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span>
 <span class="nd">@register</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;my property description&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_property</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -557,20 +559,47 @@ document.write(`
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
-<p>If the registered component has to be discoverable outside of the code where it is defined, like when
-you want to run an experiment using it, you have to install the component so that it can be discovered.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Currently installing is only supported for Python components.
-Support for C++ components is in progress.</p>
-</div>
+<p>If the registered component has to be discoverable outside of the code where it is defined, like when you want to run an experiment using it, you have to install the component so that it can be discovered.</p>
 <section id="id2">
-<h3>Python<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<h3>C++<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>Wrap the extensions in one or more shared libraries. Then,
+in <cite>CMakeLists.txt</cite>, add an entry to the ament index <code class="docutils literal notranslate"><span class="pre">navground_plugins</span></code> with
+the paths of the installed libraries.</p>
+<p>For example, to build and install behavior <code class="docutils literal notranslate"><span class="pre">MyBehavior</span></code> implemented in file <code class="docutils literal notranslate"><span class="pre">my_behavior.cpp</span></code>, add</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">add_library</span><span class="p">(</span><span class="s">my_behavior</span><span class="w"> </span><span class="s">SHARED</span><span class="w"> </span><span class="s">my_behavior.cpp</span><span class="p">)</span>
+<span class="nb">ament_target_dependencies</span><span class="p">(</span><span class="s">my_behavior</span><span class="w"> </span><span class="s">navground_core</span><span class="p">)</span>
+<span class="nb">ament_export_dependencies</span><span class="p">(</span><span class="s">my_behavior</span><span class="p">)</span>
+<span class="nb">ament_export_targets</span><span class="p">(</span><span class="s">my_behaviorTargets</span><span class="w"> </span><span class="s">HAS_LIBRARY_TARGET</span><span class="p">)</span>
+<span class="nb">ament_index_register_resource</span><span class="p">(</span><span class="s">navground_plugins</span><span class="w"> </span><span class="s">CONTENT</span><span class="w"> </span><span class="o">$&lt;</span><span class="nv">TARGET_FILE:my_behavior</span><span class="o">&gt;</span><span class="p">)</span>
+
+<span class="nb">install</span><span class="p">(</span>
+<span class="w">  </span><span class="s">TARGETS</span><span class="w"> </span><span class="s">my_behavior</span>
+<span class="w">  </span><span class="s">EXPORT</span><span class="w"> </span><span class="s">my_behaviorTargets</span>
+<span class="w">  </span><span class="s">LIBRARY</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">lib/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+<span class="w">  </span><span class="s">ARCHIVE</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">lib/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+<span class="w">  </span><span class="s">RUNTIME</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">bin</span>
+<span class="w">  </span><span class="s">INCLUDES</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">include/</span><span class="o">${</span><span class="nv">PROJECT_NAME</span><span class="o">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, the behavior will be automatically discovered when calling <a class="reference internal" href="../reference/core/cpp/plugins.html#_CPPv4N9navground4core12load_pluginsERKNSt6stringENSt6stringENSt8optionalIN2fs4pathEEE" title="navground::core::load_plugins"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::load_plugins()</span></code></a>.</p>
+<div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/core/plugins.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/core/behavior.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">navground</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">load_plugins</span><span class="p">();</span>
+<span class="w">   </span><span class="k">auto</span><span class="w"> </span><span class="n">behavior</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navground</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">Behavior</span><span class="o">::</span><span class="n">make_type</span><span class="p">(</span><span class="s">&quot;MyBehavior&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>Python<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <p>Define an entry for each component you want to export in the <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> or <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file of the package.</p>
 <p>For example, to install behavior <code class="docutils literal notranslate"><span class="pre">MyBehavior</span></code>, add</p>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[options.entry_points]</span>
-<span class="n">navground_behaviors</span><span class="w"> </span><span class="o">=</span>
-<span class="w">    </span><span class="err">my</span><span class="mi">_</span><span class="n">behavior</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">&lt;my</span><span class="mi">_</span><span class="n">packages</span><span class="err">&gt;</span><span class="p">.</span><span class="err">&lt;</span><span class="n">my_module</span><span class="err">&gt;:</span><span class="n">MyBehavior</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">options</span><span class="o">.</span><span class="n">entry_points</span><span class="p">]</span>
+<span class="n">navground_behaviors</span> <span class="o">=</span>
+    <span class="n">my_behavior</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">my_packages</span><span class="o">&gt;.&lt;</span><span class="n">my_module</span><span class="o">&gt;</span><span class="p">:</span><span class="n">MyBehavior</span>
 </pre></div>
 </div>
 <p>to your <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>. The name <code class="docutils literal notranslate"><span class="pre">my_behavior</span></code> is currently ignored.</p>
@@ -579,9 +608,9 @@ Support for C++ components is in progress.</p>
 <p>Following end-points are available <code class="docutils literal notranslate"><span class="pre">navground_behaviors</span></code>, <code class="docutils literal notranslate"><span class="pre">navground_kinematics</span></code>, <code class="docutils literal notranslate"><span class="pre">navground_tasks</span></code>,
 <code class="docutils literal notranslate"><span class="pre">navground_state_estimations</span></code>, and <code class="docutils literal notranslate"><span class="pre">navground_scenarios</span></code> to install components of the respective type.</p>
 </div>
-<p>Then, when importing <code class="docutils literal notranslate"><span class="pre">navground.core</span></code>, the behavior will be automatically discovered</p>
+<p>Then, the behavior will be automatically discovered when calling <a class="reference internal" href="../reference/core/python/plugins.html#navground.core.load_plugins" title="navground.core.load_plugins"><code class="xref py py-func docutils literal notranslate"><span class="pre">navground.core.load_plugins()</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">core</span>
-
+<span class="gp">&gt;&gt;&gt; </span><span class="n">core</span><span class="o">.</span><span class="n">load_plugins</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Behavior</span><span class="o">.</span><span class="n">types</span><span class="p">)</span>
 
 <span class="go">[..., &#39;MyBehavior&#39;]</span>
@@ -589,6 +618,10 @@ Support for C++ components is in progress.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">behavior</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Behavior</span><span class="o">.</span><span class="n">make_type</span><span class="p">(</span><span class="s2">&quot;MyBehavior&quot;</span><span class="p">)</span>
 <span class="go">&lt;my_packages&gt;.&lt;my_module&gt;.MyBehavior object ...&gt;</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Using <a class="reference internal" href="../reference/core/python/plugins.html#navground.core.load_plugins" title="navground.core.load_plugins"><code class="xref py py-func docutils literal notranslate"><span class="pre">navground.core.load_plugins()</span></code></a>, C++ plugins are imported too and available to use from Python.</p>
 </div>
 </section>
 </section>
@@ -651,7 +684,8 @@ Support for C++ components is in progress.</p>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">C++</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Python</a></li>
 </ul>
 </li>
 </ul>

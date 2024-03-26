@@ -15,6 +15,7 @@ from ._navground import Kinematics as _Kinematics
 from ._navground import (LineSegment, Neighbor, Pose2, SensingState,
                          SocialMargin, Target, Twist2, dump, load_behavior,
                          load_kinematics, to_absolute, to_relative)
+from ._navground import load_plugins as load_cpp_plugins
 
 # TODO(Jerome): Add vector shape = (2, )
 # numpy.ndarray[numpy.float32[2, 1]]
@@ -123,16 +124,27 @@ class Kinematics(_Kinematics):
 from . import behaviors, kinematics
 
 
-def load_py_plugins():
+def load_py_plugins() -> None:
     for name in ('navground_behaviors', 'navground_kinematics'):
         for entry_point in pkg_resources.iter_entry_points(name):
             entry_point.load()
+
+
+def load_plugins() -> None:
+    """
+    Loads registered Python and C++ plugins.
+
+    Python plugins extend :py:class:`Behavior`
+    and :py:class:`Kinematics` registers
+    """
+    load_cpp_plugins()
+    load_py_plugins()
 
 
 __all__ = [
     'Behavior', 'Pose2', 'Twist2', 'Target', 'Disc', 'Neighbor', 'LineSegment',
     'Kinematics', 'Action', 'Controller', 'CollisionComputation'
     'CachedCollisionComputation', 'Frame', 'GeometricState', 'SensingState',
-    'dump', 'load_behavior', 'load_kinematics', 'load_py_plugins',
+    'dump', 'load_behavior', 'load_kinematics', 'load_plugins',
     'to_absolute', 'to_relative', 'Buffer', 'BufferMap', 'BufferDescription'
 ]

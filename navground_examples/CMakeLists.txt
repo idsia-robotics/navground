@@ -30,4 +30,6 @@ generate_export_header(my_scenario)
 ament_export_targets(my_scenarioTargets HAS_LIBRARY_TARGET)
 ament_export_targets(my_behaviorTargets HAS_LIBRARY_TARGET)
 
+ament_index_register_resource(navground_plugins CONTENT $<TARGET_FILE:my_behavior>;$<TARGET_FILE:my_scenario>)
+
 ament_package()

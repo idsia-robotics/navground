@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Helpers &#8212; navground 0.0.4 documentation</title>
+    <title>Plugins &#8212; navground 0.0.4 documentation</title>
   
   
   
@@ -49,11 +49,11 @@
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/cpp/helper';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/python/plugins';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Python API" href="../python/index.html" />
-    <link rel="prev" title="Controller" href="controller.html" />
+    <link rel="next" title="YAML" href="yaml.html" />
+    <link rel="prev" title="Register" href="register.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -194,10 +194,24 @@
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Core</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">C++ API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="types.html">Types</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/types.html">Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/helper.html">Helpers</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Python API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="common.html">Geometry</a></li>
-<li class="toctree-l4"><a class="reference internal" href="auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4 current active"><a class="reference internal" href="auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="target.html">Target</a></li>
@@ -206,20 +220,6 @@
 <li class="toctree-l4"><a class="reference internal" href="collision_computation.html">Computing collisions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="modulations.html">Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="controller.html">Controller</a></li>
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">Helpers</a></li>
-</ul>
-</li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../python/common.html">Geometry</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/auto_registration.html">Auto registration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/yaml.html">YAML</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/kinematics.html">Kinematics</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/target.html">Target</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/behaviors/index.html">Behaviors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/state.html">Environment State</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/collision_computation.html">Computing collisions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/modulations.html">Modulations</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/controller.html">Controller</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -328,7 +328,7 @@
       
       
       
-      <li><a href="../../../_sources/reference/core/cpp/helper.rst" target="_blank"
+      <li><a href="../../../_sources/reference/core/python/plugins.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -412,7 +412,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Helpers</h1>
+    <h1>Plugins</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -422,13 +422,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12TrackChangesE"><code class="docutils literal notranslate"><span class="pre">TrackChanges</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12TrackChanges12TrackChangesEv"><code class="docutils literal notranslate"><span class="pre">TrackChanges::TrackChanges()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12TrackChanges7changedEj"><code class="docutils literal notranslate"><span class="pre">TrackChanges::changed()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12TrackChanges13reset_changesEv"><code class="docutils literal notranslate"><span class="pre">TrackChanges::reset_changes()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12TrackChanges6changeEj"><code class="docutils literal notranslate"><span class="pre">TrackChanges::change()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_plugins"><code class="docutils literal notranslate"><span class="pre">load_plugins()</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -440,57 +434,14 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="helpers">
-<h1>Helpers<a class="headerlink" href="#helpers" title="Link to this heading">#</a></h1>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/core/common.h&quot;</span>
-</pre></div>
-</div>
-<dl class="cpp class">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12TrackChangesE">
-<span class="target" id="classnavground_1_1core_1_1_track_changes"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrackChanges</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core12TrackChangesE" title="Link to this definition">#</a><br /></dt>
-<dd><p>An helper class that track changes. </p>
-<p>Changes are tracked by a bit mask, where the bit index corresponds to different fields that may change. The class is mainly used for tracking changes in a <a class="reference internal" href="behaviors/behavior.html#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a> to enable caching when the relevant part of the state has not changed. </p>
-<p>Subclassed by <a class="reference internal" href="behaviors/behavior.html#classnavground_1_1core_1_1_behavior"><span class="std std-ref">navground::core::Behavior</span></a>, <a class="reference internal" href="state.html#classnavground_1_1core_1_1_geometric_state"><span class="std std-ref">navground::core::GeometricState</span></a></p>
-<div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12TrackChanges12TrackChangesEv">
-<span class="target" id="classnavground_1_1core_1_1_track_changes_1a032319569fb0605172ea91bb1899a07a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TrackChanges</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core12TrackChanges12TrackChangesEv" title="Link to this definition">#</a><br /></dt>
-<dd><p>Constructs a new instance. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core12TrackChanges7changedEj">
-<span class="target" id="classnavground_1_1core_1_1_track_changes_1a08db85068c4fae9171ef3023cdf268cd"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">changed</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">mask</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0xFFFFFFFF</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core12TrackChanges7changedEj" title="Link to this definition">#</a><br /></dt>
-<dd><p>Query if there was a change. </p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>mask</strong> – <strong>[in]</strong> The bit mask of the indices we are interested in.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if there is a recorded change in one of the indices. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12TrackChanges13reset_changesEv">
-<span class="target" id="classnavground_1_1core_1_1_track_changes_1a5bce81c687605906faa55cd725439896"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset_changes</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core12TrackChanges13reset_changesEv" title="Link to this definition">#</a><br /></dt>
-<dd><p>Reset the bit mask. </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12TrackChanges6changeEj">
-<span class="target" id="classnavground_1_1core_1_1_track_changes_1a802484006af0a86b096c60d795506df7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">change</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">mask</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core12TrackChanges6changeEj" title="Link to this definition">#</a><br /></dt>
-<dd><p>Notify a change. </p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>mask</strong> – <strong>[in]</strong> A bit mask where indices that have changed are set to 1. </p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
+  <section id="plugins">
+<span id="core-python-plugins"></span><h1>Plugins<a class="headerlink" href="#plugins" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="navground.core.load_plugins">
+<span class="sig-name descname"><span class="pre">load_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.load_plugins" title="Link to this definition">#</a></dt>
+<dd><p>Loads registered Python and C++ plugins.</p>
+<p>Python plugins extend <a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><code class="xref py py-class docutils literal notranslate"><span class="pre">Behavior</span></code></a>
+and <a class="reference internal" href="kinematics.html#navground.core.Kinematics" title="navground.core.Kinematics"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kinematics</span></code></a> registers</p>
 </dd></dl>
 
 </section>
@@ -507,20 +458,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="controller.html"
+       href="register.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Controller</p>
+        <p class="prev-next-title">Register</p>
       </div>
     </a>
     <a class="right-next"
-       href="../python/index.html"
+       href="yaml.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Python API</p>
+        <p class="prev-next-title">YAML</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -540,13 +491,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12TrackChangesE"><code class="docutils literal notranslate"><span class="pre">TrackChanges</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12TrackChanges12TrackChangesEv"><code class="docutils literal notranslate"><span class="pre">TrackChanges::TrackChanges()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12TrackChanges7changedEj"><code class="docutils literal notranslate"><span class="pre">TrackChanges::changed()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12TrackChanges13reset_changesEv"><code class="docutils literal notranslate"><span class="pre">TrackChanges::reset_changes()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12TrackChanges6changeEj"><code class="docutils literal notranslate"><span class="pre">TrackChanges::change()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_plugins"><code class="docutils literal notranslate"><span class="pre">load_plugins()</span></code></a></li>
 </ul>
   </nav></div>
 

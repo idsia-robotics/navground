@@ -17,8 +17,7 @@ def parser() -> argparse.ArgumentParser:
 
 def main() -> None:
     logging.basicConfig(level=logging.INFO)
-    # nav.load_plugins()
-    sim.load_py_plugins()
+    sim.load_plugins()
     arg = parser().parse_args()
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
         with open(arg.YAML, 'r') as f:

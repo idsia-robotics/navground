@@ -65,6 +65,7 @@ add_library(navground_core SHARED
   src/controller_3d.cpp
   src/kinematics.cpp
   src/common.cpp
+  src/plugins.cpp
 )
 
 set(NAVGROUND_PLUGINS_PATH ${CMAKE_INSTALL_PREFIX}/share/ament_index/resource_index/navground_plugins)

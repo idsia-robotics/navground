@@ -142,24 +142,7 @@ struct NAVGROUND_SIM_EXPORT CorridorScenario : public Scenario {
   /**
    * @private
    */
-  inline static const std::map<std::string, Property> properties = {
-      {"width", make_property<ng_float_t, CorridorScenario>(
-                    &CorridorScenario::get_width, &CorridorScenario::set_width,
-                    default_width, "Corridor width")},
-      {"length",
-       make_property<ng_float_t, CorridorScenario>(
-           &CorridorScenario::get_length, &CorridorScenario::set_length,
-           default_length, "Corridor length")},
-      {"agent_margin", make_property<ng_float_t, CorridorScenario>(
-                           &CorridorScenario::get_agent_margin,
-                           &CorridorScenario::set_agent_margin, 0.1f,
-                           "initial minimal distance between agents")},
-      {"add_safety_to_agent_margin",
-       make_property<bool, CorridorScenario>(
-           &CorridorScenario::get_add_safety_to_agent_margin,
-           &CorridorScenario::set_add_safety_to_agent_margin,
-           default_add_safety_to_agent_margin,
-           "Whether to add the safety margin to the agent margin")}};
+  static const std::map<std::string, Property> properties;
 
   /**
    * @private
@@ -168,8 +151,7 @@ struct NAVGROUND_SIM_EXPORT CorridorScenario : public Scenario {
   // const static std::string type;
 
  private:
-  inline const static std::string type =
-      register_type<CorridorScenario>("Corridor");
+     const static std::string type;
 };
 
 }  // namespace navground::sim

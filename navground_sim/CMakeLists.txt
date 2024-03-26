@@ -80,6 +80,7 @@ add_library(navground_sim SHARED
   src/scenarios/corridor.cpp 
   src/scenarios/cross.cpp
   src/scenarios/cross_torus.cpp
+  src/scenarios/simple.cpp
 )
 
 generate_export_header(navground_sim)

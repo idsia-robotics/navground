@@ -96,8 +96,8 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
    */
   void should_use_effective_center(bool value) { use_effective_center = value; }
 
-  void set_time_step(ng_float_t value);
-  ng_float_t get_time_step() const;
+  // void set_time_step(ng_float_t value);
+  // ng_float_t get_time_step() const;
 
   /**
    * @private
@@ -109,20 +109,7 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
   /**
    * @private
    */
-  static inline std::map<std::string, Property> properties =
-      Properties{
-          {"time_horizon",
-           make_property<ng_float_t, ORCABehavior>(
-               &ORCABehavior::get_time_horizon, &ORCABehavior::set_time_horizon,
-               10, "Time horizon")},
-          {"effective_center",
-           make_property<bool, ORCABehavior>(
-               &ORCABehavior::is_using_effective_center,
-               &ORCABehavior::should_use_effective_center, false,
-               "Whenever to use an effective center to handle non-holonomic "
-               "kinematics")},
-      } +
-      Behavior::properties;
+  static const std::map<std::string, Property> properties;
 
   /**
    * @private
@@ -161,7 +148,7 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
   Vector2 effective_position() const;
 
  private:
-  inline static std::string type = register_type<ORCABehavior>("ORCA");
+  const static std::string type;
 };
 
 }  // namespace navground::core

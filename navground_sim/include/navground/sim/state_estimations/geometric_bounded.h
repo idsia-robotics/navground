@@ -90,24 +90,7 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
   /**
    * @private
    */
-  static inline std::map<std::string, Property> properties =
-      Properties{
-          // {"field_of_view", make_property<float, BoundedStateEstimation>(
-          //                       &BoundedStateEstimation::get_field_of_view,
-          //                       &BoundedStateEstimation::set_field_of_view,
-          //                       0.0f, "Field of view (< 0 infinite)")},
-          {"range", make_property<ng_float_t, BoundedStateEstimation>(
-                        &BoundedStateEstimation::get_range,
-                        &BoundedStateEstimation::set_range, default_range,
-                        "Maximal range (< 0 =infinite)", {"range_of_view"})},
-          {"update_static_obstacles",
-           make_property<bool, BoundedStateEstimation>(
-               &BoundedStateEstimation::get_update_static_obstacles,
-               &BoundedStateEstimation::set_update_static_obstacles,
-               default_update_static_obstacles,
-               "Whether to update static obstacles")},
-      } +
-      StateEstimation::properties;
+  static const std::map<std::string, Property> properties;
 
   /**
    * @private
@@ -170,8 +153,7 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
   // float field_of_view;
   ng_float_t range;
   bool update_static_obstacles;
-  inline const static std::string type =
-      register_type<BoundedStateEstimation>("Bounded");
+  const static std::string type;
 };
 
 }  // namespace navground::sim

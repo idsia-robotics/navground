@@ -39,8 +39,6 @@ void CrossTorusScenario::init_world(World *world,
   }
 }
 
-#if 0
-
 const std::map<std::string, Property> CrossTorusScenario::properties = Properties{
     {"side", make_property<float, CrossTorusScenario>(
                  &CrossTorusScenario::get_side, &CrossTorusScenario::set_side,
@@ -58,6 +56,5 @@ const std::map<std::string, Property> CrossTorusScenario::properties = Propertie
 
 const std::string CrossTorusScenario::type = register_type<CrossTorusScenario>("CrossTorus");
 
-#endif
 
 }  // namespace navground::sim

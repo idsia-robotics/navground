@@ -79,7 +79,7 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
   std::map<std::string, std::shared_ptr<PropertySampler>> properties;
 
  protected:
-  typename T::C s(RandomGenerator & rg) override {
+  typename T::C s(RandomGenerator& rg) override {
     C c = T::make_type(type);
     auto t = get<T, C>::ptr(c);
     if (!t) {
@@ -121,7 +121,7 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
       : SamplerFromRegister<T>(type) {}
 
  protected:
-  C s(RandomGenerator & rg) override {
+  C s(RandomGenerator& rg) override {
     C c = SamplerFromRegister<T>::s(rg);
     auto behavior = get<T, C>::ptr(c);
     if (!behavior) return c;
@@ -206,7 +206,7 @@ struct KinematicsSampler : public SamplerFromRegister<T> {
   std::shared_ptr<Sampler<ng_float_t>> max_angular_speed;
 
  protected:
-  C s(RandomGenerator & rg) override {
+  C s(RandomGenerator& rg) override {
     C c = SamplerFromRegister<T>::s(rg);
     auto kinematics = get<T, C>::ptr(c);
     if (!kinematics) return c;

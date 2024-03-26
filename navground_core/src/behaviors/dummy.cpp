@@ -25,4 +25,7 @@ Vector2 DummyBehavior::desired_velocity_towards_point(
 
 // const char* DummyBehavior::name = register_type<DummyBehavior>("Dummy");
 
+const std::string DummyBehavior::type = register_type<DummyBehavior>("Dummy");
+
 }  // namespace navground::core
+

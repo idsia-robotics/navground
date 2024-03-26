@@ -196,8 +196,7 @@ inline std::ostream& operator<<(std::ostream& os, const LineSegment& line) {
   return os;
 }
 
-class GeometricState : public TrackChanges,
-                                             virtual public EnvironmentState {
+class GeometricState : public EnvironmentState, public TrackChanges {
  public:
   GeometricState()
       : EnvironmentState(),
@@ -206,7 +205,7 @@ class GeometricState : public TrackChanges,
         neighbors(),
         line_obstacles() {}
 
-  virtual ~GeometricState() = default;
+  // virtual ~GeometricState() = default;
 
   //----------- ENVIRONMENT STATE
 

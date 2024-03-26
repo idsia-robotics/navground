@@ -121,20 +121,7 @@ struct NAVGROUND_SIM_EXPORT CrossTorusScenario : public Scenario {
   /**
    * @private
    */
-  inline static const std::map<std::string, Property> properties{
-      {"side", make_property<ng_float_t, CrossTorusScenario>(
-                   &CrossTorusScenario::get_side, &CrossTorusScenario::set_side,
-                   default_side, "Distance between targets")},
-      {"agent_margin", make_property<ng_float_t, CrossTorusScenario>(
-                           &CrossTorusScenario::get_agent_margin,
-                           &CrossTorusScenario::set_agent_margin, 0.1,
-                           "initial minimal distance between agents")},
-      {"add_safety_to_agent_margin",
-       make_property<bool, CrossTorusScenario>(
-           &CrossTorusScenario::get_add_safety_to_agent_margin,
-           &CrossTorusScenario::set_add_safety_to_agent_margin,
-           default_add_safety_to_agent_margin,
-           "Whether to add the safety margin to the agent margin")}};
+  static const std::map<std::string, Property> properties;
 
   /**
    * @private
@@ -142,8 +129,7 @@ struct NAVGROUND_SIM_EXPORT CrossTorusScenario : public Scenario {
   std::string get_type() const override { return type; }
 
  private:
-  inline static const std::string type =
-      register_type<CrossTorusScenario>("CrossTorus");
+  static const std::string type;
 };
 
 }  // namespace navground::sim

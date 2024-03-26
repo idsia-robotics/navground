@@ -144,26 +144,7 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
   /**
    * @private
    */
-  static inline std::map<std::string, Property> properties =
-      Properties{
-          {"range", make_property<ng_float_t, LidarStateEstimation>(
-                        &LidarStateEstimation::get_range,
-                        &LidarStateEstimation::set_range, default_range,
-                        "Maximal range")},
-          {"start_angle", make_property<ng_float_t, LidarStateEstimation>(
-                              &LidarStateEstimation::get_start_angle,
-                              &LidarStateEstimation::set_start_angle,
-                              default_start_angle, "Start angle")},
-          {"field_of_view", make_property<ng_float_t, LidarStateEstimation>(
-                                &LidarStateEstimation::get_field_of_view,
-                                &LidarStateEstimation::set_field_of_view,
-                                default_field_of_view, "Total angle")},
-          {"resolution", make_property<int, LidarStateEstimation>(
-                             &LidarStateEstimation::get_resolution,
-                             &LidarStateEstimation::set_resolution,
-                             default_resolution, "Resolution")},
-      } +
-      StateEstimation::properties;
+  static const std::map<std::string, Property> properties;
 
   /**
    * @private
@@ -187,8 +168,7 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
   ng_float_t field_of_view;
   int resolution;
   CollisionComputation cc;
-  inline const static std::string type =
-      register_type<LidarStateEstimation>("Lidar");
+  const static std::string type;
 };
 
 }  // namespace navground::sim

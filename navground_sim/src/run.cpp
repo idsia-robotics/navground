@@ -9,7 +9,6 @@
 #include "navground/core/plugins.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/experiment.h"
-#include "navground/sim/scenarios/simple.h"
 #include "navground/sim/yaml/experiment.h"
 #if !defined(_MSC_VER)
 #include "tqdm.h"

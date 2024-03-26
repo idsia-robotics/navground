@@ -9,6 +9,9 @@ Twist2 OmnidirectionalKinematics::feasible(const Twist2& twist) const {
           twist.frame};
 }
 
+const std::string OmnidirectionalKinematics::type =
+register_type<OmnidirectionalKinematics>("Omni");
+
 Twist2 AheadKinematics::feasible(const Twist2& twist) const {
   assert(twist.frame == Frame::relative);
   return {{std::clamp<ng_float_t>(twist.velocity[0], 0, get_max_speed()), 0},
@@ -17,9 +20,18 @@ Twist2 AheadKinematics::feasible(const Twist2& twist) const {
           twist.frame};
 }
 
+const std::string AheadKinematics::type =
+register_type<AheadKinematics>("Ahead");
+
 Twist2 WheeledKinematics::feasible(const Twist2& value) const {
   return twist(wheel_speeds(value));
 }
+
+const std::map<std::string, Property> WheeledKinematics::properties = Properties{
+     {"wheel_axis", make_property<ng_float_t, WheeledKinematics>(
+                        &WheeledKinematics::get_axis,
+                        &WheeledKinematics::set_axis, 0, "Wheel Axis")},
+};
 
 Twist2 TwoWheelsDifferentialDriveKinematics::twist(
     const WheelSpeeds& speeds) const {
@@ -31,6 +43,9 @@ Twist2 TwoWheelsDifferentialDriveKinematics::twist(
   }
   return {};
 }
+
+const std::string TwoWheelsDifferentialDriveKinematics::type =
+register_type<TwoWheelsDifferentialDriveKinematics>("2WDiff");
 
 WheelSpeeds TwoWheelsDifferentialDriveKinematics::wheel_speeds(
     const Twist2& twist) const {
@@ -102,5 +117,8 @@ WheelSpeeds FourWheelsOmniDriveKinematics::wheel_speeds(
   }
   return {front_left, rear_left, rear_right, front_right};
 }
+
+const std::string FourWheelsOmniDriveKinematics::type =
+register_type<FourWheelsOmniDriveKinematics>("4WOmni");
 
 }  // namespace navground::core

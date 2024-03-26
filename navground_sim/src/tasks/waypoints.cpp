@@ -45,13 +45,13 @@ std::optional<navground::core::Vector2> WaypointsTask::next_waypoint(
       index = 0;
     } else {
       index++;
-      if (loop && index >= waypoints.size()) {
+      if (loop && index >= static_cast<int>(waypoints.size())) {
         index = 0;
       }
     }
   }
   first = false;
-  if (index >= 0 && index < waypoints.size()) {
+  if (index >= 0 && index < static_cast<int>(waypoints.size())) {
     return waypoints[index];
   }
   return std::nullopt;
@@ -61,5 +61,25 @@ bool WaypointsTask::done() const {
   // return waypoint == waypoints.end();
   return !running;
 }
+
+const std::map<std::string, Property> WaypointsTask::properties = Properties{
+      {"waypoints",
+       make_property<Waypoints, WaypointsTask>(&WaypointsTask::get_waypoints,
+                                               &WaypointsTask::set_waypoints,
+                                               Waypoints{}, "waypoints")},
+      {"loop", make_property<bool, WaypointsTask>(&WaypointsTask::get_loop,
+                                                  &WaypointsTask::set_loop,
+                                                  default_loop, "loop")},
+      {"tolerance",
+       make_property<ng_float_t, WaypointsTask>(
+           &WaypointsTask::get_tolerance, &WaypointsTask::set_tolerance,
+           default_tolerance, "tolerance")},
+      {"random",
+       make_property<bool, WaypointsTask>(
+           &WaypointsTask::get_random, &WaypointsTask::set_random,
+           default_random, "Whether to pick the next waypoint randomly")},
+};
+
+const std::string WaypointsTask::type = register_type<WaypointsTask>("Waypoints");
 
 }  // namespace navground::sim

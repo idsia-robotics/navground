@@ -153,4 +153,6 @@ Vector2 HRVOBehavior::desired_velocity_towards_velocity(
 
 // const char *HRVOBehavior::name = register_type<HRVOBehavior>("HRVO");
 
+const std::string HRVOBehavior::type = register_type<HRVOBehavior>("HRVO");
+
 }  // namespace navground::core

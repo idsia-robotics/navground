@@ -39,8 +39,6 @@ void CrossScenario::init_world(World *world,
   }
 }
 
-#if 0
-
 const std::map<std::string, Property> CrossScenario::properties = Properties{
     {"side", make_property<float, CrossScenario>(
                  &CrossScenario::get_side, &CrossScenario::set_side,
@@ -66,7 +64,5 @@ const std::map<std::string, Property> CrossScenario::properties = Properties{
          "Initial minimal distance between agents and targets")}};
 
 const std::string CrossScenario::type = register_type<CrossScenario>("Cross");
-
-#endif
 
 }  // namespace navground::sim

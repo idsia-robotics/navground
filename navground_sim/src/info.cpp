@@ -13,8 +13,6 @@
 #include "navground/core/property.h"
 #include "navground/core/utilities.h"
 #include "navground/sim/scenario.h"
-#include "navground/sim/scenarios/antipodal.h"
-#include "navground/sim/scenarios/simple.h"
 #include "navground/sim/world.h"
 
 int main(int argc, char* argv[]) {

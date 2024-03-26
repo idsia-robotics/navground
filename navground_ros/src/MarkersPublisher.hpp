@@ -104,7 +104,7 @@ struct MarkersPublisher {
     lines.color.b = 0.0;
     lines.color.a = 1.0f;
     lines.lifetime = rclcpp::Duration(0, 0);
-    for (int i = 0; i < angles.size(); ++i) {
+    for (size_t i = 0; i < angles.size(); ++i) {
       if (ranges[i] < 0) continue;
       lines.points.push_back(to_msg((margin + ranges[i]) * unit3(angles[i])));
     }

@@ -153,8 +153,7 @@ class NAVGROUND_CORE_EXPORT OmnidirectionalKinematics : public Kinematics {
   std::string get_type() const override { return type; }
 
  private:
-  inline static std::string type =
-      register_type<OmnidirectionalKinematics>("Omni");
+  const static std::string type;
 };
 
 /**
@@ -195,7 +194,7 @@ class NAVGROUND_CORE_EXPORT AheadKinematics : public Kinematics {
   std::string get_type() const override { return type; }
 
  private:
-  inline static std::string type = register_type<AheadKinematics>("Ahead");
+  static const std::string type;
 };
 
 /**
@@ -267,11 +266,7 @@ class NAVGROUND_CORE_EXPORT WheeledKinematics : public Kinematics {
   /**
    * @private
    */
-  static inline std::map<std::string, Property> properties = Properties{
-      {"wheel_axis", make_property<ng_float_t, WheeledKinematics>(
-                         &WheeledKinematics::get_axis,
-                         &WheeledKinematics::set_axis, 0, "Wheel Axis")},
-  };
+  static const std::map<std::string, Property> properties;
 
  protected:
   ng_float_t axis;
@@ -336,8 +331,7 @@ class NAVGROUND_CORE_EXPORT TwoWheelsDifferentialDriveKinematics
   std::string get_type() const override { return type; }
 
  private:
-  inline static std::string type =
-      register_type<TwoWheelsDifferentialDriveKinematics>("2WDiff");
+  const static std::string type;
 };
 
 // TODO(Jerome): make it general
@@ -404,8 +398,7 @@ class NAVGROUND_CORE_EXPORT FourWheelsOmniDriveKinematics
   std::string get_type() const override { return type; }
 
  private:
-  inline static std::string name =
-      register_type<FourWheelsOmniDriveKinematics>("4WOmni");
+  const static std::string type;
 };
 
 }  // namespace navground::core

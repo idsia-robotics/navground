@@ -59,10 +59,10 @@ namespace HRVO
 	const int Agent::OBSTACLE_TYPE;
 
 	Agent::Agent()
-	: isAtGoal_(false),
-	  classNo_(0),
+	: classNo_(0),
 	  goalNo_(-1),
 	  goalRadius_(0.0f),
+	  isAtGoal_(false),
 	  isColliding_(false),
 #if DIFFERENTIAL_DRIVE
 	  leftWheelSpeed_(0.0f),

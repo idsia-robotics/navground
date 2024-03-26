@@ -6,6 +6,9 @@
         "GEOS": {
             "cmake-args": ["-DGEOS_BUILD_DEVELOPER=OFF"]
         },
+        "HDF5": {
+            "cmake-args": ["-DONLY_SHARED_LIBS=ON", "-DBUILD_TESTING=OFF", "-DHDF5_BUILD_TOOLS=OFF", "-DHDF5_BUILD_EXAMPLES=OFF"]
+        },
         "HighFive": {
             "cmake-args": ["-DHIGHFIVE_UNIT_TESTS=OFF", "-DHIGHFIVE_USE_BOOST=OFF", "-DHIGHFIVE_BUILD_DOCS=OFF"]
         },
@@ -14,6 +17,8 @@
         },
         "YAML_CPP": {
             "cmake-args": ["-DYAML_CPP_INSTALL=ON"]
+        },
+        "navground_core": {
+            "cmake_args": [""-DNAVGROUND_USES_DOUBLE=ON""]
         }
-    }
 }

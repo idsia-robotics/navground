@@ -55,11 +55,7 @@ struct NAVGROUND_DEMOS_EXPORT ThymioDemo : public sim::Scenario {
 
   const Properties &get_properties() const override { return properties; };
 
-  inline const static std::map<std::string, Property> properties =
-      Properties{{"behavior", make_property<std::string, ThymioDemo>(
-                                  &ThymioDemo::get_behavior_type,
-                                  &ThymioDemo::set_behavior_type, "HL",
-                                  "The navigation behavior")}};
+  const static std::map<std::string, Property> properties;
 
   std::string get_type() const override { return type; }
   const static std::string type;

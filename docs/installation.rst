@@ -105,15 +105,42 @@ All-at-once
 The following script install everything needed to run navground simulations.
 Change ``navground_sim`` to another package name, like ``navground_examples``, to install additional packages.
 
-.. code-block:: console
+.. tabs::
+
+   .. tab:: macOS
+
+      .. code-block:: console
+   
+         mkdir ws
+         cd ws
+         python3 -m pip install colcon-common-extensions vcstool numpy h5py
+         vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
+         export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
+
+   .. tab:: Linux
+
+      .. code-block:: console
+   
+         mkdir ws
+         cd ws
+         python3 -m pip install colcon-common-extensions vcstool numpy h5py
+         vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
+         export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
+
+
+   .. tab:: Windows
+
+      .. code-block:: console
+
+         mkdir ws
+         cd ws
+         python3 -m pip install colcon-common-extensions vcstool numpy h5py
+         vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
+         set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
       
-   mkdir ws
-   cd ws
-   python3 -m pip install colcon-common-extensions vcstool numpy h5py
-   vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
-   COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
-
-
 .. note::
 
    You can modify the build configuration by editing the files in ``src/navground/colcon``, see the `colcon documentation <https://colcon.readthedocs.io/en/released/user/configuration.html#colcon-pkg-files>`_:
@@ -128,8 +155,8 @@ Change ``navground_sim`` to another package name, like ``navground_examples``, t
 
       vcs custom --args remote update
       vcs pull src
-      COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
-
+      
+   and then run ``colcon build ...`` again.
 
 Step-by-step instructions
 =========================

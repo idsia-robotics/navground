@@ -98,7 +98,7 @@ All-at-once
    
          .. code-block:: console
    
-            python3 -m venv <path_to_the_venv>
+            python -m venv <path_to_the_venv>
             <path_to_the_venv>/bin/activate.bat
 
 
@@ -136,7 +136,7 @@ Change ``navground_sim`` to another package name, like ``navground_examples``, t
 
          mkdir ws
          cd ws
-         python3 -m pip install colcon-common-extensions vcstool numpy h5py
+         python -m pip install colcon-common-extensions vcstool numpy h5py
          vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
          colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
@@ -204,43 +204,6 @@ If you need build ``ament_cmake``, clone it and then build it with ``colcon``.
     git clone https://github.com/ament/ament_cmake.git src/ament_cmake
     git clone https://github.com/ament/ament_package src/ament_package 
     colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF --packages-up-to ament_cmake
-
-.. warning::
-
-    To use the installed packages, you will need to source the workspace. For examples, in a bash shell, you need to run
-
-
-    .. code-block:: console
-
-       source ./install/setup.bash
-
-
-.. note::
-    If you have ROS, you can launch executables with ``ros2 run ...``:
-
-    .. code-block:: console
-
-       ros2 run <name_of_the_package> <name_of_the_executable> 
-
-    like, for instance:
-
-    .. code-block:: console
-
-       ros2 run navground_core info   
-
-    If instead you don't have ROS, directly launch the executables from ``install/lib/<name_of_the_package>``.
-
-    .. code-block:: console
-
-       ./install/lib/navground_core/info
-
-    In the rest of the documentation, we omit ``ros2 run ...`` or the full path prefix and only specify
-
-
-    .. code-block:: console
-
-       info
-
 
 .. _Core C++:
 
@@ -437,7 +400,7 @@ You also need to install libclang.
       .. code-block:: console
 
          clang --version
-         python3 -m pip install clang==<version of the install Clang compiler>
+         python -m pip install clang==<version of the install Clang compiler>
 
 
 Package
@@ -639,3 +602,73 @@ Depends on `Simulation`_. You also need to install `coppeliaSim <https://www.cop
    export COPPELIASIM_ROOT_DIR=<path to the folder containing the programming subfolder>
    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_coppeliasim
 
+Usage
+=====
+
+To use the installed packages, you will need to source the workspace
+
+
+.. tabs::
+
+   .. tab:: macOS
+
+      .. code-block:: console
+
+         . install/setup.zsh
+
+   .. tab:: Linux
+
+      .. code-block:: console
+         
+         . install/setup.bash
+
+
+   .. tab:: Windows
+
+      .. code-block:: console
+        
+         install\setup.bat
+
+
+If you have ROS, you can then launch executables with ``ros2 run ...``:
+
+.. code-block:: console
+
+   ros2 run <name_of_the_package> <name_of_the_executable> 
+
+like, for instance:
+
+.. code-block:: console
+
+   ros2 run navground_core info   
+
+If instead you don't have ROS, directly launch the executables located in ``install``:
+
+.. tabs::
+
+   .. tab:: macOS
+
+      .. code-block:: console
+
+         install/lib/navground_core/info
+
+   .. tab:: Linux
+
+      .. code-block:: console
+
+         install/lib/navground_core/info
+
+
+   .. tab:: Windows
+
+      .. code-block:: console
+
+         install\Lib\navground_core\info.exe
+
+
+In the rest of the documentation, we omit ``ros2 run ...`` or the full path prefix and only specify the command to run
+
+
+.. code-block:: console
+
+   info

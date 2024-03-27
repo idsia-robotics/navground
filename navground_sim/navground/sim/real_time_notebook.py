@@ -3,7 +3,8 @@ from typing import Any
 from . import World
 
 from .ui.web_ui import Rect, WebUI
-from .ui.to_html import display_html, notebook_view
+from .ui.to_html import notebook_view
+from IPython.display import display_html
 from .real_time import RealTimeSimulation
 
 
@@ -37,4 +38,4 @@ async def display_in_notebook(world: World,
                             web_ui=ui,
                             bounds=bounds)
     await rt.run()
-    await ui.close()
+    await ui.stop()

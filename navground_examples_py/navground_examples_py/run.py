@@ -1,6 +1,6 @@
 from navground import sim
 
-from .probes import IsMovingProbe, IsMovingSparseProbe
+from .probes import CheckIfMoving, IsMovingProbe, IsMovingSparseProbe
 
 
 def main():
@@ -27,10 +27,11 @@ agents:
                               time_step=0.1,
                               steps=20,
                               record_config=sim.RecordConfig.all(False))
-    probe = IsMovingProbe()
-    run.add_probe("is_moving", probe)
-    m_probe = IsMovingSparseProbe()
-    run.add_probe("still_times", m_probe)
+    run.add_probe(CheckIfMoving())
+    probe = run.add_record_probe("is_moving", IsMovingProbe)
+    _ = run.add_group_record_probe("still_times", IsMovingSparseProbe)
     run.run()
-    print(f"Recorded {probe.steps} steps: {probe.data.astype(bool)}")
-    print(f"Recorded times: {m_probe.data}")
+    data = probe.data.as_array()
+    print(f"Recorded movements: {data.astype(bool).reshape((-1, ))}")
+    data = run.get_group_record("still_times")
+    print(f"Recorded still times: {data}")

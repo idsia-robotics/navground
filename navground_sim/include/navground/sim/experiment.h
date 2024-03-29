@@ -51,7 +51,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   /**
    * The type of callbacks called during an experiment
    */
-  using RunCallback = std::function<void(ExperimentalRun&)>;
+  using RunCallback = std::function<void(ExperimentalRun*)>;
 
   /**
    * @brief      Constructs a new instance.
@@ -72,8 +72,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
         // callbacks(),
         run_callbacks(),
         file(),
-        file_path(),
-        _extra_probes() {}
+        file_path() {}
 
   /**
    * @brief      Gets the map of recorded runs.
@@ -239,7 +238,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * once.
    *
    * Calling \ref start is only effective once per experiment.
-   * 
+   *
    * @param[in]  path  A path to set optionally as \ref file_path.
    * If set, it will save an HDF5 file, but no YAML, to this path.
    * If not set, \ref file_path will be automatically set to
@@ -418,49 +417,42 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   }
 
   /**
-   * @brief      Adds a probe to record data during runs.
+   * @brief      Register a probe to be added to all runs
    *
-   * @param[in]  key    The name of the probe
-   * @param[in]  value  A function that generates probes.
+   * @param[in]  factory  A function that generate the probe.
    */
-  void add_probe(const std::string& key,
-                 const std::function<std::shared_ptr<BaseProbe>()>& value) {
-    _extra_probes[key] = value;
+  void add_probe(const std::function<std::shared_ptr<Probe>()>& factory) {
+    add_run_callback(
+        [factory](ExperimentalRun* run) { run->add_probe(factory()); }, true);
   }
 
   /**
-   * @brief      Adds a probe to record data of a given type during runs.
+   * @brief      Register a probe to record data to during all runs.
    *
-   * @param[in]  key   The name associated to the probe
+   * @param[in]  key   The name associated to the record
    *
-   * @tparam     C     The class of the probe. Must be subclass of \ref
-   * sim::Probe
-   * @tparam     T     The type of data to record
+   * @tparam     T     The class of the probe.
+   *                   Must be subclass of \ref sim::RecordProbe
    */
-  template <typename C, typename T>
-  void make_probe(const std::string& key) {
-    _extra_probes[key] = []() {
-      return std::dynamic_pointer_cast<BaseProbe>(
-          std::make_shared<C>(std::vector<T>{}));
-    };
+  template <typename T>
+  void add_record_probe(const std::string& key) {
+    add_run_callback(
+        [key](ExperimentalRun* run) { run->add_record_probe<T>(key); }, true);
   }
 
   /**
-   * @brief      Makes a map probe.
+   * @brief      Register a probe to record a group of data to during all runs.
    *
-   * @param[in]  key   The name associated to the probe
+   * @param[in]  key   The name associated to the group
    *
-   * @tparam     C     The class of the probe. Must be subclass of \ref
-   * sim::MapProbe
-   * @tparam     T     The type of data to record
+   * @tparam     T     The class of the probe. Must be subclass of \ref
+   * sim::GroupRecordProbe
    */
-  template <typename C, typename T>
-  void make_map_probe(const std::string& key) {
-    _extra_probes[key] = []() {
-      return std::dynamic_pointer_cast<BaseProbe>(
-          std::make_shared<C>(std::map<typename C::KeyType, std::vector<T>>{}));
-      ;
-    };
+  template <typename T>
+  void add_group_record_probe(const std::string& key) {
+    add_run_callback(
+        [key](ExperimentalRun* run) { run->add_group_record_probe<T>(key); },
+        true);
   }
 
   /**
@@ -542,9 +534,6 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * Where results are saved
    */
   std::optional<std::filesystem::path> file_path;
-
-  std::map<std::string, std::function<std::shared_ptr<BaseProbe>()>>
-      _extra_probes;
 
   void run_in_sequence(
       bool keep = true, std::optional<unsigned> start_index = std::nullopt,

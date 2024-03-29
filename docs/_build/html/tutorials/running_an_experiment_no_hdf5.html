@@ -187,6 +187,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/probes.html">How to record custom data in experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -259,6 +260,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/recorded_experiment.html">Recorded Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/real_time.html">Real-time simulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
 </ul>
 </li>
@@ -514,7 +516,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-datetime.timedelta(seconds=1, microseconds=401769)
+datetime.timedelta(seconds=1, microseconds=407678)
 </pre></div></div>
 </div>
 </section>
@@ -535,8 +537,8 @@ datetime.timedelta(seconds=1, microseconds=401769)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{0: &lt;navground.sim._navground_sim.ExperimentalRun at 0x111790a30&gt;,
- 1: &lt;navground.sim._navground_sim.ExperimentalRun at 0x111792370&gt;}
+{0: &lt;navground.sim._navground_sim.ExperimentalRun at 0x1066a52b0&gt;,
+ 1: &lt;navground.sim._navground_sim.ExperimentalRun at 0x10665b370&gt;}
 </pre></div></div>
 </div>
 <p>initialized with seeds 0 and 1. Let’s check that the first run has ideed the correct seed.</p>
@@ -632,7 +634,7 @@ datetime.timedelta(seconds=1, microseconds=401769)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Safety margin was violated 9.6% of the time
+Safety margin was violated 10.5% of the time
 </pre></div></div>
 </div>
 <p>Most violation should be small. Let’s check this by plotting their distribution.</p>
@@ -670,7 +672,7 @@ Safety margin was violated 9.6% of the time
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.17099068212525165
+0.17276807424319862
 </pre></div></div>
 </div>
 <p>We look also at event logged by the agents’ tasks.</p>
@@ -696,9 +698,9 @@ array([[ 0.0000e+00,  1.0000e+00,  2.5000e+00,  0.0000e+00],
        [ 4.2000e+00,  1.0000e+00, -2.5000e+00, -0.0000e+00],
        [ 9.6000e+00,  1.0000e+00,  2.5000e+00,  0.0000e+00],
        ...,
-       [ 9.9697e+03,  1.0000e+00, -2.5000e+00, -0.0000e+00],
-       [ 9.9833e+03,  1.0000e+00,  2.5000e+00,  0.0000e+00],
-       [ 9.9990e+03,  1.0000e+00, -2.5000e+00, -0.0000e+00]])
+       [ 9.9769e+03,  1.0000e+00,  2.5000e+00,  0.0000e+00],
+       [ 9.9826e+03,  1.0000e+00, -2.5000e+00, -0.0000e+00],
+       [ 9.9960e+03,  1.0000e+00,  2.5000e+00,  0.0000e+00]])
 </pre></div></div>
 </div>
 <p>We collect the duration to reach waypoints, ignoring the first because agents started from radom positions.</p>
@@ -724,8 +726,8 @@ array([[ 0.0000e+00,  1.0000e+00,  2.5000e+00,  0.0000e+00],
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The time to reach a waypoint ranges betweeen 4.90 and 31.60 seconds,
-and 99% of the time between 4.90 and 16.20 seconds
+The time to reach a waypoint ranges betweeen 4.90 and 30.90 seconds,
+and 99% of the time between 4.90 and 16.80 seconds
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -813,7 +815,7 @@ and 99% of the time between 4.90 and 16.20 seconds
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Performed 500 runs in 4.189494 seconds
+Performed 500 runs in 4.194478 seconds
 </pre></div></div>
 </div>
 <p>Let’s collect safety margins and numbers of collisions in a table.</p>
@@ -888,14 +890,14 @@ Performed 500 runs in 4.189494 seconds
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "26e578f8d2ad4617957609f82bd79a14", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3bdcc9ed03be413d9c1a4af5740d507b", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Performed 5000 runs in 11.982461 seconds over 4 threads
+Performed 5000 runs in 12.057969 seconds over 4 threads
 </pre></div></div>
 </div>
 </section>

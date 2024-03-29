@@ -3,86 +3,69 @@
  *
  */
 
-#ifndef NAVGROUND_SIM_RECORD_H_
-#define NAVGROUND_SIM_RECORD_H_
+#ifndef NAVGROUND_SIM_PROBE_H_
+#define NAVGROUND_SIM_PROBE_H_
 
 #include <highfive/H5File.hpp>
 
 #include "navground/core/types.h"
+#include "navground/sim/dataset.h"
 #include "navground/sim/world.h"
 #include "navground_sim_export.h"
 
 namespace navground::sim {
 
+class ExperimentalRun;
+
 /**
  * @brief      The base class for all probes.
- * Probes are injected in the simulation when running an \ref ExperimentalRun
- * where their \ref update method is called at every simulation update.
  *
- * They record numerical data and store it in HDF5 files.
+ * Probes are callbacks called at the begin, at the end,
+ * and during each simulation step of an \ref ExperimentalRun.
  *
- * Concrete classes should overwrite \ref prepare, \ref update, and \ref
- * finalize.
+ * Concrete classes should overwrite \ref prepare, \ref update, and/or \ref
+ * finalize as the base class does nothing.
  */
-class BaseProbe {
+class Probe {
  public:
-  /**
-   * The type of recorded data
-   */
-  using Type = std::variant<float, double, int64_t, int32_t, int16_t, int8_t,
-                            uint64_t, uint32_t, uint16_t, uint8_t>;
-
-  /**
-   * The shape of the multi-dimensional recorded data
-   */
-  using Shape = std::vector<size_t>;
-
-  BaseProbe() {}
-  virtual ~BaseProbe() = default;
+  Probe() {}
+  virtual ~Probe() = default;
   /**
    * @brief      Called at the begin of a simulation run.
    *
-   * @param[in]  world          The simulated world
-   * @param[in]  maximal_steps  The maximal steps that will be performed
+   * @param[in]  run The run
    */
-  virtual void prepare(const World& world, unsigned maximal_steps) {}
+  virtual void prepare(ExperimentalRun *) {}
   /**
    * @brief      Called at each simulation step
    *
-   * @param[in]  world  The simulated world
+   * @param[in]  run The run
    */
-  virtual void update(const World& world) {}
+  virtual void update(ExperimentalRun *) {}
   /**
    * @brief      Called at end of a simulation run
    *
-   * @param[in]  world  The simulated world
+   * @param[in]  run The run
    */
-  virtual void finalize(const World& world, unsigned steps) {}
-  /**
-   * @brief      Save to HDF5
-   *
-   * @private
-   *
-   * @param[in]  key    The key
-   * @param      group  The group
-   */
-  virtual void save(const std::string& key, HighFive::Group& group) const {}
+  virtual void finalize(ExperimentalRun *) {}
 };
 
 /**
- * @brief      Base class for probes that store multi-dimensional data in
- * vectors.
+ * @brief      Base class for probes that records numerical
+ *             data on a single dataset, possibly to be saved
+ *             in HDF5.
+ *
+ * Subclasses are expected to overwrite \ref Probe::update, \ref get_shape
+ * and to redefine \ref Type.
+ *
  */
-class NAVGROUND_SIM_EXPORT Probe : public BaseProbe {
+class NAVGROUND_SIM_EXPORT RecordProbe : public Probe {
  public:
   /**
-   * The data container to store the multi-dimensional record
+   * The type of data to record. Subclasses must define their own type for
+   * \ref ExperimentalRun::add_record_probe<T> to work with them.
    */
-  using Data = std::variant<std::vector<float>, std::vector<double>,
-                            std::vector<int64_t>, std::vector<int32_t>,
-                            std::vector<int16_t>, std::vector<int8_t>,
-                            std::vector<uint64_t>, std::vector<uint32_t>,
-                            std::vector<uint16_t>, std::vector<uint8_t>>;
+  using Type = ng_float_t;
 
   /**
    * @brief      The constructor
@@ -91,282 +74,122 @@ class NAVGROUND_SIM_EXPORT Probe : public BaseProbe {
    *
    * @param[in]  data  The data
    */
-  explicit Probe(const Data& data = {}) : BaseProbe(), _data(data), _steps(0) {}
+  explicit RecordProbe(std::shared_ptr<Dataset> _data) : Probe(), data(_data) {}
+
   /**
-   * @brief      Returns the shape of the multi-dimensional record
+   * @brief      Gets the item shape that the record should use,
+   * see \ref Dataset::set_item_shape.
+   *
+   * Subclasses should overwrite it to configure their records.
+   *
+   * @param[in]  world  The world being simulated
    *
    * @return     The shape
    */
-  virtual Shape shape() const { return {}; }
+  virtual Dataset::Shape get_shape(const World &world) const { return {}; }
 
-  /**
-   * @brief      Returns the total number of items stored.
-   *
-   * @return     The size
-   */
-  size_t size() const;
-
-  /**
-   * @brief      Sets the type of data to record.
-   * Will clear the data.
-   *
-   * @tparam     T     The desired numerical type.
-   */
-  template <typename T>
-  void set_type() {
-    _data = std::vector<T>();
-    _steps = 0;
-  }
   /**
    * @private
    */
-  void save(const std::string& key, HighFive::Group& group) const override;
-  /**
-   * @brief      Add an item to the record.
-   * The item will be implicitly converted to the current data type, see \ref
-   * set_type.
-   *
-   * @param[in]  value  The value to add
-   *
-   * @tparam     T      The type of the item. Must be convertible to the current
-   * data type.
-   */
-  template <typename T>
-  void push(const T& value) {
-    std::visit([value](auto&& arg) { arg.push_back(value); }, _data);
-  }
-  /**
-   * @brief      Append items to the record.
-   * The items will be implicitly converted to the current data type, see \ref
-   * set_type.
-   *
-   * @param[in]  values  The values to add
-   *
-   * @tparam     T       The type of the items. Must be convertible to the
-   * current data type.
-   */
-  template <typename T>
-  void append(const std::vector<T>& values) {
-    std::visit(
-        [&values](auto&& arg) {
-          std::copy(values.begin(), values.end(), std::back_inserter(arg));
-        },
-        _data);
-  }
+  void prepare(ExperimentalRun *) override;
 
   /**
-   * @brief      Increment the steps count.
+   * The recorded data
    */
-  void record_step() { _steps++; }
-
-  /**
-   * @brief      Returns how many steps have been recorded
-   *
-   * @return     The steps.
-   */
-  unsigned get_steps() const { return _steps; }
-
-  /**
-   * @brief      Returns the recorded data.
-   *
-   * @return     The data.
-   */
-  const Data& get_data() const { return _data; }
-
-  /**
-   * @brief      Returns the recorded data.
-   *
-   *
-   * @tparam     T    The desired type.
-   *
-   * @return     A pointer to the stored data or null if data has a different
-   * type than ``T``.
-   */
-  template <typename T>
-  const std::vector<T>* get_typed_data() const {
-    return std::get_if<std::vector<T>>(&_data);
-  }
-
- private:
-  Data _data;
-  unsigned _steps;
+  std::shared_ptr<Dataset> data;
 };
 
 /**
- * @brief      Base class for probes that store multi-dimensional data in a map.
+ * @brief      Base class for probes that record a group of datasets,
+ *             possibly to be saved in HDF5. Records are keyed by strings.
  *
- * @tparam     K     The type of keys to assign to multi-dimensional data
+ * Subclasses are expected to overwrite \ref Probe::update, \ref get_shapes
+ * and to redefine \ref Type.
  */
-template <typename K>
-class MapProbe : public BaseProbe {
+class NAVGROUND_SIM_EXPORT GroupRecordProbe : public Probe {
  public:
   /**
-   * The type of keys
+   * The type of data to record. Subclasses must define their own type for
+   * \ref ExperimentalRun::add_group_record_probe<T> to work with them.
    */
-  using KeyType = K;
 
   /**
-   * @brief      Returns the shape of the multi-dimensional record for a given
-   * key
+   * Generates dataset for a given key
+   */
+  using Factory =
+      std::function<std::shared_ptr<Dataset>(const std::string &key)>;
+
+  /**
+   * A map of shapes.
+   */
+  using ShapeMap = std::map<std::string, Dataset::Shape>;
+
+  /**
+   * @brief      Gets the item shapes that the records should use,
+   * see \ref Dataset::set_item_shape.
    *
-   * @param[in]  key  The key
+   * Subclasses should overwrite it to configure their records.
    *
-   * @return     { description_of_the_return_value }
-   */
-  virtual Shape shape(const K& key) const { return {}; }
-
-  /**
-   * The container for the multi-dimensional data map
-   */
-  using Data = std::variant<
-      std::map<K, std::vector<float>>, std::map<K, std::vector<double>>,
-      std::map<K, std::vector<int64_t>>, std::map<K, std::vector<int32_t>>,
-      std::map<K, std::vector<int16_t>>, std::map<K, std::vector<int8_t>>,
-      std::map<K, std::vector<uint64_t>>, std::map<K, std::vector<uint32_t>>,
-      std::map<K, std::vector<uint16_t>>, std::map<K, std::vector<uint8_t>>>;
-
-  /**
-   * @private
-   */
-  explicit MapProbe(const Data& data = {})
-      : BaseProbe(), _data(data), _steps() {}
-
-  /**
-   * @brief      Sets the type of data to record.
-   * Will clear the data.
+   * @param[in]  world  The world being simulated
    *
-   * @tparam     T     The desired numerical type.
+   * @return     The shapes
    */
-  template <typename T>
-  void set_type() {
-    _data = std::map<K, std::vector<T>>();
-    _steps.clear();
-  }
+  virtual ShapeMap get_shapes(const World &world) const { return {}; }
 
   /**
    * @private
    */
-  void save(const std::string& key, HighFive::Group& group) const override {
-    auto g = group.createGroup(key);
-    std::visit(
-        [this, &g](auto&& arg) {
-          using T = typename std::remove_reference<
-              decltype(arg)>::type::mapped_type::value_type;
-          for (const auto [k, v] : arg) {
-            if (v.empty()) continue;
-            g.createDataSet<T>(std::to_string(k), HighFive::DataSpace(shape(k)))
-                .write_raw(v.data());
-          }
-        },
-        _data);
-  }
-  /**
-   * @brief      Add an item to the record for a given key.
-   * The item will be implicitly converted to the current data type, see \ref
-   * set_type.
-   *
-   * @param[in]  The key
-   * @param[in]  value  The value to add
-   *
-   * @tparam     T      The type of the item. Must be convertible to the current
-   * data type.
-   */
-  template <typename T>
-  void push(const K& key, const T& value) {
-    std::visit([&value, &key](auto&& arg) { arg[key].push_back(value); },
-               _data);
-  }
-  /**
-   * @brief      Append items to the record for a given key.
-   * The items will be implicitly converted to the current data type, see \ref
-   * set_type.
-   *
-   * @param[in]  The key
-   * @param[in]  values  The values to add
-   *
-   * @tparam     T       The type of the items. Must be convertible to the
-   * current data type.
-   */
-  template <typename T>
-  void append(const K& key, const std::vector<T>& values) {
-    std::visit(
-        [&values, &key](auto&& arg) {
-          std::copy(values.begin(), values.end(), std::back_inserter(arg[key]));
-        },
-        _data);
-  }
+  void prepare(ExperimentalRun *) override;
 
   /**
-   * @brief      Returns the total number of items stored for a given key.
+   * @brief      Gets the recorded data,
+   * possibly after instanting a dataset if none is yet associated to the key.
    *
-   * @param[in]  The key
-   *
-   * @return     The size
-   */
-  size_t size(const K& key) const {
-    return std::visit(
-        [&key](auto&& arg) -> size_t {
-          if (!arg.count(key)) return 0;
-          return arg.at(key).size();
-        },
-        _data);
-  }
-
-  /**
-   * @brief      Increment the steps count for a given key.
-   *
-   * @param[in]  The key
-   */
-  void record_step(const K& key) { _steps[key]++; }
-
-  /**
-   * @brief      Returns how many steps have been recorded for a given key
-   *
-   * @param[in]  The key
-   *
-   * @return     The steps.
-   */
-  unsigned get_steps(const K& key) const {
-    if (!_steps.count(key)) return 0;
-    return _steps.at(key);
-  }
-
-  /**
-   * @brief      Returns the recorded data.
+   * @param[in]  key   The key
    *
    * @return     The data.
    */
-  const Data& get_data() const { return _data; }
+  std::shared_ptr<Dataset> get_data(const std::string &key) {
+    if (!_data.count(key)) {
+      _data[key] = _factory(key);
+    }
+    return _data[key];
+  }
 
   /**
-   * @brief      Returns the recorded data.
-   *
-   * @tparam     T    The desired type.
-   *
-   * @return     A pointer to the stored data or null if data has a different
-   * type than ``T``.
+   * @private
    */
-  template <typename T>
-  const std::map<K, std::vector<T>>* get_typed_data() const {
-    return std::get_if<std::map<K, std::vector<T>>>(&_data);
-  }
+  inline static const Factory default_factory = [](const std::string &) {
+    return nullptr;
+  };
 
-  std::vector<K> get_keys() const {
-    return std::visit(
-        [](auto&& arg) {
-          std::vector<K> keys;
-          std::transform(std::begin(arg), std::end(arg), back_inserter(keys),
-                         [](auto&& item) { return item.first; });
-          return keys;
-        },
-        _data);
-  }
+  /**
+   * @brief      Constructor
+   *
+   * @private
+   *
+   * @param[in]  factory  The datasets generator
+   */
+  explicit GroupRecordProbe(Factory factory = default_factory)
+      : Probe(), _factory(factory), _data() {}
+
+  /**
+   * @brief      Sets the datasets generator.
+   *
+   * @private
+   *
+   * @param[in]  factory  The factory
+   */
+  void set_factory(Factory factory) { _factory = factory; }
 
  private:
-  Data _data;
-  std::map<unsigned, size_t> _steps;
+  Factory _factory;
+  /**
+   * The recorded data
+   */
+  std::map<std::string, std::shared_ptr<Dataset>> _data;
 };
 
 }  // namespace navground::sim
 
-#endif /* end of include guard: NAVGROUND_SIM_RECORD_H_ */
+#endif /* end of include guard: NAVGROUND_SIM_PROBE_H_ */

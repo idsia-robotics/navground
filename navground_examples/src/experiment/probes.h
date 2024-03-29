@@ -7,41 +7,67 @@
 #ifndef NAVGROUND_CORE_EXAMPLES_EXPERIMENT_CUSTOM_RECORD_H
 #define NAVGROUND_CORE_EXAMPLES_EXPERIMENT_CUSTOM_RECORD_H
 
+#include "navground/sim/experimental_run.h"
 #include "navground/sim/probe.h"
 
-// Let's record if agents are moving
-class IsMovingProbe : public navground::sim::Probe {
+// Let's just print a message if an agent is not moving
+class CheckIfMoving : public navground::sim::Probe {
  public:
   using navground::sim::Probe::Probe;
-  using navground::sim::Probe::Shape;
 
-  void update(const navground::sim::World &world) override {
-    record_step();
-    for (const auto &agent : world.get_agents()) {
-      push(!agent->twist.is_almost_zero());
+  void update(navground::sim::ExperimentalRun *run) override {
+    const auto world = run->get_world();
+    for (const auto &agent : world->get_agents()) {
+      if (agent->twist.is_almost_zero()) {
+        std::cerr << "Agent " << agent->uid << " is not moving at time "
+                  << world->get_time() << std::endl;
+      }
+    }
+  }
+};
+
+// Let's record if agents are moving
+class IsMovingProbe : public navground::sim::RecordProbe {
+ public:
+  using navground::sim::RecordProbe::RecordProbe;
+
+  using Type = uint8_t;
+
+  void update(navground::sim::ExperimentalRun *run) override {
+    for (const auto &agent : run->get_world()->get_agents()) {
+      data->push(!agent->twist.is_almost_zero());
     }
   }
 
-  Shape shape() const override {
-    return {get_steps(), get_steps() ? size() / get_steps() : 0};
+  navground::sim::Dataset::Shape get_shape(const World &world) const override {
+    return {world.get_agents().size()};
   }
 };
 
 // Let's record times when agents are not moving
-class IsMovingSparseProbe : public navground::sim::MapProbe<unsigned> {
+class IsMovingSparseProbe : public navground::sim::GroupRecordProbe {
  public:
-  using navground::sim::MapProbe<unsigned>::MapProbe;
-  using navground::sim::BaseProbe::Shape;
+  using navground::sim::GroupRecordProbe::GroupRecordProbe;
+  using navground::sim::GroupRecordProbe::ShapeMap;
 
-  void update(const navground::sim::World &world) override {
-    for (const auto &agent : world.get_agents()) {
+  using Type = ng_float_t;
+
+  void update(navground::sim::ExperimentalRun *run) override {
+    const auto world = run->get_world();
+    for (const auto &agent : world->get_agents()) {
       if (agent->twist.is_almost_zero()) {
-        push(agent->uid, world.get_time());
+        get_data(std::to_string(agent->uid))->push(world->get_time());
       }
     }
   }
 
-  Shape shape(const unsigned &key) const override { return {size(key)}; }
+  ShapeMap get_shapes(const World &world) const override {
+    ShapeMap shapes;
+    for (const auto &agent : world.get_agents()) {
+      shapes[std::to_string(agent->uid)] = {};
+    }
+    return shapes;
+  }
 };
 
 #endif  // NAVGROUND_CORE_EXAMPLES_EXPERIMENT_CUSTOM_RECORD_H

@@ -89,7 +89,7 @@ def html_for_world(world: Optional[World] = None,
                    **kwargs: Any) -> str:
     """
     Draw the world as a SVG embedded in HTML, optionally with a javascript script to keep
-    the view in sync with :py:class:``navground.sim.ui.WebUI`
+    the view in sync with :py:class:`navground.sim.ui.WebUI`
 
     :param      world:                  The world to display
     :param      world_name:             The world name used as title

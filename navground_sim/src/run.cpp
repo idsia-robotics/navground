@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
   if (should_display_tqdm) {
     tqdm bar;
     unsigned i = 0;
-    experiment.add_run_callback([&bar, &experiment, &i](ExperimentalRun &) {
+    experiment.add_run_callback([&bar, &experiment, &i](ExperimentalRun *) {
       bar.progress(++i, experiment.number_of_runs);
     });
     experiment.run(false, j);

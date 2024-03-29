@@ -187,6 +187,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/probes.html">How to record custom data in experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -259,6 +260,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/recorded_experiment.html">Recorded Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/real_time.html">Real-time simulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
 </ul>
 </li>
@@ -525,7 +527,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-1.403469
+1.458328
 </pre></div></div>
 </div>
 <p>and saves the results to an H5DF file</p>
@@ -543,7 +545,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-25/data.h5&#39;)
+PosixPath(&#39;experiment_3592762440265389050_2024-03-29_15-46-49/data.h5&#39;)
 </pre></div></div>
 </div>
 </section>
@@ -597,7 +599,7 @@ PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-25/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-1.403469584
+1.458328167
 </pre></div></div>
 </div>
 <p>The metadata contains the YAML dump of the experiment itself. This way, users can reload and potentially rerun the same experiment.</p>
@@ -670,7 +672,7 @@ PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-25/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.687362875
+0.719826666
 </pre></div></div>
 </div>
 <p>Other attributes includes the seed</p>
@@ -763,6 +765,23 @@ PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-25/data.h5&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;HDF5 dataset &#34;poses&#34;: shape (100000, 10, 3), type &#34;&lt;f8&#34;&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 
 <span class="n">ps</span> <span class="o">=</span> <span class="n">run</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">]</span>
@@ -783,13 +802,13 @@ PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-25/data.h5&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_running_an_experiment_37_0.png" src="../_images/tutorials_running_an_experiment_37_0.png" />
+<img alt="../_images/tutorials_running_an_experiment_38_0.png" src="../_images/tutorials_running_an_experiment_38_0.png" />
 </div>
 </div>
 <p>They were indeed doing a crossing pattern.</p>
 <p>Let’s plot how much the safety margin was violed.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">run</span><span class="p">[</span><span class="s1">&#39;safety_violations&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
@@ -797,7 +816,7 @@ PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-25/data.h5&#39;)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">svs</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">svs</span><span class="p">)</span>
@@ -810,12 +829,12 @@ PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-25/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Safety margin was violated 9.6% of the time
+Safety margin was violated 10.5% of the time
 </pre></div></div>
 </div>
 <p>Most violation should be small. Let’s check this by plotting their distribution.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -831,11 +850,11 @@ Safety margin was violated 9.6% of the time
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_running_an_experiment_42_0.png" src="../_images/tutorials_running_an_experiment_42_0.png" />
+<img alt="../_images/tutorials_running_an_experiment_43_0.png" src="../_images/tutorials_running_an_experiment_43_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">svs</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">)</span>
@@ -843,17 +862,17 @@ Safety margin was violated 9.6% of the time
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.17099068212525165
+0.17276807424319862
 </pre></div></div>
 </div>
 <p>We look also at event logged by the agents’ tasks.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;run_0&#39;</span><span class="p">])</span>
@@ -861,7 +880,7 @@ Safety margin was violated 9.6% of the time
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -870,7 +889,7 @@ Safety margin was violated 9.6% of the time
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;run_0&#39;</span><span class="p">][</span><span class="s1">&#39;task_events&#39;</span><span class="p">]</span>
@@ -878,7 +897,7 @@ Safety margin was violated 9.6% of the time
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
@@ -886,7 +905,7 @@ Safety margin was violated 9.6% of the time
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -896,7 +915,7 @@ Safety margin was violated 9.6% of the time
 </div>
 <p>For each agents, their <a class="reference external" href="../reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.log_size">WaypointsTask</a> tells us when it started moving towards which waypoint as a list <code class="docutils literal notranslate"><span class="pre">[time,</span> <span class="pre">target_x,</span> <span class="pre">target_y,</span> <span class="pre">target_theta]</span></code>. Let’s check the first few events for the first agent.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">task_events</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
@@ -906,7 +925,7 @@ Safety margin was violated 9.6% of the time
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -916,7 +935,7 @@ Safety margin was violated 9.6% of the time
 </div>
 <p>We collect the duration to reach waypoints, ignoring the first because agents started from radom positions.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dts</span> <span class="o">=</span> <span class="p">[]</span>
@@ -937,12 +956,12 @@ Safety margin was violated 9.6% of the time
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The time to reach a waypoint ranges betweeen 4.90 and 31.60 seconds,
-and 99% of the time between 4.90 and 16.20 seconds
+The time to reach a waypoint ranges betweeen 4.90 and 30.90 seconds,
+and 99% of the time between 4.90 and 16.80 seconds
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -958,7 +977,7 @@ and 99% of the time between 4.90 and 16.20 seconds
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_running_an_experiment_52_0.png" src="../_images/tutorials_running_an_experiment_52_0.png" />
+<img alt="../_images/tutorials_running_an_experiment_53_0.png" src="../_images/tutorials_running_an_experiment_53_0.png" />
 </div>
 </div>
 </section>
@@ -967,7 +986,7 @@ and 99% of the time between 4.90 and 16.20 seconds
 <p>We can distribute the execution of an experiment over multiple threads or multiple processes. See the <a class="reference external" href="../guides/parallelize.html">guide on how to parallelize</a> for more information.</p>
 <p>Let’s run a larger experiment (20 vs 2 runs) but using 4 processes instead of 1. We will also display the progresses using tqdm.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
@@ -990,19 +1009,19 @@ and 99% of the time between 4.90 and 16.20 seconds
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "af2d13184c714804a4ce8f4b2c0b53e3", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "85474ae8aa884a6e913b15358cb8d9a5", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Performed 20 runs in 5.777927 seconds over 4 processes
+Performed 20 runs in 5.818115 seconds over 4 processes
 </pre></div></div>
 </div>
 <p>As before, the results are stored in <code class="docutils literal notranslate"><span class="pre">experiment.path</span></code></p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span>
@@ -1010,17 +1029,17 @@ Performed 20 runs in 5.777927 seconds over 4 processes
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-43/data.h5&#39;)
+PosixPath(&#39;experiment_3592762440265389050_2024-03-29_15-48-07/data.h5&#39;)
 </pre></div></div>
 </div>
 <p>We find other HDF5 files stored alongside:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.h5&quot;</span><span class="p">)])</span>
@@ -1028,7 +1047,7 @@ PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-43/data.h5&#39;)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1038,7 +1057,7 @@ PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-43/data.h5&#39;)
 </div>
 <p>In fact, by parallelizing 20 runs over 4 processes, we have effectively split the experiment in 4 sub-experiments of 5 runs each:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span> <span class="s1">&#39;data_0.h5&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -1056,7 +1075,7 @@ PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-43/data.h5&#39;)
 </div>
 <p>The main file <code class="docutils literal notranslate"><span class="pre">data.h5</span></code> contains runs <em>linked</em> to these files</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -1074,7 +1093,7 @@ PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-43/data.h5&#39;)
 </div>
 <p>which we can access as usual, for example to compute the overall statistics of safety violations:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -1084,7 +1103,7 @@ PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-43/data.h5&#39;)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">svs</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">svs</span><span class="p">)</span>
@@ -1097,11 +1116,11 @@ PosixPath(&#39;experiment_10801787869281603690_2023-12-22_19-51-43/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Safety margin was violated 9.7% of the time
+Safety margin was violated 9.8% of the time
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -1117,7 +1136,7 @@ Safety margin was violated 9.7% of the time
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_running_an_experiment_66_0.png" src="../_images/tutorials_running_an_experiment_66_0.png" />
+<img alt="../_images/tutorials_running_an_experiment_67_0.png" src="../_images/tutorials_running_an_experiment_67_0.png" />
 </div>
 </div>
 </section>

@@ -184,6 +184,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/probes.html">How to record custom data in experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -256,6 +257,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/recorded_experiment.html">Recorded Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/real_time.html">Real-time simulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
 </ul>
 </li>
@@ -432,6 +434,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executables">Executables</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#info">info</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
 </li>
@@ -491,6 +494,20 @@ document.write(`
 <h3>info<a class="headerlink" href="#info" title="Link to this heading">#</a></h3>
 <p>Lists registered components (behaviors and kinematics).
 It is equivalent to the <a class="reference internal" href="navground_core.html#info"><span class="std std-ref">C++ version</span></a> but with additional components implemented in Python.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behavior</span> <span class="p">[</span><span class="n">BEHAVIOR</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span>
+</pre></div>
+</div>
+<section id="named-arguments">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments" title="Link to this heading">#</a></h4>
+<dl class="option-list">
+<dt><kbd>--behavior</kbd></dt>
+<dd><p>selects behaviors</p>
+</dd>
+<dt><kbd>--kinematics</kbd></dt>
+<dd><p>selects kinematics</p>
+</dd>
+</dl>
+</section>
 <section id="example">
 <h4>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h4>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>info
@@ -584,6 +601,7 @@ It is equivalent to the <a class="reference internal" href="navground_core.html#
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executables">Executables</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#info">info</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
 </li>

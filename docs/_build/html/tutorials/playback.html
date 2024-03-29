@@ -187,6 +187,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/probes.html">How to record custom data in experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -259,6 +260,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/recorded_experiment.html">Recorded Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/real_time.html">Real-time simulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
 </ul>
 </li>
@@ -505,7 +507,7 @@ document.write(`
 </pre></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
@@ -598,287 +600,263 @@ document.write(`
   <!--  -->
   <title></title>
 
-  <style>
-  svg{
-  style='stroke-width: 0px;
-  background-color: snow;
-}
-.background{
-  fill-opacity:0.05;
-  fill: grey;
-}
-circle.obstacle{
-  fill: gray;
-  stroke:none;
-}
-.agent{
-  stroke:none;
-  fill: orange;
-}
-polyline.wall{
-  stroke:black;
-  stroke-width:0.01;
-}
-
-.body {
-    fill: inherit;
-}
-
-
-
-  </style>
 
 
   <script type='text/javascript'>
-  var svg;
-var svg_world;
+    var NS = "http://www.w3.org/2000/svg";
 
-
-
-// require.config({
-//   paths: {
-//     'svg-pan-zoom': 'https://cdnjs.cloudflare.com/ajax/libs/svg.pan-zoom.js/2.7.0/svg.pan-zoom.min.js'
-//   }
-// })
-
-// require(["svg-pan-zoom"], function(svgPanZoom) {
-//   window.svgPanZoom = svgPanZoom('#N0svg', {
-//     panEnabled: true,
-//     controlIconsEnabled: true,
-//     zoomEnabled: true,
-//     fit: true,
-//     maxZoom: 200,
-//     minZoom: 0.1
-//   });
-//   svg = document.getElementsByClassName("svg-pan-zoom_viewport")[0];
-//   svg_world = document.getElementById("N0world");
-// });
-
-
-
-
-
-
-
-var ws_address = "ws://127.0.0.1:8000/"
-var ws = new WebSocket(ws_address);
-
-ws.onopen = function(event) {
-  console.log('N0 Opened Web socket ' + ws_address)
-};
-
-ws.onmessage = function(event) {
-  var [type, data] = JSON.parse(event.data)
-  switch (type) {
-    case 'm':
-      move(data)
-      break;
-    case 'r':
-      reset(data)
-      break;
-    case 's':
-      set(data)
-      break;
-    case 'v':
-      view(data)
-      break;
-    case '+':
-      add(data)
-      break;
-    default:
-      break
+class WebUIClient {
+  constructor(port='8000', prefix='', display_shape=false) {
+    this.agents = new Set();
+    this.entity = {};
+    this.prefix = prefix;
+    this.port = port;
+    this.display_shape = display_shape;
+    this.prototypes = {
+      '': `${prefix}agent`,
+      'thymio': `${prefix}thymio`,
+      'wheelchair': `${prefix}wheelchair`,
+      'human': `${prefix}human`
+    };
   }
-}
 
+  connect() {
+    var client = this;
+    var ws_address = `ws://127.0.0.1:${this.port}/`
+    console.log(`[${this.prefix}] Try to connect to ${ws_address}`)
+    var ws = new WebSocket(ws_address);
+    ws.onopen = function(event) {
+      console.log(`[${client.prefix}] Opened Web socket ${ws_address}`)
+      client.ws = ws;
+    };
 
-var agents = new Set();
-var entity = {};
-var NS = "http://www.w3.org/2000/svg";
-var prototypes = {'': '#N0agent', 'thymio': '#N0thymio', 'wheelchair': '#N0wheelchair', 'human': '#N0human'}
-var colors = {'': '#cccccc', 'thymio': '#e6e6e6', 'wheelchair': '#wheelchair', 'human': '#human'}
+    ws.onmessage = function(event) {
+      var [type, data] = JSON.parse(event.data)
+      switch (type) {
+        case 'm':
+          client.move(data)
+          break;
+        case 'r':
+          client.reset(data)
+          break;
+        case 's':
+          client.set(data)
+          break;
+        case 'v':
+          client.view(data)
+          break;
+        case '+':
+          client.add(data)
+          break;
+        default:
+          break
+      }
+    }
 
-function add_wall(id, points) {
-  var e = document.createElementNS(NS,"polyline");
-  var ps = []
-  for (var i in points) {
-     ps.push(`${points[i][0]},${points[i][1]}`)
+    ws.onclose = function(e) {
+      console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+      client.ws = null;
+      setTimeout(function(){client.connect();}, 1000);
+    };
+
+    ws.onerror = function(err) {
+      console.log('Socket encountered error ... closing socket');
+      ws.close();
+    };
   }
-  e.setAttribute("points", ps.join())
-  e.setAttribute("class", "wall");
-  e.setAttribute("id", id);
-  return e
-}
 
-function add_obstacle(id, point, radius) {
-  var e = document.createElementNS(NS,"circle");
-  e.setAttribute("cx", `${point[0]}`)
-  e.setAttribute("cy", `${point[1]}`)
-  e.setAttribute("r", `${radius}`)
-  e.setAttribute("class", "obstacle");
-  e.setAttribute("id", id);
-  return e
-}
+  add_wall(id, points) {
+    var e = document.createElementNS(NS,"polyline");
+    var ps = []
+    for (var i in points) {
+       ps.push(`${points[i][0]},${points[i][1]}`)
+    }
+    e.setAttribute("points", ps.join())
+    e.setAttribute("class", "wall");
+    e.setAttribute("id", id);
+    return e
+  }
 
-function color_for_agent(type, color)
-{
-  if (color) {
-    return color;
+  add_obstacle(id, point, radius) {
+    var e = document.createElementNS(NS,"circle");
+    e.setAttribute("cx", `${point[0]}`)
+    e.setAttribute("cy", `${point[1]}`)
+    e.setAttribute("r", `${radius}`)
+    e.setAttribute("class", "obstacle");
+    e.setAttribute("id", id);
+    return e
   }
-  return colors[type] || "#cccccc";
-}
 
-function add_agent(id, type, size, color)
-{
-  var g = document.createElementNS(NS,"g");
-  var agent = document.createElementNS(NS,"use");
-  var uid = prototypes[type] || '#N0agent';
-  agent.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", uid);
-  agent.setAttribute("transform", `scale(${size}, ${size})`)
-  g.appendChild(agent)
-  g.setAttribute("class", type);
-  g.setAttribute("id", id);
-  g.setAttribute("fill", color_for_agent(type, color))
-  return g;
-};
+  add_agent(id, type, size, color)
+  {
+    var g = document.createElementNS(NS,"g");
+    var agent = document.createElementNS(NS,"use");
+    var uid = this.prototypes[type] || `${this.prefix}agent`;
+    agent.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "#" + uid);
+    agent.setAttribute("transform", `scale(${size}, ${size})`)
+    g.appendChild(agent)
+    g.setAttribute("class", type);
+    g.setAttribute("id", id);
+    if (color) {
+      g.setAttribute("style", `fill: ${color}`);
+    }
+    if (this.display_shape) {
+      var shape = document.createElementNS(NS,"circle");
+      shape.setAttribute("r", size);
+      shape.setAttribute("class", "shape");
+      g.appendChild(shape);
+    }
+    return g;
+  };
 
-function add_entity(uid, data) {
-  var id = "N0" + uid
-  if (id in entity) {
-    console.warn(`Entity ${id} already present`)
-    return;
-  }
-  var kind = data['kind'];
-  var svg_world = document.getElementById("N0world");
-  var e = document.getElementById(id);
-  if (e) {
-    svg_world.removeChild(e);
-    e = null;
-  }
-  var state = null;
-  switch (kind) {
-    case 'w':
-      e = add_wall(id, data['points']);
-      break;
-    case 'o':
-      e = add_obstacle(id, data['point'], data['radius']);
-      break;
-    case 'a':
-      e = add_agent(id, data['type'], data['size'], data['color']);
-      state = data['pose']
-      var [x, y, theta] = state;
-      move_element(e, x, y, theta);
-      agents.add(id);
-      break;
-    default:
-      break
-  }
-  if (e) {
-    svg_world.appendChild(e);
-    entity[id] = {'svg': e, 'updated': true, 'state': state};
-  }
-};
+  add_entity(uid, data) {
+    var id = this.prefix + uid
+    if (id in this.entity) {
+      console.warn(`Entity ${id} already present`)
+      return;
+    }
+    var kind = data['kind'];
+    var svg_world = document.getElementById(this.prefix + "world");
+    if (!svg_world) return;
+    var e = document.getElementById(id);
+    if (e) {
+      svg_world.removeChild(e);
+      e = null;
+    }
+    var state = null;
+    switch (kind) {
+      case 'w':
+        e = this.add_wall(id, data['points']);
+        break;
+      case 'o':
+        e = this.add_obstacle(id, data['point'], data['radius']);
+        break;
+      case 'a':
+        e = this.add_agent(id, data['type'], data['size'], data['color']);
+        state = data['pose']
+        var [x, y, theta] = state;
+        this.move_element(e, x, y, theta);
+        this.agents.add(id);
+        break;
+      default:
+        break
+    }
+    if (e) {
+      svg_world.appendChild(e);
+      this.entity[id] = {'svg': e, 'updated': true, 'state': state};
+    }
+  };
 
-function add(data) {
-  for (var _id in data) {
-    add_entity(_id, data[_id])
-  }
-  window.requestAnimationFrame(update);
-};
+  add(data) {
+    for (var _id in data) {
+      this.add_entity(_id, data[_id])
+    }
+    window.requestAnimationFrame(this.update.bind(this));
+  };
 
-function set_entity(_id, data) {
-  if(!(_id in entity)) {
-    console.warn(`Entity ${_id} unknown`)
-    return;
-  }
-  for (a in data) {
-    entity[_id]['svg'].setAttribute(a, data[a])
-  }
-};
+  set_entity(_id, data) {
+    if(!(_id in this.entity)) {
+      console.warn(`Entity ${_id} unknown`)
+      return;
+    }
+    for (var a in data) {
+      this.entity[_id]['svg'].setAttribute(a, data[a])
+    }
+  };
 
-function set(data) {
-  for (var _id in data) {
-    var _nid = 'N0' + _id
-    if (_nid in entity) {
-      set_entity(_nid, data[_id])
-    } else {
-      var e = document.getElementById(_nid);
-      if (e) {
-        var e_data = data[_id];
-        for (a in e_data) {
-          console.log(`setting attributes ${a} of ${e} to ${e_data[a]}`)
-          e.setAttribute(a, e_data[a]);
+  set(data) {
+    for (var _id in data) {
+      var _nid = this.prefix + _id
+      if (_nid in this.entity) {
+        this.set_entity(_nid, data[_id])
+      } else {
+        var e = document.getElementById(_nid);
+        if (e) {
+          var e_data = data[_id];
+          for (var a in e_data) {
+            console.log(`Setting attributes ${a} of ${e} to ${e_data[a]}`)
+            e.setAttribute(a, e_data[a]);
+          }
         }
       }
     }
-  }
-  window.requestAnimationFrame(update);
-};
+    window.requestAnimationFrame(this.update.bind(this));
+  };
 
-function move_entity(_id, data) {
-  if(!agents.has(_id)) {
-    console.warn(`Agent ${_id} unknown`)
-    return;
-  }
-  var [x, y, theta] = data;
-  entity[_id]['state'] = [x, y, theta]
-  entity[_id]['updated'] = true
-};
-
-function move(data) {
-  for (var _id in data) {
-    move_entity('N0' + _id, data[_id])
-  }
-  window.requestAnimationFrame(update);
-};
-
-function reset() {
-  var svg_world = document.getElementById("N0world");
-  for (var _id in entity) {
-    svg_world.removeChild(entity[_id]['svg'])
-  }
-  console.log("reset")
-  entity = {}
-  agents.clear()
-  window.requestAnimationFrame(update);
-};
-
-function view(data) {
-  var [x, y, width, height] = data;
-  var svg = document.getElementById("N0svg");
-  svg.setAttribute("viewBox", `${x} ${y} ${width} ${height}`)
-  window.requestAnimationFrame(update);
-};
-
-function update(step) {
-  var ids_to_be_removed = []
-  for (var id of agents) {
-    // if (!entity[id]['updated']) {
-    //   ids_to_be_removed.push(id)
-    // }
-    if (entity[id]['updated']) {
-      var [x, y, theta] = entity[id]['state']
-      move_element(entity[id]['svg'], x, y, theta)
-      entity[id]['updated'] = false;
+  move_entity(_id, data) {
+    if(!this.agents.has(_id)) {
+      console.warn(`Agent ${_id} unknown`)
+      return;
     }
-  }
-  // for (var _id of ids_to_be_removed) {
-  //   remove_entity(_id);
-  // }
-};
+    var [x, y, theta] = data;
+    this.entity[_id]['state'] = [x, y, theta]
+    this.entity[_id]['updated'] = true
+  };
 
-function remove_entity(_id) {
-    var svg_world = document.getElementById("N0world");
-    console.log(`remove ${_id}`)
-    svg_world.removeChild(entity[_id]['svg'])
-    agents.delete(_id);
-    delete entity[_id];
+  move(data) {
+    for (var _id in data) {
+      this.move_entity(this.prefix + _id, data[_id])
+    }
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  reset() {
+    var svg_world = document.getElementById(this.prefix + "world");
+    if (!svg_world) return;
+    for (var _id in this.entity) {
+      svg_world.removeChild(this.entity[_id]['svg'])
+    }
+    console.log(`[${this.prefix}] reset`)
+    this.entity = {}
+    this.agents.clear()
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  view(data) {
+    var [x, y, width, height] = data;
+    var svg = document.getElementById(this.prefix + "svg");
+    if (!svg) return;
+    svg.setAttribute("viewBox", `${x} ${y} ${width} ${height}`)
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  update(step) {
+    var ids_to_be_removed = []
+    for (var id of this.agents) {
+      // if (!entity[id]['updated']) {
+      //   ids_to_be_removed.push(id)
+      // }
+      if (this.entity[id]['updated']) {
+        var [x, y, theta] = this.entity[id]['state']
+        this.move_element(this.entity[id]['svg'], x, y, theta)
+        this.entity[id]['updated'] = false;
+      }
+    }
+    // for (var _id of ids_to_be_removed) {
+    //   remove_entity(_id);
+    // }
+  };
+
+  remove_entity(_id) {
+      var svg_world = document.getElementById(this.prefix + "world");
+      if (!svg_world) return;
+      console.log(`remove ${_id}`)
+      svg_world.removeChild(this.entity[_id]['svg'])
+      this.agents.delete(_id);
+      delete this.entity[_id];
+  }
+
+  move_element(g, x, y, angle) {
+    var t = `translate(${x},${y}) rotate(${angle * 180 / 3.14159})`
+    g.setAttribute("transform", t)
+  };
 }
 
-function move_element(g, x, y, angle) {
-  var t = `translate(${x},${y}) rotate(${angle * 180 / 3.14159})`
-  g.setAttribute("transform", t)
-};
+  </script>
 
+  <script type='text/javascript'>
+    var N0client = new WebUIClient(8000, "N0", false)
+    N0client.connect();
   </script>
 
 
@@ -887,97 +865,145 @@ function move_element(g, x, y, angle) {
   <div>
     <h1></h1>
   </div>
-  <svg id="N0svg" width="250" height="250" viewBox="0 0 1 1 ">
-    <defs>
-        <circle id="N0agent" cx="0" cy="0" r="1" class="body"/>
-        <g id="N0thymio" transform="rotate(90) scale(0.125)">
-            <path
-               class="body"
-               fill="#e6e6e6"
-               stroke="none"
-               d="M -5.4999227 -5.8058472 L -5.4999227 2.9998169 L 5.4999227 2.9998169 L 5.4999227     -5.8089478 A 8 8 0 0 0 0 -8.0000285 A 8 8 0 0 0 -5.4999227 -5.8058472 z " />
-            <rect
-               style="fill:#333333;stroke:none"
-               width="1.5"
-               height="4.1999998"
-               x="-5.4000001"
-               y="-2.0999999"
-               rx="0.5" />
-            <rect
-               style="fill:#333333;stroke:none"
-               id="rect441"
-               width="1.5"
-               height="4.1999998"
-               x="3.9000001"
-               y="-2.0999999"
-               rx="0.5" />
-        </g>
-<g id="N0wheelchair" transform="scale(0.02) rotate(180) translate(-55,-173)" >
-      <path
-         class="body"
-         id="path7"
-         style="fill:#c8beb7;stroke:none;stroke-width:214.829"
-         d="m 48.06149,189.83177 h -38.89 v -33.33 h 38.89 z"
-         inkscape:transform-center-x="53.187398"
-         inkscape:transform-center-y="-39.069755" />
-      <path
-         style="color:#000000;fill:#080808;stroke:none;-inkscape-stroke:none"
-         d="m 81.382974,148.5266 v -4.11718 -4.21485 H 53.61149 v 8.33203 z"
-         id="path8" />
-      <path
-         style="color:#000000;fill:#080808;stroke:none;-inkscape-stroke:none"
-         d="m 81.382974,204.0666 v -4.11718 -4.21485 H 53.61149 v 8.33203 z"
-         id="path9" />
-      <path
-         class="body"
-         id="path10"
-         style="fill:#483e37;stroke:none;stroke-width:314.501"
-         d="m 92.497232,199.91402 h -50 v -55.55999 h 50 z" />
-      <path
-         style="color:#000000;fill:#917c6f;stroke:none;-inkscape-stroke:none"
-         d="m 92.497232,199.91332 v -2.77148 -52.78711 h -5.558593 v 55.55859 z"
-         id="path11" />
-    </g>
-    <g id="N0human" transform="scale(0.02) rotate(180) translate(-50,-175)">
+
+<svg id="N0svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="250" height="250" viewBox="0.00 0.00 1.00 1.00">
+<defs>
+  <g id="N0agent" r="1">
+    <circle class="body" cx="0" cy="0" r="1"/>
+    <circle opacity="0.5" fill="black" cx="0.75" cy="0" r="0.25"/>
+  </g>
+  <g id="N0thymio" transform="rotate(90) scale(0.125)">
+      <path class="body"
+         stroke="none"
+         d="M -5.4999227 -5.8058472 L -5.4999227 2.9998169 L 5.4999227 2.9998169 L 5.4999227     -5.8089478 A 8 8 0 0 0 0 -8.0000285 A 8 8 0 0 0 -5.4999227 -5.8058472 z " />
+      <rect
+         style="fill:#333333;stroke:none"
+         width="1.5"
+         height="4.1999998"
+         x="-5.4000001"
+         y="-2.0999999"
+         rx="0.5" />
+      <rect
+         style="fill:#333333;stroke:none"
+         id="rect441"
+         width="1.5"
+         height="4.1999998"
+         x="3.9000001"
+         y="-2.0999999"
+         rx="0.5" />
+  </g>
+  <g id="N0wheelchair" transform="scale(0.02) rotate(180) translate(-55,-173)">
+    <path
+       stroke="none"
+       style="fill:#c8beb7"
+       d="m 48.06149,189.83177 h -38.89 v -33.33 h 38.89 z"/>
+    <path
+       stroke="none"
+       style="fill:#080808;"
+       d="m 81.382974,148.5266 v -4.11718 -4.21485 H 53.61149 v 8.33203 z"/>
+    <path
+       stroke="none"
+       style="fill:#080808;"
+       d="m 81.382974,204.0666 v -4.11718 -4.21485 H 53.61149 v 8.33203 z"/>
+    <path
+       stroke="none"
+       class="body"
+       d="m 92.497232,199.91402 h -50 v -55.55999 h 50 z" />
+    <path
+       stroke="none"
+       style="fill:#917c6f"
+       d="m 92.497232,199.91332 v -2.77148 -52.78711 h -5.558593 v 55.55859 z"/>
+  </g>
+  <g id="N0human" transform="scale(0.02) rotate(180) translate(-50,-175)">
+    <g class="body" stroke="none">
     <ellipse
-       style="fill:#666666;fill-opacity:1;stroke:none;stroke-width:0.605428;stroke-dasharray:none"
-       id="circle11"
        cx="54.378712"
        cy="172.97321"
        rx="19.763088"
        ry="43.396534" />
+
     <ellipse
-       style="fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.34029;stroke-dasharray:none"
-       id="ellipse11"
-       cx="54.378712"
-       cy="172.90125"
-       rx="16.28758"
-       ry="16.635132" />
-    <ellipse
-       style="fill:#666666;fill-opacity:1;stroke:none;stroke-width:0.262666;stroke-dasharray:none"
-       id="ellipse12"
        cx="40.156387"
        cy="134.79787"
        rx="23.189381"
        ry="6.961535" />
     <ellipse
-       style="fill:#666666;fill-opacity:1;stroke:none;stroke-width:0.262666;stroke-dasharray:none"
-       id="ellipse13"
        cx="40.156387"
        cy="211.14854"
        rx="23.189381"
        ry="6.961535" />
     </g>
-    </defs>
-    <g id='N0world' transform="scale(1, -1)">
+    <ellipse
+       style="fill:#1a1a1a;opacity:0.5"
+       cx="54.378712"
+       cy="172.90125"
+       rx="16.28758"
+       ry="16.635132" />
+  </g>
+</defs>
+<style>
+<![CDATA[
 
-    </g>
-  </svg>
+svg{
+  style='stroke-width: 0px;
+}
+
+circle.obstacle{
+  fill: gray;
+  stroke:none;
+}
+polyline.wall{
+  stroke:black;
+  stroke-width:0.01;
+}
+
+.shape {
+  fill: none;
+  stroke: black;
+  stroke-width: 0.01;
+  stroke-dasharray: 0.01;
+}
+
+.thymio {
+  fill: #e6e6e6;
+}
+
+.human {
+  fill: #666666;
+}
+
+.agent {
+  fill: gray;
+}
+
+.wheelchair {
+  fill: #483e37;
+}
+
+.body {
+/*    all: inherit;*/
+}
+
+
+
+
+
+
+svg {
+   background-color: snow;
+}
+
+]]>
+</style>
+<g id="N0world" transform='scale(1, -1)'>
+
+</g>
+</svg>
 </body>
 </html></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rt_sim</span> <span class="o">=</span> <span class="n">RealTimeReplay</span><span class="p">(</span><span class="n">run</span><span class="o">=</span><span class="n">run</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">web_ui</span><span class="o">=</span><span class="n">web_ui</span><span class="p">)</span>
@@ -987,7 +1013,7 @@ function move_element(g, x, y, angle) {
 </div>
 <p>We can also jump to a step. Let’s go to when the agents is nearest to the obstacles:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1001,7 +1027,7 @@ function move_element(g, x, y, angle) {
 </div>
 <p>The view will then display an image similar to</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
@@ -1010,7 +1036,7 @@ function move_element(g, x, y, angle) {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1020,7 +1046,7 @@ function move_element(g, x, y, angle) {
 <p>We could also do something more interesting, like changing some parameters and executing a new simulation to compare the resulting trajectories.</p>
 <p>For instance, let us increase the safety margin of the agent</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">agent</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -1030,7 +1056,7 @@ function move_element(g, x, y, angle) {
 </div>
 <p>Then we perform a simulation until the end of the run, recording the new trajectory</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_ps</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1045,7 +1071,7 @@ function move_element(g, x, y, angle) {
 </div>
 <p>We plot in blue the original recorded trajecotory (with safery margin 0) and in red the new portion of trajecotry (with safety margin 0.25)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>

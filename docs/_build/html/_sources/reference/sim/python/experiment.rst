@@ -2,6 +2,13 @@
 Experiments
 ===========
 
+Datasets
+========
+
+.. autoclass:: navground.sim.Dataset
+    :members:
+    :exclude-members: __new__, __init__
+
 Probes
 ======
 
@@ -9,7 +16,11 @@ Probes
     :members:
     :exclude-members: __new__, __init__
 
-.. autoclass:: navground.sim.MapProbe
+.. autoclass:: navground.sim.RecordProbe
+    :members:
+    :exclude-members: __new__, __init__
+
+.. autoclass:: navground.sim.GroupRecordProbe
     :members:
     :exclude-members: __new__, __init__
 

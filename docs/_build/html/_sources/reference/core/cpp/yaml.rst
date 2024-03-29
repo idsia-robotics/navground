@@ -1,4 +1,4 @@
-.. _core cpp yaml:
+.. _core cpp_yaml:
 
 ====
 YAML

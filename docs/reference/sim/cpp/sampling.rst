@@ -9,11 +9,6 @@ Samplers
    
    #include "navground/sim/sampling/sampler.h"
 
-.. doxygenfunction:: navground::sim::set_random_seed
-
-.. doxygenfunction:: navground::sim::get_random_seed
-
-.. doxygenfunction:: navground::sim::random_generator
 
 Base class
 ----------

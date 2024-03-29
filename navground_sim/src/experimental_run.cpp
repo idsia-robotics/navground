@@ -27,180 +27,187 @@ static void store_attribute(T value, const std::string &name,
   group.createAttribute<T>(name, HighFive::DataSpace::From(value)).write(value);
 }
 
-class TimeProbe : public Probe {
+class TimeProbe : public RecordProbe {
  public:
-  using Probe::Probe;
+  using RecordProbe::RecordProbe;
+  using Type = ng_float_t;
 
-  void update(const World &world) override {
-    record_step();
-    push(world.get_time());
+  void update(ExperimentalRun *run) override {
+    data->push(run->get_world()->get_time());
   }
 
-  Shape shape() const override { return {size()}; }
+  Dataset::Shape get_shape(const World &world) const override { return {}; }
 };
 
-class PoseProbe : public Probe {
+class PoseProbe : public RecordProbe {
  public:
-  using Probe::Probe;
+  using RecordProbe::RecordProbe;
+  using Type = ng_float_t;
 
-  void update(const World &world) override {
-    record_step();
-    for (const auto &agent : world.get_agents()) {
+  void update(ExperimentalRun *run) override {
+    for (const auto &agent : run->get_world()->get_agents()) {
       const auto pose = agent->pose;
-      push(pose.position[0]);
-      push(pose.position[1]);
-      push(pose.orientation);
+      data->push(pose.position[0]);
+      data->push(pose.position[1]);
+      data->push(pose.orientation);
     }
   }
 
-  Shape shape() const override {
-    return {get_steps(), get_steps() ? size() / get_steps() / 3 : 0, 3};
+  Dataset::Shape get_shape(const World &world) const override {
+    return {world.get_agents().size(), 3};
   }
 };
 
-class TwistProbe : public Probe {
+class TwistProbe : public RecordProbe {
  public:
-  using Probe::Probe;
+  using RecordProbe::RecordProbe;
+  using Type = ng_float_t;
 
-  void update(const World &world) override {
-    record_step();
-    for (const auto &agent : world.get_agents()) {
+  void update(ExperimentalRun *run) override {
+    for (const auto &agent : run->get_world()->get_agents()) {
       const auto twist = agent->twist;
-      push(twist.velocity[0]);
-      push(twist.velocity[1]);
-      push(twist.angular_speed);
+      data->push(twist.velocity[0]);
+      data->push(twist.velocity[1]);
+      data->push(twist.angular_speed);
     }
   }
 
-  Shape shape() const override {
-    return {get_steps(), get_steps() ? size() / get_steps() / 3 : 0, 3};
+  Dataset::Shape get_shape(const World &world) const override {
+    return {world.get_agents().size(), 3};
   }
 };
 
-class CmdProbe : public Probe {
+class CmdProbe : public RecordProbe {
  public:
-  using Probe::Probe;
+  using RecordProbe::RecordProbe;
+  using Type = ng_float_t;
 
-  void update(const World &world) override {
-    record_step();
-    for (const auto &agent : world.get_agents()) {
+  void update(ExperimentalRun *run) override {
+    for (const auto &agent : run->get_world()->get_agents()) {
       const auto twist = agent->last_cmd;
-      push(twist.velocity[0]);
-      push(twist.velocity[1]);
-      push(twist.angular_speed);
+      data->push(twist.velocity[0]);
+      data->push(twist.velocity[1]);
+      data->push(twist.angular_speed);
     }
   }
 
-  Shape shape() const override {
-    return {get_steps(), get_steps() ? size() / get_steps() / 3 : 0, 3};
+  Dataset::Shape get_shape(const World &world) const override {
+    return {world.get_agents().size(), 3};
   }
 };
 
-class TargetProbe : public Probe {
+class TargetProbe : public RecordProbe {
  public:
-  using Probe::Probe;
+  using RecordProbe::RecordProbe;
+  using Type = ng_float_t;
 
-  void update(const World &world) override {
-    record_step();
-    for (const auto &agent : world.get_agents()) {
+  void update(ExperimentalRun *run) override {
+    for (const auto &agent : run->get_world()->get_agents()) {
       if (auto b = agent->get_behavior()) {
         const auto target = b->get_target();
         const auto position = target.position.value_or(Vector2::Zero());
-        push(position[0]);
-        push(position[1]);
-        push(target.orientation.value_or(0.0));
+        data->push(position[0]);
+        data->push(position[1]);
+        data->push(target.orientation.value_or(0.0));
       } else {
-        push(0);
-        push(0);
-        push(0);
+        data->push(0);
+        data->push(0);
+        data->push(0);
       }
     }
   }
 
-  Shape shape() const override {
-    return {get_steps(), get_steps() ? size() / get_steps() / 3 : 0, 3};
+  Dataset::Shape get_shape(const World &world) const override {
+    return {world.get_agents().size(), 3};
   }
 };
 
-class SafetyViolationProbe : public Probe {
+class SafetyViolationProbe : public RecordProbe {
  public:
-  using Probe::Probe;
+  using RecordProbe::RecordProbe;
+  using Type = ng_float_t;
 
-  void update(const World &world) override {
-    record_step();
-    for (const auto &agent : world.get_agents()) {
-      push(world.compute_safety_violation(agent.get()));
+  void update(ExperimentalRun *run) override {
+    const auto world = run->get_world();
+    for (const auto &agent : world->get_agents()) {
+      data->push(world->compute_safety_violation(agent.get()));
     }
   }
 
-  Shape shape() const override {
-    return {get_steps(), get_steps() ? size() / get_steps() : 0};
+  Dataset::Shape get_shape(const World &world) const override {
+    return {world.get_agents().size()};
   }
 };
 
-class CollisionProbe : public Probe {
+class CollisionProbe : public RecordProbe {
  public:
-  using Probe::Probe;
+  using RecordProbe::RecordProbe;
+  using Type = unsigned;
 
-  void update(const World &world) override {
-    for (const auto &[e1, e2] : world.get_collisions()) {
-      push(world.get_step());
-      push(e1->uid);
-      push(e2->uid);
+  void update(ExperimentalRun *run) override {
+    const auto world = run->get_world();
+    for (const auto &[e1, e2] : world->get_collisions()) {
+      data->push(world->get_step());
+      data->push(e1->uid);
+      data->push(e2->uid);
     }
   }
 
-  Shape shape() const override { return {size() / 3, 3}; }
+  Dataset::Shape get_shape(const World &world) const override { return {3}; }
 };
 
-class DeadlockProbe : public Probe {
+class DeadlockProbe : public RecordProbe {
  public:
-  using Probe::Probe;
+  using RecordProbe::RecordProbe;
+  using Type = ng_float_t;
 
-  void finalize(const World &world, unsigned) override {
-    for (const auto &agent : world.get_agents()) {
-      push(agent->get_time_since_stuck());
+  void finalize(ExperimentalRun *run) override {
+    for (const auto &agent : run->get_world()->get_agents()) {
+      data->push(agent->get_time_since_stuck());
     }
   }
 
-  Shape shape() const override { return {size()}; }
+  Dataset::Shape get_shape(const World &world) const override {
+    return {world.get_agents().size()};
+  }
 };
 
-class EfficacyProbe : public Probe {
+class EfficacyProbe : public RecordProbe {
  public:
-  using Probe::Probe;
+  using RecordProbe::RecordProbe;
+  using Type = ng_float_t;
 
-  void update(const World &world) override {
-    record_step();
-    for (const auto &agent : world.get_agents()) {
+  void update(ExperimentalRun *run) override {
+    for (const auto &agent : run->get_world()->get_agents()) {
       const auto b = agent->get_behavior();
-      push(b ? b->get_efficacy() : 1);
+      data->push(b ? b->get_efficacy() : 1);
     }
   }
 
-  Shape shape() const override {
-    return {get_steps(), get_steps() ? size() / get_steps() : 0};
+  Dataset::Shape get_shape(const World &world) const override {
+    return {world.get_agents().size()};
   }
 };
 
-class TaskEventsProbe : public MapProbe<unsigned> {
+class TaskEventsProbe : public GroupRecordProbe {
  public:
-  using MapProbe::KeyType;
-  using MapProbe<unsigned>::MapProbe;
+  using GroupRecordProbe::GroupRecordProbe;
+  using Type = ng_float_t;
 
-  void prepare(const World &world, unsigned) override {
-    for (const auto &agent : world.get_agents()) {
+  void prepare(ExperimentalRun *run) override {
+    GroupRecordProbe::prepare(run);
+    for (const auto &agent : run->get_world()->get_agents()) {
       if (Task *task = agent->get_task()) {
         task->add_callback([this, &agent](const std::vector<ng_float_t> &data) {
-          append(agent->uid, data);
-          record_step(agent->uid);
+          auto ds = get_data(std::to_string(agent->uid));
+          ds->append(data);
         });
       }
     }
   }
 
-  void finalize(const World &world, unsigned) override {
-    for (const auto &agent : world.get_agents()) {
+  void finalize(ExperimentalRun *run) override {
+    for (const auto &agent : run->get_world()->get_agents()) {
       if (Task *task = agent->get_task()) {
         // TODO(Jerome): should remove just the callback we added.
         task->clear_callbacks();
@@ -208,9 +215,15 @@ class TaskEventsProbe : public MapProbe<unsigned> {
     }
   }
 
-  Shape shape(const unsigned &key) const override {
-    unsigned steps = get_steps(key);
-    return {steps, steps ? size(key) / steps : 0};
+  std::map<std::string, Dataset::Shape> get_shapes(
+      const World &world) const override {
+    std::map<std::string, Dataset::Shape> shapes;
+    for (const auto &agent : world.get_agents()) {
+      if (Task *task = agent->get_task()) {
+        shapes[std::to_string(agent->uid)] = {task->get_log_size()};
+      }
+    }
+    return shapes;
   }
 };
 
@@ -222,37 +235,37 @@ void ExperimentalRun::prepare() {
     _indices[agents[i].get()] = i;
   }
   if (_record_config.time) {
-    make_probe<TimeProbe, ng_float_t>("times");
+    add_record_probe<TimeProbe>("times");
   }
   if (_record_config.pose) {
-    make_probe<PoseProbe, ng_float_t>("poses");
+    add_record_probe<PoseProbe>("poses");
   }
   if (_record_config.twist) {
-    make_probe<TwistProbe, ng_float_t>("twists");
+    add_record_probe<TwistProbe>("twists");
   }
   if (_record_config.cmd) {
-    make_probe<CmdProbe, ng_float_t>("cmds");
+    add_record_probe<CmdProbe>("cmds");
   }
   if (_record_config.target) {
-    make_probe<TargetProbe, ng_float_t>("targets");
+    add_record_probe<TargetProbe>("targets");
   }
   if (_record_config.safety_violation) {
-    make_probe<SafetyViolationProbe, ng_float_t>("safety_violations");
+    add_record_probe<SafetyViolationProbe>("safety_violations");
   }
   if (_record_config.collisions) {
-    make_probe<CollisionProbe, unsigned>("collisions");
+    add_record_probe<CollisionProbe>("collisions");
   }
   if (_record_config.deadlocks) {
-    make_probe<DeadlockProbe, ng_float_t>("deadlocks");
+    add_record_probe<DeadlockProbe>("deadlocks");
   }
   if (_record_config.efficacy) {
-    make_probe<EfficacyProbe, ng_float_t>("efficacy");
+    add_record_probe<EfficacyProbe>("efficacy");
   }
   if (_record_config.task_events) {
-    make_map_probe<TaskEventsProbe, ng_float_t>("task_events");
+    add_group_record_probe<TaskEventsProbe>("task_events");
   }
-  for (auto &[k, probe] : _probes) {
-    probe->prepare(*_world, _run_config.steps);
+  for (auto &probe : _probes) {
+    probe->prepare(this);
   }
 }
 
@@ -292,15 +305,15 @@ void ExperimentalRun::run() {
 
 void ExperimentalRun::update() {
   if (_state != State::running || _steps > _run_config.steps) return;
-  for (auto &[k, probe] : _probes) {
-    probe->update(*_world);
+  for (auto &probe : _probes) {
+    probe->update(this);
   }
   _steps++;
 }
 
 void ExperimentalRun::finalize() {
-  for (auto &[k, probe] : _probes) {
-    probe->finalize(*_world, _steps);
+  for (auto &probe : _probes) {
+    probe->finalize(this);
   }
 }
 
@@ -317,7 +330,59 @@ void ExperimentalRun::save(HighFive::Group &group) const {
                                       HighFive::DataSpace::From(d))
       .write(d);
 
-  for (auto &[key, probe] : _probes) {
-    probe->save(key, group);
+  for (auto &[key, ds] : _records) {
+    ds->save(key, group);
+  }
+}
+
+// {a/b, a/b/c, b}, a/ -> {b, c}
+static std::set<std::string> find_names(const std::set<std::string> &all,
+                                        const std::string &begin) {
+  std::set<std::string> rs;
+  for (const auto &value : all) {
+    auto r = value.find(begin);
+    if (r == 0) {
+      rs.insert(value.substr(begin.size()));
+    }
+  }
+  return rs;
+}
+
+static std::map<std::string, std::string> find_full_names(
+    const std::set<std::string> &all, const std::string &begin) {
+  std::map<std::string, std::string> rs;
+  for (const auto &value : all) {
+    auto r = value.find(begin);
+    if (r == 0) {
+      rs.emplace(value.substr(begin.size()), value);
+    }
+  }
+  return rs;
+}
+
+static std::map<std::string, std::string> find_full_names(
+    const std::set<std::string> &all) {
+  std::map<std::string, std::string> rs;
+  for (const auto &value : all) {
+    rs.emplace(value, value);
+  }
+  return rs;
+}
+
+std::set<std::string> ExperimentalRun::get_record_names(
+    const std::string &group) const {
+  if (group.empty()) {
+    return _record_names;
+  } else {
+    return find_names(_record_names, group + "/");
+  }
+}
+
+std::map<std::string, std::string> ExperimentalRun::get_group(
+    const std::string &name) const {
+  if (name.empty()) {
+    return find_full_names(_record_names);
+  } else {
+    return find_full_names(_record_names, name + "/");
   }
 }

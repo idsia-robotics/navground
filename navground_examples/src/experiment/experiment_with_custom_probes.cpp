@@ -9,7 +9,6 @@
 
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/experiment.h"
-#include "navground/sim/probe.h"
 #include "navground/sim/yaml/experiment.h"
 #include "probes.h"
 #include "yaml-cpp/yaml.h"
@@ -66,8 +65,9 @@ int main() {
               << std::endl;
     std::exit(1);
   }
-  experiment.make_probe<IsMovingProbe, uint8_t>("is_moving");
-  experiment.make_map_probe<IsMovingSparseProbe, float>("still_times");
+  experiment.add_probe([](){return std::make_shared<CheckIfMoving>();});
+  experiment.add_record_probe<IsMovingProbe>("is_moving");
+  experiment.add_group_record_probe<IsMovingSparseProbe>("still_times");
   experiment.run(false);
   std::cout << std::endl;
   return 0;

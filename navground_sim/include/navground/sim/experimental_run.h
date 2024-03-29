@@ -11,6 +11,7 @@
 #include <memory>
 
 #include "navground/core/types.h"
+#include "navground/sim/dataset.h"
 #include "navground/sim/probe.h"
 #include "navground/sim/world.h"
 #include "navground_sim_export.h"
@@ -24,7 +25,7 @@ namespace navground::sim {
 struct Experiment;
 
 /**
- * @brief      Holds which data to record during an experimental run
+ * @brief  Holds which data to record during an experimental run
  */
 struct RecordConfig {
   /**
@@ -137,6 +138,9 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
         _steps(0),
         _number(0),
         _indices(),
+        _world_yaml(),
+        _records(),
+        _record_names(),
         _probes() {}
 
   /**
@@ -159,6 +163,8 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
       : ExperimentalRun(
             world, {time_step, max_steps, terminate_when_all_idle_or_stuck},
             record_config, seed) {}
+
+  // ExperimentalRun(const ExperimentalRun&) = delete;
 
   /**
    * @brief      Gets the real-time duration of the run.
@@ -223,21 +229,36 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   }
 
   /**
-   * @brief      Gets the probe associated to a given key.
+   * @brief      Gets the record associated to a given key.
    *
-   * @param[in]  key   The key
+   * @param[in]  key  The key
    *
-   * @tparam     T     The type of probe.
-   *
-   * @return     The probe or null if no probe of type ``T`` is associated to
-   * the key.
+   * @return     The record or null if none is found.
    */
-  template <typename T>
-  const std::shared_ptr<T> get_probe(const std::string &key) const {
-    if (_probes.count(key)) {
-      return std::dynamic_pointer_cast<T>(_probes.at(key));
+  const std::shared_ptr<Dataset> get_record(const std::string &key) const {
+    if (_records.count(key)) {
+      return _records.at(key);
     }
     return nullptr;
+  }
+
+  /**
+   * @brief      Gets the records.
+   *
+   * @param[in]  group   If specified, limits to records in a given group.
+   *
+   * @return     The records
+   */
+  const std::map<std::string, std::shared_ptr<Dataset>> get_records(
+      const std::string &group = "") const {
+    if (group.empty()) {
+      return _records;
+    }
+    std::map<std::string, std::shared_ptr<Dataset>> records;
+    for (auto &[key, full] : get_group(group)) {
+      records[key] = get_record(full);
+    }
+    return records;
   }
 
   /**
@@ -245,80 +266,97 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The record or none if not recorded.
    */
-  const std::shared_ptr<Probe> get_times() const {
-    return get_probe<Probe>("times");
+  const std::shared_ptr<Dataset> get_times() const {
+    return get_record("times");
   }
   /**
    * @brief      Gets the recorded poses.
    *
    * @return     The record or none if not recorded.
    */
-  const std::shared_ptr<Probe> get_poses() const {
-    return get_probe<Probe>("poses");
+  const std::shared_ptr<Dataset> get_poses() const {
+    return get_record("poses");
   }
   /**
    * @brief      Gets the recorded twists.
    *
    * @return     The record or none if not recorded.
    */
-  const std::shared_ptr<Probe> get_twists() const {
-    return get_probe<Probe>("twists");
+  const std::shared_ptr<Dataset> get_twists() const {
+    return get_record("twists");
   }
   /**
    * @brief      Gets the recorded commands.
    *
    * @return     The record or none if not recorded.
    */
-  const std::shared_ptr<Probe> get_cmds() const {
-    return get_probe<Probe>("cmds");
-  }
+  const std::shared_ptr<Dataset> get_cmds() const { return get_record("cmds"); }
   /**
    * @brief      Gets the recorded targets.
    *
    * @return     The record or none if not recorded.
    */
-  const std::shared_ptr<Probe> get_targets() const {
-    return get_probe<Probe>("targets");
+  const std::shared_ptr<Dataset> get_targets() const {
+    return get_record("targets");
   }
   /**
    * @brief      Gets the recorded safety margin violations.
    *
    * @return     The record or none if not recorded.
    */
-  const std::shared_ptr<Probe> get_safety_violations() const {
-    return get_probe<Probe>("safety_violations");
+  const std::shared_ptr<Dataset> get_safety_violations() const {
+    return get_record("safety_violations");
   }
   /**
    * @brief      Gets the recorded collisions.
    *
    * @return     The record or none if not recorded.
    */
-  const std::shared_ptr<Probe> get_collisions() const {
-    return get_probe<Probe>("collisions");
+  const std::shared_ptr<Dataset> get_collisions() const {
+    return get_record("collisions");
   }
   /**
    * @brief      Gets the recorded task logs.
    *
+   * @return     The records (empty if not recorded).
+   */
+  const std::map<unsigned, std::shared_ptr<Dataset>> get_task_events() const {
+    std::map<unsigned, std::shared_ptr<Dataset>> records;
+    for (auto &[key, full] : get_group("task_events")) {
+      records[std::stoul(key)] = get_record(full);
+    }
+    return records;
+  }
+  /**
+   * @brief      Gets the recorded task logs.
+   *
+   * @param[in]  uid   The agent uid
+   *
    * @return     The record or none if not recorded.
    */
-  const std::shared_ptr<MapProbe<unsigned>> get_task_events() const {
-    return get_probe<MapProbe<unsigned>>("task_events");
+  const std::shared_ptr<Dataset> get_task_events_for(unsigned uid) const {
+    const std::string key = std::to_string(uid);
+    auto g = get_group("task_events");
+    if (g.count(key)) {
+      return get_record(g.at(key));
+    }
+    return nullptr;
   }
   /**
    * @brief      Gets the recorded deadlocks.
    *
    * @return     The record or none if not recorded.
    */
-  const std::shared_ptr<Probe> get_deadlocks() const {
-    return get_probe<Probe>("deadlocks");
+  const std::shared_ptr<Dataset> get_deadlocks() const {
+    return get_record("deadlocks");
   }
   /**
    * @brief      Gets the recorded efficacy.
    *
    * @return     The record or none if not recorded.
    */
-  const std::shared_ptr<Probe> get_efficacy() const {
-    return get_probe<Probe>("efficacy");
+  const std::shared_ptr<Dataset> get_efficacy() const {
+    return get_record("efficacy");
   }
 
   /**
@@ -423,60 +461,105 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   void run();
 
   /**
-   * @brief      Adds a probe to record data during the simulation.
-   * Will replace the probe associated with the key, if already set.
+   * @brief      Determines if a record is present.
    *
-   * @param[in]  key     The key
+   * @param[in]  key    The key
+   * @param[in]  group  An optional group. If specified, the record with be
+   *                    associated to the key ``<group>/<key>``.
+   *
+   * @return     True if a record is associated with the key, False otherwise.
+   */
+  bool has_record(std::string key, const std::string &group = "") const {
+    if (!group.empty()) {
+      key = group + "/" + key;
+    }
+    return _records.count(key) != 0;
+  }
+
+  /**
+   * @brief      Adds a record.
+   *
+   * @param[in]  key    The key
+   * @param[in]  group  An optional group. If specified, the record with be
+   *                    associated to the key ``<group>/<key>``.
+   * @param[in]  force  If specified, it will replace the record associated
+   *                    with the key, if already present.
+   *
+   * @return     The created record
+   */
+  std::shared_ptr<Dataset> add_record(std::string key,
+                                      const std::string &group = "",
+                                      bool force = false) {
+    if (!group.empty()) {
+      key = group + "/" + key;
+    }
+    if (_records.count(key) && !force) {
+      return _records[key];
+    }
+    _record_names.insert(key);
+    _records[key] = std::make_shared<Dataset>();
+    return _records[key];
+  }
+
+  /**
+   * @brief      Adds a probe
+   *
    * @param[in]  probe   The probe
    */
-  void add_probe(const std::string &key,
-                 const std::shared_ptr<BaseProbe> &probe) {
-    _probes[key] = probe;
+  void add_probe(const std::shared_ptr<Probe> &probe) {
+    _probes.push_back(probe);
   }
 
   /**
-   * @brief      Add a probe to record data of a given type during the
-   * simulation. Will replace the probe associated with the key, if already set.
+   * @brief      Adds a record probe.
    *
-   * @param[in]  key   The key
+   * @param[in]  key   The key of the record to be created
    *
-   * @tparam     C     The class of the probe. Must be subclass of \ref
-   * sim::Probe.
-   * @tparam     T     The type of data to record
+   * @tparam     T     The probe class.
    */
-  template <typename C, typename T>
-  void make_probe(const std::string &key) {
-    _probes[key] = std::dynamic_pointer_cast<BaseProbe>(
-        std::make_shared<C>(std::vector<T>{}));
+  template <typename T>
+  void add_record_probe(const std::string &key, bool force = false) {
+    auto ds = add_record(key);
+    ds->set_dtype<typename T::Type>();
+    add_probe(std::dynamic_pointer_cast<Probe>(std::make_shared<T>(ds)));
   }
 
   /**
-   * @brief      Add a probe to record data of a given type during the
-   * simulation. Will replace the probe associated with the key, if already set.
+   * @brief      Adds a group record probe.
    *
-   * @param[in]  key   The key
+   * @param[in]  key   The key of the group to be created
    *
-   * @tparam     C     The class of the probe. Must be subclass of \ref
-   * sim::MapProbe.
-   * @tparam     T     The type of data to record.
+   * @tparam     T     The probe class.
    */
-  template <typename C, typename T>
-  void make_map_probe(const std::string &key) {
-    _probes[key] = std::dynamic_pointer_cast<BaseProbe>(
-        std::make_shared<C>(std::map<typename C::KeyType, std::vector<T>>{}));
+  template <typename T>
+  void add_group_record_probe(const std::string &key) {
+    add_probe(std::dynamic_pointer_cast<Probe>(
+        std::make_shared<T>([key, this](const std::string &sub_key) {
+          auto ds = add_record(sub_key, key);
+          ds->set_dtype<typename T::Type>();
+          return ds;
+        })));
   }
 
   /**
-   * @brief      Gets the names of all registered probes.
+   * @brief      Gets the names of records.
    *
-   * @return     The probes.
+   * @param[in]  group  An optional group. If specified, the looks for record
+   *                    associated to keys ``<group>/...``.
+   *
+   * @return     The record names.
    */
-  std::vector<std::string> get_probes_names() const {
-    std::vector<std::string> keys;
-    std::transform(std::begin(_probes), std::end(_probes), back_inserter(keys),
-                   [](auto &&item) { return item.first; });
-    return keys;
-  }
+  std::set<std::string> get_record_names(const std::string &group = "") const;
+
+  /**
+   * @brief      Gets the record keys in a group.
+   *
+   * @param[in]  name  The group name
+   *
+   * @return     A map of record keys ``{<key>: name/<key>}``
+   *             indexed by keys relative to a group
+   */
+  std::map<std::string, std::string> get_group(const std::string &name) const;
 
  private:
   State _state;
@@ -506,10 +589,10 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   std::map<const Agent *, unsigned> _indices;
   std::chrono::time_point<std::chrono::steady_clock> _begin;
   std::chrono::time_point<std::chrono::steady_clock> _end;
-
   std::string _world_yaml;
-
-  std::map<std::string, std::shared_ptr<BaseProbe>> _probes;
+  std::map<std::string, std::shared_ptr<Dataset>> _records;
+  std::set<std::string> _record_names;
+  std::vector<std::shared_ptr<Probe>> _probes;
 
   /**
    * @brief      Called before the simulation starts

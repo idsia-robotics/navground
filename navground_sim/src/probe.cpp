@@ -1,21 +1,17 @@
 #include "navground/sim/probe.h"
 
-#include <highfive/H5DataSpace.hpp>
-#include <string>
+#include "navground/sim/experimental_run.h"
 
-using namespace navground::sim;
+namespace navground::sim {
 
-void Probe::save(const std::string &key, HighFive::Group &group) const {
-  std::visit(
-      [this, &group, &key](auto &&arg) {
-        using T =
-            typename std::remove_reference<decltype(arg)>::type::value_type;
-        group.createDataSet<T>(key, HighFive::DataSpace(shape()))
-            .write_raw(arg.data());
-      },
-      _data);
+void RecordProbe::prepare(ExperimentalRun* run) {
+  data->set_item_shape(get_shape(*(run->get_world())));
 }
 
-size_t Probe::size() const {
-  return std::visit([](auto &&arg) { return arg.size(); }, _data);
+void GroupRecordProbe::prepare(ExperimentalRun* run) {
+  for (auto& [key, shape] : get_shapes(*(run->get_world()))) {
+    get_data(key)->set_item_shape(shape);
+  }
 }
+
+}  // namespace navground::sim

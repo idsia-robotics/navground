@@ -10,18 +10,42 @@ To use navground you need first to source the setup script of the workspace wher
 
       .. code-block:: console
 
-        $ source ./install/setup.bash
+         source ./install/setup.bash
 
    .. tab:: zsh
 
       .. code-block:: console
 
-        $ source ./install/setup.zsh
+         source ./install/setup.zsh
+
+   .. tab:: Windows command shell
+
+      .. code-block:: console
+
+         install\setup.bat
 
 Navground has a modular architecture which user can extend by implementing new behaviors, kinematics, state estimation, tasks and scenarios. At installation, ``navground`` provides the implementation of several of these components so that you can start playing with them.
 For instance, to list components available from C++, we can run
 
-   $ ./install/lib/navground_sim/info   
+.. tabs::
+
+   .. tab:: macOS
+
+      .. code-block:: console
+
+         install/lib/navground_sim/info
+
+   .. tab:: Linux
+
+      .. code-block:: console
+
+         install/lib/navground_sim/info
+
+   .. tab:: Windows
+
+      .. code-block:: console
+
+         install\Lib/navground_sim\info.exe  
    
 From here on, you may 
 

@@ -1,6 +1,6 @@
 from navground import sim
 
-from .probes import IsMovingProbe, IsMovingSparseProbe
+from .probes import CheckIfMoving, IsMovingProbe, IsMovingSparseProbe
 
 
 def main():
@@ -37,6 +37,7 @@ scenario:
         type: Bounded
         range: 5.0
 """)
-    experiment.add_probe("is_moving", IsMovingProbe)
-    experiment.add_probe("still_times", IsMovingSparseProbe)
+    experiment.add_probe(CheckIfMoving)
+    experiment.add_record_probe("is_moving", IsMovingProbe)
+    experiment.add_group_record_probe("still_times", IsMovingSparseProbe)
     experiment.run()

@@ -3,6 +3,8 @@
 
 #include <filesystem>
 #include <optional>
+#include <string>
+
 #include "navground_core_export.h"
 
 namespace navground::core {
@@ -20,9 +22,9 @@ namespace navground::core {
  *                        separated by ";". If null, it defaults to
  *                        the value of the macro ``NAVGROUND_PLUGINS_PATH``
  */
-void NAVGROUND_CORE_EXPORT load_plugins(
-    const std::string& plugins = "", std::string env = "",
-    std::optional<std::filesystem::path> directory = std::nullopt);
+void NAVGROUND_CORE_EXPORT
+load_plugins(const std::string& plugins = "", std::string env = "",
+             std::optional<std::filesystem::path> directory = std::nullopt);
 
 }  // namespace navground::core
 

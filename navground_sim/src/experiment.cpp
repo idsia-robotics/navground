@@ -122,11 +122,8 @@ ExperimentalRun &Experiment::init_run(int index, std::shared_ptr<World> world) {
   world->prepare();
   runs.try_emplace(index, world, run_config, record_config, index);
   auto &run = runs.at(index);
-  for (const auto &[k, factory] : _extra_probes) {
-    run.add_probe(k, factory());
-  }
   for (const auto &cb : run_callbacks[true]) {
-    cb(run);
+    cb(&run);
   }
   return run;
 }
@@ -195,7 +192,7 @@ void Experiment::run_in_parallel(unsigned number_of_threads, bool keep,
       mutex.lock();
       save_run(sim_run);
       for (const auto &cb : run_callbacks[false]) {
-        cb(sim_run);
+        cb(&sim_run);
       }
       if (!keep) {
         runs.erase(i);
@@ -254,7 +251,7 @@ ExperimentalRun &Experiment::_run_once(unsigned index) {
   auto &sim_run = init_run(index);
   sim_run.run();
   for (const auto &cb : run_callbacks[false]) {
-    cb(sim_run);
+    cb(&sim_run);
   }
   return sim_run;
 }
@@ -263,7 +260,7 @@ void Experiment::stop_run(ExperimentalRun &sim_run) {
   if (!sim_run.is_running()) return;
   sim_run.stop();
   for (const auto &cb : run_callbacks[false]) {
-    cb(sim_run);
+    cb(&sim_run);
   }
   save_run(sim_run);
 }

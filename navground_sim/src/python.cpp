@@ -6,6 +6,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/stl/filesystem.h>
+#include <pybind11/stl_bind.h>
 
 #include <filesystem>
 #include <mutex>
@@ -18,6 +19,7 @@
 #include "navground/core/plugins.h"
 #include "navground/core/types.h"
 #include "navground/core/yaml/yaml.h"
+#include "navground/sim/dataset.h"
 #include "navground/sim/experiment.h"
 #include "navground/sim/experimental_run.h"
 #include "navground/sim/probe.h"
@@ -45,6 +47,12 @@ using namespace navground::core;
 using namespace navground::sim;
 
 namespace py = pybind11;
+
+// PYBIND11_MAKE_OPAQUE(std::map<unsigned, ExperimentalRun>);
+
+void set_dataset_type_py(Dataset &dataset, const py::object &obj);
+void set_dataset_data_py(Dataset &dataset, const py::object &obj,
+                         bool append = false);
 
 template <typename T>
 struct get<T, py::object> {
@@ -270,40 +278,59 @@ struct PyScenario : public Scenario, virtual PyHasRegister<Scenario> {
 };
 
 struct PyProbe : public Probe {
-  using Probe::Shape;
+  using Probe::Probe;
 
-  void update(const World &world) override {
-    PYBIND11_OVERRIDE(void, Probe, update, world);
+  void update(ExperimentalRun *run) override {
+    PYBIND11_OVERRIDE(void, Probe, update, run);
   }
 
-  void prepare(const World &world, unsigned maximal_steps) override {
-    PYBIND11_OVERRIDE(void, Probe, prepare, world, maximal_steps);
+  void prepare(ExperimentalRun *run) override {
+    PYBIND11_OVERRIDE(void, Probe, prepare, run);
   }
 
-  void finalize(const World &world, unsigned steps) override {
-    PYBIND11_OVERRIDE(void, Probe, finalize, world, steps);
+  void finalize(ExperimentalRun *run) override {
+    PYBIND11_OVERRIDE(void, Probe, finalize, run);
   }
-
-  Shape shape() const override { PYBIND11_OVERRIDE(Shape, Probe, shape); }
 };
 
-struct PyMapProbe : public MapProbe<int> {
-  using MapProbe<int>::Shape;
+struct PyRecordProbe : public RecordProbe {
+  using RecordProbe::RecordProbe;
 
-  void update(const World &world) override {
-    PYBIND11_OVERRIDE(void, MapProbe<int>, update, world);
+  void update(ExperimentalRun *run) override {
+    PYBIND11_OVERRIDE(void, RecordProbe, update, run);
   }
 
-  void prepare(const World &world, unsigned maximal_steps) override {
-    PYBIND11_OVERRIDE(void, MapProbe<int>, prepare, world, maximal_steps);
+  void prepare(ExperimentalRun *run) override {
+    PYBIND11_OVERRIDE(void, RecordProbe, prepare, run);
   }
 
-  void finalize(const World &world, unsigned steps) override {
-    PYBIND11_OVERRIDE(void, MapProbe<int>, finalize, world, steps);
+  void finalize(ExperimentalRun *run) override {
+    PYBIND11_OVERRIDE(void, RecordProbe, finalize, run);
   }
 
-  Shape shape(const int &key) const override {
-    PYBIND11_OVERRIDE(Shape, MapProbe<int>, shape, key);
+  Dataset::Shape get_shape(const World &world) const override {
+    PYBIND11_OVERRIDE(Dataset::Shape, RecordProbe, get_shape, world);
+  }
+};
+
+struct PyGroupRecordProbe : public GroupRecordProbe {
+  using GroupRecordProbe::GroupRecordProbe;
+  using GroupRecordProbe::ShapeMap;
+
+  void update(ExperimentalRun *run) override {
+    PYBIND11_OVERRIDE(void, GroupRecordProbe, update, run);
+  }
+
+  void prepare(ExperimentalRun *run) override {
+    PYBIND11_OVERRIDE(void, GroupRecordProbe, prepare, run);
+  }
+
+  void finalize(ExperimentalRun *run) override {
+    PYBIND11_OVERRIDE(void, GroupRecordProbe, finalize, run);
+  }
+
+  ShapeMap get_shapes(const World &world) const override {
+    PYBIND11_OVERRIDE(ShapeMap, GroupRecordProbe, get_shapes, world);
   }
 };
 
@@ -321,7 +348,9 @@ struct PyExperiment : public Experiment {
   py::object py_world;
 
   std::map<unsigned, std::vector<py::object>> _py_probes;
-  std::map<std::string, py::object> _py_probe_factories;
+  std::vector<py::object> _py_probe_factories;
+  std::map<std::string, py::object> _py_record_probe_factories;
+  std::map<std::string, py::object> _py_group_record_probe_factories;
 
   std::shared_ptr<World> make_world() override {
     auto world = std::make_shared<PyWorld>();
@@ -344,19 +373,31 @@ struct PyExperiment : public Experiment {
    *
    * @param[in]  probe  A callable that generate probes
    */
-  void add_probe_py(const std::string &name, const py::object &probe) {
-    _py_probe_factories[name] = probe;
+  void add_probe_py(const py::object &probe_cls) {
+    _py_probe_factories.push_back(probe_cls);
+  }
+
+  void add_record_probe_py(const std::string &name,
+                           const py::object &probe_cls) {
+    _py_record_probe_factories[name] = probe_cls;
+  }
+
+  void add_group_record_probe_py(const std::string &name,
+                                 const py::object &probe_cls) {
+    _py_group_record_probe_factories[name] = probe_cls;
   }
 
   ExperimentalRun &init_run(int seed,
                             std::shared_ptr<World> world = nullptr) override {
     auto &run = Experiment::init_run(seed, world);
-    for (const auto &[k, cls] : _py_probe_factories) {
-      auto obj = cls.attr("__call__")();
-      auto probe = obj.cast<std::shared_ptr<BaseProbe>>();
-      run.add_probe(k, probe);
-      // !! We need to keep the python objects alive for the lifetime of the run
-      _py_probes[seed].push_back(obj);
+    for (const auto &cls : _py_probe_factories) {
+      instantiate_probe(cls, run);
+    }
+    for (const auto &[name, cls] : _py_record_probe_factories) {
+      instantiate_record_probe(name, cls, run);
+    }
+    for (const auto &[name, cls] : _py_group_record_probe_factories) {
+      instantiate_group_record_probe(name, cls, run);
     }
     return run;
   }
@@ -423,7 +464,7 @@ struct PyExperiment : public Experiment {
           py::gil_scoped_acquire acquire;
           for (const auto &cb : run_callbacks[false]) {
             // may call Python
-            cb(*sim_run);
+            cb(sim_run);
           }
           if (!keep) {
             // will call Python (world destructor)
@@ -447,6 +488,42 @@ struct PyExperiment : public Experiment {
       }
     }
     stop();
+  }
+
+ private:
+  void instantiate_probe(const py::object cls, ExperimentalRun &run) {
+    auto obj = cls.attr("__call__")();
+    auto probe = obj.cast<std::shared_ptr<Probe>>();
+    run.add_probe(probe);
+    // !! We need to keep the python objects alive for the lifetime of the run
+    _py_probes[run.get_seed()].push_back(obj);
+  }
+
+  void instantiate_record_probe(const std::string &name, const py::object cls,
+                                ExperimentalRun &run) {
+    const auto dtype = cls.attr("dtype");
+    auto ds = run.add_record(name);
+    set_dataset_type_py(*ds, dtype);
+    auto obj = cls.attr("__call__")(ds);
+    auto probe = obj.cast<std::shared_ptr<Probe>>();
+    run.add_probe(probe);
+    _py_probes[run.get_seed()].push_back(obj);
+  }
+
+  void instantiate_group_record_probe(const std::string &name,
+                                      const py::object cls,
+                                      ExperimentalRun &run) {
+    const auto dtype = cls.attr("dtype");
+    const auto factory = [name, dtype, &run](const std::string &sub_key) {
+      auto ds = run.add_record(sub_key, name);
+      set_dataset_type_py(*ds, dtype);
+      return ds;
+    };
+    auto obj = cls.attr("__call__")();
+    auto probe = obj.cast<std::shared_ptr<GroupRecordProbe>>();
+    probe->set_factory(factory);
+    run.add_probe(probe);
+    _py_probes[run.get_seed()].push_back(obj);
   }
 };
 
@@ -598,47 +675,27 @@ static std::vector<ssize_t> convert(const std::vector<size_t> &value) {
   return r;
 }
 
-static py::array as_array(const Probe &probe) {
-  auto size = probe.size();
-  auto shape = convert(probe.shape());
+static py::array as_array(const Dataset &dataset) {
+  // auto size = dataset.size();
+  auto shape = convert(dataset.get_shape());
   return std::visit(
-      [&shape, size](auto &&arg) {
+      [&shape](auto &&arg) {
         using T = std::remove_reference_t<decltype(arg[0])>;
-        if (!size) {
-          return py::array(0, static_cast<T *>(nullptr));
-        }
         py::array_t _arr = py::array_t<T>();
         py::detail::array_proxy(_arr.ptr())->flags &=
             ~py::detail::npy_api::NPY_ARRAY_WRITEABLE_;
         return py::array(shape, arg.data(), _arr);
       },
-      probe.get_data());
+      dataset.get_data());
 }
 
-template <typename K>
-static py::array as_array(const K &key, const MapProbe<K> &probe) {
-  auto shape = convert(probe.shape(key));
-  return std::visit(
-      [&shape, &key](auto &&arg) {
-        using T = typename std::remove_reference<
-            decltype(arg)>::type::mapped_type::value_type;
-        if (!arg.count(key)) return py::array(0, static_cast<T *>(nullptr));
-        auto &data = arg.at(key);
-        py::array_t _arr = py::array_t<T>();
-        py::detail::array_proxy(_arr.ptr())->flags &=
-            ~py::detail::npy_api::NPY_ARRAY_WRITEABLE_;
-        return py::array(shape, data.data(), _arr);
-      },
-      probe.get_data());
-}
-
-template <typename K>
-static std::map<K, py::array> as_array_map(const MapProbe<K> &probe) {
-  std::map<K, py::array> vs;
-  for (const auto k : probe.get_keys()) {
-    vs[k] = as_array(k, probe);
+static std::map<std::string, py::array> as_dict_array(
+    const std::map<std::string, std::shared_ptr<Dataset>> &records) {
+  std::map<std::string, py::array> m;
+  for (const auto &[key, ds] : records) {
+    m.emplace(key, as_array(*ds));
   }
-  return vs;
+  return m;
 }
 
 template <typename T>
@@ -646,69 +703,98 @@ static py::array make_empty_array() {
   return py::array(0, static_cast<const T *>(nullptr));
 }
 
-template <typename R>
-void set_probe_type_py(R &probe, const py::object &obj) {
+void set_dataset_type_py(Dataset &dataset, const py::object &obj) {
   py::module_ np = py::module_::import("numpy");
   py::dtype dtype = np.attr("dtype")(obj);
   if (dtype.is(py::dtype::of<int8_t>())) {
-    probe.template set_type<int8_t>();
+    dataset.set_dtype<int8_t>();
   } else if (dtype.is(py::dtype::of<int16_t>())) {
-    probe.template set_type<int16_t>();
+    dataset.set_dtype<int16_t>();
   } else if (dtype.is(py::dtype::of<int32_t>())) {
-    probe.template set_type<int32_t>();
-  } else if (dtype.is(py::dtype::of<uint64_t>())) {
-    probe.template set_type<int64_t>();
-  } else if (dtype.is(py::dtype::of<uint8_t>())) {
-    probe.template set_type<uint8_t>();
+    dataset.set_dtype<int32_t>();
+  } else if (dtype.is(py::dtype::of<int64_t>())) {
+    dataset.set_dtype<int64_t>();
+  } else if (dtype.is(py::dtype::of<uint8_t>()) ||
+             dtype.is(py::dtype::of<bool>())) {
+    dataset.set_dtype<uint8_t>();
   } else if (dtype.is(py::dtype::of<uint16_t>())) {
-    probe.template set_type<uint16_t>();
+    dataset.set_dtype<uint16_t>();
   } else if (dtype.is(py::dtype::of<uint32_t>())) {
-    probe.template set_type<uint32_t>();
+    dataset.set_dtype<uint32_t>();
   } else if (dtype.is(py::dtype::of<uint64_t>())) {
-    probe.template set_type<uint64_t>();
+    dataset.set_dtype<uint64_t>();
   } else if (dtype.is(py::dtype::of<float>())) {
-    probe.template set_type<float>();
+    dataset.set_dtype<float>();
   } else if (dtype.is(py::dtype::of<double>())) {
-    probe.template set_type<double>();
+    dataset.set_dtype<double>();
   } else {
-    std::cerr << "type unknown" << std::endl;
+    py::print("Type unknown", dtype);
   }
 }
 
-py::dtype get_probe_type_py(const Probe &probe) {
+Dataset::Data data_of_type(py::dtype dtype, void *ptr, const size_t size) {
+  if (dtype.is(py::dtype::of<int8_t>())) {
+    auto begin = reinterpret_cast<int8_t *>(ptr);
+    return std::vector<int8_t>(begin, begin + size);
+  } else if (dtype.is(py::dtype::of<int16_t>())) {
+    auto begin = reinterpret_cast<int16_t *>(ptr);
+    return std::vector<int16_t>(begin, begin + size);
+  } else if (dtype.is(py::dtype::of<int32_t>())) {
+    auto begin = reinterpret_cast<int32_t *>(ptr);
+    return std::vector<int32_t>(begin, begin + size);
+  } else if (dtype.is(py::dtype::of<int64_t>())) {
+    auto begin = reinterpret_cast<int64_t *>(ptr);
+    return std::vector<int64_t>(begin, begin + size);
+  } else if (dtype.is(py::dtype::of<uint8_t>()) ||
+             dtype.is(py::dtype::of<bool>())) {
+    auto begin = reinterpret_cast<uint8_t *>(ptr);
+    return std::vector<uint8_t>(begin, begin + size);
+  } else if (dtype.is(py::dtype::of<uint16_t>())) {
+    auto begin = reinterpret_cast<uint16_t *>(ptr);
+    return std::vector<uint16_t>(begin, begin + size);
+  } else if (dtype.is(py::dtype::of<uint32_t>())) {
+    auto begin = reinterpret_cast<uint32_t *>(ptr);
+    return std::vector<uint32_t>(begin, begin + size);
+  } else if (dtype.is(py::dtype::of<uint64_t>())) {
+    auto begin = reinterpret_cast<uint64_t *>(ptr);
+    return std::vector<uint64_t>(begin, begin + size);
+  } else if (dtype.is(py::dtype::of<float>())) {
+    auto begin = reinterpret_cast<float *>(ptr);
+    return std::vector<float>(begin, begin + size);
+  } else if (dtype.is(py::dtype::of<double>())) {
+    auto begin = reinterpret_cast<double *>(ptr);
+    return std::vector<double>(begin, begin + size);
+  } else {
+    auto begin = reinterpret_cast<int8_t *>(ptr);
+    return std::vector<int8_t>(begin, begin + size);
+  }
+}
+
+void set_dataset_data_py(Dataset &dataset, const py::array &value,
+                         bool append = false) {
+  const auto sshape = value.request().shape;
+  const Dataset::Shape shape(sshape.begin(), sshape.end());
+  const Dataset::Shape item_shape(sshape.begin() + 1, sshape.end());
+  void *ptr = value.request().ptr;
+  const auto count = std::accumulate(std::begin(shape), std::end(shape), 1,
+                                     std::multiplies<>{});
+  const auto data = data_of_type(value.dtype(), ptr, count);
+  if (append) {
+    dataset.append(data);
+  } else {
+    dataset.set_data(data);
+    dataset.set_item_shape(item_shape);
+  }
+}
+
+py::dtype get_dataset_type_py(const Dataset &dataset) {
   return std::visit(
       [](auto &&arg) {
         using T = std::remove_reference_t<decltype(arg[0])>;
         return py::dtype::of<T>();
       },
-      probe.get_data());
+      dataset.get_data());
 }
-
-template <typename K>
-py::dtype get_map_probe_type_py(const MapProbe<K> &probe) {
-  return std::visit(
-      [](auto &&arg) {
-        using T = typename std::remove_reference<
-            decltype(arg)>::type::mapped_type::value_type;
-        return py::dtype::of<T>();
-      },
-      probe.get_data());
-}
-
-#if 0
-template <typename T>
-static py::array_t<T> make_readonly_array(const Shape &shape, const T *ptr) {
-  py::array_t _arr = py::array_t<T>();
-  py::detail::array_proxy(_arr.ptr())->flags &=
-      ~py::detail::npy_api::NPY_ARRAY_WRITEABLE_;
-  return py::array_t(shape, ptr, _arr);
-}
-
-template <typename T>
-static py::array_t<T> make_empty_array() {
-  return py::array_t(0, static_cast<const T *>(nullptr));
-}
-#endif
 
 PYBIND11_MODULE(_navground_sim, m) {
   declare_register<StateEstimation>(m, "StateEstimation");
@@ -740,7 +826,7 @@ PYBIND11_MODULE(_navground_sim, m) {
   py::class_<BoundingBox>(m, "BoundingBox", "A rectangular region")
       .def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t>(),
            py::arg("min_x"), py::arg("max_x"), py::arg("min_y"),
-           py::arg("max_x"),
+           py::arg("max_y"),
            R"doc(
 Creates a rectangular region
 
@@ -863,7 +949,7 @@ Creates a rectangular region
                                             DOC(navground, sim, World, 2))
       .def(py::init<>(), DOC(navground, sim, World, World))
       .def("add_callback", &World::add_callback, py::arg("callback"),
-           DOC(navground, sim, World, add_callback))
+           py::keep_alive<1, 2>(), DOC(navground, sim, World, add_callback))
       .def("reset_callbacks", &World::reset_callbacks,
            DOC(navground, sim, World, reset_callbacks))
       .def("update", &World::update, py::arg("time_step"),
@@ -1177,66 +1263,91 @@ Creates a rectangular region
         return r;
       });
 
-  py::class_<BaseProbe, std::shared_ptr<BaseProbe>>(m, "BaseProbe");
+  py::class_<Dataset, std::shared_ptr<Dataset>>(
+      m, "Dataset", py::buffer_protocol(), DOC(navground, sim, Dataset))
+      .def(py::init([](py::array b) {
+             Dataset ds;
+             set_dataset_data_py(ds, b);
+             return ds;
+           }),
+           py::arg("data"), R"doc(
+Instantiate a dataset.
 
-  py::class_<Probe, PyProbe, BaseProbe, std::shared_ptr<Probe>>(
-      m, "Probe", DOC(navground, sim, Probe))
-      .def(py::init<>(), DOC(navground, sim, Probe, Probe))
-      .def("record_step", &Probe::record_step,
-           DOC(navground, sim, Probe, record_step))
-      .def("append", &Probe::append<double>, py::arg("values"),
-           DOC(navground, sim, Probe, append))
-      .def("push", &Probe::push<double>, py::arg("value"),
-           DOC(navground, sim, Probe, push))
-      .def_property("type", &get_probe_type_py, &set_probe_type_py<Probe>,
+:param data: Copies shape, data and dtype from this numpy array
+:type data: :py:class:`numpy.ndarray`
+
+)doc")
+      .def("__repr__",
+           [](const Dataset &ds) -> py::str {
+             py::str r("<Dataset: shape ");
+             r += py::str(py::tuple(py::cast(ds.get_shape())));
+             r += py::str(", dtype ") + py::str(get_dataset_type_py(ds));
+             r += py::str(">");
+             return r;
+           })
+      .def_buffer([](const Dataset &ds) { return as_array(ds).request(); })
+      .def(
+          "append",
+          [](Dataset &ds, py::array b, bool reset) {
+            set_dataset_data_py(ds, b, !reset);
+          },
+          py::arg("values"), py::arg("reset") = false, R"doc(
+Append items from a numpy array.
+
+:param values: Append data and dtype from this numpy array
+:type values: :py:class:`numpy.ndarray`
+:param reset: Wheter to replace the data instead of appending. 
+:type reset: bool
+
+)doc")
+      .def(
+          "append",
+          [](Dataset &ds, const Dataset::Data &values) { ds.append(values); },
+          py::arg("values"), DOC(navground, sim, Dataset, append))
+      .def(
+          "push",
+          [](Dataset &ds, const Dataset::Scalar &value) { ds.push(value); },
+          py::arg("value"), DOC(navground, sim, Dataset, push))
+      .def("reset", &Dataset::reset, DOC(navground, sim, Dataset, reset))
+      .def_property("size", &Dataset::size, nullptr,
+                    DOC(navground, sim, Dataset, property, size))
+      .def_property("is_valid", &Dataset::is_valid, nullptr,
+                    DOC(navground, sim, Dataset, property, is_valid))
+      .def_property("item_shape", &Dataset::get_item_shape,
+                    &Dataset::set_item_shape,
+                    DOC(navground, sim, Dataset, property, item_shape))
+      .def_property("shape", &Dataset::get_shape, nullptr,
+                    DOC(navground, sim, Dataset, property, shape))
+      .def_property("dtype", &get_dataset_type_py, &set_dataset_type_py,
                     R"doc(
-The type of the data to record.
+The type of the dataset.
 
 Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
 
-)doc")
-      .def_property(
-          "data", [](const Probe &probe) { return as_array(probe); }, nullptr,
-          R"doc(
-The recorded data as a numpy array of shape ``self.shape``.
-The array is empty if no data has been recorded.
+)doc");
 
-)doc")
-      .def_property("steps", &Probe::get_steps, nullptr,
-                    DOC(navground, sim, Probe, property_steps))
-      .def_property("size", &Probe::size, nullptr,
-                    DOC(navground, sim, Probe, property_size));
+  py::class_<Probe, PyProbe, std::shared_ptr<Probe>>(m, "Probe",
+                                                     DOC(navground, sim, Probe))
+      .def(py::init<>(), DOC(navground, sim, Probe, Probe));
 
-  py::class_<MapProbe<int>, PyMapProbe, BaseProbe,
-             std::shared_ptr<MapProbe<int>>>(m, "MapProbe",
-                                             DOC(navground, sim, MapProbe))
-      .def(py::init<>(), DOC(navground, sim, MapProbe, MapProbe))
-      .def("record_step", &MapProbe<int>::record_step, py::arg("key"),
-           DOC(navground, sim, MapProbe, record_step))
-      .def("append", &MapProbe<int>::append<double>, py::arg("key"),
-           py::arg("values"), DOC(navground, sim, MapProbe, append))
-      .def("push", &MapProbe<int>::push<double>, py::arg("key"),
-           py::arg("value"), DOC(navground, sim, MapProbe, push))
-      .def_property("type", &get_map_probe_type_py<int>,
-                    &set_probe_type_py<MapProbe<int>>, R"doc(
-The type of the data to record.
+  py::class_<RecordProbe, Probe, PyRecordProbe, std::shared_ptr<RecordProbe>>(
+      m, "RecordProbe", DOC(navground, sim, RecordProbe))
+      .def(py::init<std::shared_ptr<Dataset>>(), py::arg("record") = nullptr,
+           DOC(navground, sim, RecordProbe, RecordProbe))
+      .def_readonly("data", &RecordProbe::data,
+                    DOC(navground, sim, RecordProbe, data));
 
-Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
-)doc")
-      .def_property(
-          "data",
-          [](const MapProbe<int> &probe) { return as_array_map(probe); },
-          nullptr, R"doc(
-The recorded data as a dictionary ``{key: array}}`` of numpy arrays 
-of shape ``self.shape(key)``
-)doc")
-      .def("get_steps", &MapProbe<int>::get_steps, py::arg("key"),
-           DOC(navground, sim, MapProbe, get_steps))
-      .def("size", &MapProbe<int>::size, py::arg("key"),
-           DOC(navground, sim, MapProbe, size));
+  py::class_<GroupRecordProbe, Probe, PyGroupRecordProbe,
+             std::shared_ptr<GroupRecordProbe>>(
+      m, "GroupRecordProbe", DOC(navground, sim, GroupRecordProbe))
+      .def(py::init<GroupRecordProbe::Factory>(),
+           py::arg("factory") = GroupRecordProbe::default_factory,
+           DOC(navground, sim, GroupRecordProbe, GroupRecordProbe))
+      .def("get_data", &GroupRecordProbe::get_data, py::arg("key"),
+           DOC(navground, sim, GroupRecordProbe, get_data));
 
-  py::class_<ExperimentalRun>(m, "ExperimentalRun",
-                              DOC(navground, sim, ExperimentalRun))
+  py::class_<ExperimentalRun, std::shared_ptr<ExperimentalRun>>(
+      m, "ExperimentalRun", DOC(navground, sim, ExperimentalRun))
       .def(py::init<std::shared_ptr<World>, ng_float_t, int, bool,
                     const RecordConfig &, int>(),
            py::arg("world"), py::arg("time_step") = 0.1,
@@ -1246,16 +1357,91 @@ of shape ``self.shape(key)``
            DOC(navground, sim, ExperimentalRun, ExperimentalRun))
       .def("index_of_agent", &ExperimentalRun::index_of_agent, py::arg("agent"),
            DOC(navground, sim, ExperimentalRun, index_of_agent))
-      .def("add_probe", &ExperimentalRun::add_probe, py::keep_alive<1, 3>(),
-           py::arg("name"), py::arg("probe"),
-           DOC(navground, sim, ExperimentalRun, add_probe))
-      .def_property("probes_names", &ExperimentalRun::get_probes_names, nullptr,
-                    DOC(navground, sim, ExperimentalRun, property_probes_names))
+      .def(
+          "add_record",
+          [](ExperimentalRun &run, const std::string &name, py::array data) {
+            auto ds = run.add_record(name);
+            set_dataset_data_py(*ds, data);
+            return ds;
+          },
+          py::arg("name"), py::arg("data"), "TODO")
+      .def("add_probe", &ExperimentalRun::add_probe, py::keep_alive<1, 2>(),
+           py::arg("probe"), DOC(navground, sim, ExperimentalRun, add_probe))
+      .def(
+          "add_record_probe",
+          [](ExperimentalRun &run, const std::string &name, py::object cls) {
+            auto ds = run.add_record(name);
+            set_dataset_type_py(*ds, cls.attr("dtype"));
+            auto obj = cls.attr("__call__")(ds);
+            auto probe = obj.cast<std::shared_ptr<Probe>>();
+            run.add_probe(probe);
+            return obj;
+          },
+          py::arg("key"), py::arg("probe_cls"), R"doc(
+Adds a record probe.
+
+:param key: the key of the record to be created
+:type key: str
+
+:param probe_cls: the probe class
+:type key: Type[sim.RecordProbe]
+
+)doc")
+      .def(
+          "add_group_record_probe",
+          [](ExperimentalRun &run, const std::string &name, py::object cls) {
+            const auto dtype = cls.attr("dtype");
+            const auto factory = [name, dtype,
+                                  &run](const std::string &sub_key) {
+              auto ds = run.add_record(sub_key, name);
+              set_dataset_type_py(*ds, dtype);
+              return ds;
+            };
+            auto obj = cls.attr("__call__")();
+            auto probe = obj.cast<std::shared_ptr<GroupRecordProbe>>();
+            probe->set_factory(factory);
+            run.add_probe(probe);
+            return obj;
+          },
+          py::arg("key"), py::arg("probe_cls"), R"doc(
+Adds a group record probe.
+
+:param key: the key of the group to be created
+:type key: str
+
+:param probe_cls: the probe class
+:type key: Type[sim.GroupRecordProbe]
+
+)doc")
+      .def_property(
+          "record_names",
+          [](const ExperimentalRun &run) { return run.get_record_names(); },
+          nullptr, DOC(navground, sim, ExperimentalRun, property_record_names))
+      .def_property(
+          "records",
+          [](const ExperimentalRun &run) { return run.get_records(); }, nullptr,
+          DOC(navground, sim, ExperimentalRun, property_records))
+      .def("get_record_names", &ExperimentalRun::get_record_names,
+           py::arg("group") = "",
+           DOC(navground, sim, ExperimentalRun, get_record_names))
+      .def(
+          "get_records",
+          [](const ExperimentalRun *run, const std::string &key) {
+            return as_dict_array(run->get_records(key));
+          },
+          py::arg("group") = "", R"doc(
+Gets the records.
+
+:param group: if specified, limits to records in a given group.
+:type group: str
+:return:  read-only recorded data arrays indexed by their key
+:rtype: typing.Dict[str, np.ndarray]
+)doc")
       .def(
           "get_record",
           [](const ExperimentalRun *run, const std::string &key) -> py::object {
-            auto probe = run->get_probe<Probe>(key);
-            if (probe) return as_array(*probe);
+            auto record = run->get_record(key);
+            if (record) return as_array(*record);
             return py::none();
           },
           py::arg("key"), R"doc(
@@ -1265,21 +1451,6 @@ Gets recorded data.
 :type key: str
 :return: read-only recorded data array or None if no data has been recorded for the given key
 :rtype: typing.Optional[np.ndarray]
-)doc")
-      .def(
-          "get_map_record",
-          [](const ExperimentalRun *run, const std::string &key) -> py::object {
-            auto probe = run->get_probe<MapProbe<int>>(key);
-            if (probe) return py::cast(as_array_map(*probe));
-            return py::none();
-          },
-          py::arg("key"), R"doc(
-Gets recorded data map.
-
-:param key: the name of the record
-:type key: str
-:return: read-only recorded data dictionary or None if no data map has been recorded for the given key
-:rtype: typing.Optional[Dict[int, np.ndarray]]
 )doc")
       .def_property(
           "times",
@@ -1406,12 +1577,12 @@ The array is empty if collisions have not been recorded in the run.
 )doc")
       .def_property(
           "task_events",
-          [](const ExperimentalRun *run) -> py::object {
-            auto record = run->get_task_events();
-            if (!record) {
-              return py::dict();
+          [](const ExperimentalRun *run) {
+            std::map<unsigned, py::object> records;
+            for (auto &[k, v] : run->get_task_events()) {
+              records[k] = as_array(*v);
             }
-            return py::cast(as_array_map(*record));
+            return records;
           },
           nullptr,
           R"doc(
@@ -1427,11 +1598,11 @@ The array are empty if the agent's task has not been recorded in the run.
       .def(
           "get_task_events",
           [](const ExperimentalRun *run, const Agent *agent) {
-            auto record = run->get_task_events();
+            auto record = run->get_task_events_for(agent->uid);
             if (!record) {
               return make_empty_array<ng_float_t>();
             }
-            return as_array(agent->uid, *record);
+            return as_array(*record);
           },
           py::arg("agent"),
           R"doc(
@@ -1450,11 +1621,11 @@ The array is empty if the agent's task has not been recorded in the run.
       .def(
           "get_task_events",
           [](const ExperimentalRun *run, unsigned uid) -> py::object {
-            auto record = run->get_task_events();
+            auto record = run->get_task_events_for(uid);
             if (!record) {
               return make_empty_array<ng_float_t>();
             }
-            return as_array(uid, *record);
+            return as_array(*record);
           },
           py::arg("uid"),
           R"doc(
@@ -1562,6 +1733,8 @@ The array is empty if efficacy has not been recorded in the run.
       //                DOC(navground, sim, Experiment, run_config))
       .def_property("runs", &Experiment::get_runs, nullptr,
                     DOC(navground, sim, Experiment, property_runs))
+      .def("get_run", [](const Experiment &exp,
+                         unsigned index) { return exp.get_runs().at(index); })
       .def_property(
           "scenario", [](const PyExperiment *exp) { return exp->scenario; },
           &PyExperiment::set_scenario,
@@ -1582,6 +1755,7 @@ The array is empty if efficacy has not been recorded in the run.
            DOC(navground, sim, Experiment, clear_run_callbacks))
       .def("add_run_callback", &Experiment::add_run_callback,
            py::arg("callback"), py::arg("at_init") = false,
+           py::keep_alive<1, 2>(),
            DOC(navground, sim, Experiment, add_run_callback))
       .def("run_once", &Experiment::run_once, py::arg("seed"),
            py::return_value_policy::reference,
@@ -1610,18 +1784,26 @@ The array is empty if efficacy has not been recorded in the run.
            DOC(navground, sim, Experiment, remove_all_runs))
       .def("remove_run", &Experiment::remove_run, py::arg("seed"),
            DOC(navground, sim, Experiment, remove_run))
-      .def("add_probe", &PyExperiment::add_probe_py, py::arg("name"),
-           py::arg("probe"), R"doc(
-Register a probe to record data during experimental runs.
+      .def("add_probe", &PyExperiment::add_probe_py, py::arg("factory"),
+           DOC(navground, sim, Experiment, add_probe))
+      .def("add_record_probe", &PyExperiment::add_record_probe_py,
+           py::arg("key"), py::arg("probe_cls"), R"doc(
+Register a probe to record data to during all runs.
 
-:param name: The name to assign to record. 
-It will be used to define HDF5 groups or datasets when saving data.
+:param key: the name associated to the record
+:type key: str
+:param probe_cls: the class of the probe.
+:type probe_cls: Type[sim.RecordProbe]
+)doc")
+      .def("add_group_record_probe", &PyExperiment::add_group_record_probe_py,
+           py::arg("key"), py::arg("probe_cls"),
+           R"doc(
+Register a probe to record a group of data to during all runs.
 
-:type name: str
-
-:param probe: A callable that generate probes
-
-:type probe: typing.Callable[[], navground.sim.BaseProbe]
+:param key: the name associated to the group
+:type key: str
+:param probe_cls: the class of the probe.
+:type probe_cls: Type[sim.GroupRecordProbe]
 )doc")
       .def("save", &Experiment::save, py::arg("directory") = py::none(),
            py::arg("path") = py::none(), DOC(navground, sim, Experiment, save))

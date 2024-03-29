@@ -20,6 +20,8 @@ Controller
 How to use the controller API to move to a target point.
 See the equivalent :ref:`C++ example <basics_controller>`.
 
+.. _custom_recordings_py:
+
 Custom recordings 
 -----------------
 

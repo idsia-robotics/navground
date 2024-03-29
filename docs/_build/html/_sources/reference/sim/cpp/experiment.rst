@@ -2,6 +2,16 @@
 Experiments
 ===========
 
+Datasets
+========
+
+.. code-block:: cpp
+   
+   #include "navground/sim/dataset.h"
+
+.. doxygenclass:: navground::sim::Dataset
+    :members:
+
 Probes
 ======
 
@@ -9,13 +19,13 @@ Probes
    
    #include "navground/sim/probe.h"
 
-.. doxygenclass:: navground::sim::BaseProbe
-    :members:
-
 .. doxygenclass:: navground::sim::Probe
     :members:
 
-.. doxygenclass:: navground::sim::MapProbe
+.. doxygenclass:: navground::sim::RecordProbe
+    :members:
+
+.. doxygenclass:: navground::sim::GroupRecordProbe
     :members:
 
 

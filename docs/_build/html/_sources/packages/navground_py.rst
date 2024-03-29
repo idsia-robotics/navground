@@ -52,7 +52,7 @@ It is equivalent to the :ref:`C++ version <info>` but with additional components
 
 
 .. argparse::
-   :module: navground.core.list
+   :module: navground.core.info
    :func: parser
    :prog: info
    :nodefault:

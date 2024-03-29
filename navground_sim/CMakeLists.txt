@@ -68,6 +68,7 @@ add_library(navground_sim SHARED
   src/agent.cpp
   src/experiment.cpp 
   src/experimental_run.cpp 
+  src/dataset.cpp
   src/probe.cpp
   src/scenario.cpp
   src/state_estimation.cpp

@@ -184,6 +184,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/probes.html">How to record custom data in experiments</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -256,6 +257,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/recorded_experiment.html">Recorded Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/real_time.html">Real-time simulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
 </ul>
 </li>
@@ -448,6 +450,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-rt">run_rt</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Example</a></li>
 </ul>
 </li>
@@ -755,6 +759,76 @@ document.write(`
 <section id="run-rt">
 <span id="id5"></span><h3>run_rt<a class="headerlink" href="#run-rt" title="Link to this heading">#</a></h3>
 <p>Run an experiment using Python in real time. You can visualize the world in a browser view.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run_rt</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">port</span> <span class="n">PORT</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">width</span> <span class="n">WIDTH</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">shape</span><span class="p">]</span>
+              <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">deadlocks</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">collisions</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">html</span> <span class="n">HTML</span><span class="p">]</span>
+              <span class="n">YAML</span>
+</pre></div>
+</div>
+<section id="positional-arguments">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments" title="Link to this heading">#</a></h4>
+<dl class="option-list">
+<dt><kbd>YAML</kbd></dt>
+<dd><p>YAML string, or path to a YAML file, describing an experiment</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments" title="Link to this heading">#</a></h4>
+<dl class="option-list">
+<dt><kbd>--factor</kbd></dt>
+<dd><p>Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)</p>
+<p>Default: 1.0</p>
+</dd>
+<dt><kbd>--no-ui</kbd></dt>
+<dd><p>Do not use a view</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--seed</kbd></dt>
+<dd><p>The random seed of the simulation. If negative, it will be picked randomly</p>
+<p>Default: -1</p>
+</dd>
+<dt><kbd>--port</kbd></dt>
+<dd><p>The websocket port</p>
+<p>Default: 8000</p>
+</dd>
+<dt><kbd>--width</kbd></dt>
+<dd><p>Size of the view in pixels</p>
+<p>Default: 500</p>
+</dd>
+<dt><kbd>--no-browser</kbd></dt>
+<dd><p>Do not open a browser view</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--ui-fps</kbd></dt>
+<dd><p>Maximal update rate of the view</p>
+<p>Default: 25.0</p>
+</dd>
+<dt><kbd>--background-color</kbd></dt>
+<dd><p>View background color</p>
+<p>Default: “lightgray”</p>
+</dd>
+<dt><kbd>--area</kbd></dt>
+<dd><p>Minimal area rendered in the view</p>
+<p>Default: (0.0, 0.0, 0.0, 0.0)</p>
+</dd>
+<dt><kbd>--display-shape</kbd></dt>
+<dd><p>Display effective agent shape</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--display-deadlocks</kbd></dt>
+<dd><p>Color deadlocked agent in blue</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--display-collisions</kbd></dt>
+<dd><p>Color deadlocked agent in red</p>
+<p>Default: False</p>
+</dd>
+<dt><kbd>--html</kbd></dt>
+<dd><p>Where to save the HTML file. Leave empty to use a temporary directory</p>
+<p>Default: “”</p>
+</dd>
+</dl>
+</section>
 <section id="id6">
 <h4>Example<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>run_rt<span class="w"> </span>experiment.yaml<span class="w"> </span>--factor<span class="w"> </span><span class="m">5</span>.0
@@ -822,7 +896,7 @@ document.write(`
 <section id="replay">
 <h3>replay<a class="headerlink" href="#replay" title="Link to this heading">#</a></h3>
 <p>Replays an experiment in real-time. You can visualize the world in a browser view, similarly to <a class="reference internal" href="#run-rt">run_rt</a> but for recorded experiment, or create a video from it.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">replay</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">record_video</span> <span class="n">RECORD_VIDEO</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="n">path</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">replay</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">record_video</span> <span class="n">RECORD_VIDEO</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">html</span> <span class="n">HTML</span><span class="p">]</span> <span class="n">path</span>
 </pre></div>
 </div>
 <section id="positional-arguments">
@@ -863,6 +937,10 @@ document.write(`
 <dt><kbd>--background-color</kbd></dt>
 <dd><p>View background color</p>
 <p>Default: “lightgray”</p>
+</dd>
+<dt><kbd>--html</kbd></dt>
+<dd><p>Where to save the HTML file. Leave empty to use a temporary directory</p>
+<p>Default: “”</p>
 </dd>
 </dl>
 </section>
@@ -948,6 +1026,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-rt">run_rt</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-arguments">Named Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Example</a></li>
 </ul>
 </li>

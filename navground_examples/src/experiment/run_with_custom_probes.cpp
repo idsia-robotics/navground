@@ -48,13 +48,14 @@ int main() {
   auto world = std::make_shared<sim::World>(node.as<sim::World>());
   sim::ExperimentalRun run(world, sim::RunConfig{0.1, 20, true},
                            sim::RecordConfig::all(false));
-  run.make_probe<IsMovingProbe, uint8_t>("is_moving");
-  run.make_map_probe<IsMovingSparseProbe, ng_float_t>("stopped_times");
+  run.add_probe(std::make_shared<CheckIfMoving>());
+  run.add_record_probe<IsMovingProbe>("is_moving");
+  run.add_group_record_probe<IsMovingSparseProbe>("still_times");
   run.run();
-  auto probe = run.get_probe<IsMovingProbe>("is_moving");
+  auto record = run.get_record("is_moving");
   std::cout << "Recorded movements:" << std::endl;
-  auto shape = probe->shape();
-  const uint8_t *ptr = probe->get_typed_data<uint8_t>()->data();
+  auto shape = record->get_shape();
+  const uint8_t *ptr = record->get_typed_data<uint8_t>()->data();
   std::cout << std::boolalpha;
   for (size_t i = 0; i < shape[0]; ++i) {
     std::cout << "- ";
@@ -64,13 +65,12 @@ int main() {
     std::cout << std::endl;
   }
   std::cout << std::endl;
-  auto mprobe = run.get_probe<IsMovingSparseProbe>("stopped_times");
+  auto mrecord = run.get_records("still_times");
   std::cout << "Recorded still times:" << std::endl;
-  const auto data = *(mprobe->get_typed_data<ng_float_t>());
-
-  for (const auto &[k, vs] : data) {
+  for (const auto &[k, ds] : mrecord) {
     std::cout << k << ": ";
-    for (const auto &v : vs) {
+    const auto vs = ds->get_typed_data<ng_float_t>();
+    for (const auto &v : *vs) {
       std::cout << v << " ";
     }
     std::cout << std::endl;

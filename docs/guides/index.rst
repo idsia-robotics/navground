@@ -7,3 +7,4 @@ Guides
 
    register
    parallelize
+   probes

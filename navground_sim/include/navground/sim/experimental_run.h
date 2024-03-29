@@ -547,7 +547,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    * @param[in]  group  An optional group. If specified, the looks for record
    *                    associated to keys ``<group>/...``.
    *
-   * @return     The record names.
+   * @return     The record names (relative to the group if specified).
    */
   std::set<std::string> get_record_names(const std::string &group = "") const;
 

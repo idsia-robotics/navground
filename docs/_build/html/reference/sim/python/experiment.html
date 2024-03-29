@@ -940,7 +940,7 @@ optimal velocity)</p>
 to keys <code class="docutils literal notranslate"><span class="pre">&lt;group&gt;/...</span></code>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The record names.</p>
+<dd class="field-even"><p>The record names (relative to the group if specified).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -956,10 +956,9 @@ to keys <code class="docutils literal notranslate"><span class="pre">&lt;group&g
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>read-only recorded data arrays indexed by their key</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>Dict</em>[str, np.ndarray]</p>
-</dd>
 </dl>
+<p>(relative to the group if specified).
+:rtype: typing.Dict[str, np.ndarray]</p>
 </dd></dl>
 
 <dl class="py method">

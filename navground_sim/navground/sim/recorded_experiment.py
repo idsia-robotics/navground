@@ -1,7 +1,7 @@
 import datetime
 import pathlib
 import re
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union, Set
 
 import h5py
 import numpy as np
@@ -12,6 +12,19 @@ from . import Agent, World, load_experiment, load_world
 
 def _timedelta_from_ns(ns: int):
     return datetime.timedelta(microseconds=ns / 1e3)
+
+
+def _get_all_datasets(group: h5py.Group, ns: str) -> Dict[str, h5py.Dataset]:
+    rs = {}
+    for k, v in group.items():
+        if isinstance(v, h5py.Group):
+            cs = _get_all_datasets(v, ns)
+            rs.update(**cs)
+        else:
+            i = v.name.find(ns)
+            n = v.name[i + len(ns):]
+            rs[n] = v
+    return rs
 
 
 class RecordedExperimentalRun:
@@ -59,7 +72,10 @@ class RecordedExperimentalRun:
         """The recorded times"""
         self.targets: Optional[h5py.Dataset] = group.get('targets')
         """The recorded targets"""
-        self.task_events: Optional[h5py.Group] = group.get('task_events')
+        self.task_events: Dict[int, h5py.Dataset] = {
+            int(k): v
+            for k, v in group.get('task_events', {}).items()
+        }
         """The recorded task events"""
         self.safety_violations: Optional[h5py.Dataset] = group.get(
             'safety_violations')
@@ -71,8 +87,8 @@ class RecordedExperimentalRun:
         """The duration of the run"""
         self.number_of_agents: int = len(self.world.agents)
         """The number of agents recorded"""
-        self.probes_names: List[str] = list(group.keys())
-        """The names of all probes active during recording"""
+        # self.probes_names: List[str] = list(group.keys())
+        # """The names of all probes active during recording"""
         self._final_sim_time = group.attrs['final_sim_time']
         self.maximal_steps: int = group.attrs['maximal_steps']
         """The maximal steps that could have been performed"""
@@ -94,13 +110,41 @@ class RecordedExperimentalRun:
         self.world.seed = self._group.attrs['seed']
         self._step = -1
 
-    def get_record(self, key: str) -> Optional[h5py.Dataset]:
+    @property
+    def root(self) -> h5py.Group:
+        """The run root HDF5 group"""
+        return self._group
+
+    @property
+    def records(self) -> Dict:
+        """All recorded datasets"""
+        return self.get_records()
+
+    @property
+    def record_names(self) -> Set[str]:
+        """All recorded dataset names"""
+
+        return self.get_record_names()
+
+    def get_record_names(self, group: str = '') -> Set[str]:
+        """
+         Gets the names of records.
+
+        :param      group:  An optional group. If specified, the looks for record
+                            associated to keys ``<group>/...``.
+        :type       group:  str
+
+        :returns:   The record names (relative to the group if specified).
+        """
+        return set(self.get_records(group=group).keys())
+
+    def get_record(self, key: str = '') -> Optional[h5py.Dataset]:
         """
         Gets recorded data.
 
-        :param key: the name of the record
-        :type key: str
-        :return: read-only recorded data array or None if no data
+        :param group: the name of the record
+        :type group: str
+        :return: recorded dataset or None if no data
                  has been recorded for the given key
         """
         value = self._group.get(key)
@@ -108,19 +152,20 @@ class RecordedExperimentalRun:
             return value
         return None
 
-    def get_record_map(self, key: str) -> Optional[h5py.Group]:
+    def get_records(self, group: str = '') -> Dict[str, h5py.Dataset]:
         """
         Gets recorded data map.
 
-        :param key: the name of the record
-        :type key: str
-        :return: read-only recorded data dictionary or None if no data map
-                 has been recorded for the given key
+        :param group: if specified, limits to records in a given group.
+        :type group: str
+        :return: recorded datasets indexed by their key
+        (relative to the group if specified).
         """
-        value = self._group.get(key)
-        if isinstance(value, h5py.Group):
-            return value
-        return None
+        if group:
+            g = self._group.get(group)
+        else:
+            g = self._group
+        return _get_all_datasets(g, f'{g.name}/')
 
     def get_task_events(self, agent: Agent):
         """
@@ -138,7 +183,7 @@ class RecordedExperimentalRun:
         """
         te = self.task_events
         if te:
-            return te[agent._uid]
+            return te[str(agent._uid)]
         return np.array([])
 
     def index_of_agent(self, agent: Agent) -> int:
@@ -160,7 +205,7 @@ class RecordedExperimentalRun:
         """
         Try to advance the world to a given recorded simulation step.
 
-        Depending if the data as been recorded, it will update:
+        Depending if the data has been recorded, it will update:
 
         - :py:attr:`navground.sim.World.collisions`,
         - :py:attr:`navground.sim.World.time`
@@ -222,9 +267,8 @@ class RecordedExperimentalRun:
     @property
     def has_finished(self) -> bool:
         """
-        Determines if play back has finished.
-
-        :returns:   True if there are no more steps to play back, False otherwise
+        Determines if play back has finished:
+        ``True`` if there are no more steps to play back, ``False`` otherwise
         """
         return self._step >= self.recorded_steps - 1
 
@@ -236,10 +280,9 @@ class RecordedExperimentalRun:
     @property
     def bounds(self) -> Optional[Tuple[np.ndarray, np.ndarray]]:
         """
-        Computes the rectangle in which agents are contained during the run
-
-        :returns: (lower-left corner, top-right corner)
-                  or None if no poses has been recorded
+        Computes the rectangle in which agents are contained during the run:
+        ``(lower-left corner, top-right corner)``
+        or ``None`` if no poses has been recorded
         """
         if not self.poses:
             return None

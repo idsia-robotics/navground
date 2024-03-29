@@ -1434,7 +1434,8 @@ Gets the records.
 
 :param group: if specified, limits to records in a given group.
 :type group: str
-:return:  read-only recorded data arrays indexed by their key
+:return:  read-only recorded data arrays indexed by their key 
+(relative to the group if specified).
 :rtype: typing.Dict[str, np.ndarray]
 )doc")
       .def(

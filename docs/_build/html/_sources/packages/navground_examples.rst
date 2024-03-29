@@ -122,14 +122,14 @@ How to list registered scenarios and load one of them, and use it to sample a wo
 YAML
 ----
 
-:file:  `scenario_from_YAML.cpp <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/scenario_from_yaml.cpp>`_
+:file:  `scenario_from_yaml.cpp <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/scenario_from_yaml.cpp>`_
 
 How to load a scenario from YAML and use it to sample a world.
 
 Groups
 ------
 
-:file:  `scenario_with_groups.cpp <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/scenario_with_group.cpp>`_
+:file:  `scenario_with_group.cpp <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/scenario_with_group.cpp>`_
 
 How to define a scenario with groups.
 

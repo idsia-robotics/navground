@@ -46,6 +46,25 @@ inline std::shared_ptr<T> load_string(const std::string &value) {
   return load_node<T>(node);
 }
 
+/* NOTE about YAML serialization of floating points in YAML nodes
+
+float and double are converted to string when building the node
+in include/yaml-cpp/node/convert.h
+#define YAML_DEFINE_CONVERT_STREAMABLE(type, negative_op)
+with MAXIMAL PRECISION.
+
+If we want to reduce the precision, we need to change it there!
+
+    static Node encode(const type& rhs) {
+      std::stringstream stream;
+--->  stream.precision(std::numeric_limits<type>::max_digits10);
+      conversion::inner_encode(rhs, stream);
+      return Node(stream.str());
+    }
+
+or to convert all floats to strings as we like.
+*/
+
 /**
  * @brief      Dump an object to a YAML-string
  *
@@ -59,10 +78,8 @@ template <typename T>
 std::string dump(const T *object) {
   if (!object) return "";
   YAML::Emitter out;
-  // TODO(?): these are not working
-  out.SetFloatPrecision(6);
-  out.SetDoublePrecision(6);
-  // out << YAML::Precision(6) << YAML::Node(*object);
+  // out.SetFloatPrecision(6);
+  // out.SetDoublePrecision(6);
   out << YAML::Node(*object);
   return std::string(out.c_str());
 }

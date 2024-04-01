@@ -259,6 +259,9 @@ struct convert<std::shared_ptr<Agent>> {
 template <typename T = Agent>
 struct convert_world {
   static Node encode(const World& rhs) {
+    // HACK(Jerome): To avoid issues with serializing the world 
+    // when there are very small components
+    rhs.snap_twists_to_zero();
     Node node;
     node["obstacles"] = rhs.get_obstacles();
     node["walls"] = rhs.get_walls();

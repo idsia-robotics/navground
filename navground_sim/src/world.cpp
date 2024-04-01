@@ -95,6 +95,12 @@ void World::update(ng_float_t time_step) {
   }
 }
 
+void World::snap_twists_to_zero(ng_float_t epsilon) const{
+  for (const auto &a : agents) {
+    a->twist.snap_to_zero(epsilon);
+  }
+}
+
 void World::actuate(ng_float_t time_step) {
   if (!ready) {
     prepare();

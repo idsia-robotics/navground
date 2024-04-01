@@ -219,6 +219,23 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
     return velocity.norm() < epsilon_speed &&
            abs(angular_speed) < epsilon_angular_speed;
   }
+
+  /**
+   * @brief      Snap components to zero if their module is smaller than epsilon.
+   *
+   * @param[in]  epsilon  The tolerance
+   */
+  void snap_to_zero(ng_float_t epsilon = 1e-6) {
+    if (abs(velocity[0]) < epsilon) {
+      velocity[0] = 0;
+    }
+    if (abs(velocity[1]) < epsilon) {
+      velocity[1] = 0;
+    }
+    if (abs(angular_speed) < epsilon) {
+      angular_speed = 0;
+    }
+  }
 };
 
 /**

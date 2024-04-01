@@ -8,6 +8,7 @@
 #include <geos/geom/Envelope.h>
 #include <geos/index/strtree/TemplateSTRtree.h>
 
+#include <algorithm>
 #include <memory>
 #include <set>
 #include <utility>
@@ -433,21 +434,20 @@ class NAVGROUND_SIM_EXPORT World {
    */
   RandomGenerator &get_random_generator();
 
-
   /**
    * @brief      Sets the random generator shared by all distribution
    * used to generate and simulate this world
    *
    * @param[in]  value  The desired random generator
    */
-  void set_random_generator(RandomGenerator & value);
+  void set_random_generator(RandomGenerator &value);
 
   /**
    * @brief      Copy the random generator from another world
    *
    * @param[in]  world  The world
    */
-  void copy_random_generator(World & world) {
+  void copy_random_generator(World &world) {
     set_random_generator(world.get_random_generator());
   }
 
@@ -563,6 +563,32 @@ class NAVGROUND_SIM_EXPORT World {
    * @return     The agents in deadlock.
    */
   std::vector<Agent *> get_agents_in_deadlock(ng_float_t duration = 0.0) const;
+
+  /**
+   * @brief      Snap agents' twists smaller than epsilon to zero.
+   *
+   * @param[in]  epsilon  The tolerance
+   */
+  void snap_twists_to_zero(ng_float_t epsilon = 1e-6) const;
+
+  /**
+   * @brief      Searches for the index of an agent.
+   *
+   * @param[in]  agent  The agent
+   *
+   * @return     The index of this agent in the world agents list
+   *             or null if not found.
+   */
+  std::optional<unsigned> index_of_agent(const Agent *agent) const {
+    auto it = std::find_if(agents.begin(), agents.end(),
+                           [](const std::shared_ptr<Agent> &other) {
+                             return other.get() == agent;
+                           });
+    if (it != std::end(agents)) {
+      return std::distance(agents.begin(), it);
+    }
+    return std::nullopt
+  }
 
  private:
   void record_collision(Entity *e1, Entity *e2);

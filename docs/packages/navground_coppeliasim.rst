@@ -9,7 +9,7 @@ LUA API
 =======
 
 
-.. lua:function:: simsimNavground.make_controller(int handle,string behavior,map kinematics,float radius)-> int handle
+.. lua:function:: simNavground.make_controller(int handle,string behavior,map kinematics,float radius)-> int handle
 
    Instantiate a navigation controller
 
@@ -24,7 +24,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_behavior_property(int handle,string name)-> map value
+.. lua:function:: simNavground.get_behavior_property(int handle,string name)-> map value
 
    Get the value of one of the navigation behavior properties
 
@@ -37,7 +37,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_behavior_property(int handle,string name,map value)
+.. lua:function:: simNavground.set_behavior_property(int handle,string name,map value)
 
    Set the value of one of the navigation behavior properties
 
@@ -49,7 +49,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_agents()-> int[] handles
+.. lua:function:: simNavground.get_agents()-> int[] handles
 
    Get the handles of all the agents
 
@@ -60,7 +60,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.properties(int handle,int owner=-1)-> map[] properties
+.. lua:function:: simNavground.properties(int handle,int owner=-1)-> map[] properties
 
    Get all the agent properties
 
@@ -73,7 +73,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground._get_property(int handle,int owner,string name)-> map value
+.. lua:function:: simNavground._get_property(int handle,int owner,string name)-> map value
 
    Get the value of an agent's property
 
@@ -87,7 +87,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground._set_property(int handle,int owner,string name,map value)
+.. lua:function:: simNavground._set_property(int handle,int owner,string name,map value)
 
    Set the value of an agent's property
 
@@ -100,7 +100,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_lattice(int coordinate_index,float from,float to)
+.. lua:function:: simNavground.set_lattice(int coordinate_index,float from,float to)
 
    TODO
 
@@ -112,7 +112,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_lattice(int coordinate_index)-> bool enabled,float from,float to
+.. lua:function:: simNavground.get_lattice(int coordinate_index)-> bool enabled,float from,float to
 
    TODO
 
@@ -126,7 +126,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.go_to_position(int handle,float[] position,float tolerance)
+.. lua:function:: simNavground.go_to_position(int handle,float[] position,float tolerance)
 
    TODO
 
@@ -138,7 +138,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.go_to_pose(int handle,float[] position,float orientation,float position_tolerance,float orientation_tolerance)
+.. lua:function:: simNavground.go_to_pose(int handle,float[] position,float orientation,float position_tolerance,float orientation_tolerance)
 
    TODO
 
@@ -152,7 +152,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.follow_point(int handle,float[] point)
+.. lua:function:: simNavground.follow_point(int handle,float[] point)
 
    TODO
 
@@ -163,7 +163,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.follow_pose(int handle,float[] position,float orientation)
+.. lua:function:: simNavground.follow_pose(int handle,float[] position,float orientation)
 
    TODO
 
@@ -175,7 +175,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_target(int handle)-> map point
+.. lua:function:: simNavground.get_target(int handle)-> map point
 
    TODO
 
@@ -187,7 +187,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_pose(int handle)-> float[] position,float orientation
+.. lua:function:: simNavground.get_pose(int handle)-> float[] position,float orientation
 
    TODO
 
@@ -200,7 +200,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_pose(int handle,float[] position,float orientation)
+.. lua:function:: simNavground.set_pose(int handle,float[] position,float orientation)
 
    TODO
 
@@ -212,7 +212,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_twist(int handle)-> float[] velocity,float angular_speed
+.. lua:function:: simNavground.get_twist(int handle)-> float[] velocity,float angular_speed
 
    TODO
 
@@ -225,7 +225,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_twist(int handle,float[] velocity,float angular_speed)
+.. lua:function:: simNavground.set_twist(int handle,float[] velocity,float angular_speed)
 
    TODO
 
@@ -237,7 +237,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_rotation_tau(int handle,float value)
+.. lua:function:: simNavground.set_rotation_tau(int handle,float value)
 
    TODO
 
@@ -248,7 +248,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_horizon(int handle,float value)
+.. lua:function:: simNavground.set_horizon(int handle,float value)
 
    TODO
 
@@ -259,7 +259,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_horizon(int handle)-> float value
+.. lua:function:: simNavground.get_horizon(int handle)-> float value
 
    TODO
 
@@ -271,7 +271,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_safety_margin(int handle,float value)
+.. lua:function:: simNavground.set_safety_margin(int handle,float value)
 
    TODO
 
@@ -282,7 +282,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_safety_margin(int handle)-> float value
+.. lua:function:: simNavground.get_safety_margin(int handle)-> float value
 
    TODO
 
@@ -294,7 +294,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_optimal_speed(int handle,float value)
+.. lua:function:: simNavground.set_optimal_speed(int handle,float value)
 
    TODO
 
@@ -305,7 +305,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_optimal_speed(int handle)-> float value
+.. lua:function:: simNavground.get_optimal_speed(int handle)-> float value
 
    TODO
 
@@ -317,7 +317,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_heading_behavior(int handle,int value)
+.. lua:function:: simNavground.set_heading_behavior(int handle,int value)
 
    TODO
 
@@ -328,7 +328,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_speed_tolerance(int handle,float value)
+.. lua:function:: simNavground.set_speed_tolerance(int handle,float value)
 
    TODO
 
@@ -339,7 +339,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.should_be_limited_to_2d(int handle,bool value)
+.. lua:function:: simNavground.should_be_limited_to_2d(int handle,bool value)
 
    TODO
 
@@ -350,7 +350,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_cmd_frame(int handle,int value)
+.. lua:function:: simNavground.set_cmd_frame(int handle,int value)
 
    TODO
 
@@ -361,7 +361,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.follow_velocity(int handle,float[] velocity)
+.. lua:function:: simNavground.follow_velocity(int handle,float[] velocity)
 
    TODO
 
@@ -372,7 +372,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.update(int handle,float time_step)-> float[] velocity,float angular_speed,float state
+.. lua:function:: simNavground.update(int handle,float time_step)-> float[] velocity,float angular_speed,float state
 
    TODO
 
@@ -387,7 +387,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_static_obstacles(int handle,map[] obstacles)
+.. lua:function:: simNavground.set_static_obstacles(int handle,map[] obstacles)
 
    TODO
 
@@ -398,7 +398,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_neighbors(int handle,map[] neighbors)
+.. lua:function:: simNavground.set_neighbors(int handle,map[] neighbors)
 
    TODO
 
@@ -409,7 +409,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_line_obstacles(int handle,map[] obstacles)
+.. lua:function:: simNavground.set_line_obstacles(int handle,map[] obstacles)
 
    TODO
 
@@ -420,7 +420,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_state(int handle)-> int state
+.. lua:function:: simNavground.get_state(int handle)-> int state
 
    TODO
 
@@ -432,7 +432,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_actuated_wheel_speeds(int handle)-> float[] speeds
+.. lua:function:: simNavground.get_actuated_wheel_speeds(int handle)-> float[] speeds
 
    TODO
 
@@ -444,7 +444,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.add_obstacle(int handle,float radius)
+.. lua:function:: simNavground.add_obstacle(int handle,float radius)
 
    TODO
 
@@ -455,7 +455,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.add_wall(float[] p1,float[] p2)
+.. lua:function:: simNavground.add_wall(float[] p1,float[] p2)
 
    TODO
 
@@ -466,7 +466,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.add_agent_from_yaml(int handle,string yaml)-> int handle
+.. lua:function:: simNavground.add_agent_from_yaml(int handle,string yaml)-> int handle
 
    TODO
 
@@ -479,7 +479,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.remove_agent(int handle)
+.. lua:function:: simNavground.remove_agent(int handle)
 
    TODO
 
@@ -489,7 +489,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_last_cmd(int handle,int frame)-> float[] velocity,float angular_speed
+.. lua:function:: simNavground.get_last_cmd(int handle,int frame)-> float[] velocity,float angular_speed
 
    TODO
 
@@ -503,7 +503,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.get_last_wheel_cmd(int handle)-> float[] speeds
+.. lua:function:: simNavground.get_last_wheel_cmd(int handle)-> float[] speeds
 
    TODO
 
@@ -515,7 +515,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.enable_recording(map config)
+.. lua:function:: simNavground.enable_recording(map config)
 
    TODO
 
@@ -525,7 +525,7 @@ LUA API
 
 
 
-.. lua:function:: simsimNavground.set_frame(int handle)
+.. lua:function:: simNavground.set_frame(int handle)
 
    Set the simulation reference frame.
 

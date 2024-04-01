@@ -10,6 +10,64 @@
 
 ### Removed
 
+## [0.0.4] - 2024-1-4
+
+### Added
+
+- All:
+  - support for Windows and MSVC
+  - simplified installation using VCS
+  - colcon deps and config files
+  - pickle serialization via YAML
+
+- Docs
+  - how to use probes
+
+- Sim:
+  - waypoints task now supports random order and dynamically changing waypoints
+  - discs state estimation now supports more parameters
+  - added an option to retrieve the runs when running a multi-process experiment and saving them to a single HFD5 file
+  - datasets
+  - methods to remove agents from a world
+  - function to open an HTML view
+
+- CoppeliaSim:
+  - properties accessors
+  - adding/removing agents
+
+
+### Fixed
+
+- YAML-CPP target
+- CSS style so that real time HTML visualization works in all major browsers
+- Snap twists to zero when dumping World to YAML, else the YAML may contain invalid numbers.
+- Silenced moviepy
+- Moved registration to compiled files to support MSVC which does not like complex inline initializations 
+
+### Changed
+
+- All:
+  - `@registered_property` to  `@property + @register`
+  - C++ plugins uses now the ament index and do not require setting env variables anymore.
+
+- Core:
+  - removed optionals from social margin API.
+
+- Sim: 
+  - moved random generator to `World`. 
+  - separated data ("records") from data recorders ("probes")
+  - we now have three classes of probes: `Probe`, `RecordProve` (1 dataset), `GroupRecordProbe` (a map of datasets). They are defined by three callbacks to prepare, update, finalize an experimental run.
+  - moved notebook view functions to separate module.
+ 
+- CoppeliaSim:
+  - now uses CoppeliaSim handles instead of navground UID as keys
+
+### Removed
+
+- Sim: 
+  - do not store anymore number and indices of agents in `ExperimentalRun` but compute them on the fly.
+
+
 ## [0.0.3] - 2024-12-1
 
 ### Added

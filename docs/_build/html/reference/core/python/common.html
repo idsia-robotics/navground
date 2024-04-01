@@ -448,6 +448,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.is_almost_zero"><code class="docutils literal notranslate"><span class="pre">Twist2.is_almost_zero()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.relative"><code class="docutils literal notranslate"><span class="pre">Twist2.relative()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.rotate"><code class="docutils literal notranslate"><span class="pre">Twist2.rotate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.snap_to_zero"><code class="docutils literal notranslate"><span class="pre">Twist2.snap_to_zero()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.angular_speed"><code class="docutils literal notranslate"><span class="pre">Twist2.angular_speed</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.frame"><code class="docutils literal notranslate"><span class="pre">Twist2.frame</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.velocity"><code class="docutils literal notranslate"><span class="pre">Twist2.velocity</span></code></a></li>
@@ -673,6 +674,17 @@ Poses are assumed to be the world-fixed frame.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Twist2.snap_to_zero">
+<span class="sig-name descname"><span class="pre">snap_to_zero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Twist2.snap_to_zero" title="Link to this definition">#</a></dt>
+<dd><p>Snap components to zero if their module is smaller than epsilon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> – The tolerance</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="navground.core.Twist2.angular_speed">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">angular_speed</span></span><a class="headerlink" href="#navground.core.Twist2.angular_speed" title="Link to this definition">#</a></dt>
@@ -780,6 +792,7 @@ Poses are assumed to be the world-fixed frame.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.is_almost_zero"><code class="docutils literal notranslate"><span class="pre">Twist2.is_almost_zero()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.relative"><code class="docutils literal notranslate"><span class="pre">Twist2.relative()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.rotate"><code class="docutils literal notranslate"><span class="pre">Twist2.rotate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.snap_to_zero"><code class="docutils literal notranslate"><span class="pre">Twist2.snap_to_zero()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.angular_speed"><code class="docutils literal notranslate"><span class="pre">Twist2.angular_speed</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.frame"><code class="docutils literal notranslate"><span class="pre">Twist2.frame</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Twist2.velocity"><code class="docutils literal notranslate"><span class="pre">Twist2.velocity</span></code></a></li>

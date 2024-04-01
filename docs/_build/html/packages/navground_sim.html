@@ -702,7 +702,7 @@ document.write(`
 <section id="run-and-run-py">
 <span id="run"></span><h3>run and run_py<a class="headerlink" href="#run-and-run-py" title="Link to this heading">#</a></h3>
 <p>Run an experiment. <code class="docutils literal notranslate"><span class="pre">run_py</span></code> uses a Python interpreter: it is slightly slower but has access to components implemented in Python too, while <code class="docutils literal notranslate"><span class="pre">run</span></code> is limited to components implemented in C++.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run</span><span class="o">|</span><span class="n">run_py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">tqdm</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">run_index</span> <span class="n">RUN_INDEX</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">runs</span> <span class="n">RUNS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">threads</span> <span class="n">THREADS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">processes</span> <span class="n">PROCESSES</span><span class="p">]</span> <span class="n">YAML</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run</span><span class="o">|</span><span class="n">run_py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">tqdm</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">run_index</span> <span class="n">RUN_INDEX</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">runs</span> <span class="n">RUNS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">threads</span> <span class="n">THREADS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">processes</span> <span class="n">PROCESSES</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">save_single_hdf5</span><span class="p">]</span> <span class="n">YAML</span>
 </pre></div>
 </div>
 <section id="positional-arguments">
@@ -735,6 +735,10 @@ document.write(`
 <dt><kbd>--processes</kbd></dt>
 <dd><p>Number of processes</p>
 <p>Default: 1</p>
+</dd>
+<dt><kbd>--save_single_hdf5</kbd></dt>
+<dd><p>Whether to store a single HDF5 file when using multiple processes</p>
+<p>Default: False</p>
 </dd>
 </dl>
 </section>

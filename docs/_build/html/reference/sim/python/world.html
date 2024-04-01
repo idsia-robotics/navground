@@ -457,9 +457,11 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_neighbors"><code class="docutils literal notranslate"><span class="pre">World.get_neighbors()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_static_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_static_obstacles_in_region()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.in_collision"><code class="docutils literal notranslate"><span class="pre">World.in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.index_of_agent"><code class="docutils literal notranslate"><span class="pre">World.index_of_agent()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.reset_callbacks"><code class="docutils literal notranslate"><span class="pre">World.reset_callbacks()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run"><code class="docutils literal notranslate"><span class="pre">World.run()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run_until"><code class="docutils literal notranslate"><span class="pre">World.run_until()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.snap_twists_to_zero"><code class="docutils literal notranslate"><span class="pre">World.snap_twists_to_zero()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.space_agents_apart"><code class="docutils literal notranslate"><span class="pre">World.space_agents_apart()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.update"><code class="docutils literal notranslate"><span class="pre">World.update()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.update_dry"><code class="docutils literal notranslate"><span class="pre">World.update_dry()</span></code></a></li>
@@ -749,7 +751,7 @@ neighbor or obstacle in the safety margin of the agent.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_agents_in_collision">
-<span class="sig-name descname"><span class="pre">get_agents_in_collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_collision" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_agents_in_collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_collision" title="Link to this definition">#</a></dt>
 <dd><p>Gets the agents that had a collision after <code class="docutils literal notranslate"><span class="pre">now</span> <span class="pre">-</span> <span class="pre">duration</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -763,7 +765,7 @@ neighbor or obstacle in the safety margin of the agent.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_agents_in_deadlock">
-<span class="sig-name descname"><span class="pre">get_agents_in_deadlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_deadlock" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_agents_in_deadlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_deadlock" title="Link to this definition">#</a></dt>
 <dd><p>Gets the agents that are in stuck since <code class="docutils literal notranslate"><span class="pre">now</span> <span class="pre">-</span> <span class="pre">duration</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -777,7 +779,7 @@ neighbor or obstacle in the safety margin of the agent.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_agents_in_region">
-<span class="sig-name descname"><span class="pre">get_agents_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_region" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_agents_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_region" title="Link to this definition">#</a></dt>
 <dd><p>Gets all agents in a bounding box.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -805,7 +807,7 @@ neighbor or obstacle in the safety margin of the agent.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_line_obstacles_in_region">
-<span class="sig-name descname"><span class="pre">get_line_obstacles_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/state.html#navground.core.LineSegment" title="navground.core.LineSegment"><span class="pre">navground.core.LineSegment</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_line_obstacles_in_region" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_line_obstacles_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/state.html#navground.core.LineSegment" title="navground.core.LineSegment"><span class="pre">navground.core.LineSegment</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_line_obstacles_in_region" title="Link to this definition">#</a></dt>
 <dd><p>Gets all walls in a bounding box.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -819,7 +821,7 @@ neighbor or obstacle in the safety margin of the agent.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_neighbors">
-<span class="sig-name descname"><span class="pre">get_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/state.html#navground.core.Neighbor" title="navground.core.Neighbor"><span class="pre">navground.core.Neighbor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_neighbors" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/state.html#navground.core.Neighbor" title="navground.core.Neighbor"><span class="pre">navground.core.Neighbor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_neighbors" title="Link to this definition">#</a></dt>
 <dd><p>Gets all neighbor of an agent (ghosts included)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -837,7 +839,7 @@ the agent.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_static_obstacles_in_region">
-<span class="sig-name descname"><span class="pre">get_static_obstacles_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/state.html#navground.core.Disc" title="navground.core.Disc"><span class="pre">navground.core.Disc</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_static_obstacles_in_region" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_static_obstacles_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/state.html#navground.core.Disc" title="navground.core.Disc"><span class="pre">navground.core.Disc</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_static_obstacles_in_region" title="Link to this definition">#</a></dt>
 <dd><p>Gets all agents in a bounding box.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -862,6 +864,21 @@ the agent.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if they are in collision.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.World.index_of_agent">
+<span class="sig-name descname"><span class="pre">index_of_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.index_of_agent" title="Link to this definition">#</a></dt>
+<dd><p>Searches for the index of an agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>agent</strong> – The agent</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The index of this agent in the world agents list or null if not
+found.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -895,6 +912,17 @@ the agent.</p>
 <li><p><strong>condition</strong> – The condition</p></li>
 <li><p><strong>time_step</strong> – The duration of each time step</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.World.snap_twists_to_zero">
+<span class="sig-name descname"><span class="pre">snap_twists_to_zero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.snap_twists_to_zero" title="Link to this definition">#</a></dt>
+<dd><p>Snap agents’ twists smaller than epsilon to zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> – The tolerance</p>
 </dd>
 </dl>
 </dd></dl>
@@ -946,7 +974,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">agents</span></span><a class="headerlink" href="#navground.sim.World.agents" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent">navground.sim.NativeAgent</a>]</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent">navground.sim.NativeAgent</a>]</p>
 </dd>
 </dl>
 <p>All agents in this world.</p>
@@ -957,7 +985,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collisions</span></span><a class="headerlink" href="#navground.sim.World.collisions" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Set[Tuple[<a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity">navground.sim.Entity</a>, <a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity">navground.sim.Entity</a>]]</p>
+<dd class="field-odd"><p>set[tuple[<a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity">navground.sim.Entity</a>, <a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity">navground.sim.Entity</a>]]</p>
 </dd>
 </dl>
 <p>The colliding pairs computed during the last simulation step.</p>
@@ -968,7 +996,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">discs</span></span><a class="headerlink" href="#navground.sim.World.discs" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="../../core/python/state.html#navground.core.Disc" title="navground.core.Disc">navground.core.Disc</a>]</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="../../core/python/state.html#navground.core.Disc" title="navground.core.Disc">navground.core.Disc</a>]</p>
 </dd>
 </dl>
 <p>All disc shaped static obstacles in this world.</p>
@@ -979,7 +1007,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">line_obstacles</span></span><a class="headerlink" href="#navground.sim.World.line_obstacles" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="../../core/python/state.html#navground.core.LineSegment" title="navground.core.LineSegment">navground.core.LineSegment</a>]</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="../../core/python/state.html#navground.core.LineSegment" title="navground.core.LineSegment">navground.core.LineSegment</a>]</p>
 </dd>
 </dl>
 <p>All line obstacles in this world.</p>
@@ -990,7 +1018,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obstacles</span></span><a class="headerlink" href="#navground.sim.World.obstacles" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="#navground.sim.Obstacle" title="navground.sim.Obstacle">navground.sim.Obstacle</a>]</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#navground.sim.Obstacle" title="navground.sim.Obstacle">navground.sim.Obstacle</a>]</p>
 </dd>
 </dl>
 <p>All obstacles in this world.</p>
@@ -1034,7 +1062,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">walls</span></span><a class="headerlink" href="#navground.sim.World.walls" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="#navground.sim.Wall" title="navground.sim.Wall">navground.sim.Wall</a>]</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#navground.sim.Wall" title="navground.sim.Wall">navground.sim.Wall</a>]</p>
 </dd>
 </dl>
 <p>All walls in this world.</p>
@@ -1123,9 +1151,11 @@ resolution.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_neighbors"><code class="docutils literal notranslate"><span class="pre">World.get_neighbors()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_static_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_static_obstacles_in_region()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.in_collision"><code class="docutils literal notranslate"><span class="pre">World.in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.index_of_agent"><code class="docutils literal notranslate"><span class="pre">World.index_of_agent()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.reset_callbacks"><code class="docutils literal notranslate"><span class="pre">World.reset_callbacks()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run"><code class="docutils literal notranslate"><span class="pre">World.run()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run_until"><code class="docutils literal notranslate"><span class="pre">World.run_until()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.snap_twists_to_zero"><code class="docutils literal notranslate"><span class="pre">World.snap_twists_to_zero()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.space_agents_apart"><code class="docutils literal notranslate"><span class="pre">World.space_agents_apart()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.update"><code class="docutils literal notranslate"><span class="pre">World.update()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.update_dry"><code class="docutils literal notranslate"><span class="pre">World.update_dry()</span></code></a></li>

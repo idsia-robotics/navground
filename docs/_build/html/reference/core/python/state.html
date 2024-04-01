@@ -710,7 +710,7 @@ interpretation is up to the behavior.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">line_obstacles</span></span><a class="headerlink" href="#navground.core.GeometricState.line_obstacles" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="#navground.core.LineSegment" title="navground.core.LineSegment">navground.core.LineSegment</a>]</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#navground.core.LineSegment" title="navground.core.LineSegment">navground.core.LineSegment</a>]</p>
 </dd>
 </dl>
 <p>The current list of line obstacles. positions are in the world
@@ -722,7 +722,7 @@ fixed frame.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">neighbors</span></span><a class="headerlink" href="#navground.core.GeometricState.neighbors" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="#navground.core.Neighbor" title="navground.core.Neighbor">navground.core.Neighbor</a>]</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#navground.core.Neighbor" title="navground.core.Neighbor">navground.core.Neighbor</a>]</p>
 </dd>
 </dl>
 <p>The current list of neighbors. positions are in the world fixed
@@ -734,7 +734,7 @@ frame.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">static_obstacles</span></span><a class="headerlink" href="#navground.core.GeometricState.static_obstacles" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="#navground.core.Disc" title="navground.core.Disc">navground.core.Disc</a>]</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#navground.core.Disc" title="navground.core.Disc">navground.core.Disc</a>]</p>
 </dd>
 </dl>
 <p>The current list of static obstacles. positions are in the world
@@ -754,7 +754,7 @@ fixed frame.</p>
 (<a class="reference external" href="https://gymnasium.farama.org/api/spaces/">https://gymnasium.farama.org/api/spaces/</a>).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.BufferDescription.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'float'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.2250738585072014e-308</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.7976931348623157e+308</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categorical</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.BufferDescription.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'float'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.2250738585072014e-308</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.7976931348623157e+308</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categorical</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.BufferDescription.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Constructs a new instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -818,7 +818,7 @@ fixed frame.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#navground.core.BufferDescription.type" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dtype</p>
+<dd class="field-odd"><p>numpy.dtype</p>
 </dd>
 </dl>
 <p>A code that identify the type of data.</p>
@@ -848,7 +848,7 @@ arrays.</p>
 </dd>
 </dl>
 <ol class="arabic simple" start="2">
-<li><p>__init__(description: navground.core.BufferDescription, data: Union[List[float], List[float], List[int], List[int], List[int], List[int], List[int], List[int], List[int], List[int]]) -&gt; None</p></li>
+<li><p>__init__(description: navground.core.BufferDescription, data: Union[list[float], list[float], list[int], list[int], list[int], list[int], list[int], list[int], list[int], list[int]]) -&gt; None</p></li>
 </ol>
 <p>Constructs a new instance, with data set to zero.</p>
 <dl class="field-list simple">
@@ -869,7 +869,7 @@ arrays.</p>
 </dd>
 </dl>
 <ol class="arabic simple" start="4">
-<li><p>__init__(data: Union[List[float], List[float], List[int], List[int], List[int], List[int], List[int], List[int], List[int], List[int]]) -&gt; None</p></li>
+<li><p>__init__(data: Union[list[float], list[float], list[int], list[int], list[int], list[int], list[int], list[int], list[int], list[int]]) -&gt; None</p></li>
 </ol>
 <p>Constructs an unbounded, flat buffer of data</p>
 <dl class="field-list simple">
@@ -985,7 +985,7 @@ allow changing shape to a different size or type to a different type.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#navground.core.Buffer.type" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dtype</p>
+<dd class="field-odd"><p>numpy.dtype</p>
 </dd>
 </dl>
 <p>The buffer type</p>
@@ -1053,7 +1053,7 @@ allow changing shape to a different size or type to a different type.</p>
 </dd>
 </dl>
 <ol class="arabic simple" start="3">
-<li><p>init_buffer(key: str, data: Union[List[float], List[float], List[int], List[int], List[int], List[int], List[int], List[int], List[int], List[int]]) -&gt; navground.core.Buffer</p></li>
+<li><p>init_buffer(key: str, data: Union[list[float], list[float], list[int], list[int], list[int], list[int], list[int], list[int], list[int], list[int]]) -&gt; navground.core.Buffer</p></li>
 </ol>
 <p>Initializes a flat buffer with data.</p>
 <dl class="field-list simple">

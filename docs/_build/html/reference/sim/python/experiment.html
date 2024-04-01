@@ -482,7 +482,6 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.efficacy"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.efficacy</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.has_finished"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.has_finished</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.maximal_steps"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.maximal_steps</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.number_of_agents"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.number_of_agents</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.poses"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.poses</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.record_config"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.record_config</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.record_names"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.record_names</span></code></a></li>
@@ -507,6 +506,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_group_record_probe"><code class="docutils literal notranslate"><span class="pre">Experiment.add_group_record_probe()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_probe"><code class="docutils literal notranslate"><span class="pre">Experiment.add_probe()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_record_probe"><code class="docutils literal notranslate"><span class="pre">Experiment.add_record_probe()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_run"><code class="docutils literal notranslate"><span class="pre">Experiment.add_run()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_run_callback"><code class="docutils literal notranslate"><span class="pre">Experiment.add_run_callback()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.clear_run_callbacks"><code class="docutils literal notranslate"><span class="pre">Experiment.clear_run_callbacks()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.get_run"><code class="docutils literal notranslate"><span class="pre">Experiment.get_run()</span></code></a></li>
@@ -574,12 +574,12 @@ document.write(`
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>values</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>) – Append data and dtype from this numpy array</p></li>
-<li><p><strong>reset</strong> (<em>bool</em>) – Wheter to replace the data instead of appending.</p></li>
+<li><p><strong>reset</strong> (<em>bool</em>) – Whether to replace the data instead of appending.</p></li>
 </ul>
 </dd>
 </dl>
 <ol class="arabic simple" start="2">
-<li><p>append(values: Union[List[float], List[float], List[int], List[int], List[int], List[int], List[int], List[int], List[int], List[int]]) -&gt; None</p></li>
+<li><p>append(values: Union[list[float], list[float], list[int], list[int], list[int], list[int], list[int], list[int], list[int], list[int]]) -&gt; None</p></li>
 </ol>
 <p>Add items.</p>
 <p>The items will be implicitly converted to the current data type, see
@@ -625,7 +625,7 @@ type.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dtype</span></span><a class="headerlink" href="#navground.sim.Dataset.dtype" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dtype</p>
+<dd class="field-odd"><p>numpy.dtype</p>
 </dd>
 </dl>
 <p>The type of the dataset.</p>
@@ -648,7 +648,7 @@ type.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">item_shape</span></span><a class="headerlink" href="#navground.sim.Dataset.item_shape" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[int]</p>
+<dd class="field-odd"><p>list[int]</p>
 </dd>
 </dl>
 <p>The shape of all axis except the first.</p>
@@ -659,7 +659,7 @@ type.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#navground.sim.Dataset.shape" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[int]</p>
+<dd class="field-odd"><p>list[int]</p>
 </dd>
 </dl>
 <p>Returns the shape of the multi-dimensional dataset</p>
@@ -895,8 +895,34 @@ optimal velocity)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.ExperimentalRun.add_record">
-<span class="sig-name descname"><span class="pre">add_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#navground.sim.Dataset" title="navground.sim.Dataset"><span class="pre">navground.sim.Dataset</span></a></span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.add_record" title="Link to this definition">#</a></dt>
-<dd><p>TODO</p>
+<span class="sig-name descname"><span class="pre">add_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#navground.sim.ExperimentalRun.add_record" title="Link to this definition">#</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>add_record(key: str, data: numpy.ndarray) -&gt; navground.sim.Dataset</p></li>
+</ol>
+<p>Adds a record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – the record key</p></li>
+<li><p><strong>data</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>) – Copies shape, data and dtype from this numpy array</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>add_record(key: str, dtype: object, item_shape: list[int] = []) -&gt; navground.sim.Dataset</p></li>
+</ol>
+<p>Adds a record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The record key</p></li>
+<li><p><strong>dtype</strong> (Any object that is convertible to a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.dtype</span></code>.) – The type of data to store</p></li>
+<li><p><strong>item_shape</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – The shape of all axis except the first.
+Leave empty to instantiate a flat dataset.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -915,24 +941,21 @@ optimal velocity)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.ExperimentalRun.get_record">
-<span class="sig-name descname"><span class="pre">get_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.get_record" title="Link to this definition">#</a></dt>
-<dd><p>Gets recorded data.</p>
+<span class="sig-name descname"><span class="pre">get_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#navground.sim.Dataset" title="navground.sim.Dataset"><span class="pre">navground.sim.Dataset</span></a></span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.get_record" title="Link to this definition">#</a></dt>
+<dd><p>Gets the record associated to a given key.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>key</strong> (<em>str</em>) – the name of the record</p>
+<dd class="field-odd"><p><strong>key</strong> – The key</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>read-only recorded data array or None if no data has been recorded for the given key</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>Optional</em>[np.ndarray]</p>
+<dd class="field-even"><p>The record or null if none is found.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.ExperimentalRun.get_record_names">
-<span class="sig-name descname"><span class="pre">get_record_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.get_record_names" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_record_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.get_record_names" title="Link to this definition">#</a></dt>
 <dd><p>Gets the names of records.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -947,18 +970,16 @@ to keys <code class="docutils literal notranslate"><span class="pre">&lt;group&g
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.ExperimentalRun.get_records">
-<span class="sig-name descname"><span class="pre">get_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.get_records" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#navground.sim.Dataset" title="navground.sim.Dataset"><span class="pre">navground.sim.Dataset</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.get_records" title="Link to this definition">#</a></dt>
 <dd><p>Gets the records.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>group</strong> (<em>str</em>) – if specified, limits to records in a given group.</p>
+<dd class="field-odd"><p><strong>group</strong> – If specified, limits to records in a given group.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>read-only recorded data arrays indexed by their key</p>
+<dd class="field-even"><p>The records</p>
 </dd>
 </dl>
-<p>(relative to the group if specified).
-:rtype: typing.Dict[str, np.ndarray]</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1130,21 +1151,10 @@ Else, it has been stuck since <code class="docutils literal notranslate"><span c
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">maximal_steps</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.maximal_steps" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-<p>The number of steps execute</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="navground.sim.ExperimentalRun.number_of_agents">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_agents</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.number_of_agents" title="Link to this definition">#</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
-<p>The recorded number of agents.</p>
+<p>The number of steps execute</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1182,7 +1192,7 @@ Else, it has been stuck since <code class="docutils literal notranslate"><span c
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">record_names</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.record_names" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Set[str]</p>
+<dd class="field-odd"><p>set[str]</p>
 </dd>
 </dl>
 <p>The names of records.</p>
@@ -1210,7 +1220,7 @@ to keys <code class="docutils literal notranslate"><span class="pre">&lt;group&g
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">records</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.records" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[str, <a class="reference internal" href="#navground.sim.Dataset" title="navground.sim.Dataset">navground.sim.Dataset</a>]</p>
+<dd class="field-odd"><p>dict[str, <a class="reference internal" href="#navground.sim.Dataset" title="navground.sim.Dataset">navground.sim.Dataset</a>]</p>
 </dd>
 </dl>
 <p>The records.</p>
@@ -1274,7 +1284,7 @@ to keys <code class="docutils literal notranslate"><span class="pre">&lt;group&g
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">task_events</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.task_events" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[int, object]</p>
+<dd class="field-odd"><p>dict[int, object]</p>
 </dd>
 </dl>
 <p>The recorded events logged by the tasks all agents as a dictionart of numpy array of shape 
@@ -1430,6 +1440,11 @@ instance if you are using a different run-loop.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.Experiment.add_run">
+<span class="sig-name descname"><span class="pre">add_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.ExperimentalRun" title="navground.sim.ExperimentalRun"><span class="pre">navground.sim.ExperimentalRun</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.add_run" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.add_run_callback">
 <span class="sig-name descname"><span class="pre">add_run_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#navground.sim.ExperimentalRun" title="navground.sim.ExperimentalRun"><span class="pre">navground.sim.ExperimentalRun</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at_init</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.add_run_callback" title="Link to this definition">#</a></dt>
 <dd><p>Adds a callback to be executed after each run.</p>
@@ -1567,19 +1582,22 @@ an HDF5 file, but no YAML, to this path. If not set, <code class="xref py py-att
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.run_mp">
-<span class="sig-name descname"><span class="pre">run_mp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_processes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_runs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tqdm.tqdm</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.run_mp" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">run_mp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_processes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_runs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tqdm.tqdm</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.run_mp" title="Link to this definition">#</a></dt>
 <dd><p>Run an experiment distributing its runs in parallel over multiple processes.</p>
 <p>Use this to parallelize experiments that contains Python classes, see :py:fun:<code class="docutils literal notranslate"><span class="pre">uses_python</span></code>,
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">sim.Experiment.run</span></code> parallelizes over multiple threads instead and cannot
 be used to run such experiments because of the GIL.</p>
-<p>The experiment will save the data to <code class="xref py py-attr docutils literal notranslate"><span class="pre">sim.Experiment.path</span></code>
-without loading it in memory. To access the data, you will need
-to load the HFD5 file.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">keep=True</span></code>,  the experiment will query the runs from the different processes and hold them in memory.
+If it is configured to save the data, it will save a single HDF5 file.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">keep=False</span></code>, the experiment won’t keep the runs in memory. If it is configured to save the data,
+it will save one HDF5 file per process (<code class="docutils literal notranslate"><span class="pre">&quot;data_&lt;i&gt;.h5&quot;</span></code>) and one “data.h5” linking all the runs together.
+To access the data, you will need to load the HFD5 file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>experiment</strong> – The experiment</p></li>
 <li><p><strong>number_of_processes</strong> – The number of processes</p></li>
+<li><p><strong>keep</strong> – Whether to keep runs in memory</p></li>
 <li><p><strong>number_of_runs</strong> – The number of runs</p></li>
 <li><p><strong>start_index</strong> – The index of the first run</p></li>
 <li><p><strong>callback</strong> – An optional callback to run after each run is completed</p></li>
@@ -1685,8 +1703,13 @@ simulate.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.stop">
-<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.stop" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_runs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.Experiment.stop" title="Link to this definition">#</a></dt>
 <dd><p>Signal to stop an experiment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>save_runs</strong> – Whether to save the runs before closing</p>
+</dd>
+</dl>
 <p>See <a class="reference internal" href="#navground.sim.Experiment.start" title="navground.sim.Experiment.start"><code class="xref py py-meth docutils literal notranslate"><span class="pre">start()</span></code></a>. This is only need when using an external run-loop to
 simulate.</p>
 </dd></dl>
@@ -1822,7 +1845,7 @@ of the world, typically after each simulation step.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">runs</span></span><a class="headerlink" href="#navground.sim.Experiment.runs" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[int, <a class="reference internal" href="#navground.sim.ExperimentalRun" title="navground.sim.ExperimentalRun">navground.sim.ExperimentalRun</a>]</p>
+<dd class="field-odd"><p>dict[int, <a class="reference internal" href="#navground.sim.ExperimentalRun" title="navground.sim.ExperimentalRun">navground.sim.ExperimentalRun</a>]</p>
 </dd>
 </dl>
 <p>The map of recorded runs.</p>
@@ -1993,7 +2016,6 @@ of the world, typically after each simulation step.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.efficacy"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.efficacy</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.has_finished"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.has_finished</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.maximal_steps"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.maximal_steps</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.number_of_agents"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.number_of_agents</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.poses"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.poses</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.record_config"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.record_config</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.record_names"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.record_names</span></code></a></li>
@@ -2018,6 +2040,7 @@ of the world, typically after each simulation step.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_group_record_probe"><code class="docutils literal notranslate"><span class="pre">Experiment.add_group_record_probe()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_probe"><code class="docutils literal notranslate"><span class="pre">Experiment.add_probe()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_record_probe"><code class="docutils literal notranslate"><span class="pre">Experiment.add_record_probe()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_run"><code class="docutils literal notranslate"><span class="pre">Experiment.add_run()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.add_run_callback"><code class="docutils literal notranslate"><span class="pre">Experiment.add_run_callback()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.clear_run_callbacks"><code class="docutils literal notranslate"><span class="pre">Experiment.clear_run_callbacks()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Experiment.get_run"><code class="docutils literal notranslate"><span class="pre">Experiment.get_run()</span></code></a></li>

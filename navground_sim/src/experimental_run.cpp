@@ -229,11 +229,11 @@ class TaskEventsProbe : public GroupRecordProbe {
 
 void ExperimentalRun::prepare() {
   _world_yaml = YAML::dump<World>(_world.get());
-  _number = _world->get_agents().size();
-  const auto &agents = _world->get_agents();
-  for (unsigned i = 0; i < _number; ++i) {
-    _indices[agents[i].get()] = i;
-  }
+  // const auto number = _world->get_agents().size();
+  // const auto &agents = _world->get_agents();
+  // for (unsigned i = 0; i < number; ++i) {
+  //   _indices[agents[i].get()] = i;
+  // }
   if (_record_config.time) {
     add_record_probe<TimeProbe>("times");
   }

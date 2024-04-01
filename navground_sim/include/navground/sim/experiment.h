@@ -83,6 +83,12 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    */
   const std::map<unsigned, ExperimentalRun>& get_runs() const { return runs; }
 
+  void add_run(unsigned seed, ExperimentalRun & run) {
+    if (runs.count(seed) == 0) {
+      runs.emplace(seed, run);
+    }
+  }
+
   /**
    * @brief      Determines if the experiment has finished.
    *
@@ -248,11 +254,13 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   void start(std::optional<std::filesystem::path> path = std::nullopt);
   /**
    * @brief      Signal to stop an experiment
+   * 
+   * @param[in]  save_runs   Whether to save the runs before closing
    *
    * See \ref start. This is only need when using an external run-loop to
    * simulate.
    */
-  void stop();
+  void stop(bool save_runs = false);
 
   /**
    * @brief      Initializes a run

@@ -1,4 +1,5 @@
 from navground import sim
+import numpy as np
 
 from .probes import CheckIfMoving, IsMovingProbe, IsMovingSparseProbe
 
@@ -31,7 +32,8 @@ agents:
     probe = run.add_record_probe("is_moving", IsMovingProbe)
     _ = run.add_group_record_probe("still_times", IsMovingSparseProbe)
     run.run()
-    data = probe.data.as_array()
+    data = np.asarray(probe.data)
     print(f"Recorded movements: {data.astype(bool).reshape((-1, ))}")
-    data = run.get_group_record("still_times")
+    record = run.get_records("still_times")
+    data = {k: np.asarray(v) for k, v in record.items()}
     print(f"Recorded still times: {data}")

@@ -25,6 +25,7 @@
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground_py/buffer.h"
+#include "navground_py/pickle.h"
 #include "navground_py/register.h"
 #include "navground_py/yaml.h"
 
@@ -304,6 +305,9 @@ PYBIND11_MODULE(_navground, m) {
            py::arg("epsilon_speed") = 1e-6,
            py::arg("epsilon_angular_speed") = 1e-6,
            DOC(navground, core, Twist2, is_almost_zero))
+      .def("snap_to_zero", &Twist2::snap_to_zero,
+           py::arg("epsilon") = 1e-6,
+           DOC(navground, core, Twist2, snap_to_zero))
       .def("__repr__", &to_string<Twist2>);
 
   py::class_<Pose2>(m, "Pose2", DOC(navground, core, Pose2))
@@ -420,8 +424,9 @@ PYBIND11_MODULE(_navground, m) {
       .def("__repr__", &to_string<LineSegment>);
 
   py::class_<Kinematics, PyKinematics, HasRegister<Kinematics>, HasProperties,
-             std::shared_ptr<Kinematics>>(m, "Kinematics",
-                                          DOC(navground, core, Kinematics))
+             std::shared_ptr<Kinematics>>
+      kinematics(m, "Kinematics", DOC(navground, core, Kinematics));
+  kinematics
       .def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
            py::arg("max_angular_speed") = 0,
            DOC(navground, core, Kinematics, Kinematics))
@@ -445,47 +450,47 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Kinematics, feasible));
 
   py::class_<OmnidirectionalKinematics, Kinematics,
-             std::shared_ptr<OmnidirectionalKinematics>>(
-      m, "OmnidirectionalKinematics",
-      DOC(navground, core, OmnidirectionalKinematics))
-      .def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
+             std::shared_ptr<OmnidirectionalKinematics>>
+      omni(m, "OmnidirectionalKinematics",
+           DOC(navground, core, OmnidirectionalKinematics));
+  omni.def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
            py::arg("max_angular_speed"),
            DOC(navground, core, OmnidirectionalKinematics,
                OmnidirectionalKinematics));
 
-  py::class_<AheadKinematics, Kinematics, std::shared_ptr<AheadKinematics>>(
-      m, "AheadKinematics", DOC(navground, core, AheadKinematics))
-      .def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
-           py::arg("max_angular_speed"),
-           DOC(navground, core, AheadKinematics, AheadKinematics));
+  py::class_<AheadKinematics, Kinematics, std::shared_ptr<AheadKinematics>>
+      ahead(m, "AheadKinematics", DOC(navground, core, AheadKinematics));
+  ahead.def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
+            py::arg("max_angular_speed"),
+            DOC(navground, core, AheadKinematics, AheadKinematics));
 
-  py::class_<WheeledKinematics, Kinematics, std::shared_ptr<WheeledKinematics>>(
-      m, "WheeledKinematics", DOC(navground, core, WheeledKinematics))
-      .def_property("axis", &WheeledKinematics::get_axis,
-                    &WheeledKinematics::set_axis,
-                    DOC(navground, core, WheeledKinematics, property_axis))
+  py::class_<WheeledKinematics, Kinematics, std::shared_ptr<WheeledKinematics>>
+      wk(m, "WheeledKinematics", DOC(navground, core, WheeledKinematics));
+  wk.def_property("axis", &WheeledKinematics::get_axis,
+                  &WheeledKinematics::set_axis,
+                  DOC(navground, core, WheeledKinematics, property_axis))
       .def("twist", &WheeledKinematics::twist,
            DOC(navground, core, WheeledKinematics, twist))
       .def("wheel_speeds", &WheeledKinematics::wheel_speeds,
            DOC(navground, core, WheeledKinematics, wheel_speeds));
 
   py::class_<TwoWheelsDifferentialDriveKinematics, WheeledKinematics,
-             std::shared_ptr<TwoWheelsDifferentialDriveKinematics>>(
-      m, "TwoWheelsDifferentialDriveKinematics",
-      DOC(navground, core, TwoWheelsDifferentialDriveKinematics))
-      .def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
-           py::arg("axis"),
-           DOC(navground, core, TwoWheelsDifferentialDriveKinematics,
-               TwoWheelsDifferentialDriveKinematics));
+             std::shared_ptr<TwoWheelsDifferentialDriveKinematics>>
+      wk2(m, "TwoWheelsDifferentialDriveKinematics",
+          DOC(navground, core, TwoWheelsDifferentialDriveKinematics));
+  wk2.def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
+          py::arg("axis"),
+          DOC(navground, core, TwoWheelsDifferentialDriveKinematics,
+              TwoWheelsDifferentialDriveKinematics));
 
   py::class_<FourWheelsOmniDriveKinematics, WheeledKinematics,
-             std::shared_ptr<FourWheelsOmniDriveKinematics>>(
-      m, "FourWheelsOmniDriveKinematics",
-      DOC(navground, core, FourWheelsOmniDriveKinematics))
-      .def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
-           py::arg("axis"),
-           DOC(navground, core, FourWheelsOmniDriveKinematics,
-               FourWheelsOmniDriveKinematics));
+             std::shared_ptr<FourWheelsOmniDriveKinematics>>
+      wk4(m, "FourWheelsOmniDriveKinematics",
+          DOC(navground, core, FourWheelsOmniDriveKinematics));
+  wk4.def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
+          py::arg("axis"),
+          DOC(navground, core, FourWheelsOmniDriveKinematics,
+              FourWheelsOmniDriveKinematics));
 
   py::class_<SocialMargin::Modulation,
              std::shared_ptr<SocialMargin::Modulation>>(
@@ -883,11 +888,11 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("buffers", &SensingState::get_buffers, nullptr,
                     DOC(navground, core, SensingState, property_buffers));
 
-  py::class_<HLBehavior, Behavior, std::shared_ptr<HLBehavior>>(
-      m, "HLBehavior", DOC(navground, core, HLBehavior))
-      .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
-           py::arg("kinematics") = py::none(), py::arg("radius") = 0,
-           DOC(navground, core, HLBehavior, HLBehavior))
+  py::class_<HLBehavior, Behavior, std::shared_ptr<HLBehavior>> hl(
+      m, "HLBehavior", DOC(navground, core, HLBehavior));
+  hl.def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
+         py::arg("kinematics") = py::none(), py::arg("radius") = 0,
+         DOC(navground, core, HLBehavior, HLBehavior))
       .def_property("eta", &HLBehavior::get_eta, &HLBehavior::set_eta,
                     DOC(navground, core, HLBehavior, property_eta))
       .def_property("tau", &HLBehavior::get_tau, &HLBehavior::set_tau,
@@ -908,9 +913,9 @@ PYBIND11_MODULE(_navground, m) {
       .def("get_collision_distance", &HLBehavior::get_collision_distance,
            DOC(navground, core, HLBehavior, get_collision_distance));
 
-  py::class_<ORCABehavior, Behavior, std::shared_ptr<ORCABehavior>>(
-      m, "ORCABehavior", DOC(navground, core, ORCABehavior))
-      .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
+  py::class_<ORCABehavior, Behavior, std::shared_ptr<ORCABehavior>> orca(
+      m, "ORCABehavior", DOC(navground, core, ORCABehavior));
+  orca.def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
            py::arg("kinematics") = py::none(), py::arg("radius") = 0,
            DOC(navground, core, ORCABehavior, ORCABehavior))
       .def_property("time_horizon", &ORCABehavior::get_time_horizon,
@@ -921,17 +926,17 @@ PYBIND11_MODULE(_navground, m) {
           &ORCABehavior::should_use_effective_center,
           DOC(navground, core, ORCABehavior, is_using_effective_center));
 
-  py::class_<HRVOBehavior, Behavior, std::shared_ptr<HRVOBehavior>>(
-      m, "HRVOBehavior", DOC(navground, core, HRVOBehavior))
-      .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
+  py::class_<HRVOBehavior, Behavior, std::shared_ptr<HRVOBehavior>> hrvo(
+      m, "HRVOBehavior", DOC(navground, core, HRVOBehavior));
+  hrvo.def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
            py::arg("kinematics") = py::none(), py::arg("radius") = 0,
            DOC(navground, core, HRVOBehavior, HRVOBehavior));
 
-  py::class_<DummyBehavior, Behavior, std::shared_ptr<DummyBehavior>>(
-      m, "DummyBehavior", DOC(navground, core, DummyBehavior))
-      .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
-           py::arg("kinematics") = py::none(), py::arg("radius") = 0,
-           DOC(navground, core, Behavior, Behavior));
+  py::class_<DummyBehavior, Behavior, std::shared_ptr<DummyBehavior>> dummy(
+      m, "DummyBehavior", DOC(navground, core, DummyBehavior));
+  dummy.def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
+            py::arg("kinematics") = py::none(), py::arg("radius") = 0,
+            DOC(navground, core, Behavior, Behavior));
 
   py::class_<Action, std::shared_ptr<Action>> action(
       m, "Action", DOC(navground, core, Action));
@@ -1089,4 +1094,17 @@ Load a kinematics from a YAML string.
   m.def("load_plugins", &load_plugins, py::arg("plugins") = "",
         py::arg("env") = "", py::arg("directory") = py::none(),
         DOC(navground, core, load_plugins));
+
+  // add [partial] pickle support
+  pickle_via_yaml<PyBehavior>(behavior);
+  pickle_via_yaml<PyBehavior>(hl);
+  pickle_via_yaml<PyBehavior>(orca);
+  pickle_via_yaml<PyBehavior>(hrvo);
+  pickle_via_yaml<PyBehavior>(dummy);
+  pickle_via_yaml<PyKinematics>(kinematics);
+  pickle_via_yaml<PyKinematics>(omni);
+  pickle_via_yaml<PyKinematics>(wk);
+  pickle_via_yaml<PyKinematics>(ahead);
+  pickle_via_yaml<PyKinematics>(wk2);
+  pickle_via_yaml<PyKinematics>(wk4);
 }

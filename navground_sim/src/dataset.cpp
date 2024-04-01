@@ -1,4 +1,4 @@
-#include "navground/sim/dataset.h"
+  #include "navground/sim/dataset.h"
 
 #include <highfive/H5DataSpace.hpp>
 #include <string>

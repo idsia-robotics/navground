@@ -581,13 +581,13 @@ class NAVGROUND_SIM_EXPORT World {
    */
   std::optional<unsigned> index_of_agent(const Agent *agent) const {
     auto it = std::find_if(agents.begin(), agents.end(),
-                           [](const std::shared_ptr<Agent> &other) {
+                           [&agent](const std::shared_ptr<Agent> &other) {
                              return other.get() == agent;
                            });
     if (it != std::end(agents)) {
       return std::distance(agents.begin(), it);
     }
-    return std::nullopt
+    return std::nullopt;
   }
 
  private:

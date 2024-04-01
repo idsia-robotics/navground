@@ -106,11 +106,22 @@ struct RunConfig {
   bool terminate_when_all_idle_or_stuck;
 };
 
+template <typename T>
+inline std::set<std::string> _keys(const std::map<std::string, T> & m) {
+  std::set<std::string> keys;
+  for (auto const &[k, _] : m) {
+    keys.insert(k);
+  }
+  return keys;
+}
+
 /**
  * @brief      Simulates a world and collects data.
  */
 class NAVGROUND_SIM_EXPORT ExperimentalRun {
   friend struct Experiment;
+
+  public:
 
   /**
    * @brief      The state of the run
@@ -119,7 +130,31 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   enum class State { init, running, finished };
 
- public:
+ 
+  using tp = std::chrono::time_point<std::chrono::steady_clock>;
+
+  /**
+   * @private
+   */
+  ExperimentalRun(std::shared_ptr<World> world, const RunConfig &run_config,
+                  const RecordConfig &record_config, unsigned seed, State state,
+                  unsigned steps, tp begin, tp end,
+                  const std::string & world_yaml,
+                  const std::map<std::string, std::shared_ptr<Dataset>> & records)
+      : _state(state),
+        _record_config(record_config),
+        _run_config(run_config),
+        _seed(seed),
+        _world(world),
+        _steps(steps),
+        // _indices(),
+        _begin(begin),
+        _end(end),
+        _world_yaml(world_yaml),
+        _records(records),
+        _record_names(_keys(records)),
+        _probes() {}
+
   /**
    * @brief      Construct an \ref ExperimentalRun
    *
@@ -136,8 +171,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
         _seed(seed),
         _world(world),
         _steps(0),
-        _number(0),
-        _indices(),
+        // _indices(),
         _world_yaml(),
         _records(),
         _record_names(),
@@ -177,6 +211,10 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
     }
     return std::chrono::nanoseconds(0);
   }
+
+  tp get_begin() const { return _begin; }
+  tp get_end() const { return _end; }
+
   /**
    * @brief      Returns the simulated world.
    *
@@ -207,6 +245,8 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   bool has_started() const { return _state != State::init; }
 
+  State get_state() const {return _state; }
+
   /**
    * @brief      Gets the time step used for simulation.
    *
@@ -218,7 +258,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The maximal number of steps.
    */
-  ng_float_t get_maximal_steps() const { return _run_config.steps; }
+  unsigned get_maximal_steps() const { return _run_config.steps; }
   /**
    * @brief      Gets whether to terminate when all agents are idle or stuck.
    *
@@ -227,6 +267,8 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   bool get_terminate_when_all_idle_or_stuck() const {
     return _run_config.terminate_when_all_idle_or_stuck;
   }
+
+  // RunConfig get_run_config() const { return _run_config; }
 
   /**
    * @brief      Gets the record associated to a given key.
@@ -370,7 +412,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The number of agents.
    */
-  unsigned get_number_of_agents() const { return _number; }
+  // unsigned get_number_of_agents() const { return _number; }
   /**
    * @brief      Gets the seed used to initialize the simulation.
    *
@@ -384,6 +426,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   RecordConfig get_record_config() const { return _record_config; }
 
+  // TODO(Jerome): Should remove it ... almost useless and adds state
   /**
    * @brief      Associate an index to a given agent.
    *
@@ -398,8 +441,8 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    * @return     The index of data related to this agent.
    */
   std::optional<unsigned> index_of_agent(const Agent *agent) const {
-    if (_indices.count(agent)) {
-      return _indices.at(agent);
+    if (_world) {
+      return _world->index_of_agent(agent);
     }
     return std::nullopt;
   }
@@ -501,6 +544,18 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
     return _records[key];
   }
 
+  void insert_record(std::shared_ptr<Dataset> ds, std::string key,
+                     const std::string &group = "", bool force = false) {
+    if (!group.empty()) {
+      key = group + "/" + key;
+    }
+    if (_records.count(key) && !force) {
+      return;
+    }
+    _record_names.insert(key);
+    _records[key] = ds;
+  }
+
   /**
    * @brief      Adds a probe
    *
@@ -561,6 +616,8 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   std::map<std::string, std::string> get_group(const std::string &name) const;
 
+  std::string get_world_yaml() const { return _world_yaml;}
+
  private:
   State _state;
   /**
@@ -584,11 +641,11 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   /**
    * The number of agents recorded
    */
-  unsigned _number;
+  // unsigned _number;
 
-  std::map<const Agent *, unsigned> _indices;
-  std::chrono::time_point<std::chrono::steady_clock> _begin;
-  std::chrono::time_point<std::chrono::steady_clock> _end;
+  // std::map<const Agent *, unsigned> _indices;
+  tp _begin;
+  tp _end;
   std::string _world_yaml;
   std::map<std::string, std::shared_ptr<Dataset>> _records;
   std::set<std::string> _record_names;

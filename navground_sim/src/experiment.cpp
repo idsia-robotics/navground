@@ -78,7 +78,8 @@ void Experiment::init_dataset(std::optional<fs::path> path) {
   } else {
     file_path = path;
   }
-  file = std::make_shared<HighFive::File>(file_path->string(), HighFive::File::Truncate);
+  file = std::make_shared<HighFive::File>(file_path->string(),
+                                          HighFive::File::Truncate);
   store_experiment(yaml, *file);
   store_timepoint(begin, "begin_time", *file);
   store_yaml(yaml);
@@ -281,8 +282,13 @@ void Experiment::start(std::optional<fs::path> path) {
   state = State::running;
 }
 
-void Experiment::stop() {
+void Experiment::stop(bool save_all_runs) {
   if (state != State::running) return;
+  if (save_all_runs) {
+    for (const auto &[k, run] : runs) {
+      save_run(run);
+    }
+  }
   experiment_end = std::chrono::steady_clock::now();
   state = State::finished;
   finalize_dataset();

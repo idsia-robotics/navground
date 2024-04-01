@@ -40,6 +40,7 @@
 #include "navground/sim/yaml/experiment.h"
 #include "navground/sim/yaml/scenario.h"
 #include "navground/sim/yaml/world.h"
+#include "navground_py/pickle.h"
 #include "navground_py/register.h"
 #include "navground_py/yaml.h"
 
@@ -51,8 +52,9 @@ namespace py = pybind11;
 // PYBIND11_MAKE_OPAQUE(std::map<unsigned, ExperimentalRun>);
 
 void set_dataset_type_py(Dataset &dataset, const py::object &obj);
-void set_dataset_data_py(Dataset &dataset, const py::object &obj,
-                         bool append = false);
+void set_dataset_data_py(Dataset &dataset, const py::array &obj,
+                         bool append = false,
+                         std::optional<py::dtype> = std::nullopt);
 
 template <typename T>
 struct get<T, py::object> {
@@ -233,6 +235,7 @@ struct PyWorld : public World {
   /* Inherit the constructors */
   using World::World;
   using A = PyAgent;
+  using Native = World;
 
   ~PyWorld() = default;
 
@@ -337,6 +340,9 @@ struct PyGroupRecordProbe : public GroupRecordProbe {
 struct PyExperiment : public Experiment {
   /* Inherit the constructors */
   using Experiment::Experiment;
+
+  // using Native = Experiment;
+  using Native = PyExperiment;
 
   ~PyExperiment() = default;
 
@@ -576,13 +582,26 @@ struct convert<std::shared_ptr<PyAgent>> {
   }
 };
 
-PyWorld load_world(const Node &node) {
-  PyWorld world;
-  convert_world<PyAgent>::decode(node, world);
-  return world;
-}
+template <>
+py::object load_node_py<PyAgent>(const Node &node) {
+  return py::cast(node.as<PyAgent>());
+};
 
-py::object load_scenario(const Node &node) {
+// PyWorld load_world(const Node &node) {
+//   PyWorld world;
+//   convert_world<PyAgent>::decode(node, world);
+//   return world;
+// }
+
+template <>
+py::object load_node_py<PyWorld>(const Node &node) {
+  auto world = std::make_shared<PyWorld>();
+  convert_world<PyAgent>::decode(node, *world);
+  return py::cast(world);
+};
+
+template <>
+py::object load_node_py<PyScenario>(const Node &node) {
   auto obj = make_type_from_yaml_py<PyScenario>(node);
   if (obj.is_none()) {
     auto ws = std::make_shared<Scenario>();
@@ -596,7 +615,9 @@ void update_scenario(Scenario &scenario, const Node &node) {
   convert_scenario<PyWorld>::decode(node, scenario);
 };
 
-std::string dump_scenario(Scenario *sampler) {
+template <>
+std::string dump(const Scenario *sampler) {
+  if (!sampler) return "";
   auto node = convert_scenario<PyWorld>::encode(*sampler);
   Emitter out;
   out << node;
@@ -635,13 +656,31 @@ struct convert<PyExperiment> {
   static bool decode(const Node &node, PyExperiment &rhs) {
     if (convert_experiment::decode(node, rhs)) {
       if (node["scenario"]) {
-        rhs.set_scenario(load_scenario(node["scenario"]));
+        rhs.set_scenario(load_node_py<PyScenario>(node["scenario"]));
       }
       return true;
     }
     return false;
   }
 };
+
+template <>
+py::object load_node_py<PyExperiment>(const Node &node) {
+  return py::cast(node.as<PyExperiment>());
+}
+
+// template <>
+// std::string dump(const Experiment *experiment) {
+//   if (!experiment) return "";
+//   auto node = YAML::Node(*experiment);
+//   if (experiment->scenario) {
+//     node["scenario"] =
+//     convert_scenario<PyWorld>::encode(*(experiment->scenario));
+//   }
+//   Emitter out;
+//   out << node;
+//   return std::string(out.c_str());
+// };
 
 }  // namespace YAML
 
@@ -765,20 +804,23 @@ Dataset::Data data_of_type(py::dtype dtype, void *ptr, const size_t size) {
     auto begin = reinterpret_cast<double *>(ptr);
     return std::vector<double>(begin, begin + size);
   } else {
-    auto begin = reinterpret_cast<int8_t *>(ptr);
-    return std::vector<int8_t>(begin, begin + size);
+    std::cerr << "Unknown type" << std::endl;
+    return std::vector<int8_t>();
   }
 }
 
-void set_dataset_data_py(Dataset &dataset, const py::array &value,
-                         bool append = false) {
+void set_dataset_data_py(Dataset &dataset, const py::array &value, bool append,
+                         std::optional<py::dtype> dtype) {
   const auto sshape = value.request().shape;
   const Dataset::Shape shape(sshape.begin(), sshape.end());
   const Dataset::Shape item_shape(sshape.begin() + 1, sshape.end());
   void *ptr = value.request().ptr;
   const auto count = std::accumulate(std::begin(shape), std::end(shape), 1,
                                      std::multiplies<>{});
-  const auto data = data_of_type(value.dtype(), ptr, count);
+  if (!dtype) {
+    dtype = value.dtype();
+  }
+  const auto data = data_of_type(*dtype, ptr, count);
   if (append) {
     dataset.append(data);
   } else {
@@ -917,8 +959,9 @@ Creates a rectangular region
            py::arg("cmd"), py::arg("time_step"),
            DOC(navground, sim, Agent, actuate, 2));
 
-  py::class_<PyAgent, Agent, Entity, std::shared_ptr<PyAgent>>(
-      m, "Agent", py::dynamic_attr(), DOC(navground, sim, Agent))
+  py::class_<PyAgent, Agent, Entity, std::shared_ptr<PyAgent>> agent(
+      m, "Agent", py::dynamic_attr(), DOC(navground, sim, Agent));
+  agent
       .def(py::init<ng_float_t, const py::object &, const py::object &,
                     const py::object &, const py::object &, ng_float_t,
                     unsigned>(),
@@ -952,6 +995,9 @@ Creates a rectangular region
            py::keep_alive<1, 2>(), DOC(navground, sim, World, add_callback))
       .def("reset_callbacks", &World::reset_callbacks,
            DOC(navground, sim, World, reset_callbacks))
+      .def("snap_twists_to_zero", &World::snap_twists_to_zero,
+           py::arg("epsilon") = 1e-6,
+           DOC(navground, sim, World, snap_twists_to_zero))
       .def("update", &World::update, py::arg("time_step"),
            DOC(navground, sim, World, update))
       .def("run", &World::run, py::arg("steps"), py::arg("time_step"),
@@ -979,6 +1025,8 @@ Creates a rectangular region
            py::arg("line"), DOC(navground, sim, World, add_wall))
       .def("add_wall", py::overload_cast<const Wall &>(&World::add_wall),
            py::arg("wall"), DOC(navground, sim, World, add_wall, 2))
+      .def("index_of_agent", &World::index_of_agent, py::arg("agent"),
+           DOC(navground, sim, World, index_of_agent))
       .def_property("agents", &World::get_agents, nullptr,
                     DOC(navground, sim, World, property_agents))
       .def_property("walls", &World::get_walls, nullptr,
@@ -1032,16 +1080,16 @@ Creates a rectangular region
       .def("copy_random_generator", &World::copy_random_generator,
            py::arg("world"), DOC(navground, sim, World, copy_random_generator));
 
-  py::class_<PyWorld, World, std::shared_ptr<PyWorld>>(
-      m, "World", py::dynamic_attr(), DOC(navground, sim, World))
-      .def(py::init<>(), DOC(navground, sim, World, World))
+  py::class_<PyWorld, World, std::shared_ptr<PyWorld>> world(
+      m, "World", py::dynamic_attr(), DOC(navground, sim, World));
+  world.def(py::init<>(), DOC(navground, sim, World, World))
       .def("add_agent", &PyWorld::add_agent, py::arg("agent"),
            DOC(navground, sim, World, add_agent));
 
   py::class_<StateEstimation, PyStateEstimation, HasRegister<StateEstimation>,
-             HasProperties, std::shared_ptr<StateEstimation>>(
-      m, "StateEstimation", DOC(navground, sim, StateEstimation))
-      .def(py::init<>(), DOC(navground, sim, StateEstimation, StateEstimation))
+             HasProperties, std::shared_ptr<StateEstimation>>
+      se(m, "StateEstimation", DOC(navground, sim, StateEstimation));
+  se.def(py::init<>(), DOC(navground, sim, StateEstimation, StateEstimation))
       .def("update",
            py::overload_cast<Agent *, World *, EnvironmentState *>(
                &StateEstimation::update, py::const_),
@@ -1049,27 +1097,16 @@ Creates a rectangular region
            DOC(navground, sim, StateEstimation, update))
       .def_property(
           "type", [](StateEstimation *obj) { return obj->get_type(); }, nullptr,
-          "The name associated to the type of an object")
-      .def(py::pickle(
-          [](StateEstimation *se) {
-            // __getstate__
-            return py::make_tuple(YAML::dump<StateEstimation>(se));
-          },
-          [](py::tuple t) {
-            // __setstate__
-            if (t.size() != 1) throw std::runtime_error("Invalid state!");
-            std::string node = t[0].cast<std::string>();
-            auto obj = YAML::load_string_py<PyStateEstimation>(node);
-            return obj.cast<std::shared_ptr<StateEstimation>>();
-          }));
+          "The name associated to the type of an object");
 
   py::class_<BoundedStateEstimation, StateEstimation,
-             std::shared_ptr<BoundedStateEstimation>>(
-      m, "BoundedStateEstimation", DOC(navground, sim, BoundedStateEstimation))
-      .def(py::init<ng_float_t, bool>(),
-           // py::arg("field_of_view") = 0.0,
-           py::arg("range") = 0.0, py::arg("update_static_obstacles") = false,
-           DOC(navground, sim, BoundedStateEstimation, BoundedStateEstimation))
+             std::shared_ptr<BoundedStateEstimation>>
+      bse(m, "BoundedStateEstimation",
+          DOC(navground, sim, BoundedStateEstimation));
+  bse.def(py::init<ng_float_t, bool>(),
+          // py::arg("field_of_view") = 0.0,
+          py::arg("range") = 0.0, py::arg("update_static_obstacles") = false,
+          DOC(navground, sim, BoundedStateEstimation, BoundedStateEstimation))
       // .def_property("field_of_view",
       // &BoundedStateEstimation::get_field_of_view,
       //               &BoundedStateEstimation::set_field_of_view)
@@ -1083,19 +1120,7 @@ Creates a rectangular region
                         property_update_static_obstacles))
       .def("_neighbors_of_agent", &BoundedStateEstimation::neighbors_of_agent,
            py::arg("agent"), py::arg("world"),
-           DOC(navground, sim, BoundedStateEstimation, neighbors_of_agent))
-      .def(py::pickle(
-          [](BoundedStateEstimation *se) {
-            // __getstate__
-            return py::make_tuple(YAML::dump<StateEstimation>(se));
-          },
-          [](py::tuple t) {
-            // __setstate__
-            if (t.size() != 1) throw std::runtime_error("Invalid state!");
-            std::string node = t[0].cast<std::string>();
-            auto obj = YAML::load_string_py<PyStateEstimation>(node);
-            return obj.cast<std::shared_ptr<BoundedStateEstimation>>();
-          }));
+           DOC(navground, sim, BoundedStateEstimation, neighbors_of_agent));
 
   py::class_<Sensor, PySensor, StateEstimation, std::shared_ptr<Sensor>>(
       m, "Sensor", DOC(navground, sim, Sensor))
@@ -1107,12 +1132,12 @@ Creates a rectangular region
            DOC(navground, sim, Sensor, prepare));
 
   py::class_<LidarStateEstimation, Sensor, StateEstimation,
-             std::shared_ptr<LidarStateEstimation>>(
-      m, "LidarStateEstimation", DOC(navground, sim, LidarStateEstimation))
-      .def(py::init<ng_float_t, ng_float_t, ng_float_t, unsigned>(),
-           py::arg("range") = 0.0, py::arg("start_angle") = -M_PI,
-           py::arg("field_of_view") = 2 * M_PI, py::arg("resolution") = 100,
-           DOC(navground, sim, LidarStateEstimation, LidarStateEstimation))
+             std::shared_ptr<LidarStateEstimation>>
+      lse(m, "LidarStateEstimation", DOC(navground, sim, LidarStateEstimation));
+  lse.def(py::init<ng_float_t, ng_float_t, ng_float_t, unsigned>(),
+          py::arg("range") = 0.0, py::arg("start_angle") = -M_PI,
+          py::arg("field_of_view") = 2 * M_PI, py::arg("resolution") = 100,
+          DOC(navground, sim, LidarStateEstimation, LidarStateEstimation))
       .def_property("range", &LidarStateEstimation::get_range,
                     &LidarStateEstimation::set_range,
                     DOC(navground, sim, LidarStateEstimation, property_range))
@@ -1127,28 +1152,16 @@ Creates a rectangular region
       .def_property(
           "resolution", &LidarStateEstimation::get_resolution,
           &LidarStateEstimation::set_resolution,
-          DOC(navground, sim, LidarStateEstimation, property_resolution))
-      .def(py::pickle(
-          [](LidarStateEstimation *se) {
-            // __getstate__
-            return py::make_tuple(YAML::dump<StateEstimation>(se));
-          },
-          [](py::tuple t) {
-            // __setstate__
-            if (t.size() != 1) throw std::runtime_error("Invalid state!");
-            std::string node = t[0].cast<std::string>();
-            auto obj = YAML::load_string_py<PyStateEstimation>(node);
-            return obj.cast<std::shared_ptr<LidarStateEstimation>>();
-          }));
+          DOC(navground, sim, LidarStateEstimation, property_resolution));
 
   py::class_<DiscsStateEstimation, Sensor, StateEstimation,
-             std::shared_ptr<DiscsStateEstimation>>(
-      m, "DiscsStateEstimation", DOC(navground, sim, DiscsStateEstimation))
-      .def(py::init<ng_float_t, unsigned, ng_float_t, ng_float_t, bool>(),
-           py::arg("range") = 1.0, py::arg("number") = 1,
-           py::arg("max_radius") = 1, py::arg("max_speed") = 1,
-           py::arg("include_valid") = true,
-           DOC(navground, sim, DiscsStateEstimation, DiscsStateEstimation))
+             std::shared_ptr<DiscsStateEstimation>>
+      dse(m, "DiscsStateEstimation", DOC(navground, sim, DiscsStateEstimation));
+  dse.def(py::init<ng_float_t, unsigned, ng_float_t, ng_float_t, bool>(),
+          py::arg("range") = 1.0, py::arg("number") = 1,
+          py::arg("max_radius") = 1, py::arg("max_speed") = 1,
+          py::arg("include_valid") = true,
+          DOC(navground, sim, DiscsStateEstimation, DiscsStateEstimation))
       .def_property("range", &DiscsStateEstimation::get_range,
                     &DiscsStateEstimation::set_range,
                     DOC(navground, sim, DiscsStateEstimation, property_range))
@@ -1162,23 +1175,12 @@ Creates a rectangular region
       .def_property(
           "max_speed", &DiscsStateEstimation::get_max_speed,
           &DiscsStateEstimation::set_max_speed,
-          DOC(navground, sim, DiscsStateEstimation, property_max_speed))
-      .def(py::pickle(
-          [](DiscsStateEstimation *se) {
-            // __getstate__
-            return py::make_tuple(YAML::dump<StateEstimation>(se));
-          },
-          [](py::tuple t) {
-            // __setstate__
-            if (t.size() != 1) throw std::runtime_error("Invalid state!");
-            std::string node = t[0].cast<std::string>();
-            auto obj = YAML::load_string_py<PyStateEstimation>(node);
-            return obj.cast<std::shared_ptr<DiscsStateEstimation>>();
-          }));
+          DOC(navground, sim, DiscsStateEstimation, property_max_speed));
 
   py::class_<Task, PyTask, HasRegister<Task>, HasProperties,
-             std::shared_ptr<Task>>(m, "Task", DOC(navground, sim, Task))
-      .def(py::init<>())
+             std::shared_ptr<Task>>
+      task(m, "Task", DOC(navground, sim, Task));
+  task.def(py::init<>())
       // .def("update", &Task::update)
       .def_property(
           "type", [](Task *obj) { return obj->get_type(); }, nullptr,
@@ -1189,8 +1191,9 @@ Creates a rectangular region
       .def("add_callback", &Task::add_callback, py::arg("callback"),
            DOC(navground, sim, Task, add_callback));
 
-  py::class_<WaypointsTask, Task, std::shared_ptr<WaypointsTask>>(
-      m, "WaypointsTask", DOC(navground, sim, WaypointsTask))
+  py::class_<WaypointsTask, Task, std::shared_ptr<WaypointsTask>> waypoints(
+      m, "WaypointsTask", DOC(navground, sim, WaypointsTask));
+  waypoints
       .def(py::init<Waypoints, bool, ng_float_t>(),
            py::arg("waypoints") = Waypoints{},
            py::arg("loop") = WaypointsTask::default_loop,
@@ -1246,22 +1249,40 @@ Creates a rectangular region
                   DOC(navground, sim, RecordConfig, all))
       .def("set_all", &RecordConfig::set_all, py::arg("value"),
            DOC(navground, sim, RecordConfig, set_all))
-      .def("__repr__", [](const RecordConfig &value) -> py::str {
-        py::str r("RecordConfig(time=");
-        r += py::str(py::cast(value.time));
-        r += py::str(", pose=") + py::str(py::cast(value.pose));
-        r += py::str(", twist=") + py::str(py::cast(value.twist));
-        r += py::str(", cmd=") + py::str(py::cast(value.cmd));
-        r += py::str(", target=") + py::str(py::cast(value.target));
-        r += py::str(", safety_violation=") +
-             py::str(py::cast(value.safety_violation));
-        r += py::str(", collisions=") + py::str(py::cast(value.collisions));
-        r += py::str(", task_events=") + py::str(py::cast(value.task_events));
-        r += py::str(", deadlocks=") + py::str(py::cast(value.deadlocks));
-        r += py::str(", efficacy=") + py::str(py::cast(value.efficacy)) +
-             py::str(")");
-        return r;
-      });
+      .def("__repr__",
+           [](const RecordConfig &value) -> py::str {
+             py::str r("RecordConfig(time=");
+             r += py::str(py::cast(value.time));
+             r += py::str(", pose=") + py::str(py::cast(value.pose));
+             r += py::str(", twist=") + py::str(py::cast(value.twist));
+             r += py::str(", cmd=") + py::str(py::cast(value.cmd));
+             r += py::str(", target=") + py::str(py::cast(value.target));
+             r += py::str(", safety_violation=") +
+                  py::str(py::cast(value.safety_violation));
+             r +=
+                 py::str(", collisions=") + py::str(py::cast(value.collisions));
+             r += py::str(", task_events=") +
+                  py::str(py::cast(value.task_events));
+             r += py::str(", deadlocks=") + py::str(py::cast(value.deadlocks));
+             r += py::str(", efficacy=") + py::str(py::cast(value.efficacy)) +
+                  py::str(")");
+             return r;
+           })
+      .def(py::pickle(
+          [](const RecordConfig &value) {
+            return py::make_tuple(
+                value.time, value.pose, value.twist, value.cmd, value.target,
+                value.safety_violation, value.collisions, value.task_events,
+                value.deadlocks, value.efficacy);
+          },
+          [](py::tuple v) {  // __setstate__
+            bool t[10];
+            for (int i = 0; i < 10; ++i) {
+              t[i] = py::cast<bool>(v[i]);
+            }
+            return RecordConfig{t[0], t[1], t[2], t[3], t[4],
+                                t[5], t[6], t[7], t[8], t[9]};
+          }));
 
   py::class_<Dataset, std::shared_ptr<Dataset>>(
       m, "Dataset", py::buffer_protocol(), DOC(navground, sim, Dataset))
@@ -1275,6 +1296,24 @@ Instantiate a dataset.
 
 :param data: Copies shape, data and dtype from this numpy array
 :type data: :py:class:`numpy.ndarray`
+
+)doc")
+      .def(
+          py::init([](py::object dtype, const std::vector<size_t> &item_shape) {
+            Dataset ds(item_shape);
+            set_dataset_type_py(ds, dtype);
+            return ds;
+          }),
+          py::arg("dtype"), py::arg("item_shape") = std::vector<size_t>(),
+          R"doc(
+Instantiate a dataset.
+
+:param dtype: The type of data to store
+:type dtype: Any object that is convertible to a :py:class:`numpy.dtype`.
+
+:param item_shape: The shape of all axis except the first.
+                   Leave empty to instantiate a flat dataset.
+:type item_shape:  List[int]
 
 )doc")
       .def("__repr__",
@@ -1296,7 +1335,7 @@ Append items from a numpy array.
 
 :param values: Append data and dtype from this numpy array
 :type values: :py:class:`numpy.ndarray`
-:param reset: Wheter to replace the data instead of appending. 
+:param reset: Whether to replace the data instead of appending. 
 :type reset: bool
 
 )doc")
@@ -1324,7 +1363,24 @@ The type of the dataset.
 
 Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
 
-)doc");
+)doc")
+      .def(py::pickle(
+          // HACK(Jerome):
+          // For some reason I need to pass a dtype, because the arr.dtype()
+          // returns a different type.
+          [](const Dataset &ds) {  // __getstate__
+            /* Return a tuple that fully encodes the state of the object */
+            return py::make_tuple(as_array(ds),
+                                  get_dataset_type_py(ds).attr("str"));
+          },
+          [](py::tuple t) {  // __setstate__
+            if (t.size() != 2) throw std::runtime_error("Invalid state!");
+            Dataset ds;
+            auto arr = py::cast<py::array>(t[0]);
+            auto dt = py::dtype(py::cast<std::string>(t[1]));
+            set_dataset_data_py(ds, arr, false, dt);
+            return ds;
+          }));
 
   py::class_<Probe, PyProbe, std::shared_ptr<Probe>>(m, "Probe",
                                                      DOC(navground, sim, Probe))
@@ -1359,12 +1415,45 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
            DOC(navground, sim, ExperimentalRun, index_of_agent))
       .def(
           "add_record",
-          [](ExperimentalRun &run, const std::string &name, py::array data) {
-            auto ds = run.add_record(name);
+          [](ExperimentalRun &run, const std::string &key, py::array data) {
+            auto ds = run.add_record(key);
             set_dataset_data_py(*ds, data);
             return ds;
           },
-          py::arg("name"), py::arg("data"), "TODO")
+          py::arg("key"), py::arg("data"), R"doc(
+Adds a record.
+
+:param key: the record key
+:type key: str
+
+:param data: Copies shape, data and dtype from this numpy array
+:type data: :py:class:`numpy.ndarray`
+
+)doc")
+      .def(
+          "add_record",
+          [](ExperimentalRun &run, const std::string &key, py::object dtype,
+             const std::vector<size_t> &item_shape) {
+            auto ds = run.add_record(key);
+            ds->set_item_shape(item_shape);
+            set_dataset_type_py(*ds, dtype);
+            return ds;
+          },
+          py::arg("key"), py::arg("dtype"),
+          py::arg("item_shape") = std::vector<int>(), R"doc(
+Adds a record.
+
+:param key: The record key
+:type key: str
+
+:param dtype: The type of data to store
+:type dtype: Any object that is convertible to a :py:class:`numpy.dtype`.
+
+:param item_shape: The shape of all axis except the first.
+                   Leave empty to instantiate a flat dataset.
+:type item_shape:  List[int]
+
+)doc")
       .def("add_probe", &ExperimentalRun::add_probe, py::keep_alive<1, 2>(),
            py::arg("probe"), DOC(navground, sim, ExperimentalRun, add_probe))
       .def(
@@ -1424,20 +1513,25 @@ Adds a group record probe.
       .def("get_record_names", &ExperimentalRun::get_record_names,
            py::arg("group") = "",
            DOC(navground, sim, ExperimentalRun, get_record_names))
+      .def("get_records", &ExperimentalRun::get_records, py::arg("group") = "",
+           DOC(navground, sim, ExperimentalRun, get_records))
+      .def("get_record", &ExperimentalRun::get_record, py::arg("key") = "",
+           DOC(navground, sim, ExperimentalRun, get_record))
+#if 0
       .def(
           "get_records",
           [](const ExperimentalRun *run, const std::string &key) {
             return as_dict_array(run->get_records(key));
           },
           py::arg("group") = "", R"doc(
-Gets the records.
-
-:param group: if specified, limits to records in a given group.
-:type group: str
-:return:  read-only recorded data arrays indexed by their key 
-(relative to the group if specified).
-:rtype: typing.Dict[str, np.ndarray]
-)doc")
+      Gets the records.
+      
+      :param group: if specified, limits to records in a given group.
+      :type group: str
+      :return:  read-only recorded data arrays indexed by their key
+      (relative to the group if specified).
+      :rtype: typing.Dict[str, np.ndarray]
+      )doc")
       .def(
           "get_record",
           [](const ExperimentalRun *run, const std::string &key) -> py::object {
@@ -1453,6 +1547,7 @@ Gets recorded data.
 :return: read-only recorded data array or None if no data has been recorded for the given key
 :rtype: typing.Optional[np.ndarray]
 )doc")
+#endif
       .def_property(
           "times",
           [](const ExperimentalRun *run) {
@@ -1682,9 +1777,10 @@ The array is empty if efficacy has not been recorded in the run.
       .def_property(
           "recorded_steps", &ExperimentalRun::get_recorded_steps, nullptr,
           DOC(navground, sim, ExperimentalRun, property_recorded_steps))
-      .def_property(
-          "number_of_agents", &ExperimentalRun::get_number_of_agents, nullptr,
-          DOC(navground, sim, ExperimentalRun, property_number_of_agents))
+      // .def_property(
+      //     "number_of_agents", &ExperimentalRun::get_number_of_agents,
+      //     nullptr, DOC(navground, sim, ExperimentalRun,
+      //     property_number_of_agents))
       .def_property("seed", &ExperimentalRun::get_seed, nullptr,
                     DOC(navground, sim, ExperimentalRun, property_seed))
       .def_property("world", &ExperimentalRun::get_world, nullptr,
@@ -1709,9 +1805,50 @@ The array is empty if efficacy has not been recorded in the run.
                     &ExperimentalRun::get_terminate_when_all_idle_or_stuck,
                     nullptr,
                     DOC(navground, sim, ExperimentalRun,
-                        property_terminate_when_all_idle_or_stuck));
+                        property_terminate_when_all_idle_or_stuck))
+      .def(py::pickle(
+          [](const ExperimentalRun &run) {
+            // __getstate__
+            return py::make_tuple(
+                run.get_world(), run.get_time_step(), run.get_maximal_steps(),
+                run.get_terminate_when_all_idle_or_stuck(),
+                run.get_record_config(), run.get_seed(),
+                static_cast<int>(run.get_state()), run.get_recorded_steps(),
+                run.get_begin(), run.get_end(), run.get_world_yaml(),
+                run.get_records());
+          },
+          [](py::tuple t) {  // __setstate__
+            if (t.size() != 12) throw std::runtime_error("Invalid state!");
+            auto world = py::cast<std::shared_ptr<World>>(t[0]);
+            auto time_step = py::cast<ng_float_t>(t[1]);
+            auto max_steps = py::cast<unsigned>(t[2]);
+            auto terminate_when_all_idle_or_stuck = py::cast<bool>(t[3]);
+            auto record_config = py::cast<RecordConfig>(t[4]);
+            unsigned seed = py::cast<unsigned>(t[5]);
+            unsigned steps = py::cast<unsigned>(t[7]);
+            ExperimentalRun::State state =
+                static_cast<ExperimentalRun::State>(py::cast<int>(t[6]));
+            ExperimentalRun::tp b = py::cast<ExperimentalRun::tp>(t[8]);
+            ExperimentalRun::tp e = py::cast<ExperimentalRun::tp>(t[9]);
+            std::string yaml = py::cast<std::string>(t[10]);
+            // unsigned steps = t[4];
+            // std::chrono::time_point<std::chrono::steady_clock> begin = t[5];
+            // std::chrono::time_point<std::chrono::steady_clock> end = t[6];
+            auto records =
+                py::cast<std::map<std::string, std::shared_ptr<Dataset>>>(
+                    t[11]);
+            return ExperimentalRun(
+                world, {time_step, max_steps, terminate_when_all_idle_or_stuck},
+                record_config, seed, state, steps, b, e, yaml, records);
+            // for (const auto &[k, v] : records) {
+            //   run.insert_record(v, k);
+            // }
+            // return run;
+          }));
 
-  py::class_<PyExperiment>(m, "Experiment", DOC(navground, sim, Experiment))
+  py::class_<PyExperiment, std::shared_ptr<PyExperiment>> experiment(
+      m, "Experiment", DOC(navground, sim, Experiment));
+  experiment
       .def(py::init<ng_float_t, int>(), py::arg("time_step") = 0.1,
            py::arg("steps") = 1000, DOC(navground, sim, Experiment, Experiment))
       .def_property("has_finished", &Experiment::has_finished, nullptr,
@@ -1771,7 +1908,8 @@ The array is empty if efficacy has not been recorded in the run.
       // sim, Experiment, init_run))
       .def("start", &Experiment::start, py::arg("path") = py::none(),
            DOC(navground, sim, Experiment, start))
-      .def("stop", &Experiment::stop, DOC(navground, sim, Experiment, stop))
+      .def("stop", &Experiment::stop, py::arg("save_runs") = false,
+           DOC(navground, sim, Experiment, stop))
       .def("init_run", &Experiment::init_run, py::arg("seed"),
            py::arg("world") = py::none(),
            DOC(navground, sim, Experiment, init_run))
@@ -1783,8 +1921,15 @@ The array is empty if efficacy has not been recorded in the run.
            DOC(navground, sim, Experiment, stop_run))
       .def("remove_all_runs", &Experiment::remove_all_runs,
            DOC(navground, sim, Experiment, remove_all_runs))
+      .def("add_run", &Experiment::add_run, py::arg("seed"), py::arg("run"),
+           DOC(navground, sim, Experiment, add_run))
       .def("remove_run", &Experiment::remove_run, py::arg("seed"),
            DOC(navground, sim, Experiment, remove_run))
+      .def_readwrite("_probes", &PyExperiment::_py_probe_factories)
+      .def_readwrite("_record_probes",
+      &PyExperiment::_py_record_probe_factories)
+      .def_readwrite("_group_record_probes",
+      &PyExperiment::_py_group_record_probe_factories)
       .def("add_probe", &PyExperiment::add_probe_py, py::arg("factory"),
            DOC(navground, sim, Experiment, add_probe))
       .def("add_record_probe", &PyExperiment::add_record_probe_py,
@@ -1813,9 +1958,9 @@ Register a probe to record a group of data to during all runs.
       .def_property("begin_time", &Experiment::get_begin_time, nullptr,
                     DOC(navground, sim, Experiment, property_begin_time));
 
-  auto scenario = py::class_<Scenario, PyScenario, HasRegister<Scenario>,
-                             HasProperties, std::shared_ptr<Scenario>>(
-      m, "Scenario", DOC(navground, sim, Scenario));
+  py::class_<Scenario, PyScenario, HasRegister<Scenario>, HasProperties,
+             std::shared_ptr<Scenario>>
+      scenario(m, "Scenario", DOC(navground, sim, Scenario));
 
   py::class_<Scenario::Group, PyGroup>(scenario, "Group",
                                        DOC(navground, sim, Scenario_Group))
@@ -1855,42 +2000,18 @@ Register a probe to record a group of data to during all runs.
       // &Scenario::get_initializers, nullptr)
       .def("add_init", &Scenario::add_init, py::arg("initializer"),
            DOC(navground, sim, Scenario, add_init))
-      .def("set_yaml",
-           [](Scenario &scenario, const std::string &value) {
-             YAML::Node node = YAML::Load(value);
-             YAML::update_scenario(scenario, node);
-           })
-      .def(py::pickle(
-          [](Scenario *scenario) {
-            // __getstate__
-            return py::make_tuple(YAML::dump_scenario(scenario));
-          },
-          [](py::tuple t) {
-            // __setstate__
-            if (t.size() != 1) throw std::runtime_error("Invalid state!");
-            YAML::Node node = YAML::Load(t[0].cast<std::string>());
-            auto obj = YAML::load_scenario(node);
-            return obj.cast<std::shared_ptr<Scenario>>();
-          }));
+      .def("set_yaml", [](Scenario &scenario, const std::string &value) {
+        YAML::Node node = YAML::Load(value);
+        YAML::update_scenario(scenario, node);
+      });
 
-  py::class_<SimpleScenario, Scenario, std::shared_ptr<SimpleScenario>>(
-      m, "SimpleScenario", DOC(navground, sim, SimpleScenario))
-      .def(py::init<>(), DOC(navground, sim, SimpleScenario, SimpleScenario))
-      .def(py::pickle(
-          [](SimpleScenario *scenario) {
-            // __getstate__
-            return py::make_tuple(YAML::dump_scenario(scenario));
-          },
-          [](py::tuple t) {
-            // __setstate__
-            if (t.size() != 1) throw std::runtime_error("Invalid state!");
-            YAML::Node node = YAML::Load(t[0].cast<std::string>());
-            auto obj = YAML::load_scenario(node);
-            return obj.cast<std::shared_ptr<SimpleScenario>>();
-          }));
+  py::class_<SimpleScenario, Scenario, std::shared_ptr<SimpleScenario>> simple(
+      m, "SimpleScenario", DOC(navground, sim, SimpleScenario));
+  simple.def(py::init<>(), DOC(navground, sim, SimpleScenario, SimpleScenario));
 
-  py::class_<AntipodalScenario, Scenario, std::shared_ptr<AntipodalScenario>>(
-      m, "AntipodalScenario", DOC(navground, sim, AntipodalScenario))
+  py::class_<AntipodalScenario, Scenario, std::shared_ptr<AntipodalScenario>>
+      antipodal(m, "AntipodalScenario", DOC(navground, sim, AntipodalScenario));
+  antipodal
       .def(
           py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, bool>(),
           py::arg("radius") = AntipodalScenario::default_radius,
@@ -1913,22 +2034,11 @@ Register a probe to record a group of data to during all runs.
       .def_property(
           "orientation_noise", &AntipodalScenario::get_orientation_noise,
           &AntipodalScenario::set_orientation_noise,
-          DOC(navground, sim, AntipodalScenario, property_orientation_noise))
-      .def(py::pickle(
-          [](AntipodalScenario *scenario) {
-            // __getstate__
-            return py::make_tuple(YAML::dump_scenario(scenario));
-          },
-          [](py::tuple t) {
-            // __setstate__
-            if (t.size() != 1) throw std::runtime_error("Invalid state!");
-            YAML::Node node = YAML::Load(t[0].cast<std::string>());
-            auto obj = YAML::load_scenario(node);
-            return obj.cast<std::shared_ptr<AntipodalScenario>>();
-          }));
+          DOC(navground, sim, AntipodalScenario, property_orientation_noise));
 
-  py::class_<CrossScenario, Scenario, std::shared_ptr<CrossScenario>>(
-      m, "CrossScenario", DOC(navground, sim, CrossScenario, CrossScenario))
+  py::class_<CrossScenario, Scenario, std::shared_ptr<CrossScenario>> cross(
+      m, "CrossScenario", DOC(navground, sim, CrossScenario, CrossScenario));
+  cross
       .def(py::init<ng_float_t, ng_float_t, ng_float_t, bool, ng_float_t>(),
            py::arg("side") = CrossScenario::default_side,
            py::arg("tolerance") = CrossScenario::default_tolerance,
@@ -1952,22 +2062,11 @@ Register a probe to record a group of data to during all runs.
                         property_add_safety_to_agent_margin))
       .def_property("target_margin", &CrossScenario::get_target_margin,
                     &CrossScenario::set_target_margin,
-                    DOC(navground, sim, CrossScenario, property_target_margin))
-      .def(py::pickle(
-          [](CrossScenario *scenario) {
-            // __getstate__
-            return py::make_tuple(YAML::dump_scenario(scenario));
-          },
-          [](py::tuple t) {
-            // __setstate__
-            if (t.size() != 1) throw std::runtime_error("Invalid state!");
-            YAML::Node node = YAML::Load(t[0].cast<std::string>());
-            auto obj = YAML::load_scenario(node);
-            return obj.cast<std::shared_ptr<CrossScenario>>();
-          }));
+                    DOC(navground, sim, CrossScenario, property_target_margin));
 
-  py::class_<CorridorScenario, Scenario, std::shared_ptr<CorridorScenario>>(
-      m, "CorridorScenario", DOC(navground, sim, CorridorScenario))
+  py::class_<CorridorScenario, Scenario, std::shared_ptr<CorridorScenario>>
+      corridor(m, "CorridorScenario", DOC(navground, sim, CorridorScenario));
+  corridor
       .def(py::init<ng_float_t, ng_float_t, ng_float_t, bool>(),
            py::arg("width") = CorridorScenario::default_width,
            py::arg("length") = CorridorScenario::default_length,
@@ -1989,22 +2088,12 @@ Register a probe to record a group of data to during all runs.
                     &CorridorScenario::get_add_safety_to_agent_margin,
                     &CorridorScenario::set_add_safety_to_agent_margin,
                     DOC(navground, sim, CorridorScenario,
-                        property_add_safety_to_agent_margin))
-      .def(py::pickle(
-          [](CorridorScenario *scenario) {
-            // __getstate__
-            return py::make_tuple(YAML::dump_scenario(scenario));
-          },
-          [](py::tuple t) {
-            // __setstate__
-            if (t.size() != 1) throw std::runtime_error("Invalid state!");
-            YAML::Node node = YAML::Load(t[0].cast<std::string>());
-            auto obj = YAML::load_scenario(node);
-            return obj.cast<std::shared_ptr<CorridorScenario>>();
-          }));
+                        property_add_safety_to_agent_margin));
 
-  py::class_<CrossTorusScenario, Scenario, std::shared_ptr<CrossTorusScenario>>(
-      m, "CrossTorusScenario", DOC(navground, sim, CrossTorusScenario))
+  py::class_<CrossTorusScenario, Scenario, std::shared_ptr<CrossTorusScenario>>
+      cross_torus(m, "CrossTorusScenario",
+                  DOC(navground, sim, CrossTorusScenario));
+  cross_torus
       .def(py::init<ng_float_t, ng_float_t, bool>(),
            py::arg("side") = CrossTorusScenario::default_side,
            py::arg("agent_margin") = CrossTorusScenario::default_agent_margin,
@@ -2022,19 +2111,7 @@ Register a probe to record a group of data to during all runs.
                     &CrossTorusScenario::get_add_safety_to_agent_margin,
                     &CrossTorusScenario::set_add_safety_to_agent_margin,
                     DOC(navground, sim, CrossTorusScenario,
-                        property_add_safety_to_agent_margin))
-      .def(py::pickle(
-          [](CrossTorusScenario *scenario) {
-            // __getstate__
-            return py::make_tuple(YAML::dump_scenario(scenario));
-          },
-          [](py::tuple t) {
-            // __setstate__
-            if (t.size() != 1) throw std::runtime_error("Invalid state!");
-            YAML::Node node = YAML::Load(t[0].cast<std::string>());
-            auto obj = YAML::load_scenario(node);
-            return obj.cast<std::shared_ptr<CrossTorusScenario>>();
-          }));
+                        property_add_safety_to_agent_margin));
 
   m.def("load_task", &YAML::load_string_py<PyTask>, py::arg("value"),
         R"doc(
@@ -2050,50 +2127,27 @@ Load a state estimation from a YAML string.
 
 :return:
   The loaded state estimation or ``None`` if loading fails.)doc");
-  m.def(
-      "load_agent",
-      [](const std::string &yaml) {
-        YAML::Node node = YAML::Load(yaml);
-        return node.as<PyAgent>();
-      },
-      py::arg("value"),
-      R"doc(
+  m.def("load_agent", &YAML::load_string_py<PyAgent>, py::arg("value"),
+        R"doc(
 Load an agent from a YAML string.
 
 :return:
   The loaded agent or ``None`` if loading fails.)doc");
-  m.def(
-      "load_world",
-      [](const std::string &yaml) -> PyWorld {
-        YAML::Node node = YAML::Load(yaml);
-        return YAML::load_world(node);
-      },
-      py::arg("value"),
-      R"doc(
+  m.def("load_world", &YAML::load_string_py<PyWorld>, py::arg("value"),
+        R"doc(
 Load a world from a YAML string.
 
 :return:
   The loaded world or ``None`` if loading fails.)doc");
-  m.def(
-      "load_scenario",
-      [](const std::string &yaml) {
-        YAML::Node node = YAML::Load(yaml);
-        return YAML::load_scenario(node);
-      },
-      py::arg("value"),
-      R"doc(
+  m.def("load_scenario", &YAML::load_string_py<PyScenario>, py::arg("value"),
+        R"doc(
 Load a scenario from a YAML string.
 
 :return:
   The loaded scenario or ``None`` if loading fails.)doc");
-  m.def(
-      "load_experiment",
-      [](const std::string &yaml) {
-        YAML::Node node = YAML::Load(yaml);
-        return node.as<PyExperiment>();
-      },
-      py::arg("value"),
-      R"doc(
+  m.def("load_experiment", &YAML::load_string_py<PyExperiment>,
+        py::arg("value"),
+        R"doc(
 Load an experiment from a YAML string.
 
 :return:
@@ -2105,21 +2159,33 @@ Load an experiment from a YAML string.
         "Dump a state_estimation to a YAML-string");
   m.def("dump", &YAML::dump<World>, py::arg("world"),
         "Dump a world to a YAML-string");
-  m.def("dump", &YAML::dump_scenario, py::arg("scenario"),
+  m.def("dump", &YAML::dump<Scenario>, py::arg("scenario"),
         "Dump a scenario to a YAML-string");
-  // m.def("dump", &YAML::dump<Scenario>);
   m.def("dump", &YAML::dump<Agent>, py::arg("agent"),
         "Dump an agent to a YAML-string");
-  // m.def("dump", &YAML::dump<PyAgent>, py::arg("agent"),
-  //       "Dump an agent to a YAML-string");
-  // m.def("dump", &YAML::dump<Experiment>, py::arg("experiment"),
-  //       "Dump an experiment to a YAML-string");
   m.def("dump", &YAML::dump<PyExperiment>, py::arg("experiment"),
         "Dump an experiment to a YAML-string");
   m.def("dump", &YAML::dump<Behavior>, py::arg("behavior"),
         "Dump a behavior to a YAML-string");
   m.def("dump", &YAML::dump<Kinematics>, py::arg("kinematics"),
         "Dump a kinematics to a YAML-string");
+
+  // add [partial] pickle support
+  pickle_via_yaml<PyStateEstimation>(se);
+  pickle_via_yaml<PyStateEstimation>(bse);
+  pickle_via_yaml<PyStateEstimation>(lse);
+  pickle_via_yaml<PyStateEstimation>(dse);
+  pickle_via_yaml<PyTask>(task);
+  pickle_via_yaml<PyTask>(waypoints);
+  pickle_via_yaml<PyScenario>(scenario);
+  pickle_via_yaml<PyScenario>(simple);
+  pickle_via_yaml<PyScenario>(antipodal);
+  pickle_via_yaml<PyScenario>(cross);
+  pickle_via_yaml<PyScenario>(cross_torus);
+  pickle_via_yaml<PyScenario>(corridor);
+  pickle_via_yaml<PyWorld>(world);
+  pickle_via_yaml<PyAgent>(agent);
+  pickle_via_yaml<PyExperiment>(experiment);
 
   // m.def("load_plugins", &load_plugins, py::arg("plugins") = "",
   //       py::arg("env") = "", py::arg("directory") = py::none());

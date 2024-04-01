@@ -32,6 +32,11 @@ def parser() -> argparse.ArgumentParser:
                         help="Number of processes",
                         default=1,
                         type=int)
+    parser.add_argument(
+        "--save_single_hdf5",
+        help=
+        "Whether to store a single HDF5 file when using multiple processes",
+        action='store_true')
     return parser
 
 
@@ -72,13 +77,15 @@ def main() -> None:
             with tqdm(total=experiment.number_of_runs) as bar:
                 if arg.processes > 1:
                     experiment.run_mp(number_of_processes=arg.processes,
-                                      bar=bar)
+                                      bar=bar,
+                                      keep=arg.save_single_hdf5)
                 else:
                     experiment.add_run_callback(lambda _: bar.update(1))
                     experiment.run(keep=False, number_of_threads=arg.threads)
         else:
             if arg.processes > 1:
-                experiment.run_mp(number_of_processes=arg.processes)
+                experiment.run_mp(number_of_processes=arg.processes,
+                                  keep=arg.save_single_hdf5)
             else:
                 experiment.run(keep=False, number_of_threads=arg.threads)
 

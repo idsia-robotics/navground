@@ -46,6 +46,7 @@ find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(GEOS REQUIRED)
 find_package(pybind11 REQUIRED)
 find_package(HighFive REQUIRED)
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
 # add_subdirectory(../external/geos geos)
 # add_subdirectory(../external/pybind11 pybind11 EXCLUDE_FROM_ALL)
@@ -92,6 +93,7 @@ target_link_libraries(
   GEOS::geos 
   # yaml-cpp::yaml-cpp 
   HighFive
+  Eigen3::Eigen
   navground_core::navground_core 
 )
 target_link_libraries(navground_sim PRIVATE )
@@ -99,7 +101,7 @@ target_include_directories(navground_sim INTERFACE $<TARGET_PROPERTY:HighFive,IN
 # Else fails compiling with clang 15, see https://developer.apple.com/documentation/xcode-release-notes/xcode-15-release-notes
 target_compile_definitions(navground_sim PUBLIC _LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION)
 
-ament_export_dependencies(geos navground_core HighFive)
+ament_export_dependencies(geos navground_core HighFive Eigen3)
 ament_export_targets(navground_simTargets HAS_LIBRARY_TARGET)
 
 add_executable(run src/run.cpp)

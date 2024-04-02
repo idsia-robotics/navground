@@ -7,6 +7,8 @@
 #define NAVGROUND_SIM_DATASET_H_
 
 #include <highfive/H5File.hpp>
+// #include <Eigen/CXX11/Tensor>
+#include <unsupported/Eigen/CXX11/Tensor>
 
 #include "navground/core/types.h"
 #include "navground/sim/world.h"
@@ -41,21 +43,26 @@ class NAVGROUND_SIM_EXPORT Dataset {
   using Shape = std::vector<size_t>;
 
   /**
+   * The indices type
+   */
+  using Indices = std::vector<size_t>;
+
+  /**
    * @brief      The constructor
-   * 
+   *
    * @private
    *
    * @param[in]  item_shape  The shape of all axis except the first.
    *             Leave empty to instantiate a flat dataset.
    */
   explicit Dataset(const Shape& item_shape = {})
-      : _data(), _shape(), _item_shape(), _item_size(1) {
+      : _data(), _item_shape(), _item_size(1) {
     set_item_shape(item_shape);
   }
 
   /**
    * @brief      Make a dataset of a given type
-   * 
+   *
    * @private
    *
    * @param[in]  item_shape  The shape of all axis except the first.
@@ -216,9 +223,26 @@ class NAVGROUND_SIM_EXPORT Dataset {
     return std::get_if<std::vector<T>>(&_data);
   }
 
+  /**
+   * @brief      Return a tensor view of the dataset
+   *
+   * @tparam     T    The desired type.
+   * @tparam     N    The number of dimensions
+   *
+   * @return     An eigen tensor with the same shape and type as the dataset
+   */
+  template <typename T, int N>
+  Eigen::Tensor<T, N> const as_tensor() const {
+    auto data = get_typed_data<T>();
+    T* ptr = const_cast<T*>(data->data());
+    std::array<size_t, N> shape;
+    auto _shape = get_shape();
+    std::copy_n(_shape.rbegin(), N, shape.begin());
+    return Eigen::TensorMap<Eigen::Tensor<T, N>>(ptr, shape);
+  }
+
  private:
   Data _data;
-  Shape _shape;
   Shape _item_shape;
   unsigned _item_size;
 

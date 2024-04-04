@@ -7,7 +7,7 @@ import random
 import sys
 from typing import Optional
 
-from . import Scenario, World, load_experiment, load_plugins
+from . import _Scenario, World, load_experiment, load_plugins
 from .real_time import RealTimeSimulation
 from .ui import Decorate, open_html
 from .ui.web_ui import Rect, WebUI
@@ -23,7 +23,7 @@ def until_done(world: World, max_duration: float = -1):
     return f
 
 
-async def run(scenario: Scenario,
+async def run(scenario: _Scenario,
               with_ui: bool = True,
               factor: float = 1.0,
               time_step: float = 0.04,

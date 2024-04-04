@@ -1,7 +1,7 @@
 import datetime
 import pathlib
 import re
-from typing import Dict, List, Optional, Tuple, Union, Set
+from typing import Dict, Optional, Tuple, Union, Set
 
 import h5py
 import numpy as np
@@ -15,7 +15,7 @@ def _timedelta_from_ns(ns: int):
 
 
 def _get_all_datasets(group: h5py.Group, ns: str) -> Dict[str, h5py.Dataset]:
-    rs = {}
+    rs: Dict[str, h5py.Dataset] = {}
     for k, v in group.items():
         if isinstance(v, h5py.Group):
             cs = _get_all_datasets(v, ns)
@@ -183,7 +183,7 @@ class RecordedExperimentalRun:
         """
         te = self.task_events
         if te:
-            return te[str(agent._uid)]
+            return te[agent._uid]
         return np.array([])
 
     def index_of_agent(self, agent: Agent) -> int:

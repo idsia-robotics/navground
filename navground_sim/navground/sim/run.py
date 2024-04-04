@@ -76,7 +76,7 @@ def main() -> None:
 
             with tqdm(total=experiment.number_of_runs) as bar:
                 if arg.processes > 1:
-                    experiment.run_mp(number_of_processes=arg.processes,
+                    experiment.run_mp(number_of_processes=arg.processes,  # type: ignore
                                       bar=bar,
                                       keep=arg.save_single_hdf5)
                 else:
@@ -84,7 +84,7 @@ def main() -> None:
                     experiment.run(keep=False, number_of_threads=arg.threads)
         else:
             if arg.processes > 1:
-                experiment.run_mp(number_of_processes=arg.processes,
+                experiment.run_mp(number_of_processes=arg.processes,  # type: ignore
                                   keep=arg.save_single_hdf5)
             else:
                 experiment.run(keep=False, number_of_threads=arg.threads)

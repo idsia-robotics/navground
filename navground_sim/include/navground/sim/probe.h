@@ -170,8 +170,8 @@ class NAVGROUND_SIM_EXPORT GroupRecordProbe : public Probe {
    *
    * @param[in]  factory  The datasets generator
    */
-  explicit GroupRecordProbe(Factory factory = default_factory)
-      : Probe(), _factory(factory), _data() {}
+  explicit GroupRecordProbe(std::optional<Factory> factory = std::nullopt)
+      : Probe(), _factory(factory.value_or(default_factory)), _data() {}
 
   /**
    * @brief      Sets the datasets generator.

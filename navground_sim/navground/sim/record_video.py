@@ -5,13 +5,13 @@ import random
 import sys
 from typing import Any, Optional
 
-from . import Scenario, World, load_experiment, load_plugins
+from . import _Scenario, World, load_experiment, load_plugins
 from .ui.video import record_video
 from .ui import Decorate
 
 
 def run(path: str,
-        scenario: Scenario,
+        scenario: _Scenario,
         factor: float = 1.0,
         time_step: float = 0.04,
         fps: int = 24,

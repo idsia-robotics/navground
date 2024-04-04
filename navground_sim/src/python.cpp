@@ -920,6 +920,14 @@ Creates a rectangular region
           },
           nullptr);
 
+  py::class_<StateEstimation, PyStateEstimation, HasRegister<StateEstimation>,
+             HasProperties, std::shared_ptr<StateEstimation>>
+      se(m, "StateEstimation", DOC(navground, sim, StateEstimation));
+
+  py::class_<Task, PyTask, HasRegister<Task>, HasProperties,
+             std::shared_ptr<Task>>
+      task(m, "Task", DOC(navground, sim, Task));
+
   py::class_<Agent, Entity, std::shared_ptr<Agent>>(m, "NativeAgent",
                                                     DOC(navground, sim, Agent))
       .def_readwrite("id", &Agent::id, DOC(navground, sim, Agent, id))
@@ -1153,9 +1161,6 @@ Creates a rectangular region
       .def("add_agent", &PyWorld::add_agent, py::arg("agent"),
            DOC(navground, sim, World, add_agent));
 
-  py::class_<StateEstimation, PyStateEstimation, HasRegister<StateEstimation>,
-             HasProperties, std::shared_ptr<StateEstimation>>
-      se(m, "StateEstimation", DOC(navground, sim, StateEstimation));
   se.def(py::init<>(), DOC(navground, sim, StateEstimation, StateEstimation))
       .def("update",
            py::overload_cast<Agent *, World *, EnvironmentState *>(
@@ -1244,9 +1249,6 @@ Creates a rectangular region
           &DiscsStateEstimation::set_max_speed,
           DOC(navground, sim, DiscsStateEstimation, property_max_speed));
 
-  py::class_<Task, PyTask, HasRegister<Task>, HasProperties,
-             std::shared_ptr<Task>>
-      task(m, "Task", DOC(navground, sim, Task));
   task.def(py::init<>())
       // .def("update", &Task::update)
       .def_property(
@@ -1463,8 +1465,8 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
   py::class_<GroupRecordProbe, Probe, PyGroupRecordProbe,
              std::shared_ptr<GroupRecordProbe>>(
       m, "GroupRecordProbe", DOC(navground, sim, GroupRecordProbe))
-      .def(py::init<GroupRecordProbe::Factory>(),
-           py::arg("factory") = GroupRecordProbe::default_factory,
+      .def(py::init<std::optional<GroupRecordProbe::Factory>>(),
+           py::arg("factory") = py::none(),
            DOC(navground, sim, GroupRecordProbe, GroupRecordProbe))
       .def("get_data", &GroupRecordProbe::get_data, py::arg("key"),
            DOC(navground, sim, GroupRecordProbe, get_data));
@@ -1921,6 +1923,10 @@ The array is empty if efficacy has not been recorded in the run.
             return run;
           }));
 
+  py::class_<Scenario, PyScenario, HasRegister<Scenario>, HasProperties,
+             std::shared_ptr<Scenario>>
+      scenario(m, "Scenario", DOC(navground, sim, Scenario));
+
   py::class_<PyExperiment, std::shared_ptr<PyExperiment>> experiment(
       m, "Experiment", DOC(navground, sim, Experiment));
   experiment
@@ -1946,7 +1952,7 @@ The array is empty if efficacy has not been recorded in the run.
       //                DOC(navground, sim, Experiment, run_config))
       .def_property("runs", &Experiment::get_runs, nullptr,
                     DOC(navground, sim, Experiment, property_runs))
-      .def("get_run", [](const Experiment &exp,
+      .def("get_run", [](const PyExperiment &exp,
                          unsigned index) { return exp.get_runs().at(index); })
       .def_property(
           "scenario", [](const PyExperiment *exp) { return exp->scenario; },
@@ -2033,9 +2039,6 @@ Register a probe to record a group of data to during all runs.
       .def_property("begin_time", &Experiment::get_begin_time, nullptr,
                     DOC(navground, sim, Experiment, property_begin_time));
 
-  py::class_<Scenario, PyScenario, HasRegister<Scenario>, HasProperties,
-             std::shared_ptr<Scenario>>
-      scenario(m, "Scenario", DOC(navground, sim, Scenario));
 
   py::class_<Scenario::Group, PyGroup>(scenario, "Group",
                                        DOC(navground, sim, Scenario_Group))
@@ -2094,7 +2097,8 @@ Register a probe to record a group of data to during all runs.
           py::arg("position_noise") = AntipodalScenario::default_position_noise,
           py::arg("orientation_noise") =
               AntipodalScenario::default_orientation_noise,
-          py::arg("shuffle") = AntipodalScenario::default_shuffle,
+          py::arg("shuffle") = false,
+          // AntipodalScenario::default_shuffle,
           DOC(navground, sim, AntipodalScenario, AntipodalScenario))
       .def_property("radius", &AntipodalScenario::get_radius,
                     &AntipodalScenario::set_radius,

@@ -83,11 +83,11 @@ class PyLidarStateEstimation(sim.Sensor, sim.StateEstimation,
                 max_distance=self.max_distance,
                 dynamic=False))
         try:
-            state.set("range", ranges, True)
+            state.set("range", ranges, True)  # type: ignore
         except (AttributeError, KeyError):
             warnings.warn(f"Cannot set field sensing of {state}")
 
     def get_description(self) -> Dict[str, core.BufferDescription]:
-        desc = core.BufferDescription((self.resolution, ), float, 0.0,
+        desc = core.BufferDescription([self.resolution], float, 0.0,
                                       self.max_distance)
         return {'range': desc}

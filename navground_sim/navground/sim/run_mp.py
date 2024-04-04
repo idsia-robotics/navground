@@ -3,7 +3,7 @@ import multiprocessing as mp
 import pathlib
 import warnings
 from queue import Empty
-from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Callable, Dict, Iterable, List, Optional, Tuple
 
 import h5py
 import numpy as np
@@ -24,10 +24,11 @@ def _load_and_run_experiment(
     number_of_runs: int,
     data_path: Optional[pathlib.Path],
     queue: Optional[mp.Queue] = None,
-    probes: Probes = ([], {}, {})) -> None:
+    probes: Probes = ([], {}, {})
+) -> Dict[int, sim.ExperimentalRun]:
 
     experiment = sim.load_experiment(yaml)
-    experiment.save_directory = ''
+    experiment.save_directory = ''  # type: ignore
     experiment._probes, experiment._record_probes, experiment._group_record_probes = probes
     if queue:
         experiment.add_run_callback(lambda run: queue.put(run.seed))
@@ -109,7 +110,7 @@ def run_mp(experiment: sim.Experiment,
     ss = np.cumsum(chunks)
     start_indices = np.insert(ss, 0, 0) + experiment.run_index
     if keep:
-        paths = itertools.repeat(None, number_of_processes)
+        paths: Iterable[pathlib.Path | None] = itertools.repeat(None, number_of_processes)
     else:
         paths = [
             experiment.path.parent /

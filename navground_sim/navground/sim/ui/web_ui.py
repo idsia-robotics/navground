@@ -202,8 +202,10 @@ class WebUI:
     async def update_size(self,
                           world: Optional[World] = None,
                           bounds: Optional[Rect] = None) -> None:
-        if bounds is None:
+        if bounds is None and world is not None:
             bounds = bounds_for_world(world)
+        if bounds is None:
+            return
         _, _, view_box, _ = size(bounds=bounds)
         msg = ('v', view_box)
         data = json.dumps(msg)
@@ -270,30 +272,30 @@ class WebUI:
         if self.display_collisions:
             in_collision = set(
                 [a._uid for a in world.get_agents_in_collision(1.0)])
-            for e in in_collision - self.in_collision:
-                if e not in rs:
-                    rs[e] = {}
-                rs[e]['fill'] = 'red'
-            for e in self.in_collision - in_collision:
-                a = world.get_entity(e)
+            for e_id in in_collision - self.in_collision:
+                if e_id not in rs:
+                    rs[e_id] = {}
+                rs[e_id]['fill'] = 'red'
+            for e_id in self.in_collision - in_collision:
+                a = world.get_entity(e_id)
                 if isinstance(a, Agent):
-                    if e not in rs:
-                        rs[e] = {}
-                    rs[e]['fill'] = a.color
+                    if e_id not in rs:
+                        rs[e_id] = {}
+                    rs[e_id]['fill'] = a.color
             self.in_collision = in_collision
         if self.display_deadlocks:
             in_deadlock = set(
                 [a._uid for a in world.get_agents_in_deadlock(5.0)])
-            for e in in_deadlock - self.in_deadlock:
-                if e not in rs:
-                    rs[e] = {}
-                rs[e]['fill'] = 'blue'
-            for e in self.in_deadlock - in_deadlock:
-                a = world.get_entity(e)
+            for e_id in in_deadlock - self.in_deadlock:
+                if e_id not in rs:
+                    rs[e_id] = {}
+                rs[e_id]['fill'] = 'blue'
+            for e_id in self.in_deadlock - in_deadlock:
+                a = world.get_entity(e_id)
                 if isinstance(a, Agent):
-                    if e not in rs:
-                        rs[e] = {}
-                    rs[e]['fill'] = a.color
+                    if e_id not in rs:
+                        rs[e_id] = {}
+                    rs[e_id]['fill'] = a.color
             self.in_deadlock = in_deadlock
         return rs
 

@@ -59,7 +59,7 @@ def make_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
             relative_bounds = np.asarray(((-1, -1), (1, 1)))
         else:
             relative_bounds = np.asarray(bounds)
-    elif not bounds:
+    elif not bounds and isinstance(run, RecordedExperimentalRun):
         bounds = run.bounds
 
     def make_frame(t: float) -> np.ndarray:

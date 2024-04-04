@@ -578,7 +578,8 @@ document.write(`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground.sim.ui</span> <span class="kn">import</span> <span class="n">notebook_view</span><span class="p">,</span> <span class="n">WebUI</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground.sim.ui</span> <span class="kn">import</span> <span class="n">WebUI</span>
+<span class="kn">from</span> <span class="nn">navground.sim.notebook</span> <span class="kn">import</span> <span class="n">notebook_view</span>
 <span class="kn">from</span> <span class="nn">navground.sim.replay</span> <span class="kn">import</span> <span class="n">RealTimeReplay</span>
 
 <span class="n">web_ui</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">max_rate</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
@@ -866,7 +867,7 @@ class WebUIClient {
     <h1></h1>
   </div>
 
-<svg id="N0svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="250" height="250" viewBox="0.00 0.00 1.00 1.00">
+<svg id="N0svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="250" height="250" viewBox="0.0000 0.0000 1.0000 1.0000">
 <defs>
   <g id="N0agent" r="1">
     <circle class="body" cx="0" cy="0" r="1"/>
@@ -944,10 +945,10 @@ class WebUIClient {
 <style>
 <![CDATA[
 
-svg{
-  style='stroke-width: 0px;
+/*svg{
+  style=stroke-width: 0px;
 }
-
+*/
 circle.obstacle{
   fill: gray;
   stroke:none;
@@ -980,10 +981,10 @@ polyline.wall{
   fill: #483e37;
 }
 
-.body {
-/*    all: inherit;*/
+/*.body {
+    all: inherit;
 }
-
+*/
 
 
 
@@ -993,8 +994,13 @@ svg {
    background-color: snow;
 }
 
+.grid {
+  stroke: ;
+  stroke-width: ;
+}
 ]]>
 </style>
+
 <g id="N0world" transform='scale(1, -1)'>
 
 </g>
@@ -1003,7 +1009,7 @@ svg {
 </html></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rt_sim</span> <span class="o">=</span> <span class="n">RealTimeReplay</span><span class="p">(</span><span class="n">run</span><span class="o">=</span><span class="n">run</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">web_ui</span><span class="o">=</span><span class="n">web_ui</span><span class="p">)</span>
@@ -1013,7 +1019,7 @@ svg {
 </div>
 <p>We can also jump to a step. Let’s go to when the agents is nearest to the obstacles:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1027,7 +1033,7 @@ svg {
 </div>
 <p>The view will then display an image similar to</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
@@ -1036,7 +1042,7 @@ svg {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1046,7 +1052,7 @@ svg {
 <p>We could also do something more interesting, like changing some parameters and executing a new simulation to compare the resulting trajectories.</p>
 <p>For instance, let us increase the safety margin of the agent</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">agent</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -1056,7 +1062,7 @@ svg {
 </div>
 <p>Then we perform a simulation until the end of the run, recording the new trajectory</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_ps</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1071,7 +1077,7 @@ svg {
 </div>
 <p>We plot in blue the original recorded trajecotory (with safery margin 0) and in red the new portion of trajecotry (with safety margin 0.25)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>

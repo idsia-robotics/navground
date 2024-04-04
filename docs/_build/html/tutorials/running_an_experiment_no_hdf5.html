@@ -516,7 +516,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-datetime.timedelta(seconds=1, microseconds=437309)
+datetime.timedelta(seconds=1, microseconds=595813)
 </pre></div></div>
 </div>
 </section>
@@ -537,8 +537,8 @@ datetime.timedelta(seconds=1, microseconds=437309)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{0: &lt;navground.sim._navground_sim.ExperimentalRun at 0x105595d30&gt;,
- 1: &lt;navground.sim._navground_sim.ExperimentalRun at 0x1056deeb0&gt;}
+{0: &lt;navground.sim._navground_sim.ExperimentalRun at 0x106bf5970&gt;,
+ 1: &lt;navground.sim._navground_sim.ExperimentalRun at 0x10763b5b0&gt;}
 </pre></div></div>
 </div>
 <p>initialized with seeds 0 and 1. Let’s check that the first run has ideed the correct seed.</p>
@@ -815,7 +815,7 @@ and 99% of the time between 4.90 and 16.80 seconds
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Performed 500 runs in 4.178866 seconds
+Performed 500 runs in 4.642016 seconds
 </pre></div></div>
 </div>
 <p>Let’s collect safety margins and numbers of collisions in a table.</p>
@@ -867,13 +867,13 @@ Performed 500 runs in 4.178866 seconds
 <p>We can distribute the execution of an experiment over multiple threads or multiple processes. See the <a class="reference external" href="../guides/parallelize.html">guide on how to parallelize</a> for more information.</p>
 <p>Let’s run again a larger experiment (5000 vs 500 runs) using 4 threads instead of 1. We will also display the progresses using tqdm.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="n">threads</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">runs</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">runs</span> <span class="o">=</span> <span class="mi">4000</span>
 <span class="c1"># remove the previous runs</span>
 <span class="n">experiment</span><span class="o">.</span><span class="n">remove_all_runs</span><span class="p">()</span>
 <span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">runs</span><span class="p">)</span> <span class="k">as</span> <span class="n">bar</span><span class="p">:</span>
@@ -890,14 +890,14 @@ Performed 500 runs in 4.178866 seconds
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "08ae789fe1d54f638b9325b0fdd04cbc", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5cb85fd67b5f4e2ea6368b1f7dbd5cdc", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Performed 5000 runs in 11.629182 seconds over 4 threads
+Performed 4000 runs in 10.374298 seconds over 4 threads
 </pre></div></div>
 </div>
 <p>We can also parallize over <em>processes</em>. Passing the argument <code class="docutils literal notranslate"><span class="pre">keep</span></code> will retrieve the runs performed in the dfferent processes and store them in <code class="docutils literal notranslate"><span class="pre">experiment.runs</span></code></p>
@@ -908,10 +908,10 @@ Performed 5000 runs in 11.629182 seconds over 4 threads
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="n">processes</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">runs</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">runs</span> <span class="o">=</span> <span class="mi">4000</span>
 <span class="n">experiment</span><span class="o">.</span><span class="n">remove_all_runs</span><span class="p">()</span>
 <span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">runs</span><span class="p">)</span> <span class="k">as</span> <span class="n">bar</span><span class="p">:</span>
-    <span class="n">experiment</span><span class="o">.</span><span class="n">run_mp</span><span class="p">(</span><span class="n">number_of_processes</span><span class="o">=</span><span class="n">threads</span><span class="p">,</span> <span class="n">number_of_runs</span><span class="o">=</span><span class="n">runs</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="n">bar</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">run_mp</span><span class="p">(</span><span class="n">number_of_processes</span><span class="o">=</span><span class="n">threads</span><span class="p">,</span> <span class="n">number_of_runs</span><span class="o">=</span><span class="n">runs</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="n">bar</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Performed </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">runs</span><span class="p">)</span><span class="si">}</span><span class="s2"> runs in &quot;</span>
       <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">duration</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="si">}</span><span class="s2"> seconds &quot;</span>
@@ -923,26 +923,18 @@ Performed 5000 runs in 11.629182 seconds over 4 threads
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3b0d951360a84c03bf5fc58f8ab74ea5", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "faada74a0d0848eeb7d1d4c27ddea97e", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Performed 5000 runs in 22.511956 seconds over 4 processes
+Performed 0 runs in 11.595212 seconds over 4 processes
 </pre></div></div>
 </div>
 <p>Performing the single runs have comparable costs, but setting up the processes and retrieving the data, adds in this case significat costs.</p>
 <p>Nonetheless, multiprocessing is an important alternative that enable parallelizing experiments that invove Python, like when using Python-implemented navigation behaviors.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
 </section>
 </section>
 

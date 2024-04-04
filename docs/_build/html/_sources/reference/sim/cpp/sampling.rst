@@ -88,3 +88,13 @@ Agents
 .. doxygenstruct:: navground::sim::AgentSampler
     :members:
     :undoc-members:
+
+
+Obstacles
+=========
+
+.. code-block:: cpp
+   
+   #include "navground/sim/sampling/geometry.h"
+
+.. doxygenfunction:: navground::sim::sample_discs

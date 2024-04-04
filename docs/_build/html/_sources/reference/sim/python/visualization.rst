@@ -15,7 +15,7 @@ Display a simulated world
 
 .. autofunction:: navground.sim.ui.html_for_world
 
-.. autofunction:: navground.sim.ui.notebook_view
+.. autofunction:: navground.sim.notebook.notebook_view
 
 
 :module:  :py:mod:`navground.sim.ui.render`

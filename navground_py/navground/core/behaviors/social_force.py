@@ -161,7 +161,7 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         return -grad * p_grad
 
     def obstacle_potential(self,
-                           obstacle: Neighbor) -> Callable[[Vector2], float]:
+                           obstacle: Disc) -> Callable[[Vector2], float]:
 
         def f(position: Vector2) -> float:
             value, _ = disc_distance(position, obstacle)

@@ -278,14 +278,29 @@ PYBIND11_MODULE(_navground, m) {
       .value("absolute", Frame::absolute,
              DOC(navground, core, Frame, absolute));
 
-  m.def("to_absolute", &to_absolute, py::arg("value"), py::arg("reference"),
-        DOC(navground, core, to_absolute));
-  m.def("to_relative", &to_relative, py::arg("value"), py::arg("reference"),
-        DOC(navground, core, to_relative));
+  auto twist = py::class_<Twist2>(m, "Twist2", DOC(navground, core, Twist2));
 
-  py::class_<Twist2>(m, "Twist2", DOC(navground, core, Twist2))
+  py::class_<Pose2>(m, "Pose2", DOC(navground, core, Pose2))
+      .def(py::init<Vector2, ng_float_t>(), py::arg("position"),
+           py::arg("orientation") = 0, DOC(navground, core, Pose2, Pose2))
+      .def_readwrite("position", &Pose2::position,
+                     DOC(navground, core, Pose2, position))
+      .def_readwrite("orientation", &Pose2::orientation,
+                     DOC(navground, core, Pose2, orientation))
+      .def("rotate", &Pose2::rotate, py::arg("angle"),
+           DOC(navground, core, Pose2, rotate))
+      .def("integrate", &Pose2::integrate, py::arg("twist"),
+           py::arg("time_step"), DOC(navground, core, Pose2, rotate))
+      .def("absolute", &Pose2::absolute, py::arg("reference"),
+           DOC(navground, core, Pose2, absolute))
+      .def("relative", &Pose2::relative, py::arg("reference"),
+           DOC(navground, core, Pose2, relative))
+      .def("__repr__", &to_string<Pose2>);
+
+  twist
       .def(py::init<Vector2, ng_float_t, Frame>(), py::arg("velocity"),
-           py::arg("angular_speed") = 0, py::arg("frame") = Frame::absolute,
+           py::arg("angular_speed") = 0, 
+           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
            DOC(navground, core, Twist2, Twist2))
       .def(py::self == py::self)
       .def(py::self != py::self)
@@ -309,22 +324,10 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Twist2, snap_to_zero))
       .def("__repr__", &to_string<Twist2>);
 
-  py::class_<Pose2>(m, "Pose2", DOC(navground, core, Pose2))
-      .def(py::init<Vector2, ng_float_t>(), py::arg("position"),
-           py::arg("orientation") = 0, DOC(navground, core, Pose2, Pose2))
-      .def_readwrite("position", &Pose2::position,
-                     DOC(navground, core, Pose2, position))
-      .def_readwrite("orientation", &Pose2::orientation,
-                     DOC(navground, core, Pose2, orientation))
-      .def("rotate", &Pose2::rotate, py::arg("angle"),
-           DOC(navground, core, Pose2, rotate))
-      .def("integrate", &Pose2::integrate, py::arg("twist"),
-           py::arg("time_step"), DOC(navground, core, Pose2, rotate))
-      .def("absolute", &Pose2::absolute, py::arg("reference"),
-           DOC(navground, core, Pose2, absolute))
-      .def("relative", &Pose2::relative, py::arg("reference"),
-           DOC(navground, core, Pose2, relative))
-      .def("__repr__", &to_string<Pose2>);
+  m.def("to_absolute", &to_absolute, py::arg("value"), py::arg("reference"),
+        DOC(navground, core, to_absolute));
+  m.def("to_relative", &to_relative, py::arg("value"), py::arg("reference"),
+        DOC(navground, core, to_relative));
 
   py::class_<Target>(m, "Target", DOC(navground, core, Target))
       .def(py::init<std::optional<Vector2>, std::optional<Radians>,
@@ -379,6 +382,9 @@ PYBIND11_MODULE(_navground, m) {
                   DOC(navground, core, Target, Twist))
       .def_static("Stop", &Target::Point, DOC(navground, core, Target, Stop))
       .def("__repr__", &to_string<Target>);
+
+  py::class_<EnvironmentState, std::shared_ptr<EnvironmentState>>(
+      m, "EnvironmentState", DOC(navground, core, EnvironmentState));
 
   py::class_<Disc>(m, "Disc", DOC(navground, core, Disc))
       .def(py::init<Vector2, ng_float_t>(), py::arg("position"),
@@ -646,17 +652,17 @@ PYBIND11_MODULE(_navground, m) {
           "twist", [](const Behavior &self) { return self.get_twist(); },
           &Behavior::set_twist, DOC(navground, core, Behavior, property_twist))
       .def("get_twist", &Behavior::get_twist,
-           py::arg("frame") = Frame::absolute,
+           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
            DOC(navground, core, Behavior, get_twist))
       .def_property(
           "velocity", [](const Behavior &self) { return self.get_velocity(); },
           [](Behavior &self, const Vector2 v) { return self.set_velocity(v); },
           DOC(navground, core, Behavior, property_velocity))
       .def("get_velocity", &Behavior::get_velocity,
-           py::arg("frame") = Frame::absolute,
+           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
            DOC(navground, core, Behavior, get_velocity))
       .def("set_velocity", &Behavior::set_velocity, py::arg("velocity"),
-           py::arg("frame") = Frame::absolute,
+           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
            DOC(navground, core, Behavior, set_velocity))
       .def_property("angular_speed", &Behavior::get_angular_speed,
                     &Behavior::set_angular_speed,
@@ -670,7 +676,7 @@ PYBIND11_MODULE(_navground, m) {
           &Behavior::set_actuated_twist,
           DOC(navground, core, Behavior, property_actuated_twist))
       .def("get_actuated_twist", &Behavior::get_actuated_twist,
-           py::arg("frame") = Frame::absolute,
+           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
            DOC(navground, core, Behavior, get_actuated_twist))
       .def_property(
           "velocity", [](const Behavior &self) { return self.get_velocity(); },
@@ -737,9 +743,6 @@ PYBIND11_MODULE(_navground, m) {
            nullptr;
   });
 
-  py::class_<EnvironmentState, std::shared_ptr<EnvironmentState>>(
-      m, "EnvironmentState", DOC(navground, core, EnvironmentState));
-
   py::class_<GeometricState, EnvironmentState, std::shared_ptr<GeometricState>>(
       m, "GeometricState", DOC(navground, core, GeometricState))
       .def(py::init<>(), DOC(navground, core, GeometricState, GeometricState))
@@ -754,9 +757,6 @@ PYBIND11_MODULE(_navground, m) {
           "line_obstacles", &GeometricState::get_line_obstacles,
           &GeometricState::set_line_obstacles,
           DOC(navground, core, GeometricState, property_line_obstacles));
-
-  py::bind_map<std::map<std::string, Buffer>>(
-      m, "BufferMap", "A dictionary of type Dict[str, Buffer]");
 
   py::class_<BufferDescription>(m, "BufferDescription",
                                 DOC(navground, core, BufferDescription))
@@ -859,6 +859,9 @@ PYBIND11_MODULE(_navground, m) {
              py::str(")");
         return r;
       });
+
+  py::bind_map<std::map<std::string, Buffer>>(
+      m, "BufferMap", "A dictionary of type Dict[str, Buffer]");
 
   py::class_<SensingState, EnvironmentState, std::shared_ptr<SensingState>>(
       m, "SensingState", DOC(navground, core, SensingState))

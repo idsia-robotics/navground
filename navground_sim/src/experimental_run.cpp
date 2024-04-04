@@ -445,9 +445,10 @@ ExperimentalRun::get_collisions_at_step(int step) {
   if (collisions) {
     auto data = *(collisions->get_typed_data<unsigned>());
     auto b = SkipIt<unsigned>(data.data(), 3);
-    auto lower = std::lower_bound(b, b + data.size() / 3, step);
+    auto number = data.size() / 3;
+    auto lower = std::lower_bound(b, b + number, step);
     unsigned i = std::distance(b, lower);
-    if (i < get_recorded_steps()) {
+    if (i < number) {
       for (; data[3 * i] == static_cast<unsigned>(step); ++i) {
         auto e1 = _world->get_entity(data[3 * i + 1]);
         auto e2 = _world->get_entity(data[3 * i + 2]);

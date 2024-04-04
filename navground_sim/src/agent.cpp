@@ -6,6 +6,27 @@
 
 namespace navground::sim {
 
+void Agent::prepare(World *world) {
+  if (ready) return; 
+  if (state_estimation) {
+    // state_estimation->world = this;
+    state_estimation->prepare(this, world);
+  }
+  if (task) {
+    task->prepare(this, world);
+  }
+  collision_correction = Vector2::Zero();
+  if (behavior) {
+    behavior->set_kinematics(kinematics);
+    behavior->set_radius(radius);
+    controller.set_behavior(behavior);
+    // TODO(J): should be optional now that we added support for external
+    // run-loops
+    controller.set_cmd_frame(core::Frame::absolute);
+  }
+  ready = true;
+}
+
 void Agent::update(ng_float_t dt, ng_float_t time, World *world) {
   if (external) return;
   // TODO(J): should update the task anyway to record the logs

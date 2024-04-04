@@ -107,7 +107,7 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
    * @return     A list of neighbors around the agent
    */
   virtual std::vector<Neighbor> neighbors_of_agent(const Agent *agent,
-                                                   const World *world) const;
+                                                   World *world) const;
 
   /**
    * @private

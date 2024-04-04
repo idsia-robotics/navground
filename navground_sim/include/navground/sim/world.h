@@ -120,6 +120,10 @@ struct NAVGROUND_SIM_EXPORT Obstacle : Entity {
    */
   operator Disc() const { return disc; }
 
+  Disc get_translated_disc(const Vector2 &delta) const {
+    return Disc(disc.position + delta, disc.radius);
+  }
+
   /**
    * The disc.
    */
@@ -129,12 +133,12 @@ struct NAVGROUND_SIM_EXPORT Obstacle : Entity {
 /**
  * @brief      Ghost agents used in worlds that have a lattice.
  */
-struct NAVGROUND_SIM_EXPORT Ghost : Entity, Neighbor {
-  explicit Ghost(Agent *agent)
-      : Entity(agent->uid),
-        Neighbor(agent->pose.position, agent->radius, agent->twist.velocity,
-                 agent->id) {}
-};
+// struct NAVGROUND_SIM_EXPORT Ghost : Entity, Neighbor {
+//   explicit Ghost(Agent *agent)
+//       : Entity(agent->uid),
+//         Neighbor(agent->pose.position, agent->radius, agent->twist.velocity,
+//                  agent->id) {}
+// };
 
 /**
  * @brief      This class describes a world.
@@ -172,6 +176,7 @@ class NAVGROUND_SIM_EXPORT World {
 
   using Lattice = std::optional<std::tuple<ng_float_t, ng_float_t>>;
   using Callback = std::function<void()>;
+  using TerminationCondition = std::function<bool(const World *world)>;
 
   using A = Agent;
 
@@ -181,16 +186,21 @@ class NAVGROUND_SIM_EXPORT World {
    * @brief      Constructs a new instance.
    */
   explicit World()
-      : agents(),
+      : 
+        agents_strtree_is_updated(false),
+        static_strtree_is_updated(false),
+        agents(),
         obstacles(),
         walls(),
         agent_index(nullptr),
         collisions(),
         entities(),
         ready(false),
+        step(0),
         time(0),
         has_lattice(false),
         callbacks(),
+        termination_condition(),
         _seed(0),
         _generator(_seed) {}
 
@@ -306,6 +316,25 @@ class NAVGROUND_SIM_EXPORT World {
    * @param[in]  obstacle  The obstacle
    */
   void add_obstacle(const Obstacle &obstacle);
+
+  /**
+   * @brief      Adds a random obstacles in the world bounding box
+   *
+   * It iteratively try to sample a disc that is far enough of any other item.
+   * If the sampling fails, it counts as a try and the process stop after either
+   * enough obstacles have been added or enough tries performed.
+   *
+   * @param[in]  number      The number of obstacles
+   * @param[in]  min_radius  The minimum radius of obstacles
+   * @param[in]  max_radius  The maximum radius of obstacles
+   * @param[in]  margin      The minimal distance to other obstacles or agents.
+   *                         For agents, it's additional to their safety margin.
+   * @param[in]  max_tries   The maximum tries before terminating.
+   */
+  void add_random_obstacles(unsigned number, ng_float_t min_radius,
+                            ng_float_t max_radius, ng_float_t margin = 0.0,
+                            unsigned max_tries = 1000);
+
   /**
    * @brief      Gets all agents in this world.
    *
@@ -314,16 +343,30 @@ class NAVGROUND_SIM_EXPORT World {
   const std::vector<std::shared_ptr<Agent>> &get_agents() const;
 
   /**
-   * @brief      Gets all neighbor of an agent (ghosts included)
+   * @brief      Gets all neighbor of an agent
    *
-   * @param[in]  agent     The agent
-   * @param[in]  distance  The radius of the neighborhood
+   * @param[in]  agent          The agent
+   * @param[in]  distance       The radius of the neighborhood
+   * @param[in]  ignore_lattice Whether to ignore the lattice
+   *                            when computing neighbors
    *
    * @return     All neighbor within a circle of radius ``radius`` centered
    * around the agent.
    */
-  std::vector<Neighbor> get_neighbors(const Agent *agent,
-                                      ng_float_t distance) const;
+  std::vector<Neighbor> get_neighbors(const Agent *agent, ng_float_t distance,
+                                      bool ignore_lattice = false);
+
+  /**
+   * @brief      Split a bounding box by the lattice-induced grid
+   *
+   * @param[in]  bounding_box    The bounding box
+   * @param[in]  ignore_lattice  Indicates if the lattice is to be ignored
+   *
+   * @return     A vector of pairs of translation (along the lattice) 
+   *             and subset of the bounding box that fit in that lattice cell.
+   */
+  std::vector<std::tuple<Vector2, BoundingBox>> subdivide_bounding_box(
+      const BoundingBox &bounding_box, bool ignore_lattice = false) const;
 
   /**
    * @brief      Gets all agents in a bounding box.
@@ -333,7 +376,20 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     All agents that lie in a bounding box.
    */
-  std::vector<Agent *> get_agents_in_region(const BoundingBox &bb) const;
+  std::vector<Agent *> get_agents_in_region(const BoundingBox &bb);
+
+
+  /**
+   * @brief      Gets all obstacles in a bounding box.
+   *
+   * @param[in]  bb    The bounding box specified in world-fixed
+   * coordinates
+   *
+   * @return     All obstacles that lie in a bounding box.
+   */
+  std::vector<Obstacle *> get_obstacles_in_region(const BoundingBox &bb);
+
+
   /**
    * @brief      Gets all obstacles in this world.
    *
@@ -343,17 +399,22 @@ class NAVGROUND_SIM_EXPORT World {
   /**
    * @brief      Gets all disc shaped static obstacles in this world.
    *
+   * @param[in]  ignore_lattice Whether to ignore the lattice
+   *
    * @return     All obstacles.
    */
-  std::vector<Disc> get_discs() const;
+  std::vector<Disc> get_discs(bool ignore_lattice = false) const;
   /**
    * @brief      Gets all agents in a bounding box.
    *
    * @param[in]  bb    The bounding box specified in world-fixed
+   * @param[in]  ignore_lattice Whether to ignore the lattice
+   *                            when computing neighbors
    *
    * @return     All obstacles that lie in a bounding box
    */
-  std::vector<Disc> get_static_obstacles_in_region(const BoundingBox &bb) const;
+  std::vector<Disc> get_discs_in_region(
+      const BoundingBox &bb, bool ignore_lattice = false);
   /**
    * @brief      Gets all walls in this world.
    *
@@ -424,7 +485,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     The safety violation or 0 if no violation.
    */
-  ng_float_t compute_safety_violation(const Agent *agent) const;
+  ng_float_t compute_safety_violation(const Agent *agent);
 
   /**
    * @brief      The random generator shared by all distribution
@@ -498,11 +559,44 @@ class NAVGROUND_SIM_EXPORT World {
   // that the controller is correctly set.
   void prepare();
 
-  Lattice get_lattice(unsigned index) const;
+  /**
+   * @brief      Gets the periodic lattice.
+   *
+   * @param[in]  axis  The axis (0 for x, 1 for y)
+   *
+   * @return     An optional tuple of points that define a
+   *             periodic lattice that wraps the selected axis.
+   */
+  Lattice get_lattice(unsigned axis) const;
 
-  void set_lattice(unsigned index, const Lattice &value);
+  /**
+   * @brief      Sets the periodic lattice.
+   *
+   * @param[in]  axis  The axis (0 for x, 1 for y)
+   * @param[in]  value  An optional tuple of points that define a
+   *             periodic lattice that wraps the selected axis.
+   *             Pass none to unset the lattice and remove wrapping.
+   */
+  void set_lattice(unsigned axis, const Lattice &value);
 
-  std::vector<Vector2> lattice_grid() const;
+  /**
+   * @brief      The N=0, 1, or 2 vectors that define the
+   *             lattice, e.g., ``{delta_x, -delta_x}``
+   *             if only the axis=0 lattice is set.
+   *
+   * @param[in]  Whether to include the zero vector
+   * @param[in]  Whether to use 8-connectivity instead of 4-connectivity
+   *
+   * @return     A vector of 2D vectors
+   */
+  std::vector<Vector2> get_lattice_grid(bool include_zero = true, bool c8 = true) const;
+
+  /**
+   * @brief      Gets the lattice cell.
+   *
+   * @return     The lattice cell.
+   */
+  BoundingBox get_lattice_bounding_box() const;
 
   /**
    * @brief      Check if two entities are currently in collision
@@ -545,7 +639,39 @@ class NAVGROUND_SIM_EXPORT World {
    * @param[in]  value  The callback
    */
   void add_callback(const Callback &value) { callbacks.push_back(value); }
+  /**
+   * @brief      Clear all the callbacks
+   */
   void reset_callbacks() { callbacks.clear(); }
+
+  /**
+   * @brief      Sets a condition to terminate simulations
+   *
+   * @param[in]  value  The desired condition.
+   */
+  void set_termination_condition(
+      const std::optional<TerminationCondition> &value) {
+    termination_condition = value;
+  }
+
+  /**
+   * @brief      Returns whether there is a termination condition set.
+   *
+   * @return     True if a termination condition has been set.
+   */
+  bool has_termination_condition() const { return bool(termination_condition); }
+
+  /**
+   * @brief      Checks whether the simulation should terminate
+   *
+   * @return     True if a termination condition is set and evaluates to true.
+   */
+  bool should_terminate() const {
+    if (termination_condition) {
+      return (*termination_condition)(this);
+    }
+    return false;
+  }
 
   /**
    * @brief      Gets the agents that had a collision after ``now - duration``.
@@ -590,13 +716,45 @@ class NAVGROUND_SIM_EXPORT World {
     return std::nullopt;
   }
 
+  /**
+   * @brief      Gets the bounding box that contains all agents, obstacles and walls.
+   *
+   * @return     The computed bounding box.
+   */
+  BoundingBox get_minimal_bounding_box() const;
+
+  /**
+   * @brief      Sets the bounding box.
+   *
+   * @param[in]  value  The desired value. Pass none to unset the bounding box.
+   */
+  void set_bounding_box(const std::optional<BoundingBox> &value) {
+    bb = value;
+  };
+
+  /**
+   * @brief      Gets the bounding box.
+   *
+   * @return     The bounding box that has been set with \ref set_bounding_box
+   *             or \ref get_minimal_bounding_box in case none is set.
+   */
+  BoundingBox get_bounding_box() const {
+    if (bb) {
+      return *bb;
+    }
+    return get_minimal_bounding_box();
+  }
+
  private:
   void record_collision(Entity *e1, Entity *e2);
 
-  bool resolve_collision(Agent *a1, Agent *a2, ng_float_t margin = 0);
+  bool resolve_collision(Agent *a1, Agent *a2, Vector2 delta = Vector2::Zero(),
+                         ng_float_t margin = 0);
 
   // TODO(J): avoid repetitions
-  bool resolve_collision(Agent *agent, Disc *disc, ng_float_t margin = 0);
+  bool resolve_collision(Agent *agent, Disc *disc,
+                         Vector2 delta = Vector2::Zero(),
+                         ng_float_t margin = 0);
 
   bool resolve_collision(Agent *agent, LineSegment *line,
                          ng_float_t margin = 0);
@@ -614,24 +772,30 @@ class NAVGROUND_SIM_EXPORT World {
 
   void wrap_agents_on_lattice();
 
-  void update_agent_ghosts();
+  // void update_agent_ghosts();
 
   void add_entity(Entity *entity);
 
   void remove_entity(Entity *entity);
 
+  void check_static_strtree();
+  void check_agents_strtree();
+  bool agents_strtree_is_updated;
+  bool static_strtree_is_updated;
+
   std::vector<std::shared_ptr<Agent>> agents;
   std::vector<std::shared_ptr<Obstacle>> obstacles;
   std::vector<std::shared_ptr<Wall>> walls;
-  std::vector<Ghost> ghosts;
+  // std::vector<Ghost> ghosts;
   std::shared_ptr<geos::index::strtree::TemplateSTRtree<Agent *>> agent_index;
-  std::shared_ptr<geos::index::strtree::TemplateSTRtree<Ghost *>> ghost_index;
+  // std::shared_ptr<geos::index::strtree::TemplateSTRtree<Ghost *>>
+  // ghost_index;
   std::shared_ptr<geos::index::strtree::TemplateSTRtree<Obstacle *>>
       obstacles_index;
   std::shared_ptr<geos::index::strtree::TemplateSTRtree<Wall *>> walls_index;
   std::vector<geos::geom::Envelope> agent_envelops;
   std::vector<geos::geom::Envelope> static_envelops;
-  std::vector<geos::geom::Envelope> ghost_envelops;
+  // std::vector<geos::geom::Envelope> ghost_envelops;
   std::set<std::tuple<const Entity *, const Entity *>> collisions;
   std::map<unsigned, Entity *> entities;
   bool ready;
@@ -640,8 +804,10 @@ class NAVGROUND_SIM_EXPORT World {
   bool has_lattice;
   std::array<Lattice, 2> lattice;
   std::vector<Callback> callbacks;
+  std::optional<TerminationCondition> termination_condition;
   unsigned _seed;
   RandomGenerator _generator;
+  std::optional<BoundingBox> bb;
 };
 
 }  // namespace navground::sim

@@ -20,6 +20,7 @@ using namespace navground::core;
 void CrossScenario::init_world(World *world,
                                [[maybe_unused]] std::optional<int> seed) {
   Scenario::init_world(world, seed);
+  world->set_bounding_box(BoundingBox{-side / 2, side / 2, -side / 2, side / 2});
   const ng_float_t t = 0.5 * side;
   const ng_float_t p = std::max<ng_float_t>(0, 0.5 * side - target_margin);
   UniformSampler<ng_float_t> x(-p, p);

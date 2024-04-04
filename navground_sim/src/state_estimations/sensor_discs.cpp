@@ -16,8 +16,7 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
     const auto &xy = p.position;
     const auto r = agent->radius;
     const auto neighbors = world->get_neighbors(agent, range);
-    const auto obstacles =
-        world->get_static_obstacles_in_region(envelop(xy, range));
+    const auto obstacles = world->get_discs_in_region(envelop(xy, range));
 
     std::vector<std::tuple<ng_float_t, size_t>> distance(neighbors.size() +
                                                          obstacles.size());

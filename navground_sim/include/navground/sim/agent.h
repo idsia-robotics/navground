@@ -97,7 +97,8 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
         controller(behavior),
         control_deadline(0.0),
         collision_correction(),
-        is_stuck_since_time(-1) {}
+        is_stuck_since_time(-1),
+        ready(false) {}
 
   /**
    * @brief      Factory method to build an agent
@@ -133,6 +134,18 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   }
 
   /**
+   * @brief      Returns a neighbor representation of the agent with the same
+   * shape and id but with position translated by delta
+   *
+   * @param[in]  delta  The delta
+   *
+   * @return     The neighbor representation
+   */
+  Neighbor as_translated_neighbor(const Vector2 & delta) const {
+    return Neighbor(pose.position + delta, radius, twist.velocity, id);
+  }
+
+  /**
    * @brief      Sets the state estimation.
    *
    * @param[in]  value  The desired value
@@ -149,6 +162,8 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   StateEstimation *get_state_estimation() const {
     return state_estimation.get();
   }
+
+
 
   /**
    * @brief      Sets the navigation behavior.
@@ -313,6 +328,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   ng_float_t control_deadline;
   Vector2 collision_correction;
   ng_float_t is_stuck_since_time;
+  bool ready;
 
   /**
    * @brief      Tick the agent for a time step.
@@ -329,6 +345,13 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    * @param[in]  dt    The time step
    */
   void actuate(ng_float_t dt);
+
+  /**
+   * @brief      Prepare the agent for simulation (only called by world)
+   *
+   * @param      world  The world
+   */
+  void prepare(World *world);
 };
 
 }  // namespace navground::sim

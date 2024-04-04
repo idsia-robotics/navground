@@ -14,8 +14,8 @@ void BoundedStateEstimation::update(Agent *agent, World *world,
   if (GeometricState *geo_state = dynamic_cast<GeometricState *>(state)) {
     geo_state->set_neighbors(neighbors_of_agent(agent, world));
     if (update_static_obstacles) {
-      geo_state->set_static_obstacles(world->get_static_obstacles_in_region(
-          envelop(agent->pose.position, range)));
+      geo_state->set_static_obstacles(
+          world->get_discs_in_region(envelop(agent->pose.position, range)));
     }
   }
 }
@@ -34,7 +34,7 @@ void BoundedStateEstimation::prepare(Agent *agent, World *world) const {
 }
 
 std::vector<Neighbor> BoundedStateEstimation::neighbors_of_agent(
-    const Agent *agent, const World *world) const {
+    const Agent *agent, World *world) const {
   return world->get_neighbors(agent, range);
 }
 

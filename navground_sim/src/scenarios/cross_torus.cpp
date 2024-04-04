@@ -20,6 +20,7 @@ using namespace navground::core;
 void CrossTorusScenario::init_world(World *world,
                                     [[maybe_unused]] std::optional<int> seed) {
   Scenario::init_world(world, seed);
+  world->set_bounding_box(BoundingBox{0, side, 0, side});
   World::Lattice lattice = std::make_tuple<ng_float_t>(0.0, side);
   world->set_lattice(0, lattice);
   world->set_lattice(1, lattice);

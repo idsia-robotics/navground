@@ -20,6 +20,7 @@ using namespace navground::core;
 void CorridorScenario::init_world(World *world,
                                   [[maybe_unused]] std::optional<int> seed) {
   Scenario::init_world(world, seed);
+  world->set_bounding_box(BoundingBox{0, length, -width, width});
   for (int side = 0; side < 2; ++side) {
     world->add_wall(Wall{{-length, side * width}, {2 * length, side * width}});
   }

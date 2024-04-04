@@ -728,6 +728,7 @@ static py::array as_array(const Dataset &dataset) {
       dataset.get_data());
 }
 
+#if 0
 static std::map<std::string, py::array> as_dict_array(
     const std::map<std::string, std::shared_ptr<Dataset>> &records) {
   std::map<std::string, py::array> m;
@@ -736,6 +737,7 @@ static std::map<std::string, py::array> as_dict_array(
   }
   return m;
 }
+#endif
 
 template <typename T>
 static py::array make_empty_array() {
@@ -880,7 +882,43 @@ Creates a rectangular region
     Minimal y coordinate
 :param max_y:
     Maximal y coordinate
-           )doc");
+           )doc")
+      .def(py::init([](const Vector2 &p1, const Vector2 &p2) {
+             return BoundingBox{p1[0], p2[0], p1[1], p2[1]};
+           }),
+           py::arg("p1"), py::arg("p2"),
+           R"doc(
+Creates a rectangular region
+
+:param p1: Bottom-left corner
+:param max_x: Top-right corner
+           )doc")
+      .def("__repr__",
+           [](const BoundingBox &bb) -> py::str {
+             py::str r("BoundingBox(min_x=");
+             r += py::str(py::cast(bb.getMinX()));
+             r += py::str(", max_x=") + py::str(py::cast(bb.getMaxX()));
+             r += py::str(", min_y=") + py::str(py::cast(bb.getMinY()));
+             r += py::str(", max_y=") + py::str(py::cast(bb.getMaxY()));
+             r += py::str(")");
+             return r;
+           })
+      .def_property("min_x", &BoundingBox::getMinX, nullptr)
+      .def_property("min_y", &BoundingBox::getMinY, nullptr)
+      .def_property("max_x", &BoundingBox::getMaxX, nullptr)
+      .def_property("max_y", &BoundingBox::getMaxY, nullptr)
+      .def_property(
+          "p1",
+          [](const BoundingBox &bb) {
+            return Vector2(bb.getMinX(), bb.getMinY());
+          },
+          nullptr)
+      .def_property(
+          "p2",
+          [](const BoundingBox &bb) {
+            return Vector2(bb.getMaxX(), bb.getMaxY());
+          },
+          nullptr);
 
   py::class_<Agent, Entity, std::shared_ptr<Agent>>(m, "NativeAgent",
                                                     DOC(navground, sim, Agent))
@@ -1000,6 +1038,12 @@ Creates a rectangular region
            DOC(navground, sim, World, snap_twists_to_zero))
       .def("update", &World::update, py::arg("time_step"),
            DOC(navground, sim, World, update))
+      .def("set_termination_condition", &World::set_termination_condition,
+           py::arg("condition"),
+           DOC(navground, sim, World, set_termination_condition))
+      .def_property("has_termination_condition",
+                    &World::has_termination_condition, nullptr,
+                    DOC(navground, sim, World, has_termination_condition))
       .def("run", &World::run, py::arg("steps"), py::arg("time_step"),
            DOC(navground, sim, World, run))
       .def("run_until", &World::run_until, py::arg("condition"),
@@ -1013,6 +1057,10 @@ Creates a rectangular region
                     DOC(navground, sim, World, property_time))
       .def_property("step", &World::get_step, &World::set_step,
                     DOC(navground, sim, World, property_step))
+      .def("get_lattice", &World::get_lattice, py::arg("axis"),
+           DOC(navground, sim, World, get_lattice))
+      .def("set_lattice", &World::set_lattice, py::arg("axis"),
+           py::arg("value"), DOC(navground, sim, World, set_lattice))
       .def("add_agent", &World::add_agent, py::keep_alive<1, 2>(),
            py::arg("agent"), DOC(navground, sim, World, add_agent))
       .def("add_obstacle",
@@ -1033,21 +1081,27 @@ Creates a rectangular region
                     DOC(navground, sim, World, property_walls))
       .def_property("obstacles", &World::get_obstacles, nullptr,
                     DOC(navground, sim, World, property_obstacles))
-      .def_property("discs", &World::get_discs, nullptr,
-                    DOC(navground, sim, World, property_discs))
+      .def_property(
+          "discs", [](const World &world) { return world.get_discs(); },
+          nullptr, DOC(navground, sim, World, property_discs))
       .def_property("line_obstacles", &World::get_line_obstacles, nullptr,
                     DOC(navground, sim, World, property_line_obstacles))
+      .def("subdivide_bounding_box", &World::subdivide_bounding_box)
       .def("get_agents_in_region", &World::get_agents_in_region,
-           py::arg("bounding_box"),
+           py::arg("bounding_box"), py::return_value_policy::reference_internal,
            DOC(navground, sim, World, get_agents_in_region))
-      .def("get_static_obstacles_in_region",
-           &World::get_static_obstacles_in_region, py::arg("bounding_box"),
-           DOC(navground, sim, World, get_static_obstacles_in_region))
+      .def("get_obstacles_in_region", &World::get_obstacles_in_region,
+           py::arg("bounding_box"), py::return_value_policy::reference_internal,
+           DOC(navground, sim, World, get_obstacles_in_region))
+      .def("get_discs_in_region", &World::get_discs_in_region,
+           py::arg("bounding_box"), py::arg("ignore_lattice") = false,
+           DOC(navground, sim, World, get_discs_in_region))
       .def("get_line_obstacles_in_region", &World::get_line_obstacles_in_region,
            py::arg("bounding_box"),
            DOC(navground, sim, World, get_line_obstacles_in_region))
       .def("get_neighbors", &World::get_neighbors, py::arg("agent"),
-           py::arg("distance"), DOC(navground, sim, World, get_neighbors))
+           py::arg("distance"), py::arg("ignore_lattice") = false,
+           DOC(navground, sim, World, get_neighbors))
       .def_property("collisions", &World::get_collisions,
                     &World::set_collisions,
                     DOC(navground, sim, World, property_collisions))
@@ -1077,8 +1131,21 @@ Creates a rectangular region
            DOC(navground, sim, World, agents_are_idle_or_stuck))
       .def("in_collision", &World::in_collision, py::arg("e1"), py::arg("e2"),
            DOC(navground, sim, World, in_collision))
+      .def_property("minimal_bounding_box", &World::get_minimal_bounding_box,
+                    nullptr,
+                    DOC(navground, sim, World, property_minimal_bounding_box))
+      .def_property("bounding_box", &World::get_bounding_box,
+                    &World::set_bounding_box,
+                    DOC(navground, sim, World, property_bounding_box))
       .def("copy_random_generator", &World::copy_random_generator,
-           py::arg("world"), DOC(navground, sim, World, copy_random_generator));
+           py::arg("world"), DOC(navground, sim, World, copy_random_generator))
+      .def("add_random_obstacles", &World::add_random_obstacles,
+           py::arg("number"), py::arg("min_radius"), py::arg("max_radius"),
+           py::arg("margin") = 0.0, py::arg("max_tries") = 1000,
+           DOC(navground, sim, World, add_random_obstacles))
+      .def("get_lattice_grid", &World::get_lattice_grid,
+           py::arg("include_zero") = true, py::arg("c8") = true,
+           DOC(navground, sim, World, get_lattice_grid));
 
   py::class_<PyWorld, World, std::shared_ptr<PyWorld>> world(
       m, "World", py::dynamic_attr(), DOC(navground, sim, World));
@@ -1772,6 +1839,9 @@ The recorded agents' efficacy as a numpy array of shape
 
 The array is empty if efficacy has not been recorded in the run.
 )doc")
+      .def_property(
+          "final_sim_time", &ExperimentalRun::get_final_sim_time, nullptr,
+          DOC(navground, sim, ExperimentalRun, property_final_sim_time))
       .def_property("has_finished", &ExperimentalRun::has_finished, nullptr,
                     DOC(navground, sim, ExperimentalRun, property_has_finished))
       .def_property(
@@ -1806,11 +1876,19 @@ The array is empty if efficacy has not been recorded in the run.
                     nullptr,
                     DOC(navground, sim, ExperimentalRun,
                         property_terminate_when_all_idle_or_stuck))
+      .def("get_collisions_at_step", &ExperimentalRun::get_collisions_at_step,
+           py::arg("step"),
+           DOC(navground, sim, ExperimentalRun, get_collisions_at_step))
+      .def("go_to_step", &ExperimentalRun::go_to_step, py::arg("step"),
+           py::arg("ignore_collisions") = false,
+           py::arg("ignore_twists") = false, py::arg("ignore_cmds") = false,
+           DOC(navground, sim, ExperimentalRun, go_to_step))
       .def(py::pickle(
           [](const ExperimentalRun &run) {
             // __getstate__
             return py::make_tuple(
-                run.get_world(), run.get_time_step(), run.get_maximal_steps(),
+                // run.get_world(),
+                run.get_time_step(), run.get_maximal_steps(),
                 run.get_terminate_when_all_idle_or_stuck(),
                 run.get_record_config(), run.get_seed(),
                 static_cast<int>(run.get_state()), run.get_recorded_steps(),
@@ -1818,32 +1896,29 @@ The array is empty if efficacy has not been recorded in the run.
                 run.get_records());
           },
           [](py::tuple t) {  // __setstate__
-            if (t.size() != 12) throw std::runtime_error("Invalid state!");
-            auto world = py::cast<std::shared_ptr<World>>(t[0]);
-            auto time_step = py::cast<ng_float_t>(t[1]);
-            auto max_steps = py::cast<unsigned>(t[2]);
-            auto terminate_when_all_idle_or_stuck = py::cast<bool>(t[3]);
-            auto record_config = py::cast<RecordConfig>(t[4]);
-            unsigned seed = py::cast<unsigned>(t[5]);
-            unsigned steps = py::cast<unsigned>(t[7]);
+            if (t.size() != 11) throw std::runtime_error("Invalid state!");
+            // auto world = py::cast<std::shared_ptr<World>>(t[0]);
+            auto time_step = py::cast<ng_float_t>(t[0]);
+            auto max_steps = py::cast<unsigned>(t[1]);
+            auto terminate_when_all_idle_or_stuck = py::cast<bool>(t[2]);
+            auto record_config = py::cast<RecordConfig>(t[3]);
+            unsigned seed = py::cast<unsigned>(t[4]);
+            unsigned steps = py::cast<unsigned>(t[6]);
             ExperimentalRun::State state =
-                static_cast<ExperimentalRun::State>(py::cast<int>(t[6]));
-            ExperimentalRun::tp b = py::cast<ExperimentalRun::tp>(t[8]);
-            ExperimentalRun::tp e = py::cast<ExperimentalRun::tp>(t[9]);
-            std::string yaml = py::cast<std::string>(t[10]);
-            // unsigned steps = t[4];
-            // std::chrono::time_point<std::chrono::steady_clock> begin = t[5];
-            // std::chrono::time_point<std::chrono::steady_clock> end = t[6];
+                static_cast<ExperimentalRun::State>(py::cast<int>(t[5]));
+            ExperimentalRun::tp b = py::cast<ExperimentalRun::tp>(t[7]);
+            ExperimentalRun::tp e = py::cast<ExperimentalRun::tp>(t[8]);
+            const std::string yaml = py::cast<std::string>(t[9]);
+            auto world = py::cast<std::shared_ptr<World>>(
+                YAML::load_string_py<PyWorld>(yaml));
             auto records =
                 py::cast<std::map<std::string, std::shared_ptr<Dataset>>>(
-                    t[11]);
-            return ExperimentalRun(
+                    t[10]);
+            auto run = ExperimentalRun(
                 world, {time_step, max_steps, terminate_when_all_idle_or_stuck},
                 record_config, seed, state, steps, b, e, yaml, records);
-            // for (const auto &[k, v] : records) {
-            //   run.insert_record(v, k);
-            // }
-            // return run;
+            run.go_to_step(-1, false, false, false);
+            return run;
           }));
 
   py::class_<PyExperiment, std::shared_ptr<PyExperiment>> experiment(
@@ -1927,9 +2002,9 @@ The array is empty if efficacy has not been recorded in the run.
            DOC(navground, sim, Experiment, remove_run))
       .def_readwrite("_probes", &PyExperiment::_py_probe_factories)
       .def_readwrite("_record_probes",
-      &PyExperiment::_py_record_probe_factories)
+                     &PyExperiment::_py_record_probe_factories)
       .def_readwrite("_group_record_probes",
-      &PyExperiment::_py_group_record_probe_factories)
+                     &PyExperiment::_py_group_record_probe_factories)
       .def("add_probe", &PyExperiment::add_probe_py, py::arg("factory"),
            DOC(navground, sim, Experiment, add_probe))
       .def("add_record_probe", &PyExperiment::add_record_probe_py,

@@ -107,7 +107,7 @@ struct RunConfig {
 };
 
 template <typename T>
-inline std::set<std::string> _keys(const std::map<std::string, T> & m) {
+inline std::set<std::string> _keys(const std::map<std::string, T> &m) {
   std::set<std::string> keys;
   for (auto const &[k, _] : m) {
     keys.insert(k);
@@ -121,8 +121,7 @@ inline std::set<std::string> _keys(const std::map<std::string, T> & m) {
 class NAVGROUND_SIM_EXPORT ExperimentalRun {
   friend struct Experiment;
 
-  public:
-
+ public:
   /**
    * @brief      The state of the run
    *
@@ -130,17 +129,16 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   enum class State { init, running, finished };
 
- 
   using tp = std::chrono::time_point<std::chrono::steady_clock>;
 
   /**
    * @private
    */
-  ExperimentalRun(std::shared_ptr<World> world, const RunConfig &run_config,
-                  const RecordConfig &record_config, unsigned seed, State state,
-                  unsigned steps, tp begin, tp end,
-                  const std::string & world_yaml,
-                  const std::map<std::string, std::shared_ptr<Dataset>> & records)
+  ExperimentalRun(
+      std::shared_ptr<World> world, const RunConfig &run_config,
+      const RecordConfig &record_config, unsigned seed, State state,
+      unsigned steps, tp begin, tp end, const std::string &world_yaml,
+      const std::map<std::string, std::shared_ptr<Dataset>> &records)
       : _state(state),
         _record_config(record_config),
         _run_config(run_config),
@@ -212,7 +210,17 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
     return std::chrono::nanoseconds(0);
   }
 
+  /**
+   * @brief      Gets when the simulation started.
+   *
+   * @return     The begin stamp
+   */
   tp get_begin() const { return _begin; }
+  /**
+   * @brief     Gets when the simulation finished.
+   *
+   * @return     The end stamp
+   */
   tp get_end() const { return _end; }
 
   /**
@@ -245,7 +253,12 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   bool has_started() const { return _state != State::init; }
 
-  State get_state() const {return _state; }
+  /**
+   * @brief      Gets the simulation state.
+   *
+   * @return     The state.
+   */
+  State get_state() const { return _state; }
 
   /**
    * @brief      Gets the time step used for simulation.
@@ -544,6 +557,16 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
     return _records[key];
   }
 
+  /**
+   * @brief      Add a record
+   *
+   * @param[in]  ds     The dataset
+   * @param[in]  key    The key associated to the record
+   * @param[in]  group  The group associated to the record.
+   *                    If provided, the effective key will be ``<group>/<key>``
+   * @param[in]  force  Whether to replace a record if already existing 
+   *                    for this key.
+   */
   void insert_record(std::shared_ptr<Dataset> ds, std::string key,
                      const std::string &group = "", bool force = false) {
     if (!group.empty()) {
@@ -616,7 +639,52 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   std::map<std::string, std::string> get_group(const std::string &name) const;
 
-  std::string get_world_yaml() const { return _world_yaml;}
+  /**
+   * @brief      Gets the YAML representation of the world at the begin of the simulation..
+   *
+   * @return     The YAML string.
+   */
+  std::string get_world_yaml() const { return _world_yaml; }
+
+  /**
+   * @brief      Try to advance the world to a given recorded step.
+   *
+   * Depending if the data has been recorded, it will update:
+   *
+   * - poses
+   * - twists
+   * - cmds
+   * - time
+   * - collisions
+   *
+   * @param[in]  step  The step. Negative steps are interpreted as relative to
+   * the last registered step, i.e., -1 is the last step.
+   *
+   * @param[in]  ignore_twists Whether to skip setting twists
+   * @param[in]  ignore_cmds Whether to skip setting [last] commands
+   * @param[in]  ignore_collisions Whether to skip setting collisions
+   *
+   * @return     True if the operation was possible and false otherwise.
+   */
+  bool go_to_step(int step, bool ignore_collisions = false,
+                  bool ignore_twists = false, bool ignore_cmds = false);
+
+  /**
+   * @brief      Gets recorded collisions at a given step.
+   *
+   * @param[in]  step  The step. Negative steps are interpreted as relative to
+   * the last registered step, i.e., -1 is the last step.
+   *
+   * @return     The set of colliding entity pairs.
+   */
+  std::set<std::tuple<Entity *, Entity *>> get_collisions_at_step(int step);
+
+  /**
+   * @brief      Gets the last recorded simulation time
+   *
+   * @return     The simulation time
+   */
+  ng_float_t get_final_sim_time() const;
 
  private:
   State _state;

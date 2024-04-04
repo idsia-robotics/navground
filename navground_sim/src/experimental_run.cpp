@@ -289,6 +289,9 @@ void ExperimentalRun::run() {
   if (_state != State::init) return;
   start();
   for (unsigned step = 0; step < _run_config.steps; step++) {
+    if(_world->should_terminate()) {
+      break;
+    }
     _world->update(_run_config.time_step);
     update();
     // TODO(Jerome): Do I really need callbacks?
@@ -333,6 +336,14 @@ void ExperimentalRun::save(HighFive::Group &group) const {
   for (auto &[key, ds] : _records) {
     ds->save(key, group);
   }
+}
+
+ng_float_t ExperimentalRun::get_final_sim_time() const {
+  auto times = get_times();
+  if (times) {
+    return times->get_typed_data<ng_float_t>()->back();
+  }
+  return _steps * _run_config.time_step;
 }
 
 // {a/b, a/b/c, b}, a/ -> {b, c}
@@ -385,4 +396,118 @@ std::map<std::string, std::string> ExperimentalRun::get_group(
   } else {
     return find_full_names(_record_names, name + "/");
   }
+}
+
+// From https://stackoverflow.com/a/42398124
+
+template <typename T>
+struct SkipIt {
+  using iterator_category = std::forward_iterator_tag;
+  using value_type = unsigned;
+  using difference_type = int;
+  using pointer = unsigned *;
+  using reference = unsigned &;
+
+  SkipIt(T *t, unsigned skip) : elt(t), skip(skip) {}
+  bool operator==(const SkipIt<T> &other) const { return elt == other.elt; }
+  bool operator!=(const SkipIt<T> &other) const { return elt != other.elt; }
+  T *operator->() const { return elt; }
+  T &operator*() const { return *elt; }
+  SkipIt &operator++() {
+    elt += skip;
+    return *this;
+  }
+  SkipIt operator++(int) {
+    auto ret = *this;
+    ++*this;
+    return ret;
+  }
+  SkipIt operator+(int amt) const {
+    auto ret = SkipIt(elt + amt * skip, skip);
+    return ret;
+  }
+
+ private:
+  T *elt;
+  unsigned skip;
+};
+
+std::set<std::tuple<Entity *, Entity *>>
+ExperimentalRun::get_collisions_at_step(int step) {
+  std::set<std::tuple<Entity *, Entity *>> cs;
+  if (step < 0) {
+    step += get_recorded_steps();
+  }
+  if (step >= static_cast<int>(get_recorded_steps()) || step < 0) {
+    return cs;
+  }
+  auto collisions = get_collisions();
+  if (collisions) {
+    auto data = *(collisions->get_typed_data<unsigned>());
+    auto b = SkipIt<unsigned>(data.data(), 3);
+    auto lower = std::lower_bound(b, b + data.size() / 3, step);
+    unsigned i = std::distance(b, lower);
+    if (i < get_recorded_steps()) {
+      for (; data[3 * i] == static_cast<unsigned>(step); ++i) {
+        auto e1 = _world->get_entity(data[3 * i + 1]);
+        auto e2 = _world->get_entity(data[3 * i + 2]);
+        if (e1 && e2) {
+          cs.insert({e1, e2});
+        }
+      }
+    }
+  }
+  return cs;
+}
+
+bool ExperimentalRun::go_to_step(int step, bool ignore_collisions,
+                                 bool ignore_twists, bool ignore_cmds) {
+  if (step < 0) {
+    step += get_recorded_steps();
+  }
+  if (step >= static_cast<int>(get_recorded_steps()) || step < 0) {
+    return false;
+  }
+  _world->set_step(step);
+  auto poses = get_poses();
+  auto times = get_times();
+  auto twists = get_twists();
+  auto cmds = get_cmds();
+  if (poses) {
+    auto data = poses->as_tensor<ng_float_t, 3>();
+    size_t i = 0;
+    for (auto &agent : _world->get_agents()) {
+      agent->pose =
+          Pose2({data(0, i, step), data(1, i, step)}, data(2, i, step));
+      i++;
+    }
+  }
+  if (twists && !ignore_twists) {
+    auto data = twists->as_tensor<ng_float_t, 3>();
+    size_t i = 0;
+    for (auto &agent : _world->get_agents()) {
+      agent->twist =
+          Twist2({data(0, i, step), data(1, i, step)}, data(2, i, step));
+      i++;
+    }
+  }
+  if (cmds && !ignore_cmds) {
+    auto data = cmds->as_tensor<ng_float_t, 3>();
+    size_t i = 0;
+    for (auto &agent : _world->get_agents()) {
+      agent->last_cmd =
+          Twist2({data(0, i, step), data(1, i, step)}, data(2, i, step));
+      i++;
+    }
+  }
+  if (times) {
+    auto data = times->as_tensor<ng_float_t, 1>();
+    _world->set_time(data(step));
+  } else {
+    _world->set_time(get_time_step() * step);
+  }
+  if (!ignore_collisions) {
+    _world->set_collisions(get_collisions_at_step(step));
+  }
+  return true;
 }

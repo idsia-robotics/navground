@@ -37,28 +37,70 @@ struct Disc {
 
   Disc() : Disc(Vector2::Zero(), 0) {}
 
+  /**
+   * @brief      Equality operator.
+   *
+   * @param[in]  other  The other disc
+   *
+   * @return     True if positions and radii are equal
+   */
   bool operator==(const Disc& other) const {
     return position == other.position && radius == other.radius;
   }
 
+  /**
+   * @brief      Addition operator.
+   *
+   * @param[in]  delta  A translation vector
+   *
+   * @return     A copy of the disc translated by delta
+   */
   Disc operator+(const Vector2 & delta) const {
     return Disc(position + delta, radius);
   }
 
+  /**
+   * @brief      Addition assignment operator.
+   *
+   * @param[in]  delta  A translation vector
+   *
+   * @return     The same disc translated by delta
+   */
   Disc & operator+=(const Vector2 & delta) {
     position += delta;
     return *this;
   }
 
+  /**
+   * @brief      Subtraction operator.
+   *
+   * @param[in]  delta  A translation vector
+   *
+   * @return     A copy of the disc translated by -delta
+   */
   Disc operator-(const Vector2 & delta) const {
     return Disc(position - delta, radius);
   }
 
+  /**
+   * @brief      Subtraction assignment operator.
+   *
+   * @param[in]  delta  A translation vector
+   *
+   * @return     The same disc translated by delta
+   */
   Disc & operator-=(const Vector2 & delta) {
     position -= delta;
     return *this;
   }
 
+  /**
+   * @brief      Inequality operator.
+   *
+   * @param[in]  other  The other disc
+   *
+   * @return     Negation of equality
+   */
   bool operator!=(const Disc& other) const { return !(operator==(other)); }
 
   /**

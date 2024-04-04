@@ -4,6 +4,8 @@
 
 #include "navground/sim/world.h"
 
+#include "navground/sim/sampling/geometry.h"
+
 using navground::core::Frame;
 
 namespace navground::sim {
@@ -19,9 +21,7 @@ unsigned World::get_seed() const { return _seed; }
 
 RandomGenerator &World::get_random_generator() { return _generator; }
 
-void World::set_random_generator(RandomGenerator & value) {
-  _generator = value;
-}
+void World::set_random_generator(RandomGenerator &value) { _generator = value; }
 
 static bool wrap_lattice(ng_float_t &x, ng_float_t from, ng_float_t length) {
   const ng_float_t delta = x - from;
@@ -95,7 +95,7 @@ void World::update(ng_float_t time_step) {
   }
 }
 
-void World::snap_twists_to_zero(ng_float_t epsilon) const{
+void World::snap_twists_to_zero(ng_float_t epsilon) const {
   for (const auto &a : agents) {
     a->twist.snap_to_zero(epsilon);
   }
@@ -120,9 +120,8 @@ void World::actuate(ng_float_t time_step) {
 void World::update_dry(ng_float_t time_step, bool advance_time) {
   if (!ready) {
     prepare();
-  } else {
-    update_agents_strtree();
   }
+  update_agents_strtree();
   for (auto &a : agents) {
     a->update(time_step, time, this);
   }
@@ -148,6 +147,7 @@ void World::add_agent(const std::shared_ptr<Agent> &agent) {
     if (entities.count(agent->uid) == 0) {
       agents.push_back(agent);
       ready = false;
+      agents_strtree_is_updated = false;
       add_entity(agent.get());
     } else {
       std::cerr << "This agent was already added!" << std::endl;
@@ -161,7 +161,7 @@ void World::remove_agent(Agent *agent) {
   if (agent) {
     remove_entity(agent);
     auto it = std::find_if(agents.begin(), agents.end(),
-                           [agent](const auto & p) { return p.get() == agent; });
+                           [agent](const auto &p) { return p.get() == agent; });
     if (it != std::end(agents)) {
       agents.erase(it);
     }
@@ -176,6 +176,7 @@ void World::add_wall(const LineSegment &wall) {
   walls.push_back(std::make_shared<Wall>(wall));
   add_entity(walls.back().get());
   ready = false;
+  static_strtree_is_updated = false;
 }
 
 void World::add_wall(const Wall &wall) {
@@ -183,6 +184,7 @@ void World::add_wall(const Wall &wall) {
     walls.push_back(std::make_shared<Wall>(wall));
     add_entity(walls.back().get());
     ready = false;
+    static_strtree_is_updated = false;
   } else {
     std::cerr << "This wall was already added!" << std::endl;
   }
@@ -192,6 +194,7 @@ void World::add_obstacle(const Disc &obstacle) {
   obstacles.push_back(std::make_shared<Obstacle>(obstacle));
   add_entity(obstacles.back().get());
   ready = false;
+  static_strtree_is_updated = false;
 }
 
 void World::add_obstacle(const Obstacle &obstacle) {
@@ -199,6 +202,7 @@ void World::add_obstacle(const Obstacle &obstacle) {
     obstacles.push_back(std::make_shared<Obstacle>(obstacle));
     add_entity(obstacles.back().get());
     ready = false;
+    static_strtree_is_updated = false;
   } else {
     std::cerr << "This obstacle was already added!" << std::endl;
   }
@@ -209,6 +213,7 @@ void World::set_obstacles(const std::vector<Disc> &values) {
   for (const auto &value : values) {
     add_obstacle(value);
   }
+  static_strtree_is_updated = false;
 }
 
 // TODO(jerome) (clear)
@@ -217,42 +222,26 @@ void World::set_walls(const std::vector<LineSegment> &values) {
   for (const auto &value : values) {
     add_wall(value);
   }
+  static_strtree_is_updated = false;
 }
 
 void World::prepare() {
   // TODO(Jerome) Should only execute it once if not already prepared.
-  update_static_strtree();
-  update_agents_strtree();
-
   for (auto &a : agents) {
-    if (a->state_estimation) {
-      // a->state_estimation->world = this;
-      a->state_estimation->prepare(a.get(), this);
-    }
-    if (a->task) {
-      a->task->prepare(a.get(), this);
-    }
-    a->collision_correction = Vector2::Zero();
-    if (a->behavior) {
-      a->behavior->set_kinematics(a->kinematics);
-      a->behavior->set_radius(a->radius);
-      a->controller.set_behavior(a->behavior);
-      // TODO(J): should be optional now that we added support for external
-      // run-loops
-      a->controller.set_cmd_frame(Frame::absolute);
-    }
+    a->prepare(this);
   }
   ready = true;
 }
 
 void World::run(unsigned steps, ng_float_t time_step) {
   for (size_t i = 0; i < steps; i++) {
+    if (should_terminate()) return;
     update(time_step);
   }
 }
 
 void World::run_until(std::function<bool()> condition, ng_float_t time_step) {
-  while (!condition()) {
+  while (!condition() && !should_terminate()) {
     update(time_step);
   }
 }
@@ -261,7 +250,8 @@ const std::vector<std::shared_ptr<Agent>> &World::get_agents() const {
   return agents;
 }
 
-std::vector<Agent *> World::get_agents_in_region(const BoundingBox &bb) const {
+std::vector<Agent *> World::get_agents_in_region(const BoundingBox &bb) {
+  check_agents_strtree();
   std::vector<Agent *> rs;
   // std::transform(agents.cbegin(), agents.cend(), std::back_inserter(rs),
   // [](const auto & a) { return &a; });
@@ -269,35 +259,56 @@ std::vector<Agent *> World::get_agents_in_region(const BoundingBox &bb) const {
   return rs;
 }
 
+std::vector<Obstacle *> World::get_obstacles_in_region(const BoundingBox &bb) {
+  check_static_strtree();
+  std::vector<Obstacle *> rs;
+  obstacles_index->query(bb, rs);
+  return rs;
+}
+
 // TODO(Jerome): add agent/obstacle radius to narrow phase
 std::vector<Neighbor> World::get_neighbors(const Agent *agent,
-                                           ng_float_t distance) const {
+                                           ng_float_t distance,
+                                           bool ignore_lattice) {
+  check_agents_strtree();
   std::vector<Neighbor> rs;
   const auto bb = envelop(agent->pose.position, distance);
-  const unsigned n = agents.size() + (has_lattice ? ghosts.size() : 0);
-  rs.reserve(n);
+  const auto bbs = subdivide_bounding_box(bb, ignore_lattice);
   const auto p = agent->pose.position;
-  const auto uid = agent->uid;
-  if (has_lattice) {
-    ghost_index->query(bb, [&rs, &uid, &p, &distance](Ghost *g) {
-      if (g->uid != uid && (g->position - p).norm() < distance + g->radius) {
-        rs.push_back(*g);
+  // const auto uid = agent->uid;
+
+  // const unsigned n = agents.size() + (has_lattice ? ghosts.size() : 0);
+  // rs.reserve(n);
+
+  for (const auto &[d, lbb] : bbs) {
+    const Vector2 &delta = d;
+    agent_index->query(lbb, [&rs, &agent, &p, &distance, &delta](Agent *a) {
+      if (a != agent &&
+          (a->pose.position + delta - p).norm() < distance + a->radius) {
+        rs.push_back(a->as_translated_neighbor(delta));
       }
     });
   }
-  agent_index->query(bb, [&rs, &agent, &p, &distance](Agent *a) {
-    if (a != agent && (a->pose.position - p).norm() < distance + a->radius) {
-      rs.push_back(a->as_neighbor());
-    }
-  });
   return rs;
 }
 
 // TODO(Jerome) Should cache .. this needs to be fast
-std::vector<Disc> World::get_discs() const {
-  std::vector<Disc> discs(obstacles.size());
-  std::transform(obstacles.cbegin(), obstacles.cend(), discs.begin(),
-                 [](const auto &o) { return o->disc; });
+// DONE(Jerome): added support for lattice
+std::vector<Disc> World::get_discs(bool ignore_lattice) const {
+  std::vector<core::Vector2> grid;
+  if (!ignore_lattice) {
+    grid = get_lattice_grid();
+  } else {
+    grid = {Vector2()};
+  }
+  std::vector<Disc> discs(obstacles.size() * grid.size());
+  auto it = discs.begin();
+  for (const auto &delta : grid) {
+    std::transform(
+        obstacles.cbegin(), obstacles.cend(), it,
+        [&delta](const auto &o) { return o->get_translated_disc(delta); });
+    it += obstacles.size();
+  }
   return discs;
 }
 
@@ -306,14 +317,55 @@ const std::vector<std::shared_ptr<Obstacle>> &World::get_obstacles() const {
   return obstacles;
 }
 
-// TODO(Jerome): Add [obstacle] ghosts
-std::vector<Disc> World::get_static_obstacles_in_region(
-    [[maybe_unused]] const BoundingBox &bb) const {
-  std::vector<Obstacle *> rs;
-  obstacles_index->query(bb, rs);
-  std::vector<Disc> discs(rs.size());
-  std::transform(rs.cbegin(), rs.cend(), discs.begin(),
-                 [](const auto &o) { return o->disc; });
+BoundingBox World::get_lattice_bounding_box() const {
+  ng_float_t x1, x2, y1, y2;
+  if (lattice[0]) {
+    x1 = std::get<0>(*lattice[0]);
+    x2 = x1 + std::get<1>(*lattice[0]);
+  } else {
+    x1 = std::numeric_limits<ng_float_t>::lowest();
+    x2 = std::numeric_limits<ng_float_t>::max();
+  }
+  if (lattice[1]) {
+    y1 = std::get<0>(*lattice[1]);
+    y2 = y1 + std::get<1>(*lattice[1]);
+  } else {
+    y1 = std::numeric_limits<ng_float_t>::lowest();
+    y2 = std::numeric_limits<ng_float_t>::max();
+  }
+  return BoundingBox(x1, x2, y1, y2);
+}
+
+std::vector<std::tuple<Vector2, BoundingBox>> World::subdivide_bounding_box(
+    const BoundingBox &bounding_box, bool ignore_lattice) const {
+  if (!has_lattice || ignore_lattice) {
+    return {{Vector2(), bounding_box}};
+  }
+  std::vector<std::tuple<Vector2, BoundingBox>> rs;
+  std::vector<core::Vector2> grid = get_lattice_grid();
+  BoundingBox lbb = get_lattice_bounding_box();
+  for (const auto &delta : grid) {
+    BoundingBox bb = bounding_box;
+    bb.translate(delta[0], delta[1]);
+    BoundingBox i;
+    if (lbb.intersection(bb, i)) {
+      rs.push_back({-delta, i});
+    }
+  }
+  return rs;
+}
+
+// DONE(Jerome): added support for lattice
+std::vector<Disc> World::get_discs_in_region(const BoundingBox &bb,
+                                             bool ignore_lattice) {
+  check_static_strtree();
+  std::vector<Disc> discs;
+  for (const auto &[d, lbb] : subdivide_bounding_box(bb, ignore_lattice)) {
+    const Vector2 &delta = d;
+    obstacles_index->query(lbb, [&discs, &delta](Obstacle *o) {
+      discs.push_back(o->get_translated_disc(delta));
+    });
+  }
   return discs;
 }
 
@@ -336,8 +388,9 @@ std::vector<LineSegment *> World::get_line_obstacles_in_region(
   return {};
 }
 
-bool World::resolve_collision(Agent *a1, Agent *a2, ng_float_t margin) {
-  auto delta = a1->pose.position - a2->pose.position;
+bool World::resolve_collision(Agent *a1, Agent *a2, Vector2 d2,
+                              ng_float_t margin) {
+  auto delta = a1->pose.position - a2->pose.position - d2;
   ng_float_t p = delta.norm() - a1->radius - a2->radius - margin;
   if (p > 0) {
     return false;
@@ -362,8 +415,9 @@ bool World::resolve_collision(Agent *a1, Agent *a2, ng_float_t margin) {
 }
 
 // TODO(J): avoid repetitions
-bool World::resolve_collision(Agent *agent, Disc *disc, ng_float_t margin) {
-  auto delta = agent->pose.position - disc->position;
+bool World::resolve_collision(Agent *agent, Disc *disc, Vector2 d2,
+                              ng_float_t margin) {
+  auto delta = agent->pose.position - disc->position - d2;
   ng_float_t p = delta.norm() - agent->radius - disc->radius - margin;
   if (p > 0) {
     return false;
@@ -428,33 +482,31 @@ std::vector<Agent *> World::get_agents_in_deadlock(ng_float_t duration) const {
 void World::update_agent_collisions(Agent *a1) {
   // const BoundingBox &bb = agent_envelops[i];
   const BoundingBox bb = envelop(a1->pose.position, a1->radius);
-  agent_index->query(bb, [this, a1](Agent *a2) {
-    if (a1 < a2) {
-      if (resolve_collision(a1, a2)) {
-        record_collision(a1, a2);
+  for (const auto &[d, lbb] : subdivide_bounding_box(bb)) {
+    const Vector2 &delta = d;
+    agent_index->query(lbb, [this, a1, &delta](Agent *a2) {
+      if (a1 < a2) {
+        if (resolve_collision(a1, a2, delta)) {
+          record_collision(a1, a2);
+        }
       }
-    }
-  });
-  obstacles_index->query(bb, [this, a1](Obstacle *o) {
-    if (resolve_collision(a1, &(o->disc))) {
-      record_collision(a1, o);
-    }
-  });
+    });
+    obstacles_index->query(lbb, [this, a1, &delta](Obstacle *o) {
+      if (resolve_collision(a1, &(o->disc), delta)) {
+        record_collision(a1, o);
+      }
+    });
+  }
   walls_index->query(bb, [this, a1](Wall *w) {
     if (resolve_collision(a1, &(w->line))) {
       record_collision(a1, w);
     }
   });
-  if (has_lattice) {
-    ghost_index->query(bb, [this, a1](Ghost *a2) {
-      if (resolve_collision(a1, a2)) {
-        record_collision(a1, a2);
-      }
-    });
-  }
 }
 
 void World::update_collisions() {
+  check_agents_strtree();
+  check_static_strtree();
   collisions.clear();
   for (const auto &agent : agents) {
     update_agent_collisions(agent.get());
@@ -471,10 +523,11 @@ void World::update_collisions() {
   // resolve_collision(a1, a2); });
 }
 
+#if 0
 void World::update_agent_ghosts() {
   ghost_envelops.clear();
   ghosts.clear();
-  const auto grid = lattice_grid();
+  const auto grid = get_lattice_grid();
   ghost_index =
       std::make_shared<geos::index::strtree::TemplateSTRtree<Ghost *>>(
           agents.size() * grid.size());
@@ -489,6 +542,7 @@ void World::update_agent_ghosts() {
     }
   }
 }
+#endif
 
 void World::update_agents_strtree() {
   agent_envelops.clear();
@@ -504,8 +558,22 @@ void World::update_agents_strtree() {
     agent_index->insert(&bb, (void *)(agent.get()));
   }
 
-  if (has_lattice) {
-    update_agent_ghosts();
+  agents_strtree_is_updated = true;
+
+  // if (has_lattice) {
+  //   update_agent_ghosts();
+  // }
+}
+
+void World::check_static_strtree() {
+  if (!static_strtree_is_updated) {
+    update_static_strtree();
+  }
+}
+
+void World::check_agents_strtree() {
+  if (!agents_strtree_is_updated) {
+    update_agents_strtree();
   }
 }
 
@@ -530,10 +598,13 @@ void World::update_static_strtree() {
         static_envelops.emplace_back(p[0] - r, p[0] + r, p[1] - r, p[1] + r);
     obstacles_index->insert(&bb, (void *)(obstacle.get()));
   }
+  static_strtree_is_updated = true;
 }
 
-ng_float_t World::compute_safety_violation(const Agent *agent) const {
+ng_float_t World::compute_safety_violation(const Agent *agent) {
   if (Behavior *b = agent->get_behavior()) {
+    check_agents_strtree();
+    check_static_strtree();
     const ng_float_t safety_margin = b->get_safety_margin();
     if (safety_margin == 0) return 0;
     const ng_float_t radius = agent->radius + safety_margin;
@@ -541,26 +612,30 @@ ng_float_t World::compute_safety_violation(const Agent *agent) const {
     const BoundingBox bb{p[0] - radius, p[0] + radius, p[1] - radius,
                          p[1] + radius};
     ng_float_t d = 0;
-    agent_index->query(bb, [&d, &p, &radius, &agent](Agent *other) {
-      if (agent != other) {
-        d = std::max(penetration_inside_disc(
-                         Disc{other->pose.position, other->radius}, p, radius),
-                     d);
-      }
-    });
-    obstacles_index->query(bb, [&d, &p, &radius](Obstacle *o) {
-      d = std::max(penetration_inside_disc(o->disc, p, radius), d);
-    });
+    for (const auto &[_delta, lbb] : subdivide_bounding_box(bb)) {
+      const Vector2 &delta = _delta;
+      agent_index->query(lbb, [&d, &p, &radius, &delta](Agent *other) {
+        d = std::max(
+            penetration_inside_disc(
+                Disc{other->pose.position + delta, other->radius}, p, radius),
+            d);
+      });
+      obstacles_index->query(lbb, [&d, &p, &radius, &delta](Obstacle *o) {
+        d = std::max(
+            penetration_inside_disc(o->get_translated_disc(delta), p, radius),
+            d);
+      });
+    }
     walls_index->query(bb, [&d, &p, &radius](Wall *w) {
       d = std::max(penetration_inside_line(w->line, p, radius), d);
     });
-    if (has_lattice) {
-      ghost_index->query(bb, [&d, &p, &radius, &agent](Ghost *other) {
-        if (agent->uid != other->uid) {
-          d = std::max(penetration_inside_disc(*other, p, radius), d);
-        }
-      });
-    }
+    // if (has_lattice) {
+    //   ghost_index->query(bb, [&d, &p, &radius, &agent](Ghost *other) {
+    //     if (agent->uid != other->uid) {
+    //       d = std::max(penetration_inside_disc(*other, p, radius), d);
+    //     }
+    //   });
+    // }
     return d;
   }
   return 0;
@@ -594,14 +669,19 @@ bool World::space_agents_apart_once(ng_float_t minimal_distance,
     const ng_float_t radius = agent->radius + margin;
     const BoundingBox bb{p[0] - radius, p[0] + radius, p[1] - radius,
                          p[1] + radius};
-    agent_index->query(bb, [this, &r, &a1, margin](Agent *a2) {
-      if (a1 < a2) {
-        r |= resolve_collision(a1, a2, margin);
-      }
-    });
-    obstacles_index->query(bb, [this, &r, &a1, margin](Obstacle *o) {
-      r |= resolve_collision(a1, &(o->disc), margin);
-    });
+
+    for (const auto &[d, lbb] : subdivide_bounding_box(bb)) {
+      const Vector2 &delta = d;
+      agent_index->query(lbb, [this, &r, &a1, &delta, margin](Agent *a2) {
+        if (a1 < a2) {
+          r |= resolve_collision(a1, a2, delta, margin);
+        }
+      });
+      obstacles_index->query(lbb, [this, &r, &a1, &delta, margin](Obstacle *o) {
+        r |= resolve_collision(a1, &(o->disc), delta, margin);
+      });
+    }
+
     walls_index->query(bb, [this, &r, &a1, margin](Wall *w) {
       r |= resolve_collision(a1, &(w->line), margin);
     });
@@ -639,22 +719,28 @@ void World::set_lattice(unsigned index, const World::Lattice &value) {
   }
 }
 
-std::vector<Vector2> World::lattice_grid() const {
+std::vector<Vector2> World::get_lattice_grid(bool include_zero, bool c8) const {
+  std::vector<Vector2> rs;
   if (lattice[0] && lattice[1]) {
     auto l0 = std::get<1>(*(lattice[0]));
     auto l1 = std::get<1>(*(lattice[1]));
-    return {{-l0, -l1}, {-l0, 0},  {-l0, l1}, {0, -l1},
+    if (c8) {
+      rs = {{-l0, -l1}, {-l0, 0},  {-l0, l1}, {0, -l1},
             {0, l1},    {l0, -l1}, {l0, 0},   {l0, l1}};
-  }
-  if (lattice[0]) {
+    } else {
+      rs = {{-l0, 0}, {0, -l1}, {0, l1}, {l0, 0}};
+    }
+  } else if (lattice[0]) {
     auto l0 = std::get<1>(*(lattice[0]));
-    return {{-l0, 0}, {l0, 0}};
-  }
-  if (lattice[1]) {
+    rs = {{-l0, 0}, {l0, 0}};
+  } else if (lattice[1]) {
     auto l1 = std::get<1>(*(lattice[1]));
-    return {{0, -l1}, {0, l1}};
+    rs = {{0, -l1}, {0, l1}};
   }
-  return {};
+  if (include_zero) {
+    rs.push_back(Vector2());
+  }
+  return rs;
 }
 
 void World::wrap_agents_on_lattice() {
@@ -668,6 +754,58 @@ void World::wrap_agents_on_lattice() {
         }
       }
     }
+  }
+}
+
+BoundingBox World::get_minimal_bounding_box() const {
+  std::vector<ng_float_t> xs;
+  std::vector<ng_float_t> ys;
+  for (const auto &agent : agents) {
+    xs.push_back(agent->pose.position[0] - agent->radius);
+    xs.push_back(agent->pose.position[0] + agent->radius);
+    ys.push_back(agent->pose.position[1] - agent->radius);
+    ys.push_back(agent->pose.position[1] + agent->radius);
+  }
+  for (const auto &o : obstacles) {
+    xs.push_back(o->disc.position[0] - o->disc.radius);
+    xs.push_back(o->disc.position[0] + o->disc.radius);
+    ys.push_back(o->disc.position[1] - o->disc.radius);
+    ys.push_back(o->disc.position[1] + o->disc.radius);
+  }
+  for (const auto &w : walls) {
+    xs.push_back(w->line.p1[0]);
+    xs.push_back(w->line.p2[0]);
+    ys.push_back(w->line.p1[1]);
+    ys.push_back(w->line.p2[1]);
+  }
+  if (xs.size() == 0 || ys.size() == 0) {
+    return {0, 0, 0, 0};
+  }
+  return {*std::min_element(xs.begin(), xs.end()),
+          *std::max_element(xs.begin(), xs.end()),
+          *std::min_element(ys.begin(), ys.end()),
+          *std::max_element(ys.begin(), ys.end())};
+}
+
+void World::add_random_obstacles(unsigned number, ng_float_t min_radius,
+                                 ng_float_t max_radius, ng_float_t margin,
+                                 unsigned max_tries) {
+  std::vector<Disc> others = get_discs(true);
+  ng_float_t gap = 0.0;
+  for (const auto &agent : get_agents()) {
+    auto r = agent->radius;
+    if (agent->behavior) {
+      r += agent->behavior->get_safety_margin();
+    }
+    others.emplace_back(agent->pose.position, r);
+    gap = std::max(gap, 2 * r);
+  }
+  gap += margin;
+  auto discs = sample_discs(get_random_generator(), number, get_bounding_box(),
+                            min_radius, max_radius, gap, margin, others, max_tries,
+                            get_lattice_grid());
+  for (const auto &disc : discs) {
+    add_obstacle(disc);
   }
 }
 

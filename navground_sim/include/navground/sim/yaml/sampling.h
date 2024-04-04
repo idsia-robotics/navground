@@ -173,10 +173,11 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
         if (node["max"]) {
           max = node["max"].as<T>();
         }
+        bool clamp = node["clamp"].as<bool>(true);
         const auto mean = node["mean"].as<ng_float_t>();
         const auto std_dev = node["std_dev"].as<ng_float_t>();
         return std::make_unique<NormalSampler<T>>(mean, std_dev, min, max,
-                                                  once);
+                                                  once, clamp);
       }
       return nullptr;
     }
@@ -291,6 +292,7 @@ struct convert<NormalSampler<T>> {
     if (rhs.once) {
       node["once"] = rhs.once;
     }
+    node["clamp"] = rhs.clamp;
     return node;
   }
 };
@@ -575,7 +577,7 @@ struct convert<AgentSampler<W>> {
       rhs.control_period = read_sampler<ng_float_t>(node["control_period"]);
     }
     if (node["number"]) {
-      rhs.number = node["number"].as<unsigned>(0);
+      rhs.number = read_sampler<unsigned>(node["number"]);
     }
     if (node["type"]) {
       rhs.type = read_sampler<std::string>(node["type"]);

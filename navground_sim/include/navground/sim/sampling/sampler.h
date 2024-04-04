@@ -17,7 +17,6 @@
 
 using navground::core::Vector2;
 
-
 // std::default_random_engine
 
 namespace navground::sim {
@@ -92,12 +91,12 @@ struct Sampler {
    *
    * @throw std::runtime_error If the generator is exhausted (i.e., \ref done
    * returns true)
-   * 
+   *
    * @param[in]  A random generator
    *
    * @return     The sampled value.
    */
-  T sample(RandomGenerator & rg) {
+  T sample(RandomGenerator& rg) {
     if (done()) {
       throw std::runtime_error("Generator is exhausted");
     }
@@ -152,7 +151,7 @@ struct Sampler {
   bool once;
 
  protected:
-  virtual T s(RandomGenerator & rg) = 0;
+  virtual T s(RandomGenerator& rg) = 0;
   unsigned _index;
   std::optional<T> first_sample;
 };
@@ -175,7 +174,7 @@ struct ConstantSampler final : public Sampler<T> {
   T value;
 
  protected:
-  T s(RandomGenerator & rg) override { return value; }
+  T s(RandomGenerator& rg) override { return value; }
   // std::ostream& output(std::ostream& os) const override {
   //   return os << "ConstantSampler(" << value << ")";
   // }
@@ -211,7 +210,9 @@ struct SequenceSampler final : public Sampler<T> {
   Wrap wrap;
 
  protected:
-  T s(RandomGenerator & rg) override { return values[wrap_index(wrap, _index, values.size())]; }
+  T s(RandomGenerator& rg) override {
+    return values[wrap_index(wrap, _index, values.size())];
+  }
 
   // std::ostream& output(std::ostream& os) const override {
   //   os << "SequenceSampler({";
@@ -327,7 +328,7 @@ struct RegularSampler final : public Sampler<T> {
   Wrap wrap;
 
  protected:
-  T s(RandomGenerator & rg) override {
+  T s(RandomGenerator& rg) override {
     unsigned i = _index;
     if (number) {
       i = wrap_index(wrap, i, *number);
@@ -389,7 +390,7 @@ struct GridSampler final : public Sampler<Vector2> {
   Wrap wrap;
 
  protected:
-  Vector2 s(RandomGenerator & rg) override {
+  Vector2 s(RandomGenerator& rg) override {
     unsigned i = wrap_index(wrap, _index, numbers[0] * numbers[1]);
     return {from[0] + (i % numbers[0]) * step[0],
             from[1] + (i / numbers[0]) * step[1]};
@@ -424,7 +425,7 @@ struct UniformSampler final : public Sampler<T> {
   T max;
 
  protected:
-  T s(RandomGenerator & rg) override { return dist(rg); }
+  T s(RandomGenerator& rg) override { return dist(rg); }
 
   uniform_distribution<T> dist;
 };
@@ -450,22 +451,42 @@ struct NormalSampler final : public Sampler<T> {
    */
   NormalSampler(ng_float_t mean, ng_float_t std_dev,
                 std::optional<T> min = std::nullopt,
-                std::optional<T> max = std::nullopt, bool _once = false)
-      : Sampler<T>(_once), min(min), max(max), dist{mean, std_dev} {}
+                std::optional<T> max = std::nullopt, bool _once = false,
+                bool clamp = true)
+      : Sampler<T>(_once),
+        min(min),
+        max(max),
+        mean(mean),
+        std_dev(std_dev),
+        clamp(clamp),
+        dist{mean, std_dev} {}
 
   std::optional<T> min;
   std::optional<T> max;
   ng_float_t mean;
   ng_float_t std_dev;
+  bool clamp;
 
  protected:
-  T s(RandomGenerator & rg) override {
+  T s(RandomGenerator& rg) override {
     T value = static_cast<T>(dist(rg));
     if (min) {
-      value = std::max(*min, value);
+      if (value < *min) {
+        if (clamp) {
+          value = *min;
+        } else {
+          return s(rg);
+        }
+      }
     }
     if (max) {
-      value = std::min(*max, value);
+      if (value > *max) {
+        if (clamp) {
+          value = *max;
+        } else {
+          return s(rg);
+        }
+      }
     }
     return value;
   }
@@ -502,7 +523,7 @@ struct ChoiceSampler final : public Sampler<T> {
   std::vector<T> values;
 
  protected:
-  T s(RandomGenerator & rg) override { return values[dist(rg)]; }
+  T s(RandomGenerator& rg) override { return values[dist(rg)]; }
 
  private:
   std::uniform_int_distribution<int> dist;
@@ -620,7 +641,7 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
   }
 
  protected:
-  navground::core::Property::Field s(RandomGenerator & rg) override {
+  navground::core::Property::Field s(RandomGenerator& rg) override {
     return std::visit(
         [&rg](auto&& arg) -> navground::core::Property::Field {
           return arg->sample(rg);

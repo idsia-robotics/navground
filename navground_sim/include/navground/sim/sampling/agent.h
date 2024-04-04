@@ -52,8 +52,9 @@ struct AgentSampler : public Sampler<typename W::A::C>,
    */
   void add_to_world(World* world) override {
     RandomGenerator & rg = world->get_random_generator();
+    unsigned num = number->sample(rg);
     if (W* w = dynamic_cast<W*>(world)) {
-      for (unsigned i = 0; i < number; ++i) {
+      for (unsigned i = 0; i < num; ++i) {
         w->add_agent(sample(rg));
       }
     } else {
@@ -91,7 +92,7 @@ struct AgentSampler : public Sampler<typename W::A::C>,
   std::shared_ptr<Sampler<int>> id;
   std::shared_ptr<Sampler<std::string>> type;
   std::shared_ptr<Sampler<std::string>> color;
-  unsigned number;
+  std::shared_ptr<Sampler<unsigned>> number;
 
  protected:
   C s(RandomGenerator& rg) override {

@@ -8,7 +8,7 @@ import jinja2
 import numpy as np
 from navground import core
 
-from .. import Agent, Entity, Obstacle, Wall, World
+from .. import Agent, Entity, Obstacle, Wall, World, BoundingBox
 
 Point = np.ndarray
 Rect = Tuple[Point, Point]
@@ -19,6 +19,23 @@ folder = os.path.dirname(os.path.realpath(__file__))
 template_folder = os.path.join(folder, 'templates')
 jinjia_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(template_folder))
+
+
+def bounds_for_world(world: World) -> Rect:
+    bb = world.bounding_box
+    return bb.p1, bb.p2
+
+
+def rect_around(center: Point, width: float | None,
+                height: float | None) -> Rect:
+    if width is None:
+        width = height
+    if height is None:
+        height = width
+    if height is None or width is None:
+        raise ValueError("Provide at least one of height or width")
+    delta = np.array((width * 0.5, height * 0.5))
+    return np.asarray(center) - delta, np.asarray(center) + delta
 
 
 def svg_color(r: float, g: float, b: float) -> str:
@@ -90,9 +107,10 @@ def svg_g_use(proto: str,
               precision: int = 2,
               attributes: Attributes = {},
               shape: bool = False,
+              delta: core.Vector2 = np.zeros(2),
               **kwargs: str) -> str:
     attributes = ChainMap(attributes, kwargs)
-    cx, cy = np.round(pose.position, decimals=precision)
+    cx, cy = np.round(pose.position + delta, decimals=precision)
     angle = np.round(pose.orientation * 180 / math.pi, decimals=precision)
     r = np.round(radius, decimals=precision)
     g = (
@@ -123,28 +141,37 @@ def svg_for_wall(wall: Wall,
     return svg_polyline([wall.line.p1, wall.line.p2], precision, attributes)
 
 
-def svg_for_obstacle(obstacle: Obstacle,
-                     precision: int = 2,
-                     prefix: str = '',
-                     attributes: Attributes = {}) -> str:
+def svg_for_obstacle(
+    obstacle: Obstacle,
+    precision: int = 2,
+    prefix: str = '',
+    attributes: Attributes = {},
+    delta: core.Vector2 = np.zeros(2)) -> str:
     attributes = entity_attributes(obstacle, 'obstacle', prefix, attributes)
-    return svg_circle(obstacle.disc.position, obstacle.disc.radius, precision,
-                      attributes)
+    return svg_circle(obstacle.disc.position + delta, obstacle.disc.radius,
+                      precision, attributes)
 
 
 def svg_for_agent(agent: Agent,
                   precision: int = 2,
                   prefix: str = '',
                   attributes: Attributes = {},
-                  shape: bool = False) -> str:
+                  shape: bool = False,
+                  delta: core.Vector2 = np.zeros(2)) -> str:
     proto = agent.type or 'agent'
-    attributes = entity_attributes(agent,
-                                   agent.type or 'agent',
-                                   prefix,
-                                   attributes,
-                                   fill=agent.color)
-    return svg_g_use(proto, agent.pose, agent.radius, precision, attributes,
-                     shape)
+    if agent.color:
+        kwargs = {'fill': agent.color}
+    else:
+        kwargs = {}
+    attributes = entity_attributes(agent, agent.type or 'agent', prefix,
+                                   attributes, **kwargs)
+    return svg_g_use(proto,
+                     agent.pose,
+                     agent.radius,
+                     precision,
+                     attributes,
+                     shape,
+                     delta=delta)
 
 
 def svg_for_world(world: Optional[World] = None,
@@ -155,7 +182,10 @@ def svg_for_world(world: Optional[World] = None,
                   min_height: float = 100,
                   relative_margin: float = 0.05,
                   background_color: str = 'snow',
-                  display_shape: bool = False) -> str:
+                  display_shape: bool = False,
+                  grid: float = 0,
+                  grid_color: str = 'grey',
+                  grid_thickness: float = 0.01) -> str:
     """
     Draw the world as a SVG.
 
@@ -181,7 +211,10 @@ def svg_for_world(world: Optional[World] = None,
                           min_height=min_height,
                           relative_margin=relative_margin,
                           background_color=background_color,
-                          display_shape=display_shape)[0]
+                          display_shape=display_shape,
+                          grid=grid,
+                          grid_color=grid_color,
+                          grid_thickness=grid_thickness)[0]
 
 
 def _svg_for_world(world: Optional[World] = None,
@@ -197,21 +230,56 @@ def _svg_for_world(world: Optional[World] = None,
                    external_style_path: str = '',
                    style: str = '',
                    background_color: str = 'snow',
-                   display_shape: bool = False) -> Tuple[str, Dict[str, str]]:
+                   display_shape: bool = False,
+                   grid: float = 0,
+                   grid_color: str = 'grey',
+                   grid_thickness: float = 0.01) -> Tuple[str, Dict[str, str]]:
     g = ""
     if world:
+        if bounds is None:
+            bounds = bounds_for_world(world)
+        width, height, view_box, min_y = size(bounds, width, min_height,
+                                              relative_margin)
+        bb = BoundingBox(view_box[0], view_box[0] + view_box[2], min_y,
+                         min_y + view_box[3])
         for wall in world.walls:
             g += svg_for_wall(wall, precision, prefix,
                               decorate(wall) if decorate else {})
-        for obstacle in world.obstacles:
-            g += svg_for_obstacle(obstacle, precision, prefix,
-                                  decorate(obstacle) if decorate else {})
-        for agent in world.agents:
-            g += svg_for_agent(agent, precision, prefix,
-                               decorate(agent) if decorate else {},
-                               display_shape)
-        width, height, view_box, min_y = size(world, bounds, width, min_height,
-                                              relative_margin)
+        for delta, lbb in world.subdivide_bounding_box(bb, False):
+            for obstacle in world.get_obstacles_in_region(lbb):
+                g += svg_for_obstacle(obstacle,
+                                      precision,
+                                      prefix,
+                                      decorate(obstacle) if decorate else {},
+                                      delta=delta)
+            for agent in world.get_agents_in_region(lbb):
+
+                g += svg_for_agent(agent,
+                                   precision,
+                                   prefix,
+                                   decorate(agent) if decorate else {},
+                                   display_shape,
+                                   delta=delta)
+
+        # g = "<g id='_world'>"
+        # for wall in world.walls:
+        #     g += svg_for_wall(wall, precision, prefix,
+        #                       decorate(wall) if decorate else {})
+        # for obstacle in world.obstacles:
+        #     g += svg_for_obstacle(obstacle, precision, prefix,
+        #                           decorate(obstacle) if decorate else {})
+        # for agent in world.agents:
+        #     g += svg_for_agent(agent, precision, prefix,
+        #                        decorate(agent) if decorate else {},
+        #                        display_shape)
+        # if bounds is None:
+        #     bb = world.bounding_box
+        #     bounds = bb.p1, bb.p2
+        # width, height, view_box, min_y = size(bounds, width, min_height,
+        #                                       relative_margin)
+        # g += "</g>"
+        # for delta in world.get_lattice_grid(include_zero=False, c8=True):
+        #     g += f'<use href="#_world" x="{delta[0]}" y="{delta[1]}" />'
     else:
         height = width
         view_box = (0, 0, 1, 1)
@@ -222,8 +290,25 @@ def _svg_for_world(world: Optional[World] = None,
         'height':
         f'{height:.0f}',
         'viewBox':
-        f"{view_box[0]:.2f} {view_box[1]:.2f} {view_box[2]:.2f} {view_box[3]:.2f}"
+        f"{view_box[0]:.4f} {view_box[1]:.4f} {view_box[2]:.4f} {view_box[3]:.4f}"
     }
+
+    if grid > 0:
+        min_x = (view_box[0] // grid - 1) * grid
+        max_x = ((view_box[0] + view_box[2]) // grid + 2) * grid
+        min_y = (view_box[1] // grid - 1) * grid
+        max_y = ((view_box[1] + view_box[3]) // grid + 2) * grid
+        grid_xs = np.arange(min_x, max_x, grid)
+        grid_ys = np.arange(min_y, max_y, grid)
+        grid_kwargs = {
+            'grid_xs': grid_xs,
+            'grid_ys': grid_ys,
+            'grid_color': grid_color,
+            'grid_thickness': grid_thickness
+        }
+    else:
+        grid_kwargs = {}
+
     return jinjia_env.get_template('world.svg').render(
         svg_world=g,
         prefix=prefix,
@@ -232,46 +317,37 @@ def _svg_for_world(world: Optional[World] = None,
         style=style,
         background_color=background_color,
         display_shape=display_shape,
+        grid=grid,
+        **grid_kwargs,
         **dims), dims
 
 
-def world_bound(world: World) -> Rect:
-    ps = []
-    for wall in world.walls:
-        ps.append(wall.line.p1)
-        ps.append(wall.line.p2)
-    for obstacle in world.obstacles:
-        delta = np.ones(2) * obstacle.disc.radius
-        p = obstacle.disc.position
-        ps.append(p - delta)
-        ps.append(p + delta)
-    for agent in world.agents:
-        delta = np.ones(2) * agent.radius
-        ps.append(agent.position - delta)
-        ps.append(agent.position + delta)
-    if not ps:
-        return np.zeros(2), np.zeros(2)
-    return np.min(ps, axis=0), np.max(ps, axis=0)
+# def world_bound(world: World) -> Rect:
+#     ps = []
+#     for wall in world.walls:
+#         ps.append(wall.line.p1)
+#         ps.append(wall.line.p2)
+#     for obstacle in world.obstacles:
+#         delta = np.ones(2) * obstacle.disc.radius
+#         p = obstacle.disc.position
+#         ps.append(p - delta)
+#         ps.append(p + delta)
+#     for agent in world.agents:
+#         delta = np.ones(2) * agent.radius
+#         ps.append(agent.position - delta)
+#         ps.append(agent.position + delta)
+#     if not ps:
+#         return np.zeros(2), np.zeros(2)
+#     return np.min(ps, axis=0), np.max(ps, axis=0)
 
 
 def size(
-    world: Optional[World] = None,
-    bounds: Optional[Rect] = None,
+    bounds: Rect,
     width: float = 600,
     min_height: float = 100,
     relative_margin: float = 0.05
 ) -> Tuple[float, float, Tuple[float, float, float, float], float]:
-    if world is None and bounds is None:
-        raise ValueError("Provide at least one of world or bounds")
-    if world:
-        min_p, max_p = world_bound(world)
-        if bounds:
-            min_p = np.min((min_p, bounds[0]), axis=0)
-            max_p = np.max((max_p, bounds[1]), axis=0)
-    elif bounds:
-        min_p, max_p = bounds
-    else:
-        min_p, max_p = np.zeros(2), np.ones(2)
+    min_p, max_p = bounds
     min_x, min_y = min_p
     max_x, max_y = max_p
     world_width = max_x - min_x
@@ -282,7 +358,10 @@ def size(
     max_y += world_height * relative_margin
     world_width = max_x - min_x
     world_height = max_y - min_y
-    scale = width / world_width
+    if world_width:
+        scale = width / world_width
+    else:
+        scale = 1
     height = max(min_height, scale * world_height)
     return width, height, (min_x, -max_y, world_width, world_height), min_y
 

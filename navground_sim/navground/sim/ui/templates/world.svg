@@ -93,8 +93,23 @@ svg {
    background-color: {{background_color}};
 }
 {% endif %}
+.grid {
+  stroke: {{grid_color}};
+  stroke-width: {{grid_thickness}};
+}
 ]]>
 </style>
+{% if grid %}
+
+{% for x in grid_xs -%}
+    <line x1="{{x}}" y1="{{grid_ys[0]}}" x2="{{x}}" y2="{{grid_ys[-1]}}" class="grid"/>
+{%- endfor -%}
+
+{%- for y in grid_ys -%}
+    <line y1="{{y}}" x1="{{grid_xs[0]}}" y2="{{y}}" x2="{{grid_xs[-1]}}" class="grid"/>
+{%- endfor %}
+
+{% endif %}
 <g id="{{prefix}}world" transform='scale(1, -1)'>
 {{svg_world}}
 </g>

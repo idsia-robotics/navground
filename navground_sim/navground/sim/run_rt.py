@@ -112,7 +112,7 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument('--area',
                         help='Minimal area rendered in the view',
                         type=float,
-                        default=(0.0, 0.0, 0.0, 0.0),
+                        # default=(0.0, 0.0, 0.0, 0.0),
                         nargs=4,
                         metavar=("MIN_X", "MIN_Y", "MAX_X", "MAX_Y"))
     parser.add_argument('--display-shape',
@@ -158,7 +158,10 @@ def main(decorate: Optional[Decorate] = None) -> None:
         logging.error(f"Could not load the experiment: {e}")
         sys.exit(1)
     loop = asyncio.get_event_loop()
-    bounds = arg.area[:2], arg.area[2:]
+    if arg.area is not None:
+        bounds = arg.area[:2], arg.area[2:]
+    else:
+        bounds = None
     loop.run_until_complete(
         run(with_ui=not arg.no_ui,
             scenario=experiment.scenario,

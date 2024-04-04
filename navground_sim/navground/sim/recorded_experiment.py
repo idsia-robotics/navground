@@ -89,7 +89,7 @@ class RecordedExperimentalRun:
         """The number of agents recorded"""
         # self.probes_names: List[str] = list(group.keys())
         # """The names of all probes active during recording"""
-        self._final_sim_time = group.attrs['final_sim_time']
+        self.final_sim_time = group.attrs['final_sim_time']
         self.maximal_steps: int = group.attrs['maximal_steps']
         """The maximal steps that could have been performed"""
         self.recorded_steps: int = group.attrs['steps']

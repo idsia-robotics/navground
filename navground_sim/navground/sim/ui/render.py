@@ -43,7 +43,8 @@ def image_for_world(world: World,
 
 def png_for_world(world: World,
                   background_color: str = "snow",
-                  **kwargs: Any) -> bytes:
+                  dpi: int = 96,
+                  **kwargs: Any,) -> bytes:
     """
     Renders the world as an png image
 
@@ -55,7 +56,7 @@ def png_for_world(world: World,
     """
     svg_data = svg_for_world(world, **kwargs)
     return cairosvg.svg2png(bytestring=svg_data,
-                            background_color=background_color)
+                            background_color=background_color, dpi=dpi)
 
 
 def pdf_for_world(world: World,

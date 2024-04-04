@@ -64,7 +64,7 @@ def parser() -> argparse.ArgumentParser:
     parser.add_argument('--area',
                         help='Minimal area rendered in the view',
                         type=float,
-                        default=(0.0, 0.0, 0.0, 0.0),
+                        # default=(0.0, 0.0, 0.0, 0.0),
                         nargs=4,
                         metavar=("MIN_X", "MIN_Y", "MAX_X", "MAX_Y"))
     parser.add_argument('--display-shape',
@@ -94,7 +94,10 @@ def main(decorate: Optional[Decorate] = None) -> None:
     except RuntimeError as e:
         logging.error(f"Could not load the experiment: {e}")
         sys.exit(1)
-    bounds = arg.area[:2], arg.area[2:]
+    if arg.area is not None:
+        bounds = arg.area[:2], arg.area[2:]
+    else:
+        bounds = None
     run(path=arg.path,
         scenario=experiment.scenario,
         factor=arg.factor,

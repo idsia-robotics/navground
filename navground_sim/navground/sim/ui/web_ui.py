@@ -10,7 +10,8 @@ import websockets
 import websockets.server
 
 from .. import Agent, Entity, Obstacle, Wall, World
-from .to_svg import Attributes, Decorate, Rect, flat_dict, size
+from .to_svg import (Attributes, Decorate, Rect, bounds_for_world, flat_dict,
+                     size)
 
 PoseMsg = Tuple[float, float, float]
 EntityMsg = Dict[str, Any]
@@ -201,7 +202,9 @@ class WebUI:
     async def update_size(self,
                           world: Optional[World] = None,
                           bounds: Optional[Rect] = None) -> None:
-        _, _, view_box, _ = size(world=world, bounds=bounds)
+        if bounds is None:
+            bounds = bounds_for_world(world)
+        _, _, view_box, _ = size(bounds=bounds)
         msg = ('v', view_box)
         data = json.dumps(msg)
         for queue in self.queues:

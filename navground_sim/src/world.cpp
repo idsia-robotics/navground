@@ -614,11 +614,13 @@ ng_float_t World::compute_safety_violation(const Agent *agent) {
     ng_float_t d = 0;
     for (const auto &[_delta, lbb] : subdivide_bounding_box(bb)) {
       const Vector2 &delta = _delta;
-      agent_index->query(lbb, [&d, &p, &radius, &delta](Agent *other) {
-        d = std::max(
-            penetration_inside_disc(
-                Disc{other->pose.position + delta, other->radius}, p, radius),
-            d);
+      agent_index->query(lbb, [&d, &p, &radius, &delta, &agent](Agent *other) {
+        if (other != agent) {
+          d = std::max(
+              penetration_inside_disc(
+                  Disc{other->pose.position + delta, other->radius}, p, radius),
+              d);
+        }
       });
       obstacles_index->query(lbb, [&d, &p, &radius, &delta](Obstacle *o) {
         d = std::max(
@@ -802,8 +804,8 @@ void World::add_random_obstacles(unsigned number, ng_float_t min_radius,
   }
   gap += margin;
   auto discs = sample_discs(get_random_generator(), number, get_bounding_box(),
-                            min_radius, max_radius, gap, margin, others, max_tries,
-                            get_lattice_grid());
+                            min_radius, max_radius, gap, margin, others,
+                            max_tries, get_lattice_grid());
   for (const auto &disc : discs) {
     add_obstacle(disc);
   }

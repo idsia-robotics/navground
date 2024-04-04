@@ -305,8 +305,7 @@ PYBIND11_MODULE(_navground, m) {
            py::arg("epsilon_speed") = 1e-6,
            py::arg("epsilon_angular_speed") = 1e-6,
            DOC(navground, core, Twist2, is_almost_zero))
-      .def("snap_to_zero", &Twist2::snap_to_zero,
-           py::arg("epsilon") = 1e-6,
+      .def("snap_to_zero", &Twist2::snap_to_zero, py::arg("epsilon") = 1e-6,
            DOC(navground, core, Twist2, snap_to_zero))
       .def("__repr__", &to_string<Twist2>);
 
@@ -388,6 +387,8 @@ PYBIND11_MODULE(_navground, m) {
                      DOC(navground, core, Disc, position))
       .def_readwrite("radius", &Disc::radius,
                      DOC(navground, core, Disc, radius))
+      .def("distance", &Disc::distance, py::arg("other"),
+           DOC(navground, core, Disc, distance))
       .def("__repr__", &to_string<Disc>);
 
   py::class_<Neighbor, Disc>(m, "Neighbor", DOC(navground, core, Neighbor))

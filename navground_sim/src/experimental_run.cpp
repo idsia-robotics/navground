@@ -168,7 +168,7 @@ class DeadlockProbe : public RecordProbe {
   }
 
   Dataset::Shape get_shape(const World &world) const override {
-    return {world.get_agents().size()};
+    return {};
   }
 };
 

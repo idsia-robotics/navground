@@ -41,7 +41,37 @@ struct Disc {
     return position == other.position && radius == other.radius;
   }
 
+  Disc operator+(const Vector2 & delta) const {
+    return Disc(position + delta, radius);
+  }
+
+  Disc & operator+=(const Vector2 & delta) {
+    position += delta;
+    return *this;
+  }
+
+  Disc operator-(const Vector2 & delta) const {
+    return Disc(position - delta, radius);
+  }
+
+  Disc & operator-=(const Vector2 & delta) {
+    position -= delta;
+    return *this;
+  }
+
   bool operator!=(const Disc& other) const { return !(operator==(other)); }
+
+  /**
+   * @brief      Returns the signed distance to another disc. 
+   *             Negative if the discs overlaps.
+   *
+   * @param[in]  other  The other disc
+   *
+   * @return     The distance between the centers minus the radii.
+   */
+  ng_float_t distance(const Disc& other) const {
+    return (position - other.position).norm() - radius - other.radius;
+  }
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Disc& disc) {

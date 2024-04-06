@@ -240,11 +240,36 @@ struct PyWorld : public World {
   ~PyWorld() = default;
 
   std::vector<py::object> py_agents;
+  std::optional<py::object> numpy_rng;
 
   void add_agent(const py::object &value) {
     py_agents.push_back(value);
     std::shared_ptr<Agent> agent = value.cast<std::shared_ptr<Agent>>();
     World::add_agent(agent);
+  }
+
+  void set_seed(unsigned seed) {
+    if (seed != get_seed()) {
+      py::module_ np = py::module_::import("numpy");
+      numpy_rng = np.attr("random").attr("default_rng")(seed);
+    }
+    World::set_seed(seed);
+  }
+
+  void set_random_generator(py::object value) { numpy_rng = value; }
+
+  py::object get_random_generator() {
+    if (!numpy_rng) {
+      py::module_ np = py::module_::import("numpy");
+      numpy_rng = np.attr("random").attr("default_rng")(get_seed());
+    }
+    return *numpy_rng;
+  }
+
+  void copy_random_generator(PyWorld &world) {
+    World::set_random_generator(
+        static_cast<World &>(world).get_random_generator());
+    set_random_generator(world.get_random_generator());
   }
 };
 
@@ -634,7 +659,8 @@ std::string dump(const Scenario *sampler) {
 
 // std::string dump_experiment(const Experiment *experiment) {
 //   if (!experiment) return "";
-//   // const auto node = convert_experiment<PyAgent, PyBehavior, PyKinematics,
+//   // const auto node = convert_experiment<PyAgent, PyBehavior,
+//   PyKinematics,
 //   // PyTask,
 //   //                    PyStateEstimation,
 //   //                    PyWorld>::encode(*experiment);
@@ -1003,7 +1029,11 @@ Creates a rectangular region
       .def("actuate",
            py::overload_cast<const Twist2 &, ng_float_t>(&Agent::actuate),
            py::arg("cmd"), py::arg("time_step"),
-           DOC(navground, sim, Agent, actuate, 2));
+           DOC(navground, sim, Agent, actuate, 2))
+      .def("has_been_stuck_since", &PyAgent::has_been_stuck_since,
+           py::arg("time"), DOC(navground, sim, Agent, has_been_stuck_since))
+      .def_property("time_since_stuck", &PyAgent::get_time_since_stuck, nullptr,
+                    DOC(navground, sim, Agent, property_time_since_stuck));
 
   py::class_<PyAgent, Agent, Entity, std::shared_ptr<PyAgent>> agent(
       m, "Agent", py::dynamic_attr(), DOC(navground, sim, Agent));
@@ -1153,13 +1183,21 @@ Creates a rectangular region
            DOC(navground, sim, World, add_random_obstacles))
       .def("get_lattice_grid", &World::get_lattice_grid,
            py::arg("include_zero") = true, py::arg("c8") = true,
-           DOC(navground, sim, World, get_lattice_grid));
+           DOC(navground, sim, World, get_lattice_grid))
+      .def("should_terminate", &World::should_terminate,
+           DOC(navground, sim, World, should_terminate));
 
   py::class_<PyWorld, World, std::shared_ptr<PyWorld>> world(
       m, "World", py::dynamic_attr(), DOC(navground, sim, World));
   world.def(py::init<>(), DOC(navground, sim, World, World))
       .def("add_agent", &PyWorld::add_agent, py::arg("agent"),
-           DOC(navground, sim, World, add_agent));
+           DOC(navground, sim, World, add_agent))
+      .def_property("seed", &PyWorld::get_seed, &PyWorld::set_seed,
+                    DOC(navground, sim, World, property_seed))
+      .def_property("random_generator", &PyWorld::get_random_generator,
+                    &PyWorld::set_random_generator, "TODO")
+      .def("copy_random_generator", &PyWorld::copy_random_generator,
+           py::arg("world"), DOC(navground, sim, World, copy_random_generator));
 
   se.def(py::init<>(), DOC(navground, sim, StateEstimation, StateEstimation))
       .def("update",
@@ -1985,8 +2023,8 @@ The array is empty if efficacy has not been recorded in the run.
            py::arg("number_of_runs") = py::none(),
            py::arg("data_path") = py::none(),
            DOC(navground, sim, Experiment, run))
-      // .def("init_run", &Experiment::init_run, py::arg("seed"), DOC(navground,
-      // sim, Experiment, init_run))
+      // .def("init_run", &Experiment::init_run, py::arg("seed"),
+      // DOC(navground, sim, Experiment, init_run))
       .def("start", &Experiment::start, py::arg("path") = py::none(),
            DOC(navground, sim, Experiment, start))
       .def("stop", &Experiment::stop, py::arg("save_runs") = false,
@@ -2038,7 +2076,6 @@ Register a probe to record a group of data to during all runs.
                     DOC(navground, sim, Experiment, property_duration_ns))
       .def_property("begin_time", &Experiment::get_begin_time, nullptr,
                     DOC(navground, sim, Experiment, property_begin_time));
-
 
   py::class_<Scenario::Group, PyGroup>(scenario, "Group",
                                        DOC(navground, sim, Scenario_Group))

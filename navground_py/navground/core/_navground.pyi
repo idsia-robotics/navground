@@ -2,7 +2,6 @@ from __future__ import annotations
 import numpy
 import os
 import typing
-import typing_extensions
 __all__ = ['Action', 'AheadKinematics', 'Behavior', 'BehaviorRegister', 'Buffer', 'BufferDescription', 'BufferMap', 'CachedCollisionComputation', 'CollisionComputation', 'Controller', 'Disc', 'DummyBehavior', 'EnvironmentState', 'FourWheelsOmniDriveKinematics', 'Frame', 'GeometricState', 'HLBehavior', 'HRVOBehavior', 'HasProperties', 'Kinematics', 'KinematicsRegister', 'LineSegment', 'Neighbor', 'ORCABehavior', 'OmnidirectionalKinematics', 'Pose2', 'Property', 'SensingState', 'SocialMargin', 'SocialMarginConstantModulation', 'SocialMarginLinearModulation', 'SocialMarginLogisticModulation', 'SocialMarginModulation', 'SocialMarginQuadraticModulation', 'SocialMarginZeroModulation', 'Target', 'Twist2', 'TwoWheelsDifferentialDriveKinematics', 'WheeledKinematics', 'behavior_has_geometric_state', 'dump', 'load_behavior', 'load_kinematics', 'load_plugins', 'to_absolute', 'to_relative']
 class Action:
     """
@@ -640,7 +639,7 @@ class Buffer:
     arrays.
     """
     @typing.overload
-    def __init__(self: typing_extensions.Buffer, description: BufferDescription, value: float | float | int | int | int | int | int | int | int | int) -> None:
+    def __init__(self, description: BufferDescription, value: float | float | int | int | int | int | int | int | int | int) -> None:
         """
         Constructs a new instance with data set to a uniform value.
         
@@ -651,7 +650,7 @@ class Buffer:
             The value to assign to all of the buffer.
         """
     @typing.overload
-    def __init__(self: typing_extensions.Buffer, description: BufferDescription, data: list[float] | list[float] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int]) -> None:
+    def __init__(self, description: BufferDescription, data: list[float] | list[float] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int]) -> None:
         """
         Constructs a new instance, with data set to zero.
         
@@ -659,7 +658,7 @@ class Buffer:
             The description
         """
     @typing.overload
-    def __init__(self: typing_extensions.Buffer, description: BufferDescription) -> None:
+    def __init__(self, description: BufferDescription) -> None:
         """
         Constructs a new instance with data
         
@@ -670,16 +669,16 @@ class Buffer:
             The data
         """
     @typing.overload
-    def __init__(self: typing_extensions.Buffer, data: list[float] | list[float] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int]) -> None:
+    def __init__(self, data: list[float] | list[float] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int]) -> None:
         """
         Constructs an unbounded, flat buffer of data
         
         :param value:
             The data
         """
-    def __repr__(self: typing_extensions.Buffer) -> str:
+    def __repr__(self) -> str:
         ...
-    def set_description(self: typing_extensions.Buffer, arg0: BufferDescription, arg1: bool) -> bool:
+    def set_description(self, arg0: BufferDescription, arg1: bool) -> bool:
         """
         Sets the description.
         
@@ -713,7 +712,7 @@ class Buffer:
             the desired type
         """
     @data.setter
-    def data(self, arg1: typing_extensions.Buffer) -> None:
+    def data(self, arg1: Buffer) -> None:
         ...
     @property
     def description(self) -> BufferDescription:
@@ -829,7 +828,7 @@ class BufferMap:
         ...
     def __delitem__(self, arg0: str) -> None:
         ...
-    def __getitem__(self, arg0: str) -> typing_extensions.Buffer:
+    def __getitem__(self, arg0: str) -> Buffer:
         ...
     def __init__(self) -> None:
         ...
@@ -837,7 +836,7 @@ class BufferMap:
         ...
     def __len__(self) -> int:
         ...
-    def __setitem__(self, arg0: str, arg1: typing_extensions.Buffer) -> None:
+    def __setitem__(self, arg0: str, arg1: Buffer) -> None:
         ...
     def items(self) -> typing.ItemsView:
         ...
@@ -1946,7 +1945,7 @@ class SensingState(EnvironmentState):
         """
         Construct an instance
         """
-    def get_buffer(self, key: str) -> typing_extensions.Buffer:
+    def get_buffer(self, key: str) -> Buffer:
         """
         Gets the buffer assigned to a key
         
@@ -1957,7 +1956,7 @@ class SensingState(EnvironmentState):
             The buffer.
         """
     @typing.overload
-    def init_buffer(self, key: str, description: BufferDescription, value: float | float | int | int | int | int | int | int | int | int) -> typing_extensions.Buffer:
+    def init_buffer(self, key: str, description: BufferDescription, value: float | float | int | int | int | int | int | int | int | int) -> Buffer:
         """
         Initializes a buffer with a description and a uniform value.
         
@@ -1974,7 +1973,7 @@ class SensingState(EnvironmentState):
             The buffer if successfully initialized else a null pointer
         """
     @typing.overload
-    def init_buffer(self, key: str, description: BufferDescription) -> typing_extensions.Buffer:
+    def init_buffer(self, key: str, description: BufferDescription) -> Buffer:
         """
         Initializes a buffer with description, with data set to zero.
         
@@ -1988,7 +1987,7 @@ class SensingState(EnvironmentState):
             The buffer if successfully initialized else a null pointer
         """
     @typing.overload
-    def init_buffer(self, key: str, data: list[float] | list[float] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int]) -> typing_extensions.Buffer:
+    def init_buffer(self, key: str, data: list[float] | list[float] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int] | list[int]) -> Buffer:
         """
         Initializes a flat buffer with data.
         
@@ -2001,7 +2000,7 @@ class SensingState(EnvironmentState):
         :return:
             The buffer if successfully initialized else a null pointer
         """
-    def set_buffer(self, key: str, buffer: typing_extensions.Buffer) -> None:
+    def set_buffer(self, key: str, buffer: Buffer) -> None:
         """
         Assign a buffer to a key.
         

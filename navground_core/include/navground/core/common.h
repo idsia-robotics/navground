@@ -275,11 +275,12 @@ struct Pose2 {
    * @return     The result of ``pose + dt * twist`` (in world frame)
    */
   Pose2 integrate(const Twist2& twist, ng_float_t dt) {
+    const auto new_orientation = orientation + dt * twist.angular_speed;
     return {position + dt * (twist.frame == Frame::relative
                                  ? ::navground::core::rotate(twist.velocity,
-                                                             orientation)
+                                                             new_orientation)
                                  : twist.velocity),
-            orientation + dt * twist.angular_speed};
+            new_orientation};
   }
 
   /**

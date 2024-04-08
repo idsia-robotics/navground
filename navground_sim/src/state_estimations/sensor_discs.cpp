@@ -48,6 +48,7 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
         // radius[i] = n.radius;
         radius[i] = std::min(n.radius, max_radius);
         pn = to_relative(n.position - p.position, p);
+        pn -= pn.normalized() * n.radius;
         const auto vn = to_relative(n.velocity, p);
         velocity[2 * i] = std::min(vn[0], max_speed);
         velocity[2 * i + 1] = std::min(vn[1], max_speed);
@@ -55,6 +56,7 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
         const auto &n = obstacles[index - num_neighbors];
         radius[i] = std::min(n.radius, max_radius);
         pn = to_relative(n.position - p.position, p);
+        pn -= pn.normalized() * n.radius;
       }
       position[2 * i] = pn[0];
       position[2 * i + 1] = pn[1];

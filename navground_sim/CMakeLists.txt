@@ -77,6 +77,8 @@ add_library(navground_sim SHARED
   src/state_estimations/geometric_bounded.cpp
   src/state_estimations/sensor_lidar.cpp
   src/state_estimations/sensor_discs.cpp
+  src/state_estimations/sensor_boundary.cpp
+  src/state_estimations/sensor_combination.cpp
   src/tasks/waypoints.cpp
   src/scenarios/antipodal.cpp 
   src/scenarios/corridor.cpp 

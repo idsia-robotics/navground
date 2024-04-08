@@ -935,7 +935,11 @@ document.write(`
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.feasible_twist">feasible_twist() (Behavior method)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.field_of_view">field_of_view (LidarStateEstimation property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.field_of_view">(PyLidarStateEstimation property)</a>
 </li>
+      </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.final_sim_time">final_sim_time (ExperimentalRun property)</a>
 </li>
   </ul></td>
@@ -1018,6 +1022,8 @@ document.write(`
 </li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation.get_free_distance_for_sector">get_free_distance_for_sector() (CollisionComputation method)</a>
 </li>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.get_last_cmd">get_last_cmd() (Agent method)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_lattice">get_lattice() (World method)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_lattice_grid">get_lattice_grid() (World method)</a>
@@ -1076,6 +1082,8 @@ document.write(`
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.has_been_stuck_since">has_been_stuck_since() (Agent method)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.has_finished">has_finished (Experiment property)</a>
 
       <ul>
@@ -1090,10 +1098,10 @@ document.write(`
 </li>
       <li><a href="reference/core/python/property.html#navground.core._navground.HasProperties">HasProperties (class in navground.core._navground)</a>
 </li>
-      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading">Heading (class in navground.core.Behavior)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading">Heading (class in navground.core.Behavior)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.heading_behavior">heading_behavior (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.Buffer.high">high (Buffer property)</a>
@@ -1209,8 +1217,6 @@ document.write(`
 </li>
         <li><a href="reference/core/python/state.html#navground.core.LineSegment.length">(LineSegment property)</a>
 </li>
-        <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.length">(PyLidarStateEstimation property)</a>
-</li>
       </ul></li>
       <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation">LidarStateEstimation (class in navground.sim.state_estimations)</a>
 </li>
@@ -1245,8 +1251,6 @@ document.write(`
         <li><a href="reference/sim/python/yaml.html#load_experiment">built-in function</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     load_kinematics()
 
@@ -1254,6 +1258,8 @@ document.write(`
         <li><a href="reference/core/python/yaml.html#load_kinematics">built-in function</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/plugins.html#navground.core.load_plugins">load_plugins() (in module navground.core)</a>
 
       <ul>
@@ -1327,15 +1333,11 @@ document.write(`
 </li>
       </ul></li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation.max_distance">max_distance (CachedCollisionComputation property)</a>
-
-      <ul>
-        <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.max_distance">(PyLidarStateEstimation property)</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.max_radius">max_radius (DiscsStateEstimation property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.max_speed">max_speed (Behavior property)</a>
 
       <ul>
@@ -1858,6 +1860,10 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/register.html#_CPPv4N9navground4core11HasRegister1CE">navground::core::HasRegister::C (C++ type)</a>
 </li>
+      <li><a href="reference/core/cpp/register.html#_CPPv4N9navground4core11HasRegister6decodeERKN4YAML4NodeE">navground::core::HasRegister::decode (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/register.html#_CPPv4NK9navground4core11HasRegister6encodeERN4YAML4NodeE">navground::core::HasRegister::encode (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/register.html#_CPPv4N9navground4core11HasRegister7factoryEv">navground::core::HasRegister::factory (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/register.html#_CPPv4N9navground4core11HasRegister7FactoryE">navground::core::HasRegister::Factory (C++ type)</a>
@@ -2230,8 +2236,6 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5AgentE">navground::sim::Agent (C++ class)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent7actuateERK6Twist210ng_float_t">navground::sim::Agent::actuate (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent5AgentE10ng_float_tNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEE10ng_float_tj">navground::sim::Agent::Agent (C++ function)</a>
@@ -2246,19 +2250,25 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent8externalE">navground::sim::Agent::external (C++ member)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent12get_behaviorEv">navground::sim::Agent::get_behavior (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent14get_controllerEv">navground::sim::Agent::get_controller (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent14get_kinematicsEv">navground::sim::Agent::get_kinematics (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent12get_last_cmdEN4core5FrameE">navground::sim::Agent::get_last_cmd (C++ function)</a>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent12get_last_cmdEN4core5FrameE">navground::sim::Agent::get_last_cmd (C++ function)</a>, <a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent12get_last_cmdEv">[1]</a>
+</li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent8get_poseEv">navground::sim::Agent::get_pose (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent20get_state_estimationEv">navground::sim::Agent::get_state_estimation (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent8get_taskEv">navground::sim::Agent::get_task (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent20get_time_since_stuckEv">navground::sim::Agent::get_time_since_stuck (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent9get_twistEv">navground::sim::Agent::get_twist (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent20has_been_stuck_sinceE10ng_float_t">navground::sim::Agent::has_been_stuck_since (C++ function)</a>
 </li>
@@ -2278,9 +2288,15 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent14set_kinematicsERKNSt10shared_ptrI10KinematicsEE">navground::sim::Agent::set_kinematics (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent12set_last_cmdERK6Twist2">navground::sim::Agent::set_last_cmd (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent8set_poseERK5Pose2">navground::sim::Agent::set_pose (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent20set_state_estimationERKNSt10shared_ptrI15StateEstimationEE">navground::sim::Agent::set_state_estimation (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent8set_taskERKNSt10shared_ptrI4TaskEE">navground::sim::Agent::set_task (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent9set_twistERK6Twist2">navground::sim::Agent::set_twist (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent4tagsE">navground::sim::Agent::tags (C++ member)</a>
 </li>
@@ -2367,6 +2383,18 @@ document.write(`
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler12rotation_tauE">navground::sim::BehaviorSampler::rotation_tau (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler13safety_marginE">navground::sim::BehaviorSampler::safety_margin (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_boundary.html#_CPPv4N9navground3sim14BoundarySensorE">navground::sim::BoundarySensor (C++ struct)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_boundary.html#_CPPv4N9navground3sim14BoundarySensor14BoundarySensorE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t">navground::sim::BoundarySensor::BoundarySensor (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_boundary.html#_CPPv4N9navground3sim14BoundarySensor13default_rangeE">navground::sim::BoundarySensor::default_range (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_boundary.html#_CPPv4NK9navground3sim14BoundarySensor15get_descriptionEv">navground::sim::BoundarySensor::get_description (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_boundary.html#_CPPv4NK9navground3sim14BoundarySensor9get_rangeEv">navground::sim::BoundarySensor::get_range (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_boundary.html#_CPPv4N9navground3sim14BoundarySensor9set_rangeE10ng_float_t">navground::sim::BoundarySensor::set_range (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/geometric_bounded.html#_CPPv4N9navground3sim22BoundedStateEstimationE">navground::sim::BoundedStateEstimation (C++ struct)</a>
 </li>
@@ -2882,6 +2910,16 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor.html#_CPPv4N9navground3sim6Sensor6SensorEv">navground::sim::Sensor::Sensor (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_combination.html#_CPPv4N9navground3sim17SensorCombinationE">navground::sim::SensorCombination (C++ struct)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_combination.html#_CPPv4NK9navground3sim17SensorCombination15get_descriptionEv">navground::sim::SensorCombination::get_description (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_combination.html#_CPPv4NK9navground3sim17SensorCombination11get_sensorsEv">navground::sim::SensorCombination::get_sensors (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_combination.html#_CPPv4N9navground3sim17SensorCombination17SensorCombinationERKNSt6vectorINSt10shared_ptrI6SensorEEEE">navground::sim::SensorCombination::SensorCombination (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_combination.html#_CPPv4N9navground3sim17SensorCombination11set_sensorsERKNSt6vectorINSt10shared_ptrI6SensorEEEE">navground::sim::SensorCombination::set_sensors (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4I0EN9navground3sim15SequenceSamplerE">navground::sim::SequenceSampler (C++ struct)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15SequenceSampler15SequenceSamplerERKNSt6vectorI1TEE4Wrapb">navground::sim::SequenceSampler::SequenceSampler (C++ function)</a>
@@ -2970,7 +3008,7 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv">navground::sim::World::agents_are_idle_or_stuck (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim5World24compute_safety_violationEPK5Agent">navground::sim::World::compute_safety_violation (C++ function)</a>
+      <li><a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim5World24compute_safety_violationEPK5AgentNSt8optionalIfEE">navground::sim::World::compute_safety_violation (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim5World21copy_random_generatorER5World">navground::sim::World::copy_random_generator (C++ function)</a>
 </li>
@@ -3252,12 +3290,16 @@ document.write(`
         <li><a href="reference/core/python/state.html#navground.core.Disc.radius">(Disc property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.random_generator">random_generator (World property)</a>
+</li>
       <li><a href="reference/sim/python/state_estimations/geometric_bounded.html#navground.sim.state_estimations.BoundedStateEstimation.range">range (BoundedStateEstimation property)</a>
 
       <ul>
         <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.range">(DiscsStateEstimation property)</a>
 </li>
         <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.range">(LidarStateEstimation property)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.range">(PyLidarStateEstimation property)</a>
 </li>
       </ul></li>
       <li><a href="reference/sim/python/real_time.html#navground.sim.replay.RealTimeReplay">RealTimeReplay (class in navground.sim.replay)</a>
@@ -3488,6 +3530,8 @@ document.write(`
         <li><a href="reference/sim/python/experiment.html#navground.sim.Dataset.shape">(Dataset property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.should_terminate">should_terminate() (World method)</a>
+</li>
       <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario.side">side (CrossScenario property)</a>
 
       <ul>
@@ -3530,10 +3574,10 @@ document.write(`
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_pose">simNavground.get_pose() (built-in function)</a>
 </li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_safety_margin">simNavground.get_safety_margin() (built-in function)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.get_safety_margin">simNavground.get_safety_margin() (built-in function)</a>
+</li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_state">simNavground.get_state() (built-in function)</a>
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_target">simNavground.get_target() (built-in function)</a>
@@ -3725,6 +3769,8 @@ document.write(`
 </li>
       </ul></li>
       <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior.time_horizon">time_horizon (ORCABehavior property)</a>
+</li>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.time_since_stuck">time_since_stuck (Agent property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.time_step">time_step (Experiment property)</a>
 

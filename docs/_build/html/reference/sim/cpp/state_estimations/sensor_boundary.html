@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>State estimations &#8212; navground 0.0.4 documentation</title>
+    <title>Boundary &#8212; navground 0.0.4 documentation</title>
   
   
   
@@ -49,11 +49,11 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script src="../../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/cpp/state_estimations/index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/cpp/state_estimations/sensor_boundary';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Base class" href="state_estimation.html" />
-    <link rel="prev" title="Waypoints" href="../tasks/waypoints.html" />
+    <link rel="next" title="Combination" href="sensor_combination.html" />
+    <link rel="prev" title="Discs" href="sensor_discs.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -239,7 +239,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../tasks/index.html">Tasks</a></li>
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">State estimations</a></li>
+<li class="toctree-l4 current active"><a class="reference internal" href="index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../experiment.html">Experiments</a></li>
@@ -329,7 +329,7 @@
       
       
       
-      <li><a href="../../../../_sources/reference/sim/cpp/state_estimations/index.rst" target="_blank"
+      <li><a href="../../../../_sources/reference/sim/cpp/state_estimations/sensor_boundary.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -400,7 +400,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -411,11 +413,26 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>State estimations</h1>
+    <h1>Boundary</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14BoundarySensorE"><code class="docutils literal notranslate"><span class="pre">BoundarySensor</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14BoundarySensor14BoundarySensorE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">BoundarySensor::BoundarySensor()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14BoundarySensor9set_rangeE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">BoundarySensor::set_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim14BoundarySensor9get_rangeEv"><code class="docutils literal notranslate"><span class="pre">BoundarySensor::get_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim14BoundarySensor15get_descriptionEv"><code class="docutils literal notranslate"><span class="pre">BoundarySensor::get_description()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14BoundarySensor13default_rangeE"><code class="docutils literal notranslate"><span class="pre">BoundarySensor::default_range</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -425,19 +442,88 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="state-estimations">
-<h1>State estimations<a class="headerlink" href="#state-estimations" title="Link to this heading">#</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="state_estimation.html">Base class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="geometric_bounded.html">Geometric bounded</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sensor.html">Sensor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sensor_lidar.html">Lidar</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sensor_discs.html">Discs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sensor_boundary.html">Boundary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sensor_combination.html">Combination</a></li>
-</ul>
+  <section id="boundary">
+<h1>Boundary<a class="headerlink" href="#boundary" title="Link to this heading">#</a></h1>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/sim/state_estimations/sensor_boundary.h&quot;</span>
+</pre></div>
 </div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim14BoundarySensorE">
+<span class="target" id="structnavground_1_1sim_1_1_boundary_sensor"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BoundarySensor</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="sensor.html#_CPPv4N9navground3sim6SensorE" title="navground::sim::Sensor"><span class="n"><span class="pre">Sensor</span></span></a><a class="headerlink" href="#_CPPv4N9navground3sim14BoundarySensorE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the distance to a rectangular boundary. </p>
+<p><em>Registered properties</em>:</p>
+<p><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">range</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_boundary_sensor_1aa6c5fbc44e14ac91d457edaab6001487"><span class="std std-ref">get_range</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_x</span></code> (float, get_min_x)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_x</span></code> (float, get_max_x)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_y</span></code> (float, get_min_y)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_y</span></code> (float, get_max_y) </p></li>
+</ul>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim14BoundarySensor14BoundarySensorE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_boundary_sensor_1a919a24d3e01ae95c330ea8131f43e640"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BoundarySensor</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">range</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim14BoundarySensor13default_rangeE" title="navground::sim::BoundarySensor::default_range"><span class="n"><span class="pre">default_range</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">min_x</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">low</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_x</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">high</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">min_y</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">low</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_y</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">high</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim14BoundarySensor14BoundarySensorE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>range_</strong> – <strong>[in]</strong> The range of view </p></li>
+<li><p><strong>min_x</strong> – <strong>[in]</strong> </p></li>
+<li><p><strong>max_x</strong> – <strong>[in]</strong> </p></li>
+<li><p><strong>min_y</strong> – <strong>[in]</strong> </p></li>
+<li><p><strong>max_y</strong> – <strong>[in]</strong> </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim14BoundarySensor9set_rangeE10ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_boundary_sensor_1a06cf2d042641a02b0a9cd332be8f7f79"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_range</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim14BoundarySensor9set_rangeE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the range of view. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The new value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim14BoundarySensor9get_rangeEv">
+<span class="target" id="structnavground_1_1sim_1_1_boundary_sensor_1aa6c5fbc44e14ac91d457edaab6001487"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_range</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim14BoundarySensor9get_rangeEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the range of view. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The range of view. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim14BoundarySensor15get_descriptionEv">
+<span class="target" id="structnavground_1_1sim_1_1_boundary_sensor_1acf4fb657caa70591194becb4e004ecfc"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">Description</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_description</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim14BoundarySensor15get_descriptionEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the description of the buffers set by the sensors. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The description. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim14BoundarySensor13default_rangeE">
+<span class="target" id="structnavground_1_1sim_1_1_boundary_sensor_1af03942a9387e84833d86cbe3f9525863"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_range</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><a class="headerlink" href="#_CPPv4N9navground3sim14BoundarySensor13default_rangeE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The default range </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
 </section>
 
 
@@ -452,20 +538,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../tasks/waypoints.html"
+       href="sensor_discs.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Waypoints</p>
+        <p class="prev-next-title">Discs</p>
       </div>
     </a>
     <a class="right-next"
-       href="state_estimation.html"
+       href="sensor_combination.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Base class</p>
+        <p class="prev-next-title">Combination</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -476,7 +562,27 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"></div>
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14BoundarySensorE"><code class="docutils literal notranslate"><span class="pre">BoundarySensor</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14BoundarySensor14BoundarySensorE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">BoundarySensor::BoundarySensor()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14BoundarySensor9set_rangeE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">BoundarySensor::set_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim14BoundarySensor9get_rangeEv"><code class="docutils literal notranslate"><span class="pre">BoundarySensor::get_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim14BoundarySensor15get_descriptionEv"><code class="docutils literal notranslate"><span class="pre">BoundarySensor::get_description()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14BoundarySensor13default_rangeE"><code class="docutils literal notranslate"><span class="pre">BoundarySensor::default_range</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

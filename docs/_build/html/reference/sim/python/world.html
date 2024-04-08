@@ -467,6 +467,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run_until"><code class="docutils literal notranslate"><span class="pre">World.run_until()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.set_lattice"><code class="docutils literal notranslate"><span class="pre">World.set_lattice()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.set_termination_condition"><code class="docutils literal notranslate"><span class="pre">World.set_termination_condition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.should_terminate"><code class="docutils literal notranslate"><span class="pre">World.should_terminate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.snap_twists_to_zero"><code class="docutils literal notranslate"><span class="pre">World.snap_twists_to_zero()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.space_agents_apart"><code class="docutils literal notranslate"><span class="pre">World.space_agents_apart()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.subdivide_bounding_box"><code class="docutils literal notranslate"><span class="pre">World.subdivide_bounding_box()</span></code></a></li>
@@ -480,6 +481,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.line_obstacles"><code class="docutils literal notranslate"><span class="pre">World.line_obstacles</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.minimal_bounding_box"><code class="docutils literal notranslate"><span class="pre">World.minimal_bounding_box</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.obstacles"><code class="docutils literal notranslate"><span class="pre">World.obstacles</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.random_generator"><code class="docutils literal notranslate"><span class="pre">World.random_generator</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.seed"><code class="docutils literal notranslate"><span class="pre">World.seed</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.step"><code class="docutils literal notranslate"><span class="pre">World.step</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.time"><code class="docutils literal notranslate"><span class="pre">World.time</span></code></a></li>
@@ -773,12 +775,16 @@ because they task is done or they are deadlocked)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.compute_safety_violation">
-<span class="sig-name descname"><span class="pre">compute_safety_violation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#navground.sim.World.compute_safety_violation" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">compute_safety_violation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">safety_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#navground.sim.World.compute_safety_violation" title="Link to this definition">#</a></dt>
 <dd><p>Calculates the safety violation, i.e. the maximal penetration of a
 neighbor or obstacle in the safety margin of the agent.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>agent</strong> – The agent</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agent</strong> – The agent</p></li>
+<li><p><strong>agent</strong> – The safety margin. If not set, it will default to the agent’s
+behavior safety margin.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The safety violation or 0 if no violation.</p>
@@ -788,7 +794,7 @@ neighbor or obstacle in the safety margin of the agent.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.copy_random_generator">
-<span class="sig-name descname"><span class="pre">copy_random_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.World" title="navground.sim.World"><span class="pre">navground.sim.NativeWorld</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.copy_random_generator" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">copy_random_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.World" title="navground.sim.World"><span class="pre">navground.sim.World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.copy_random_generator" title="Link to this definition">#</a></dt>
 <dd><p>Copy the random generator from another world</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1044,6 +1050,17 @@ wrapping.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.World.should_terminate">
+<span class="sig-name descname"><span class="pre">should_terminate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#navground.sim.World.should_terminate" title="Link to this definition">#</a></dt>
+<dd><p>Checks whether the simulation should terminate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if a termination condition is set and evaluates to true.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.snap_twists_to_zero">
 <span class="sig-name descname"><span class="pre">snap_twists_to_zero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.snap_twists_to_zero" title="Link to this definition">#</a></dt>
 <dd><p>Snap agents’ twists smaller than epsilon to zero.</p>
@@ -1200,6 +1217,17 @@ resolution.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.World.random_generator">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random_generator</span></span><a class="headerlink" href="#navground.sim.World.random_generator" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+<p>TODO</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="navground.sim.World.seed">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">seed</span></span><a class="headerlink" href="#navground.sim.World.seed" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
@@ -1336,6 +1364,7 @@ resolution.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run_until"><code class="docutils literal notranslate"><span class="pre">World.run_until()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.set_lattice"><code class="docutils literal notranslate"><span class="pre">World.set_lattice()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.set_termination_condition"><code class="docutils literal notranslate"><span class="pre">World.set_termination_condition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.should_terminate"><code class="docutils literal notranslate"><span class="pre">World.should_terminate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.snap_twists_to_zero"><code class="docutils literal notranslate"><span class="pre">World.snap_twists_to_zero()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.space_agents_apart"><code class="docutils literal notranslate"><span class="pre">World.space_agents_apart()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.subdivide_bounding_box"><code class="docutils literal notranslate"><span class="pre">World.subdivide_bounding_box()</span></code></a></li>
@@ -1349,6 +1378,7 @@ resolution.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.line_obstacles"><code class="docutils literal notranslate"><span class="pre">World.line_obstacles</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.minimal_bounding_box"><code class="docutils literal notranslate"><span class="pre">World.minimal_bounding_box</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.obstacles"><code class="docutils literal notranslate"><span class="pre">World.obstacles</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.random_generator"><code class="docutils literal notranslate"><span class="pre">World.random_generator</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.seed"><code class="docutils literal notranslate"><span class="pre">World.seed</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.step"><code class="docutils literal notranslate"><span class="pre">World.step</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.time"><code class="docutils literal notranslate"><span class="pre">World.time</span></code></a></li>

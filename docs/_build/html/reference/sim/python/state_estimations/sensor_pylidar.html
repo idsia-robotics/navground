@@ -427,8 +427,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.__init__"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.get_description"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.get_description()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.update"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.update()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.length"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.length</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.max_distance"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.max_distance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.field_of_view"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.field_of_view</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.range"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.range</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.resolution"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.resolution</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.start_angle"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.start_angle</span></code></a></li>
 </ul>
@@ -450,14 +450,14 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="navground.sim.state_estimations.PyLidarStateEstimation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PyLidarStateEstimation</span></span><a class="headerlink" href="#navground.sim.state_estimations.PyLidarStateEstimation" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sensor.html#navground.sim.state_estimations.Sensor" title="navground.sim._navground_sim.Sensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sensor</span></code></a>, <a class="reference internal" href="state_estimation.html#navground.sim.StateEstimation" title="navground.sim.StateEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">StateEstimation</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Sensor</span></code></p>
 <p>Python implementation equivalent to the C++ Lidar implementation</p>
 <p><em>Registered properties</em>:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#navground.sim.state_estimations.PyLidarStateEstimation.start_angle" title="navground.sim.state_estimations.PyLidarStateEstimation.start_angle"><code class="xref py py-attr docutils literal notranslate"><span class="pre">start_angle</span></code></a> (float)</p></li>
-<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">field_of_view</span></code> (float)</p></li>
+<li><p><a class="reference internal" href="#navground.sim.state_estimations.PyLidarStateEstimation.range" title="navground.sim.state_estimations.PyLidarStateEstimation.range"><code class="xref py py-attr docutils literal notranslate"><span class="pre">range</span></code></a> (float)</p></li>
+<li><p><a class="reference internal" href="#navground.sim.state_estimations.PyLidarStateEstimation.field_of_view" title="navground.sim.state_estimations.PyLidarStateEstimation.field_of_view"><code class="xref py py-attr docutils literal notranslate"><span class="pre">field_of_view</span></code></a> (float)</p></li>
 <li><p><a class="reference internal" href="#navground.sim.state_estimations.PyLidarStateEstimation.resolution" title="navground.sim.state_estimations.PyLidarStateEstimation.resolution"><code class="xref py py-attr docutils literal notranslate"><span class="pre">resolution</span></code></a> (int)</p></li>
-<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">range</span></code> (float)</p></li>
+<li><p><a class="reference internal" href="#navground.sim.state_estimations.PyLidarStateEstimation.range" title="navground.sim.state_estimations.PyLidarStateEstimation.range"><code class="xref py py-attr docutils literal notranslate"><span class="pre">range</span></code></a> (float)</p></li>
 </ul>
 <p><em>State</em>: <code class="xref py py-class docutils literal notranslate"><span class="pre">SensingState</span></code></p>
 <dl class="py method">
@@ -487,13 +487,13 @@ document.write(`
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="navground.sim.state_estimations.PyLidarStateEstimation.length">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">length</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#navground.sim.state_estimations.PyLidarStateEstimation.length" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="navground.sim.state_estimations.PyLidarStateEstimation.field_of_view">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">field_of_view</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#navground.sim.state_estimations.PyLidarStateEstimation.field_of_view" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="navground.sim.state_estimations.PyLidarStateEstimation.max_distance">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_distance</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#navground.sim.state_estimations.PyLidarStateEstimation.max_distance" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="navground.sim.state_estimations.PyLidarStateEstimation.range">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">range</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#navground.sim.state_estimations.PyLidarStateEstimation.range" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -559,8 +559,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.__init__"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.get_description"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.get_description()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.update"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.update()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.length"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.length</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.max_distance"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.max_distance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.field_of_view"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.field_of_view</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.range"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.range</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.resolution"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.resolution</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.PyLidarStateEstimation.start_angle"><code class="docutils literal notranslate"><span class="pre">PyLidarStateEstimation.start_angle</span></code></a></li>
 </ul>

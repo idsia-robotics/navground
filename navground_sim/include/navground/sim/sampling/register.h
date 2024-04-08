@@ -78,6 +78,8 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
    */
   std::map<std::string, std::shared_ptr<PropertySampler>> properties;
 
+  YAML::Node node;
+
  protected:
   typename T::C s(RandomGenerator& rg) override {
     C c = T::make_type(type);
@@ -91,6 +93,9 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
         auto value = property->sample(rg);
         t->set(name, value);
       }
+    }
+    if (node) {
+      t->decode(node);
     }
     return c;
   }

@@ -378,6 +378,7 @@ bool decode_sr(const Node& node, SamplerFromRegister<T>* rhs) {
     }
     return false;
   }
+  rhs->node = node;
   for (const auto& [name, property] : properties.at(rhs->type)) {
     if (node[name]) {
       rhs->properties[name] = property_sampler(node[name], property);
@@ -400,10 +401,15 @@ Node encode_sr(const SamplerFromRegister<T>& rhs) {
   if (rhs.type.empty()) {
     return node;
   }
+  if (rhs.node && rhs.node.IsMap()) {
+    for (const auto & c : rhs.node) {
+      node[c.first] = c.second;
+    }
+  }
   node["type"] = rhs.type;
-  for (const auto& [name, property_sampler] : rhs.properties) {
-    if (property_sampler) {
-      node[name] = property_sampler;
+  for (const auto& [name, sampler] : rhs.properties) {
+    if (sampler) {
+      node[name] = sampler;
     }
   }
   return node;

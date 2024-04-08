@@ -8,6 +8,7 @@
 #include "./property.h"
 #include "./utilities.h"
 #include "navground_core_export.h"
+#include "yaml-cpp/yaml.h"
 
 namespace navground::core {
 
@@ -23,11 +24,11 @@ namespace navground::core {
 template <typename T>
 struct
 #if defined(_MSC_VER)
-NAVGROUND_CORE_NO_EXPORT 
+    NAVGROUND_CORE_NO_EXPORT
 #else
-NAVGROUND_CORE_EXPORT
-#endif // _MSC_VER
-HasRegister {
+    NAVGROUND_CORE_EXPORT
+#endif  // _MSC_VER
+        HasRegister {
   /**
    * A shared pointer to an object of type ``T``.
    */
@@ -127,6 +128,19 @@ HasRegister {
    * The name associated to this type.
    */
   static inline const std::string type = "";
+
+  /**
+   * @brief      Allows to customize YAML encoding 
+   *
+   * @param      node  The YAML node
+   */
+  virtual void encode(YAML::Node& node) const {};
+  /**
+   * @brief      Allows to customize YAML decoding 
+   *
+   * @param      node  The YAML node
+   */
+  virtual void decode(const YAML::Node& node) {};
 };
 
 }  // namespace navground::core

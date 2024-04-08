@@ -15,6 +15,7 @@ void encode_type_and_properties(Node& node, const T& obj) {
   for (const auto& [name, _] : obj.get_properties()) {
     node[name] = encode_property(obj.get(name));
   }
+  obj.encode(node);
 }
 
 template <typename T>
@@ -33,6 +34,7 @@ void decode_properties(const Node& node, T& obj) {
       }
     }
   }
+  obj.decode(node);
 }
 
 template <typename T>

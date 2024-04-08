@@ -43,7 +43,7 @@ std::unique_ptr<sim::PropertySampler> make_const_property(const T& value) {
 inline sim::AgentSampler<sim::World> agents() {
   sim::AgentSampler<sim::World> group;
   group.name = "agents";
-  group.number = 1;
+  group.number = make_const<unsigned>(1);
   group.behavior = sim::BehaviorSampler<>("Dummy");
   group.kinematics = sim::KinematicsSampler<>("Omni");
   group.kinematics.max_speed = make_const<ng_float_t>(1);
@@ -87,7 +87,8 @@ inline sim::AgentSampler<sim::World> robots() {
   sim::AgentSampler<sim::World> group;
   group.name = "robots";
   group.id = make_const(1);
-  group.number = 2;
+  const unsigned number = 2;
+  group.number = make_const<unsigned>(number);
   group.behavior = sim::BehaviorSampler<>("HL");
   group.behavior.safety_margin = make_const<ng_float_t>(0.5);
   group.behavior.properties["tau"] = make_const_property<ng_float_t>(0.25);
@@ -105,7 +106,7 @@ inline sim::AgentSampler<sim::World> robots() {
   group.radius = make_const<ng_float_t>(0.1);
   group.position = std::make_unique<sim::RegularSampler<Vector2>>(
       sim::RegularSampler<Vector2>::make_with_interval(
-          {0, 0}, {10, 0}, group.number));
+          {0, 0}, {10, 0}, number));
   group.orientation = make_const<ng_float_t>(0);
   group.control_period = make_const<ng_float_t>(0.1);
   return group;
@@ -114,7 +115,7 @@ inline sim::AgentSampler<sim::World> robots() {
 inline sim::AgentSampler<sim::World> group(const std::string & behavior, int number) {
   sim::AgentSampler<sim::World> group;
   group.id = make_const(1);
-  group.number = number;
+  group.number = make_const<unsigned>(number);;
   group.behavior = sim::BehaviorSampler<>(behavior);
   group.behavior.horizon = make_const<ng_float_t>(10);
   group.kinematics = sim::KinematicsSampler<>("Omni");

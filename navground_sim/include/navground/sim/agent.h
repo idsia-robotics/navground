@@ -141,7 +141,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    *
    * @return     The neighbor representation
    */
-  Neighbor as_translated_neighbor(const Vector2 & delta) const {
+  Neighbor as_translated_neighbor(const Vector2 &delta) const {
     return Neighbor(pose.position + delta, radius, twist.velocity, id);
   }
 
@@ -162,8 +162,6 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   StateEstimation *get_state_estimation() const {
     return state_estimation.get();
   }
-
-
 
   /**
    * @brief      Sets the navigation behavior.
@@ -234,6 +232,51 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    * @return     The controller.
    */
   Twist2 get_last_cmd(core::Frame frame) const;
+
+  /**
+   * @brief      Gets the last command.
+   *
+   * @return     The controller.
+   */
+  Twist2 get_last_cmd() const { return last_cmd; }
+
+  /**
+   * @brief      Sets the last command.
+   *
+   * @param[in]  value  The value
+   *
+   */
+  void set_last_cmd(const Twist2 &value) { last_cmd = value; }
+
+  /**
+   * @brief      Gets the current pose.
+   *
+   * @return     The current pose.
+   */
+  Pose2 get_pose() const { return pose; }
+
+  /**
+   * @brief      Sets the current pose.
+   *
+   * @param[in]  value  The pose
+   *
+   */
+  void set_pose(const Pose2 &value) { pose = value; }
+
+  /**
+   * @brief      Gets the current twist.
+   *
+   * @return     The current twist.
+   */
+  Twist2 get_twist() const { return twist; }
+
+  /**
+   * @brief      Sets the current twist.
+   *
+   * @param[in]  value  The value
+   *
+   */
+  void set_twist(const Twist2 &value) { twist = value; }
 
  public:
   /**

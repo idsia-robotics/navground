@@ -15,16 +15,16 @@ void BoundarySensor::update(Agent *agent, World *world,
     const auto p = agent->pose.position;
     size_t i = 0;
     if (std::isfinite(_min_x)) {
-      distances[i++] = std::clamp(p[0] - _min_x, 0.0, _range);
+      distances[i++] = std::clamp<ng_float_t>(p[0] - _min_x, 0, _range);
     }
     if (std::isfinite(_max_x)) {
-      distances[i++] = std::clamp(_max_x - p[0], 0.0, _range);
+      distances[i++] = std::clamp<ng_float_t>(_max_x - p[0], 0, _range);
     }
     if (std::isfinite(_min_y)) {
-      distances[i++] = std::clamp(p[1] - _min_y, 0.0, _range);
+      distances[i++] = std::clamp<ng_float_t>(p[1] - _min_y, 0, _range);
     }
     if (std::isfinite(_max_y)) {
-      distances[i++] = std::clamp(_max_y - p[1], 0.0, _range);
+      distances[i++] = std::clamp<ng_float_t>(_max_y - p[1], 0, _range);
     }
     auto buffer = _state->get_buffer("boundary_distance");
     if (!buffer) {

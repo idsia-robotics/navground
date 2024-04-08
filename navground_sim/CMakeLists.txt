@@ -187,6 +187,7 @@ install(
 	${CMAKE_INSTALL_PREFIX}/bin/navground_core.dll 
 	${CMAKE_INSTALL_PREFIX}/bin/navground_sim.dll 
 	${CMAKE_INSTALL_PREFIX}/bin/hdf5.dll 
+  ${CMAKE_INSTALL_PREFIX}/bin/geos.dll 
 	DESTINATION "${PYTHON_INSTALL_DIR}/navground/sim"
 )
 ENDIF()

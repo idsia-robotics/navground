@@ -32,6 +32,8 @@
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/state_estimations/geometric_bounded.h"
 #include "navground/sim/state_estimations/sensor.h"
+#include "navground/sim/state_estimations/sensor_boundary.h"
+#include "navground/sim/state_estimations/sensor_combination.h"
 #include "navground/sim/state_estimations/sensor_discs.h"
 #include "navground/sim/state_estimations/sensor_lidar.h"
 #include "navground/sim/task.h"
@@ -963,10 +965,17 @@ Creates a rectangular region
                      DOC(navground, sim, Agent, radius))
       .def_readwrite("control_period", &Agent::control_period,
                      DOC(navground, sim, Agent, control_period))
-      .def_readwrite("pose", &Agent::pose, DOC(navground, sim, Agent, pose))
-      .def_readwrite("twist", &Agent::twist, DOC(navground, sim, Agent, twist))
-      .def_readwrite("last_cmd", &Agent::last_cmd,
-                     DOC(navground, sim, Agent, last_cmd))
+      .def_property("pose", &Agent::get_pose, &Agent::set_pose,
+                    DOC(navground, sim, Agent, property_pose))
+      .def_property("twist", &Agent::get_twist, &Agent::set_twist,
+                    DOC(navground, sim, Agent, property_twist))
+      .def_property(
+          "last_cmd", py::overload_cast<>(&Agent::get_last_cmd, py::const_),
+          &Agent::set_last_cmd, DOC(navground, sim, Agent, property_last_cmd))
+      .def("get_last_cmd",
+           py::overload_cast<navground::core::Frame>(&Agent::get_last_cmd,
+                                                     py::const_),
+           py::arg("frame"), DOC(navground, sim, Agent, get_last_cmd))
       .def_readonly("tags", &Agent::tags, DOC(navground, sim, Agent, tags))
       .def_property(
           "position", [](const Agent *agent) { return agent->pose.position; },
@@ -1144,7 +1153,7 @@ Creates a rectangular region
                     &World::set_collisions,
                     DOC(navground, sim, World, property_collisions))
       .def("compute_safety_violation", &World::compute_safety_violation,
-           py::arg("agent"),
+           py::arg("agent"), py::arg("safety_margin") = py::none(),
            DOC(navground, sim, World, compute_safety_violation))
       .def("get_agents_in_collision", &World::get_agents_in_collision,
            py::arg("duration") = 0.0,
@@ -1232,9 +1241,9 @@ Creates a rectangular region
            py::arg("agent"), py::arg("world"),
            DOC(navground, sim, BoundedStateEstimation, neighbors_of_agent));
 
-  py::class_<Sensor, PySensor, StateEstimation, std::shared_ptr<Sensor>>(
-      m, "Sensor", DOC(navground, sim, Sensor))
-      .def(py::init<>(), DOC(navground, sim, Sensor, Sensor))
+  py::class_<Sensor, PySensor, StateEstimation, std::shared_ptr<Sensor>> sse(
+      m, "Sensor", DOC(navground, sim, Sensor));
+  sse.def(py::init<>(), DOC(navground, sim, Sensor, Sensor))
       .def_property("description", &Sensor::get_description, nullptr,
                     DOC(navground, sim, Sensor, property_description))
       .def("prepare",
@@ -1286,6 +1295,43 @@ Creates a rectangular region
           "max_speed", &DiscsStateEstimation::get_max_speed,
           &DiscsStateEstimation::set_max_speed,
           DOC(navground, sim, DiscsStateEstimation, property_max_speed));
+
+  py::class_<BoundarySensor, Sensor, StateEstimation,
+             std::shared_ptr<BoundarySensor>>
+      boundary_sensor(m, "BoundarySensor", DOC(navground, sim, BoundarySensor));
+  boundary_sensor
+      .def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t,
+                    ng_float_t>(),
+           py::arg("range") = 1.0, py::arg("min_x") = BoundarySensor::low,
+           py::arg("max_x") = BoundarySensor::high,
+           py::arg("min_y") = BoundarySensor::low,
+           py::arg("max_y") = BoundarySensor::high,
+           DOC(navground, sim, BoundarySensor, BoundarySensor))
+      .def_property("range", &BoundarySensor::get_range,
+                    &BoundarySensor::set_range,
+                    DOC(navground, sim, BoundarySensor, property_range))
+      .def_property("min_x", &BoundarySensor::get_min_x,
+                    &BoundarySensor::get_min_x,
+                    DOC(navground, sim, BoundarySensor, property_min_x))
+      .def_property("max_x", &BoundarySensor::get_max_x,
+                    &BoundarySensor::get_max_x,
+                    DOC(navground, sim, BoundarySensor, property_max_x))
+      .def_property("min_y", &BoundarySensor::get_min_y,
+                    &BoundarySensor::get_min_y,
+                    DOC(navground, sim, BoundarySensor, property_min_y))
+      .def_property("max_y", &BoundarySensor::get_max_y,
+                    &BoundarySensor::get_max_y,
+                    DOC(navground, sim, BoundarySensor, property_max_y));
+
+  py::class_<SensorCombination, Sensor, StateEstimation,
+             std::shared_ptr<SensorCombination>>
+      cse(m, "SensorCombination", DOC(navground, sim, SensorCombination));
+  cse.def(py::init<std::vector<std::shared_ptr<Sensor>>>(),
+          py::arg("sensors") = std::vector<std::shared_ptr<Sensor>>(),
+          DOC(navground, sim, SensorCombination, SensorCombination))
+      .def_property("sensors", &SensorCombination::get_sensors,
+                    &SensorCombination::set_sensors,
+                    DOC(navground, sim, SensorCombination, property_sensors));
 
   task.def(py::init<>())
       // .def("update", &Task::update)
@@ -2291,6 +2337,9 @@ Load an experiment from a YAML string.
   pickle_via_yaml<PyStateEstimation>(bse);
   pickle_via_yaml<PyStateEstimation>(lse);
   pickle_via_yaml<PyStateEstimation>(dse);
+  pickle_via_yaml<PyStateEstimation>(cse);
+  pickle_via_yaml<PyStateEstimation>(sse);
+  pickle_via_yaml<PyStateEstimation>(boundary_sensor);
   pickle_via_yaml<PyTask>(task);
   pickle_via_yaml<PyTask>(waypoints);
   pickle_via_yaml<PyScenario>(scenario);

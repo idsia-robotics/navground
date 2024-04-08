@@ -1782,7 +1782,7 @@ class NativeWorld:
         :return:
             True if all agents are idle or stuck
         """
-    def compute_safety_violation(self, agent: Agent) -> float:
+    def compute_safety_violation(self, agent: Agent, safety_margin: float | None = None) -> float:
         """
         Calculates the safety violation, i.e. the maximal penetration of a
         neighbor or obstacle in the safety margin of the agent.

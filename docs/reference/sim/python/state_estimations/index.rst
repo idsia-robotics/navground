@@ -11,4 +11,7 @@ State estimations
    sensor
    sensor_lidar
    sensor_discs
+   sensor_boundary
+   sensor_combination
    sensor_pylidar
+

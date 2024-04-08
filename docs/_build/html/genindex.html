@@ -420,6 +420,8 @@ document.write(`
 </li>
         <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.__init__">(Behavior method)</a>
 </li>
+        <li><a href="reference/sim/python/state_estimations/sensor_boundary.html#navground.sim.state_estimations.BoundarySensor.__init__">(BoundarySensor method)</a>
+</li>
         <li><a href="reference/sim/python/state_estimations/geometric_bounded.html#navground.sim.state_estimations.BoundedStateEstimation.__init__">(BoundedStateEstimation method)</a>
 </li>
         <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox.__init__">(BoundingBox method)</a>
@@ -491,6 +493,8 @@ document.write(`
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.__init__">(RecordedExperimentalRun method)</a>
 </li>
         <li><a href="reference/core/python/state.html#navground.core.SensingState.__init__">(SensingState method)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/sensor_combination.html#navground.sim.state_estimations.SensorCombination.__init__">(SensorCombination method)</a>
 </li>
         <li><a href="reference/sim/python/scenarios/simple.html#navground.sim.scenarios.SimpleScenario.__init__">(SimpleScenario method)</a>
 </li>
@@ -671,6 +675,8 @@ document.write(`
 </li>
       <li><a href="reference/core/python/register.html#navground.core._navground.BehaviorRegister">BehaviorRegister (class in navground.core._navground)</a>
 </li>
+      <li><a href="reference/sim/python/state_estimations/sensor_boundary.html#navground.sim.state_estimations.BoundarySensor">BoundarySensor (class in navground.sim.state_estimations)</a>
+</li>
       <li><a href="reference/sim/python/state_estimations/geometric_bounded.html#navground.sim.state_estimations.BoundedStateEstimation">BoundedStateEstimation (class in navground.sim.state_estimations)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.bounding_box">bounding_box (World property)</a>
@@ -679,10 +685,10 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.bounds">bounds (RecordedExperimentalRun property)</a>
 </li>
-      <li><a href="reference/core/python/state.html#navground.core.Buffer">Buffer (class in navground.core)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/state.html#navground.core.Buffer">Buffer (class in navground.core)</a>
+</li>
       <li><a href="reference/core/python/state.html#navground.core.BufferDescription">BufferDescription (class in navground.core)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.SensingState.buffers">buffers (SensingState property)</a>
@@ -3292,9 +3298,11 @@ document.write(`
       </ul></li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.random_generator">random_generator (World property)</a>
 </li>
-      <li><a href="reference/sim/python/state_estimations/geometric_bounded.html#navground.sim.state_estimations.BoundedStateEstimation.range">range (BoundedStateEstimation property)</a>
+      <li><a href="reference/sim/python/state_estimations/sensor_boundary.html#navground.sim.state_estimations.BoundarySensor.range">range (BoundarySensor property)</a>
 
       <ul>
+        <li><a href="reference/sim/python/state_estimations/geometric_bounded.html#navground.sim.state_estimations.BoundedStateEstimation.range">(BoundedStateEstimation property)</a>
+</li>
         <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.range">(DiscsStateEstimation property)</a>
 </li>
         <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.range">(LidarStateEstimation property)</a>
@@ -3348,14 +3356,14 @@ document.write(`
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Frame.relative">relative (Frame attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/common.html#navground.core.Pose2.relative">relative() (Pose2 method)</a>
 
       <ul>
         <li><a href="reference/core/python/common.html#navground.core.Twist2.relative">(Twist2 method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.remove_all_runs">remove_all_runs() (Experiment method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.remove_run">remove_run() (Experiment method)</a>
@@ -3478,6 +3486,10 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor.html#navground.sim.state_estimations.Sensor">Sensor (class in navground.sim.state_estimations)</a>
 </li>
+      <li><a href="reference/sim/python/state_estimations/sensor_combination.html#navground.sim.state_estimations.SensorCombination">SensorCombination (class in navground.sim.state_estimations)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_combination.html#navground.sim.state_estimations.SensorCombination.sensors">sensors (SensorCombination property)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.set">set() (Behavior method)</a>
 
       <ul>
@@ -3572,10 +3584,10 @@ document.write(`
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_optimal_speed">simNavground.get_optimal_speed() (built-in function)</a>
 </li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_pose">simNavground.get_pose() (built-in function)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.get_pose">simNavground.get_pose() (built-in function)</a>
+</li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_safety_margin">simNavground.get_safety_margin() (built-in function)</a>
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_state">simNavground.get_state() (built-in function)</a>

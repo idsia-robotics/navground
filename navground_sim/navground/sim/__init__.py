@@ -14,7 +14,7 @@ from ._navground_sim import (Agent, BoundingBox, Dataset, Entity, Experiment,
                              ExperimentalRun, GroupRecordProbe, Obstacle,
                              Probe, RecordConfig, RecordProbe)
 from ._navground_sim import Scenario as _Scenario
-from ._navground_sim import Sensor
+from ._navground_sim import Sensor as _Sensor
 from ._navground_sim import StateEstimation as _StateEstimation
 from ._navground_sim import Task as _Task
 from ._navground_sim import (Wall, World, dump, load_agent, load_experiment,
@@ -34,6 +34,13 @@ class Scenario(_Scenario):
     def __init__(self):
         _Scenario.__init__(self)
 
+    def __getstate__(self):
+        return (self.__dict__, _Scenario.__getstate__(self))
+
+    def __setstate__(self, value):
+        self.__dict__ = value[0]
+        _Scenario.__setstate__(self, value[1])
+
 
 class StateEstimation(_StateEstimation):
 
@@ -45,6 +52,31 @@ class StateEstimation(_StateEstimation):
     def __init__(self, *args, **kwargs):
         _StateEstimation.__init__(self, *args, **kwargs)
 
+    def __getstate__(self):
+        return (self.__dict__, _StateEstimation.__getstate__(self))
+
+    def __setstate__(self, value):
+        self.__dict__ = value[0]
+        _StateEstimation.__setstate__(self, value[1])
+
+
+class Sensor(_Sensor):
+
+    def __init_subclass__(cls, /, **kwargs):
+        name = kwargs.pop('name', '')
+        super().__init_subclass__(**kwargs)
+        _register(_StateEstimation, cls, name)
+
+    def __init__(self, *args, **kwargs):
+        _Sensor.__init__(self, *args, **kwargs)
+
+    def __getstate__(self):
+        return (self.__dict__, _Sensor.__getstate__(self))
+
+    def __setstate__(self, value):
+        self.__dict__ = value[0]
+        _Sensor.__setstate__(self, value[1])
+
 
 class Task(_Task):
 
@@ -55,6 +87,13 @@ class Task(_Task):
 
     def __init__(self):
         _Task.__init__(self)
+
+    def __getstate__(self):
+        return (self.__dict__, _Task.__getstate__(self))
+
+    def __setstate__(self, value):
+        self.__dict__ = value[0]
+        _Task.__setstate__(self, value[1])
 
 
 from . import scenarios, state_estimations, tasks

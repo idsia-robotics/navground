@@ -108,6 +108,13 @@ class Behavior(_Behavior):
     def __init__(self, kinematics=None, radius=0.0):
         _Behavior.__init__(self, kinematics, radius)
 
+    def __getstate__(self):
+        return (self.__dict__, _Behavior.__getstate__(self))
+
+    def __setstate__(self, value):
+        self.__dict__ = value[0]
+        _Behavior.__setstate__(self, value[1])
+
 
 class Kinematics(_Kinematics):
 
@@ -120,6 +127,13 @@ class Kinematics(_Kinematics):
 
     def __init__(self, max_speed=0.0, max_angular_speeed=0.0):
         _Kinematics.__init__(self, max_speed, max_angular_speeed)
+
+    def __getstate__(self):
+        return (self.__dict__, _Kinematics.__getstate__(self))
+
+    def __setstate__(self, value):
+        self.__dict__ = value[0]
+        _Kinematics.__setstate__(self, value[1])
 
 
 from . import behaviors, kinematics

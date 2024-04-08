@@ -5,14 +5,13 @@ import numpy as np
 from navground import core, sim
 
 
-class PyLidarStateEstimation(sim.Sensor, sim.StateEstimation,
-                             name="pyLidar"):  # type: ignore
+class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):  # type: ignore
     """
     Python implementation equivalent to the C++ Lidar implementation
 
     *Registered properties*:
 
-    - :py:attr:`start_angle` (float)
+    - :py:attr:`range` (float)
     - :py:attr:`field_of_view` (float)
     - :py:attr:`resolution` (int)
     - :py:attr:`range` (float)
@@ -28,10 +27,10 @@ class PyLidarStateEstimation(sim.Sensor, sim.StateEstimation,
         super().__init__()
         sim.StateEstimation.__init__(self)
         self._cc = core.CollisionComputation()
-        self.start_angle = start_angle
-        self.field_of_view = field_of_view
-        self.resolution = resolution
-        self.range = range_
+        self._start_angle = start_angle
+        self._field_of_view = field_of_view
+        self._resolution = resolution
+        self._range = range_
 
     @property
     @sim.register(-np.pi, "Start angle")
@@ -43,21 +42,21 @@ class PyLidarStateEstimation(sim.Sensor, sim.StateEstimation,
         self._start_angle = value
 
     @property
-    @sim.register(2 * np.pi, "Length")
-    def length(self) -> float:
-        return self._length
+    @sim.register(2 * np.pi, "Field of view")
+    def field_of_view(self) -> float:
+        return self._field_of_view
 
-    @length.setter
-    def length(self, value: float) -> None:
-        self._length = max(0.0, value)
+    @field_of_view.setter
+    def field_of_view(self, value: float) -> None:
+        self._field_of_view = max(0.0, value)
 
     @property
     @sim.register(4.0, "Range")
-    def max_distance(self) -> float:
+    def range(self) -> float:
         return self._range
 
-    @max_distance.setter
-    def max_distance(self, value: float) -> None:
+    @range.setter
+    def range(self, value: float) -> None:
         self._range = max(0.0, value)
 
     @property
@@ -78,9 +77,9 @@ class PyLidarStateEstimation(sim.Sensor, sim.StateEstimation,
         ranges = np.asarray(
             self._cc.get_free_distance_for_sector(
                 agent.pose.orientation + self.start_angle,
-                length=self.length,
+                length=self.field_of_view,
                 resolution=self.resolution - 1,
-                max_distance=self.max_distance,
+                max_distance=self.range,
                 dynamic=False))
         try:
             state.set("range", ranges, True)  # type: ignore
@@ -89,5 +88,5 @@ class PyLidarStateEstimation(sim.Sensor, sim.StateEstimation,
 
     def get_description(self) -> Dict[str, core.BufferDescription]:
         desc = core.BufferDescription([self.resolution], float, 0.0,
-                                      self.max_distance)
+                                      self.range)
         return {'range': desc}

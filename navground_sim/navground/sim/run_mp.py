@@ -1,5 +1,5 @@
 import itertools
-import multiprocess as mp
+import multiprocessing as mp
 import pathlib
 import warnings
 from queue import Empty

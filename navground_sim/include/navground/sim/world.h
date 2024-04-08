@@ -186,8 +186,7 @@ class NAVGROUND_SIM_EXPORT World {
    * @brief      Constructs a new instance.
    */
   explicit World()
-      : 
-        agents_strtree_is_updated(false),
+      : agents_strtree_is_updated(false),
         static_strtree_is_updated(false),
         agents(),
         obstacles(),
@@ -362,7 +361,7 @@ class NAVGROUND_SIM_EXPORT World {
    * @param[in]  bounding_box    The bounding box
    * @param[in]  ignore_lattice  Indicates if the lattice is to be ignored
    *
-   * @return     A vector of pairs of translation (along the lattice) 
+   * @return     A vector of pairs of translation (along the lattice)
    *             and subset of the bounding box that fit in that lattice cell.
    */
   std::vector<std::tuple<Vector2, BoundingBox>> subdivide_bounding_box(
@@ -378,7 +377,6 @@ class NAVGROUND_SIM_EXPORT World {
    */
   std::vector<Agent *> get_agents_in_region(const BoundingBox &bb);
 
-
   /**
    * @brief      Gets all obstacles in a bounding box.
    *
@@ -388,7 +386,6 @@ class NAVGROUND_SIM_EXPORT World {
    * @return     All obstacles that lie in a bounding box.
    */
   std::vector<Obstacle *> get_obstacles_in_region(const BoundingBox &bb);
-
 
   /**
    * @brief      Gets all obstacles in this world.
@@ -413,8 +410,8 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     All obstacles that lie in a bounding box
    */
-  std::vector<Disc> get_discs_in_region(
-      const BoundingBox &bb, bool ignore_lattice = false);
+  std::vector<Disc> get_discs_in_region(const BoundingBox &bb,
+                                        bool ignore_lattice = false);
   /**
    * @brief      Gets all walls in this world.
    *
@@ -482,10 +479,14 @@ class NAVGROUND_SIM_EXPORT World {
    * of the agent.
    *
    * @param[in]  agent  The agent
+   * @param[in]  agent  The safety margin.
+   *                    If not set, it will default to the agent's behavior
+   * safety margin.
    *
    * @return     The safety violation or 0 if no violation.
    */
-  ng_float_t compute_safety_violation(const Agent *agent);
+  ng_float_t compute_safety_violation(
+      const Agent *agent, std::optional<float> safety_margin = std::nullopt);
 
   /**
    * @brief      The random generator shared by all distribution
@@ -589,7 +590,8 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     A vector of 2D vectors
    */
-  std::vector<Vector2> get_lattice_grid(bool include_zero = true, bool c8 = true) const;
+  std::vector<Vector2> get_lattice_grid(bool include_zero = true,
+                                        bool c8 = true) const;
 
   /**
    * @brief      Gets the lattice cell.
@@ -717,7 +719,8 @@ class NAVGROUND_SIM_EXPORT World {
   }
 
   /**
-   * @brief      Gets the bounding box that contains all agents, obstacles and walls.
+   * @brief      Gets the bounding box that contains all agents, obstacles and
+   * walls.
    *
    * @return     The computed bounding box.
    */

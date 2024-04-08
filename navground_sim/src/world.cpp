@@ -438,7 +438,7 @@ bool World::resolve_collision(Agent *agent, LineSegment *line,
                                               agent->radius + margin)) {
     auto n = p->norm();
     auto u = *p / n;
-    agent->collision_correction = (n + 1e-3) * u;
+    agent->collision_correction += (n + 1e-3) * u;
     ng_float_t d = agent->twist.velocity.dot(u);
     if (d > 0) {
       agent->twist.velocity += d * u;
@@ -601,46 +601,52 @@ void World::update_static_strtree() {
   static_strtree_is_updated = true;
 }
 
-ng_float_t World::compute_safety_violation(const Agent *agent) {
-  if (Behavior *b = agent->get_behavior()) {
-    check_agents_strtree();
-    check_static_strtree();
-    const ng_float_t safety_margin = b->get_safety_margin();
-    if (safety_margin == 0) return 0;
-    const ng_float_t radius = agent->radius + safety_margin;
-    const auto p = agent->pose.position;
-    const BoundingBox bb{p[0] - radius, p[0] + radius, p[1] - radius,
-                         p[1] + radius};
-    ng_float_t d = 0;
-    for (const auto &[_delta, lbb] : subdivide_bounding_box(bb)) {
-      const Vector2 &delta = _delta;
-      agent_index->query(lbb, [&d, &p, &radius, &delta, &agent](Agent *other) {
-        if (other != agent) {
-          d = std::max(
-              penetration_inside_disc(
-                  Disc{other->pose.position + delta, other->radius}, p, radius),
-              d);
-        }
-      });
-      obstacles_index->query(lbb, [&d, &p, &radius, &delta](Obstacle *o) {
-        d = std::max(
-            penetration_inside_disc(o->get_translated_disc(delta), p, radius),
-            d);
-      });
+ng_float_t World::compute_safety_violation(const Agent *agent,
+                                           std::optional<float> safety_margin) {
+  float sm = 0.0;
+  if (!safety_margin) {
+    if (Behavior *b = agent->get_behavior()) {
+      sm = b->get_safety_margin();
     }
-    walls_index->query(bb, [&d, &p, &radius](Wall *w) {
-      d = std::max(penetration_inside_line(w->line, p, radius), d);
-    });
-    // if (has_lattice) {
-    //   ghost_index->query(bb, [&d, &p, &radius, &agent](Ghost *other) {
-    //     if (agent->uid != other->uid) {
-    //       d = std::max(penetration_inside_disc(*other, p, radius), d);
-    //     }
-    //   });
-    // }
-    return d;
+  } else {
+    sm = *safety_margin;
   }
-  return 0;
+  if (sm <= 0) {
+    return 0;
+  }
+  check_agents_strtree();
+  check_static_strtree();
+  const ng_float_t radius = agent->radius + sm;
+  const auto p = agent->pose.position;
+  const BoundingBox bb{p[0] - radius, p[0] + radius, p[1] - radius,
+                       p[1] + radius};
+  ng_float_t d = 0;
+  for (const auto &[_delta, lbb] : subdivide_bounding_box(bb)) {
+    const Vector2 &delta = _delta;
+    agent_index->query(lbb, [&d, &p, &radius, &delta, &agent](Agent *other) {
+      if (other != agent) {
+        d = std::max(
+            penetration_inside_disc(
+                Disc{other->pose.position + delta, other->radius}, p, radius),
+            d);
+      }
+    });
+    obstacles_index->query(lbb, [&d, &p, &radius, &delta](Obstacle *o) {
+      d = std::max(
+          penetration_inside_disc(o->get_translated_disc(delta), p, radius), d);
+    });
+  }
+  walls_index->query(bb, [&d, &p, &radius](Wall *w) {
+    d = std::max(penetration_inside_line(w->line, p, radius), d);
+  });
+  // if (has_lattice) {
+  //   ghost_index->query(bb, [&d, &p, &radius, &agent](Ghost *other) {
+  //     if (agent->uid != other->uid) {
+  //       d = std::max(penetration_inside_disc(*other, p, radius), d);
+  //     }
+  //   });
+  // }
+  return d;
 }
 
 bool World::agents_are_idle() const {

@@ -299,7 +299,7 @@ PYBIND11_MODULE(_navground, m) {
 
   twist
       .def(py::init<Vector2, ng_float_t, Frame>(), py::arg("velocity"),
-           py::arg("angular_speed") = 0, 
+           py::arg("angular_speed") = 0,
            py::arg_v("frame", Frame::absolute, "Frame.absolute"),
            DOC(navground, core, Twist2, Twist2))
       .def(py::self == py::self)
@@ -548,8 +548,9 @@ PYBIND11_MODULE(_navground, m) {
       .def(py::init<>(),
            DOC(navground, core, SocialMargin_Modulation, Modulation));
 
-  py::class_<SocialMargin, std::shared_ptr<SocialMargin>>(
-      m, "SocialMargin", DOC(navground, core, SocialMargin))
+  py::class_<SocialMargin, std::shared_ptr<SocialMargin>> social_margin(
+      m, "SocialMargin", DOC(navground, core, SocialMargin));
+  social_margin
       .def(py::init<ng_float_t>(), py::arg("value") = 0,
            DOC(navground, core, SocialMargin, SocialMargin))
       .def_property("modulation", &SocialMargin::get_modulation,
@@ -1111,4 +1112,5 @@ Load a kinematics from a YAML string.
   pickle_via_yaml<PyKinematics>(ahead);
   pickle_via_yaml<PyKinematics>(wk2);
   pickle_via_yaml<PyKinematics>(wk4);
+  pickle_via_yaml_native<SocialMargin>(social_margin);
 }

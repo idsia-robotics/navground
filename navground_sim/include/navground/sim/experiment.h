@@ -68,6 +68,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
         name("experiment"),
         scenario(nullptr),
         run_index(0),
+        reset_uids(true),
         state(State::init),
         // callbacks(),
         run_callbacks(),
@@ -83,7 +84,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    */
   const std::map<unsigned, ExperimentalRun>& get_runs() const { return runs; }
 
-  void add_run(unsigned seed, ExperimentalRun & run) {
+  void add_run(unsigned seed, ExperimentalRun& run) {
     if (runs.count(seed) == 0) {
       runs.emplace(seed, run);
     }
@@ -254,7 +255,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   void start(std::optional<std::filesystem::path> path = std::nullopt);
   /**
    * @brief      Signal to stop an experiment
-   * 
+   *
    * @param[in]  save_runs   Whether to save the runs before closing
    *
    * See \ref start. This is only need when using an external run-loop to
@@ -501,6 +502,11 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * The seed/index of the next run
    */
   unsigned run_index;
+
+  /**
+   * Whether to reset the Entities UID to zero before each run
+   */
+  bool reset_uids;
 
   /**
    * @brief      Save all recorded runs.

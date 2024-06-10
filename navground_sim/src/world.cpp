@@ -80,7 +80,7 @@ void World::update(ng_float_t time_step) {
   }
   update_agents_strtree();
   update_collisions();
-  if (has_lattice) {
+  if (_has_lattice) {
     wrap_agents_on_lattice();
   }
   // bool r = false;
@@ -110,7 +110,7 @@ void World::actuate(ng_float_t time_step) {
   }
   update_agents_strtree();
   update_collisions();
-  if (has_lattice) {
+  if (_has_lattice) {
     wrap_agents_on_lattice();
   }
   time += time_step;
@@ -338,7 +338,7 @@ BoundingBox World::get_lattice_bounding_box() const {
 
 std::vector<std::tuple<Vector2, BoundingBox>> World::subdivide_bounding_box(
     const BoundingBox &bounding_box, bool ignore_lattice) const {
-  if (!has_lattice || ignore_lattice) {
+  if (!_has_lattice || ignore_lattice) {
     return {{Vector2(), bounding_box}};
   }
   std::vector<std::tuple<Vector2, BoundingBox>> rs;
@@ -655,8 +655,8 @@ bool World::agents_are_idle() const {
 }
 
 bool World::agents_are_idle_or_stuck() const {
-  return std::all_of(agents.cbegin(), agents.cend(), [](auto a) {
-    return a->idle() || a->has_been_stuck_since(1.0);
+  return std::all_of(agents.cbegin(), agents.cend(), [this](auto a) {
+    return a->idle() || a->has_been_stuck_since(time - 1.0);
   });
 }
 
@@ -723,7 +723,7 @@ World::Lattice World::get_lattice(unsigned index) const {
 void World::set_lattice(unsigned index, const World::Lattice &value) {
   if (index < lattice.size()) {
     lattice[index] = value;
-    has_lattice = (lattice[0] || lattice[1]);
+    _has_lattice = (lattice[0] || lattice[1]);
   }
 }
 

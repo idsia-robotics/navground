@@ -10,6 +10,7 @@
 
 #include "navground/core/types.h"
 #include "navground/sim/dataset.h"
+#include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/world.h"
 #include "navground_sim_export.h"
 
@@ -188,6 +189,41 @@ class NAVGROUND_SIM_EXPORT GroupRecordProbe : public Probe {
    * The recorded data
    */
   std::map<std::string, std::shared_ptr<Dataset>> _data;
+};
+
+class NAVGROUND_SIM_EXPORT SensingProbe : public Probe {
+ public:
+  explicit SensingProbe(const std::string name = "sensing",
+                        const std::shared_ptr<Sensor> &sensor = nullptr,
+                        const std::vector<unsigned> &agent_indices = {})
+      : Probe(),
+        _data(),
+        _sensor(sensor),
+        _states(),
+        _agent_indices(agent_indices),
+        _name(name) {}
+
+  /**
+   * @private
+   */
+  void prepare(ExperimentalRun *) override;
+
+  /**
+   * @private
+   */
+  void update(ExperimentalRun *run) override;
+
+  const std::map<unsigned, std::map<std::string, std::shared_ptr<Dataset>>> &
+  get_data() const {
+    return _data;
+  }
+
+ private:
+  std::map<unsigned, std::map<std::string, std::shared_ptr<Dataset>>> _data;
+  std::shared_ptr<Sensor> _sensor;
+  std::map<unsigned, core::SensingState> _states;
+  std::vector<unsigned> _agent_indices;
+  std::string _name;
 };
 
 }  // namespace navground::sim

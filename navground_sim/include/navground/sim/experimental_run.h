@@ -24,6 +24,18 @@ namespace navground::sim {
 
 struct Experiment;
 
+struct RecordSensingConfig {
+  std::string name;
+  std::shared_ptr<Sensor> sensor;
+  std::vector<unsigned> agent_indices;
+};
+
+struct RecordNeighborsConfig {
+  bool enabled;
+  int number;
+  bool relative;
+};
+
 /**
  * @brief  Holds which data to record during an experimental run
  */
@@ -70,14 +82,20 @@ struct RecordConfig {
    */
   bool efficacy;
 
+  RecordNeighborsConfig neighbors;
+
+  bool use_agent_uid_as_key;
+
+  std::vector<RecordSensingConfig> sensing;
+
   /**
    * @brief      Sets all to record or not record.
    *
    * @return     The configuration.
    */
   static RecordConfig all(bool value) {
-    return {value, value, value, value, value,
-            value, value, value, value, value};
+    return {value, value, value, value, value, value,
+            value, value, value, value, {value, -1, false}, true, {}};
   }
 
   /**
@@ -86,6 +104,13 @@ struct RecordConfig {
    * @param[in]  value  The desired value
    */
   void set_all(bool value) { *this = all(value); }
+
+  void record_sensor(const std::string &name,
+                     const std::shared_ptr<Sensor> &sensor,
+                     const std::vector<unsigned> &agent_indices) {
+    sensing.push_back({name, sensor, agent_indices});
+  }
+
 };
 
 /**
@@ -385,7 +410,8 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   /**
    * @brief      Gets the recorded task logs.
    *
-   * @param[in]  uid   The agent uid
+   * @param[in]  uid   The agent uid or index 
+   *                   (if \ref RecordConfig::use_agent_uid_as_key is not set)
    *
    * @return     The record or none if not recorded.
    */
@@ -413,7 +439,14 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   const std::shared_ptr<Dataset> get_efficacy() const {
     return get_record("efficacy");
   }
-
+  /**
+   * @brief      Gets the recorded neighbors.
+   *
+   * @return     The record or none if not recorded.
+   */
+  const std::shared_ptr<Dataset> get_neighbors() const {
+    return get_record("neighbors");
+  }
   /**
    * @brief      Gets the number of recorded steps.
    *
@@ -564,7 +597,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    * @param[in]  key    The key associated to the record
    * @param[in]  group  The group associated to the record.
    *                    If provided, the effective key will be ``<group>/<key>``
-   * @param[in]  force  Whether to replace a record if already existing 
+   * @param[in]  force  Whether to replace a record if already existing
    *                    for this key.
    */
   void insert_record(std::shared_ptr<Dataset> ds, std::string key,
@@ -640,7 +673,8 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   std::map<std::string, std::string> get_group(const std::string &name) const;
 
   /**
-   * @brief      Gets the YAML representation of the world at the begin of the simulation..
+   * @brief      Gets the YAML representation of the world at the begin of the
+   * simulation..
    *
    * @return     The YAML string.
    */

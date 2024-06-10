@@ -1,4 +1,5 @@
-  #include "navground/sim/dataset.h"
+#include "navground/sim/dataset.h"
+#include "navground/core/utilities.h"
 
 #include <highfive/H5DataSpace.hpp>
 #include <string>
@@ -52,6 +53,16 @@ void Dataset::append(const Dataset::Data &data) {
       data);
 }
 
+void Dataset::append(const core::Buffer &buffer) {
+  std::visit(
+      [this](auto &&arg) {
+        using T =
+            typename std::remove_reference<decltype(arg)>::type::value_type;
+        append<T>(arg);
+      },
+      buffer.get_data_container());
+}
+
 void Dataset::push(const Dataset::Scalar &data) {
   std::visit(
       [this](auto &&arg) {
@@ -59,4 +70,34 @@ void Dataset::push(const Dataset::Scalar &data) {
         push<T>(arg);
       },
       data);
+}
+
+// std::shared_ptr<Dataset> Dataset::make(const core::Buffer &buffer) {
+//   Dataset::Shape shape;
+//   const auto &bshape = buffer.get_shape();
+//   std::copy(bshape.begin(), bshape.end(), std::back_inserter(shape));
+//   auto ds = std::make_shared<Dataset>(shape);
+//   std::visit(
+//       [&ds](auto &&arg) {
+//         using T =
+//             typename std::remove_reference<decltype(arg)>::type::value_type;
+//         ds->set_dtype<T>();
+//       },
+//       buffer.get_data_container());
+//   return ds;
+// }
+
+
+void Dataset::config_to_hold_buffer(const navground::core::Buffer& buffer) {
+  Dataset::Shape shape;
+  const auto &bshape = buffer.get_shape();
+  std::copy(bshape.begin(), bshape.end(), std::back_inserter(shape));
+  set_item_shape(shape);
+  std::visit(
+      [this](auto &&arg) {
+        using T =
+            typename std::remove_reference<decltype(arg)>::type::value_type;
+        set_dtype<T>();
+      },
+      buffer.get_data_container());
 }

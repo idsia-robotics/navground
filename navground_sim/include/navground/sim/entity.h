@@ -23,6 +23,13 @@ struct NAVGROUND_SIM_EXPORT Entity {
    */
   Entity() : uid(_uid++), last_collision_time(-1) {}
 
+  /**
+   * @brief      Reset the UID counter to zero.
+   */
+  static void reset_uid() {
+    _uid = 0;
+  }
+
   virtual ~Entity() = default;
 
   /**

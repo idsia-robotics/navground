@@ -10,6 +10,7 @@
 // #include <Eigen/CXX11/Tensor>
 #include <unsupported/Eigen/CXX11/Tensor>
 
+#include "navground/core/buffer.h"
 #include "navground/core/types.h"
 #include "navground/sim/world.h"
 #include "navground_sim_export.h"
@@ -78,6 +79,11 @@ class NAVGROUND_SIM_EXPORT Dataset {
     ds->set_dtype<T>();
     return ds;
   }
+
+  void config_to_hold_buffer(const navground::core::Buffer& buffer);
+
+  // static std::shared_ptr<Dataset> make(const core::Buffer& buffer);
+
   /**
    * @brief      Returns the shape of the multi-dimensional dataset
    *
@@ -184,6 +190,16 @@ class NAVGROUND_SIM_EXPORT Dataset {
         _data);
   }
 
+  template <typename T>
+  void append(const std::valarray<T>& values) {
+    std::visit(
+        [&values](auto&& arg) {
+          std::copy(std::begin(values), std::end(values),
+                    std::back_inserter(arg));
+        },
+        _data);
+  }
+
   /**
    * @brief      Add items.
    *
@@ -194,6 +210,8 @@ class NAVGROUND_SIM_EXPORT Dataset {
    *
    */
   void append(const Data& values);
+
+  void append(const core::Buffer& buffer);
 
   /**
    * @brief      Gets the stored data.

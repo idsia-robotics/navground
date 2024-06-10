@@ -167,9 +167,7 @@ class DeadlockProbe : public RecordProbe {
     }
   }
 
-  Dataset::Shape get_shape(const World &world) const override {
-    return {};
-  }
+  Dataset::Shape get_shape(const World &world) const override { return {}; }
 };
 
 class EfficacyProbe : public RecordProbe {
@@ -196,13 +194,16 @@ class TaskEventsProbe : public GroupRecordProbe {
 
   void prepare(ExperimentalRun *run) override {
     GroupRecordProbe::prepare(run);
+    unsigned i = 0;
+    const bool use_uid = run->get_record_config().use_agent_uid_as_key;
     for (const auto &agent : run->get_world()->get_agents()) {
       if (Task *task = agent->get_task()) {
-        task->add_callback([this, &agent](const std::vector<ng_float_t> &data) {
-          auto ds = get_data(std::to_string(agent->uid));
-          ds->append(data);
+        const std::string key = std::to_string(use_uid ? agent->uid : i);
+        task->add_callback([this, key](const std::vector<ng_float_t> &data) {
+          get_data(key)->append(data);
         });
       }
+      i++;
     }
   }
 
@@ -224,6 +225,63 @@ class TaskEventsProbe : public GroupRecordProbe {
       }
     }
     return shapes;
+  }
+};
+
+class NeighborsProbe : public RecordProbe {
+ public:
+  using RecordProbe::RecordProbe;
+  using Type = ng_float_t;
+  unsigned number;
+  bool relative;
+
+  void prepare(ExperimentalRun *run) override {
+    const auto config = run->get_record_config().neighbors;
+    if (config.number < 0) {
+      number = run->get_world()->get_agents().size() - 1;
+    } else {
+      number = config.number;
+    }
+    relative = config.relative;
+    RecordProbe::prepare(run);
+  }
+
+  void update(ExperimentalRun *run) override {
+    for (const auto &agent : run->get_world()->get_agents()) {
+      const auto b = agent->get_behavior();
+      unsigned i = 0;
+      if (GeometricState *state =
+              dynamic_cast<navground::core::GeometricState *>(
+                  b->get_environment_state())) {
+        const auto p = b->get_position();
+        auto ns = state->get_neighbors();
+        std::sort(ns.begin(), ns.end(),
+                  [&p](const Neighbor &n1, const Neighbor &n2) {
+                    return (n1.position - p).norm() < (n2.position - p).norm();
+                  });
+        for (auto n : ns) {
+          if (i >= number) {
+            break;
+          }
+          if (relative) {
+            n = n.relative_to(b->get_pose());
+          }
+          data->push(n.radius);
+          data->push(n.position[0]);
+          data->push(n.position[1]);
+          data->push(n.velocity[0]);
+          data->push(n.velocity[1]);
+          i++;
+        }
+      }
+      for (; i < number; ++i) {
+        data->append(std::vector<ng_float_t>{0, 0, 0, 0, 0});
+      }
+    }
+  }
+
+  Dataset::Shape get_shape(const World &world) const override {
+    return {world.get_agents().size(), number, 5};
   }
 };
 
@@ -264,6 +322,13 @@ void ExperimentalRun::prepare() {
   if (_record_config.task_events) {
     add_group_record_probe<TaskEventsProbe>("task_events");
   }
+  if (_record_config.neighbors.enabled) {
+    add_record_probe<NeighborsProbe>("neighbors");
+  }
+  for (const auto &c : _record_config.sensing) {
+    add_probe(
+        std::make_shared<SensingProbe>(c.name, c.sensor, c.agent_indices));
+  }
   for (auto &probe : _probes) {
     probe->prepare(this);
   }
@@ -289,7 +354,7 @@ void ExperimentalRun::run() {
   if (_state != State::init) return;
   start();
   for (unsigned step = 0; step < _run_config.steps; step++) {
-    if(_world->should_terminate()) {
+    if (_world->should_terminate()) {
       break;
     }
     _world->update(_run_config.time_step);
@@ -482,6 +547,7 @@ bool ExperimentalRun::go_to_step(int step, bool ignore_collisions,
           Pose2({data(0, i, step), data(1, i, step)}, data(2, i, step));
       i++;
     }
+    _world->agents_moved();
   }
   if (twists && !ignore_twists) {
     auto data = twists->as_tensor<ng_float_t, 3>();

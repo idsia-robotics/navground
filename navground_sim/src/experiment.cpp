@@ -116,6 +116,9 @@ std::unique_ptr<HighFive::Group> Experiment::init_dataset_run(unsigned index) {
 ExperimentalRun &Experiment::init_run(int index, std::shared_ptr<World> world) {
   if (!world) {
     world = make_world();
+    if (reset_uids) {
+      Entity::reset_uid();
+    }
     if (scenario) {
       scenario->init_world(world.get(), index);
     }

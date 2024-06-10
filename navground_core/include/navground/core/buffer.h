@@ -294,6 +294,8 @@ class Buffer {
     return std::get_if<std::valarray<T>>(&data);
   }
 
+  const BufferData& get_data_container() const { return data; }
+
   /**
    * @brief      Determines if the data has a given type
    *

@@ -267,6 +267,17 @@ struct LineSegment {
     return (penetration || dist > 0) ? dist : 0.0;
   }
 
+  /**
+   * @brief      Computes the free distance along a ray before possibly
+   * colliding
+   *
+   * @param[in]  point        The ray origin
+   * @param[in]  direction    The ray direction
+   * @param[in]  orientation  The ray orientation
+   *
+   * @return     The free distance along the ray before colliding
+   *             with this line or -1 if no collision will happen.
+   */
   ng_float_t distance_along(const Vector2& point, const Vector2& direction,
                             int orientation = 0) {
     const Vector2 delta = point - p1;

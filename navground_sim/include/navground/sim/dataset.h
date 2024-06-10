@@ -80,6 +80,11 @@ class NAVGROUND_SIM_EXPORT Dataset {
     return ds;
   }
 
+  /**
+   * @brief      Configure this dataset to accumulate data from a buffer
+   *
+   * @param[in]  buffer  The buffer
+   */
   void config_to_hold_buffer(const navground::core::Buffer& buffer);
 
   // static std::shared_ptr<Dataset> make(const core::Buffer& buffer);
@@ -190,6 +195,17 @@ class NAVGROUND_SIM_EXPORT Dataset {
         _data);
   }
 
+  /**
+   * @brief      Add items.
+   *
+   * The items will be implicitly converted to
+   * the current data type, see \ref set_dtype.
+   *
+   * @param[in]  values  The values to add
+   *
+   * @tparam     T       The type of the items.
+   *                     Must be convertible to the current data type.
+   */
   template <typename T>
   void append(const std::valarray<T>& values) {
     std::visit(
@@ -211,6 +227,15 @@ class NAVGROUND_SIM_EXPORT Dataset {
    */
   void append(const Data& values);
 
+  /**
+   * @brief      Add items.
+   *
+   * The items will be implicitly converted to
+   * the current data type, see \ref set_dtype.
+   *
+   * @param[in]  values  The values to add
+   *
+   */
   void append(const core::Buffer& buffer);
 
   /**

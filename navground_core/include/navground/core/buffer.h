@@ -294,6 +294,11 @@ class Buffer {
     return std::get_if<std::valarray<T>>(&data);
   }
 
+  /**
+   * @brief      Gets the data container.
+   *
+   * @return     The data container.
+   */
   const BufferData& get_data_container() const { return data; }
 
   /**

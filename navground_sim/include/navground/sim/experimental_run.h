@@ -24,15 +24,41 @@ namespace navground::sim {
 
 struct Experiment;
 
+/**
+ * @brief  Holds the configuration to record sensing during an experimental run
+ */
 struct RecordSensingConfig {
+  /**
+   * The name of the dataset group
+   */
   std::string name;
+  /**
+   * The sensor to record
+   */
   std::shared_ptr<Sensor> sensor;
+  /**
+   * The indices of the agents to record
+   */
   std::vector<unsigned> agent_indices;
 };
 
+/**
+ * @brief  Holds the configuration to record neighbors during an experimental
+ * run
+ */
 struct RecordNeighborsConfig {
+  /**
+   * Whether to record neighbors or not
+   */
   bool enabled;
+  /**
+   * The number of neighbors to record. If more, it will record
+   * the nearest `number` record. If fewer, it will pads with zeros.
+   */
   int number;
+  /**
+   * Whether to use a frame relative to the agent or the absolute frame.
+   */
   bool relative;
 };
 
@@ -82,10 +108,20 @@ struct RecordConfig {
    */
   bool efficacy;
 
+  /**
+   * Whether and how to record neighbors
+   */
   RecordNeighborsConfig neighbors;
 
+  /**
+   * Whether to use uid as keys for sensing and task events.
+   * Else it will use the agent index.
+   */
   bool use_agent_uid_as_key;
 
+  /**
+   * The sensors to record
+   */
   std::vector<RecordSensingConfig> sensing;
 
   /**
@@ -94,8 +130,19 @@ struct RecordConfig {
    * @return     The configuration.
    */
   static RecordConfig all(bool value) {
-    return {value, value, value, value, value, value,
-            value, value, value, value, {value, -1, false}, true, {}};
+    return {value,
+            value,
+            value,
+            value,
+            value,
+            value,
+            value,
+            value,
+            value,
+            value,
+            {value, -1, false},
+            true,
+            {}};
   }
 
   /**
@@ -105,12 +152,18 @@ struct RecordConfig {
    */
   void set_all(bool value) { *this = all(value); }
 
+  /**
+   * @brief      Add a sensor to be recorded
+   *
+   * @param[in]  name           The name of the group
+   * @param[in]  sensor         The sensor to record
+   * @param[in]  agent_indices  The agent indices whose sensing to record
+   */
   void record_sensor(const std::string &name,
                      const std::shared_ptr<Sensor> &sensor,
                      const std::vector<unsigned> &agent_indices) {
     sensing.push_back({name, sensor, agent_indices});
   }
-
 };
 
 /**
@@ -410,7 +463,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   /**
    * @brief      Gets the recorded task logs.
    *
-   * @param[in]  uid   The agent uid or index 
+   * @param[in]  uid   The agent uid or index
    *                   (if \ref RecordConfig::use_agent_uid_as_key is not set)
    *
    * @return     The record or none if not recorded.

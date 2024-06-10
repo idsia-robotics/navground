@@ -191,6 +191,10 @@ class NAVGROUND_SIM_EXPORT GroupRecordProbe : public Probe {
   std::map<std::string, std::shared_ptr<Dataset>> _data;
 };
 
+/**
+ * @brief      A concrete probe to record readings from a specific sensor.
+ *
+ */
 class NAVGROUND_SIM_EXPORT SensingProbe : public Probe {
  public:
   explicit SensingProbe(const std::string name = "sensing",
@@ -213,6 +217,11 @@ class NAVGROUND_SIM_EXPORT SensingProbe : public Probe {
    */
   void update(ExperimentalRun *run) override;
 
+  /**
+   * @brief      Gets the stored sensor readings, indexed by UID or index.
+   *
+   * @return     The data.
+   */
   const std::map<unsigned, std::map<std::string, std::shared_ptr<Dataset>>> &
   get_data() const {
     return _data;

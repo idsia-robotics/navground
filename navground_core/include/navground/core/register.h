@@ -134,13 +134,13 @@ struct
    *
    * @param      node  The YAML node
    */
-  virtual void encode(YAML::Node& node) const {};
+  virtual void encode([[maybe_unused]] YAML::Node& node) const {};
   /**
    * @brief      Allows to customize YAML decoding 
    *
    * @param      node  The YAML node
    */
-  virtual void decode(const YAML::Node& node) {};
+  virtual void decode([[maybe_unused]] const YAML::Node& node) {};
 };
 
 }  // namespace navground::core

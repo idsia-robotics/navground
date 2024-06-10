@@ -277,7 +277,7 @@ struct PyWorld : public World {
 
 struct PyGroup : public virtual Scenario::Group {
   /* Inherit the constructors */
-  PyGroup(){};
+  PyGroup() {};
 
   void add_to_world(World *world) override {
     PYBIND11_OVERRIDE_PURE(void, Scenario::Group, add_to_world, world);
@@ -534,10 +534,10 @@ struct PyExperiment : public Experiment {
 
   void instantiate_record_probe(const std::string &name, const py::object cls,
                                 ExperimentalRun &run) {
-    const auto dtype = cls.attr("dtype");
     auto ds = run.add_record(name);
-    set_dataset_type_py(*ds, dtype);
     auto obj = cls.attr("__call__")(ds);
+    const auto dtype = obj.attr("dtype");
+    set_dataset_type_py(*ds, dtype);
     auto probe = obj.cast<std::shared_ptr<Probe>>();
     run.add_probe(probe);
     _py_probes[run.get_seed()].push_back(obj);
@@ -1311,16 +1311,16 @@ Creates a rectangular region
                     &BoundarySensor::set_range,
                     DOC(navground, sim, BoundarySensor, property_range))
       .def_property("min_x", &BoundarySensor::get_min_x,
-                    &BoundarySensor::get_min_x,
+                    &BoundarySensor::set_min_x,
                     DOC(navground, sim, BoundarySensor, property_min_x))
       .def_property("max_x", &BoundarySensor::get_max_x,
-                    &BoundarySensor::get_max_x,
+                    &BoundarySensor::set_max_x,
                     DOC(navground, sim, BoundarySensor, property_max_x))
       .def_property("min_y", &BoundarySensor::get_min_y,
-                    &BoundarySensor::get_min_y,
+                    &BoundarySensor::set_min_y,
                     DOC(navground, sim, BoundarySensor, property_min_y))
       .def_property("max_y", &BoundarySensor::get_max_y,
-                    &BoundarySensor::get_max_y,
+                    &BoundarySensor::set_max_y,
                     DOC(navground, sim, BoundarySensor, property_max_y));
 
   py::class_<SensorCombination, Sensor, StateEstimation,
@@ -1363,20 +1363,94 @@ Creates a rectangular region
       .def_property("loop", &WaypointsTask::get_loop, &WaypointsTask::set_loop,
                     DOC(navground, sim, WaypointsTask, property_loop));
 
+  py::class_<RecordNeighborsConfig>(m, "RecordNeighborsConfig",
+                                    DOC(navground, sim, RecordNeighborsConfig))
+      .def(py::init([](bool enabled, int number, bool relative) {
+             return new RecordNeighborsConfig{enabled, number, relative};
+           }),
+           py::arg("enabled") = false, py::arg("number") = 0,
+           py::arg("relative") = false)
+      .def_readwrite("enabled", &RecordNeighborsConfig::enabled,
+                     DOC(navground, sim, RecordNeighborsConfig, enabled))
+      .def_readwrite("number", &RecordNeighborsConfig::number,
+                     DOC(navground, sim, RecordNeighborsConfig, number))
+      .def_readwrite("relative", &RecordNeighborsConfig::relative,
+                     DOC(navground, sim, RecordNeighborsConfig, relative))
+      .def("__repr__",
+           [](const RecordNeighborsConfig &value) -> py::str {
+             py::str r("RecordNeighborsConfig(enabled=");
+             r += py::str(py::cast(value.enabled));
+             r += py::str(", number=") + py::str(py::cast(value.number));
+             r += py::str(", relative=") + py::str(py::cast(value.relative)) +
+                  py::str(")");
+             return r;
+           })
+      .def(py::pickle(
+          [](const RecordNeighborsConfig &value) {
+            return py::make_tuple(value.enabled, value.number, value.relative);
+          },
+          [](py::tuple v) {  // __setstate__
+            return RecordNeighborsConfig{py::cast<bool>(v[0]),
+                                         py::cast<int>(v[1]),
+                                         py::cast<bool>(v[2])};
+          }));
+
+  py::class_<RecordSensingConfig>(m, "RecordSensingConfig",
+                                  DOC(navground, sim, RecordSensingConfig))
+      .def(py::init([](std::string name, std::shared_ptr<Sensor> sensor,
+                       std::vector<unsigned> agent_indices) {
+             return new RecordSensingConfig{name, sensor, agent_indices};
+           }),
+           py::arg("name") = "", py::arg("sensor") = nullptr,
+           py::arg("agent_indices") = std::vector<unsigned>{})
+      .def_readwrite("name", &RecordSensingConfig::name,
+                     DOC(navground, sim, RecordSensingConfig, name))
+      .def_readwrite("sensor", &RecordSensingConfig::sensor,
+                     DOC(navground, sim, RecordSensingConfig, sensor))
+      .def_readwrite("agent_indices", &RecordSensingConfig::agent_indices,
+                     DOC(navground, sim, RecordSensingConfig, agent_indices))
+      .def("__repr__",
+           [](const RecordSensingConfig &value) -> py::str {
+             py::str r("RecordSensingConfig(name='");
+             r += py::str(py::cast(value.name));
+             r += py::str("', sensor=") + py::str(py::cast(value.sensor));
+             r += py::str(", agent_indices=") +
+                  py::str(py::cast(value.agent_indices)) + py::str(")");
+             return r;
+           })
+      .def(py::pickle(
+          [](const RecordSensingConfig &value) {
+            return py::make_tuple(value.name, value.sensor,
+                                  value.agent_indices);
+          },
+          [](py::tuple v) {  // __setstate__
+            return RecordSensingConfig{py::cast<std::string>(v[0]),
+                                       py::cast<std::shared_ptr<Sensor>>(v[1]),
+                                       py::cast<std::vector<unsigned>>(v[2])};
+          }));
+
   py::class_<RecordConfig>(m, "RecordConfig", DOC(navground, sim, RecordConfig))
       .def(py::init([](bool time, bool pose, bool twist, bool cmd, bool target,
                        bool safety_violation, bool collisions, bool task_events,
-                       bool deadlocks, bool efficacy) {
-             return new RecordConfig{time,       pose,        twist,
-                                     cmd,        target,      safety_violation,
-                                     collisions, task_events, deadlocks,
-                                     efficacy};
+                       bool deadlocks, bool efficacy,
+                       RecordNeighborsConfig neighbors,
+                       bool use_agent_uid_as_key,
+                       std::vector<RecordSensingConfig> sensing) {
+             return new RecordConfig{
+                 time,       pose,        twist,
+                 cmd,        target,      safety_violation,
+                 collisions, task_events, deadlocks,
+                 efficacy,   neighbors,   use_agent_uid_as_key,
+                 sensing};
            }),
            py::arg("time") = false, py::arg("pose") = false,
            py::arg("twist") = false, py::arg("cmd") = false,
            py::arg("target") = false, py::arg("safety_violation") = false,
            py::arg("collisions") = false, py::arg("task_events") = false,
-           py::arg("deadlocks") = false, py::arg("efficacy") = false)
+           py::arg("deadlocks") = false, py::arg("efficacy") = false,
+           py::arg("neighbors") = RecordNeighborsConfig{false, 0, false},
+           py::arg("use_agent_uid_as_key") = true,
+           py::arg("sensing") = std::vector<RecordSensingConfig>{})
       // DOC(navground, sim, RecordConfig, RecordConfig)
       .def_readwrite("time", &RecordConfig::time,
                      DOC(navground, sim, RecordConfig, time))
@@ -1398,10 +1472,20 @@ Creates a rectangular region
                      DOC(navground, sim, RecordConfig, deadlocks))
       .def_readwrite("efficacy", &RecordConfig::efficacy,
                      DOC(navground, sim, RecordConfig, efficacy))
+      .def_readwrite("neighbors", &RecordConfig::neighbors,
+                     DOC(navground, sim, RecordConfig, neighbors))
+      .def_readwrite("use_agent_uid_as_key",
+                     &RecordConfig::use_agent_uid_as_key,
+                     DOC(navground, sim, RecordConfig, use_agent_uid_as_key))
+      .def_readwrite("sensing", &RecordConfig::sensing,
+                     DOC(navground, sim, RecordConfig, sensing))
       .def_static("all", &RecordConfig::all, py::arg("value"),
                   DOC(navground, sim, RecordConfig, all))
       .def("set_all", &RecordConfig::set_all, py::arg("value"),
            DOC(navground, sim, RecordConfig, set_all))
+      .def("record_sensor", &RecordConfig::record_sensor, py::arg("name"),
+           py::arg("sensor"), py::arg("agent_indices"),
+           DOC(navground, sim, RecordConfig, record_sensor))
       .def("__repr__",
            [](const RecordConfig &value) -> py::str {
              py::str r("RecordConfig(time=");
@@ -1417,8 +1501,10 @@ Creates a rectangular region
              r += py::str(", task_events=") +
                   py::str(py::cast(value.task_events));
              r += py::str(", deadlocks=") + py::str(py::cast(value.deadlocks));
-             r += py::str(", efficacy=") + py::str(py::cast(value.efficacy)) +
-                  py::str(")");
+             r += py::str(", efficacy=") + py::str(py::cast(value.efficacy));
+             r += py::str(", neighbors=") + py::str(py::cast(value.neighbors));
+             r += py::str(", use_agent_uid_as_key=") +
+                  py::str(py::cast(value.use_agent_uid_as_key)) + py::str(")");
              return r;
            })
       .def(py::pickle(
@@ -1426,15 +1512,24 @@ Creates a rectangular region
             return py::make_tuple(
                 value.time, value.pose, value.twist, value.cmd, value.target,
                 value.safety_violation, value.collisions, value.task_events,
-                value.deadlocks, value.efficacy);
+                value.deadlocks, value.efficacy, value.neighbors,
+                value.use_agent_uid_as_key, value.sensing);
           },
           [](py::tuple v) {  // __setstate__
-            bool t[10];
-            for (int i = 0; i < 10; ++i) {
-              t[i] = py::cast<bool>(v[i]);
-            }
-            return RecordConfig{t[0], t[1], t[2], t[3], t[4],
-                                t[5], t[6], t[7], t[8], t[9]};
+            return RecordConfig{
+                py::cast<bool>(v[0]),
+                py::cast<bool>(v[1]),
+                py::cast<bool>(v[2]),
+                py::cast<bool>(v[3]),
+                py::cast<bool>(v[4]),
+                py::cast<bool>(v[5]),
+                py::cast<bool>(v[6]),
+                py::cast<bool>(v[7]),
+                py::cast<bool>(v[8]),
+                py::cast<bool>(v[9]),
+                py::cast<RecordNeighborsConfig>(v[10]),
+                py::cast<bool>(v[11]),
+                py::cast<std::vector<RecordSensingConfig>>(v[12])};
           }));
 
   py::class_<Dataset, std::shared_ptr<Dataset>>(
@@ -1554,6 +1649,16 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
            DOC(navground, sim, GroupRecordProbe, GroupRecordProbe))
       .def("get_data", &GroupRecordProbe::get_data, py::arg("key"),
            DOC(navground, sim, GroupRecordProbe, get_data));
+
+  py::class_<SensingProbe, Probe, std::shared_ptr<SensingProbe>>(
+      m, "SensingProbe", DOC(navground, sim, SensingProbe))
+      .def(py::init<std::string, std::shared_ptr<Sensor>,
+                    std::vector<unsigned>>(),
+           py::arg("name") = "sensing", py::arg("sensor") = nullptr,
+           py::arg("agent_indices") = std::vector<unsigned>{},
+           DOC(navground, sim, SensingProbe, SensingProbe))
+      .def("get_data", &SensingProbe::get_data,
+           DOC(navground, sim, SensingProbe, get_data));
 
   py::class_<ExperimentalRun, std::shared_ptr<ExperimentalRun>>(
       m, "ExperimentalRun", DOC(navground, sim, ExperimentalRun))
@@ -1847,7 +1952,17 @@ The array are empty if the agent's task has not been recorded in the run.
       .def(
           "get_task_events",
           [](const ExperimentalRun *run, const Agent *agent) {
-            auto record = run->get_task_events_for(agent->uid);
+            // CHANGED(Jerome): check ``use_agent_uid_as_key``
+            unsigned index = 0;
+            if (run->get_record_config().use_agent_uid_as_key) {
+              index = agent->uid;
+            } else {
+              auto i = run->index_of_agent(agent);
+              if (i) {
+                index = *i;
+              }
+            }
+            auto record = run->get_task_events_for(index);
             if (!record) {
               return make_empty_array<ng_float_t>();
             }
@@ -1921,6 +2036,22 @@ The recorded agents' efficacy as a numpy array of shape
 ``(simulation steps, number of agents)`` and dtype ``float``::
 
   [[efficacy_0, efficacy_1, ...],
+   ...]
+
+The array is empty if efficacy has not been recorded in the run.
+)doc")
+      .def_property(
+          "neighbors",
+          [](const ExperimentalRun *run) {
+            auto record = run->get_neighbors();
+            if (record) return as_array(*record);
+            return make_empty_array<ng_float_t>();
+          },
+          nullptr, R"doc(
+The recorded agents' neighbors as a numpy array of shape 
+``(simulation steps, number of agents, number of neighbors, 5)`` and dtype ``float``::
+
+  [[[radius, x, y, vx, vy]],
    ...]
 
 The array is empty if efficacy has not been recorded in the run.

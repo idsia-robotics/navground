@@ -1,11 +1,7 @@
 #ifndef NAVGROUND_CORE_UTILITIES_H
 #define NAVGROUND_CORE_UTILITIES_H
 
-#include <iostream>
 #include <string_view>
-#include <vector>
-
-#include "./property.h"
 
 template <typename T>
 constexpr auto get_type_name() -> std::string_view {

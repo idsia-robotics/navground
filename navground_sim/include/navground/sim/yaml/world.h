@@ -16,6 +16,7 @@ using navground::core::Kinematics;
 using navground::core::LineSegment;
 using navground::core::Vector2;
 using navground::sim::Agent;
+using navground::sim::BoundingBox;
 using navground::sim::Obstacle;
 using navground::sim::StateEstimation;
 using navground::sim::Task;
@@ -87,6 +88,66 @@ struct convert<std::shared_ptr<Wall>> {
     }
     rhs = nullptr;
     return false;
+  }
+};
+
+template <>
+struct convert<BoundingBox> {
+  static Node encode(const BoundingBox& rhs) {
+    Node node;
+    if (!rhs.isNull()) {
+      node["min_x"] = rhs.getMinX();
+      node["min_y"] = rhs.getMinY();
+      node["max_x"] = rhs.getMaxX();
+      node["max_y"] = rhs.getMaxY();
+    }
+    return node;
+  }
+  static bool decode(const Node& node, BoundingBox& rhs) {
+    ng_float_t x, y, X, Y;
+    if (node["min_x"]) {
+      x = node["min_x"].as<ng_float_t>();
+    } else {
+      x = -std::numeric_limits<ng_float_t>::infinity();
+    }
+    if (node["max_x"]) {
+      X = node["max_x"].as<ng_float_t>();
+    } else {
+      X = std::numeric_limits<ng_float_t>::infinity();
+    }
+    if (node["min_y"]) {
+      y = node["min_y"].as<ng_float_t>();
+    } else {
+      y = -std::numeric_limits<ng_float_t>::infinity();
+    }
+    if (node["max_y"]) {
+      Y = node["max_y"].as<ng_float_t>();
+    } else {
+      Y = std::numeric_limits<ng_float_t>::infinity();
+    }
+    rhs.init(x, X, y, Y);
+    return true;
+  }
+};
+
+template <>
+struct convert<World::Lattice> {
+  static Node encode(const World::Lattice& rhs) {
+    Node node;
+    if (rhs.has_value()) {
+      auto [x, y] = *rhs;
+      node.push_back(x);
+      node.push_back(y);
+    }
+    return node;
+  }
+  static bool decode(const Node& node, World::Lattice& rhs) {
+    if (!node.IsSequence() || node.size() != 2) {
+      return true;
+    }
+    rhs = std::make_tuple<ng_float_t, ng_float_t>(node[0].as<ng_float_t>(),
+                                                  node[1].as<ng_float_t>());
+    return true;
   }
 };
 
@@ -259,13 +320,25 @@ struct convert<std::shared_ptr<Agent>> {
 template <typename T = Agent>
 struct convert_world {
   static Node encode(const World& rhs) {
-    // HACK(Jerome): To avoid issues with serializing the world 
+    // HACK(Jerome): To avoid issues with serializing the world
     // when there are very small components
     rhs.snap_twists_to_zero();
     Node node;
     node["obstacles"] = rhs.get_obstacles();
     node["walls"] = rhs.get_walls();
     node["agents"] = rhs.get_agents();
+    if (rhs.has_bounding_box()) {
+      node["bounding_box"] = rhs.get_bounding_box();
+    }
+    if (rhs.has_lattice()) {
+      for (int i = 0; i < 2; ++i) {
+        auto lattice = rhs.get_lattice(i);
+        if (lattice) {
+          std::string axis = i == 0 ? "x" : "y";
+          node["lattice"][axis] = lattice;
+        }
+      }
+    }
     return node;
   }
   static bool decode(const Node& node, World& rhs) {
@@ -288,6 +361,16 @@ struct convert_world {
     if (node["walls"]) {
       for (const auto& c : node["walls"]) {
         rhs.add_wall(c.as<Wall>());
+      }
+    }
+    if (node["bounding_box"]) {
+      rhs.set_bounding_box(node["bounding_box"].as<BoundingBox>());
+    }
+    std::array<std::string, 2> axes{"x", "y"};
+    for (size_t i = 0; i < axes.size(); ++i) {
+      if (node["lattice"][axes[i]]) {
+        auto value = node["lattice"][axes[i]].as<World::Lattice>();
+        rhs.set_lattice(i, value);
       }
     }
     return true;

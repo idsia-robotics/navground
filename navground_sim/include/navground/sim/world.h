@@ -197,7 +197,7 @@ class NAVGROUND_SIM_EXPORT World {
         ready(false),
         step(0),
         time(0),
-        has_lattice(false),
+        _has_lattice(false),
         callbacks(),
         termination_condition(),
         _seed(0),
@@ -561,6 +561,15 @@ class NAVGROUND_SIM_EXPORT World {
   void prepare();
 
   /**
+   * @brief      Determines if this world uses a lattice.
+   *
+   * @return     True if it uses a lattice, False otherwise.
+   */
+  bool has_lattice() const {
+    return _has_lattice;
+  }
+
+  /**
    * @brief      Gets the periodic lattice.
    *
    * @param[in]  axis  The axis (0 for x, 1 for y)
@@ -748,6 +757,24 @@ class NAVGROUND_SIM_EXPORT World {
     return get_minimal_bounding_box();
   }
 
+  /**
+   * @brief      Determines if a bounding box is set.
+   *
+   * @return     True if bounding box is set, False otherwise.
+   */
+  bool has_bounding_box() const {
+    return bb.has_value();
+  }
+
+  /**
+   * @brief    Notify that some agents have moved, 
+   *           therefore the str tree need to be updated
+   *   
+   */
+  void agents_moved() {
+    agents_strtree_is_updated = false;
+  }
+
  private:
   void record_collision(Entity *e1, Entity *e2);
 
@@ -804,7 +831,7 @@ class NAVGROUND_SIM_EXPORT World {
   bool ready;
   unsigned step;
   ng_float_t time;
-  bool has_lattice;
+  bool _has_lattice;
   std::array<Lattice, 2> lattice;
   std::vector<Callback> callbacks;
   std::optional<TerminationCondition> termination_condition;

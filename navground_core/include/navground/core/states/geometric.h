@@ -55,7 +55,7 @@ struct Disc {
    *
    * @return     A copy of the disc translated by delta
    */
-  Disc operator+(const Vector2 & delta) const {
+  Disc operator+(const Vector2& delta) const {
     return Disc(position + delta, radius);
   }
 
@@ -66,7 +66,7 @@ struct Disc {
    *
    * @return     The same disc translated by delta
    */
-  Disc & operator+=(const Vector2 & delta) {
+  Disc& operator+=(const Vector2& delta) {
     position += delta;
     return *this;
   }
@@ -78,7 +78,7 @@ struct Disc {
    *
    * @return     A copy of the disc translated by -delta
    */
-  Disc operator-(const Vector2 & delta) const {
+  Disc operator-(const Vector2& delta) const {
     return Disc(position - delta, radius);
   }
 
@@ -89,7 +89,7 @@ struct Disc {
    *
    * @return     The same disc translated by delta
    */
-  Disc & operator-=(const Vector2 & delta) {
+  Disc& operator-=(const Vector2& delta) {
     position -= delta;
     return *this;
   }
@@ -104,7 +104,7 @@ struct Disc {
   bool operator!=(const Disc& other) const { return !(operator==(other)); }
 
   /**
-   * @brief      Returns the signed distance to another disc. 
+   * @brief      Returns the signed distance to another disc.
    *             Negative if the discs overlaps.
    *
    * @param[in]  other  The other disc
@@ -177,6 +177,19 @@ struct Neighbor : public Disc {
   }
 
   bool operator!=(const Neighbor& other) const { return !(operator==(other)); }
+
+  /**
+   * @brief      Returns the same neighbor in a frame relative to a pose.
+   *
+   * @param[in]  reference  The reference pose
+   *
+   * @return     The neighbor with transformed position and velocity
+   */
+  Neighbor relative_to(const Pose2& reference) {
+    const Pose2 pose{position, 0};
+    return Neighbor(pose.relative(reference).position, radius,
+                    to_relative(velocity, reference), id);
+  }
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Neighbor& disc) {
@@ -252,6 +265,27 @@ struct LineSegment {
   ng_float_t distance(const Disc& disc, bool penetration = false) const {
     const ng_float_t dist = distance(disc.position) - disc.radius;
     return (penetration || dist > 0) ? dist : 0.0;
+  }
+
+  ng_float_t distance_along(const Vector2& point, const Vector2& direction,
+                            int orientation = 0) {
+    const Vector2 delta = point - p1;
+    const ng_float_t y = delta.dot(e2);
+    if (orientation && orientation * y >= 0) {
+      return -1;
+    }
+    const ng_float_t d = e2.dot(direction);
+    if (y * d >= 0) {
+      // moving away
+      return -1;
+    }
+    const ng_float_t dist = -y / d;
+    const ng_float_t x_delta = e1.dot(dist * direction + delta);
+    if (x_delta < 0 || x_delta > length) {
+      // no intersection
+      return -1;
+    }
+    return dist;
   }
 
   /**

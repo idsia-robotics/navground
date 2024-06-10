@@ -404,6 +404,10 @@ PYBIND11_MODULE(_navground, m) {
       .def_readwrite("velocity", &Neighbor::velocity,
                      DOC(navground, core, Neighbor, velocity))
       .def_readwrite("id", &Neighbor::id, DOC(navground, core, Neighbor, id))
+      .def("relative_to", &Neighbor::relative_to, py::arg("reference"),
+           DOC(navground, core, relative_to))
+      .def(py::self == py::self)
+      .def(py::self != py::self)
       .def("__repr__", &to_string<Neighbor>);
 
   py::class_<LineSegment>(m, "LineSegment", DOC(navground, core, LineSegment))
@@ -423,6 +427,9 @@ PYBIND11_MODULE(_navground, m) {
            py::overload_cast<const Vector2 &>(&LineSegment::distance,
                                               py::const_),
            py::arg("point"), DOC(navground, core, LineSegment, distance))
+      .def("distance_along", &LineSegment::distance_along, py::arg("point"),
+           py::arg("direction"), py::arg("orientation") = 0,
+           DOC(navground, core, LineSegment, distance_along))
       .def("distance_from_disc",
            py::overload_cast<const Disc &, bool>(&LineSegment::distance,
                                                  py::const_),
@@ -679,10 +686,6 @@ PYBIND11_MODULE(_navground, m) {
       .def("get_actuated_twist", &Behavior::get_actuated_twist,
            py::arg_v("frame", Frame::absolute, "Frame.absolute"),
            DOC(navground, core, Behavior, get_actuated_twist))
-      .def_property(
-          "velocity", [](const Behavior &self) { return self.get_velocity(); },
-          [](Behavior &self, const Vector2 v) { return self.set_velocity(v); },
-          DOC(navground, core, Behavior, property_velocity))
       .def_property(
           "actuated_wheel_speeds", &Behavior::get_actuated_wheel_speeds,
           nullptr,

@@ -99,6 +99,9 @@ svg {
 }
 ]]>
 </style>
+
+<g id="{{prefix}}world" transform='scale(1, -1) {{rotation}}'>
+
 {% if grid %}
 
 {% for x in grid_xs -%}
@@ -110,7 +113,7 @@ svg {
 {%- endfor %}
 
 {% endif %}
-<g id="{{prefix}}world" transform='scale(1, -1)'>
+
 {{svg_world}}
 </g>
 </svg>

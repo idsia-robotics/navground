@@ -146,7 +146,8 @@ def svg_for_obstacle(
     precision: int = 2,
     prefix: str = '',
     attributes: Attributes = {},
-    delta: core.Vector2 = np.zeros(2)) -> str:
+    delta: core.Vector2 = np.zeros(2)
+    ) -> str:
     attributes = entity_attributes(obstacle, 'obstacle', prefix, attributes)
     return svg_circle(obstacle.disc.position + delta, obstacle.disc.radius,
                       precision, attributes)
@@ -185,7 +186,8 @@ def svg_for_world(world: Optional[World] = None,
                   display_shape: bool = False,
                   grid: float = 0,
                   grid_color: str = 'grey',
-                  grid_thickness: float = 0.01) -> str:
+                  grid_thickness: float = 0.01,
+                  rotation: Tuple[core.Vector2, float] | float | None = None) -> str:
     """
     Draw the world as a SVG.
 
@@ -200,6 +202,10 @@ def svg_for_world(world: Optional[World] = None,
     :param      relative_margin:        The relative margin
     :param      background_color:       A valid SVG color for the background
     :param      display_shape:          Whether to display the agent circular shape
+    :param      grid:                   The size of the square grid tile (set to zero or negative to skip drawing a grid)
+    :param      grid_color:             The color of the grid
+    :param      grid_thickness:         The thickness of the grid
+    :param      rotation:               A planar rotation applied before drawing [rad]
 
     :returns:   An SVG string
     """
@@ -214,7 +220,8 @@ def svg_for_world(world: Optional[World] = None,
                           display_shape=display_shape,
                           grid=grid,
                           grid_color=grid_color,
-                          grid_thickness=grid_thickness)[0]
+                          grid_thickness=grid_thickness,
+                          rotation=rotation)[0]
 
 
 def _svg_for_world(world: Optional[World] = None,
@@ -233,7 +240,8 @@ def _svg_for_world(world: Optional[World] = None,
                    display_shape: bool = False,
                    grid: float = 0,
                    grid_color: str = 'grey',
-                   grid_thickness: float = 0.01) -> Tuple[str, Dict[str, str]]:
+                   grid_thickness: float = 0.01,
+                   rotation: Tuple[core.Vector2, float] | float | None = None) -> Tuple[str, Dict[str, str]]:
     g = ""
     if world:
         if bounds is None:
@@ -296,8 +304,8 @@ def _svg_for_world(world: Optional[World] = None,
     if grid > 0:
         min_x = (view_box[0] // grid - 1) * grid
         max_x = ((view_box[0] + view_box[2]) // grid + 2) * grid
-        min_y = (view_box[1] // grid - 1) * grid
-        max_y = ((view_box[1] + view_box[3]) // grid + 2) * grid
+        max_y = (-view_box[1] // grid + 2) * grid
+        min_y = ((-view_box[1] - view_box[3]) // grid - 1) * grid
         grid_xs = np.arange(min_x, max_x, grid)
         grid_ys = np.arange(min_y, max_y, grid)
         grid_kwargs = {
@@ -309,6 +317,17 @@ def _svg_for_world(world: Optional[World] = None,
     else:
         grid_kwargs = {}
 
+    if rotation is not None:
+        if isinstance(rotation, tuple):
+            (x, y), theta = rotation
+        else:
+            # rotate around center
+            x = view_box[0] + view_box[2] / 2
+            y = -view_box[1] - view_box[3] / 2
+            theta = rotation
+        r = f'rotate({theta / math.pi * 180: .4f}, {x: .4f}, {y: .4f})'
+    else:
+        r = ''
     return jinjia_env.get_template('world.svg').render(
         svg_world=g,
         prefix=prefix,
@@ -318,6 +337,7 @@ def _svg_for_world(world: Optional[World] = None,
         background_color=background_color,
         display_shape=display_shape,
         grid=grid,
+        rotation=r,
         **grid_kwargs,
         **dims), dims
 

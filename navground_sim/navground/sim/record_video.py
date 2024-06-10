@@ -5,7 +5,7 @@ import random
 import sys
 from typing import Any, Optional
 
-from . import _Scenario, World, load_experiment, load_plugins
+from . import _Scenario, World, load_experiment, load_plugins, Agent
 from .ui.video import record_video
 from .ui import Decorate
 
@@ -18,17 +18,24 @@ def run(path: str,
         duration: float = 60.0,
         seed: int = -1,
         decorate: Optional[Decorate] = None,
+        follow_index: int = -1,
         **kwargs: Any) -> None:
     world = World()
     if seed < 0:
         seed = random.randint(0, 2**31)
     scenario.init_world(world, seed=seed)
+    if follow_index >= 0 and follow_index < len(world.agents):
+        follow: Agent | None = world.agents[follow_index]
+    else:
+        follow = None
     record_video(path,
                  world,
                  time_step,
                  duration,
                  factor=factor,
-                 decorate=decorate, **kwargs)
+                 decorate=decorate,
+                 follow=follow,
+                 **kwargs)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -61,15 +68,22 @@ def parser() -> argparse.ArgumentParser:
                         help='View background color',
                         type=str,
                         default="lightgray")
-    parser.add_argument('--area',
-                        help='Minimal area rendered in the view',
-                        type=float,
-                        # default=(0.0, 0.0, 0.0, 0.0),
-                        nargs=4,
-                        metavar=("MIN_X", "MIN_Y", "MAX_X", "MAX_Y"))
+    parser.add_argument(
+        '--area',
+        help='Minimal area rendered in the view',
+        type=float,
+        # default=(0.0, 0.0, 0.0, 0.0),
+        nargs=4,
+        metavar=("MIN_X", "MIN_Y", "MAX_X", "MAX_Y"))
     parser.add_argument('--display-shape',
                         help='Display effective agent shape',
                         action='store_true')
+    parser.add_argument('--follow',
+                        help='The index of the agent to follow',
+                        default=-1, type=int)
+    parser.add_argument('--grid',
+                        help='The size of the grid',
+                        default='0', type=float)
     # parser.add_argument('--display-deadlocks',
     #                     help='Color deadlocked agent in blue',
     #                     action='store_true')
@@ -108,4 +122,6 @@ def main(decorate: Optional[Decorate] = None) -> None:
         background_color=arg.background_color,
         bounds=bounds,
         seed=arg.seed,
-        decorate=decorate)
+        decorate=decorate,
+        follow_index=arg.follow,
+        grid=arg.grid)

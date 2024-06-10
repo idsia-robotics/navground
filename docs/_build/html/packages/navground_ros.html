@@ -6,7 +6,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>navground_ros &#8212; navground 0.0.4 documentation</title>
   
@@ -14,35 +14,35 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
     <script src="../_static/documentation_options.js?v=dfd84850"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
@@ -63,27 +63,23 @@
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -105,8 +101,13 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
     </header>
   
 
@@ -160,7 +161,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../first_steps.html">First Steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/tour.html">A tour of navground</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Packages</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Packages</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="navground_core.html">navground_core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_py.html">navground_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_sim.html">navground_sim</a></li>
@@ -171,8 +172,8 @@
 <li class="toctree-l2"><a class="reference internal" href="navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_demos.html">navground_demos</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
@@ -180,22 +181,22 @@
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guides/probes.html">How to record custom data in experiments</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../scenarios/antipodal.html">Antipodal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../scenarios/corridor.html">Corridor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../scenarios/cross.html">Cross</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/auto_registration.html">Auto registration</a></li>
@@ -209,8 +210,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/controller.html">Controller</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/helper.html">Helpers</a></li>
 </ul>
-</li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/yaml.html">YAML</a></li>
@@ -222,8 +223,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/modulations.html">Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/python/controller.html">Controller</a></li>
 </ul>
-</li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/kinematics.html">Kinematics</a></li>
@@ -231,11 +232,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/behavior.html">Behavior</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/state.html">Environment State</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/tasks/index.html">Tasks</a></li>
@@ -245,8 +246,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/experiment.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/yaml.html">YAML</a></li>
 </ul>
-</li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
@@ -260,8 +261,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
 </ul>
-</li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/task.html">Task</a></li>
@@ -270,11 +271,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/scenario.html">Scenario</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/experiment.html">Experiment</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
-</li>
+</details></li>
 </ul>
-</li>
+</details></li>
 </ul>
 
     </div>
@@ -290,7 +291,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -299,7 +300,7 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
@@ -470,19 +471,21 @@ document.write(`
 <div class="admonition">
 <p class="admonition-title">Summary</p>
 <details>
-<summary>Executables</summary><table class="table">
+<summary>Executables</summary><div class="pst-scrollable-table-container"><table class="table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#navground_ros.exec.controller" title="controller">controller</a></p></td>
 </tr>
 </tbody>
 </table>
+</div>
 </details><details>
-<summary>Launch files</summary><table class="table">
+<summary>Launch files</summary><div class="pst-scrollable-table-container"><table class="table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#navground_ros.launch.navigation.launch" title="navigation.launch">navigation.launch</a></p></td>
 </tr>
 </tbody>
 </table>
+</div>
 </details></div>
 </dd></dl>
 
@@ -545,7 +548,7 @@ document.write(`
 <div class="admonition">
 <p class="admonition-title">Summary</p>
 <details>
-<summary>Parameters</summary><table class="table">
+<summary>Parameters</summary><div class="pst-scrollable-table-container"><table class="table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#RoboMasterROS.param.&lt;behavior_name&gt;.&lt;property_name&gt;" title="&lt;behavior_name&gt;.&lt;property_name&gt;">&lt;behavior_name&gt;.&lt;property_name&gt;</a></p></td>
 </tr>
@@ -603,8 +606,9 @@ document.write(`
 </tr>
 </tbody>
 </table>
+</div>
 </details><details>
-<summary>Subscriptions</summary><table class="table">
+<summary>Subscriptions</summary><div class="pst-scrollable-table-container"><table class="table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#RoboMasterROS.sub.neighbors" title="neighbors">neighbors</a></p></td>
 </tr>
@@ -622,8 +626,9 @@ document.write(`
 </tr>
 </tbody>
 </table>
+</div>
 </details><details>
-<summary>Publishers</summary><table class="table">
+<summary>Publishers</summary><div class="pst-scrollable-table-container"><table class="table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#RoboMasterROS.pub.cmd_vel" title="cmd_vel">cmd_vel</a></p></td>
 </tr>
@@ -631,13 +636,15 @@ document.write(`
 </tr>
 </tbody>
 </table>
+</div>
 </details><details>
-<summary>Action servers</summary><table class="table">
+<summary>Action servers</summary><div class="pst-scrollable-table-container"><table class="table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#RoboMasterROS.act_server.go_to" title="go_to">go_to</a></p></td>
 </tr>
 </tbody>
 </table>
+</div>
 </details></div>
 </dd></dl>
 
@@ -665,7 +672,7 @@ document.write(`
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.drawing">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">drawing</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">false</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.drawing" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">drawing</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">false</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.drawing" title="Link to this definition">#</a></dt>
 <dd><p>Whether to publish visual markers to display debug information to RViz.</p>
 </dd></dl>
 
@@ -706,43 +713,43 @@ document.write(`
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.behavior">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">behavior</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">&quot;HL&quot;</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.behavior" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">behavior</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">&quot;HL&quot;</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.behavior" title="Link to this definition">#</a></dt>
 <dd><p>Name of the navigation behavior, see <a class="reference internal" href="../reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">navground::core::Behavior</span></code></a>. Should be one of the registered names.</p>
 </dd></dl>
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.heading">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">heading</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">idle</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.heading" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">heading</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">idle</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.heading" title="Link to this definition">#</a></dt>
 <dd><p>Heading behavior, see <a class="reference internal" href="../reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior20get_heading_behaviorEv" title="navground::core::Behavior::get_heading_behavior"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::Behavior::get_heading_behavior()</span></code></a>. One of “idle”, “target_point”, “target_angular_speed”, or “velocity”.</p>
 </dd></dl>
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.horizon">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">horizon</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">1.0</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.horizon" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">horizon</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">1.0</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.horizon" title="Link to this definition">#</a></dt>
 <dd><p>Horizon, see <a class="reference internal" href="../reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior11get_horizonEv" title="navground::core::Behavior::get_horizon"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::Behavior::get_horizon()</span></code></a>. Should be positive.</p>
 </dd></dl>
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.optimal_angular_speed">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">optimal_angular_speed</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.3</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.optimal_angular_speed" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">optimal_angular_speed</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.3</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.optimal_angular_speed" title="Link to this definition">#</a></dt>
 <dd><p>Optimal angular speed, see <a class="reference internal" href="../reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior25get_optimal_angular_speedEv" title="navground::core::Behavior::get_optimal_angular_speed"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::Behavior::get_optimal_angular_speed()</span></code></a>. Should be positive.</p>
 </dd></dl>
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.optimal_speed">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">optimal_speed</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.3</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.optimal_speed" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">optimal_speed</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.3</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.optimal_speed" title="Link to this definition">#</a></dt>
 <dd><p>Optimal speed, see <a class="reference internal" href="../reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior17get_optimal_speedEv" title="navground::core::Behavior::get_optimal_speed"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::Behavior::get_optimal_speed()</span></code></a>. Should be positive.</p>
 </dd></dl>
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.rotation_tau">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">rotation_tau</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.5</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.rotation_tau" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">rotation_tau</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.5</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.rotation_tau" title="Link to this definition">#</a></dt>
 <dd><p>Rotation relaxation time, see <a class="reference internal" href="../reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior16get_rotation_tauEv" title="navground::core::Behavior::get_rotation_tau"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::Behavior::get_rotation_tau()</span></code></a>. Should be positive.</p>
 </dd></dl>
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.safety_margin">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">safety_margin</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.1</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.safety_margin" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">safety_margin</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.1</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.safety_margin" title="Link to this definition">#</a></dt>
 <dd><p>Safety margin, see <a class="reference internal" href="../reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior17get_safety_marginEv" title="navground::core::Behavior::get_safety_margin"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::Behavior::get_safety_margin()</span></code></a>. Should be positive.</p>
 </dd></dl>
 
@@ -750,25 +757,25 @@ document.write(`
 <h4>HL behavior<a class="headerlink" href="#hl-behavior" title="Link to this heading">#</a></h4>
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.hl.aperture">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">hl.aperture</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">3.141592741012</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.hl.aperture" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">hl.aperture</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">3.141592741012</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.hl.aperture" title="Link to this definition">#</a></dt>
 <dd><p>Aperture, see <a class="reference internal" href="../reference/core/cpp/behaviors/HL.html#_CPPv4NK9navground4core10HLBehavior12get_apertureEv" title="navground::core::HLBehavior::get_aperture"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::HLBehavior::get_aperture()</span></code></a>. Should be positive.</p>
 </dd></dl>
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.hl.eta">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">hl.eta</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.5</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.hl.eta" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">hl.eta</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.5</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.hl.eta" title="Link to this definition">#</a></dt>
 <dd><p>Eta, see <a class="reference internal" href="../reference/core/cpp/behaviors/HL.html#_CPPv4NK9navground4core10HLBehavior7get_etaEv" title="navground::core::HLBehavior::get_eta"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::HLBehavior::get_eta()</span></code></a>. Should be positive.</p>
 </dd></dl>
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.hl.resolution">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">hl.resolution</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">101</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.hl.resolution" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">hl.resolution</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">101</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.hl.resolution" title="Link to this definition">#</a></dt>
 <dd><p>Resolution, see <a class="reference internal" href="../reference/core/cpp/behaviors/HL.html#_CPPv4NK9navground4core10HLBehavior14get_resolutionEv" title="navground::core::HLBehavior::get_resolution"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::HLBehavior::get_resolution()</span></code></a>. Should be positive.</p>
 </dd></dl>
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.hl.tau">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">hl.tau</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.125</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.hl.tau" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">hl.tau</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.125</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.hl.tau" title="Link to this definition">#</a></dt>
 <dd><p>Tau, see <a class="reference internal" href="../reference/core/cpp/behaviors/HL.html#_CPPv4NK9navground4core10HLBehavior7get_tauEv" title="navground::core::HLBehavior::get_tau"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::HLBehavior::get_tau()</span></code></a>. Should be positive.</p>
 </dd></dl>
 
@@ -777,13 +784,13 @@ document.write(`
 <h4>ORCA behavior<a class="headerlink" href="#orca-behavior" title="Link to this heading">#</a></h4>
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.orca.effective_center">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">orca.effective_center</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">false</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.orca.effective_center" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">orca.effective_center</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">false</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.orca.effective_center" title="Link to this definition">#</a></dt>
 <dd><p>Whether to use an effective center, see <a class="reference internal" href="../reference/core/cpp/behaviors/ORCA.html#_CPPv4NK9navground4core12ORCABehavior25is_using_effective_centerEv" title="navground::core::ORCABehavior::is_using_effective_center"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::ORCABehavior::is_using_effective_center()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.orca.time_horizon">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">orca.time_horizon</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">10.0</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.orca.time_horizon" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">orca.time_horizon</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">10.0</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.orca.time_horizon" title="Link to this definition">#</a></dt>
 <dd><p>Time horizon, see <a class="reference internal" href="../reference/core/cpp/behaviors/ORCA.html#_CPPv4NK9navground4core12ORCABehavior16get_time_horizonEv" title="navground::core::ORCABehavior::get_time_horizon"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::ORCABehavior::get_time_horizon()</span></code></a>. Should be positive.</p>
 </dd></dl>
 
@@ -793,7 +800,7 @@ document.write(`
 <p>All properties of registered behavior are exposed as parameters</p>
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.&lt;behavior_name&gt;.&lt;property_name&gt;">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">&lt;behavior_name&gt;.&lt;property_name&gt;</span></span><span class="w"> </span><span class="pre">&lt;property_type&gt;</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">&lt;default</span> <span class="pre">value</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">property&gt;</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.<behavior_name>.<property_name>" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">&lt;behavior_name&gt;.&lt;property_name&gt;</span></span><span class="w"> </span><span class="pre">&lt;property_type&gt;</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">&lt;default</span> <span class="pre">value</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">property&gt;</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.<behavior_name>.<property_name>" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -802,7 +809,7 @@ document.write(`
 <h3>Controller<a class="headerlink" href="#controller" title="Link to this heading">#</a></h3>
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.speed_tolerance">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">speed_tolerance</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.05</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.speed_tolerance" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">speed_tolerance</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">0.05</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.speed_tolerance" title="Link to this definition">#</a></dt>
 <dd><p>Speed below of which the agent is considered as stopped, see <a class="reference internal" href="../reference/core/cpp/controller.html#_CPPv4NK9navground4core10Controller19get_speed_toleranceEv" title="navground::core::Controller::get_speed_tolerance"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::Controller::get_speed_tolerance()</span></code></a>. Should be positive.</p>
 </dd></dl>
 
@@ -822,7 +829,7 @@ document.write(`
 
 <dl class="ros parameter">
 <dt class="sig sig-object ros" id="RoboMasterROS.param.altitude.tau">
-<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">altitude.tau</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">1.0</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.5a5.487 5.487 0 00-4.131 1.869l1.204 1.204A.25.25 0 014.896 6H1.25A.25.25 0 011 5.75V2.104a.25.25 0 01.427-.177l1.38 1.38A7.001 7.001 0 0114.95 7.16a.75.75 0 11-1.49.178A5.501 5.501 0 008 2.5zM1.705 8.005a.75.75 0 01.834.656 5.501 5.501 0 009.592 2.97l-1.204-1.204a.25.25 0 01.177-.427h3.646a.25.25 0 01.25.25v3.646a.25.25 0 01-.427.177l-1.38-1.38A7.001 7.001 0 011.05 8.84a.75.75 0 01.656-.834z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.altitude.tau" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">parameter</span></em><span class="w"> </span><span class="sig-name descname"><span class="pre">altitude.tau</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="pre">[Default:</span> <code class="docutils literal notranslate"><span class="pre">1.0</span></code><span class="pre">]</span><span class="w"> </span><a class="reference external" href="#" title="Dynamic"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-sync sd-text-primary" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z"></path></svg></a><a class="headerlink" href="#RoboMasterROS.param.altitude.tau" title="Link to this definition">#</a></dt>
 <dd><p>Relaxation time of the vertical motion, see <a class="reference internal" href="../reference/core/cpp/controller.html#_CPPv4NK9navground4core11Controller316get_altitude_tauEv" title="navground::core::Controller3::get_altitude_tau"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">navground::core::Controller3::get_altitude_tau()</span></code></a>. Should be positive.</p>
 </dd></dl>
 
@@ -917,7 +924,7 @@ Only published if <a class="reference internal" href="#RoboMasterROS.param.publi
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -1029,8 +1036,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
 
   <footer class="bd-footer">
   </footer>

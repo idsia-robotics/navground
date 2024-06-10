@@ -28,6 +28,8 @@ Probes
 .. doxygenclass:: navground::sim::GroupRecordProbe
     :members:
 
+.. doxygenclass:: navground::sim::SensingProbe
+    :members:
 
 Experimental run
 ================

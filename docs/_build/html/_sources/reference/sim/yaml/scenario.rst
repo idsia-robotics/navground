@@ -27,7 +27,7 @@ Schema
      control_period: {$ref: /schemas/sampler<number>} 
      id: {$ref: /schemas/sampler<integer>} 
      type: {$ref: /schemas/sampler<string>} 
-     number: number
+     number: {$ref: /schemas/sampler<number>} 
      # Should be unique across groups
      name: string
    required: [type]

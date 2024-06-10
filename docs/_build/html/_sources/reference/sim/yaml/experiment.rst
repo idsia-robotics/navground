@@ -10,6 +10,33 @@ Schema
 .. code-block:: yaml
 
    $schema: https://json-schema.org/draft/2020-12/schema
+   $id: /schemas/record_neighbors
+   title: RecordNeighborsConfig
+   type: object
+   properties:
+     enabled: bool
+     number: integer
+     relative: bool
+   required: []
+
+.. code-block:: yaml
+
+   $schema: https://json-schema.org/draft/2020-12/schema
+   $id: /schemas/record_neighbors
+   title: RecordSensingConfig
+   type: object
+   properties:
+     name: string
+     sensor: {$ref: /schemas/state_estimation}
+     agent_indices:    
+      type: array
+      items:
+        type: integer
+   required: []
+
+.. code-block:: yaml
+
+   $schema: https://json-schema.org/draft/2020-12/schema
    $id: /schemas/experiment
    title: Experiment
    type: object
@@ -27,6 +54,9 @@ Schema
      record_task_events: bool
      record_deadlocks: bool
      record_efficacy: bool
+     record_neighbors: {$ref: /schemas/record_neighbors}
+     record_sensing: {$ref: /schemas/record_sensing}
+     use_agent_uid_as_key: bool
      terminate_when_all_idle_or_stuck: bool
      scenario: {$ref: /schemas/scenario}
      name: string

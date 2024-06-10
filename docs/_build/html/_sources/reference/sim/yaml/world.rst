@@ -22,6 +22,28 @@ Schema
      groups: 
        type: array
        items: {$ref: /schemas/agent}
+     lattice:
+       type: object
+       properties:
+         x: 
+           type: array
+           items: numbers
+           minItems: 2
+           maxItems: 2
+         y: 
+           type: array
+           items: numbers
+           minItems: 2
+           maxItems: 2
+       required: []
+     bounding_box:
+       type: object
+       properties:
+         min_x: number
+         min_y: number
+         max_x: number
+         max_y: number
+       required: []
    required: []
 
 Example

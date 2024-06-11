@@ -48,7 +48,9 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
         // radius[i] = n.radius;
         radius[i] = std::min(n.radius, max_radius);
         pn = to_relative(n.position - p.position, p);
-        pn -= pn.normalized() * n.radius;
+        if (use_nearest_point) {
+          pn -= pn.normalized() * n.radius;
+        }
         const auto vn = to_relative(n.velocity, p);
         velocity[2 * i] = std::min(vn[0], max_speed);
         velocity[2 * i + 1] = std::min(vn[1], max_speed);
@@ -56,7 +58,9 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
         const auto &n = obstacles[index - num_neighbors];
         radius[i] = std::min(n.radius, max_radius);
         pn = to_relative(n.position - p.position, p);
-        pn -= pn.normalized() * n.radius;
+        if (use_nearest_point) {
+          pn -= pn.normalized() * n.radius;
+        }
       }
       position[2 * i] = pn[0];
       position[2 * i + 1] = pn[1];
@@ -116,6 +120,12 @@ const std::map<std::string, Property> DiscsStateEstimation::properties =
                               &DiscsStateEstimation::get_include_valid,
                               &DiscsStateEstimation::set_include_valid,
                               default_include_valid, "Include validity field")},
+        {"use_nearest_point",
+         make_property<bool, DiscsStateEstimation>(
+             &DiscsStateEstimation::get_use_nearest_point,
+             &DiscsStateEstimation::set_use_nearest_point,
+             default_use_nearest_point,
+             "Whether to use the nearest point as position")},
     } +
     StateEstimation::properties;
 

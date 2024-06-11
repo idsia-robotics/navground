@@ -35,6 +35,8 @@ namespace navground::sim {
  *
  *   - `max_speed` (int, \ref get_number)
  *
+ *   - `use_nearest_point` (bool, \ref get_use_nearest_point)
+ *
  */
 struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   /**
@@ -58,22 +60,29 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    */
   inline static const bool default_include_valid = true;
   /**
+   * The default for whether to use nearest point as position
+   */
+  inline static const bool default_use_nearest_point = true;
+
+  /**
    * @brief      Constructs a new instance.
    *
    * @param[in]  range_   The range of view
    * @param[in]  number_  Number of discs
    */
-  explicit DiscsStateEstimation(ng_float_t range_ = default_range,
-                                unsigned number_ = default_number,
-                                ng_float_t max_radius_ = default_max_radius,
-                                ng_float_t max_speed_ = default_max_speed,
-                                bool include_valid_ = default_include_valid)
+  explicit DiscsStateEstimation(
+      ng_float_t range_ = default_range, unsigned number_ = default_number,
+      ng_float_t max_radius_ = default_max_radius,
+      ng_float_t max_speed_ = default_max_speed,
+      bool include_valid_ = default_include_valid,
+      bool use_nearest_point_ = default_use_nearest_point)
       : Sensor(),
         range(range_),
         number(number_),
         max_radius(max_radius_),
         max_speed(max_speed_),
-        include_valid(include_valid_) {}
+        include_valid(include_valid_),
+        use_nearest_point(use_nearest_point_) {}
 
   virtual ~DiscsStateEstimation() = default;
 
@@ -151,6 +160,20 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    */
   bool get_include_valid() const { return include_valid; }
   /**
+   * @brief      Sets whether to use the nearest or the center as position
+   *
+   * @param[in]  value     The new value
+   */
+  void set_use_nearest_point(bool value) { use_nearest_point = value; }
+
+  /**
+   * @brief      Gets whether to use the nearest or the center as position
+   *
+   * @return     Whether to use nearest point as position.
+   */
+  bool get_use_nearest_point() const { return use_nearest_point; }
+
+  /**
    * @private
    */
   virtual const Properties &get_properties() const override {
@@ -202,6 +225,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   ng_float_t max_radius;
   ng_float_t max_speed;
   bool include_valid;
+  bool use_nearest_point;
   const static std::string type;
 
   bool include_velocity() const { return max_speed > 0; }

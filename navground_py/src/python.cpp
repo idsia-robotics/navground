@@ -33,7 +33,6 @@ using namespace navground::core;
 namespace py = pybind11;
 
 PYBIND11_MAKE_OPAQUE(std::map<std::string, Buffer>);
-PYBIND11_MAKE_OPAQUE(std::vector<LineSegment>);
 
 template <typename T>
 static std::string to_string(const T &value) {
@@ -188,88 +187,6 @@ class PyBehavior : public Behavior, virtual public PyHasRegister<Behavior> {
   EnvironmentState *get_environment_state() override {
     PYBIND11_OVERRIDE(EnvironmentState *, Behavior, get_environment_state);
   }
-
-  // HACK(J): should not happen but as of now, it can be that get_type returns
-  // ''
-  const Properties &get_properties() const override {
-    const std::string t = get_type();
-    if (type_properties().count(t)) {
-      return type_properties().at(t);
-    }
-    return Native::get_properties();
-  };
-
-  py::object py_kinematics;
-
-  void set_kinematics_py(const py::object &value) {
-    py_kinematics = value;
-    set_kinematics(value.cast<std::shared_ptr<Kinematics>>());
-  }
-};
-
-class PyHLBehavior : public HLBehavior, virtual public PyHasRegister<Behavior> {
- public:
-  /* Inherit the constructors */
-  using HLBehavior::HLBehavior;
-  using Native = HLBehavior;
-
-  std::string get_type() const override {
-    return PyHasRegister<Behavior>::get_type();
-  }
-
-  /* Trampolines (need one for each virtual function) */
-  Twist2 compute_cmd(ng_float_t time_step,
-                     std::optional<Frame> frame) override {
-    PYBIND11_OVERRIDE(Twist2, HLBehavior, compute_cmd, time_step, frame);
-  }
-  Vector2 desired_velocity_towards_point(const Vector2 &point, ng_float_t speed,
-                                         ng_float_t time_step) override {
-    PYBIND11_OVERRIDE(Vector2, HLBehavior, desired_velocity_towards_point,
-                      point, speed, time_step);
-  }
-  Vector2 desired_velocity_towards_velocity(const Vector2 &velocity,
-                                            ng_float_t time_step) override {
-    PYBIND11_OVERRIDE(Vector2, HLBehavior, desired_velocity_towards_velocity,
-                      velocity, time_step);
-  }
-  Twist2 twist_towards_velocity(const Vector2 &absolute_velocity,
-                                Frame frame) override {
-    PYBIND11_OVERRIDE(Twist2, HLBehavior, twist_towards_velocity,
-                      absolute_velocity, frame);
-  }
-  Twist2 cmd_twist_towards_point(const Vector2 &point, ng_float_t speed,
-                                 ng_float_t time_step, Frame frame) override {
-    PYBIND11_OVERRIDE(Twist2, HLBehavior, cmd_twist_towards_point, point, speed,
-                      time_step, frame);
-  }
-  Twist2 cmd_twist_towards_velocity(const Vector2 &velocity,
-                                    ng_float_t time_step,
-                                    Frame frame) override {
-    PYBIND11_OVERRIDE(Twist2, HLBehavior, cmd_twist_towards_velocity, velocity,
-                      time_step, frame);
-  }
-  Twist2 cmd_twist_towards_orientation(ng_float_t orientation,
-                                       ng_float_t angular_speed,
-                                       ng_float_t time_step,
-                                       Frame frame) override {
-    PYBIND11_OVERRIDE(Twist2, HLBehavior, cmd_twist_towards_orientation,
-                      orientation, angular_speed, time_step, frame);
-  }
-  Twist2 cmd_twist_towards_angular_speed(ng_float_t angular_speed,
-                                         ng_float_t time_step,
-                                         Frame frame) override {
-    PYBIND11_OVERRIDE(Twist2, HLBehavior, cmd_twist_towards_angular_speed,
-                      angular_speed, time_step, frame);
-  }
-  Twist2 cmd_twist_towards_stopping(ng_float_t time_step,
-                                    Frame frame) override {
-    PYBIND11_OVERRIDE(Twist2, HLBehavior, cmd_twist_towards_stopping, time_step,
-                      frame);
-  }
-
-  // EnvironmentState *get_environment_state() override {
-  //   PYBIND11_OVERRIDE(EnvironmentState *, Behavior, get_environment_state);
-  // }
 
   // HACK(J): should not happen but as of now, it can be that get_type returns
   // ''
@@ -830,9 +747,6 @@ PYBIND11_MODULE(_navground, m) {
            nullptr;
   });
 
-  py::bind_vector<std::vector<LineSegment>>(m, "LineSegments");
-  py::implicitly_convertible<py::list, std::vector<LineSegment>>();
-
   py::class_<GeometricState, EnvironmentState, std::shared_ptr<GeometricState>>(
       m, "GeometricState", DOC(navground, core, GeometricState))
       .def(py::init<>(), DOC(navground, core, GeometricState, GeometricState))
@@ -982,9 +896,8 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("buffers", &SensingState::get_buffers, nullptr,
                     DOC(navground, core, SensingState, property_buffers));
 
-  py::class_<HLBehavior, Behavior, PyHLBehavior, HasRegister<Behavior>,
-             HasProperties, std::shared_ptr<HLBehavior>>
-      hl(m, "HLBehavior", DOC(navground, core, HLBehavior));
+  py::class_<HLBehavior, Behavior, std::shared_ptr<HLBehavior>> hl(
+      m, "HLBehavior", DOC(navground, core, HLBehavior));
   hl.def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
          py::arg("kinematics") = py::none(), py::arg("radius") = 0,
          DOC(navground, core, HLBehavior, HLBehavior))

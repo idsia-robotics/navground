@@ -10,13 +10,14 @@
 #include <random>
 
 #include "navground/core/behavior.h"
-#include "navground/core/behaviors/HL.h"
+#include "navground/core/behavior_modulation.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/types.h"
 #include "navground/sim/sampling/sampler.h"
 #include "navground/sim/world.h"
 
 using navground::core::Behavior;
+using navground::core::BehaviorModulation;
 using navground::core::Kinematics;
 
 namespace navground::sim {
@@ -102,6 +103,65 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
 };
 
 /**
+ *  Samples \ref navground::core::BehaviorModulation
+ *
+ * @tparam     T     The type of the root class.
+ * Used to generalize from C++ to Python.
+ */
+template <typename T = BehaviorModulation>
+struct BehaviorModulationSampler : public SamplerFromRegister<T> {
+  /**
+   * @brief      Constructs a new instance.
+   *
+   * @param[in]  type  The registered type name
+   */
+  explicit BehaviorModulationSampler(const std::string& type = "")
+      : SamplerFromRegister<T>(type) {}
+
+  /**
+   * @private
+   */
+  using C = typename T::C;
+
+  /**
+   * @private
+   */
+  void reset() override {
+    SamplerFromRegister<T>::reset();
+    if (enabled) enabled->reset();
+  }
+
+  std::shared_ptr<Sampler<bool>> enabled;
+
+ protected:
+  C s(RandomGenerator& rg) override {
+    C c = SamplerFromRegister<T>::s(rg);
+    auto modulation = get<T, C>::ptr(c);
+    if (!modulation) return c;
+    if (enabled) {
+      modulation->set_enabled(enabled->sample(rg));
+    }
+    return c;
+  }
+};
+
+template <typename CB, typename CM>
+struct add_modulation {
+  static void call(CB behavior, CM& modulation);
+};
+
+template <>
+struct add_modulation<std::shared_ptr<Behavior>,
+                      std::shared_ptr<BehaviorModulation>> {
+  static void call(std::shared_ptr<Behavior> behavior,
+                   std::shared_ptr<BehaviorModulation>& modulation) {
+    // printf("Add modulation to behavior\n");
+    behavior->add_modulation(modulation);
+    // printf("-> %zu\n", behavior->get_modulations().size());
+  }
+};
+
+/**
  * @brief      Samples \ref navground::core::Behavior
  *
  * @tparam     T     The type of the behavior root class.
@@ -110,7 +170,7 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
  * Defines the same fields as \ref navground::core::Behavior
  * but as sampler of the respective type.
  */
-template <typename T = Behavior>
+template <typename T = Behavior, typename M = BehaviorModulation>
 struct BehaviorSampler : public SamplerFromRegister<T> {
   /**
    * @private
@@ -123,7 +183,7 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
    * @param[in]  type  The registered type name
    */
   explicit BehaviorSampler(const std::string& type = "")
-      : SamplerFromRegister<T>(type) {}
+      : SamplerFromRegister<T>(type), modulations() {}
 
  protected:
   C s(RandomGenerator& rg) override {
@@ -149,6 +209,12 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
       behavior->set_heading_behavior(
           Behavior::heading_from_string(heading->sample(rg)));
     }
+    for (auto& mod : modulations) {
+      typename M::C value = mod.sample(rg);
+      // printf("Sampled a modulation\n");
+      add_modulation<typename T::C, typename M::C>::call(c, value);
+      // behavior->add_modulation(mod.sample(rg));
+    }
     return c;
   }
 
@@ -172,6 +238,7 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
   std::shared_ptr<Sampler<ng_float_t>> safety_margin;
   std::shared_ptr<Sampler<ng_float_t>> horizon;
   std::shared_ptr<Sampler<std::string>> heading;
+  std::vector<BehaviorModulationSampler<M>> modulations;
 };
 
 /**

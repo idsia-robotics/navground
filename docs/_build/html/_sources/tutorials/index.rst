@@ -11,5 +11,6 @@ Tutorials
    display
    playback
    deadlocks_and_collisions
+   modulations
 
 

@@ -15,6 +15,7 @@
 
 #include "docstrings.h"
 #include "navground/core/behavior.h"
+#include "navground/core/behavior_modulation.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/plugins.h"
 #include "navground/core/types.h"
@@ -45,6 +46,7 @@
 #include "navground_py/pickle.h"
 #include "navground_py/register.h"
 #include "navground_py/yaml.h"
+#include "navground_py/behavior_modulation.h"
 
 using namespace navground::core;
 using namespace navground::sim;
@@ -64,6 +66,14 @@ struct get<T, py::object> {
     return c.cast<typename T::Native *>();
   }
 };
+
+template <>
+struct add_modulation<py::object, py::object> {
+  static void call(py::object & behavior, py::object modulation) {
+    return add_modulation_py(behavior, modulation);
+  }
+};
+
 
 struct PyBehavior : public Behavior {
   using C = py::object;
@@ -95,6 +105,23 @@ struct PyKinematics : public Kinematics {
   static std::map<std::string, Properties> type_properties() {
     py::module_ nav = py::module_::import("navground.core");
     auto value = nav.attr("Kinematics").attr("type_properties");
+    return value.cast<std::map<std::string, Properties>>();
+  }
+};
+
+struct PyBehaviorModulation : public BehaviorModulation {
+  using C = py::object;
+  using Native = BehaviorModulation;
+
+  static py::object make_type(const std::string &type) {
+    py::module_ nav = py::module_::import("navground.core");
+    return nav.attr("BehaviorModulation").attr("make_type")(type);
+  }
+
+  // Should cache
+  static std::map<std::string, Properties> type_properties() {
+    py::module_ nav = py::module_::import("navground.core");
+    auto value = nav.attr("BehaviorModulation").attr("type_properties");
     return value.cast<std::map<std::string, Properties>>();
   }
 };
@@ -158,6 +185,7 @@ struct PySensor : Sensor, virtual PyStateEstimation {
 class PyAgent : public Agent {
  public:
   using B = PyBehavior;
+  using M = PyBehaviorModulation;
   using K = PyKinematics;
   using T = PyTask;
   using S = PyStateEstimation;

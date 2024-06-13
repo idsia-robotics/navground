@@ -480,6 +480,9 @@ document.write(`
 <span class="nt">      safety_margin</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="nv">/schemas/sampler&lt;number&gt;</span><span class="p p-Indicator">}</span>
 <span class="nt">      horizon</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="nv">/schemas/sampler&lt;number&gt;</span><span class="p p-Indicator">}</span>
 <span class="nt">      heading</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="nv">/schemas/sampler&lt;string&gt;</span><span class="p p-Indicator">}</span>
+<span class="nt">      modulations</span><span class="p">:</span>
+<span class="nt">       type</span><span class="p">:</span><span class="w"> </span><span class="nv">array</span>
+<span class="w">       </span><span class="nv">items</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="c1">#/$defs/kinematic_sampler}</span>
 <span class="nt">    required</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">type</span><span class="p p-Indicator">]</span>
 <span class="nt">    additionalProperties</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
 <span class="nt">  kinematic_sampler</span><span class="p">:</span>
@@ -487,6 +490,12 @@ document.write(`
 <span class="nt">      type</span><span class="p">:</span><span class="w"> </span><span class="nv">string</span>
 <span class="w">      </span><span class="nv">max_speed</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="nv">/schemas/sampler&lt;number&gt;</span><span class="p p-Indicator">}</span>
 <span class="nt">      max_angular_speed</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="nv">/schemas/sampler&lt;number&gt;</span><span class="p p-Indicator">}</span>
+<span class="nt">    required</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">type</span><span class="p p-Indicator">]</span>
+<span class="nt">    additionalProperties</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="nt">  behavior_modulation_sampler</span><span class="p">:</span>
+<span class="nt">    properties</span><span class="p">:</span>
+<span class="nt">      type</span><span class="p">:</span><span class="w"> </span><span class="nv">string</span>
+<span class="w">      </span><span class="nv">enabled</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="nv">/schemas/sampler&lt;bool&gt;</span><span class="p p-Indicator">}</span>
 <span class="nt">    required</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">type</span><span class="p p-Indicator">]</span>
 <span class="nt">    additionalProperties</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
 <span class="nt">  task_sampler</span><span class="p">:</span>

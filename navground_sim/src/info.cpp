@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "navground/core/behavior.h"
+#include "navground/core/behavior_modulation.h"
 #include "navground/core/plugins.h"
 #include "navground/core/property.h"
 #include "navground/core/utilities.h"
@@ -20,6 +21,7 @@ int main(int argc, char* argv[]) {
   INFO info("info",
             {{"--behavior", "Behaviors"},
              {"--kinematics", "Kinematics"},
+             {"--modulations", "Modulations"},
              {"--state_estimation", "State Estimations"},
              {"--task", "Tasks"},
              {"--scenario", "Scenarios"}},
@@ -29,6 +31,7 @@ int main(int argc, char* argv[]) {
   }
   info.print<navground::core::Behavior>("--behavior");
   info.print<navground::core::Kinematics>("--kinematics");
+  info.print<navground::core::BehaviorModulation>("--modulations");
   info.print<navground::sim::StateEstimation>("--state_estimation");
   info.print<navground::sim::Task>("--task");
   info.print<navground::sim::Scenario>("--scenario");

@@ -438,7 +438,9 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior"><code class="docutils literal notranslate"><span class="pre">Behavior</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.__init__"><code class="docutils literal notranslate"><span class="pre">Behavior.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.actuate"><code class="docutils literal notranslate"><span class="pre">Behavior.actuate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.add_modulation"><code class="docutils literal notranslate"><span class="pre">Behavior.add_modulation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.check_if_target_satisfied"><code class="docutils literal notranslate"><span class="pre">Behavior.check_if_target_satisfied()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.clear_modulations"><code class="docutils literal notranslate"><span class="pre">Behavior.clear_modulations()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.compute_cmd"><code class="docutils literal notranslate"><span class="pre">Behavior.compute_cmd()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.estimate_time_until_target_satisfied"><code class="docutils literal notranslate"><span class="pre">Behavior.estimate_time_until_target_satisfied()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.feasible_angular_speed"><code class="docutils literal notranslate"><span class="pre">Behavior.feasible_angular_speed()</span></code></a></li>
@@ -450,6 +452,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_twist"><code class="docutils literal notranslate"><span class="pre">Behavior.get_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_velocity"><code class="docutils literal notranslate"><span class="pre">Behavior.get_velocity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.make_type"><code class="docutils literal notranslate"><span class="pre">Behavior.make_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.remove_modulation"><code class="docutils literal notranslate"><span class="pre">Behavior.remove_modulation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.set"><code class="docutils literal notranslate"><span class="pre">Behavior.set()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.set_state_from"><code class="docutils literal notranslate"><span class="pre">Behavior.set_state_from()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.set_velocity"><code class="docutils literal notranslate"><span class="pre">Behavior.set_velocity()</span></code></a></li>
@@ -550,8 +553,18 @@ document.write(`
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Behavior.add_modulation">
+<span class="sig-name descname"><span class="pre">add_modulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Behavior.add_modulation" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.check_if_target_satisfied">
 <span class="sig-name descname"><span class="pre">check_if_target_satisfied</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#navground.core.Behavior.check_if_target_satisfied" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Behavior.clear_modulations">
+<span class="sig-name descname"><span class="pre">clear_modulations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Behavior.clear_modulations" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -617,6 +630,11 @@ document.write(`
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Behavior.remove_modulation">
+<span class="sig-name descname"><span class="pre">remove_modulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Behavior.remove_modulation" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.set">
@@ -711,7 +729,9 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior"><code class="docutils literal notranslate"><span class="pre">Behavior</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.__init__"><code class="docutils literal notranslate"><span class="pre">Behavior.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.actuate"><code class="docutils literal notranslate"><span class="pre">Behavior.actuate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.add_modulation"><code class="docutils literal notranslate"><span class="pre">Behavior.add_modulation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.check_if_target_satisfied"><code class="docutils literal notranslate"><span class="pre">Behavior.check_if_target_satisfied()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.clear_modulations"><code class="docutils literal notranslate"><span class="pre">Behavior.clear_modulations()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.compute_cmd"><code class="docutils literal notranslate"><span class="pre">Behavior.compute_cmd()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.estimate_time_until_target_satisfied"><code class="docutils literal notranslate"><span class="pre">Behavior.estimate_time_until_target_satisfied()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.feasible_angular_speed"><code class="docutils literal notranslate"><span class="pre">Behavior.feasible_angular_speed()</span></code></a></li>
@@ -723,6 +743,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_twist"><code class="docutils literal notranslate"><span class="pre">Behavior.get_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_velocity"><code class="docutils literal notranslate"><span class="pre">Behavior.get_velocity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.make_type"><code class="docutils literal notranslate"><span class="pre">Behavior.make_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.remove_modulation"><code class="docutils literal notranslate"><span class="pre">Behavior.remove_modulation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.set"><code class="docutils literal notranslate"><span class="pre">Behavior.set()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.set_state_from"><code class="docutils literal notranslate"><span class="pre">Behavior.set_state_from()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.set_velocity"><code class="docutils literal notranslate"><span class="pre">Behavior.set_velocity()</span></code></a></li>

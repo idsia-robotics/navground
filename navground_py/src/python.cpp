@@ -10,6 +10,7 @@
 
 #include "docstrings.h"
 #include "navground/core/behavior.h"
+#include "navground/core/behavior_modulation.h"
 #include "navground/core/behaviors/HL.h"
 #include "navground/core/behaviors/HRVO.h"
 #include "navground/core/behaviors/ORCA.h"
@@ -24,6 +25,7 @@
 #include "navground/core/types.h"
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/yaml.h"
+#include "navground_py/behavior_modulation.h"
 #include "navground_py/buffer.h"
 #include "navground_py/pickle.h"
 #include "navground_py/register.h"
@@ -128,6 +130,34 @@ std::string to_string(const LineSegment &value) {
          ")";
 }
 
+class PyBehaviorModulation : public BehaviorModulation,
+                             virtual public PyHasRegister<BehaviorModulation> {
+ public:
+  /* Inherit the constructors */
+  using BehaviorModulation::BehaviorModulation;
+  using Native = BehaviorModulation;
+
+  /* Trampolines (need one for each virtual function) */
+  void pre(Behavior &behavior, ng_float_t time_step) override {
+    PYBIND11_OVERRIDE(void, BehaviorModulation, pre, behavior, time_step);
+  }
+  Twist2 post(Behavior &behavior, ng_float_t time_step,
+              const Twist2 &cmd) override {
+    PYBIND11_OVERRIDE(Twist2, BehaviorModulation, post, behavior, time_step,
+                      cmd);
+  }
+
+  // HACK(J): should not happen but as of now, it can be that get_type returns
+  // ''
+  const Properties &get_properties() const override {
+    const std::string t = get_type();
+    if (type_properties().count(t)) {
+      return type_properties().at(t);
+    }
+    return Native::get_properties();
+  }
+};
+
 class PyBehavior : public Behavior, virtual public PyHasRegister<Behavior> {
  public:
   /* Inherit the constructors */
@@ -199,6 +229,8 @@ class PyBehavior : public Behavior, virtual public PyHasRegister<Behavior> {
   };
 
   py::object py_kinematics;
+  // std::vector<py::object> py_modulations;
+  // py::list py_modulations;
 
   void set_kinematics_py(const py::object &value) {
     py_kinematics = value;
@@ -239,6 +271,23 @@ class PyKinematics : public Kinematics,
   };
 };
 
+namespace YAML {
+template <>
+py::object load_node_py<PyBehavior>(const Node &node) {
+  auto obj = make_type_from_yaml_py<PyBehavior>(node);
+  if (!obj.is_none()) {
+    for (auto item : node["modulations"]) {
+      auto value = load_node_py<PyBehaviorModulation>(item);
+      add_modulation_py(obj, value);
+    }
+    Node n = node;
+    n.remove("modulations");
+    convert<Behavior>::decode(n, obj.cast<Behavior &>());
+  }
+  return obj;
+}
+}  // namespace YAML
+
 PYBIND11_MODULE(_navground, m) {
   py::options options;
   // options.disable_function_signatures();
@@ -251,6 +300,7 @@ PYBIND11_MODULE(_navground, m) {
 
   declare_register<Behavior>(m, "Behavior");
   declare_register<Kinematics>(m, "Kinematics");
+  declare_register<BehaviorModulation>(m, "BehaviorModulation");
 
   py::class_<Property>(m, "Property", DOC(navground, core, Property))
       .def_readonly("description", &Property::description,
@@ -590,9 +640,31 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("max_value", &SocialMargin::get_max_value, nullptr,
                     DOC(navground, core, SocialMargin, property_max_value));
 
+  py::class_<BehaviorModulation, PyBehaviorModulation,
+             HasRegister<BehaviorModulation>, HasProperties,
+             std::shared_ptr<BehaviorModulation>>
+      behavior_modulation(m, "BehaviorModulation",
+                          DOC(navground, core, BehaviorModulation));
+
+  behavior_modulation
+      .def(py::init<>(),
+           DOC(navground, core, BehaviorModulation, BehaviorModulation))
+      .def("pre", &BehaviorModulation::pre, py::arg("behavior"),
+           py::arg("time_step"), DOC(navground, core, BehaviorModulation, pre))
+      .def("post", &BehaviorModulation::post, py::arg("behavior"),
+           py::arg("time_step"), py::arg("cmd"),
+           DOC(navground, core, BehaviorModulation, post))
+      .def_property(
+          "type", [](BehaviorModulation *obj) { return obj->get_type(); },
+          nullptr, DOC(navground, core, HasRegister, property_type))
+      .def_property("enabled", &BehaviorModulation::get_enabled,
+                    &BehaviorModulation::set_enabled,
+                    DOC(navground, core, BehaviorModulation, property_enabled));
+
   py::class_<Behavior, PyBehavior, HasRegister<Behavior>, HasProperties,
              std::shared_ptr<Behavior>>
-      behavior(m, "Behavior", DOC(navground, core, Behavior));
+      behavior(m, "Behavior", py::dynamic_attr(),
+               DOC(navground, core, Behavior));
 
   py::enum_<Behavior::Heading>(behavior, "Heading",
                                DOC(navground, core, Behavior_Heading))
@@ -611,6 +683,16 @@ PYBIND11_MODULE(_navground, m) {
       .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
            py::arg("kinematics") = py::none(), py::arg("radius") = 0,
            DOC(navground, core, Behavior, Behavior))
+      .def("clear_modulations", &clear_modulations_py,
+           DOC(navground, core, Behavior, clear_modulations))
+      .def("add_modulation", &add_modulation_py, py::arg("value"),
+           DOC(navground, core, Behavior, add_modulations))
+      .def("remove_modulation", &remove_modulation_py, py::arg("value"),
+           DOC(navground, core, Behavior, remove_modulations))
+      .def_property("modulations",
+                    py::overload_cast<>(&Behavior::get_modulations, py::const_),
+                    nullptr,
+                    DOC(navground, core, Behavior, property_modulation))
       .def_property(
           "kinematics", &Behavior::get_kinematics,
           py::cpp_function(&Behavior::set_kinematics, py::keep_alive<1, 2>()),
@@ -1094,16 +1176,25 @@ Load a kinematics from a YAML string.
 
 :return:
   The loaded kinematics or ``None`` if loading fails.)doc");
+  m.def("load_behavior_modulation", &YAML::load_string_py<PyBehaviorModulation>,
+        py::arg("value"), R"doc(
+Load a behavior modulation from a YAML string.
+
+:return:
+  The loaded behavior modulation or ``None`` if loading fails.)doc");
   m.def("dump", &YAML::dump<Behavior>, py::arg("behavior"),
         "Dump a behavior to a YAML-string");
   m.def("dump", &YAML::dump<Kinematics>, py::arg("kinematics"),
         "Dump a kinematics to a YAML-string");
+  m.def("dump", &YAML::dump<BehaviorModulation>, py::arg("modulation"),
+        "Dump a behavior modulation to a YAML-string");
 
   m.def("load_plugins", &load_plugins, py::arg("plugins") = "",
         py::arg("env") = "", py::arg("directory") = py::none(),
         DOC(navground, core, load_plugins));
 
   // add [partial] pickle support
+  pickle_via_yaml<PyBehaviorModulation>(behavior_modulation);
   pickle_via_yaml<PyBehavior>(behavior);
   pickle_via_yaml<PyBehavior>(hl);
   pickle_via_yaml<PyBehavior>(orca);

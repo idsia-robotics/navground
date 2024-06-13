@@ -61,6 +61,7 @@ add_library(navground_core SHARED
   ${ORCA}
   src/behaviors/HRVO/HRVO.cpp
   ${HRVO}
+  src/behavior_modulations/relaxation.cpp
   src/controller.cpp
   src/controller_3d.cpp
   src/kinematics.cpp

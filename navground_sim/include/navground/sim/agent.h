@@ -11,6 +11,7 @@
 // #include <limits>
 
 #include "navground/core/behavior.h"
+#include "navground/core/behavior_modulation.h"
 #include "navground/core/common.h"
 #include "navground/core/controller.h"
 #include "navground/core/states/geometric.h"
@@ -21,6 +22,7 @@
 #include "navground_sim_export.h"
 
 using navground::core::Behavior;
+using navground::core::BehaviorModulation;
 using navground::core::Controller;
 using navground::core::GeometricState;
 using navground::core::Kinematics;
@@ -56,6 +58,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
  public:
   using C = std::shared_ptr<Agent>;
   using B = Behavior;
+  using M = BehaviorModulation;
   using K = Kinematics;
   using T = Task;
   using S = StateEstimation;

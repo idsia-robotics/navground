@@ -8,7 +8,8 @@ Component = Tuple[Type, str, Optional[str]]
 
 registers = (
     (core.Behavior, "Behaviors", "--behavior"),
-    (core.Kinematics, "Kinematics", "--kinematics"))
+    (core.Kinematics, "Kinematics", "--kinematics")
+    (core.BehaviorModulation, "Behavior modulations", "--modulation"))
 
 
 def add_arg_for_register(parser: argparse.ArgumentParser, arg: str, title: str)-> None:

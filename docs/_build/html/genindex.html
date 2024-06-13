@@ -180,6 +180,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorials/display.html">Visualize a simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/modulations.html">Behavior Modulations</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -230,6 +231,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/social_margin.html">Social margin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/behavior.html">Behavior</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/state.html">Environment State</a></li>
 </ul>
 </details></li>
@@ -421,6 +423,8 @@ document.write(`
 </li>
         <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.__init__">(Behavior method)</a>
 </li>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.BehaviorModulation.__init__">(BehaviorModulation method)</a>
+</li>
         <li><a href="reference/sim/python/state_estimations/sensor_boundary.html#navground.sim.state_estimations.BoundarySensor.__init__">(BoundarySensor method)</a>
 </li>
         <li><a href="reference/sim/python/state_estimations/geometric_bounded.html#navground.sim.state_estimations.BoundedStateEstimation.__init__">(BoundedStateEstimation method)</a>
@@ -576,6 +580,8 @@ document.write(`
       </ul></li>
       <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.add_init">add_init() (Scenario method)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.add_modulation">add_modulation() (Behavior method)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.add_obstacle">add_obstacle() (World method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.add_probe">add_probe() (Experiment method)</a>
@@ -584,10 +590,10 @@ document.write(`
         <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.add_probe">(ExperimentalRun method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/sim/python/world.html#navground.sim.World.add_random_obstacles">add_random_obstacles() (World method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.add_random_obstacles">add_random_obstacles() (World method)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.add_record">add_record() (ExperimentalRun method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.add_record_probe">add_record_probe() (Experiment method)</a>
@@ -638,6 +644,8 @@ document.write(`
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior">Behavior (class in navground.core)</a>
 </li>
+      <li><a href="reference/core/python/behavior_modulation.html#navground.core.BehaviorModulation">BehaviorModulation (class in navground.core)</a>
+</li>
       <li><a href="reference/core/python/register.html#navground.core._navground.BehaviorRegister">BehaviorRegister (class in navground.core._navground)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor_boundary.html#navground.sim.state_estimations.BoundarySensor">BoundarySensor (class in navground.sim.state_estimations)</a>
@@ -650,10 +658,10 @@ document.write(`
 </li>
       <li><a href="reference/core/python/state.html#navground.core.Buffer">Buffer (class in navground.core)</a>
 </li>
-      <li><a href="reference/core/python/state.html#navground.core.BufferDescription">BufferDescription (class in navground.core)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/state.html#navground.core.BufferDescription">BufferDescription (class in navground.core)</a>
+</li>
       <li>
     built-in function
 
@@ -684,6 +692,8 @@ document.write(`
       <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation">CachedCollisionComputation (class in navground.core)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.check_if_target_satisfied">check_if_target_satisfied() (Behavior method)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.clear_modulations">clear_modulations() (Behavior method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.clear_run_callbacks">clear_run_callbacks() (Experiment method)</a>
 </li>
@@ -1207,9 +1217,13 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior7actuateE10ng_float_t">navground::core::Behavior::actuate (C++ function)</a>, <a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior7actuateERK6Twist210ng_float_t">[1]</a>
 </li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior14add_modulationERKNSt10shared_ptrI18BehaviorModulationEE">navground::core::Behavior::add_modulation (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior8BehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t">navground::core::Behavior::Behavior (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior25check_if_target_satisfiedEv">navground::core::Behavior::check_if_target_satisfied (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior17clear_modulationsEv">navground::core::Behavior::clear_modulations (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior11compute_cmdE10ng_float_tNSt8optionalI5FrameEE">navground::core::Behavior::compute_cmd (C++ function)</a>
 </li>
@@ -1252,6 +1266,8 @@ document.write(`
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior21get_max_angular_speedEv">navground::core::Behavior::get_max_angular_speed (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior13get_max_speedEv">navground::core::Behavior::get_max_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior15get_modulationsEv">navground::core::Behavior::get_modulations (C++ function)</a>, <a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior15get_modulationsEv">[1]</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior25get_optimal_angular_speedEv">navground::core::Behavior::get_optimal_angular_speed (C++ function)</a>
 </li>
@@ -1296,6 +1312,8 @@ document.write(`
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior17heading_to_stringERK7Heading">navground::core::Behavior::heading_to_string (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior8is_stuckEv">navground::core::Behavior::is_stuck (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior17remove_modulationERKNSt10shared_ptrI18BehaviorModulationEE">navground::core::Behavior::remove_modulation (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior18set_actuated_twistERK6Twist2">navground::core::Behavior::set_actuated_twist (C++ function)</a>
 </li>
@@ -1348,6 +1366,16 @@ document.write(`
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior23twist_from_wheel_speedsERK11WheelSpeeds">navground::core::Behavior::twist_from_wheel_speeds (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior23wheel_speeds_from_twistERK6Twist2">navground::core::Behavior::wheel_speeds_from_twist (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core18BehaviorModulationE">navground::core::BehaviorModulation (C++ class)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4NK9navground4core18BehaviorModulation11get_enabledEv">navground::core::BehaviorModulation::get_enabled (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core18BehaviorModulation4postER8Behavior10ng_float_tRK6Twist2">navground::core::BehaviorModulation::post (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core18BehaviorModulation3preER8Behavior10ng_float_t">navground::core::BehaviorModulation::pre (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core18BehaviorModulation11set_enabledEb">navground::core::BehaviorModulation::set_enabled (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core6BufferE">navground::core::Buffer (C++ class)</a>
 </li>
@@ -1863,6 +1891,16 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core7RadiansE">navground::core::Radians (C++ type)</a>
 </li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core20RelaxationModulationE">navground::core::RelaxationModulation (C++ class)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core20RelaxationModulation11default_tauE">navground::core::RelaxationModulation::default_tau (C++ member)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4NK9navground4core20RelaxationModulation7get_tauEv">navground::core::RelaxationModulation::get_tau (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core20RelaxationModulation20RelaxationModulationE10ng_float_t">navground::core::RelaxationModulation::RelaxationModulation (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core20RelaxationModulation7set_tauE10ng_float_t">navground::core::RelaxationModulation::set_tau (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core6rotateEK7Vector210ng_float_t">navground::core::rotate (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core12SensingStateE">navground::core::SensingState (C++ class)</a>
@@ -2043,6 +2081,8 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent14control_periodE">navground::sim::Agent::control_period (C++ member)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent8externalE">navground::sim::Agent::external (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent12get_behaviorEv">navground::sim::Agent::get_behavior (C++ function)</a>
@@ -2053,8 +2093,6 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent12get_last_cmdEN4core5FrameE">navground::sim::Agent::get_last_cmd (C++ function)</a>, <a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent12get_last_cmdEv">[1]</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent8get_poseEv">navground::sim::Agent::get_pose (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent20get_state_estimationEv">navground::sim::Agent::get_state_estimation (C++ function)</a>
@@ -2163,13 +2201,15 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/scenarios/antipodal.html#_CPPv4N9navground3sim17AntipodalScenario13set_toleranceE10ng_float_t">navground::sim::AntipodalScenario::set_tolerance (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/sampling.html#_CPPv4I0EN9navground3sim15BehaviorSamplerE">navground::sim::BehaviorSampler (C++ struct)</a>
+      <li><a href="reference/sim/cpp/sampling.html#_CPPv4I00EN9navground3sim15BehaviorSamplerE">navground::sim::BehaviorSampler (C++ struct)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler15BehaviorSamplerERKNSt6stringE">navground::sim::BehaviorSampler::BehaviorSampler (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler7headingE">navground::sim::BehaviorSampler::heading (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler7horizonE">navground::sim::BehaviorSampler::horizon (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler11modulationsE">navground::sim::BehaviorSampler::modulations (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler21optimal_angular_speedE">navground::sim::BehaviorSampler::optimal_angular_speed (C++ member)</a>
 </li>
@@ -2319,7 +2359,9 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation13default_rangeE">navground::sim::DiscsStateEstimation::default_range (C++ member)</a>
 </li>
-      <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation20DiscsStateEstimationE10ng_float_tj10ng_float_t10ng_float_tb">navground::sim::DiscsStateEstimation::DiscsStateEstimation (C++ function)</a>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation25default_use_nearest_pointE">navground::sim::DiscsStateEstimation::default_use_nearest_point (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation20DiscsStateEstimationE10ng_float_tj10ng_float_t10ng_float_tbb">navground::sim::DiscsStateEstimation::DiscsStateEstimation (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4NK9navground3sim20DiscsStateEstimation15get_descriptionEv">navground::sim::DiscsStateEstimation::get_description (C++ function)</a>
 </li>
@@ -2333,6 +2375,8 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4NK9navground3sim20DiscsStateEstimation9get_rangeEv">navground::sim::DiscsStateEstimation::get_range (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4NK9navground3sim20DiscsStateEstimation21get_use_nearest_pointEv">navground::sim::DiscsStateEstimation::get_use_nearest_point (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation17set_include_validEb">navground::sim::DiscsStateEstimation::set_include_valid (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation14set_max_radiusE10ng_float_t">navground::sim::DiscsStateEstimation::set_max_radius (C++ function)</a>
@@ -2342,6 +2386,8 @@ document.write(`
       <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation10set_numberEi">navground::sim::DiscsStateEstimation::set_number (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation9set_rangeE10ng_float_t">navground::sim::DiscsStateEstimation::set_range (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation21set_use_nearest_pointEb">navground::sim::DiscsStateEstimation::set_use_nearest_point (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim6EntityE">navground::sim::Entity (C++ struct)</a>
 </li>
@@ -3092,6 +3138,8 @@ document.write(`
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.remove_all_runs">remove_all_runs() (Experiment method)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.remove_modulation">remove_modulation() (Behavior method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.remove_run">remove_run() (Experiment method)</a>
 </li>

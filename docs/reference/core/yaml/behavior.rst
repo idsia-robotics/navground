@@ -22,6 +22,10 @@ Schema
      heading: 
        enum: idle, target_point, target_angle, target_angular_speed, velocity
      social_margin: {$ref: /schemas/social_margin}
+     modulations:
+       type: array
+       items:
+         type: {$ref: /schemas/behavior_modulation}
    required: [type]
    additionalProperties: {}
 

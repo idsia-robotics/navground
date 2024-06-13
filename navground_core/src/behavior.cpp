@@ -113,6 +113,11 @@ Twist2 Behavior::cmd_twist_towards_stopping([[maybe_unused]] ng_float_t dt,
 }
 
 Twist2 Behavior::compute_cmd(ng_float_t dt, std::optional<Frame> _frame) {
+  for (auto& modulation : modulations) {
+    if (modulation->get_enabled()) {
+      modulation->pre(*this, dt);
+    }
+  }
   if (!kinematics) {
     std::cerr << "Missing kinematics!" << std::endl;
     return {};
@@ -143,6 +148,11 @@ Twist2 Behavior::compute_cmd(ng_float_t dt, std::optional<Frame> _frame) {
   }
   if (assume_cmd_is_actuated) {
     actuated_twist = twist;
+  }
+  for (auto it = std::rbegin(modulations); it != std::rend(modulations); it++) {
+    if ((*it)->get_enabled()) {
+      twist = (*it)->post(*this, dt, twist);
+    }
   }
   return twist;
 }

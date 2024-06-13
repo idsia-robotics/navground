@@ -41,6 +41,9 @@ Schema
          safety_margin: {$ref: /schemas/sampler<number>}
          horizon: {$ref: /schemas/sampler<number>}
          heading: {$ref: /schemas/sampler<string>}
+         modulations:
+          type: array
+          items: {$ref: #/$defs/kinematic_sampler} 
        required: [type]
        additionalProperties: {}
      kinematic_sampler: 
@@ -48,6 +51,12 @@ Schema
          type: string
          max_speed: {$ref: /schemas/sampler<number>}
          max_angular_speed: {$ref: /schemas/sampler<number>} 
+       required: [type]
+       additionalProperties: {}
+     behavior_modulation_sampler: 
+       properties:
+         type: string
+         enabled: {$ref: /schemas/sampler<bool>}
        required: [type]
        additionalProperties: {}
      task_sampler:

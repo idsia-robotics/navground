@@ -33,6 +33,8 @@ struct AgentSampler : public Sampler<typename W::A::C>,
   /** @private */
   using B = typename A::B;
   /** @private */
+  using M = typename A::M;
+  /** @private */
   using K = typename A::K;
   /** @private */
   using T = typename A::T;
@@ -81,7 +83,7 @@ struct AgentSampler : public Sampler<typename W::A::C>,
   }
 
   std::string name;
-  BehaviorSampler<B> behavior;
+  BehaviorSampler<B, M> behavior;
   KinematicsSampler<K> kinematics;
   SamplerFromRegister<T> task;
   SamplerFromRegister<S> state_estimation;

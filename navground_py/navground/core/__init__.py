@@ -7,6 +7,7 @@ import pkg_resources
 
 from ._navground import Action
 from ._navground import Behavior as _Behavior
+from ._navground import BehaviorModulation as _BehaviorModulation
 from ._navground import (Buffer, BufferDescription, BufferMap,
                          CachedCollisionComputation, CollisionComputation,
                          Controller, Disc, EnvironmentState, Frame,
@@ -14,7 +15,8 @@ from ._navground import (Buffer, BufferDescription, BufferMap,
 from ._navground import Kinematics as _Kinematics
 from ._navground import (LineSegment, Neighbor, Pose2, SensingState,
                          SocialMargin, Target, Twist2, dump, load_behavior,
-                         load_kinematics, to_absolute, to_relative)
+                         load_kinematics, load_behavior_modulation,
+                         to_absolute, to_relative)
 from ._navground import load_plugins as load_cpp_plugins
 
 # TODO(Jerome): Add vector shape = (2, )
@@ -136,11 +138,32 @@ class Kinematics(_Kinematics):
         _Kinematics.__setstate__(self, value[1])
 
 
+class BehaviorModulation(_BehaviorModulation):
+
+    __doc__ = _BehaviorModulation.__doc__
+
+    def __init_subclass__(cls, /, **kwargs):
+        name = kwargs.pop('name', '')
+        super().__init_subclass__(**kwargs)
+        _register(_BehaviorModulation, cls, name)
+
+    def __init__(self):
+        _BehaviorModulation.__init__(self)
+
+    def __getstate__(self):
+        return (self.__dict__, _BehaviorModulation.__getstate__(self))
+
+    def __setstate__(self, value):
+        self.__dict__ = value[0]
+        _BehaviorModulation.__setstate__(self, value[1])
+
+
 from . import behaviors, kinematics
 
 
 def load_py_plugins() -> None:
-    for name in ('navground_behaviors', 'navground_kinematics'):
+    for name in ('navground_behaviors', 'navground_kinematics',
+                 'navground_modulations'):
         for entry_point in pkg_resources.iter_entry_points(name):
             entry_point.load()
 
@@ -157,11 +180,12 @@ def load_plugins() -> None:
 
 
 __all__ = [
-    'Behavior', 'Pose2', 'Twist2', 'Target', 'Disc', 'Neighbor', 'LineSegment',
-    'Kinematics', 'Action', 'Controller', 'CollisionComputation'
+    'Behavior', 'BehaviorModulation', 'Pose2', 'Twist2', 'Target', 'Disc',
+    'Neighbor', 'LineSegment', 'Kinematics', 'Action', 'Controller',
+    'CollisionComputation'
     'CachedCollisionComputation', 'Frame', 'GeometricState', 'SensingState',
-    'dump', 'load_behavior', 'load_kinematics', 'load_plugins', 'to_absolute',
-    'to_relative', 'Buffer', 'BufferMap', 'BufferDescription', 'SocialMargin',
-    'CachedCollisionComputation', 'EnvironmentState', 'CollisionComputation',
-    'behaviors', 'kinematics'
+    'dump', 'load_behavior', 'load_behavior_modulation', 'load_kinematics',
+    'load_plugins', 'to_absolute', 'to_relative', 'Buffer', 'BufferMap',
+    'BufferDescription', 'SocialMargin', 'CachedCollisionComputation',
+    'EnvironmentState', 'CollisionComputation', 'behaviors', 'kinematics'
 ]

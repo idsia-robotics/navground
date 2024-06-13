@@ -12,5 +12,6 @@ The YAML formats are specified using `JSON Schema <https://json-schema.org>`_.
    kinematics
    social_margin
    behavior
+   behavior_modulation
    state
    

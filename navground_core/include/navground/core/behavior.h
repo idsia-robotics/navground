@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 
+#include "navground/core/behavior_modulation.h"
 #include "navground/core/common.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/property.h"
@@ -144,7 +145,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
         rotation_tau(default_rotation_tau),
         heading_behavior(Heading::idle),
         assume_cmd_is_actuated(true),
-        target() {}
+        target(),
+        modulations() {}
 
   virtual ~Behavior() = default;
 
@@ -633,6 +635,12 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * Behaviors may use caching to speed up the next queries if the state does
    * not change.
    *
+   * Modulations are applied as wrappers/context modifiers:
+   * right before evaluating the behavior,
+   * it will call \ref BehaviorModulation::pre for any modulation
+   * in \ref get_modulations,
+   * and right after \ref BehaviorModulation::post but in reverse order.
+   *
    * @param[in]  time_step   The control time step. Not all behavior use it
    * but some may use it, for example, to limit accelerations.
    *
@@ -794,6 +802,48 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    */
   ng_float_t get_efficacy() const;
 
+  /**
+   * @brief      Gets the modulations applied to this behavior
+   *
+   * @return     The modulations.
+   */
+  std::vector<std::shared_ptr<BehaviorModulation>> &get_modulations() {
+    return modulations;
+  }
+  /**
+   * @brief      Gets the modulations applied to this behavior
+   *
+   * @return     The modulations.
+   */
+  const std::vector<std::shared_ptr<BehaviorModulation>> &get_modulations()
+      const {
+    return modulations;
+  }
+  /**
+   * @brief      Adds a modulation.
+   *
+   * @param[in]  value  The modulation to add
+   */
+  void add_modulation(const std::shared_ptr<BehaviorModulation> &value) {
+    modulations.push_back(value);
+  }
+
+  /**
+   * @brief      Removes a modulation.
+   *
+   * @param[in]  value  The modulation to remove
+   */
+  void remove_modulation(const std::shared_ptr<BehaviorModulation> &value) {
+    modulations.erase(
+        std::remove(modulations.begin(), modulations.end(), value),
+        modulations.end());
+  }
+
+  /**
+   * @brief      Removes all modulations
+   */
+  void clear_modulations() { modulations.clear(); }
+
  protected:
   enum {
     POSITION = 1 << 0,
@@ -822,6 +872,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
   // Last computed desired velocity in \ref Frame::absolute
   Vector2 desired_velocity;
   Target target;
+  std::vector<std::shared_ptr<BehaviorModulation>> modulations;
 
   bool should_stop() const;
   bool is_stopped(ng_float_t epsilon_speed = 1e-6,

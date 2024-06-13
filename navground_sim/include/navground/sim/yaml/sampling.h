@@ -14,6 +14,7 @@
 
 using navground::core::Property;
 using navground::sim::AgentSampler;
+using navground::sim::BehaviorModulationSampler;
 using navground::sim::BehaviorSampler;
 using navground::sim::ChoiceSampler;
 using navground::sim::ConstantSampler;
@@ -176,8 +177,8 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
         bool clamp = node["clamp"].as<bool>(true);
         const auto mean = node["mean"].as<ng_float_t>();
         const auto std_dev = node["std_dev"].as<ng_float_t>();
-        return std::make_unique<NormalSampler<T>>(mean, std_dev, min, max,
-                                                  once, clamp);
+        return std::make_unique<NormalSampler<T>>(mean, std_dev, min, max, once,
+                                                  clamp);
       }
       return nullptr;
     }
@@ -402,7 +403,7 @@ Node encode_sr(const SamplerFromRegister<T>& rhs) {
     return node;
   }
   if (rhs.node && rhs.node.IsMap()) {
-    for (const auto & c : rhs.node) {
+    for (const auto& c : rhs.node) {
       node[c.first] = c.second;
     }
   }
@@ -415,9 +416,9 @@ Node encode_sr(const SamplerFromRegister<T>& rhs) {
   return node;
 }
 
-template <typename T>
-struct convert<BehaviorSampler<T>> {
-  static Node encode(const BehaviorSampler<T>& rhs) {
+template <typename T, typename M>
+struct convert<BehaviorSampler<T, M>> {
+  static Node encode(const BehaviorSampler<T, M>& rhs) {
     Node node = encode_sr<T>(rhs);
     // std::cout << "W" << rhs.type << std::endl;
     if (rhs.optimal_speed) {
@@ -438,9 +439,12 @@ struct convert<BehaviorSampler<T>> {
     if (rhs.heading) {
       node["heading"] = rhs.heading;
     }
+    if (rhs.modulations.size()) {
+      node["modulations"] = rhs.modulations;
+    }
     return node;
   }
-  static bool decode(const Node& node, BehaviorSampler<T>& rhs) {
+  static bool decode(const Node& node, BehaviorSampler<T, M>& rhs) {
     bool r = decode_sr<T>(node, &rhs);
     if (!r) return false;
     if (node["optimal_speed"]) {
@@ -461,6 +465,29 @@ struct convert<BehaviorSampler<T>> {
     }
     if (node["heading"]) {
       rhs.heading = read_sampler<std::string>(node["heading"]);
+    }
+    if (node["modulations"]) {
+      rhs.modulations =
+          node["modulations"].as<std::vector<BehaviorModulationSampler<M>>>();
+    }
+    return true;
+  }
+};
+
+template <typename T>
+struct convert<BehaviorModulationSampler<T>> {
+  static Node encode(const BehaviorModulationSampler<T>& rhs) {
+    Node node = encode_sr<T>(rhs);
+    if (rhs.enabled) {
+      node["enabled"] = rhs.enabled;
+    }
+    return node;
+  }
+  static bool decode(const Node& node, BehaviorModulationSampler<T>& rhs) {
+    bool r = decode_sr<T>(node, &rhs);
+    if (!r) return false;
+    if (node["enabled"]) {
+      rhs.enabled = read_sampler<bool>(node["enabled"]);
     }
     return true;
   }
@@ -506,6 +533,7 @@ struct convert<SamplerFromRegister<T>> {
 template <typename W>
 struct convert<AgentSampler<W>> {
   using B = typename W::A::B;
+  using M = typename W::A::M;
   using K = typename W::A::K;
   using T = typename W::A::T;
   using S = typename W::A::S;
@@ -558,7 +586,7 @@ struct convert<AgentSampler<W>> {
       return false;
     }
     if (node["behavior"]) {
-      rhs.behavior = node["behavior"].as<BehaviorSampler<B>>();
+      rhs.behavior = node["behavior"].as<BehaviorSampler<B, M>>();
     }
     if (node["kinematics"]) {
       rhs.kinematics = node["kinematics"].as<KinematicsSampler<K>>();

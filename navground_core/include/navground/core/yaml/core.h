@@ -10,6 +10,7 @@
 #include "yaml-cpp/yaml.h"
 
 using navground::core::Behavior;
+using navground::core::BehaviorModulation;
 using navground::core::Disc;
 using navground::core::GeometricState;
 using navground::core::Kinematics;
@@ -103,6 +104,9 @@ struct convert<Behavior> {
       node["kinematics"] = *k;
     }
     node["social_margin"] = rhs.social_margin;
+    if (rhs.get_modulations().size()) {
+      node["modulations"] = rhs.get_modulations();
+    }
     return node;
   }
   static bool decode(const Node& node, Behavior& rhs) {
@@ -132,6 +136,13 @@ struct convert<Behavior> {
     if (node["social_margin"]) {
       rhs.social_margin = node["social_margin"].as<SocialMargin>();
     }
+    if (node["modulations"]) {
+      auto mods = node["modulations"]
+                      .as<std::vector<std::shared_ptr<BehaviorModulation>>>();
+      // rhs.get_modulations().merge(mods);
+      std::copy(mods.begin(), mods.end(),
+                std::back_inserter(rhs.get_modulations()));
+    }
     return true;
   }
 };
@@ -139,7 +150,10 @@ struct convert<Behavior> {
 template <>
 struct convert<std::shared_ptr<Behavior>> {
   static Node encode(const std::shared_ptr<Behavior>& rhs) {
-    return convert<Behavior>::encode(*rhs);
+    if (rhs) {
+      return convert<Behavior>::encode(*rhs);
+    }
+    return Node();
   }
   static bool decode(const Node& node, std::shared_ptr<Behavior>& rhs) {
     rhs = make_type_from_yaml<Behavior>(node);
@@ -180,6 +194,36 @@ struct convert<std::shared_ptr<Kinematics>> {
     rhs = make_type_from_yaml<Kinematics>(node);
     if (rhs) {
       convert<Kinematics>::decode(node, *rhs);
+    }
+    return true;
+  }
+};
+
+template <>
+struct convert<BehaviorModulation> {
+  static Node encode(const BehaviorModulation& rhs) {
+    Node node;
+    encode_type_and_properties<BehaviorModulation>(node, rhs);
+    node["enabled"] = rhs.get_enabled();
+    return node;
+  }
+  static bool decode(const Node& node, BehaviorModulation& rhs) {
+    decode_properties(node, rhs);
+    rhs.set_enabled(node["enabled"].as<bool>(true));
+    return true;
+  }
+};
+
+template <>
+struct convert<std::shared_ptr<BehaviorModulation>> {
+  static Node encode(const std::shared_ptr<BehaviorModulation>& rhs) {
+    return convert<BehaviorModulation>::encode(*rhs);
+  }
+  static bool decode(const Node& node,
+                     std::shared_ptr<BehaviorModulation>& rhs) {
+    rhs = make_type_from_yaml<BehaviorModulation>(node);
+    if (rhs) {
+      convert<BehaviorModulation>::decode(node, *rhs);
     }
     return true;
   }

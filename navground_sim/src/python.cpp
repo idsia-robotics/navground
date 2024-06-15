@@ -43,10 +43,10 @@
 #include "navground/sim/yaml/experiment.h"
 #include "navground/sim/yaml/scenario.h"
 #include "navground/sim/yaml/world.h"
+#include "navground_py/behavior_modulation.h"
 #include "navground_py/pickle.h"
 #include "navground_py/register.h"
 #include "navground_py/yaml.h"
-#include "navground_py/behavior_modulation.h"
 
 using namespace navground::core;
 using namespace navground::sim;
@@ -69,11 +69,10 @@ struct get<T, py::object> {
 
 template <>
 struct add_modulation<py::object, py::object> {
-  static void call(py::object & behavior, py::object modulation) {
+  static void call(py::object &behavior, py::object modulation) {
     return add_modulation_py(behavior, modulation);
   }
 };
-
 
 struct PyBehavior : public Behavior {
   using C = py::object;
@@ -2213,6 +2212,13 @@ The array is empty if efficacy has not been recorded in the run.
                     DOC(navground, sim, Experiment, property_path))
       // .def("add_callback", &Experiment::add_callback, py::arg("callback"),
       //      DOC(navground, sim, Experiment, add_callback))
+      .def_property(
+          "scenario_init_callback", &Experiment::get_scenario_init_callback,
+          &Experiment::set_scenario_init_callback,
+          DOC(navground, sim, Experiment, property_scenario_init_callback))
+      .def_property("run_callbacks", &Experiment::get_run_callbacks,
+                    &Experiment::set_run_callbacks,
+                    DOC(navground, sim, Experiment, property_run_callbacks))
       .def("clear_run_callbacks", &Experiment::clear_run_callbacks,
            DOC(navground, sim, Experiment, clear_run_callbacks))
       .def("add_run_callback", &Experiment::add_run_callback,

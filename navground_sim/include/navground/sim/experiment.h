@@ -54,6 +54,13 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   using RunCallback = std::function<void(ExperimentalRun*)>;
 
   /**
+   * The type of callbacks called before initializing
+   * a world with a scenario
+   */
+  using ScenarioInitCallback =
+      std::function<void(Scenario*, unsigned run_seed)>;
+
+  /**
    * @brief      Constructs a new instance.
    *
    * @param[in]  time_step  The default simulation time step
@@ -72,6 +79,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
         state(State::init),
         // callbacks(),
         run_callbacks(),
+        scenario_init_callback(),
         file(),
         file_path() {}
 
@@ -321,7 +329,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   // void add_callback(const Callback& value) { callbacks.push_back(value); }
 
   /**
-   * @brief      Adds a callback to be executed after each run.
+   * @brief      Adds a callback to be executed before/after each run.
    *
    * @param[in]  value  The callback
    *
@@ -333,11 +341,50 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   }
 
   /**
+   * @brief      Gets the run callbacks
+   *
+   * @return     The callbacks
+   */
+  const std::map<bool, std::vector<RunCallback>>& get_run_callbacks() const {
+    return run_callbacks;
+  }
+
+  /**
+   * @brief      Sets the run callbacks
+   *
+   * @param[in]  value  The desired callbacks
+   */
+  void set_run_callbacks(
+      const std::map<bool, std::vector<RunCallback>>& value) {
+    run_callbacks = value;
+  }
+
+  /**
    * @brief      Remove all run callbacks
    *
    * @param[in]  value  The callback
    */
   void clear_run_callbacks() { run_callbacks.clear(); }
+
+  /**
+   * @brief      Gets the callback called before
+   *             the scenario initializes a world.
+   *
+   * @return     The callback or null if none is set
+   */
+  std::optional<ScenarioInitCallback> get_scenario_init_callback() const {
+    return scenario_init_callback;
+  }
+
+  /**
+   * @brief      Sets the run callbacks
+   *
+   * @param[in]  value  The desired callbacks
+   */
+  void set_scenario_init_callback(
+      const std::optional<ScenarioInitCallback>& value) {
+    scenario_init_callback = value;
+  }
 
   /**
    * @brief      Gets the path where the experimental data has been saved.
@@ -538,6 +585,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
 
   // std::vector<Callback> callbacks;
   std::map<bool, std::vector<RunCallback>> run_callbacks;
+  std::optional<ScenarioInitCallback> scenario_init_callback;
 
   std::shared_ptr<HighFive::File> file;
 

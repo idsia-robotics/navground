@@ -120,6 +120,9 @@ ExperimentalRun &Experiment::init_run(int index, std::shared_ptr<World> world) {
       Entity::reset_uid();
     }
     if (scenario) {
+      if(scenario_init_callback) {
+        (*scenario_init_callback)(scenario.get(), index);
+      }
       scenario->init_world(world.get(), index);
     }
   }

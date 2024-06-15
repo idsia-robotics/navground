@@ -1003,14 +1003,24 @@ PYBIND11_MODULE(_navground, m) {
       .def("get_collision_distance", &HLBehavior::get_collision_distance,
            DOC(navground, core, HLBehavior, get_collision_distance));
 
+  py::class_<ORCABehavior::Line>(m, "ORCALine")
+      .def_readonly("point", &ORCABehavior::Line::point)
+      .def_readonly("direction", &ORCABehavior::Line::direction);
+
   py::class_<ORCABehavior, Behavior, std::shared_ptr<ORCABehavior>> orca(
       m, "ORCABehavior", DOC(navground, core, ORCABehavior));
   orca.def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
            py::arg("kinematics") = py::none(), py::arg("radius") = 0,
            DOC(navground, core, ORCABehavior, ORCABehavior))
+      .def_property("lines", &ORCABehavior::get_lines, nullptr,
+                    DOC(navground, core, ORCABehavior, get_lines))
       .def_property("time_horizon", &ORCABehavior::get_time_horizon,
                     &ORCABehavior::set_time_horizon,
                     DOC(navground, core, ORCABehavior, property_time_horizon))
+      .def_property(
+          "static_time_horizon", &ORCABehavior::get_static_time_horizon,
+          &ORCABehavior::set_static_time_horizon,
+          DOC(navground, core, ORCABehavior, property_static_time_horizon))
       .def_property(
           "is_using_effective_center", &ORCABehavior::is_using_effective_center,
           &ORCABehavior::should_use_effective_center,

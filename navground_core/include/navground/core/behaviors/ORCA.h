@@ -34,10 +34,17 @@ namespace navground::core {
  *
  * - `effective_center` (float, \ref is_using_effective_center),
  *
+ * - `treat_obstacles_as_agents` (bool, \ref get_treat_obstacles_as_agents)
+ *
  * *State*: \ref GeometricState
  */
 class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
  public:
+  struct Line {
+    Vector2 point;
+    Vector2 direction;
+  };
+
   /**
    * @brief      Contruct a new instance
    *
@@ -49,6 +56,21 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
   ~ORCABehavior();
 
   // ---------------------------------- BEHAVIOR PARAMETERS
+
+  /**
+   * @brief      Gets whether to treat obstacles as static, disc-shaped, [RVO]
+   * agents. Else will treat them as squared obstacles.
+   *
+   * @return     True if static obstacles are passed as [RVO] neighbors.
+   */
+  ng_float_t get_treat_obstacles_as_agents() const;
+  /**
+   * @brief      Sets whether to treat obstacles as static, disc-shaped, [RVO]
+   * agents. Else will treat them as squared obstacles.
+   *
+   * @param[in]  the desired value
+   */
+  void set_treat_obstacles_as_agents(bool value);
 
   /**
    * @brief      Gets the time horizon. Collisions predicted to happen after
@@ -64,6 +86,22 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
    * @param[in]  value
    */
   void set_time_horizon(ng_float_t value);
+
+  /**
+   * @brief      Gets the time horizon applied to static linear obstacles.
+   * Collisions predicted to happen after this time are ignored
+   *
+   * @return     The time horizon.
+   */
+  ng_float_t get_static_time_horizon() const;
+  /**
+   * @brief      Sets the time horizon applied to static linear obstacles.
+   * Collisions predicted to happen after this time are ignored
+   *
+   * @param[in]  value
+   */
+  void set_static_time_horizon(ng_float_t value);
+
   /**
    * @brief      Determines if an effective center is being used.
    *
@@ -121,6 +159,13 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
    */
   EnvironmentState* get_environment_state() override { return &state; }
 
+  /**
+   * @brief      Gets the ORCA lines computed during the last update
+   *
+   * @return     The ORCA lines.
+   */
+  std::vector<Line> get_lines() const;
+
  protected:
   Twist2 twist_towards_velocity(const Vector2& absolute_velocity,
                                 Frame frame) override;
@@ -132,16 +177,21 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
  private:
   GeometricState state;
   bool use_effective_center;
+  bool treat_obstacles_as_agents;
   ng_float_t D;
   std::unique_ptr<RVO::Agent> _RVOAgent;
   std::vector<std::unique_ptr<const RVO::Agent>> rvo_neighbors;
-  std::vector<std::unique_ptr<const RVO::Obstacle>> rvo_obstacles;
+  std::vector<std::unique_ptr<const RVO::Agent>> rvo_static_obstacles;
+  std::vector<std::unique_ptr<const RVO::Obstacle>> rvo_line_obstacles;
+  std::vector<std::unique_ptr<const RVO::Obstacle>> rvo_square_obstacles;
 
   void add_line_obstacle(const LineSegment& line);
-  void add_neighbor(const Neighbor& disc, float range, bool push_away = false,
+  void add_neighbor(const Neighbor& disc, bool push_away = false,
                     ng_float_t epsilon = 2e-3);
-  void add_obstacle(const Disc& disc, float range, bool push_away = false,
-                    ng_float_t epsilon = 2e-3);
+  void add_obstacle_as_agent(const Disc& disc, bool push_away = false,
+                             ng_float_t epsilon = 2e-3);
+  void add_obstacle_as_square(const Disc& disc, bool push_away = false,
+                              ng_float_t epsilon = 2e-3);
   void prepare_line_obstacles();
   void prepare(const Vector2& target_velocity, ng_float_t dt);
 

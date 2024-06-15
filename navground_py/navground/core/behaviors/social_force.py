@@ -3,6 +3,8 @@
     "Social force model for pedestrian dynamics." 
     Physical review E 51.5 (1995): 4282.
 
+    https://arxiv.org/pdf/cond-mat/9805244
+
     Missing (not specified in the paper):
     - attractive forces
     - fluctuation
@@ -14,9 +16,9 @@ from typing import Callable, Optional, Tuple, cast
 
 import numpy as np
 from navground.core import (Behavior, Disc, GeometricState, Kinematics,
-                            LineSegment, Neighbor, Vector2)
+                            LineSegment, Neighbor, Vector2, register)
 
-# Jerome: what about the radius and safety margin?
+# TODO(Jerome): what about the radius and safety margin?
 
 
 # value and gradient
@@ -100,10 +102,91 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         "Social force model for pedestrian dynamics."
         Physical review E 51.5 (1995): 4282.
 
-    *Registered properties*: none
+    *Registered properties*:
+
+    - :py:attr:`tau` [float]
+    - :py:attr:`phi` [float]
+    - :py:attr:`c` [float]
+    - :py:attr:`u_a` [float]
+    - :py:attr:`u_r` [float]
+    - :py:attr:`v_a` [float]
+    - :py:attr:`v_r` [float]
+    - :py:attr:`step_duration` [float]
 
     *State*: :py:class:`GeometricState`
     """
+
+    @property
+    @register(0.5, "Relaxation time")
+    def tau(self) -> float:
+        return self._tau
+
+    @tau.setter
+    def tau(self, value: float) -> None:
+        self._tau = max(0, value)
+
+    @property
+    @register(1.0, "Step duration")
+    def step_duration(self) -> float:
+        return self._step_duration
+
+    @step_duration.setter
+    def step_duration(self, value: float) -> None:
+        self._step_duration = max(0, value)
+
+    @property
+    @register(1.75, "Field of sight half-length")
+    def phi(self) -> float:
+        return float(np.arccos(self.cos_phi))
+
+    @phi.setter
+    def phi(self, value: float) -> None:
+        self.cos_phi = np.cos(value)
+
+    @property
+    @register(0.5, "Weight of 'non-in-sight' forces")
+    def c(self) -> float:
+        return self._c
+
+    @c.setter
+    def c(self, value: float) -> None:
+        self._c = max(0, value)
+
+    @property
+    @register(2.1, "Neighbors potential amplitude")
+    def v_a(self) -> float:
+        return self.v.a
+
+    @v_a.setter
+    def v_a(self, value: float) -> None:
+        self.v.a = value
+
+    @property
+    @register(0.3, "Neighbors potential length scale")
+    def v_r(self) -> float:
+        return self.v.r
+
+    @v_r.setter
+    def v_r(self, value: float) -> None:
+        self.v.r = max(0, value)
+
+    @property
+    @register(10, "Obstacles potential amplitude")
+    def u_a(self) -> float:
+        return self.u.a
+
+    @u_a.setter
+    def u_a(self, value: float) -> None:
+        self.u.a = value
+
+    @property
+    @register(0.2, "Obstacles potential length scale")
+    def u_r(self) -> float:
+        return self.u.r
+
+    @u_r.setter
+    def u_r(self, value: float) -> None:
+        self.u.r = max(0, value)
 
     def __init__(
             self,
@@ -117,10 +200,10 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
             u: Potential = ExponentialPotential(10, 0.2),
     ):
         Behavior.__init__(self, kinematics, radius)
-        self.tau = tau
-        self.step_duration = step_duration
+        self._tau = tau
+        self._step_duration = step_duration
         self.cos_phi = np.cos(phi)
-        self.c = c
+        self._c = c
         self.v = v
         self.u = u
         self._state = GeometricState()
@@ -160,8 +243,7 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         _, p_grad = self.v(value)
         return -grad * p_grad
 
-    def obstacle_potential(self,
-                           obstacle: Disc) -> Callable[[Vector2], float]:
+    def obstacle_potential(self, obstacle: Disc) -> Callable[[Vector2], float]:
 
         def f(position: Vector2) -> float:
             value, _ = disc_distance(position, obstacle)

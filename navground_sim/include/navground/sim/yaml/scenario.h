@@ -57,7 +57,7 @@ struct convert_scenario {
     }
     if (node["walls"]) {
       for (const auto& c : node["walls"]) {
-        rhs.walls.push_back(c.as<LineSegment>());
+        rhs.walls.push_back(c.as<Wall>());
       }
     }
     return true;

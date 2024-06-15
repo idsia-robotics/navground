@@ -61,7 +61,8 @@ struct convert<std::shared_ptr<Obstacle>> {
 template <>
 struct convert<Wall> {
   static Node encode(const Wall& rhs) {
-    Node node = convert<LineSegment>::encode(rhs.line);
+    Node node;
+    node["line"] = convert<LineSegment>::encode(rhs.line);
     node["uid"] = rhs.uid;
     return node;
   }
@@ -69,7 +70,11 @@ struct convert<Wall> {
     if (node["uid"]) {
       rhs.uid = node["uid"].as<unsigned>();
     }
-    return convert<LineSegment>::decode(node, rhs.line);
+    if (node["line"]) {
+      rhs.line = node["line"].as<LineSegment>();
+      return true;
+    }
+    return false;
   }
 };
 
@@ -366,11 +371,13 @@ struct convert_world {
     if (node["bounding_box"]) {
       rhs.set_bounding_box(node["bounding_box"].as<BoundingBox>());
     }
-    std::array<std::string, 2> axes{"x", "y"};
-    for (size_t i = 0; i < axes.size(); ++i) {
-      if (node["lattice"][axes[i]]) {
-        auto value = node["lattice"][axes[i]].as<World::Lattice>();
-        rhs.set_lattice(i, value);
+    if (node["lattice"]) {
+      std::array<std::string, 2> axes{"x", "y"};
+      for (size_t i = 0; i < axes.size(); ++i) {
+        if (node["lattice"][axes[i]]) {
+          auto value = node["lattice"][axes[i]].as<World::Lattice>();
+          rhs.set_lattice(i, value);
+        }
       }
     }
     return true;

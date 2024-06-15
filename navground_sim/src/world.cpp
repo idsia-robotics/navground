@@ -439,7 +439,7 @@ bool World::resolve_collision(Agent *agent, LineSegment *line,
     auto n = p->norm();
     auto u = *p / n;
     agent->collision_correction += (n + 1e-3) * u;
-    ng_float_t d = agent->twist.velocity.dot(u);
+    ng_float_t d = -agent->twist.velocity.dot(u);
     if (d > 0) {
       agent->twist.velocity += d * u;
     }

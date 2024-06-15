@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "navground/core/behavior.h"
+#include "navground/core/property.h"
 #include "navground/core/states/geometric.h"
 #include "navground/core/types.h"
 #include "navground_core_export.h"
@@ -27,7 +28,9 @@ namespace navground::core {
  * A wrapper of the open-source implementation from
  * http://gamma.cs.unc.edu/HRVO/
  *
- * *Registered properties*: none
+ * *Registered properties*:
+ *
+ * - `uncertainty_offset` (float, \ref get_uncertainty_offset)
  *
  * *State*: \ref GeometricState
  */
@@ -53,6 +56,31 @@ class NAVGROUND_CORE_EXPORT HRVOBehavior : public Behavior {
    */
   EnvironmentState* get_environment_state() override { return &state; }
 
+  /**
+   * @brief      Gets the uncertainty offset.
+   *
+   * @return     The uncertainty offset.
+   */
+  ng_float_t get_uncertainty_offset() const;
+  /**
+   * @brief      Sets the uncertainty offset.
+   *
+   * @param[in]  value  The value
+   */
+  void set_uncertainty_offset(ng_float_t value);
+
+  /**
+   * @private
+   */
+  virtual const Properties& get_properties() const override {
+    return properties;
+  };
+
+  /**
+   * @private
+   */
+  static const std::map<std::string, Property> properties;
+
  protected:
   Vector2 desired_velocity_towards_point(const Vector2& point, ng_float_t speed,
                                          ng_float_t time_step) override;
@@ -62,16 +90,16 @@ class NAVGROUND_CORE_EXPORT HRVOBehavior : public Behavior {
  private:
   GeometricState state;
   uint agentIndex;
-  float rangeSq;
+  // float rangeSq;
   std::unique_ptr<HRVO::Agent> _HRVOAgent;
-  void add_neighbor(const Neighbor& neighbor, bool push_away = false,
-                    ng_float_t epsilon = 2e-3);
-  void add_obstacle(const Disc& disc, bool push_away = false,
+  void add_neighbor(const Neighbor& neighbor, float rangeSq,
+                    bool push_away = false, ng_float_t epsilon = 2e-3);
+  void add_obstacle(const Disc& disc, float rangeSq, bool push_away = false,
                     ng_float_t epsilon = 2e-3);
   void prepare(const Vector2& target_velocity);
 
  private:
-     const static std::string type;
+  const static std::string type;
 };
 
 }  // namespace navground::core

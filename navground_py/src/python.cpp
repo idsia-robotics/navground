@@ -1030,7 +1030,11 @@ PYBIND11_MODULE(_navground, m) {
       m, "HRVOBehavior", DOC(navground, core, HRVOBehavior));
   hrvo.def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
            py::arg("kinematics") = py::none(), py::arg("radius") = 0,
-           DOC(navground, core, HRVOBehavior, HRVOBehavior));
+           DOC(navground, core, HRVOBehavior, HRVOBehavior))
+      .def_property(
+          "uncertainty_offset", &HRVOBehavior::get_uncertainty_offset,
+          &HRVOBehavior::set_uncertainty_offset,
+          DOC(navground, core, HRVOBehavior, property_uncertainty_offset));
 
   py::class_<DummyBehavior, Behavior, std::shared_ptr<DummyBehavior>> dummy(
       m, "DummyBehavior", DOC(navground, core, DummyBehavior));

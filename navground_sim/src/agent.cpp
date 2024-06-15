@@ -7,7 +7,7 @@
 namespace navground::sim {
 
 void Agent::prepare(World *world) {
-  if (ready) return; 
+  if (ready) return;
   if (state_estimation) {
     // state_estimation->world = this;
     state_estimation->prepare(this, world);
@@ -35,9 +35,6 @@ void Agent::update(ng_float_t dt, ng_float_t time, World *world) {
     return;
   }
   control_deadline += control_period;
-
-  if (task) task->update(this, world, time);
-  if (state_estimation) state_estimation->update(this, world);
   if (behavior) {
     behavior->set_actuated_twist(last_cmd);
     behavior->set_twist(twist);
@@ -50,6 +47,8 @@ void Agent::update(ng_float_t dt, ng_float_t time, World *world) {
       is_stuck_since_time = -1.0;
     }
   }
+  if (state_estimation) state_estimation->update(this, world);
+  if (task) task->update(this, world, time);
   last_cmd = controller.update(std::max(control_period, dt));
   // last_cmd = behavior->get_actuated_twist(true);
 }

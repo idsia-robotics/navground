@@ -1,9 +1,11 @@
 import itertools
-import multiprocessing as mp
+import multiprocess as mp
+# import multiprocessing as mp
 import pathlib
 import warnings
 from queue import Empty
-from typing import TYPE_CHECKING, Callable, Dict, Iterable, List, Optional, Tuple
+from typing import (TYPE_CHECKING, Callable, Dict, Iterable, List, Optional,
+                    Tuple)
 
 import h5py
 import numpy as np
@@ -16,6 +18,8 @@ Probes = Tuple[List[Callable[[], sim.Probe]],
                Dict[str, Callable[[], sim.RecordProbe]],
                Dict[str, Callable[[], sim.GroupRecordProbe]]]
 
+ScenarioInitCallback = Callable[['sim.Scenario', int], None]
+
 
 def _load_and_run_experiment(
     keep: bool,
@@ -24,12 +28,14 @@ def _load_and_run_experiment(
     number_of_runs: int,
     data_path: Optional[pathlib.Path],
     queue: Optional[mp.Queue] = None,
-    probes: Probes = ([], {}, {})
+    probes: Probes = ([], {}, {}),
+    scenario_init_callback: ScenarioInitCallback | None = None
 ) -> Dict[int, sim.ExperimentalRun]:
 
     experiment = sim.load_experiment(yaml)
     experiment.save_directory = ''  # type: ignore
     experiment._probes, experiment._record_probes, experiment._group_record_probes = probes
+    experiment.scenario_init_callback = scenario_init_callback
     if queue:
         experiment.add_run_callback(lambda run: queue.put(run.seed))
     experiment.run(keep,
@@ -54,7 +60,8 @@ def run_mp(experiment: sim.Experiment,
            number_of_runs: Optional[int] = None,
            start_index: Optional[int] = None,
            callback: Optional[Callable[[int], None]] = None,
-           bar: Optional['tqdm.tqdm'] = None) -> None:
+           bar: Optional['tqdm.tqdm'] = None,
+           scenario_init_callback: ScenarioInitCallback | None = None) -> None:
     """
 
     Run an experiment distributing its runs in parallel over multiple processes.
@@ -110,13 +117,15 @@ def run_mp(experiment: sim.Experiment,
     ss = np.cumsum(chunks)
     start_indices = np.insert(ss, 0, 0) + experiment.run_index
     if keep:
-        paths: Iterable[pathlib.Path | None] = itertools.repeat(None, number_of_processes)
+        paths: Iterable[pathlib.Path | None] = itertools.repeat(
+            None, number_of_processes)
     else:
         paths = [
             experiment.path.parent /
             f"data_{i}.h5" if experiment.path else None
             for i in range(number_of_processes)
         ]
+    scenario_init_callback = itertools.repeat(scenario_init_callback)
     yaml = itertools.repeat(sim.dump(experiment), number_of_processes)
     queues = itertools.repeat(queue, number_of_processes)
     keeps = itertools.repeat(keep, number_of_processes)
@@ -124,7 +133,8 @@ def run_mp(experiment: sim.Experiment,
                                experiment._group_record_probes),
                               number_of_processes)
     partial_experiments = list(
-        zip(keeps, yaml, start_indices, chunks, paths, queues, probes))
+        zip(keeps, yaml, start_indices, chunks, paths, queues, probes,
+            scenario_init_callback))
 
     with mp.Pool(number_of_processes) as p:
         r = p.starmap_async(_load_and_run_experiment, partial_experiments)

@@ -1,0 +1,12 @@
+version: '3'
+services:
+  source:
+    image: jeguzzi/navground:ubuntu22.04
+    build:
+      dockerfile: Dockerfile
+      context: .
+  binary:
+    image: binary
+    build:
+      dockerfile: Dockerfile.binary
+      context: .

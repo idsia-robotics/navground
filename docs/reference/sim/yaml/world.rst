@@ -2,9 +2,31 @@
 World
 =====
 
-
 Schema
 ^^^^^^
+
+.. code-block:: yaml
+
+   $schema: https://json-schema.org/draft/2020-12/schema
+   $id: /schemas/wall
+   title: Wall
+   type: object
+   properties:
+     line: {$ref: /schemas/line_segment}
+     uid: number
+   required: [line]
+
+.. code-block:: yaml
+
+   $schema: https://json-schema.org/draft/2020-12/schema
+   $id: /schemas/obstacle
+   title: Wall
+   type: object
+   properties:
+     position: {$ref: /schemas/vector2}
+     radius: number  
+     uid: number
+   required: [position, radius]
 
 .. code-block:: yaml
 
@@ -15,10 +37,10 @@ Schema
    properties:
      obstacles: 
        type: array
-       items: {$ref: /schemas/disc}
+       items: {$ref: /schemas/obstacles}
      walls:
        type: array
-       items: {$ref: /schemas/line_segments}
+       items: {$ref: /schemas/walls}
      groups: 
        type: array
        items: {$ref: /schemas/agent}
@@ -52,7 +74,7 @@ Example
 .. code-block:: yaml
 
    walls:
-     - [[-1.0, -1.0], [-1.0, 1.0]]
+     - line: [[-1.0, -1.0], [-1.0, 1.0]]
    obstacles:
      - position: [2.0, 0.0]
        radius: 0.5

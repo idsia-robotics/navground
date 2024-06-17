@@ -68,7 +68,7 @@ struct get<T, py::object> {
 };
 
 template <>
-struct add_modulation<py::object, py::object> {
+struct navground::sim::add_modulation<py::object, py::object> {
   static void call(py::object &behavior, py::object modulation) {
     return add_modulation_py(behavior, modulation);
   }

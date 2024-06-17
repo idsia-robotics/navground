@@ -1041,6 +1041,10 @@ PYBIND11_MODULE(_navground, m) {
            py::arg("kinematics") = py::none(), py::arg("radius") = 0,
            DOC(navground, core, HRVOBehavior, HRVOBehavior))
       .def_property(
+          "max_number_of_neighbors", &HRVOBehavior::get_max_number_of_neighbors,
+          &HRVOBehavior::set_max_number_of_neighbors,
+          DOC(navground, core, HRVOBehavior, property_max_number_of_neighbors))
+      .def_property(
           "uncertainty_offset", &HRVOBehavior::get_uncertainty_offset,
           &HRVOBehavior::set_uncertainty_offset,
           DOC(navground, core, HRVOBehavior, property_uncertainty_offset));

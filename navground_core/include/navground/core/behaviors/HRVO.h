@@ -31,6 +31,8 @@ namespace navground::core {
  * *Registered properties*:
  *
  * - `uncertainty_offset` (float, \ref get_uncertainty_offset)
+ * 
+ * - `max_neighbors` (int, \ref get_max_number_of_neighbors)
  *
  * *State*: \ref GeometricState
  */
@@ -55,6 +57,19 @@ class NAVGROUND_CORE_EXPORT HRVOBehavior : public Behavior {
    * @private
    */
   EnvironmentState* get_environment_state() override { return &state; }
+
+  /**
+   * @brief      Gets the maximal number of neighbors
+   *
+   * @return     The maximal number of neighbors
+   */
+  unsigned get_max_number_of_neighbors() const;
+  /**
+   * @brief      Sets the maximal number of neighbors
+   *
+   * @param[in]  the desired value
+   */
+  void set_max_number_of_neighbors(unsigned value);
 
   /**
    * @brief      Gets the uncertainty offset.

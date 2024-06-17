@@ -160,12 +160,24 @@ void HRVOBehavior::set_uncertainty_offset(ng_float_t value) {
   _HRVOAgent->uncertaintyOffset_ = value;
 }
 
+void HRVOBehavior::set_max_number_of_neighbors(unsigned value) {
+  _HRVOAgent->maxNeighbors_ = value;
+}
+
+unsigned HRVOBehavior::get_max_number_of_neighbors() const {
+  return _HRVOAgent->maxNeighbors_;
+}
+
 const std::map<std::string, Property> HRVOBehavior::properties =
     Properties{
         {"uncertainty_offset",
          make_property<ng_float_t, HRVOBehavior>(
              &HRVOBehavior::get_uncertainty_offset,
              &HRVOBehavior::set_uncertainty_offset, 0, "Uncertainty offset")},
+        {"max_neighbors", make_property<int, HRVOBehavior>(
+                              &HRVOBehavior::get_max_number_of_neighbors,
+                              &HRVOBehavior::set_max_number_of_neighbors, 1000,
+                              "The maximal number of [HRVO] neighbors")},
     } +
     Behavior::properties;
 

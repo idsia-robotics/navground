@@ -33,10 +33,11 @@ find_package(yaml-cpp)
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
 set(ORCA
-  src/behaviors/ORCA/RVO/Agent.cpp
-  src/behaviors/ORCA/RVO/Obstacle.cpp
-  src/behaviors/ORCA/RVO/RVOSimulator.cpp
-  src/behaviors/ORCA/RVO/KdTree.cpp
+  src/behaviors/ORCA/RVO2/Agent.cc
+  src/behaviors/ORCA/RVO2/Obstacle.cc
+  src/behaviors/ORCA/RVO2/KdTree.cc
+  src/behaviors/ORCA/RVO2/Line.cc
+  src/behaviors/ORCA/RVO2/Vector2.cc
   )
 
 set(HRVO

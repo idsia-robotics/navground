@@ -6,14 +6,22 @@
 
 #include <cmath>
 
-#include "RVO/Agent.h"
-#include "RVO/Definitions.h"
-#include "RVO/Obstacle.h"
-#include "RVO/Vector2.h"
+#include "RVO2/Agent.h"
+#include "RVO2/Line.h"
+#include "RVO2/Obstacle.h"
+#include "RVO2/Vector2.h"
 
 namespace navground::core {
 
-ng_float_t ORCABehavior::get_treat_obstacles_as_agents() const {
+RVO::Vector2 vector_from(const Vector2 &value) {
+  return RVO::Vector2(value[0], value[1]);
+}
+
+Vector2 vector_from(const RVO::Vector2 &value) {
+  return Vector2(value.x(), value.y());
+}
+
+bool ORCABehavior::get_treat_obstacles_as_agents() const {
   return treat_obstacles_as_agents;
 }
 
@@ -26,7 +34,7 @@ ORCABehavior::ORCABehavior(std::shared_ptr<Kinematics> kinematics,
     : Behavior(kinematics, radius),
       state(),
       use_effective_center(false),
-      _RVOAgent(std::make_unique<RVO::Agent>(nullptr)),
+      _RVOAgent(std::make_unique<RVO::Agent>()),
       rvo_neighbors(),
       rvo_static_obstacles(),
       rvo_line_obstacles(),
@@ -47,16 +55,16 @@ void ORCABehavior::add_line_obstacle(const LineSegment &line) {
   Vector2 pb = line.p2;  // + line.e1 * safetyMargin + line.e2 * safetyMargin;
   auto a = std::make_unique<RVO::Obstacle>();
   auto b = std::make_unique<RVO::Obstacle>();
-  a->point_ = RVO::Vector2(pa[0], pa[1]);
-  a->prevObstacle = b.get();
-  a->nextObstacle = b.get();
+  a->point_ = vector_from(pa);
+  a->previous_ = b.get();
+  a->next_ = b.get();
   a->isConvex_ = true;
-  a->unitDir_ = RVO::Vector2(line.e1[0], line.e1[1]);
-  b->point_ = RVO::Vector2(pb[0], pb[1]);
-  b->prevObstacle = a.get();
-  b->nextObstacle = a.get();
+  a->direction_ = vector_from(line.e1);
+  b->point_ = vector_from(pb);
+  b->previous_ = a.get();
+  b->next_ = a.get();
   b->isConvex_ = true;
-  b->unitDir_ = -a->unitDir_;
+  b->direction_ = -a->direction_;
   rvo_line_obstacles.push_back(std::move(a));
   rvo_line_obstacles.push_back(std::move(b));
 }
@@ -65,7 +73,7 @@ void ORCABehavior::add_line_obstacle(const LineSegment &line) {
 
 void ORCABehavior::add_obstacle_as_agent(const Disc &obstacle, bool push_away,
                                          ng_float_t epsilon) {
-  auto a = std::make_unique<RVO::Agent>(nullptr);
+  auto a = std::make_unique<RVO::Agent>();
   a->velocity_ = RVO::Vector2(0, 0);
   a->prefVelocity_ = a->velocity_;
   Vector2 p = obstacle.position;
@@ -75,9 +83,8 @@ void ORCABehavior::add_obstacle_as_agent(const Disc &obstacle, bool push_away,
   if (push_away && distance < epsilon) {
     p += delta / delta.norm() * (-distance + epsilon);
   }
-  a->position_ = RVO::Vector2(static_cast<ng_float_t>(p.x()),
-                              static_cast<ng_float_t>(p.y()));
-  a->radius_ = obstacle.radius + safety_margin;
+  a->position_ = vector_from(p);
+  a->radius_ = obstacle.radius;
   rvo_static_obstacles.push_back(std::move(a));
 }
 
@@ -101,12 +108,12 @@ void ORCABehavior::add_obstacle_as_square(const Disc &obstacle, bool push_away,
     /* code */
     auto o = std::make_unique<RVO::Obstacle>();
     const Vector2 x = p + ps[i];
-    o->point_ = RVO::Vector2(x[0], x[1]);
+    o->point_ = vector_from(x);
     o->isConvex_ = true;
-    o->unitDir_ = RVO::Vector2(e[i][0], e[i][1]);
+    o->direction_ = vector_from(e[i]);
     if (po) {
-      o->prevObstacle = po;
-      po->nextObstacle = o.get();
+      o->previous_ = po;
+      po->next_ = o.get();
     }
     po = o.get();
     if (!fo) {
@@ -114,15 +121,14 @@ void ORCABehavior::add_obstacle_as_square(const Disc &obstacle, bool push_away,
     }
     rvo_square_obstacles.push_back(std::move(o));
   }
-  fo->prevObstacle = po;
-  po->nextObstacle = fo;
+  fo->previous_ = po;
+  po->next_ = fo;
 }
 
 void ORCABehavior::add_neighbor(const Neighbor &neighbor, bool push_away,
                                 ng_float_t epsilon) {
-  auto a = std::make_unique<RVO::Agent>(nullptr);
-  a->velocity_ = RVO::Vector2(static_cast<ng_float_t>(neighbor.velocity.x()),
-                              static_cast<ng_float_t>(neighbor.velocity.y()));
+  auto a = std::make_unique<RVO::Agent>();
+  a->velocity_ = vector_from(neighbor.velocity);
   a->prefVelocity_ = a->velocity_;
 
   Vector2 p = neighbor.position;
@@ -133,9 +139,8 @@ void ORCABehavior::add_neighbor(const Neighbor &neighbor, bool push_away,
     p += delta / delta.norm() * (-distance + epsilon);
     distance = epsilon;
   }
-  a->position_ = RVO::Vector2(static_cast<ng_float_t>(p.x()),
-                              static_cast<ng_float_t>(p.y()));
-  a->radius_ = neighbor.radius + safety_margin + social_margin.get(0, distance);
+  a->position_ = vector_from(p);
+  a->radius_ = neighbor.radius + social_margin.get(0, distance);
   // [[maybe_unused]] Vector2 relative_position =
   //     obstacle_relative_position(pose.position, p, radius, d.radius,
   //     distance);
@@ -161,6 +166,14 @@ ng_float_t ORCABehavior::get_static_time_horizon() const {
   return _RVOAgent->timeHorizonObst_;
 }
 
+void ORCABehavior::set_max_number_of_neighbors(unsigned value) {
+  _RVOAgent->maxNeighbors_ = value;
+}
+
+unsigned ORCABehavior::get_max_number_of_neighbors() const {
+  return _RVOAgent->maxNeighbors_;
+}
+
 Vector2 ORCABehavior::effective_position() const {
   if (is_using_effective_center()) {
     return pose.position + unit(pose.orientation) * D;
@@ -168,34 +181,28 @@ Vector2 ORCABehavior::effective_position() const {
   return pose.position;
 }
 
-void ORCABehavior::prepare(const Vector2 &target_velocity, ng_float_t dt) {
+void ORCABehavior::prepare(const Vector2 &target_velocity) {
   // TODO(Jerome): check if maxSpeed_ should be set to target or to max
   // TODO(Jerome): avoid repetitions (effective_position vs this function)
   if (is_using_effective_center()) {
     WheeledKinematics *wk = dynamic_cast<WheeledKinematics *>(kinematics.get());
     D = wk->get_axis() * 0.5;
-    const RVO::Vector2 delta =
-        RVO::Vector2(std::cos(pose.orientation), std::sin(pose.orientation)) *
-        D;
-    _RVOAgent->position_ =
-        RVO::Vector2(pose.position.x(), pose.position.y()) + delta;
-    _RVOAgent->radius_ = radius + D;
-    _RVOAgent->velocity_ = RVO::Vector2(
-        twist.velocity.x() - sin(pose.orientation) * D * twist.angular_speed,
-        twist.velocity.y() + cos(pose.orientation) * D * twist.angular_speed);
-    _RVOAgent->maxSpeed_ =
-        target_velocity.norm() / sqrt(1 + RVO::sqr(0.5 * wk->get_axis() / D));
+    const RVO::Vector2 delta = vector_from(unit(pose.orientation) * D);
+    _RVOAgent->position_ = vector_from(pose.position) + delta;
+    _RVOAgent->radius_ = safety_margin + radius + D;
+    _RVOAgent->velocity_ = vector_from(
+        twist.velocity + normal(pose.orientation) * D * twist.angular_speed);
+    _RVOAgent->maxSpeed_ = target_velocity.norm() /
+                           sqrt(1 + std::pow(0.5 * wk->get_axis() / D, 2));
   } else {
-    _RVOAgent->radius_ = radius;
-    _RVOAgent->velocity_ = RVO::Vector2(twist.velocity.x(), twist.velocity.y());
-    _RVOAgent->position_ = RVO::Vector2(pose.position.x(), pose.position.y());
+    _RVOAgent->radius_ = safety_margin + radius;
+    _RVOAgent->velocity_ = vector_from(twist.velocity);
+    _RVOAgent->position_ = vector_from(pose.position);
     _RVOAgent->maxSpeed_ = target_velocity.norm();
   }
-  _RVOAgent->timeStep_ = dt;
   // TODO(Jerome): why 2 * ... verify
   _RVOAgent->neighborDist_ = 2 * horizon;
-  _RVOAgent->prefVelocity_ =
-      RVO::Vector2(target_velocity.x(), target_velocity.y());
+  _RVOAgent->prefVelocity_ = vector_from(target_velocity);
   if (state.changed(GeometricState::LINE_OBSTACLES)) {
     rvo_line_obstacles.clear();
     for (auto &line : state.get_line_obstacles()) {
@@ -230,14 +237,15 @@ void ORCABehavior::prepare(const Vector2 &target_velocity, ng_float_t dt) {
   _RVOAgent->obstacleNeighbors_.clear();
   _RVOAgent->agentNeighbors_.clear();
   float rangeSq = (horizon * 2) * (horizon * 2);
-  float rangeSqObst = RVO::sqr(
-      _RVOAgent->timeHorizonObst_ * _RVOAgent->maxSpeed_ + _RVOAgent->radius_);
+  float rangeSqObst = std::pow(
+      _RVOAgent->timeHorizonObst_ * _RVOAgent->maxSpeed_ + _RVOAgent->radius_,
+      2);
   for (const auto &obstacle : rvo_line_obstacles) {
-    const auto next_obstacle = obstacle->nextObstacle;
+    const auto next_obstacle = obstacle->next_;
     const float agentLeftOfLine = RVO::leftOf(
         obstacle->point_, next_obstacle->point_, _RVOAgent->position_);
     const float distSqLine =
-        RVO::sqr(agentLeftOfLine) /
+        agentLeftOfLine * agentLeftOfLine /
         RVO::absSq(next_obstacle->point_ - obstacle->point_);
     if (distSqLine < rangeSqObst) {
       if (agentLeftOfLine < 0.0f) {
@@ -262,9 +270,9 @@ void ORCABehavior::prepare(const Vector2 &target_velocity, ng_float_t dt) {
 
 Vector2 ORCABehavior::desired_velocity_towards_velocity(const Vector2 &velocity,
                                                         ng_float_t dt) {
-  prepare(velocity, dt);
-  _RVOAgent->computeNewVelocity();
-  return Vector2(_RVOAgent->newVelocity_.x(), _RVOAgent->newVelocity_.y());
+  prepare(velocity);
+  _RVOAgent->computeNewVelocity(dt);
+  return vector_from(_RVOAgent->newVelocity_);
 }
 
 Vector2 ORCABehavior::desired_velocity_towards_point(const Vector2 &point,
@@ -305,9 +313,8 @@ std::vector<ORCABehavior::Line> ORCABehavior::get_lines() const {
   std::vector<ORCABehavior::Line> rs;
   std::transform(ls.cbegin(), ls.cend(), std::back_inserter(rs),
                  [](const RVO::Line &line) {
-                   return ORCABehavior::Line{
-                       core::Vector2{line.point.x(), line.point.y()},
-                       core::Vector2{line.direction.x(), line.direction.y()}};
+                   return ORCABehavior::Line{vector_from(line.point),
+                                             vector_from(line.direction)};
                  });
   return rs;
 }
@@ -336,6 +343,10 @@ const std::map<std::string, Property> ORCABehavior::properties =
              &ORCABehavior::get_treat_obstacles_as_agents,
              &ORCABehavior::set_treat_obstacles_as_agents, true,
              "Whenever to treat static obstacles as static [RVO] agents")},
+        {"max_neighbors", make_property<int, ORCABehavior>(
+                              &ORCABehavior::get_max_number_of_neighbors,
+                              &ORCABehavior::set_max_number_of_neighbors, 1000,
+                              "The maximal number of [RVO] neighbors")},
     } +
     Behavior::properties;
 

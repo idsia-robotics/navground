@@ -1014,6 +1014,15 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, ORCABehavior, ORCABehavior))
       .def_property("lines", &ORCABehavior::get_lines, nullptr,
                     DOC(navground, core, ORCABehavior, get_lines))
+      .def_property(
+          "max_number_of_neighbors", &ORCABehavior::get_max_number_of_neighbors,
+          &ORCABehavior::set_max_number_of_neighbors,
+          DOC(navground, core, ORCABehavior, property_max_number_of_neighbors))
+      .def_property("treat_obstacles_as_agents",
+                    &ORCABehavior::get_treat_obstacles_as_agents,
+                    &ORCABehavior::set_treat_obstacles_as_agents,
+                    DOC(navground, core, ORCABehavior,
+                        property_treat_obstacles_as_agents))
       .def_property("time_horizon", &ORCABehavior::get_time_horizon,
                     &ORCABehavior::set_time_horizon,
                     DOC(navground, core, ORCABehavior, property_time_horizon))

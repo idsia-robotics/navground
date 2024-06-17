@@ -24,9 +24,11 @@ namespace navground::core {
 
 /**
  * @brief      Optimal Reciprocal Collision Avoidance
+ *             (see http://gamma.cs.unc.edu/RVO2)
  *
- * A wrapper of the open-source implementation from
- * http://gamma.cs.unc.edu/RVO2/
+ * A wrapper of the open-source implementation
+ * from https://github.com/snape/RVO2 
+ *
  *
  * *Registered properties*:
  *
@@ -35,7 +37,9 @@ namespace navground::core {
  * - `effective_center` (float, \ref is_using_effective_center),
  *
  * - `treat_obstacles_as_agents` (bool, \ref get_treat_obstacles_as_agents)
- *
+ * 
+ * - `max_neighbors` (int, \ref get_max_number_of_neighbors)
+ * 
  * *State*: \ref GeometricState
  */
 class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
@@ -58,12 +62,25 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
   // ---------------------------------- BEHAVIOR PARAMETERS
 
   /**
+   * @brief      Gets the maximal number of neighbors
+   *
+   * @return     The maximal number of neighbors
+   */
+  unsigned get_max_number_of_neighbors() const;
+  /**
+   * @brief      Sets the maximal number of neighbors
+   *
+   * @param[in]  the desired value
+   */
+  void set_max_number_of_neighbors(unsigned value);
+
+  /**
    * @brief      Gets whether to treat obstacles as static, disc-shaped, [RVO]
    * agents. Else will treat them as squared obstacles.
    *
    * @return     True if static obstacles are passed as [RVO] neighbors.
    */
-  ng_float_t get_treat_obstacles_as_agents() const;
+  bool get_treat_obstacles_as_agents() const;
   /**
    * @brief      Sets whether to treat obstacles as static, disc-shaped, [RVO]
    * agents. Else will treat them as squared obstacles.
@@ -193,7 +210,7 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
   void add_obstacle_as_square(const Disc& disc, bool push_away = false,
                               ng_float_t epsilon = 2e-3);
   void prepare_line_obstacles();
-  void prepare(const Vector2& target_velocity, ng_float_t dt);
+  void prepare(const Vector2& target_velocity);
 
   Vector2 effective_position() const;
 

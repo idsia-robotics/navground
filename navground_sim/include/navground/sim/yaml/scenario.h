@@ -25,6 +25,11 @@ struct convert_scenario {
   static Node encode(const Scenario& rhs) {
     Node node;
     encode_type_and_properties<Scenario>(node, rhs);
+    for (const auto& [name, sampler] : rhs.property_samplers) {
+      if (sampler) {
+        node[name] = sampler;
+      }
+    }
     node["obstacles"] = rhs.obstacles;
     node["walls"] = rhs.walls;
     for (const auto& group : rhs.groups) {
@@ -63,6 +68,23 @@ struct convert_scenario {
     return true;
   }
 };
+
+template <>
+void decode_properties(const Node& node, Scenario& obj) {
+  for (const auto& [name, property] : obj.get_properties()) {
+    if (node[name]) {
+      obj.property_samplers[name] = property_sampler(node[name], property);
+    } else {
+      for (const auto& alt_name : property.deprecated_names) {
+        if (node[alt_name]) {
+          obj.property_samplers[name] =
+              property_sampler(node[alt_name], property);
+        }
+      }
+    }
+  }
+  obj.decode(node);
+}
 
 template <>
 struct convert<Scenario> {

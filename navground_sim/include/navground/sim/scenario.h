@@ -12,6 +12,7 @@
 #include "navground/core/property.h"
 #include "navground/core/register.h"
 #include "navground/core/yaml/yaml.h"
+#include "navground/sim/sampling/sampler.h"
 #include "navground/sim/world.h"
 #include "navground_sim_export.h"
 
@@ -41,7 +42,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
     /**
      * @brief      Resets the agent generator.
      */
-    virtual void reset() = 0;
+    virtual void reset(unsigned index = 0) = 0;
     virtual ~Group() = default;
   };
 
@@ -60,7 +61,11 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
    * @param[in]  inits  The collection of world initializers to use.
    */
   explicit Scenario(const Inits& inits = {})
-      : groups(), obstacles(), walls(), initializers(inits) {}
+      : groups(),
+        obstacles(),
+        walls(),
+        property_samplers(),
+        initializers(inits) {}
 
   // !!!! This may break the auto-registration!
   // std::string get_type() const override { return name; }
@@ -101,6 +106,18 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
    * Walls
    */
   std::vector<LineSegment> walls;
+
+  /**
+   * A map of property samplers ``name -> sampler``
+   * used configure the sampled object.
+   */
+  std::map<std::string, std::shared_ptr<PropertySampler>> property_samplers;
+
+  void reset(unsigned index = 0) {
+    for (auto& [k, v] : property_samplers) {
+      if (v) v->reset(index);
+    }
+  }
 
  private:
   Inits initializers;

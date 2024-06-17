@@ -86,6 +86,7 @@ add_library(navground_sim SHARED
   src/scenarios/cross_torus.cpp
   src/scenarios/simple.cpp
   src/sampling.cpp
+  src/yaml.cpp
 )
 
 generate_export_header(navground_sim)

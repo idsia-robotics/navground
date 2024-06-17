@@ -10,6 +10,7 @@
 #include "navground/sim/sampling/register.h"
 #include "navground/sim/sampling/sampler.h"
 #include "navground/sim/yaml/world.h"
+#include "navground_sim_export.h"
 #include "yaml-cpp/yaml.h"
 
 using navground::core::Property;
@@ -38,6 +39,10 @@ using navground::sim::wrap_from_string;
 using navground::sim::wrap_to_string;
 
 namespace YAML {
+
+bool NAVGROUND_SIM_EXPORT get_use_compact_samplers();
+
+void NAVGROUND_SIM_EXPORT set_use_compact_samplers(bool value);
 
 #if 0
 std::unique_ptr<PropertySampler> property_sampler(const Node& node,
@@ -189,6 +194,9 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
 template <typename T>
 struct convert<ConstantSampler<T>> {
   static Node encode(const ConstantSampler<T>& rhs) {
+    if (get_use_compact_samplers() && !rhs.once) {
+      return Node(rhs.value);
+    }
     Node node;
     node["sampler"] = "constant";
     node["value"] = rhs.value;
@@ -202,6 +210,9 @@ struct convert<ConstantSampler<T>> {
 template <typename T>
 struct convert<SequenceSampler<T>> {
   static Node encode(const SequenceSampler<T>& rhs) {
+    if (get_use_compact_samplers() && !rhs.once && rhs.wrap == Wrap::loop) {
+      return Node(rhs.values);
+    }
     Node node;
     node["sampler"] = "sequence";
     node["values"] = rhs.values;

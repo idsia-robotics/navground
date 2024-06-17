@@ -310,8 +310,8 @@ struct PyGroup : public virtual Scenario::Group {
     PYBIND11_OVERRIDE_PURE(void, Scenario::Group, add_to_world, world);
   }
 
-  void reset() override {
-    PYBIND11_OVERRIDE_PURE(void, Scenario::Group, reset);
+  void reset(unsigned index = 0) override {
+    PYBIND11_OVERRIDE_PURE(void, Scenario::Group, reset, index);
   }
 };
 
@@ -2496,6 +2496,13 @@ Load an experiment from a YAML string.
         "Dump a behavior to a YAML-string");
   m.def("dump", &YAML::dump<Kinematics>, py::arg("kinematics"),
         "Dump a kinematics to a YAML-string");
+
+  m.def("dump", &YAML::dump<Kinematics>, py::arg("kinematics"),
+        "Dump a kinematics to a YAML-string");
+
+  m.def("use_compact_samplers", &YAML::set_use_compact_samplers,
+        py::arg("value"),
+        "Whether to represent sampler compactly in YAML when possible");
 
   // add [partial] pickle support
   pickle_via_yaml<PyStateEstimation>(se);

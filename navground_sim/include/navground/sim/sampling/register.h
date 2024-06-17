@@ -62,10 +62,10 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
   /**
    * @private
    */
-  void reset() override {
-    Sampler<C>::reset();
+  void reset(unsigned index = 0) override {
+    Sampler<C>::reset(index);
     for (auto& [k, v] : properties) {
-      if (v) v->reset();
+      if (v) v->reset(index);
     }
   }
 
@@ -126,9 +126,9 @@ struct BehaviorModulationSampler : public SamplerFromRegister<T> {
   /**
    * @private
    */
-  void reset() override {
-    SamplerFromRegister<T>::reset();
-    if (enabled) enabled->reset();
+  void reset(unsigned index = 0) override {
+    SamplerFromRegister<T>::reset(index);
+    if (enabled) enabled->reset(index);
   }
 
   std::shared_ptr<Sampler<bool>> enabled;
@@ -222,14 +222,14 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
   /**
    * @private
    */
-  void reset() override {
-    SamplerFromRegister<T>::reset();
-    if (optimal_speed) optimal_speed->reset();
-    if (optimal_angular_speed) optimal_angular_speed->reset();
-    if (rotation_tau) rotation_tau->reset();
-    if (safety_margin) safety_margin->reset();
-    if (horizon) horizon->reset();
-    if (heading) heading->reset();
+  void reset(unsigned index = 0) override {
+    SamplerFromRegister<T>::reset(index);
+    if (optimal_speed) optimal_speed->reset(index);
+    if (optimal_angular_speed) optimal_angular_speed->reset(index);
+    if (rotation_tau) rotation_tau->reset(index);
+    if (safety_margin) safety_margin->reset(index);
+    if (horizon) horizon->reset(index);
+    if (heading) heading->reset(index);
   }
 
   std::shared_ptr<Sampler<ng_float_t>> optimal_speed;
@@ -268,10 +268,10 @@ struct KinematicsSampler : public SamplerFromRegister<T> {
   /**
    * @private
    */
-  void reset() override {
-    SamplerFromRegister<T>::reset();
-    if (max_speed) max_speed->reset();
-    if (max_angular_speed) max_angular_speed->reset();
+  void reset(unsigned index = 0) override {
+    SamplerFromRegister<T>::reset(index);
+    if (max_speed) max_speed->reset(index);
+    if (max_angular_speed) max_angular_speed->reset(index);
   }
 
   std::shared_ptr<Sampler<ng_float_t>> max_speed;

@@ -68,18 +68,18 @@ struct AgentSampler : public Sampler<typename W::A::C>,
   /**
    * @private
    */
-  void reset() override {
-    Sampler<C>::reset();
-    behavior.reset();
-    kinematics.reset();
-    task.reset();
-    state_estimation.reset();
-    if (position) position->reset();
-    if (orientation) orientation->reset();
-    if (radius) radius->reset();
-    if (control_period) control_period->reset();
-    if (id) id->reset();
-    if (type) type->reset();
+  void reset(unsigned index = 0) override {
+    Sampler<C>::reset(index);
+    behavior.reset(index);
+    kinematics.reset(index);
+    task.reset(index);
+    state_estimation.reset(index);
+    if (position) position->reset(index);
+    if (orientation) orientation->reset(index);
+    if (radius) radius->reset(index);
+    if (control_period) control_period->reset(index);
+    if (id) id->reset(index);
+    if (type) type->reset(index);
   }
 
   std::string name;

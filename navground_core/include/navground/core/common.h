@@ -89,6 +89,17 @@ inline Vector2 unit(ng_float_t angle) {
 }
 
 /**
+ * @brief      Normal vector to a desired orientated.
+ *
+ * @param[in]  angle The desired orientation
+ *
+ * @return     Vector of norm one and orientation normal to the desired orientation
+ */
+inline Vector2 normal(ng_float_t angle) {
+  return {-std::sin(angle), std::cos(angle)};
+}
+
+/**
  * @brief      Rotate a two-dimensional vector.
  *
  * @param[in]  vector The original vector

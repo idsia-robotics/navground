@@ -77,7 +77,7 @@ ament_index_register_resource(navground_plugins CONTENT "")
 
 generate_export_header(navground_core)
 
-target_link_libraries(navground_core PUBLIC Eigen3::Eigen)
+target_link_libraries(navground_core PUBLIC Eigen3::Eigen ${CMAKE_DL_LIBS})
 if (NAVGROUND_USES_DOUBLE)
   message("Building navground using doubles instead of floats")
   target_compile_definitions(navground_core PUBLIC NAVGROUND_USES_DOUBLE)

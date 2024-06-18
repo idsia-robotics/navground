@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
@@ -46,7 +46,7 @@
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/tabs.js?v=3030b3cb"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
@@ -307,9 +307,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -689,6 +689,8 @@ document.write(`
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.c">c (SocialForceBehavior property)</a>
+</li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation">CachedCollisionComputation (class in navground.core)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.check_if_target_satisfied">check_if_target_satisfied() (Behavior method)</a>
@@ -705,14 +707,14 @@ document.write(`
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.collisions">(RecordedExperimentalRun attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.commands">commands (ExperimentalRun property)</a>
 
       <ul>
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.commands">(RecordedExperimentalRun attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.compute_cmd">compute_cmd() (Behavior method)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.compute_safety_violation">compute_safety_violation() (World method)</a>
@@ -1751,7 +1753,15 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/behaviors/HRVO.html#_CPPv4N9navground4core12HRVOBehaviorE">navground::core::HRVOBehavior (C++ class)</a>
 </li>
+      <li><a href="reference/core/cpp/behaviors/HRVO.html#_CPPv4NK9navground4core12HRVOBehavior27get_max_number_of_neighborsEv">navground::core::HRVOBehavior::get_max_number_of_neighbors (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/HRVO.html#_CPPv4NK9navground4core12HRVOBehavior22get_uncertainty_offsetEv">navground::core::HRVOBehavior::get_uncertainty_offset (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/behaviors/HRVO.html#_CPPv4N9navground4core12HRVOBehavior12HRVOBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t">navground::core::HRVOBehavior::HRVOBehavior (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/HRVO.html#_CPPv4N9navground4core12HRVOBehavior27set_max_number_of_neighborsEj">navground::core::HRVOBehavior::set_max_number_of_neighbors (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/HRVO.html#_CPPv4N9navground4core12HRVOBehavior22set_uncertainty_offsetE10ng_float_t">navground::core::HRVOBehavior::set_uncertainty_offset (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core10KinematicsE">navground::core::Kinematics (C++ class)</a>
 </li>
@@ -1825,13 +1835,29 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4N9navground4core12ORCABehaviorE">navground::core::ORCABehavior (C++ class)</a>
 </li>
+      <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4NK9navground4core12ORCABehavior9get_linesEv">navground::core::ORCABehavior::get_lines (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4NK9navground4core12ORCABehavior27get_max_number_of_neighborsEv">navground::core::ORCABehavior::get_max_number_of_neighbors (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4NK9navground4core12ORCABehavior23get_static_time_horizonEv">navground::core::ORCABehavior::get_static_time_horizon (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4NK9navground4core12ORCABehavior16get_time_horizonEv">navground::core::ORCABehavior::get_time_horizon (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4NK9navground4core12ORCABehavior29get_treat_obstacles_as_agentsEv">navground::core::ORCABehavior::get_treat_obstacles_as_agents (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4NK9navground4core12ORCABehavior25is_using_effective_centerEv">navground::core::ORCABehavior::is_using_effective_center (C++ function)</a>
 </li>
+      <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4N9navground4core12ORCABehavior4LineE">navground::core::ORCABehavior::Line (C++ struct)</a>
+</li>
       <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4N9navground4core12ORCABehavior12ORCABehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t">navground::core::ORCABehavior::ORCABehavior (C++ function)</a>
 </li>
+      <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4N9navground4core12ORCABehavior27set_max_number_of_neighborsEj">navground::core::ORCABehavior::set_max_number_of_neighbors (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4N9navground4core12ORCABehavior23set_static_time_horizonE10ng_float_t">navground::core::ORCABehavior::set_static_time_horizon (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4N9navground4core12ORCABehavior16set_time_horizonE10ng_float_t">navground::core::ORCABehavior::set_time_horizon (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4N9navground4core12ORCABehavior29set_treat_obstacles_as_agentsEb">navground::core::ORCABehavior::set_treat_obstacles_as_agents (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4N9navground4core12ORCABehavior27should_use_effective_centerEb">navground::core::ORCABehavior::should_use_effective_center (C++ function)</a>
 </li>
@@ -2077,12 +2103,12 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent22as_translated_neighborERK7Vector2">navground::sim::Agent::as_translated_neighbor (C++ function)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent5colorE">navground::sim::Agent::color (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent14control_periodE">navground::sim::Agent::control_period (C++ member)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent8externalE">navground::sim::Agent::external (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent12get_behaviorEv">navground::sim::Agent::get_behavior (C++ function)</a>
@@ -2419,7 +2445,11 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim10Experiment8get_pathEv">navground::sim::Experiment::get_path (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim10Experiment17get_run_callbacksEv">navground::sim::Experiment::get_run_callbacks (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim10Experiment8get_runsEv">navground::sim::Experiment::get_runs (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim10Experiment26get_scenario_init_callbackEv">navground::sim::Experiment::get_scenario_init_callback (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim10Experiment9get_stepsEv">navground::sim::Experiment::get_steps (C++ function)</a>
 </li>
@@ -2464,6 +2494,12 @@ document.write(`
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment14save_directoryE">navground::sim::Experiment::save_directory (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment8scenarioE">navground::sim::Experiment::scenario (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment20ScenarioInitCallbackE">navground::sim::Experiment::ScenarioInitCallback (C++ type)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment17set_run_callbacksERKNSt3mapIbNSt6vectorI11RunCallbackEEEE">navground::sim::Experiment::set_run_callbacks (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment26set_scenario_init_callbackERKNSt8optionalI20ScenarioInitCallbackEE">navground::sim::Experiment::set_scenario_init_callback (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment9set_stepsE10ng_float_t">navground::sim::Experiment::set_steps (C++ function)</a>
 </li>
@@ -2719,7 +2755,7 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim7Sampler4onceE">navground::sim::Sampler::once (C++ member)</a>
 </li>
-      <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim7Sampler5resetEv">navground::sim::Sampler::reset (C++ function)</a>
+      <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim7Sampler5resetEj">navground::sim::Sampler::reset (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim7Sampler6sampleER15RandomGenerator">navground::sim::Sampler::sample (C++ function)</a>
 </li>
@@ -2741,7 +2777,7 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario5Group12add_to_worldEP5World">navground::sim::Scenario::Group::add_to_world (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario5Group5resetEv">navground::sim::Scenario::Group::reset (C++ function)</a>
+      <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario5Group5resetEj">navground::sim::Scenario::Group::reset (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario5GroupD0Ev">navground::sim::Scenario::Group::~Group (C++ function)</a>
 </li>
@@ -2754,6 +2790,10 @@ document.write(`
       <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario5InitsE">navground::sim::Scenario::Inits (C++ type)</a>
 </li>
       <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario9obstaclesE">navground::sim::Scenario::obstacles (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario17property_samplersE">navground::sim::Scenario::property_samplers (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario5resetEj">navground::sim::Scenario::reset (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/scenarios/scenario.html#_CPPv4N9navground3sim8Scenario8ScenarioERK5Inits">navground::sim::Scenario::Scenario (C++ function)</a>
 </li>
@@ -3039,6 +3079,8 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/visualization.html#navground.sim.ui.render.pdf_for_world">pdf_for_world() (in module navground.sim.ui.render)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.phi">phi (SocialForceBehavior property)</a>
+</li>
       <li><a href="reference/sim/python/visualization.html#navground.sim.ui.render.png_for_world">png_for_world() (in module navground.sim.ui.render)</a>
 </li>
       <li><a href="reference/core/python/target.html#navground.core.Target.Point">Point() (Target static method)</a>
@@ -3303,10 +3345,10 @@ document.write(`
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_pose">simNavground.get_pose() (built-in function)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_safety_margin">simNavground.get_safety_margin() (built-in function)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_state">simNavground.get_state() (built-in function)</a>
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_target">simNavground.get_target() (built-in function)</a>
@@ -3397,6 +3439,8 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation.step">step() (RealTimeSimulation method)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.step_duration">step_duration (SocialForceBehavior property)</a>
+</li>
       <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.steps">steps (RecordedExperiment attribute)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.stop">stop() (Controller method)</a>
@@ -3447,6 +3491,8 @@ document.write(`
       </ul></li>
       <li><a href="reference/sim/python/tasks/task.html#navground.sim.TaskCallback">TaskCallback (class in navground.sim)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.tau">tau (SocialForceBehavior property)</a>
+</li>
       <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.time_step">time_step (RecordedExperimentalRun attribute)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.times">times (ExperimentalRun property)</a>
@@ -3457,10 +3503,10 @@ document.write(`
       </ul></li>
       <li><a href="reference/core/python/behaviors/py_dummy.html#navground.core.behaviors.PyDummyBehavior.tired">tired (PyDummyBehavior property)</a>
 </li>
-      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.to_frame">to_frame() (Behavior method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.to_frame">to_frame() (Behavior method)</a>
+</li>
       <li><a href="reference/core/python/target.html#navground.core.Target.Twist">Twist() (Target static method)</a>
 </li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.WheeledKinematics.twist">twist() (WheeledKinematics method)</a>
@@ -3505,6 +3551,10 @@ document.write(`
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.u_a">u_a (SocialForceBehavior property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.u_r">u_r (SocialForceBehavior property)</a>
+</li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.update">update() (Controller method)</a>
 
       <ul>
@@ -3533,6 +3583,10 @@ document.write(`
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.v_a">v_a (SocialForceBehavior property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.v_r">v_r (SocialForceBehavior property)</a>
+</li>
       <li><a href="reference/core/python/target.html#navground.core.Target.valid">valid (Target property)</a>
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Frame.value">value (Frame property)</a>

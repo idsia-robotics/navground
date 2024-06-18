@@ -29,7 +29,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
@@ -47,7 +47,7 @@
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/tabs.js?v=3030b3cb"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'installation';</script>
@@ -181,6 +181,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorials/display.html">Visualize a simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/modulations.html">Behavior Modulations</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -231,6 +232,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/social_margin.html">Social margin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/behavior.html">Behavior</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/state.html">Environment State</a></li>
 </ul>
 </details></li>
@@ -306,9 +308,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -402,9 +404,9 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -471,13 +473,14 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#highfive">HighFive</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#multiprocess">multiprocess</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#h5py">h5py</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#websockets-optional">websockets [optional]</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#cairosvg-optional">cairosvg [optional]</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#moviepy-optional">moviepy [optional]</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Package</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Package</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-and-demos">Examples and demos</a></li>
@@ -555,7 +558,7 @@ Change <code class="docutils literal notranslate"><span class="pre">navground_si
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-3-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-3-3-0" name="3-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-3-3-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-1" name="3-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-3-3-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-2" name="3-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-3-3-0" class="sphinx-tabs-panel" id="panel-3-3-0" name="3-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir ws</span>
 <span class="go">cd ws</span>
-<span class="go">python3 -m pip install colcon-common-extensions vcstool numpy h5py</span>
+<span class="go">python3 -m pip install colcon-common-extensions vcstool numpy h5py multiprocess</span>
 <span class="go">vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos</span>
 <span class="go">export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml</span>
 <span class="go">colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim</span>
@@ -563,7 +566,7 @@ Change <code class="docutils literal notranslate"><span class="pre">navground_si
 </div>
 </div><div aria-labelledby="tab-3-3-1" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-1" name="3-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir ws</span>
 <span class="go">cd ws</span>
-<span class="go">python3 -m pip install colcon-common-extensions vcstool numpy h5py</span>
+<span class="go">python3 -m pip install colcon-common-extensions vcstool numpy h5py multiprocess</span>
 <span class="go">vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos</span>
 <span class="go">export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml</span>
 <span class="go">colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim</span>
@@ -571,7 +574,7 @@ Change <code class="docutils literal notranslate"><span class="pre">navground_si
 </div>
 </div><div aria-labelledby="tab-3-3-2" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-2" name="3-2" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir ws</span>
 <span class="go">cd ws</span>
-<span class="go">python -m pip install colcon-common-extensions vcstool numpy h5py</span>
+<span class="go">python -m pip install colcon-common-extensions vcstool numpy h5py multiprocess</span>
 <span class="go">vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos</span>
 <span class="go">set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml</span>
 <span class="go">colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim</span>
@@ -826,6 +829,13 @@ Just install the python package of the corresponding version.</p>
 </pre></div>
 </div>
 </section>
+<section id="multiprocess">
+<h5>multiprocess<a class="headerlink" href="#multiprocess" title="Link to this heading">#</a></h5>
+<p>We use <a class="reference external" href="https://pypi.org/project/multiprocess/">multiprocess</a> instead of the <cite>multiprocessing</cite> package contained in the Python standard library because more flexible</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install multiprocess</span>
+</pre></div>
+</div>
+</section>
 <section id="h5py">
 <h5>h5py<a class="headerlink" href="#h5py" title="Link to this heading">#</a></h5>
 <p>To be able to reload a simulation from a saved experiment, install <code class="docutils literal notranslate"><span class="pre">h5py</span></code></p>
@@ -855,8 +865,8 @@ Just install the python package of the corresponding version.</p>
 </div>
 </section>
 </section>
-<section id="id13">
-<h4>Package<a class="headerlink" href="#id13" title="Link to this heading">#</a></h4>
+<section id="id14">
+<h4>Package<a class="headerlink" href="#id14" title="Link to this heading">#</a></h4>
 <p>Once all dependencies are installed, compile the package using <code class="docutils literal notranslate"><span class="pre">colcon</span></code>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim</span>
 </pre></div>
@@ -1037,13 +1047,14 @@ Just install the python package of the corresponding version.</p>
 </ul>
 </li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#highfive">HighFive</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#multiprocess">multiprocess</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#h5py">h5py</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#websockets-optional">websockets [optional]</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#cairosvg-optional">cairosvg [optional]</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#moviepy-optional">moviepy [optional]</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Package</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Package</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-and-demos">Examples and demos</a></li>

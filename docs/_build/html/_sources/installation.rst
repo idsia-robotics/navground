@@ -113,7 +113,7 @@ Change ``navground_sim`` to another package name, like ``navground_examples``, t
    
          mkdir ws
          cd ws
-         python3 -m pip install colcon-common-extensions vcstool numpy h5py
+         python3 -m pip install colcon-common-extensions vcstool numpy h5py multiprocess
          vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
          export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
          colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
@@ -124,7 +124,7 @@ Change ``navground_sim`` to another package name, like ``navground_examples``, t
    
          mkdir ws
          cd ws
-         python3 -m pip install colcon-common-extensions vcstool numpy h5py
+         python3 -m pip install colcon-common-extensions vcstool numpy h5py multiprocess
          vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
          export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
          colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
@@ -136,7 +136,7 @@ Change ``navground_sim`` to another package name, like ``navground_examples``, t
 
          mkdir ws
          cd ws
-         python -m pip install colcon-common-extensions vcstool numpy h5py
+         python -m pip install colcon-common-extensions vcstool numpy h5py multiprocess
          vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
          colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
@@ -511,6 +511,15 @@ Then, install HighFive.
 
    git clone https://github.com/BlueBrain/HighFive.git src/HighFive
    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DHIGHFIVE_UNIT_TESTS=OFF -DHIGHFIVE_USE_BOOST=OFF -DHIGHFIVE_BUILD_DOCS=OFF --packages-select HighFive
+
+multiprocess
+^^^^^^^^^^^^
+
+We use `multiprocess <https://pypi.org/project/multiprocess/>`_ instead of the `multiprocessing` package contained in the Python standard library because more flexible
+
+.. code-block:: console
+
+   python3 -m pip install multiprocess
 
 h5py
 ^^^^

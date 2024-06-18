@@ -29,7 +29,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=87e54e7c" />
@@ -46,7 +46,7 @@
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/cpp/experiment';</script>
@@ -180,6 +180,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/display.html">Visualize a simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -230,6 +231,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../core/yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/yaml/social_margin.html">Social margin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/yaml/behavior.html">Behavior</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/yaml/state.html">Environment State</a></li>
 </ul>
 </details></li>
@@ -305,9 +307,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -401,9 +403,9 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -559,6 +561,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment">Experiment</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10ExperimentE"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment11RunCallbackE"><code class="docutils literal notranslate"><span class="pre">Experiment::RunCallback</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment20ScenarioInitCallbackE"><code class="docutils literal notranslate"><span class="pre">Experiment::ScenarioInitCallback</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment10ExperimentE10ng_float_tj"><code class="docutils literal notranslate"><span class="pre">Experiment::Experiment()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment8get_runsEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_runs()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment12has_finishedEv"><code class="docutils literal notranslate"><span class="pre">Experiment::has_finished()</span></code></a></li>
@@ -574,7 +577,11 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment10update_runER15ExperimentalRun"><code class="docutils literal notranslate"><span class="pre">Experiment::update_run()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment8stop_runER15ExperimentalRun"><code class="docutils literal notranslate"><span class="pre">Experiment::stop_run()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment16add_run_callbackERK11RunCallbackb"><code class="docutils literal notranslate"><span class="pre">Experiment::add_run_callback()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment17get_run_callbacksEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_run_callbacks()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment17set_run_callbacksERKNSt3mapIbNSt6vectorI11RunCallbackEEEE"><code class="docutils literal notranslate"><span class="pre">Experiment::set_run_callbacks()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment19clear_run_callbacksEv"><code class="docutils literal notranslate"><span class="pre">Experiment::clear_run_callbacks()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment26get_scenario_init_callbackEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_scenario_init_callback()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment26set_scenario_init_callbackERKNSt8optionalI20ScenarioInitCallbackEE"><code class="docutils literal notranslate"><span class="pre">Experiment::set_scenario_init_callback()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment8get_pathEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment15get_duration_nsEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_duration_ns()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment14get_begin_timeEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_begin_time()</span></code></a></li>
@@ -1826,6 +1833,12 @@ Gets the seed used to initialize the simulation.</p>
 <dd><p>The type of callbacks called during an experiment </p>
 </dd></dl>
 
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment20ScenarioInitCallbackE">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1af19bbea7ea4c97008454ef8b913c2f8e"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ScenarioInitCallback</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="scenarios/scenario.html#_CPPv4N9navground3sim8ScenarioE" title="navground::sim::Scenario"><span class="n"><span class="pre">Scenario</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n"><span class="pre">run_seed</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment20ScenarioInitCallbackE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The type of callbacks called before initializing a world with a scenario </p>
+</dd></dl>
+
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
@@ -2062,7 +2075,7 @@ See <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1
 <span class="target" id="structnavground_1_1sim_1_1_experiment_1a0a73fd3f759450e59a3a331f12302997"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_run_callback</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim10Experiment11RunCallbackE" title="navground::sim::Experiment::RunCallback"><span class="n"><span class="pre">RunCallback</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">at_init</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment16add_run_callbackERK11RunCallbackb" title="Link to this definition">#</a><br /></dt>
 <dd><p>Adds a callback to be executed after each simulation step. </p>
 <p>
-Adds a callback to be executed after each run.</p>
+Adds a callback to be executed before/after each run.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2075,12 +2088,56 @@ Adds a callback to be executed after each run.</p>
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim10Experiment17get_run_callbacksEv">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1af9c1aaf5285d875dd620541e77127f15"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim10Experiment11RunCallbackE" title="navground::sim::Experiment::RunCallback"><span class="n"><span class="pre">RunCallback</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_run_callbacks</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim10Experiment17get_run_callbacksEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the run callbacks. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The callbacks </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment17set_run_callbacksERKNSt3mapIbNSt6vectorI11RunCallbackEEEE">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a53931c04954a591c28d814b6488b19ff"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_run_callbacks</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim10Experiment11RunCallbackE" title="navground::sim::Experiment::RunCallback"><span class="n"><span class="pre">RunCallback</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment17set_run_callbacksERKNSt3mapIbNSt6vectorI11RunCallbackEEEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the run callbacks. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired callbacks </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment19clear_run_callbacksEv">
 <span class="target" id="structnavground_1_1sim_1_1_experiment_1a64cd81b4232003d23a64fab53af0b1fa"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clear_run_callbacks</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment19clear_run_callbacksEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Remove all run callbacks. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The callback </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim10Experiment26get_scenario_init_callbackEv">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a7a1acc27ab745da7db67013614d490d9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim10Experiment20ScenarioInitCallbackE" title="navground::sim::Experiment::ScenarioInitCallback"><span class="n"><span class="pre">ScenarioInitCallback</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_scenario_init_callback</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim10Experiment26get_scenario_init_callbackEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the callback called before the scenario initializes a world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The callback or null if none is set </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim10Experiment26set_scenario_init_callbackERKNSt8optionalI20ScenarioInitCallbackEE">
+<span class="target" id="structnavground_1_1sim_1_1_experiment_1a09fac3a2203398fdabe0fa153b8b833a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_scenario_init_callback</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim10Experiment20ScenarioInitCallbackE" title="navground::sim::Experiment::ScenarioInitCallback"><span class="n"><span class="pre">ScenarioInitCallback</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim10Experiment26set_scenario_init_callbackERKNSt8optionalI20ScenarioInitCallbackEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the run callbacks. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired callbacks </p>
 </dd>
 </dl>
 </dd></dl>
@@ -2491,6 +2548,7 @@ Adds a callback to be executed after each run.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment">Experiment</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10ExperimentE"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment11RunCallbackE"><code class="docutils literal notranslate"><span class="pre">Experiment::RunCallback</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment20ScenarioInitCallbackE"><code class="docutils literal notranslate"><span class="pre">Experiment::ScenarioInitCallback</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment10ExperimentE10ng_float_tj"><code class="docutils literal notranslate"><span class="pre">Experiment::Experiment()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment8get_runsEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_runs()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment12has_finishedEv"><code class="docutils literal notranslate"><span class="pre">Experiment::has_finished()</span></code></a></li>
@@ -2506,7 +2564,11 @@ Adds a callback to be executed after each run.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment10update_runER15ExperimentalRun"><code class="docutils literal notranslate"><span class="pre">Experiment::update_run()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment8stop_runER15ExperimentalRun"><code class="docutils literal notranslate"><span class="pre">Experiment::stop_run()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment16add_run_callbackERK11RunCallbackb"><code class="docutils literal notranslate"><span class="pre">Experiment::add_run_callback()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment17get_run_callbacksEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_run_callbacks()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment17set_run_callbacksERKNSt3mapIbNSt6vectorI11RunCallbackEEEE"><code class="docutils literal notranslate"><span class="pre">Experiment::set_run_callbacks()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment19clear_run_callbacksEv"><code class="docutils literal notranslate"><span class="pre">Experiment::clear_run_callbacks()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment26get_scenario_init_callbackEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_scenario_init_callback()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim10Experiment26set_scenario_init_callbackERKNSt8optionalI20ScenarioInitCallbackEE"><code class="docutils literal notranslate"><span class="pre">Experiment::set_scenario_init_callback()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment8get_pathEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment15get_duration_nsEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_duration_ns()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim10Experiment14get_begin_timeEv"><code class="docutils literal notranslate"><span class="pre">Experiment::get_begin_time()</span></code></a></li>

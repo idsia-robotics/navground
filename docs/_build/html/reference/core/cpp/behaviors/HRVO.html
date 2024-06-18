@@ -29,7 +29,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=87e54e7c" />
@@ -46,7 +46,7 @@
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/cpp/behaviors/HRVO';</script>
@@ -180,6 +180,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/display.html">Visualize a simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -230,6 +231,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/social_margin.html">Social margin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/behavior.html">Behavior</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../yaml/behavior_modulation.html">Behavior Modulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/state.html">Environment State</a></li>
 </ul>
 </details></li>
@@ -305,9 +307,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -401,9 +403,9 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -426,6 +428,10 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12HRVOBehaviorE"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12HRVOBehavior12HRVOBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior::HRVOBehavior()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12HRVOBehavior27get_max_number_of_neighborsEv"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior::get_max_number_of_neighbors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12HRVOBehavior27set_max_number_of_neighborsEj"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior::set_max_number_of_neighbors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12HRVOBehavior22get_uncertainty_offsetEv"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior::get_uncertainty_offset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12HRVOBehavior22set_uncertainty_offsetE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior::set_uncertainty_offset()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -449,7 +455,12 @@ document.write(`
 <span class="target" id="classnavground_1_1core_1_1_h_r_v_o_behavior"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HRVOBehavior</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core12HRVOBehaviorE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Hybrid Velocity Obstacle <a class="reference internal" href="behavior.html#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>. </p>
 <p>A wrapper of the open-source implementation from <a class="reference external" href="http://gamma.cs.unc.edu/HRVO/">http://gamma.cs.unc.edu/HRVO/</a></p>
-<p><em>Registered properties</em>: none</p>
+<p><em>Registered properties</em>:</p>
+<p><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">uncertainty_offset</span></code> (float, <a class="reference internal" href="#classnavground_1_1core_1_1_h_r_v_o_behavior_1ae2df5c172d73ebfd15088f7a1c0a507f"><span class="std std-ref">get_uncertainty_offset</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_neighbors</span></code> (int, <a class="reference internal" href="#classnavground_1_1core_1_1_h_r_v_o_behavior_1abb58a14854cf5b7ec27a4294ac1fabb2"><span class="std std-ref">get_max_number_of_neighbors</span></a>)</p></li>
+</ul>
+</p>
 <p><em>State</em>: <a class="reference internal" href="../state.html#classnavground_1_1core_1_1_geometric_state"><span class="std std-ref">GeometricState</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
@@ -463,6 +474,50 @@ document.write(`
 <li><p><strong>kinematics</strong> – <strong>[in]</strong> The kinematics </p></li>
 <li><p><strong>radius</strong> – <strong>[in]</strong> The radius </p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core12HRVOBehavior27get_max_number_of_neighborsEv">
+<span class="target" id="classnavground_1_1core_1_1_h_r_v_o_behavior_1abb58a14854cf5b7ec27a4294ac1fabb2"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_max_number_of_neighbors</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core12HRVOBehavior27get_max_number_of_neighborsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the maximal number of neighbors. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The maximal number of neighbors </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12HRVOBehavior27set_max_number_of_neighborsEj">
+<span class="target" id="classnavground_1_1core_1_1_h_r_v_o_behavior_1a06701c48f9a17a34d06441a24df01ccb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_max_number_of_neighbors</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core12HRVOBehavior27set_max_number_of_neighborsEj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the maximal number of neighbors. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>the</strong> – <strong>[in]</strong> desired value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core12HRVOBehavior22get_uncertainty_offsetEv">
+<span class="target" id="classnavground_1_1core_1_1_h_r_v_o_behavior_1ae2df5c172d73ebfd15088f7a1c0a507f"></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_uncertainty_offset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core12HRVOBehavior22get_uncertainty_offsetEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the uncertainty offset. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The uncertainty offset. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12HRVOBehavior22set_uncertainty_offsetE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_h_r_v_o_behavior_1a8822f355e59493bc162f618074d42e67"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_uncertainty_offset</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core12HRVOBehavior22set_uncertainty_offsetE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the uncertainty offset. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The value </p>
 </dd>
 </dl>
 </dd></dl>
@@ -519,6 +574,10 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12HRVOBehaviorE"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12HRVOBehavior12HRVOBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior::HRVOBehavior()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12HRVOBehavior27get_max_number_of_neighborsEv"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior::get_max_number_of_neighbors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12HRVOBehavior27set_max_number_of_neighborsEj"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior::set_max_number_of_neighbors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12HRVOBehavior22get_uncertainty_offsetEv"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior::get_uncertainty_offset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12HRVOBehavior22set_uncertainty_offsetE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior::set_uncertainty_offset()</span></code></a></li>
 </ul>
 </li>
 </ul>

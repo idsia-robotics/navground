@@ -29,7 +29,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
@@ -47,7 +47,7 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -183,6 +183,7 @@
 <li class="toctree-l2"><a class="reference internal" href="display.html">Visualize a simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modulations.html">Behavior Modulations</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -233,6 +234,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/social_margin.html">Social margin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/behavior.html">Behavior</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/state.html">Environment State</a></li>
 </ul>
 </details></li>
@@ -308,9 +310,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -404,9 +406,9 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -742,19 +744,11 @@ Twist2((1.000000, 0.000000), 0.000000, frame=Frame.relative)
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Matplotlib is building the font cache; this may take a moment.
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_tour_41_1.png" src="../_images/tutorials_tour_41_1.png" />
+<img alt="../_images/tutorials_tour_41_0.png" src="../_images/tutorials_tour_41_0.png" />
 </div>
 </div>
 <p>We got the trajectory we expected, altough not a particularly interesting one.</p>
@@ -844,11 +838,11 @@ True
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Twist2((0.150420, 0.000000), -0.224969, frame=Frame.relative)
+Twist2((0.300000, 0.000000), 0.000000, frame=Frame.relative)
 </pre></div></div>
 </div>
 <p>In fact, the behavior is telling us to steer clockwise to avoid the obstacle. Let’s plot the new trajectory.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
@@ -862,6 +856,22 @@ Twist2((0.150420, 0.000000), -0.224969, frame=Frame.relative)
 <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[27], line 3</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> positions <span style="color: rgb(98,98,98)">=</span> []
+<span class="ansi-green-fg">----&gt; 3</span> <span class="ansi-bold" style="color: rgb(0,135,0)">while</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-yellow-bg">behavior</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">target</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">satisfied</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">behavior</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">pose</span><span class="ansi-yellow-bg">)</span>:
+<span class="ansi-green-intense-fg ansi-bold">      4</span>     positions<span style="color: rgb(98,98,98)">.</span>append(behavior<span style="color: rgb(98,98,98)">.</span>position)
+<span class="ansi-green-intense-fg ansi-bold">      5</span>     cmd <span style="color: rgb(98,98,98)">=</span> behavior<span style="color: rgb(98,98,98)">.</span>compute_cmd(<span style="color: rgb(98,98,98)">0.1</span>)
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>:
+</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
@@ -878,11 +888,28 @@ Twist2((0.150420, 0.000000), -0.224969, frame=Frame.relative)
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[28], line 5</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> ax<span style="color: rgb(98,98,98)">.</span>add_patch(plt<span style="color: rgb(98,98,98)">.</span>Circle(positions[<span style="color: rgb(98,98,98)">0</span>], behavior<span style="color: rgb(98,98,98)">.</span>radius, color<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">blue</span><span style="color: rgb(175,0,0)">&#39;</span>, alpha<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0.2</span>))
+<span class="ansi-green-intense-fg ansi-bold">      4</span> ax<span style="color: rgb(98,98,98)">.</span>add_patch(plt<span style="color: rgb(98,98,98)">.</span>Circle(positions[<span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">1</span>], behavior<span style="color: rgb(98,98,98)">.</span>radius, color<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">blue</span><span style="color: rgb(175,0,0)">&#39;</span>, alpha<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0.5</span>))
+<span class="ansi-green-fg">----&gt; 5</span> ax<span style="color: rgb(98,98,98)">.</span>plot(<span class="ansi-yellow-bg">positions</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">:</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">0</span><span class="ansi-yellow-bg">]</span>, positions[:, <span style="color: rgb(98,98,98)">1</span>], <span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">-</span><span style="color: rgb(175,0,0)">&#39;</span>)
+<span class="ansi-green-intense-fg ansi-bold">      6</span> ax<span style="color: rgb(98,98,98)">.</span>set_xlabel(<span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">x</span><span style="color: rgb(175,0,0)">&#39;</span>)
+<span class="ansi-green-intense-fg ansi-bold">      7</span> ax<span style="color: rgb(98,98,98)">.</span>set_ylabel(<span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">y</span><span style="color: rgb(175,0,0)">&#39;</span>)
+
+<span class="ansi-red-fg">TypeError</span>: list indices must be integers or slices, not tuple
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_tour_57_0.png" src="../_images/tutorials_tour_57_0.png" />
+<img alt="../_images/tutorials_tour_57_1.png" src="../_images/tutorials_tour_57_1.png" />
 </div>
 </div>
 <p>Indeed, the agent does a more interesting trajectory!</p>

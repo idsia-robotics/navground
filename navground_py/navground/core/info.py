@@ -8,7 +8,7 @@ Component = Tuple[Type, str, Optional[str]]
 
 registers = (
     (core.Behavior, "Behaviors", "--behavior"),
-    (core.Kinematics, "Kinematics", "--kinematics")
+    (core.Kinematics, "Kinematics", "--kinematics"),
     (core.BehaviorModulation, "Behavior modulations", "--modulation"))
 
 

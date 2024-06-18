@@ -873,16 +873,30 @@ PYBIND11_MODULE(_navground, m) {
                     DOC(navground, core, BufferDescription, high))
       .def_readonly("categorical", &BufferDescription::categorical,
                     DOC(navground, core, BufferDescription, categorical))
-      .def("__repr__", [](const BufferDescription &value) -> py::str {
-        py::str r("BufferDescription(shape=");
-        r += py::str(py::tuple(py::cast(value.shape)));
-        r += py::str(", type=") + py::dtype(value.type).attr("__repr__")();
-        r += py::str(", low=") + py::str(py::cast(value.low));
-        r += py::str(", high=") + py::str(py::cast(value.high));
-        r += py::str(", categorical=") + py::str(py::cast(value.categorical)) +
-             py::str(")");
-        return r;
-      });
+      .def("__repr__",
+           [](const BufferDescription &value) -> py::str {
+             py::str r("BufferDescription(shape=");
+             r += py::str(py::tuple(py::cast(value.shape)));
+             r += py::str(", type=") + py::dtype(value.type).attr("__repr__")();
+             r += py::str(", low=") + py::str(py::cast(value.low));
+             r += py::str(", high=") + py::str(py::cast(value.high));
+             r += py::str(", categorical=") +
+                  py::str(py::cast(value.categorical)) + py::str(")");
+             return r;
+           })
+      .def(py::pickle(
+          [](const BufferDescription &value) {
+            return py::make_tuple(py::tuple(py::cast(value.shape)), value.type,
+                                  value.low, value.high, value.categorical);
+          },
+          [](py::tuple v) {
+            const py::dtype dtype = make_dtype(v[1]);
+            const std::string fmt = type_from_dtype(dtype);
+            BufferDescription desc(
+                py::cast<BufferShape>(v[0]), fmt, py::cast<double>(v[2]),
+                py::cast<double>(v[3]), py::cast<bool>(v[4]));
+            return desc;
+          }));
 
   py::class_<Buffer>(m, "Buffer", DOC(navground, core, Buffer))
       .def(py::init<const BufferDescription &, BufferType>(),
@@ -937,14 +951,25 @@ PYBIND11_MODULE(_navground, m) {
           DOC(navground, core, Buffer, property_shape))
       .def("set_description", &Buffer::set_description,
            DOC(navground, core, Buffer, set_description))
-      .def("__repr__", [](const Buffer &value) -> py::str {
-        py::str r("Buffer(description=");
-        const auto obj = py::cast(value);
-        r += obj.attr("description").attr("__repr__")();
-        r += py::str(", data=") + obj.attr("data").attr("__repr__")() +
-             py::str(")");
-        return r;
-      });
+      .def("__repr__",
+           [](const Buffer &value) -> py::str {
+             py::str r("Buffer(description=");
+             const auto obj = py::cast(value);
+             r += obj.attr("description").attr("__repr__")();
+             r += py::str(", data=") + obj.attr("data").attr("__repr__")() +
+                  py::str(")");
+             return r;
+           })
+      .def(py::pickle(
+          [](const Buffer &value) {
+            return py::make_tuple(value.get_description(),
+                                  get_array_from_buffer(value));
+          },
+          [](py::tuple v) {
+            Buffer buffer(py::cast<BufferDescription>(v[0]));
+            set_buffer_from_buffer(buffer, py::cast<py::buffer>(v[1]), true);
+            return buffer;
+          }));
 
   py::bind_map<std::map<std::string, Buffer>>(
       m, "BufferMap", "A dictionary of type Dict[str, Buffer]");
@@ -976,7 +1001,23 @@ PYBIND11_MODULE(_navground, m) {
       .def("set_buffer", &SensingState::set_buffer, py::arg("key"),
            py::arg("buffer"), DOC(navground, core, SensingState, set_buffer))
       .def_property("buffers", &SensingState::get_buffers, nullptr,
-                    DOC(navground, core, SensingState, property_buffers));
+                    DOC(navground, core, SensingState, property_buffers))
+      .def(py::pickle(
+          [](const SensingState &value) {
+            py::dict rs;
+            for (const auto &[key, buffer] : value.get_buffers()) {
+              rs[py::str(key)] = buffer;
+            }
+            return py::make_tuple(rs);
+          },
+          [](py::tuple v) {
+            SensingState state;
+            for (const auto &[key, value] : py::cast<py::dict>(v[0])) {
+              state.set_buffer(py::cast<std::string>(key),
+                               py::cast<Buffer>(value));
+            };
+            return state;
+          }));
 
   py::class_<HLBehavior, Behavior, std::shared_ptr<HLBehavior>> hl(
       m, "HLBehavior", DOC(navground, core, HLBehavior));

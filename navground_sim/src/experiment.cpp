@@ -54,7 +54,6 @@ void Experiment::init_dataset(std::optional<fs::path> path) {
   }
   const std::string yaml = dump();
   if (!path) {
-    fs::current_path(save_directory);
     const std::size_t hash = std::hash<std::string>{}(yaml);
     std::string dir_name =
         name + "_" + std::to_string(hash) + "_" + file_name_stamp(begin);
@@ -70,7 +69,10 @@ void Experiment::init_dataset(std::optional<fs::path> path) {
       std::cout << "Added suffix _" + std::to_string(i) << std::endl;
     }
     const fs::path dir = save_directory / dir_name;
-    if (!create_directory(dir)) {
+    try {
+      fs::create_directory(dir);
+    }
+    catch (const fs::filesystem_error &e) {
       std::cerr << "Could not create directory " << dir << std::endl;
       return;
     }

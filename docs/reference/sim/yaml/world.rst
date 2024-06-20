@@ -37,10 +37,10 @@ Schema
    properties:
      obstacles: 
        type: array
-       items: {$ref: /schemas/obstacles}
+       items: {$ref: /schemas/obstacle}
      walls:
        type: array
-       items: {$ref: /schemas/walls}
+       items: {$ref: /schemas/wall}
      groups: 
        type: array
        items: {$ref: /schemas/agent}

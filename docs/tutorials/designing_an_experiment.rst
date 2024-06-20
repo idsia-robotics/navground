@@ -145,17 +145,19 @@ We can try to sample a world from such a scenario. Save all but the root element
    obstacles:
      []
    walls:
-     - 0:
+     - line:
+       -
          - -8
          - 0
-       1:
+       -
          - 16
          - 0
        uid: 10
-     - 0:
+     - line:
+       -
          - -8
          - 2
-       1:
+       -
          - 16
          - 2
        uid: 11

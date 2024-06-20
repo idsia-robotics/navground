@@ -7,7 +7,7 @@ from .probes import CheckIfMoving, IsMovingProbe, IsMovingSparseProbe
 def main():
     world = sim.load_world("""
 walls:
-  - [[-1.0, -1.0], [-1.0, 1.0]]
+  - line: [[-1.0, -1.0], [-1.0, 1.0]]
 obstacles:
   - position: [2.0, 0.0]
     radius: 0.5

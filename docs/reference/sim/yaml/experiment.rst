@@ -81,7 +81,7 @@ Example
      side: 6
      tolerance: 0.25
      walls:
-       - [[-1.0, -1.0], [-1.0, 1.0]]
+       - line: [[-1.0, -1.0], [-1.0, 1.0]]
      obstacles:
        - 
          position: [2.0, 0.0]

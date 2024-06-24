@@ -79,6 +79,17 @@ struct
   }
 
   /**
+   * @brief      Check whether a type name has been registered.
+   *
+   * @param[in]  type  The associated sub-class name.
+   *
+   * @return     True if the type name has been registered
+   */
+  static bool has_type(const std::string &type) {
+    return factory().count(type);
+  }
+
+  /**
    * @brief      Reads the names of all registered sub-classes
    *
    * @return     A collection of names associated with registered sub-classes.

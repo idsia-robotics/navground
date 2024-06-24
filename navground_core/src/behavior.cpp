@@ -213,4 +213,6 @@ ng_float_t Behavior::get_efficacy() const {
   return v.dot(twist.velocity) / v.squaredNorm();
 }
 
+const std::string Behavior::type = register_type<Behavior>("");
+
 }  // namespace navground::core

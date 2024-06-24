@@ -50,6 +50,17 @@ struct PyHasRegister : public virtual navground::core::HasRegister<T> {
     }
   }
 
+  static bool has_type(const std::string &name) {
+    return factory.count(name) || HasRegister<T>::has_type(name);
+  }
+
+  static void add_properties_py(const std::string &type,
+                                const Properties &properties) {
+    for (const auto &[k, v] : properties) {
+      type_properties()[type][k] = v;
+    }
+  }
+
   static void add_property_py(
       const std::string &type, const std::string &name,
       const py::object &py_property, const Property::Field &default_value,
@@ -118,7 +129,16 @@ Create an object of a sub-class selected by name.
 
 :return:
     An object of a registered sub-class or ``None`` in case the desired name is not found.)doc")
-      .def_static("_register_type", &PyRegister::register_type_py);
+      .def_static("has_type", &PyRegister::has_type, py::arg("name"), R"doc(
+Check whether a type name has been registered.
+
+:param type:
+    The associated type name.
+
+:return:
+    True if the type name has been registered.)doc")
+      .def_static("_register_type", &PyRegister::register_type_py)
+      .def_static("_add_properties", &PyRegister::add_properties_py);
 }
 
 #endif  // NAVGROUND_CORE_PY_REGISTER_H

@@ -895,6 +895,9 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
   virtual Twist2 cmd_twist_towards_angular_speed(ng_float_t angular_speed,
                                                  ng_float_t dt, Frame frame);
   virtual Twist2 cmd_twist_towards_stopping(ng_float_t dt, Frame frame);
+
+ private:
+  const static std::string type;
 };
 
 }  // namespace navground::core

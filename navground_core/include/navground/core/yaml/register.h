@@ -11,7 +11,10 @@ namespace YAML {
 
 template <typename T>
 void encode_type_and_properties(Node& node, const T& obj) {
-  node["type"] = obj.get_type();
+  const auto type = obj.get_type();
+  if (!type.empty()) {
+    node["type"] = type;
+  }
   for (const auto& [name, _] : obj.get_properties()) {
     node[name] = encode_property(obj.get(name));
   }
@@ -39,8 +42,8 @@ void decode_properties(const Node& node, T& obj) {
 
 template <typename T>
 std::shared_ptr<T> make_type_from_yaml(const Node& node) {
-  if (node.IsMap() && node["type"]) {
-    std::string type = node["type"].as<std::string>();
+  if (node.IsMap()) {
+    std::string type = node["type"].as<std::string>("");
     auto obj = T::make_type(type);
     if (!obj) return nullptr;
     decode_properties(node, *obj);

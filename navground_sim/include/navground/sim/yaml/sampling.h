@@ -377,10 +377,10 @@ struct convert<std::shared_ptr<PropertySampler>> {
 
 template <typename T>
 bool decode_sr(const Node& node, SamplerFromRegister<T>* rhs) {
-  if (!node.IsMap() || !node["type"]) {
+  if (!node.IsMap()) {
     return false;
   }
-  rhs->type = node["type"].as<std::string>();
+  rhs->type = node["type"].as<std::string>("");
   const auto& properties = T::type_properties();
   if (!properties.count(rhs->type)) {
     std::cerr << "No type " << rhs->type << " in register "
@@ -410,7 +410,7 @@ bool decode_sr(const Node& node, SamplerFromRegister<T>* rhs) {
 template <typename T>
 Node encode_sr(const SamplerFromRegister<T>& rhs) {
   Node node;
-  if (rhs.type.empty()) {
+  if (!T::has_type(rhs.type)) {
     return node;
   }
   if (rhs.node && rhs.node.IsMap()) {
@@ -418,7 +418,9 @@ Node encode_sr(const SamplerFromRegister<T>& rhs) {
       node[c.first] = c.second;
     }
   }
-  node["type"] = rhs.type;
+  if (!rhs.type.empty()) {
+    node["type"] = rhs.type;
+  }
   for (const auto& [name, sampler] : rhs.properties) {
     if (sampler) {
       node[name] = sampler;
@@ -551,9 +553,9 @@ struct convert<AgentSampler<W>> {
 
   static Node encode(const AgentSampler<W>& rhs) {
     Node node;
-    if (!rhs.behavior.type.empty()) {
-      node["behavior"] = rhs.behavior;
-    }
+    // if (!rhs.behavior.type.empty()) {
+    node["behavior"] = rhs.behavior;
+    // }
     if (!rhs.kinematics.type.empty()) {
       node["kinematics"] = rhs.kinematics;
     }

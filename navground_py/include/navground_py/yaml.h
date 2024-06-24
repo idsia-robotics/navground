@@ -11,8 +11,8 @@ namespace YAML {
 
 template <typename T>
 py::object make_type_from_yaml_py(const Node &node) {
-  if (node.IsMap() && node["type"]) {
-    std::string type = node["type"].as<std::string>();
+  if (node.IsMap()) {
+    std::string type = node["type"].as<std::string>("");
     auto v = T::make_type(type);
     return v;
   }

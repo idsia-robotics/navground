@@ -3,6 +3,11 @@ import numpy
 import os
 import typing
 __all__ = ['Action', 'AheadKinematics', 'Behavior', 'BehaviorRegister', 'Buffer', 'BufferDescription', 'BufferMap', 'CachedCollisionComputation', 'CollisionComputation', 'Controller', 'Disc', 'DummyBehavior', 'EnvironmentState', 'FourWheelsOmniDriveKinematics', 'Frame', 'GeometricState', 'HLBehavior', 'HRVOBehavior', 'HasProperties', 'Kinematics', 'KinematicsRegister', 'LineSegment', 'Neighbor', 'ORCABehavior', 'OmnidirectionalKinematics', 'Pose2', 'Property', 'SensingState', 'SocialMargin', 'SocialMarginConstantModulation', 'SocialMarginLinearModulation', 'SocialMarginLogisticModulation', 'SocialMarginModulation', 'SocialMarginQuadraticModulation', 'SocialMarginZeroModulation', 'Target', 'Twist2', 'TwoWheelsDifferentialDriveKinematics', 'WheeledKinematics', 'behavior_has_geometric_state', 'dump', 'load_behavior', 'load_kinematics', 'load_plugins', 'to_absolute', 'to_relative']
+
+
+Vector2Like = numpy.ndarray | tuple[float, float] | list[float]
+
+
 class Action:
     """
     Holds the state of a long running task and notifies observers when it
@@ -327,7 +332,7 @@ class Behavior(BehaviorRegister, HasProperties):
         :param other:
             The other behavior
         """
-    def set_velocity(self, velocity: numpy.ndarray, frame: Frame = ...) -> None:
+    def set_velocity(self, velocity: Vector2Like, frame: Frame = ...) -> None:
         """
         Convenience method to set the current velocity. See :py:attr:`twist`
         
@@ -536,7 +541,7 @@ class Behavior(BehaviorRegister, HasProperties):
         frame. See :py:attr:`pose`.
         """
     @position.setter
-    def position(self, arg1: numpy.ndarray) -> None:
+    def position(self, arg1: Vector2Like) -> None:
         ...
     @property
     def radius(self) -> float:
@@ -603,7 +608,7 @@ class Behavior(BehaviorRegister, HasProperties):
             The desired frame of reference.
         """
     @velocity.setter
-    def velocity(self, arg1: numpy.ndarray) -> None:
+    def velocity(self, arg1: Vector2Like) -> None:
         ...
     @property
     def wheel_speeds(self) -> list[float]:
@@ -1078,7 +1083,7 @@ class Controller:
         :param behavior:
             The navigation behavior
         """
-    def follow_direction(self, direction: numpy.ndarray) -> Action:
+    def follow_direction(self, direction: Vector2Like) -> Action:
         """
         Starts an action to follow a target direction.
         
@@ -1092,7 +1097,7 @@ class Controller:
         :return:
             The new action.
         """
-    def follow_point(self, point: numpy.ndarray) -> Action:
+    def follow_point(self, point: Vector2Like) -> Action:
         """
         Starts an action to follow a point.
         
@@ -1136,7 +1141,7 @@ class Controller:
         :return:
             The new action.
         """
-    def follow_velocity(self, velocity: numpy.ndarray) -> Action:
+    def follow_velocity(self, velocity: Vector2Like) -> Action:
         """
         Starts an action to follow a target velocity.
         
@@ -1171,7 +1176,7 @@ class Controller:
         :return:
             The new action.
         """
-    def go_to_position(self, position: numpy.ndarray, tolerance: float) -> Action:
+    def go_to_position(self, position: Vector2Like, tolerance: float) -> Action:
         """
         Starts an action to go to a point.
         
@@ -1256,7 +1261,7 @@ class Disc:
     """
     A circular shape. Used to represent obstacles.
     """
-    def __init__(self, position: numpy.ndarray, radius: float) -> None:
+    def __init__(self, position: Vector2Like, radius: float) -> None:
         """
         Constructs a new instance.
         
@@ -1285,7 +1290,7 @@ class Disc:
         The center of the disc in world frame
         """
     @position.setter
-    def position(self, arg0: numpy.ndarray) -> None:
+    def position(self, arg0: Vector2Like) -> None:
         ...
     @property
     def radius(self) -> float:
@@ -1674,7 +1679,7 @@ class LineSegment:
     """
     A static obstacle of linear shape.
     """
-    def __init__(self, p1: numpy.ndarray, p2: numpy.ndarray) -> None:
+    def __init__(self, p1: Vector2Like, p2: Vector2Like) -> None:
         """
         Constructs a new instance.
         
@@ -1688,7 +1693,7 @@ class LineSegment:
         ...
     def distance_from_disc(self, disc: Disc, penetration: bool = False) -> float:
         ...
-    def distance_from_point(self, point: numpy.ndarray) -> float:
+    def distance_from_point(self, point: Vector2Like) -> float:
         ...
     @property
     def e1(self) -> numpy.ndarray:
@@ -1720,7 +1725,7 @@ class Neighbor(Disc):
     """
     A neighbor agent of circular shape.
     """
-    def __init__(self, position: numpy.ndarray, radius: float, velocity: numpy.ndarray = ..., id: int = 0) -> None:
+    def __init__(self, position: Vector2Like, radius: float, velocity: Vector2Like = ..., id: int = 0) -> None:
         """
         Constructs a new instance.
         
@@ -1753,7 +1758,7 @@ class Neighbor(Disc):
         The velocity
         """
     @velocity.setter
-    def velocity(self, arg0: numpy.ndarray) -> None:
+    def velocity(self, arg0: Vector2Like) -> None:
         ...
 class ORCABehavior(Behavior):
     """
@@ -1840,7 +1845,7 @@ class Pose2:
     Two-dimensional pose composed of planar position and orientation.
     Poses are assumed to be the world-fixed frame.
     """
-    def __init__(self, position: numpy.ndarray, orientation: float = 0) -> None:
+    def __init__(self, position: Vector2Like, orientation: float = 0) -> None:
         ...
     def __repr__(self) -> str:
         ...
@@ -1898,7 +1903,7 @@ class Pose2:
         Position in world frame
         """
     @position.setter
-    def position(self, arg0: numpy.ndarray) -> None:
+    def position(self, arg0: Vector2Like) -> None:
         ...
 class Property:
     """
@@ -2102,27 +2107,27 @@ class Target:
     """
     """
     @staticmethod
-    def Direction(direction: numpy.ndarray) -> Target:
+    def Direction(direction: Vector2Like) -> Target:
         ...
     @staticmethod
     def Orientation(orientation: float, tolerance: float = 0) -> Target:
         ...
     @staticmethod
-    def Point(point: numpy.ndarray, tolerance: float = 0) -> Target:
+    def Point(point: Vector2Like, tolerance: float = 0) -> Target:
         ...
     @staticmethod
     def Pose(pose: Pose2, position_tolerance: float = 0, orientation_tolerance: float = 0) -> Target:
         ...
     @staticmethod
-    def Stop(arg0: numpy.ndarray, arg1: float) -> Target:
+    def Stop(arg0: Vector2Like, arg1: float) -> Target:
         ...
     @staticmethod
     def Twist(twist: Twist2) -> Target:
         ...
     @staticmethod
-    def Velocity(velocity: numpy.ndarray) -> Target:
+    def Velocity(velocity: Vector2Like) -> Target:
         ...
-    def __init__(self, position: numpy.ndarray | None = None, orientation: float | None = None, speed: float | None = None, direction: numpy.ndarray | None = None, angular_speed: float | None = None, position_tolerance: float = 0, orientation_tolerance: float = 0) -> None:
+    def __init__(self, position: Vector2Like | None = None, orientation: float | None = None, speed: float | None = None, direction: Vector2Like | None = None, angular_speed: float | None = None, position_tolerance: float = 0, orientation_tolerance: float = 0) -> None:
         """
         Constructs a new instance.
         
@@ -2150,7 +2155,7 @@ class Target:
     def __repr__(self) -> str:
         ...
     @typing.overload
-    def satisfied(self, arg0: numpy.ndarray) -> bool:
+    def satisfied(self, arg0: Vector2Like) -> bool:
         ...
     @typing.overload
     def satisfied(self, arg0: float) -> bool:
@@ -2172,7 +2177,7 @@ class Target:
         The direction
         """
     @direction.setter
-    def direction(self, arg0: numpy.ndarray | None) -> None:
+    def direction(self, arg0: Vector2Like | None) -> None:
         ...
     @property
     def orientation(self) -> float | None:
@@ -2196,7 +2201,7 @@ class Target:
         The position
         """
     @position.setter
-    def position(self, arg0: numpy.ndarray | None) -> None:
+    def position(self, arg0: Vector2Like | None) -> None:
         ...
     @property
     def position_tolerance(self) -> float:
@@ -2226,7 +2231,7 @@ class Twist2:
     __hash__: typing.ClassVar[None] = None    # type: ignore
     def __eq__(self, arg0: Twist2) -> bool:   # type: ignore
         ...
-    def __init__(self, velocity: numpy.ndarray, angular_speed: float = 0, frame: Frame = ...) -> None:
+    def __init__(self, velocity: Vector2Like, angular_speed: float = 0, frame: Frame = ...) -> None:
         ...
     def __ne__(self, arg0: Twist2) -> bool:   # type: ignore
         ...
@@ -2306,7 +2311,7 @@ class Twist2:
         Velocity
         """
     @velocity.setter
-    def velocity(self, arg0: numpy.ndarray) -> None:
+    def velocity(self, arg0: Vector2Like) -> None:
         ...
 class TwoWheelsDifferentialDriveKinematics(WheeledKinematics):
     """
@@ -2411,7 +2416,7 @@ def load_plugins(plugins: str = '', env: str = '', directory: os.PathLike | None
         ";". If null, it defaults to the value of the macro
         ``NAVGROUND_PLUGINS_PATH``
     """
-def to_absolute(value: numpy.ndarray, reference: Pose2) -> numpy.ndarray:
+def to_absolute(value: Vector2Like, reference: Pose2) -> numpy.ndarray:
     """
     Transform a relative to an absolute vector.
     
@@ -2424,7 +2429,7 @@ def to_absolute(value: numpy.ndarray, reference: Pose2) -> numpy.ndarray:
     :return:
         The relative vector
     """
-def to_relative(value: numpy.ndarray, reference: Pose2) -> numpy.ndarray:
+def to_relative(value: Vector2Like, reference: Pose2) -> numpy.ndarray:
     """
     Transform an absolute to a relative vector.
     

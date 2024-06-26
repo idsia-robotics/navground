@@ -7,6 +7,9 @@ import os
 import tqdm
 import typing
 import pathlib
+
+Vector2Like = numpy.ndarray | tuple[float, float] | list[float]
+
 __all__ = ['Agent', 'AntipodalScenario', 'BoundedStateEstimation', 'BoundingBox', 'CorridorScenario', 'CrossScenario', 'CrossTorusScenario', 'Dataset', 'DiscsStateEstimation', 'Entity', 'Experiment', 'ExperimentalRun', 'GroupRecordProbe', 'LidarStateEstimation', 'Obstacle', 'Probe', 'RecordConfig', 'RecordProbe', 'Scenario', 'ScenarioRegister', 'Sensor', 'SimpleScenario', 'StateEstimation', 'StateEstimationRegister', 'Task', 'TaskRegister', 'Wall', 'WaypointsTask', 'World', 'dump', 'load_agent', 'load_experiment', 'load_scenario', 'load_state_estimation', 'load_task', 'load_world']
 class Agent(NativeAgent, Entity):
     """
@@ -210,7 +213,7 @@ class BoundingBox:
             Maximal y coordinate
         """
     @typing.overload
-    def __init__(self, p1: numpy.ndarray, p2: numpy.ndarray) -> None:
+    def __init__(self, p1: Vector2Like, p2: Vector2Like) -> None:
         """
         Creates a rectangular region
         
@@ -662,7 +665,7 @@ class Experiment:
         :param factory:
             A function that generate the probe.
         """
-    def add_record_probe(self, key: str, probe_cls: typing.Type[RecordProbe]) -> None:
+    def add_record_probe(self, key: str, probe_cls: typing.Callable[[], RecordProbe]) -> None:
         """
         Register a probe to record data to during all runs.
         
@@ -1037,7 +1040,7 @@ class ExperimentalRun:
         """
     def __setstate__(self, arg0: tuple) -> None:
         ...
-    def add_group_record_probe(self, key: str, probe_cls: typing.Type[GroupRecordProbe]) -> GroupRecordProbe:
+    def add_group_record_probe(self, key: str, probe_cls: typing.Callable[[], GroupRecordProbe]) -> GroupRecordProbe:
         """
         Adds a group record probe.
         
@@ -1617,7 +1620,7 @@ class NativeAgent(Entity):
         Position
         """
     @position.setter
-    def position(self, arg1: numpy.ndarray) -> None:
+    def position(self, arg1: Vector2Like) -> None:
         ...
     @property
     def radius(self) -> float:
@@ -1677,8 +1680,11 @@ class NativeAgent(Entity):
         Velocity
         """
     @velocity.setter
-    def velocity(self, arg1: numpy.ndarray) -> None:
+    def velocity(self, arg1: Vector2Like) -> None:
         ...
+    def has_been_stuck_since(self, arg1: float) -> bool:
+        ...
+
 class NativeWorld:
     """
     """
@@ -2104,12 +2110,15 @@ class NativeWorld:
         """
         All walls in this world.
         """
+    def should_terminate(self) -> bool:
+        ...
+
 class Obstacle(Entity):
     """
     A static obstacle with circular shape
     """
     @typing.overload
-    def __init__(self, position: numpy.ndarray, radius: float) -> None:
+    def __init__(self, position: Vector2Like, radius: float) -> None:
         """
         Constructs a new instance.
         
@@ -2146,6 +2155,12 @@ class Probe:
     :py:attr:`finalize` as the base class does nothing.
     """
     def __init__(self) -> None:
+        ...
+    def _prepare(self, run: sim.ExperimentalRun) -> None:
+        ...
+    def _update(self, run: sim.ExperimentalRun) -> None:
+        ...
+    def _finalize(self, run: sim.ExperimentalRun) -> None:
         ...
 class RecordConfig:
     """
@@ -2503,7 +2518,7 @@ class Wall(Entity):
     Currently, only line segment are valid shapes of walls.
     """
     @typing.overload
-    def __init__(self, p1: numpy.ndarray, p2: numpy.ndarray) -> None:
+    def __init__(self, p1: Vector2Like, p2: Vector2Like) -> None:
         """
         Constructs a new instance.
         
@@ -2546,7 +2561,7 @@ class WaypointsTask(Task):
     """
     def __getstate__(self) -> tuple:
         ...
-    def __init__(self, waypoints: list[numpy.ndarray] = [], loop: bool = True, tolerance: float = True) -> None:
+    def __init__(self, waypoints: list[Vector2Like] = [], loop: bool = True, tolerance: float = True) -> None:
         """
         Constructs a new instance.
         
@@ -2593,7 +2608,7 @@ class WaypointsTask(Task):
         The waypoints.
         """
     @waypoints.setter
-    def waypoints(self, arg1: list[numpy.ndarray]) -> None:
+    def waypoints(self, arg1: list[Vector2Like]) -> None:
         ...
 class World(NativeWorld):
     """
@@ -2613,6 +2628,11 @@ class World(NativeWorld):
         :param agent:
             The agent
         """
+
+    @property
+    def random_generator(self) -> numpy.random.Generator:
+        ...
+
 @typing.overload
 def dump(task: Task) -> str:
     """

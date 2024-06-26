@@ -485,7 +485,7 @@ void World::update_agent_collisions(Agent *a1) {
   for (const auto &[d, lbb] : subdivide_bounding_box(bb)) {
     const Vector2 &delta = d;
     agent_index->query(lbb, [this, a1, &delta](Agent *a2) {
-      if (a1 < a2) {
+      if (a1->uid < a2->uid) {
         if (resolve_collision(a1, a2, delta)) {
           record_collision(a1, a2);
         }
@@ -681,7 +681,7 @@ bool World::space_agents_apart_once(ng_float_t minimal_distance,
     for (const auto &[d, lbb] : subdivide_bounding_box(bb)) {
       const Vector2 &delta = d;
       agent_index->query(lbb, [this, &r, &a1, &delta, margin](Agent *a2) {
-        if (a1 < a2) {
+        if (a1->uid < a2->uid) {
           r |= resolve_collision(a1, a2, delta, margin);
         }
       });
@@ -697,12 +697,18 @@ bool World::space_agents_apart_once(ng_float_t minimal_distance,
   for (const auto &agent : agents) {
     agent->pose.position += agent->collision_correction;
   }
+  if (_has_lattice) {
+    wrap_agents_on_lattice();
+  }
   return r;
 }
 
 void World::space_agents_apart(ng_float_t minimal_distance,
                                bool with_safety_margin,
                                unsigned max_iterations) {
+  if (_has_lattice) {
+    wrap_agents_on_lattice();
+  }
   update_static_strtree();
   update_agents_strtree();
   for (unsigned i = 0; i < max_iterations; ++i) {

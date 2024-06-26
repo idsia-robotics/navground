@@ -44,6 +44,7 @@
 #include "navground/sim/yaml/scenario.h"
 #include "navground/sim/yaml/world.h"
 #include "navground_py/behavior_modulation.h"
+#include "navground_py/collection.h"
 #include "navground_py/pickle.h"
 #include "navground_py/register.h"
 #include "navground_py/yaml.h"
@@ -1659,7 +1660,10 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
 
   py::class_<Probe, PyProbe, std::shared_ptr<Probe>>(m, "Probe",
                                                      DOC(navground, sim, Probe))
-      .def(py::init<>(), DOC(navground, sim, Probe, Probe));
+      .def(py::init<>(), DOC(navground, sim, Probe, Probe))
+      .def("_prepare", &Probe::prepare, DOC(navground, sim, Probe, prepare))
+      .def("_update", &Probe::update, DOC(navground, sim, Probe, update))
+      .def("_finalize", &Probe::finalize, DOC(navground, sim, Probe, finalize));
 
   py::class_<RecordProbe, Probe, PyRecordProbe, std::shared_ptr<RecordProbe>>(
       m, "RecordProbe", DOC(navground, sim, RecordProbe))
@@ -1688,7 +1692,8 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
            DOC(navground, sim, SensingProbe, get_data));
 
   py::class_<ExperimentalRun, std::shared_ptr<ExperimentalRun>>(
-      m, "ExperimentalRun", DOC(navground, sim, ExperimentalRun))
+      m, "ExperimentalRun", py::dynamic_attr(),
+      DOC(navground, sim, ExperimentalRun))
       .def(py::init<std::shared_ptr<World>, ng_float_t, int, bool,
                     const RecordConfig &, int>(),
            py::arg("world"), py::arg("time_step") = 0.1,
@@ -1743,12 +1748,14 @@ Adds a record.
            py::arg("probe"), DOC(navground, sim, ExperimentalRun, add_probe))
       .def(
           "add_record_probe",
-          [](ExperimentalRun &run, const std::string &name, py::object cls) {
-            auto ds = run.add_record(name);
+          [](py::object &run, const std::string &name, py::object cls) {
+            ExperimentalRun &_run = py::cast<ExperimentalRun &>(run);
+            auto ds = _run.add_record(name);
             set_dataset_type_py(*ds, cls.attr("dtype"));
             auto obj = cls.attr("__call__")(ds);
             auto probe = obj.cast<std::shared_ptr<Probe>>();
-            run.add_probe(probe);
+            _run.add_probe(probe);
+            add_py_item(run, obj, "probes");
             return obj;
           },
           py::arg("key"), py::arg("probe_cls"), R"doc(
@@ -1763,18 +1770,20 @@ Adds a record probe.
 )doc")
       .def(
           "add_group_record_probe",
-          [](ExperimentalRun &run, const std::string &name, py::object cls) {
+          [](py::object &run, const std::string &name, py::object cls) {
+            ExperimentalRun &_run = py::cast<ExperimentalRun &>(run);
             const auto dtype = cls.attr("dtype");
             const auto factory = [name, dtype,
-                                  &run](const std::string &sub_key) {
-              auto ds = run.add_record(sub_key, name);
+                                  &_run](const std::string &sub_key) {
+              auto ds = _run.add_record(sub_key, name);
               set_dataset_type_py(*ds, dtype);
               return ds;
             };
             auto obj = cls.attr("__call__")();
             auto probe = obj.cast<std::shared_ptr<GroupRecordProbe>>();
             probe->set_factory(factory);
-            run.add_probe(probe);
+            _run.add_probe(probe);
+            add_py_item(run, obj, "probes");
             return obj;
           },
           py::arg("key"), py::arg("probe_cls"), R"doc(

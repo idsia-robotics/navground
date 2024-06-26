@@ -31,11 +31,17 @@ def plot_agent(ax: plt.Axes,
 def plot_world(ax: plt.Axes,
                world: sim.World,
                color: str = 'k',
-               with_box: bool = False) -> None:
+               with_box: bool = False,
+               with_agents: bool = False,
+               agent_color: str = 'b') -> None:
     for obstacle in world.obstacles:
         disc = obstacle.disc
         c = plt.Circle(disc.position, disc.radius, color=color)
         ax.add_patch(c)
+    if with_agents:
+        for agent in world.agents:
+            c = plt.Circle(agent.position, agent.radius, color=agent_color)
+            ax.add_patch(c)
     for wall in world.walls:
         line = wall.line
         x, y = np.asarray((line.p1, line.p2)).T

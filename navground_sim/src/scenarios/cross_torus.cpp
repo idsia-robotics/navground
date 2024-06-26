@@ -34,7 +34,6 @@ void CrossTorusScenario::init_world(World *world,
   world->prepare();
   for (const auto &agent : world->get_agents()) {
     agent->pose.orientation = M_PI_2 * (index % 4);
-    ;
     agent->get_controller()->follow_direction(unit(agent->pose.orientation));
     index++;
   }

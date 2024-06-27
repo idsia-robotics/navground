@@ -92,20 +92,20 @@ struct Target {
   }
 
   // TODO(Jerome): extend to orientation / angular_speed
-  Vector2 get_ideal_velocity(const Vector2& position_,
-                             ng_float_t speed_) const {
-    if (position) {
-      const auto delta = *position - position_;
-      const auto n = delta.norm();
-      if (n > 0 && n > position_tolerance) {
-        return delta / n * speed.value_or(speed_);
-      }
-    }
-    if (direction) {
-      return *direction * speed.value_or(speed_);
-    }
-    return Vector2();
-  }
+  // Vector2 get_ideal_velocity(const Vector2& position_,
+  //                            ng_float_t speed_) const {
+  //   if (position) {
+  //     const auto delta = *position - position_;
+  //     const auto n = delta.norm();
+  //     if (n > 0 && n > position_tolerance) {
+  //       return delta / n * speed.value_or(speed_);
+  //     }
+  //   }
+  //   if (direction) {
+  //     return *direction * speed.value_or(speed_);
+  //   }
+  //   return Vector2();
+  // }
 
   static Target Point(const Vector2& position, ng_float_t tolerance = 0) {
     Target t;

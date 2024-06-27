@@ -67,8 +67,7 @@ Twist2 Behavior::twist_towards_velocity(const Vector2& absolute_velocity,
     default:
       break;
   }
-  const ng_float_t max_w = feasible_angular_speed(
-      target.angular_speed.value_or(optimal_angular_speed));
+  const ng_float_t max_w = get_target_angular_speed();
   twist.angular_speed =
       std::clamp(normalize(delta_angle) / rotation_tau, -max_w, max_w);
   return twist;
@@ -123,38 +122,37 @@ Twist2 Behavior::compute_cmd(ng_float_t dt, std::optional<Frame> _frame) {
     return {};
   }
   Frame frame = _frame.value_or(default_cmd_frame());
-  Twist2 twist;
-  if (target.position && !target.satisfied(pose.position)) {
-    const ng_float_t speed =
-        feasible_speed(target.speed.value_or(optimal_speed));
-    twist = cmd_twist_towards_point(*(target.position), speed, dt, frame);
-  } else if (target.orientation && !target.satisfied(pose.orientation)) {
-    const ng_float_t angular_speed = feasible_angular_speed(
-        target.angular_speed.value_or(optimal_angular_speed));
-    twist = cmd_twist_towards_orientation(*(target.orientation), angular_speed,
-                                          dt, frame);
-  } else if (target.direction) {
-    const ng_float_t n = target.direction->norm();
-    Vector2 velocity = *(target.direction);
-    if (n) {
-      const ng_float_t speed = target.speed.value_or(optimal_speed);
-      velocity *= speed / n;
-    }
-    twist = cmd_twist_towards_velocity(velocity, dt, frame);
-  } else if (target.angular_speed) {
-    const ng_float_t angular_speed = feasible_angular_speed(
-        target.angular_speed.value_or(optimal_angular_speed));
-    twist = cmd_twist_towards_angular_speed(angular_speed, dt, frame);
-  }
-  if (assume_cmd_is_actuated) {
-    actuated_twist = twist;
-  }
+  Twist2 twist = compute_cmd_internal(dt, frame);
   for (auto it = std::rbegin(modulations); it != std::rend(modulations); it++) {
     if ((*it)->get_enabled()) {
       twist = (*it)->post(*this, dt, twist);
     }
   }
+  if (assume_cmd_is_actuated) {
+    actuated_twist = twist;
+  }
   return twist;
+}
+
+Twist2 Behavior::compute_cmd_internal(ng_float_t dt, Frame frame) {
+  const auto point = get_target_position(Frame::absolute);
+  if (point) {
+    return cmd_twist_towards_point(*point, get_target_speed(), dt, frame);
+  }
+  const auto orientation = get_target_orientation(Frame::absolute);
+  if (orientation) {
+    return cmd_twist_towards_orientation(*orientation,
+                                         get_target_angular_speed(), dt, frame);
+  }
+  if (target.direction) {
+    return cmd_twist_towards_velocity(get_target_velocity(Frame::absolute), dt,
+                                      frame);
+  }
+  if (target.angular_speed) {
+    return cmd_twist_towards_angular_speed(get_target_angular_speed(), dt,
+                                           frame);
+  }
+  return Twist2();
 }
 
 bool Behavior::check_if_target_satisfied() const {
@@ -163,20 +161,20 @@ bool Behavior::check_if_target_satisfied() const {
 
 ng_float_t Behavior::estimate_time_until_target_satisfied() const {
   ng_float_t time = 0;
-  if (!target.satisfied(pose.position)) {
-    const ng_float_t speed =
-        feasible_speed(target.speed.value_or(optimal_speed));
+  const auto dist = get_target_distance();
+  if (dist) {
+    const ng_float_t speed = get_target_speed();
     if (speed) {
-      time += (*target.position - pose.position).norm() / speed;
+      time += (*dist) / speed;
     } else {
       return std::numeric_limits<ng_float_t>::infinity();
     }
   }
-  if (!target.satisfied(pose.orientation)) {
-    const ng_float_t angular_speed = feasible_angular_speed(
-        target.angular_speed.value_or(optimal_angular_speed));
+  const auto ang_dist = get_target_orientation(Frame::relative);
+  if (ang_dist) {
+    const ng_float_t angular_speed = get_target_angular_speed();
     if (angular_speed) {
-      time += normalize(*target.orientation - pose.orientation) / angular_speed;
+      time += (*ang_dist) / angular_speed;
     } else {
       return std::numeric_limits<ng_float_t>::infinity();
     }
@@ -186,11 +184,10 @@ ng_float_t Behavior::estimate_time_until_target_satisfied() const {
 
 bool Behavior::should_stop() const {
   if (!target.valid()) return true;
-  const auto speed = target.speed.value_or(optimal_speed);
+  const auto speed = get_target_speed();
   if (target.position && !target.satisfied(pose.position) && speed)
     return false;
-  const auto angular_speed =
-      target.angular_speed.value_or(optimal_angular_speed);
+  const auto angular_speed = get_target_angular_speed();
   if (target.orientation && !target.satisfied(pose.orientation) &&
       angular_speed)
     return false;
@@ -208,9 +205,70 @@ bool Behavior::is_stopped(ng_float_t epsilon_speed,
 bool Behavior::is_stuck() const { return !should_stop() && is_stopped(); }
 
 ng_float_t Behavior::get_efficacy() const {
-  const auto v = target.get_ideal_velocity(pose.position, optimal_speed);
+  // const auto v = target.get_ideal_velocity(pose.position, optimal_speed);
+  const auto v = get_target_velocity(Frame::absolute);
   if (!v.norm()) return 1;
   return v.dot(twist.velocity) / v.squaredNorm();
+}
+
+std::optional<Vector2> Behavior::get_target_position(Frame frame) const {
+  if (target.position && !target.satisfied(pose.position)) {
+    if (frame == Frame::relative) {
+      return to_relative(*(target.position) - pose.position);
+    }
+    return *(target.position);
+  }
+  return std::nullopt;
+}
+
+std::optional<ng_float_t> Behavior::get_target_orientation(Frame frame) const {
+  if (target.orientation && !target.satisfied(pose.orientation)) {
+    if (frame == Frame::relative) {
+      return normalize(*(target.orientation) - pose.orientation);
+    }
+    return *(target.orientation);
+  }
+  return std::nullopt;
+}
+
+std::optional<Vector2> Behavior::get_target_direction(Frame frame) const {
+  const auto delta = get_target_position(frame);
+  if (delta) {
+    delta->normalized();
+  }
+  if (target.direction) {
+    const Vector2 e = target.direction->normalized();
+    if (frame == Frame::relative) {
+      return to_relative(e);
+    }
+    return e;
+  }
+  return std::nullopt;
+}
+
+std::optional<ng_float_t> Behavior::get_target_distance() const {
+  const auto delta = get_target_position(Frame::relative);
+  if (delta) {
+    return delta->norm();
+  }
+  return std::nullopt;
+}
+
+Vector2 Behavior::get_target_velocity(Frame frame) const {
+  const auto e = get_target_direction(frame);
+  if (e) {
+    return (*e) * get_target_speed();
+  }
+  return Vector2();
+}
+
+ng_float_t Behavior::get_target_speed() const {
+  return feasible_speed(target.speed.value_or(optimal_speed));
+}
+
+ng_float_t Behavior::get_target_angular_speed() const {
+  return feasible_angular_speed(
+      target.angular_speed.value_or(optimal_angular_speed));
 }
 
 const std::string Behavior::type = register_type<Behavior>("");

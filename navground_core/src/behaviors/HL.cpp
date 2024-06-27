@@ -214,19 +214,11 @@ Twist2 HLBehavior::relax(const Twist2 &current_value, const Twist2 &value,
   }
 }
 
-Twist2 HLBehavior::compute_cmd(ng_float_t dt, std::optional<Frame> frame) {
-  if (!kinematics) {
-    std::cerr << "Missing kinematics" << std::endl;
-    return {};
-  }
-  Twist2 old_actuated_twist = actuated_twist;
-  Twist2 cmd_twist = Behavior::compute_cmd(dt, frame);
+Twist2 HLBehavior::compute_cmd_internal(ng_float_t dt, Frame frame) {
+  Twist2 cmd_twist = Behavior::compute_cmd_internal(dt, frame);
   if (tau > 0) {
     cmd_twist =
-        to_frame(relax(old_actuated_twist, cmd_twist, dt), cmd_twist.frame);
-  }
-  if (assume_cmd_is_actuated) {
-    actuated_twist = cmd_twist;
+        to_frame(relax(actuated_twist, cmd_twist, dt), cmd_twist.frame);
   }
   return cmd_twist;
 }

@@ -636,7 +636,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * not change.
    *
    * Modulations are applied as wrappers/context modifiers:
-   * right before evaluating the behavior,
+   * right before evaluating the behavior in \ref compute_cmd_internal,
    * it will call \ref BehaviorModulation::pre for any modulation
    * in \ref get_modulations,
    * and right after \ref BehaviorModulation::post but in reverse order.
@@ -651,8 +651,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @return     The control command as a twist in the specified frame.
    */
 
-  virtual Twist2 compute_cmd(ng_float_t time_step,
-                             std::optional<Frame> frame = std::nullopt);
+  Twist2 compute_cmd(ng_float_t time_step,
+                     std::optional<Frame> frame = std::nullopt);
 
   /**
    * @brief      The most natural frame for the current kinematics:
@@ -844,6 +844,77 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    */
   void clear_modulations() { modulations.clear(); }
 
+  /**
+   * @brief      Returns the target's position if not satisfied,
+   *             else null.
+   *
+   * @param[in]  frame  The desired frame 
+   *
+   * @return     The position in the desired frame
+   */
+  std::optional<Vector2> get_target_position(Frame frame) const;
+
+
+  /**
+   * @brief      Returns the target's orientation if not satisfied,
+   *             else null.
+   *
+   * @param[in]  frame  The desired frame
+   *
+   * @return     The orientation in the desired frame
+   */
+  std::optional<ng_float_t> get_target_orientation(Frame frame) const;
+
+  /**
+   * @brief      Returns the direction towards
+   *             the target's position if not satisfied,
+   *             or the target's direction if defined, else null.
+   *
+   * @param[in]  frame  The desired frame
+   *
+   * @return     The normalized direction in the desired frame
+   */
+  std::optional<Vector2> get_target_direction(Frame frame) const;
+
+  /**
+   * @brief      Returns the distance to the target point, if valid,
+   *             else null.
+   *
+   * @return     The distance.
+   */
+  std::optional<ng_float_t> get_target_distance() const;
+
+  /**
+   * @brief      Gets the current target velocity.
+   *
+   *             Multiplication of \ref get_target_direction
+   *             by \ref get_target_speed.
+   *             Returns a zero vector if the target direction is undefined.
+   *
+   * @param[in]  frame  The desired frame
+   *
+   * @return     The velocity in the desired frame.
+   */
+  Vector2 get_target_velocity(Frame frame) const;
+
+  /**
+   * @brief      Returns the nearest feasible speed
+   *             to target's speed, if defined,
+   *             else to the behavior own optimal speed.
+   *
+   * @return     The speed
+   */
+  ng_float_t get_target_speed() const;
+
+  /**
+   * @brief      Returns the nearest feasible angular speed
+   *             to target's angular speed, if defined,
+   *             else to the behavior own optimal angular speed.
+   *
+   * @return     The angular speed.
+   */
+  ng_float_t get_target_angular_speed() const;
+
  protected:
   enum {
     POSITION = 1 << 0,
@@ -877,6 +948,36 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
   bool should_stop() const;
   bool is_stopped(ng_float_t epsilon_speed = 1e-6,
                   ng_float_t epsilon_angular_speed = 1e-6) const;
+
+  /**
+   * @brief      Calculates the control command.
+   * 
+   * 
+   *             This is the internal class that  
+   *             sub-classes may override (and call) 
+   *             to define a behavior and not part of the public API.
+   *             Users should call \ref compute_cmd instead.
+   *             
+   *             
+   *             The base implementation checks for a valid target
+   *             
+   *              1. position      => returns \ref cmd_twist_towards_point
+   *              2. orientation   => returns \ref cmd_twist_towards_orientation
+   *              3. velocity      => returns \ref md_twist_towards_velocity
+   *              4. angular speed => returns \ref cmd_twist_towards_angular_speed
+   *             
+   *             else returns zero.
+   *             
+   *             Sub-classes may specialize any of these methods above instead 
+   *             of this one.
+   *
+   * @param[in]  time_step  The time step
+   * @param[in]  frame      The desired frame
+   *
+   * @return     The command in the desired frame.
+   */
+  virtual Twist2 compute_cmd_internal(ng_float_t time_step, Frame frame);
+
 
   virtual Vector2 desired_velocity_towards_point(const Vector2 &point,
                                                  ng_float_t speed,

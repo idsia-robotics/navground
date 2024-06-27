@@ -225,6 +225,8 @@ class Behavior(BehaviorRegister, HasProperties):
         :return:
             True if the current target has been satisfied.
         """
+    def compute_cmd_internal(self, time_step: float, frame: Frame) -> Twist2:
+        ...
     def compute_cmd(self, time_step: float, frame: Frame | None = None) -> Twist2:
         """
         Query the behavior to get a control command
@@ -618,6 +620,21 @@ class Behavior(BehaviorRegister, HasProperties):
     @wheel_speeds.setter
     def wheel_speeds(self, arg1: list[float]) -> None:
         ...
+    def get_target_position(self, arg1: Frame) -> numpy.ndarray | None:
+        ...
+    def get_target_orientation(self, arg1: Frame) -> float:
+        ...
+    def get_target_direction(self, arg1: Frame) -> numpy.ndarray | None:
+        ...
+    def get_target_velocity(self, arg1: Frame) -> numpy.ndarray:
+        ...
+    def get_target_angular_speed(self) -> float:
+        ...
+    def get_target_distance(self) -> float | None:
+        ...
+    def get_target_speed(self) -> float:
+        ...
+
 class BehaviorRegister:
     type_properties: typing.ClassVar[dict]  # value = {'Dummy': {}, 'HL': {'aperture': <navground.core._navground.Property object>, 'barrier_angle': <navground.core._navground.Property object>, 'epsilon': <navground.core._navground.Property object>, 'eta': <navground.core._navground.Property object>, 'resolution': <navground.core._navground.Property object>, 'tau': <navground.core._navground.Property object>}, 'HRVO': {}, 'ORCA': {'effective_center': <navground.core._navground.Property object>, 'time_horizon': <navground.core._navground.Property object>}, 'PyDummy': {'dummy': <navground.core._navground.Property object>, 'tired': <navground.core._navground.Property object>}, 'SocialForce': {}}
     types: typing.ClassVar[list] = ['Dummy', 'HL', 'HRVO', 'ORCA', 'PyDummy', 'SocialForce']

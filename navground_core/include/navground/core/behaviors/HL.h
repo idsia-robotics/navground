@@ -245,27 +245,11 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
 
   /** @private
    */
-  std::string get_type() const override { return type; }
+  virtual std::string get_type() const override { return type; }
 
   /** @private
    */
   EnvironmentState *get_environment_state() override { return &state; }
-
-  /**
-   * @brief      Override \ref Behavior::compute_cmd adding target velocity
-   * relaxation
-   *
-   * The target velocities (twist or wheel speeds, depending on the \ref
-   * get_kinematics) are relaxed over time \f$\tau\f$ as \f$ \dot v = (v_t - v)
-   * / \tau \f$, where \f$v_t\f$ is the instantaneous desired value computed by
-   * \ref Behavior::compute_cmd.
-   *
-   * If \f$\tau=0\f$, no relaxation is performed and the desired target velocity
-   * is returned.
-   *
-   */
-  Twist2 compute_cmd(ng_float_t time_step,
-                     std::optional<Frame> frame = std::nullopt) override;
 
  protected:
   ng_float_t effective_horizon;
@@ -278,6 +262,21 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   CollisionComputation collision_computation;
   GeometricState state;
   ng_float_t cached_target_speed;
+
+  /**
+   * @brief      Override \ref Behavior::compute_cmd_internal adding target
+   * velocity relaxation
+   *
+   * The target velocities (twist or wheel speeds, depending on the \ref
+   * get_kinematics) are relaxed over time \f$\tau\f$ as \f$ \dot v = (v_t - v)
+   * / \tau \f$, where \f$v_t\f$ is the instantaneous desired value computed by
+   * \ref Behavior::compute_cmd.
+   *
+   * If \f$\tau=0\f$, no relaxation is performed and the desired target velocity
+   * is returned.
+   *
+   */
+  Twist2 compute_cmd_internal(ng_float_t time_step, Frame frame) override;
 
   Vector2 desired_velocity_towards_point(const Vector2 &value, ng_float_t speed,
                                          ng_float_t time_step) override;

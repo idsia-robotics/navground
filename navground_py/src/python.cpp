@@ -165,9 +165,8 @@ class PyBehavior : public Behavior, virtual public PyHasRegister<Behavior> {
   using Native = Behavior;
 
   /* Trampolines (need one for each virtual function) */
-  Twist2 compute_cmd(ng_float_t time_step,
-                     std::optional<Frame> frame) override {
-    PYBIND11_OVERRIDE(Twist2, Behavior, compute_cmd, time_step, frame);
+  Twist2 compute_cmd_internal(ng_float_t time_step, Frame frame) override {
+    PYBIND11_OVERRIDE(Twist2, Behavior, compute_cmd_internal, time_step, frame);
   }
   Vector2 desired_velocity_towards_point(const Vector2 &point, ng_float_t speed,
                                          ng_float_t time_step) override {
@@ -788,6 +787,13 @@ PYBIND11_MODULE(_navground, m) {
       .def("compute_cmd", &Behavior::compute_cmd, py::arg("time_step"),
            py::arg("frame") = py::none(),
            DOC(navground, core, Behavior, compute_cmd))
+      .def(
+          "compute_cmd_internal",
+          [](PyBehavior &behavior, ng_float_t time_step, Frame frame) {
+            return behavior.compute_cmd_internal(time_step, frame);
+          },
+          py::arg("time_step"), py::arg("frame"),
+          DOC(navground, core, Behavior, compute_cmd))
       .def_property("desired_velocity", &Behavior::get_desired_velocity,
                     nullptr,
                     DOC(navground, core, Behavior, property_desired_velocity))
@@ -822,7 +828,24 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("efficacy", &Behavior::get_efficacy, nullptr,
                     DOC(navground, core, Behavior, property_efficacy))
       .def_property("is_stuck", &Behavior::is_stuck, nullptr,
-                    DOC(navground, core, Behavior, property_is_stuck));
+                    DOC(navground, core, Behavior, property_is_stuck))
+      .def("get_target_position", &Behavior::get_target_position,
+           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
+           DOC(navground, core, Behavior, get_target_direction))
+      .def("get_target_orientation", &Behavior::get_target_orientation,
+           DOC(navground, core, Behavior, get_target_distance))
+      .def("get_target_direction", &Behavior::get_target_direction,
+           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
+           DOC(navground, core, Behavior, get_target_direction))
+      .def("get_target_distance", &Behavior::get_target_distance,
+           DOC(navground, core, Behavior, get_target_distance))
+      .def("get_target_velocity", &Behavior::get_target_velocity,
+           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
+           DOC(navground, core, Behavior, get_target_velocity))
+      .def("get_target_speed", &Behavior::get_target_speed,
+           DOC(navground, core, Behavior, get_target_speed))
+      .def("get_target_angular_speed", &Behavior::get_target_angular_speed,
+           DOC(navground, core, Behavior, get_target_angular_speed));
 
   m.def("behavior_has_geometric_state", [](Behavior *obj) {
     return (dynamic_cast<GeometricState *>(obj->get_environment_state())) !=

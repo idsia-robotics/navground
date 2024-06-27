@@ -76,7 +76,7 @@
   - added cmake option and C macro `NAVGROUND_USES_DOUBLE` to use double instead of floats. It is disabled by default.
 
 - Core:
-  - added `Buffer` and `SensingState` to use homogeneous multi-dimensional array as enviromental states.
+  - added `Buffer` and `SensingState` to use homogeneous multi-dimensional array as environmental states.
   - added deprecated names to properties
   - added deadlocked/stuck 
   - add efficacy

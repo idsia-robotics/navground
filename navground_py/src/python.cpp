@@ -454,7 +454,7 @@ PYBIND11_MODULE(_navground, m) {
                      DOC(navground, core, Neighbor, velocity))
       .def_readwrite("id", &Neighbor::id, DOC(navground, core, Neighbor, id))
       .def("relative_to", &Neighbor::relative_to, py::arg("reference"),
-           DOC(navground, core, relative_to))
+           DOC(navground, core, Neighbor, relative_to))
       .def(py::self == py::self)
       .def(py::self != py::self)
       .def("__repr__", &to_string<Neighbor>);
@@ -685,13 +685,13 @@ PYBIND11_MODULE(_navground, m) {
       .def("clear_modulations", &clear_modulations_py,
            DOC(navground, core, Behavior, clear_modulations))
       .def("add_modulation", &add_modulation_py, py::arg("value"),
-           DOC(navground, core, Behavior, add_modulations))
+           DOC(navground, core, Behavior, add_modulation))
       .def("remove_modulation", &remove_modulation_py, py::arg("value"),
-           DOC(navground, core, Behavior, remove_modulations))
+           DOC(navground, core, Behavior, remove_modulation))
       .def_property("modulations",
                     py::overload_cast<>(&Behavior::get_modulations, py::const_),
                     nullptr,
-                    DOC(navground, core, Behavior, property_modulation))
+                    DOC(navground, core, Behavior, property_modulations))
       .def_property(
           "kinematics", &Behavior::get_kinematics,
           py::cpp_function(&Behavior::set_kinematics, py::keep_alive<1, 2>()),

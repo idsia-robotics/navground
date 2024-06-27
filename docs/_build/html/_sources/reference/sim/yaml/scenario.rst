@@ -135,10 +135,10 @@ Schema
      type: string
      obstacles: 
        type: array
-       items: {$ref: /schemas/disc}
+       items: {$ref: /schemas/obstacle}
      walls:
        type: array
-       items: {$ref: /schemas/line_segments}
+       items: {$ref: /schemas/wall}
      groups: 
        type: array
        items: {$ref: /schemas/group}
@@ -151,7 +151,7 @@ Example
 .. code-block:: yaml
 
    walls:
-     - [[-1.0, -1.0], [-1.0, 1.0]]
+     - line: [[-1.0, -1.0], [-1.0, 1.0]]
    obstacles:
      - 
        position: [2.0, 0.0]

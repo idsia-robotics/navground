@@ -13,30 +13,30 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script src="_static/jquery.js?v=5d32c60e"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
@@ -46,7 +46,7 @@
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/tabs.js?v=3030b3cb"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script src="_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
@@ -61,23 +61,27 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -99,13 +103,8 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
-</div>
-
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
     </header>
   
 
@@ -161,7 +160,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">First Steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/tour.html">A tour of navground</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_core.html">navground_core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_py.html">navground_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_sim.html">navground_sim</a></li>
@@ -172,8 +171,8 @@
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_demos.html">navground_demos</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
@@ -182,22 +181,22 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/modulations.html">Behavior Modulations</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="guides/register.html">How to register a component</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guides/probes.html">How to record custom data in experiments</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="scenarios/index.html">Benchmark scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="scenarios/antipodal.html">Antipodal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scenarios/corridor.html">Corridor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scenarios/cross.html">Cross</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="reference/core/index.html">Core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/core/index.html">Core</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/auto_registration.html">Auto registration</a></li>
@@ -211,8 +210,8 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/controller.html">Controller</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/cpp/helper.html">Helpers</a></li>
 </ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/yaml.html">YAML</a></li>
@@ -224,8 +223,8 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/modulations.html">Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/python/controller.html">Controller</a></li>
 </ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/core/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/kinematics.html">Kinematics</a></li>
@@ -234,11 +233,11 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/core/yaml/state.html">Environment State</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="reference/sim/index.html">Simulation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/tasks/index.html">Tasks</a></li>
@@ -248,8 +247,8 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/experiment.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/cpp/yaml.html">YAML</a></li>
 </ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/tasks/index.html">Tasks</a></li>
@@ -263,8 +262,8 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/helpers.html">Helpers</a></li>
 </ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/yaml/task.html">Task</a></li>
@@ -273,11 +272,11 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/yaml/scenario.html">Scenario</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/yaml/experiment.html">Experiment</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
-</details></li>
+</li>
 </ul>
-</details></li>
+</li>
 </ul>
 
     </div>
@@ -293,7 +292,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main" role="main">
+      <main id="main-content" class="bd-main">
         
         
 
@@ -302,14 +301,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article d-print-none">
+              <div class="bd-header-article">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</button></div>
+</label></div>
       
     </div>
   
@@ -564,6 +563,10 @@ document.write(`
         <li><a href="reference/sim/python/world.html#navground.sim.World.actuate">(World method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.actuated_twist">actuated_twist (Behavior property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.actuated_wheel_speeds">actuated_wheel_speeds (Behavior property)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.add_agent">add_agent() (World method)</a>
 </li>
       <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.add_callback">add_callback() (Task method)</a>
@@ -590,8 +593,6 @@ document.write(`
         <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.add_probe">(ExperimentalRun method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/world.html#navground.sim.World.add_random_obstacles">add_random_obstacles() (World method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.add_record">add_record() (ExperimentalRun method)</a>
@@ -602,17 +603,33 @@ document.write(`
         <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.add_record_probe">(ExperimentalRun method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.add_run">add_run() (Experiment method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.add_run_callback">add_run_callback() (Experiment method)</a>
 </li>
-      <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.add_safety_to_agent_margin">add_safety_to_agent_margin (CrossTorusScenario property)</a>
+      <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.add_safety_to_agent_margin">add_safety_to_agent_margin (CorridorScenario property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario.add_safety_to_agent_margin">(CrossScenario property)</a>
 </li>
+        <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.add_safety_to_agent_margin">(CrossTorusScenario property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.add_wall">add_wall() (World method)</a>
 </li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent">Agent (class in navground.sim)</a>
 </li>
-      <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.agent_margin">agent_margin (CrossTorusScenario property)</a>
+      <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.agent_margin">agent_margin (CorridorScenario property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario.agent_margin">(CrossScenario property)</a>
+</li>
+        <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.agent_margin">(CrossTorusScenario property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.agents">agents (World property)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.agents_are_idle">agents_are_idle() (World method)</a>
 </li>
@@ -622,9 +639,13 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.all">all() (RecordConfig static method)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.angular_resolution">angular_resolution (HLBehavior property)</a>
+</li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.angular_speed">angular_speed (Agent property)</a>
 
       <ul>
+        <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.angular_speed">(Behavior property)</a>
+</li>
         <li><a href="reference/core/python/target.html#navground.core.Target.angular_speed">(Target property)</a>
 </li>
         <li><a href="reference/core/python/common.html#navground.core.Twist2.angular_speed">(Twist2 property)</a>
@@ -632,7 +653,13 @@ document.write(`
       </ul></li>
       <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario">AntipodalScenario (class in navground.sim.scenarios)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.aperture">aperture (HLBehavior property)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Dataset.append">append() (Dataset method)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.assume_cmd_is_actuated">assume_cmd_is_actuated (Behavior property)</a>
+</li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.WheeledKinematics.axis">axis (WheeledKinematics property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -640,9 +667,17 @@ document.write(`
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.begin_time">begin_time (RecordedExperiment attribute)</a>
+      <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.barrier_angle">barrier_angle (HLBehavior property)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.begin_time">begin_time (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.begin_time">(RecordedExperiment attribute)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior">Behavior (class in navground.core)</a>
+</li>
+      <li><a href="reference/core/python/controller.html#navground.core.Controller.behavior">behavior (Controller property)</a>
 </li>
       <li><a href="reference/core/python/behavior_modulation.html#navground.core.BehaviorModulation">BehaviorModulation (class in navground.core)</a>
 </li>
@@ -652,15 +687,19 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/state_estimations/geometric_bounded.html#navground.sim.state_estimations.BoundedStateEstimation">BoundedStateEstimation (class in navground.sim.state_estimations)</a>
 </li>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.bounding_box">bounding_box (World property)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox">BoundingBox (class in navground.sim)</a>
 </li>
       <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.bounds">bounds (RecordedExperimentalRun property)</a>
 </li>
-      <li><a href="reference/core/python/state.html#navground.core.Buffer">Buffer (class in navground.core)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/state.html#navground.core.Buffer">Buffer (class in navground.core)</a>
+</li>
       <li><a href="reference/core/python/state.html#navground.core.BufferDescription">BufferDescription (class in navground.core)</a>
+</li>
+      <li><a href="reference/core/python/state.html#navground.core.SensingState.buffers">buffers (SensingState property)</a>
 </li>
       <li>
     built-in function
@@ -693,22 +732,42 @@ document.write(`
 </li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation">CachedCollisionComputation (class in navground.core)</a>
 </li>
+      <li><a href="reference/core/python/state.html#navground.core.Buffer.categorical">categorical (Buffer property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/state.html#navground.core.BufferDescription.categorical">(BufferDescription property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.check_if_target_satisfied">check_if_target_satisfied() (Behavior method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.clear_modulations">clear_modulations() (Behavior method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.clear_run_callbacks">clear_run_callbacks() (Experiment method)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.cmd">cmd (RecordConfig property)</a>
+</li>
+      <li><a href="reference/core/python/controller.html#navground.core.Controller.cmd_frame">cmd_frame (Controller property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.cmd_frame">(Kinematics property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation">CollisionComputation (class in navground.core)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.collisions">collisions (ExperimentalRun property)</a>
 
       <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.collisions">(RecordConfig property)</a>
+</li>
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.collisions">(RecordedExperimentalRun attribute)</a>
+</li>
+        <li><a href="reference/sim/python/world.html#navground.sim.World.collisions">(World property)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.color">color (Agent property)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.commands">commands (ExperimentalRun property)</a>
 
       <ul>
@@ -717,7 +776,11 @@ document.write(`
       </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.compute_cmd">compute_cmd() (Behavior method)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.compute_cmd_internal">compute_cmd_internal() (Behavior method)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.compute_safety_violation">compute_safety_violation() (World method)</a>
+</li>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.control_period">control_period (Agent property)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller">Controller (class in navground.core)</a>
 </li>
@@ -735,19 +798,37 @@ document.write(`
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/state.html#navground.core.Buffer.data">data (Buffer property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.RecordProbe.data">(RecordProbe property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Dataset">Dataset (class in navground.sim)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.deadlocks">deadlocks (ExperimentalRun property)</a>
 
       <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.deadlocks">(RecordConfig property)</a>
+</li>
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.deadlocks">(RecordedExperimentalRun attribute)</a>
 </li>
       </ul></li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.default_cmd_frame">default_cmd_frame (Behavior property)</a>
+</li>
       <li><a href="reference/core/python/property.html#navground.core._navground.Property.default_value">default_value (Property property)</a>
 </li>
       <li><a href="reference/core/python/property.html#navground.core._navground.Property.deprecated_names">deprecated_names (Property property)</a>
 </li>
-      <li><a href="reference/core/python/property.html#navground.core._navground.Property.description">description (Property property)</a>
+      <li><a href="reference/core/python/state.html#navground.core.Buffer.description">description (Buffer property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/property.html#navground.core._navground.Property.description">(Property property)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/sensor.html#navground.sim.state_estimations.Sensor.description">(Sensor property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.desired_velocity">desired_velocity (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/py_dummy.html#navground.core.behaviors.PyDummyBehavior.desired_velocity_towards_point">desired_velocity_towards_point() (PyDummyBehavior method)</a>
 
@@ -767,12 +848,16 @@ document.write(`
 </li>
       <li><a href="reference/core/python/state.html#navground.core.Disc">Disc (class in navground.core)</a>
 </li>
+      <li><a href="reference/sim/python/world.html#navground.sim.Obstacle.disc">disc (Obstacle property)</a>
+</li>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.discs">discs (World property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation">DiscsStateEstimation (class in navground.sim.state_estimations)</a>
 </li>
       <li><a href="reference/sim/python/visualization.html#navground.sim.ui.video.display_video">display_video() (in module navground.sim.ui.video)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/visualization.html#navground.sim.ui.video.display_video_from_run">display_video_from_run() (in module navground.sim.ui.video)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.Disc.distance">distance() (Disc method)</a>
@@ -785,7 +870,13 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.do_step">do_step() (RecordedExperimentalRun method)</a>
 </li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.dof">dof (Kinematics property)</a>
+</li>
+      <li><a href="reference/core/python/controller.html#navground.core.Action.done">done (Action property)</a>
+</li>
       <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.done">done() (Task method)</a>
+</li>
+      <li><a href="reference/core/python/controller.html#navground.core.Action.done_cb">done_cb (Action property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Dataset.dtype">dtype (Dataset property)</a>
 </li>
@@ -799,9 +890,13 @@ document.write(`
         <li><a href="reference/sim/python/yaml.html#navground.sim.dump">(in module navground.sim)</a>
 </li>
       </ul></li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.duration">duration (RecordedExperiment attribute)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.duration">duration (Experiment property)</a>
 
       <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.duration">(ExperimentalRun property)</a>
+</li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.duration">(RecordedExperiment attribute)</a>
+</li>
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.duration">(RecordedExperimentalRun attribute)</a>
 </li>
       </ul></li>
@@ -813,9 +908,17 @@ document.write(`
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.efficacy">efficacy (ExperimentalRun property)</a>
+      <li><a href="reference/core/python/state.html#navground.core.LineSegment.e1">e1 (LineSegment property)</a>
+</li>
+      <li><a href="reference/core/python/state.html#navground.core.LineSegment.e2">e2 (LineSegment property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.efficacy">efficacy (Behavior property)</a>
 
       <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.efficacy">(ExperimentalRun property)</a>
+</li>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.efficacy">(RecordConfig property)</a>
+</li>
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.efficacy">(RecordedExperimentalRun attribute)</a>
 </li>
       </ul></li>
@@ -823,9 +926,15 @@ document.write(`
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.environment_state">environment_state (Behavior property)</a>
+</li>
       <li><a href="reference/core/python/state.html#navground.core.EnvironmentState">EnvironmentState (class in navground.core)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.epsilon">epsilon (HLBehavior property)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.estimate_time_until_target_satisfied">estimate_time_until_target_satisfied() (Behavior method)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.eta">eta (HLBehavior property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment">Experiment (class in navground.sim)</a>
 </li>
@@ -847,12 +956,18 @@ document.write(`
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.feasible_twist">feasible_twist() (Behavior method)</a>
 </li>
-      <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.field_of_view">field_of_view (PyLidarStateEstimation property)</a>
+      <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.field_of_view">field_of_view (LidarStateEstimation property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.field_of_view">(PyLidarStateEstimation property)</a>
 </li>
-      <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_direction">follow_direction() (Controller method)</a>
+      </ul></li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.final_sim_time">final_sim_time (ExperimentalRun property)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_direction">follow_direction() (Controller method)</a>
+</li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_point">follow_point() (Controller method)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_pose">follow_pose() (Controller method)</a>
@@ -923,8 +1038,6 @@ document.write(`
         <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.get_environment_state">(SocialForceBehavior method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation.get_free_distance">get_free_distance() (CachedCollisionComputation method)</a>
 </li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation.get_free_distance_for_sector">get_free_distance_for_sector() (CollisionComputation method)</a>
@@ -933,6 +1046,8 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_lattice">get_lattice() (World method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_lattice_grid">get_lattice_grid() (World method)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_line_obstacles_in_region">get_line_obstacles_in_region() (World method)</a>
@@ -960,6 +1075,20 @@ document.write(`
 </li>
       </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.get_run">get_run() (Experiment method)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.get_target_angular_speed">get_target_angular_speed() (Behavior method)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.get_target_direction">get_target_direction() (Behavior method)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.get_target_distance">get_target_distance() (Behavior method)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.get_target_orientation">get_target_orientation() (Behavior method)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.get_target_position">get_target_position() (Behavior method)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.get_target_speed">get_target_speed() (Behavior method)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.get_target_velocity">get_target_velocity() (Behavior method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.get_task_events">get_task_events() (ExperimentalRun method)</a>
 
@@ -991,19 +1120,47 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.has_been_stuck_since">has_been_stuck_since() (Agent method)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.has_finished">has_finished (RecordedExperiment attribute)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.has_finished">has_finished (Experiment property)</a>
 
       <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.has_finished">(ExperimentalRun property)</a>
+</li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.has_finished">(RecordedExperiment attribute)</a>
+</li>
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.has_finished">(RecordedExperimentalRun property)</a>
 </li>
       </ul></li>
-      <li><a href="reference/core/python/property.html#navground.core._navground.HasProperties">HasProperties (class in navground.core._navground)</a>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.has_termination_condition">has_termination_condition (World property)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.has_type">has_type() (Behavior static method)</a>
+
+      <ul>
+        <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.has_type">(Kinematics static method)</a>
+</li>
+        <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.has_type">(Scenario static method)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/state_estimation.html#navground.sim.StateEstimation.has_type">(StateEstimation static method)</a>
+</li>
+        <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.has_type">(Task static method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/property.html#navground.core._navground.HasProperties">HasProperties (class in navground.core._navground)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading">Heading (class in navground.core.Behavior)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.heading_behavior">heading_behavior (Behavior property)</a>
+</li>
+      <li><a href="reference/core/python/state.html#navground.core.Buffer.high">high (Buffer property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/state.html#navground.core.BufferDescription.high">(BufferDescription property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior">HLBehavior (class in navground.core.behaviors)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.horizon">horizon (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/HRVO.html#navground.core.behaviors.HRVOBehavior">HRVOBehavior (class in navground.core.behaviors)</a>
 </li>
@@ -1015,9 +1172,19 @@ document.write(`
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.idle">idle (Heading attribute)</a>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.id">id (Agent property)</a>
 
       <ul>
+        <li><a href="reference/core/python/state.html#navground.core.Neighbor.id">(Neighbor property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.idle">idle (Agent property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/controller.html#navground.core.Controller.idle">(Controller property)</a>
+</li>
+        <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.idle">(Heading attribute)</a>
+</li>
         <li><a href="reference/core/python/controller.html#navground.core.Action.State.idle">(State attribute)</a>
 </li>
       </ul></li>
@@ -1035,14 +1202,14 @@ document.write(`
         <li><a href="reference/sim/python/world.html#navground.sim.World.index_of_agent">(World method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation.init">init() (RealTimeSimulation method)</a>
 
       <ul>
         <li><a href="reference/sim/python/visualization.html#navground.sim.ui.WebUI.init">(WebUI method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/state.html#navground.core.SensingState.init_buffer">init_buffer() (SensingState method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.init_run">init_run() (Experiment method)</a>
@@ -1053,7 +1220,21 @@ document.write(`
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Twist2.is_almost_zero">is_almost_zero() (Twist2 method)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.is_running">is_running (RecordedExperiment attribute)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.is_running">is_running (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.is_running">(RecordedExperiment attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.is_stuck">is_stuck (Behavior property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior.is_using_effective_center">is_using_effective_center (ORCABehavior property)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Dataset.is_valid">is_valid (Dataset property)</a>
+</li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.is_wheeled">is_wheeled (Kinematics property)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Dataset.item_shape">item_shape (Dataset property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1061,10 +1242,12 @@ document.write(`
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics">Kinematics (class in navground.core)</a>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.kinematics">kinematics (Behavior property)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics">Kinematics (class in navground.core)</a>
+</li>
       <li><a href="reference/core/python/register.html#navground.core._navground.KinematicsRegister">KinematicsRegister (class in navground.core._navground)</a>
 </li>
   </ul></td>
@@ -1073,7 +1256,27 @@ document.write(`
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.last_cmd">last_cmd (Agent property)</a>
+</li>
+      <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation.length">length (CachedCollisionComputation property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.length">(CorridorScenario property)</a>
+</li>
+        <li><a href="reference/core/python/state.html#navground.core.LineSegment.length">(LineSegment property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation">LidarStateEstimation (class in navground.sim.state_estimations)</a>
+</li>
+      <li><a href="reference/sim/python/world.html#navground.sim.Wall.line">line (Wall property)</a>
+</li>
+      <li><a href="reference/core/python/state.html#navground.core.GeometricState.line_obstacles">line_obstacles (GeometricState property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/world.html#navground.sim.World.line_obstacles">(World property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior.lines">lines (ORCABehavior property)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.LineSegment">LineSegment (class in navground.core)</a>
 </li>
@@ -1098,6 +1301,8 @@ document.write(`
         <li><a href="reference/sim/python/yaml.html#load_experiment">built-in function</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     load_kinematics()
 
@@ -1105,8 +1310,6 @@ document.write(`
         <li><a href="reference/core/python/yaml.html#load_kinematics">built-in function</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/plugins.html#navground.core.load_plugins">load_plugins() (in module navground.core)</a>
 
       <ul>
@@ -1141,6 +1344,20 @@ document.write(`
         <li><a href="reference/sim/python/yaml.html#load_world">built-in function</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.log_size">log_size (Task property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.log_size">(WaypointsTask property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.loop">loop (WaypointsTask property)</a>
+</li>
+      <li><a href="reference/core/python/state.html#navground.core.Buffer.low">low (Buffer property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/state.html#navground.core.BufferDescription.low">(BufferDescription property)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -1159,9 +1376,47 @@ document.write(`
         <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.make_type">(Task static method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.max_angular_speed">max_angular_speed (Behavior property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.max_angular_speed">(Kinematics property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation.max_distance">max_distance (CachedCollisionComputation property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/HRVO.html#navground.core.behaviors.HRVOBehavior.max_number_of_neighbors">max_number_of_neighbors (HRVOBehavior property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior.max_number_of_neighbors">(ORCABehavior property)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.maximal_steps">maximal_steps (RecordedExperimentalRun attribute)</a>
+      <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.max_radius">max_radius (DiscsStateEstimation property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.max_speed">max_speed (Behavior property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.max_speed">(DiscsStateEstimation property)</a>
+</li>
+        <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.max_speed">(Kinematics property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/core/python/social_margin.html#navground.core.SocialMargin.max_value">max_value (SocialMargin property)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.maximal_steps">maximal_steps (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.maximal_steps">(RecordedExperimentalRun attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation.min_angle">min_angle (CachedCollisionComputation property)</a>
+</li>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.minimal_bounding_box">minimal_bounding_box (World property)</a>
+</li>
+      <li><a href="reference/core/python/social_margin.html#navground.core.SocialMargin.modulation">modulation (SocialMargin property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.modulations">modulations (Behavior property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1169,9 +1424,11 @@ document.write(`
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/core/python/common.html#navground.core.Frame.name">name (Frame property)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.name">name (Experiment property)</a>
 
       <ul>
+        <li><a href="reference/core/python/common.html#navground.core.Frame.name">(Frame property)</a>
+</li>
         <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.name">(Heading property)</a>
 </li>
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.name">(RecordedExperiment attribute)</a>
@@ -1290,6 +1547,20 @@ document.write(`
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior9get_speedEv">navground::core::Behavior::get_speed (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior10get_targetEv">navground::core::Behavior::get_target (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior24get_target_angular_speedEv">navground::core::Behavior::get_target_angular_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior20get_target_directionE5Frame">navground::core::Behavior::get_target_direction (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior19get_target_distanceEv">navground::core::Behavior::get_target_distance (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior22get_target_orientationE5Frame">navground::core::Behavior::get_target_orientation (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior19get_target_positionE5Frame">navground::core::Behavior::get_target_position (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior16get_target_speedEv">navground::core::Behavior::get_target_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior19get_target_velocityE5Frame">navground::core::Behavior::get_target_velocity (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior9get_twistE5Frame">navground::core::Behavior::get_twist (C++ function)</a>
 </li>
@@ -1691,6 +1962,8 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/register.html#_CPPv4NK9navground4core11HasRegister8get_typeEv">navground::core::HasRegister::get_type (C++ function)</a>
 </li>
+      <li><a href="reference/core/cpp/register.html#_CPPv4N9navground4core11HasRegister8has_typeERKNSt6stringE">navground::core::HasRegister::has_type (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/register.html#_CPPv4N9navground4core11HasRegister9make_typeERKNSt6stringE">navground::core::HasRegister::make_type (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/register.html#_CPPv4I0EN9navground4core11HasRegister13register_typeENSt6stringERKNSt6stringE">navground::core::HasRegister::register_type (C++ function)</a>
@@ -1702,8 +1975,6 @@ document.write(`
       <li><a href="reference/core/cpp/register.html#_CPPv4N9navground4core11HasRegister5typesEv">navground::core::HasRegister::types (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/HL.html#_CPPv4N9navground4core10HLBehaviorE">navground::core::HLBehavior (C++ class)</a>
-</li>
-      <li><a href="reference/core/cpp/behaviors/HL.html#_CPPv4N9navground4core10HLBehavior11compute_cmdE10ng_float_tNSt8optionalI5FrameEE">navground::core::HLBehavior::compute_cmd (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/HL.html#_CPPv4N9navground4core10HLBehavior16default_apertureE">navground::core::HLBehavior::default_aperture (C++ member)</a>
 </li>
@@ -1983,8 +2254,6 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target9directionE">navground::core::Target::direction (C++ member)</a>
 </li>
-      <li><a href="reference/core/cpp/target.html#_CPPv4NK9navground4core6Target18get_ideal_velocityERK7Vector210ng_float_t">navground::core::Target::get_ideal_velocity (C++ function)</a>
-</li>
       <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target11OrientationE7Radians7Radians">navground::core::Target::Orientation (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target11orientationE">navground::core::Target::orientation (C++ member)</a>
@@ -2099,12 +2368,12 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent5AgentE10ng_float_tNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEE10ng_float_tj">navground::sim::Agent::Agent (C++ function)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent11as_neighborEv">navground::sim::Agent::as_neighbor (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent22as_translated_neighborERK7Vector2">navground::sim::Agent::as_translated_neighbor (C++ function)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent5colorE">navground::sim::Agent::color (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent14control_periodE">navground::sim::Agent::control_period (C++ member)</a>
@@ -3026,17 +3295,29 @@ document.write(`
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.neighbor_repulsion_force">neighbor_repulsion_force() (SocialForceBehavior method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.neighbors">neighbors (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/state.html#navground.core.GeometricState.neighbors">(GeometricState property)</a>
 </li>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.neighbors">(RecordConfig property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/cpp/types.html#_CPPv410ng_float_t">ng_float_t (C++ type)</a>
 </li>
       <li><a href="reference/sim/python/visualization.html#navground.sim.notebook.notebook_view">notebook_view() (in module navground.sim.notebook)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.number">number (DiscsStateEstimation property)</a>
 </li>
       <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.number_of_agents">number_of_agents (RecordedExperimentalRun attribute)</a>
 </li>
       <li><a href="reference/sim/python/visualization.html#navground.sim.ui.WebUI.number_of_client">number_of_client (WebUI property)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.number_of_runs">number_of_runs (RecordedExperiment attribute)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.number_of_runs">number_of_runs (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.number_of_runs">(RecordedExperiment attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -3049,21 +3330,35 @@ document.write(`
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.obstacle_repulsion_force">obstacle_repulsion_force() (SocialForceBehavior method)</a>
 </li>
+      <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.obstacles">obstacles (Scenario property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/world.html#navground.sim.World.obstacles">(World property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.OmnidirectionalKinematics">OmnidirectionalKinematics (class in navground.core.kinematics)</a>
 </li>
-      <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior">ORCABehavior (class in navground.core.behaviors)</a>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.optimal_angular_speed">optimal_angular_speed (Behavior property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.optimal_speed">optimal_speed (Behavior property)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior">ORCABehavior (class in navground.core.behaviors)</a>
+</li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.orientation">orientation (Agent property)</a>
 
       <ul>
+        <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.orientation">(Behavior property)</a>
+</li>
         <li><a href="reference/core/python/common.html#navground.core.Pose2.orientation">(Pose2 property)</a>
 </li>
         <li><a href="reference/core/python/target.html#navground.core.Target.orientation">(Target property)</a>
 </li>
       </ul></li>
       <li><a href="reference/core/python/target.html#navground.core.Target.Orientation">Orientation() (Target static method)</a>
+</li>
+      <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario.orientation_noise">orientation_noise (AntipodalScenario property)</a>
 </li>
       <li><a href="reference/core/python/target.html#navground.core.Target.orientation_tolerance">orientation_tolerance (Target property)</a>
 </li>
@@ -3075,8 +3370,16 @@ document.write(`
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.path">path (RecordedExperiment attribute)</a>
+      <li><a href="reference/core/python/state.html#navground.core.LineSegment.p1">p1 (LineSegment property)</a>
 </li>
+      <li><a href="reference/core/python/state.html#navground.core.LineSegment.p2">p2 (LineSegment property)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.path">path (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.path">(RecordedExperiment attribute)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/visualization.html#navground.sim.ui.render.pdf_for_world">pdf_for_world() (in module navground.sim.ui.render)</a>
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.phi">phi (SocialForceBehavior property)</a>
@@ -3085,6 +3388,14 @@ document.write(`
 </li>
       <li><a href="reference/core/python/target.html#navground.core.Target.Point">Point() (Target static method)</a>
 </li>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.pose">pose (Agent property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.pose">(Behavior property)</a>
+</li>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.pose">(RecordConfig property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/target.html#navground.core.Target.Pose">Pose() (Target static method)</a>
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Pose2">Pose2 (class in navground.core)</a>
@@ -3098,6 +3409,10 @@ document.write(`
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.position">position (Agent property)</a>
 
       <ul>
+        <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.position">(Behavior property)</a>
+</li>
+        <li><a href="reference/core/python/state.html#navground.core.Disc.position">(Disc property)</a>
+</li>
         <li><a href="reference/core/python/common.html#navground.core.Pose2.position">(Pose2 property)</a>
 </li>
         <li><a href="reference/core/python/target.html#navground.core.Target.position">(Target property)</a>
@@ -3105,6 +3420,8 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario.position_noise">position_noise (AntipodalScenario property)</a>
+</li>
       <li><a href="reference/core/python/target.html#navground.core.Target.position_tolerance">position_tolerance (Target property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.potential">potential() (SocialForceBehavior method)</a>
@@ -3117,8 +3434,20 @@ document.write(`
       </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Probe">Probe (class in navground.sim)</a>
 </li>
-      <li><a href="reference/core/python/property.html#navground.core._navground.HasProperties.properties">properties (HasProperties property)</a>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.properties">properties (Behavior property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/property.html#navground.core._navground.HasProperties.properties">(HasProperties property)</a>
 </li>
+        <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.properties">(Kinematics property)</a>
+</li>
+        <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.properties">(Scenario property)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/state_estimation.html#navground.sim.StateEstimation.properties">(StateEstimation property)</a>
+</li>
+        <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.properties">(Task property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/property.html#navground.core._navground.Property">Property (class in navground.core._navground)</a>
 </li>
       <li><a href="reference/core/python/property.html#navground.core.PropertyField">PropertyField (class in navground.core)</a>
@@ -3135,18 +3464,48 @@ document.write(`
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.radius">radius (Agent property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario.radius">(AntipodalScenario property)</a>
+</li>
+        <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.radius">(Behavior property)</a>
+</li>
+        <li><a href="reference/core/python/state.html#navground.core.Disc.radius">(Disc property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.random_generator">random_generator (World property)</a>
 </li>
-      <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.range">range (PyLidarStateEstimation property)</a>
+      <li><a href="reference/sim/python/state_estimations/sensor_boundary.html#navground.sim.state_estimations.BoundarySensor.range">range (BoundarySensor property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/state_estimations/geometric_bounded.html#navground.sim.state_estimations.BoundedStateEstimation.range">(BoundedStateEstimation property)</a>
 </li>
+        <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.range">(DiscsStateEstimation property)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.range">(LidarStateEstimation property)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.range">(PyLidarStateEstimation property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/real_time.html#navground.sim.replay.RealTimeReplay">RealTimeReplay (class in navground.sim.replay)</a>
 </li>
       <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation">RealTimeSimulation (class in navground.sim.real_time)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.record_config">record_config (RecordedExperiment attribute)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.record_config">record_config (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.record_config">(ExperimentalRun property)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.record_names">record_names (RecordedExperimentalRun property)</a>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.record_config">(RecordedExperiment attribute)</a>
 </li>
+      </ul></li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.record_names">record_names (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.record_names">(RecordedExperimentalRun property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.record_sensor">record_sensor() (RecordConfig method)</a>
 </li>
       <li><a href="reference/sim/python/visualization.html#navground.sim.ui.video.record_video">record_video() (in module navground.sim.ui.video)</a>
@@ -3155,16 +3514,24 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig">RecordConfig (class in navground.sim)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.recorded_steps">recorded_steps (RecordedExperimentalRun attribute)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.recorded_steps">recorded_steps (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.recorded_steps">(RecordedExperimentalRun attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment">RecordedExperiment (class in navground.sim)</a>
 </li>
       <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun">RecordedExperimentalRun (class in navground.sim)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.RecordProbe">RecordProbe (class in navground.sim)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.records">records (RecordedExperimentalRun property)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.records">records (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.records">(RecordedExperimentalRun property)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/register.html#navground.core.register">register() (in module navground.core)</a>
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Frame.relative">relative (Frame attribute)</a>
@@ -3175,10 +3542,10 @@ document.write(`
         <li><a href="reference/core/python/common.html#navground.core.Twist2.relative">(Twist2 method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/core/python/state.html#navground.core.Neighbor.relative_to">relative_to() (Neighbor method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/state.html#navground.core.Neighbor.relative_to">relative_to() (Neighbor method)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.remove_all_runs">remove_all_runs() (Experiment method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.remove_modulation">remove_modulation() (Behavior method)</a>
@@ -3193,8 +3560,16 @@ document.write(`
       </ul></li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.reset_callbacks">reset_callbacks() (World method)</a>
 </li>
-      <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.resolution">resolution (PyLidarStateEstimation property)</a>
+      <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation.resolution">resolution (CachedCollisionComputation property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.resolution">(HLBehavior property)</a>
 </li>
+        <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.resolution">(LidarStateEstimation property)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.resolution">(PyLidarStateEstimation property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.root">root (RecordedExperimentalRun property)</a>
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Pose2.rotate">rotate() (Pose2 method)</a>
@@ -3203,6 +3578,8 @@ document.write(`
         <li><a href="reference/core/python/common.html#navground.core.Twist2.rotate">(Twist2 method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.rotation_tau">rotation_tau (Behavior property)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.run">run() (Experiment method)</a>
 
       <ul>
@@ -3213,8 +3590,14 @@ document.write(`
         <li><a href="reference/sim/python/world.html#navground.sim.World.run">(World method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.run_index">run_index (RecordedExperiment attribute)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.run_callbacks">run_callbacks (Experiment property)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.run_index">run_index (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.run_index">(RecordedExperiment attribute)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.run_mp">run_mp() (Experiment method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.run_once">run_once() (Experiment method)</a>
@@ -3223,16 +3606,30 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.run_until">run_until() (World method)</a>
 </li>
-      <li><a href="reference/core/python/controller.html#navground.core.Action.State.running">running (State attribute)</a>
+      <li><a href="reference/core/python/controller.html#navground.core.Action.running">running (Action property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/controller.html#navground.core.Action.State.running">(State attribute)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.runs">runs (RecordedExperiment attribute)</a>
+      </ul></li>
+      <li><a href="reference/core/python/controller.html#navground.core.Action.running_cb">running_cb (Action property)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.runs">runs (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.runs">(RecordedExperiment attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.safety_margin">safety_margin (Behavior property)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.safety_violation">safety_violation (RecordConfig property)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.safety_violations">safety_violations (ExperimentalRun property)</a>
 
       <ul>
@@ -3243,23 +3640,45 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.save">save() (Experiment method)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.save_directory">save_directory (RecordedExperiment attribute)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.save_directory">save_directory (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.save_directory">(RecordedExperiment attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario">Scenario (class in navground.sim)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.scenario">scenario (RecordedExperiment attribute)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.scenario">scenario (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.scenario">(RecordedExperiment attribute)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.seed">seed (RecordedExperimentalRun attribute)</a>
+      </ul></li>
+      <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.Group">Scenario.Group (class in navground.sim)</a>
 </li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.scenario_init_callback">scenario_init_callback (Experiment property)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.seed">seed (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.seed">(RecordedExperimentalRun attribute)</a>
+</li>
+        <li><a href="reference/sim/python/world.html#navground.sim.World.seed">(World property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.segment_potential">segment_potential() (SocialForceBehavior method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.segment_repulsion_force">segment_repulsion_force() (SocialForceBehavior method)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.sensing">sensing (RecordConfig property)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.SensingState">SensingState (class in navground.core)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor.html#navground.sim.state_estimations.Sensor">Sensor (class in navground.sim.state_estimations)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor_combination.html#navground.sim.state_estimations.SensorCombination">SensorCombination (class in navground.sim.state_estimations)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_combination.html#navground.sim.state_estimations.SensorCombination.sensors">sensors (SensorCombination property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.set">set() (Behavior method)</a>
 
@@ -3305,10 +3724,22 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.setup_tqdm">setup_tqdm() (Experiment method)</a>
 </li>
+      <li><a href="reference/core/python/state.html#navground.core.Buffer.shape">shape (Buffer property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/state.html#navground.core.BufferDescription.shape">(BufferDescription property)</a>
+</li>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.Dataset.shape">(Dataset property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.should_terminate">should_terminate() (World method)</a>
 </li>
-      <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.side">side (CrossTorusScenario property)</a>
+      <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario.side">side (CrossScenario property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.side">(CrossTorusScenario property)</a>
 </li>
+      </ul></li>
       <li><a href="packages/navground_coppeliasim.html#simNavground._get_property">simNavground._get_property() (built-in function)</a>
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground._set_property">simNavground._set_property() (built-in function)</a>
@@ -3343,12 +3774,12 @@ document.write(`
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_optimal_speed">simNavground.get_optimal_speed() (built-in function)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_pose">simNavground.get_pose() (built-in function)</a>
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_safety_margin">simNavground.get_safety_margin() (built-in function)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_state">simNavground.get_state() (built-in function)</a>
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_target">simNavground.get_target() (built-in function)</a>
@@ -3401,9 +3832,13 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/scenarios/simple.html#navground.sim.scenarios.SimpleScenario">SimpleScenario (class in navground.sim.scenarios)</a>
 </li>
+      <li><a href="reference/core/python/state.html#navground.core.Buffer.size">size (Buffer property)</a>
+</li>
       <li><a href="reference/core/python/common.html#navground.core.Twist2.snap_to_zero">snap_to_zero() (Twist2 method)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.snap_twists_to_zero">snap_twists_to_zero() (World method)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.social_margin">social_margin (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior">SocialForceBehavior (class in navground.core.behaviors)</a>
 </li>
@@ -3423,26 +3858,50 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.space_agents_apart">space_agents_apart() (World method)</a>
 </li>
-      <li><a href="reference/core/python/target.html#navground.core.Target.speed">speed (Target property)</a>
+      <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation.speed">speed (CachedCollisionComputation property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/target.html#navground.core.Target.speed">(Target property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/core/python/controller.html#navground.core.Controller.speed_tolerance">speed_tolerance (Controller property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.start">start() (Experiment method)</a>
 </li>
-      <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.start_angle">start_angle (PyLidarStateEstimation property)</a>
+      <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.start_angle">start_angle (LidarStateEstimation property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.start_angle">(PyLidarStateEstimation property)</a>
 </li>
+      </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.start_run">start_run() (Experiment method)</a>
 </li>
+      <li><a href="reference/core/python/controller.html#navground.core.Action.state">state (Action property)</a>
+</li>
       <li><a href="reference/core/python/controller.html#navground.core.Action.State">State (class in navground.core.Action)</a>
+</li>
+      <li><a href="reference/core/python/controller.html#navground.core.Controller.state">state (Controller property)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/state_estimation.html#navground.sim.StateEstimation">StateEstimation (class in navground.sim)</a>
 </li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation.static_free_distance">static_free_distance() (CollisionComputation method)</a>
 </li>
+      <li><a href="reference/core/python/state.html#navground.core.GeometricState.static_obstacles">static_obstacles (GeometricState property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior.static_time_horizon">static_time_horizon (ORCABehavior property)</a>
+</li>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.step">step (World property)</a>
+</li>
       <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation.step">step() (RealTimeSimulation method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.step_duration">step_duration (SocialForceBehavior property)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.steps">steps (RecordedExperiment attribute)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.steps">steps (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.steps">(RecordedExperiment attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.stop">stop() (Controller method)</a>
 
       <ul>
@@ -3467,11 +3926,19 @@ document.write(`
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.tags">tags (Agent property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.target">target (Behavior property)</a>
+</li>
       <li><a href="reference/core/python/target.html#navground.core.Target">Target (class in navground.core)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.target">target (RecordConfig property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.target_angle">target_angle (Heading attribute)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.target_angular_speed">target_angular_speed (Heading attribute)</a>
+</li>
+      <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario.target_margin">target_margin (CrossScenario property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.target_point">target_point (Heading attribute)</a>
 </li>
@@ -3486,27 +3953,73 @@ document.write(`
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.task_events">task_events (ExperimentalRun property)</a>
 
       <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.task_events">(RecordConfig property)</a>
+</li>
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.task_events">(RecordedExperimentalRun attribute)</a>
 </li>
       </ul></li>
       <li><a href="reference/sim/python/tasks/task.html#navground.sim.TaskCallback">TaskCallback (class in navground.sim)</a>
 </li>
-      <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.tau">tau (SocialForceBehavior property)</a>
+      <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.tau">tau (HLBehavior property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.tau">(SocialForceBehavior property)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.time_step">time_step (RecordedExperimentalRun attribute)</a>
+      </ul></li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.terminate_when_all_idle_or_stuck">terminate_when_all_idle_or_stuck (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.terminate_when_all_idle_or_stuck">(ExperimentalRun property)</a>
 </li>
+      </ul></li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.time">time (RecordConfig property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/world.html#navground.sim.World.time">(World property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior.time_horizon">time_horizon (ORCABehavior property)</a>
+</li>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.time_since_stuck">time_since_stuck (Agent property)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.time_step">time_step (Experiment property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.time_step">(ExperimentalRun property)</a>
+</li>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.time_step">(RecordedExperimentalRun attribute)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.times">times (ExperimentalRun property)</a>
 
       <ul>
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.times">(RecordedExperimentalRun attribute)</a>
 </li>
       </ul></li>
-      <li><a href="reference/core/python/behaviors/py_dummy.html#navground.core.behaviors.PyDummyBehavior.tired">tired (PyDummyBehavior property)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/behaviors/py_dummy.html#navground.core.behaviors.PyDummyBehavior.tired">tired (PyDummyBehavior property)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.to_frame">to_frame() (Behavior method)</a>
 </li>
+      <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario.tolerance">tolerance (AntipodalScenario property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario.tolerance">(CrossScenario property)</a>
+</li>
+        <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.tolerance">(WaypointsTask property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior.treat_obstacles_as_agents">treat_obstacles_as_agents (ORCABehavior property)</a>
+</li>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.twist">twist (Agent property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.twist">(Behavior property)</a>
+</li>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.twist">(RecordConfig property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/target.html#navground.core.Target.Twist">Twist() (Target static method)</a>
 </li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.WheeledKinematics.twist">twist() (WheeledKinematics method)</a>
@@ -3523,9 +4036,17 @@ document.write(`
       </ul></li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics">TwoWheelsDifferentialDriveKinematics (class in navground.core.kinematics)</a>
 </li>
-      <li><a href="reference/core/python/state.html#navground.core.Buffer.type">type (Buffer property)</a>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.type">type (Agent property)</a>
 
       <ul>
+        <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.type">(Behavior property)</a>
+</li>
+        <li><a href="reference/core/python/state.html#navground.core.Buffer.type">(Buffer property)</a>
+</li>
+        <li><a href="reference/core/python/state.html#navground.core.BufferDescription.type">(BufferDescription property)</a>
+</li>
+        <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.type">(Kinematics property)</a>
+</li>
         <li><a href="reference/sim/python/state_estimations/state_estimation.html#navground.sim.StateEstimation.type">(StateEstimation property)</a>
 </li>
         <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.type">(Task property)</a>
@@ -3555,6 +4076,8 @@ document.write(`
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.u_r">u_r (SocialForceBehavior property)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/HRVO.html#navground.core.behaviors.HRVOBehavior.uncertainty_offset">uncertainty_offset (HRVOBehavior property)</a>
+</li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.update">update() (Controller method)</a>
 
       <ul>
@@ -3574,6 +4097,10 @@ document.write(`
       <li><a href="reference/sim/python/world.html#navground.sim.World.update_dry">update_dry() (World method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.update_run">update_run() (Experiment method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/geometric_bounded.html#navground.sim.state_estimations.BoundedStateEstimation.update_static_obstacles">update_static_obstacles (BoundedStateEstimation property)</a>
+</li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.use_agent_uid_as_key">use_agent_uid_as_key (RecordConfig property)</a>
 </li>
       <li><a href="reference/sim/python/helpers.html#navground.sim.uses_python">uses_python() (in module navground.sim)</a>
 </li>
@@ -3604,7 +4131,11 @@ document.write(`
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.velocity">velocity (Agent property)</a>
 
       <ul>
+        <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.velocity">(Behavior property)</a>
+</li>
         <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.velocity">(Heading attribute)</a>
+</li>
+        <li><a href="reference/core/python/state.html#navground.core.Neighbor.velocity">(Neighbor property)</a>
 </li>
         <li><a href="reference/core/python/common.html#navground.core.Twist2.velocity">(Twist2 property)</a>
 </li>
@@ -3619,7 +4150,15 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/world.html#navground.sim.Wall">Wall (class in navground.sim)</a>
 </li>
+      <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.walls">walls (Scenario property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/world.html#navground.sim.World.walls">(World property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/tasks/waypoints.html#navground.Waypoints">Waypoints (class in navground)</a>
+</li>
+      <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.waypoints">waypoints (WaypointsTask property)</a>
 </li>
       <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask">WaypointsTask (class in navground.sim.tasks)</a>
 </li>
@@ -3631,16 +4170,24 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.weighted">weighted() (SocialForceBehavior method)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.wheel_speeds">wheel_speeds (Behavior property)</a>
+</li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.WheeledKinematics.wheel_speeds">wheel_speeds() (WheeledKinematics method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.wheel_speeds_from_twist">wheel_speeds_from_twist() (Behavior method)</a>
 </li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.WheeledKinematics">WheeledKinematics (class in navground.core.kinematics)</a>
 </li>
+      <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.width">width (CorridorScenario property)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.World">World (class in navground.sim)</a>
 </li>
-      <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.world">world (RecordedExperimentalRun attribute)</a>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.world">world (ExperimentalRun property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.world">(RecordedExperimentalRun attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -3669,7 +4216,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer d-print-none">
+                <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
 </div>
@@ -3678,6 +4225,8 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"></div>
               
             
           </div>
@@ -3722,8 +4271,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>

@@ -6,7 +6,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Controller &#8212; navground 0.0.4 documentation</title>
   
@@ -14,30 +14,30 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
-  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
@@ -46,7 +46,7 @@
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/python/controller';</script>
@@ -63,23 +63,27 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -101,13 +105,8 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
-</div>
-
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
     </header>
   
 
@@ -161,7 +160,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../first_steps.html">First Steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tour.html">A tour of navground</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_core.html">navground_core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_py.html">navground_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_sim.html">navground_sim</a></li>
@@ -172,8 +171,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_demos.html">navground_demos</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
@@ -182,22 +181,22 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/register.html">How to register a component</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/probes.html">How to record custom data in experiments</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../scenarios/index.html">Benchmark scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/antipodal.html">Antipodal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/corridor.html">Corridor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross.html">Cross</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 has-children"><a class="reference internal" href="../cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Core</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="../cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/auto_registration.html">Auto registration</a></li>
@@ -211,8 +210,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../cpp/controller.html">Controller</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/helper.html">Helpers</a></li>
 </ul>
-</details></li>
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Python API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+</li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Python API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yaml.html">YAML</a></li>
@@ -224,8 +223,8 @@
 <li class="toctree-l4"><a class="reference internal" href="modulations.html">Modulations</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">Controller</a></li>
 </ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/kinematics.html">Kinematics</a></li>
@@ -234,11 +233,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../yaml/behavior_modulation.html">Behavior Modulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/state.html">Environment State</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../sim/index.html">Simulation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/tasks/index.html">Tasks</a></li>
@@ -248,8 +247,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/experiment.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/yaml.html">YAML</a></li>
 </ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/tasks/index.html">Tasks</a></li>
@@ -263,8 +262,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/helpers.html">Helpers</a></li>
 </ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/task.html">Task</a></li>
@@ -273,11 +272,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/scenario.html">Scenario</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/experiment.html">Experiment</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
-</details></li>
+</li>
 </ul>
-</details></li>
+</li>
 </ul>
 
     </div>
@@ -293,7 +292,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main" role="main">
+      <main id="main-content" class="bd-main">
         
         
 
@@ -302,14 +301,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article d-print-none">
+              <div class="bd-header-article">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</button></div>
+</label></div>
       
     </div>
   
@@ -403,9 +402,9 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</button>
+</label>
 </div></div>
       
     </div>
@@ -439,6 +438,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.__init__"><code class="docutils literal notranslate"><span class="pre">Action.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.abort"><code class="docutils literal notranslate"><span class="pre">Action.abort()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.done"><code class="docutils literal notranslate"><span class="pre">Action.done</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.done_cb"><code class="docutils literal notranslate"><span class="pre">Action.done_cb</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.running"><code class="docutils literal notranslate"><span class="pre">Action.running</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.running_cb"><code class="docutils literal notranslate"><span class="pre">Action.running_cb</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.state"><code class="docutils literal notranslate"><span class="pre">Action.state</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a><ul class="nav section-nav flex-column">
@@ -453,6 +457,11 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.set_cmd_cb"><code class="docutils literal notranslate"><span class="pre">Controller.set_cmd_cb()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.stop"><code class="docutils literal notranslate"><span class="pre">Controller.stop()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.update"><code class="docutils literal notranslate"><span class="pre">Controller.update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.behavior"><code class="docutils literal notranslate"><span class="pre">Controller.behavior</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.cmd_frame"><code class="docutils literal notranslate"><span class="pre">Controller.cmd_frame</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.idle"><code class="docutils literal notranslate"><span class="pre">Controller.idle</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.speed_tolerance"><code class="docutils literal notranslate"><span class="pre">Controller.speed_tolerance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.state"><code class="docutils literal notranslate"><span class="pre">Controller.state</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -471,7 +480,8 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="navground.core.Action.State">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">State</span></span><a class="headerlink" href="#navground.core.Action.State" title="Link to this definition">#</a></dt>
-<dd><dl class="py attribute">
+<dd><p>The state of an action.</p>
+<dl class="py attribute">
 <dt class="sig sig-object py" id="navground.core.Action.State.idle">
 <span class="sig-name descname"><span class="pre">idle</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;State.idle:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#navground.core.Action.State.idle" title="Link to this definition">#</a></dt>
 <dd><p>the action has not started</p>
@@ -525,7 +535,9 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="navground.core.Action">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Action</span></span><a class="headerlink" href="#navground.core.Action" title="Link to this definition">#</a></dt>
-<dd><dl class="py method">
+<dd><p>Holds the state of a long running task and notifies observers when it
+terminates.</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Action.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#navground.core.Action.__init__" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
@@ -533,67 +545,333 @@ document.write(`
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Action.abort">
 <span class="sig-name descname"><span class="pre">abort</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Action.abort" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Abort the action, calling the <a class="reference internal" href="#navground.core.Action.done_cb" title="navground.core.Action.done_cb"><code class="xref py py-attr docutils literal notranslate"><span class="pre">done_cb</span></code></a> if set.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Action.done">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">done</span></span><a class="headerlink" href="#navground.core.Action.done" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Return whenever the action is done or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the action failed or succeeded</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Action.done_cb">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">done_cb</span></span><a class="headerlink" href="#navground.core.Action.done_cb" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[Callable[[<a class="reference internal" href="#navground.core.Action.State" title="navground.core.Action.State">navground.core.Action.State</a>], None]]</p>
+</dd>
+</dl>
+<p>A callback called when the action terminates</p>
+<p>The callback argument is the final state of the action.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Action.running">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">running</span></span><a class="headerlink" href="#navground.core.Action.running" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Return whenever the action is running.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the action is running</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Action.running_cb">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">running_cb</span></span><a class="headerlink" href="#navground.core.Action.running_cb" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[Callable[[float], None]]</p>
+</dd>
+</dl>
+<p>A callback called when the action is running</p>
+<p>The callback argument is the minimal expected time to terminate the
+action.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Action.state">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#navground.core.Action.state" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#navground.core.Action.State" title="navground.core.Action.State">navground.core.Action.State</a></p>
+</dd>
+</dl>
+<p>The current state</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="navground.core.Controller">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Controller</span></span><a class="headerlink" href="#navground.core.Controller" title="Link to this definition">#</a></dt>
-<dd><dl class="py method">
+<dd><p>This class exposes a higher level, stateful interface to a behavior,
+to which it delegates 2D collision avoidance.</p>
+<p>The controller provides actions (event-based interfaces) to</p>
+<ul class="simple">
+<li><p>go to a point/pose, stopping once the target has been reached,</p></li>
+<li><p>follow a point/pose, which does not terminates once the target has
+been reached</p></li>
+<li><p>follow a velocity/twist</p></li>
+</ul>
+<p><em>Typical usage of a controller</em></p>
+<ol class="arabic simple">
+<li><p>Pick and configure a <a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><code class="xref py py-class docutils literal notranslate"><span class="pre">Behavior</span></code></a></p></li>
+<li><p>Initialize and configure the controller</p></li>
+<li><p>At regular intervals, update the state, using the <a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><code class="xref py py-class docutils literal notranslate"><span class="pre">Behavior</span></code></a>
+API, and call <a class="reference internal" href="#navground.core.Controller.update" title="navground.core.Controller.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a>.</p></li>
+<li><p>When needed, trigger one of the actions.</p></li>
+<li><p>Either manually check the action’s <a class="reference internal" href="#navground.core.Controller.state" title="navground.core.Controller.state"><code class="xref py py-attr docutils literal notranslate"><span class="pre">state</span></code></a> or set callbacks
+to be notified when the action terminates or updates.</p></li>
+<li><p>Actuate the target command by using the return value of <a class="reference internal" href="#navground.core.Controller.update" title="navground.core.Controller.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a>
+or by setting a callback <a class="reference internal" href="#navground.core.Controller.set_cmd_cb" title="navground.core.Controller.set_cmd_cb"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_cmd_cb()</span></code></a></p></li>
+</ol>
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Controller.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">behavior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><span class="pre">navground.core.Behavior</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Controller.__init__" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Constructs a new instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>behavior</strong> – The navigation behavior</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Controller.follow_direction">
 <span class="sig-name descname"><span class="pre">follow_direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#navground.core.Action" title="navground.core.Action"><span class="pre">navground.core.Action</span></a></span></span><a class="headerlink" href="#navground.core.Controller.follow_direction" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Starts an action to follow a target direction.</p>
+<p>If an action is already running, the controller aborts it, unless it
+was following a velocity/twist, in which case it just updates the
+target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>direction</strong> – The target direction. Must have positive norm.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Controller.follow_point">
 <span class="sig-name descname"><span class="pre">follow_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#navground.core.Action" title="navground.core.Action"><span class="pre">navground.core.Action</span></a></span></span><a class="headerlink" href="#navground.core.Controller.follow_point" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Starts an action to follow a point.</p>
+<p>The action keeps running even after the agent arrive at the target.</p>
+<p>If an action is already running, the controller aborts it, unless it
+was following a point/pose, in which case it just updates the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>point</strong> – The target point</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Controller.follow_pose">
 <span class="sig-name descname"><span class="pre">follow_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="common.html#navground.core.Pose2" title="navground.core.Pose2"><span class="pre">navground.core.Pose2</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#navground.core.Action" title="navground.core.Action"><span class="pre">navground.core.Action</span></a></span></span><a class="headerlink" href="#navground.core.Controller.follow_pose" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Starts an action to follow a pose</p>
+<p>The action keeps running even after the agent arrive at the target.</p>
+<p>If an action is already running, the controller aborts it, unless it
+was following a point/pose, in which case it just updates the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pose</strong> – The target pose</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Controller.follow_twist">
 <span class="sig-name descname"><span class="pre">follow_twist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">twist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#navground.core.Action" title="navground.core.Action"><span class="pre">navground.core.Action</span></a></span></span><a class="headerlink" href="#navground.core.Controller.follow_twist" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Starts an action to follow a target twist.</p>
+<p>If an action is already running, the controller aborts it, unless it
+was following a velocity/twist, in which case it just updates the
+target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>twist</strong> – The target twist</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Controller.follow_velocity">
 <span class="sig-name descname"><span class="pre">follow_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#navground.core.Action" title="navground.core.Action"><span class="pre">navground.core.Action</span></a></span></span><a class="headerlink" href="#navground.core.Controller.follow_velocity" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Starts an action to follow a target velocity.</p>
+<p>If an action is already running, the controller aborts it, unless it
+was following a velocity/twist, in which case it just updates the
+target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>velocity</strong> – The target velocity</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Controller.go_to_pose">
 <span class="sig-name descname"><span class="pre">go_to_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="common.html#navground.core.Pose2" title="navground.core.Pose2"><span class="pre">navground.core.Pose2</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">position_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#navground.core.Action" title="navground.core.Action"><span class="pre">navground.core.Action</span></a></span></span><a class="headerlink" href="#navground.core.Controller.go_to_pose" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Starts an action to go to a pose.</p>
+<p>The action succeed once the agent arrives within a tolerance from the
+target pose and comes to a stop.</p>
+<p>If an action is already running, the controller aborts it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose</strong> – The target pose</p></li>
+<li><p><strong>position_tolerance</strong> – The spatial tolerance</p></li>
+<li><p><strong>orientation_tolerance</strong> – The spatial tolerance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Controller.go_to_position">
 <span class="sig-name descname"><span class="pre">go_to_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#navground.core.Action" title="navground.core.Action"><span class="pre">navground.core.Action</span></a></span></span><a class="headerlink" href="#navground.core.Controller.go_to_position" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Starts an action to go to a point.</p>
+<p>The action succeed once the agent arrives within a tolerance from the
+target point and comes to a stop.</p>
+<p>If an action is already running, the controller aborts it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> – The target point</p></li>
+<li><p><strong>tolerance</strong> – The spatial tolerance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Controller.set_cmd_cb">
 <span class="sig-name descname"><span class="pre">set_cmd_cb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Controller.set_cmd_cb" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the callback called each time a command is computed for an active
+action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – A callback that takes the command twist as argument.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Controller.stop">
 <span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Controller.stop" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Abort the running action.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Controller.update">
 <span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></span><a class="headerlink" href="#navground.core.Controller.update" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Updates the control for time step.</p>
+<p>Internally calls <a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior.compute_cmd" title="navground.core.Behavior.compute_cmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Behavior.compute_cmd()</span></code></a> for collision avoidance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time_step</strong> – The time step</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The command twist to execute the current action</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Controller.behavior">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">behavior</span></span><a class="headerlink" href="#navground.core.Controller.behavior" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior">navground.core.Behavior</a></p>
+</dd>
+</dl>
+<p>The navigation behavior used by the controller</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Controller.cmd_frame">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cmd_frame</span></span><a class="headerlink" href="#navground.core.Controller.cmd_frame" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference internal" href="common.html#navground.core.Frame" title="navground.core.Frame">navground.core.Frame</a>]</p>
+</dd>
+</dl>
+<p>The frame of reference for the command.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Controller.idle">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idle</span></span><a class="headerlink" href="#navground.core.Controller.idle" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Returns whether the control action is idle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True only if the control action is not running.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Controller.speed_tolerance">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">speed_tolerance</span></span><a class="headerlink" href="#navground.core.Controller.speed_tolerance" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The minimal speed to consider the agent as stopped.</p>
+<p>the default is 1 cm/s.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Controller.state">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#navground.core.Controller.state" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#navground.core.Action.State" title="navground.core.Action.State">navground.core.Action.State</a></p>
+</dd>
+</dl>
+<p>The state of the control action.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -607,7 +885,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer d-print-none">
+                <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -657,6 +935,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.__init__"><code class="docutils literal notranslate"><span class="pre">Action.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.abort"><code class="docutils literal notranslate"><span class="pre">Action.abort()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.done"><code class="docutils literal notranslate"><span class="pre">Action.done</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.done_cb"><code class="docutils literal notranslate"><span class="pre">Action.done_cb</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.running"><code class="docutils literal notranslate"><span class="pre">Action.running</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.running_cb"><code class="docutils literal notranslate"><span class="pre">Action.running_cb</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Action.state"><code class="docutils literal notranslate"><span class="pre">Action.state</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a><ul class="nav section-nav flex-column">
@@ -671,6 +954,11 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.set_cmd_cb"><code class="docutils literal notranslate"><span class="pre">Controller.set_cmd_cb()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.stop"><code class="docutils literal notranslate"><span class="pre">Controller.stop()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.update"><code class="docutils literal notranslate"><span class="pre">Controller.update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.behavior"><code class="docutils literal notranslate"><span class="pre">Controller.behavior</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.cmd_frame"><code class="docutils literal notranslate"><span class="pre">Controller.cmd_frame</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.idle"><code class="docutils literal notranslate"><span class="pre">Controller.idle</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.speed_tolerance"><code class="docutils literal notranslate"><span class="pre">Controller.speed_tolerance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Controller.state"><code class="docutils literal notranslate"><span class="pre">Controller.state</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -721,8 +1009,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>

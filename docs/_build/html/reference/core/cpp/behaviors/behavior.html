@@ -6,7 +6,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Base class &#8212; navground 0.0.4 documentation</title>
   
@@ -14,30 +14,30 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../../../../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link href="../../../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css?v=a5c4661c" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
-  <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
@@ -46,7 +46,7 @@
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script src="../../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -65,23 +65,27 @@
 
   
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -103,13 +107,8 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
-</div>
-
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
     </header>
   
 
@@ -163,7 +162,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../first_steps.html">First Steps</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/tour.html">A tour of navground</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../packages/index.html">Packages</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_core.html">navground_core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_py.html">navground_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_sim.html">navground_sim</a></li>
@@ -174,8 +173,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_demos.html">navground_demos</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
@@ -184,22 +183,22 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../guides/register.html">How to register a component</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../guides/probes.html">How to record custom data in experiments</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../scenarios/index.html">Benchmark scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../scenarios/index.html">Benchmark scenarios</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../scenarios/antipodal.html">Antipodal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../scenarios/corridor.html">Corridor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../scenarios/cross.html">Cross</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="../../index.html">Core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">C++ API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../index.html">Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../../index.html">Core</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">C++ API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="../types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../auto_registration.html">Auto registration</a></li>
@@ -213,8 +212,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../controller.html">Controller</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../helper.html">Helpers</a></li>
 </ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/yaml.html">YAML</a></li>
@@ -226,8 +225,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../python/modulations.html">Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/controller.html">Controller</a></li>
 </ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/kinematics.html">Kinematics</a></li>
@@ -236,11 +235,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/behavior_modulation.html">Behavior Modulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/state.html">Environment State</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../sim/index.html">Simulation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../sim/index.html">Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../sim/cpp/index.html">C++ API</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/tasks/index.html">Tasks</a></li>
@@ -250,8 +249,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/experiment.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/yaml.html">YAML</a></li>
 </ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../sim/python/index.html">Python API</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/tasks/index.html">Tasks</a></li>
@@ -265,8 +264,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/helpers.html">Helpers</a></li>
 </ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../sim/yaml/index.html">YAML Schemas</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/yaml/task.html">Task</a></li>
@@ -275,11 +274,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/yaml/scenario.html">Scenario</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/yaml/experiment.html">Experiment</a></li>
 </ul>
-</details></li>
+</li>
 </ul>
-</details></li>
+</li>
 </ul>
-</details></li>
+</li>
 </ul>
 
     </div>
@@ -295,7 +294,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main" role="main">
+      <main id="main-content" class="bd-main">
         
         
 
@@ -304,14 +303,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article d-print-none">
+              <div class="bd-header-article">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</button></div>
+</label></div>
       
     </div>
   
@@ -405,9 +404,9 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</button>
+</label>
 </div></div>
       
     </div>
@@ -504,6 +503,13 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior14add_modulationERKNSt10shared_ptrI18BehaviorModulationEE"><code class="docutils literal notranslate"><span class="pre">Behavior::add_modulation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior17remove_modulationERKNSt10shared_ptrI18BehaviorModulationEE"><code class="docutils literal notranslate"><span class="pre">Behavior::remove_modulation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior17clear_modulationsEv"><code class="docutils literal notranslate"><span class="pre">Behavior::clear_modulations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior19get_target_positionE5Frame"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_position()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior22get_target_orientationE5Frame"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_orientation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior20get_target_directionE5Frame"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_direction()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior19get_target_distanceEv"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior19get_target_velocityE5Frame"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_velocity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior16get_target_speedEv"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_speed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior24get_target_angular_speedEv"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_angular_speed()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior13social_marginE"><code class="docutils literal notranslate"><span class="pre">Behavior::social_margin</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior19heading_from_stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Behavior::heading_from_string()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior17heading_to_stringERK7Heading"><code class="docutils literal notranslate"><span class="pre">Behavior::heading_to_string()</span></code></a></li>
@@ -545,7 +551,7 @@ document.write(`
 <li><p>update the agent’s state with <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a47566e445b945295816fcf16c66f9850"><span class="std std-ref">set_pose</span></a> and <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a346b82f65eb386657d5b05b9ffd061cc"><span class="std std-ref">set_twist</span></a> (or other convenience methods)</p></li>
 <li><p>update the target with <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a7edc8a9d7edef0ed36e7feee2a813218"><span class="std std-ref">set_target</span></a></p></li>
 <li><p>update the environment state <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a73f430029e67d360009ec62688695bce"><span class="std std-ref">get_environment_state</span></a></p></li>
-<li><p>ask for a control commands by calling <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a531c59ffd1f781e207c61261a62c3a88"><span class="std std-ref">compute_cmd</span></a></p></li>
+<li><p>ask for a control commands by calling <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a9c4c7b270e4115d4c5de2adbc96567db"><span class="std std-ref">compute_cmd</span></a></p></li>
 <li><p>actuate the control commands through user code </p></li>
 </ol>
 </p>
@@ -834,7 +840,7 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior11get_horizonEv">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1acc9b0b7b68a1115d0585d12277982f60"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_horizon</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior11get_horizonEv" title="Link to this definition">#</a><br /></dt>
-<dd><p>Gets the horizon: the size of the portion of environment around the agent considered when computing possible collisions. Larger values generally lead to a more computationally expensive <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a531c59ffd1f781e207c61261a62c3a88"><span class="std std-ref">compute_cmd</span></a> but fewer deadlocks and less jamming. </p>
+<dd><p>Gets the horizon: the size of the portion of environment around the agent considered when computing possible collisions. Larger values generally lead to a more computationally expensive <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a9c4c7b270e4115d4c5de2adbc96567db"><span class="std std-ref">compute_cmd</span></a> but fewer deadlocks and less jamming. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The horizon. </p>
@@ -857,7 +863,7 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior26get_assume_cmd_is_actuatedEv">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1a2ad42b0947769946035c30a0bb4da7b1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_assume_cmd_is_actuated</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior26get_assume_cmd_is_actuatedEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets whether to assume that the compute command will be actuated as it is. </p>
-<p>If set, <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a> will assume that the control command computed by <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a531c59ffd1f781e207c61261a62c3a88"><span class="std std-ref">compute_cmd</span></a> be actuated, therefore setting <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a76d49fd8e08578aec3ffd144b144e002"><span class="std std-ref">set_actuated_twist</span></a> to that value. If not set, the user should set <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a76d49fd8e08578aec3ffd144b144e002"><span class="std std-ref">Behavior::set_actuated_twist</span></a> before querying for a new control commands: some behavior use the old actuated control command to compute smoother controls.</p>
+<p>If set, <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a> will assume that the control command computed by <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a9c4c7b270e4115d4c5de2adbc96567db"><span class="std std-ref">compute_cmd</span></a> be actuated, therefore setting <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a76d49fd8e08578aec3ffd144b144e002"><span class="std std-ref">set_actuated_twist</span></a> to that value. If not set, the user should set <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a76d49fd8e08578aec3ffd144b144e002"><span class="std std-ref">Behavior::set_actuated_twist</span></a> before querying for a new control commands: some behavior use the old actuated control command to compute smoother controls.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True if it assumes that the command will be actuated as it is. </p>
@@ -1163,11 +1169,11 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Behavior11compute_cmdE10ng_float_tNSt8optionalI5FrameEE">
-<span class="target" id="classnavground_1_1core_1_1_behavior_1a531c59ffd1f781e207c61261a62c3a88"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_cmd</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">frame</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nullopt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior11compute_cmdE10ng_float_tNSt8optionalI5FrameEE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1core_1_1_behavior_1a9c4c7b270e4115d4c5de2adbc96567db"></span><a class="reference internal" href="../common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_cmd</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">frame</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nullopt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior11compute_cmdE10ng_float_tNSt8optionalI5FrameEE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Query the behavior to get a control command. </p>
 <p>Before calling this method, update the state using methods such as <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a47566e445b945295816fcf16c66f9850"><span class="std std-ref">set_pose</span></a>, and <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a346b82f65eb386657d5b05b9ffd061cc"><span class="std std-ref">set_twist</span></a> and set the target <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a7edc8a9d7edef0ed36e7feee2a813218"><span class="std std-ref">set_target</span></a>.</p>
 <p>Behaviors may use caching to speed up the next queries if the state does not change.</p>
-<p>Modulations are applied as wrappers/context modifiers: right before evaluating the behavior, it will call <a class="reference internal" href="../behavior_modulation.html#classnavground_1_1core_1_1_behavior_modulation_1ad76ad26d4d5e357289cb5b4fd7a873c7"><span class="std std-ref">BehaviorModulation::pre</span></a> for any modulation in <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a77fe4b8a5f9c0c0150237de87547dd3d"><span class="std std-ref">get_modulations</span></a>, and right after <a class="reference internal" href="../behavior_modulation.html#classnavground_1_1core_1_1_behavior_modulation_1ad3aba855078f4df17456f82c1107e2f8"><span class="std std-ref">BehaviorModulation::post</span></a> but in reverse order.</p>
+<p>Modulations are applied as wrappers/context modifiers: right before evaluating the behavior in compute_cmd_internal, it will call <a class="reference internal" href="../behavior_modulation.html#classnavground_1_1core_1_1_behavior_modulation_1ad76ad26d4d5e357289cb5b4fd7a873c7"><span class="std std-ref">BehaviorModulation::pre</span></a> for any modulation in <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a77fe4b8a5f9c0c0150237de87547dd3d"><span class="std std-ref">get_modulations</span></a>, and right after <a class="reference internal" href="../behavior_modulation.html#classnavground_1_1core_1_1_behavior_modulation_1ad3aba855078f4df17456f82c1107e2f8"><span class="std std-ref">BehaviorModulation::post</span></a> but in reverse order.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1398,6 +1404,101 @@ document.write(`
 <dd><p>Removes all modulations. </p>
 </dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior19get_target_positionE5Frame">
+<span class="target" id="classnavground_1_1core_1_1_behavior_1aa15b0dd67ac8f036a72f997bebfb8d14"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_target_position</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">frame</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior19get_target_positionE5Frame" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the target’s position if not satisfied, else null. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frame</strong> – <strong>[in]</strong> The desired frame</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The position in the desired frame </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior22get_target_orientationE5Frame">
+<span class="target" id="classnavground_1_1core_1_1_behavior_1a9c341d3ff1fa0a7c6cc946327aae4e39"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_target_orientation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">frame</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior22get_target_orientationE5Frame" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the target’s orientation if not satisfied, else null. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frame</strong> – <strong>[in]</strong> The desired frame</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The orientation in the desired frame </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior20get_target_directionE5Frame">
+<span class="target" id="classnavground_1_1core_1_1_behavior_1a0d88b8b65f1dd1f452873cfe98f3ca89"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_target_direction</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">frame</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior20get_target_directionE5Frame" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the direction towards the target’s position if not satisfied, or the target’s direction if defined, else null. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frame</strong> – <strong>[in]</strong> The desired frame</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The normalized direction in the desired frame </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior19get_target_distanceEv">
+<span class="target" id="classnavground_1_1core_1_1_behavior_1a31468f9874aa6255f13ca3c18a5af68f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_target_distance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior19get_target_distanceEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the distance to the target point, if valid, else null. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The distance. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior19get_target_velocityE5Frame">
+<span class="target" id="classnavground_1_1core_1_1_behavior_1a5d0ce935453c1758aedbdf078889b51f"></span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_target_velocity</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">frame</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior19get_target_velocityE5Frame" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the current target velocity. </p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        <span class="n">Multiplication</span> <span class="n">of</span> \<span class="n">ref</span> <span class="n">get_target_direction</span>
+        <span class="n">by</span> \<span class="n">ref</span> <span class="n">get_target_speed</span><span class="o">.</span>
+        <span class="n">Returns</span> <span class="n">a</span> <span class="n">zero</span> <span class="n">vector</span> <span class="k">if</span> <span class="n">the</span> <span class="n">target</span> <span class="n">direction</span> <span class="ow">is</span> <span class="n">undefined</span><span class="o">.</span>
+</pre></div>
+</div>
+ </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frame</strong> – <strong>[in]</strong> The desired frame</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The velocity in the desired frame. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior16get_target_speedEv">
+<span class="target" id="classnavground_1_1core_1_1_behavior_1aa2bab8e8b51b86dff574f8ce4ea10765"></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_target_speed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior16get_target_speedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the nearest feasible speed to target’s speed, if defined, else to the behavior own optimal speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The speed </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior24get_target_angular_speedEv">
+<span class="target" id="classnavground_1_1core_1_1_behavior_1a698fb93944319199edfec73c67ee643a"></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_target_angular_speed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior24get_target_angular_speedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the nearest feasible angular speed to target’s angular speed, if defined, else to the behavior own optimal angular speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The angular speed. </p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
@@ -1472,7 +1573,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer d-print-none">
+                <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -1585,6 +1686,13 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior14add_modulationERKNSt10shared_ptrI18BehaviorModulationEE"><code class="docutils literal notranslate"><span class="pre">Behavior::add_modulation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior17remove_modulationERKNSt10shared_ptrI18BehaviorModulationEE"><code class="docutils literal notranslate"><span class="pre">Behavior::remove_modulation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior17clear_modulationsEv"><code class="docutils literal notranslate"><span class="pre">Behavior::clear_modulations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior19get_target_positionE5Frame"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_position()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior22get_target_orientationE5Frame"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_orientation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior20get_target_directionE5Frame"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_direction()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior19get_target_distanceEv"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior19get_target_velocityE5Frame"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_velocity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior16get_target_speedEv"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_speed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Behavior24get_target_angular_speedEv"><code class="docutils literal notranslate"><span class="pre">Behavior::get_target_angular_speed()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior13social_marginE"><code class="docutils literal notranslate"><span class="pre">Behavior::social_margin</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior19heading_from_stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Behavior::heading_from_string()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Behavior17heading_to_stringERK7Heading"><code class="docutils literal notranslate"><span class="pre">Behavior::heading_to_string()</span></code></a></li>
@@ -1641,8 +1749,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
-<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+  <script src="../../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>

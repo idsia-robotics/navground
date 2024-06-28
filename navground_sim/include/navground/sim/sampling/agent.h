@@ -80,6 +80,8 @@ struct AgentSampler : public Sampler<typename W::A::C>,
     if (control_period) control_period->reset(index);
     if (id) id->reset(index);
     if (type) type->reset(index);
+    if (color) color->reset(index);
+    if (number) number->reset(index);
   }
 
   std::string name;

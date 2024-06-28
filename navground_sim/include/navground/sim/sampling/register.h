@@ -62,7 +62,7 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
   /**
    * @private
    */
-  void reset(unsigned index = 0) override {
+  void reset(std::optional<unsigned> index = std::nullopt) override {
     Sampler<C>::reset(index);
     for (auto& [k, v] : properties) {
       if (v) v->reset(index);
@@ -126,7 +126,7 @@ struct BehaviorModulationSampler : public SamplerFromRegister<T> {
   /**
    * @private
    */
-  void reset(unsigned index = 0) override {
+  void reset(std::optional<unsigned> index = std::nullopt) override {
     SamplerFromRegister<T>::reset(index);
     if (enabled) enabled->reset(index);
   }
@@ -222,7 +222,7 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
   /**
    * @private
    */
-  void reset(unsigned index = 0) override {
+  void reset(std::optional<unsigned> index = std::nullopt) override {
     SamplerFromRegister<T>::reset(index);
     if (optimal_speed) optimal_speed->reset(index);
     if (optimal_angular_speed) optimal_angular_speed->reset(index);
@@ -268,7 +268,7 @@ struct KinematicsSampler : public SamplerFromRegister<T> {
   /**
    * @private
    */
-  void reset(unsigned index = 0) override {
+  void reset(std::optional<unsigned> index = std::nullopt) override {
     SamplerFromRegister<T>::reset(index);
     if (max_speed) max_speed->reset(index);
     if (max_angular_speed) max_angular_speed->reset(index);

@@ -13,14 +13,14 @@ void Scenario::init_world(World* world,
   }
   for (auto& group : groups) {
     if (group) {
-      group->reset();
+      group->reset(seed);
       group->add_to_world(world);
     }
   }
   world->set_obstacles(obstacles);
   world->set_walls(walls);
-  RandomGenerator & rg = world->get_random_generator();
-  reset(world->get_seed());
+  RandomGenerator& rg = world->get_random_generator();
+  reset(seed);
   for (const auto& [name, property] : property_samplers) {
     if (property) {
       auto value = property->sample(rg);

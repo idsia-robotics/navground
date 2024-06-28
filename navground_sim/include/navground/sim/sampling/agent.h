@@ -68,7 +68,7 @@ struct AgentSampler : public Sampler<typename W::A::C>,
   /**
    * @private
    */
-  void reset(unsigned index = 0) override {
+  void reset(std::optional<unsigned> index = std::nullopt) override {
     Sampler<C>::reset(index);
     behavior.reset(index);
     kinematics.reset(index);

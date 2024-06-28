@@ -42,7 +42,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
     /**
      * @brief      Resets the agent generator.
      */
-    virtual void reset(unsigned index = 0) = 0;
+    virtual void reset(std::optional<unsigned> index = std::nullopt) = 0;
     virtual ~Group() = default;
   };
 
@@ -113,7 +113,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
    */
   std::map<std::string, std::shared_ptr<PropertySampler>> property_samplers;
 
-  void reset(unsigned index = 0) {
+  void reset(std::optional<unsigned> index = std::nullopt) {
     for (auto& [k, v] : property_samplers) {
       if (v) v->reset(index);
     }

@@ -326,7 +326,7 @@ struct PyGroup : public virtual Scenario::Group {
     PYBIND11_OVERRIDE_PURE(void, Scenario::Group, add_to_world, world);
   }
 
-  void reset(unsigned index = 0) override {
+  void reset(std::optional<unsigned> index = std::nullopt) override {
     PYBIND11_OVERRIDE_PURE(void, Scenario::Group, reset, index);
   }
 };

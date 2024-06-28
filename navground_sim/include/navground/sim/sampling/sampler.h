@@ -133,9 +133,12 @@ struct Sampler {
    *
    * It also resets the samples count to 0.
    */
-  virtual void reset(unsigned index = 0) {
-    if (!once) {
-      _index = index;
+  virtual void reset(std::optional<unsigned> index = std::nullopt) {
+    // if (!once) {
+    //   _index = index;
+    // }
+    if (index) {
+      _index = *index;
     }
     first_sample = std::nullopt;
   }
@@ -629,7 +632,7 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
   /**
    * @private
    */
-  void reset(unsigned index = 0) override {
+  void reset(std::optional<unsigned> index = std::nullopt) override {
     Sampler<navground::core::Property::Field>::reset(index);
     std::visit(
         [index](auto&& arg) -> void {

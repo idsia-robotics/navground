@@ -84,6 +84,11 @@ struct PyBehavior : public Behavior {
     return nav.attr("Behavior").attr("make_type")(type);
   }
 
+  static bool has_type(const std::string &type) {
+    py::module_ nav = py::module_::import("navground.core");
+    return nav.attr("Behavior").attr("has_type")(type).cast<bool>();
+  }
+
   // Should cache
   static std::map<std::string, Properties> type_properties() {
     py::module_ nav = py::module_::import("navground.core");
@@ -107,6 +112,11 @@ struct PyKinematics : public Kinematics {
     auto value = nav.attr("Kinematics").attr("type_properties");
     return value.cast<std::map<std::string, Properties>>();
   }
+
+  static bool has_type(const std::string &type) {
+    py::module_ nav = py::module_::import("navground.core");
+    return nav.attr("Kinematics").attr("has_type")(type).cast<bool>();
+  }
 };
 
 struct PyBehaviorModulation : public BehaviorModulation {
@@ -116,6 +126,11 @@ struct PyBehaviorModulation : public BehaviorModulation {
   static py::object make_type(const std::string &type) {
     py::module_ nav = py::module_::import("navground.core");
     return nav.attr("BehaviorModulation").attr("make_type")(type);
+  }
+
+  static bool has_type(const std::string &type) {
+    py::module_ nav = py::module_::import("navground.core");
+    return nav.attr("BehaviorModulation").attr("has_type")(type).cast<bool>();
   }
 
   // Should cache

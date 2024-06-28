@@ -234,7 +234,7 @@ std::optional<ng_float_t> Behavior::get_target_orientation(Frame frame) const {
 std::optional<Vector2> Behavior::get_target_direction(Frame frame) const {
   const auto delta = get_target_position(frame);
   if (delta) {
-    delta->normalized();
+    return delta->normalized();
   }
   if (target.direction) {
     const Vector2 e = target.direction->normalized();

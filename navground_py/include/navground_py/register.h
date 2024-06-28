@@ -13,6 +13,15 @@ using navground::core::HasRegister;
 using navground::core::Properties;
 using navground::core::Property;
 
+#define OVERRIDE_DECODE                      \
+  py::function py_decode() const override {  \
+    return py::get_override(this, "decode"); \
+  }
+#define OVERRIDE_ENCODE                      \
+  py::function py_encode() const override {  \
+    return py::get_override(this, "encode"); \
+  }
+
 template <typename T>
 struct PyHasRegister : public virtual navground::core::HasRegister<T> {
   /* Inherit the constructors */
@@ -21,6 +30,36 @@ struct PyHasRegister : public virtual navground::core::HasRegister<T> {
   using navground::core::HasRegister<T>::get_type;
   using navground::core::HasRegister<T>::type_properties;
   using C = py::object;
+
+  // TODO(Jerome): may be unsafe ...
+  // pybind11 does guard the GIL when calling python functions
+  void decode(const YAML::Node &node) override {
+    auto fn = py_decode();
+    if (fn) {
+      YAML::Emitter out;
+      out << node;
+      const auto value = std::string(out.c_str());
+      fn(value);
+    }
+  }
+
+  void encode(YAML::Node &node) const override {
+    auto fn = py_encode();
+    if (fn) {
+      const py::object py_value = fn();
+      const std::string value = py_value.cast<std::string>();
+      if (value.size()) {
+        const YAML::Node data = YAML::Load(value);
+        for (const auto &kv : data) {
+          node[kv.first] = kv.second;
+        }
+      }
+    }
+  };
+
+  virtual py::function py_decode() const { return py::function(); }
+
+  virtual py::function py_encode() const { return py::function(); }
 
   inline static std::map<std::string, Factory> factory = {};
 

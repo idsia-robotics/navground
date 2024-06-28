@@ -147,6 +147,9 @@ class PyBehaviorModulation : public BehaviorModulation,
                       cmd);
   }
 
+  OVERRIDE_DECODE
+  OVERRIDE_ENCODE
+
   // HACK(J): should not happen but as of now, it can be that get_type returns
   // ''
   const Properties &get_properties() const override {
@@ -217,6 +220,9 @@ class PyBehavior : public Behavior, virtual public PyHasRegister<Behavior> {
     PYBIND11_OVERRIDE(EnvironmentState *, Behavior, get_environment_state);
   }
 
+  OVERRIDE_DECODE
+  OVERRIDE_ENCODE
+
   // HACK(J): should not happen but as of now, it can be that get_type returns
   // ''
   const Properties &get_properties() const override {
@@ -258,6 +264,9 @@ class PyKinematics : public Kinematics,
   ng_float_t get_max_angular_speed() const override {
     PYBIND11_OVERRIDE(ng_float_t, Kinematics, get_max_angular_speed);
   }
+
+  OVERRIDE_DECODE
+  OVERRIDE_ENCODE
 
   // HACK(J): should not happen but as of now, it can be that get_type returns
   // ''

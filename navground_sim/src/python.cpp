@@ -155,6 +155,9 @@ struct PyTask : Task, virtual PyHasRegister<Task> {
     PYBIND11_OVERRIDE(void, Task, prepare, agent, world);
   }
 
+  OVERRIDE_DECODE
+  OVERRIDE_ENCODE
+
   bool done() const override { PYBIND11_OVERRIDE(bool, Task, done); }
 
   const Properties &get_properties() const override {
@@ -181,6 +184,9 @@ struct PyStateEstimation : StateEstimation,
   void prepare(Agent *agent, World *world) const override {
     PYBIND11_OVERRIDE(void, StateEstimation, prepare, agent, world);
   }
+
+  OVERRIDE_DECODE
+  OVERRIDE_ENCODE
 
   const Properties &get_properties() const override {
     const std::string t = get_type();
@@ -340,6 +346,9 @@ struct PyScenario : public Scenario, virtual PyHasRegister<Scenario> {
                   std::optional<int> seed = std::nullopt) override {
     PYBIND11_OVERRIDE(void, Scenario, init_world, world, seed);
   }
+
+  OVERRIDE_DECODE
+  OVERRIDE_ENCODE
 
   const Properties &get_properties() const override {
     const std::string t = PyHasRegister<Scenario>::get_type();

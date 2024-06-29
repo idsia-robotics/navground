@@ -1328,10 +1328,12 @@ Creates a rectangular region
   py::class_<DiscsStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<DiscsStateEstimation>>
       dse(m, "DiscsStateEstimation", DOC(navground, sim, DiscsStateEstimation));
-  dse.def(py::init<ng_float_t, unsigned, ng_float_t, ng_float_t, bool>(),
+  dse.def(py::init<ng_float_t, unsigned, ng_float_t, ng_float_t, bool, bool,
+                   unsigned>(),
           py::arg("range") = 1.0, py::arg("number") = 1,
-          py::arg("max_radius") = 1, py::arg("max_speed") = 1,
-          py::arg("include_valid") = true,
+          py::arg("max_radius") = 0, py::arg("max_speed") = 0,
+          py::arg("include_valid") = true, py::arg("use_nearest_point") = true,
+          py::arg("max_id") = 0,
           DOC(navground, sim, DiscsStateEstimation, DiscsStateEstimation))
       .def_property("range", &DiscsStateEstimation::get_range,
                     &DiscsStateEstimation::set_range,
@@ -1351,10 +1353,14 @@ Creates a rectangular region
           "include_valid", &DiscsStateEstimation::get_include_valid,
           &DiscsStateEstimation::set_include_valid,
           DOC(navground, sim, DiscsStateEstimation, property_include_valid))
-      .def_property(
-          "use_nearest_point", &DiscsStateEstimation::get_use_nearest_point,
-          &DiscsStateEstimation::set_use_nearest_point,
-          DOC(navground, sim, DiscsStateEstimation, property_use_nearest_point));
+      .def_property("max_id", &DiscsStateEstimation::get_max_id,
+                    &DiscsStateEstimation::set_max_id,
+                    DOC(navground, sim, DiscsStateEstimation, property_max_id))
+      .def_property("use_nearest_point",
+                    &DiscsStateEstimation::get_use_nearest_point,
+                    &DiscsStateEstimation::set_use_nearest_point,
+                    DOC(navground, sim, DiscsStateEstimation,
+                        property_use_nearest_point));
 
   py::class_<BoundarySensor, Sensor, StateEstimation,
              std::shared_ptr<BoundarySensor>>

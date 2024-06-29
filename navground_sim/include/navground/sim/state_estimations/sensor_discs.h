@@ -37,6 +37,8 @@ namespace navground::sim {
  *
  *   - `use_nearest_point` (bool, \ref get_use_nearest_point)
  *
+ *   - `max_
+ *
  */
 struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   /**
@@ -48,22 +50,26 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    */
   inline static const ng_float_t default_number = 1;
   /**
-   * The default maximal neighbor radius
+   * The default maximal neighbor radius (for which it will not include radii)
    */
-  inline static const ng_float_t default_max_radius = 1;
+  inline static const ng_float_t default_max_radius = 0;
   /**
-   * The default maximal neighbor speed
+   * The default maximal neighbor speed (for which it will not include
+   * velocities)
    */
-  inline static const ng_float_t default_max_speed = 1;
+  inline static const ng_float_t default_max_speed = 0;
   /**
-   * The default maximal neighbor speed
+   * The default for whether to include validity
    */
   inline static const bool default_include_valid = true;
   /**
    * The default for whether to use nearest point as position
    */
   inline static const bool default_use_nearest_point = true;
-
+  /**
+   * The default maximal id (for which it will not include ids)
+   */
+  inline static const unsigned default_max_id = 0;
   /**
    * @brief      Constructs a new instance.
    *
@@ -75,14 +81,16 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
       ng_float_t max_radius_ = default_max_radius,
       ng_float_t max_speed_ = default_max_speed,
       bool include_valid_ = default_include_valid,
-      bool use_nearest_point_ = default_use_nearest_point)
+      bool use_nearest_point_ = default_use_nearest_point,
+      unsigned max_id_ = default_max_id)
       : Sensor(),
         range(range_),
         number(number_),
         max_radius(max_radius_),
         max_speed(max_speed_),
         include_valid(include_valid_),
-        use_nearest_point(use_nearest_point_) {}
+        use_nearest_point(use_nearest_point_),
+        max_id(max_id_) {}
 
   virtual ~DiscsStateEstimation() = default;
 
@@ -105,7 +113,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_number(int value) { number = std::max<ng_float_t>(0, value); }
+  void set_number(int value) { number = std::max(0, value); }
 
   /**
    * @brief      Gets the number of discs.
@@ -174,6 +182,22 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   bool get_use_nearest_point() const { return use_nearest_point; }
 
   /**
+   * @brief      Sets the maximal possible id.
+   *
+   *             Set to zero to not include ids.
+   *
+   * @param[in]  value  The new value
+   */
+  void set_max_id(int value) { max_id = std::max(0, value); }
+
+  /**
+   * @brief      Gets the maximal possible id.
+   *
+   * @return     The maximal id.
+   */
+  int get_max_id() const { return number; }
+
+  /**
    * @private
    */
   virtual const Properties &get_properties() const override {
@@ -216,6 +240,10 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
     if (get_include_valid()) {
       desc.emplace("valid", BufferDescription::make<uint8_t>({number}, 0, 1));
     }
+    if (include_id()) {
+      desc.emplace(
+          "id", BufferDescription::make<unsigned>({number}, 0, max_id, true));
+    }
     return desc;
   }
 
@@ -226,11 +254,13 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   ng_float_t max_speed;
   bool include_valid;
   bool use_nearest_point;
+  unsigned max_id;
   const static std::string type;
 
   bool include_velocity() const { return max_speed > 0; }
   bool include_radius() const { return max_radius > 0; }
   bool include_position() const { return range > 0; }
+  bool include_id() const { return max_id > 0; }
 };
 
 }  // namespace navground::sim

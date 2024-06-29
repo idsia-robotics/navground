@@ -532,7 +532,7 @@ class DiscsStateEstimation(Sensor, StateEstimation):
     """
     def __getstate__(self) -> tuple:
         ...
-    def __init__(self, range: float = 1.0, number: int = 1, max_radius: float = 1, max_speed: float = 1, include_valid: bool = True) -> None:
+    def __init__(self, range: float = 1.0, number: int = 1, max_radius: float = 0, max_speed: float = 0, include_valid: bool = True, use_nearest_point: bool = True, max_id: int = 0) -> None:
         """
         Constructs a new instance.
         
@@ -575,6 +575,24 @@ class DiscsStateEstimation(Sensor, StateEstimation):
         """
     @range.setter
     def range(self, arg1: float) -> None:
+        ...
+    @property
+    def include_valid(self) -> bool:
+        ...
+    @include_valid.setter
+    def include_valid(self, arg1: bool) -> None:
+        ...
+    @property
+    def use_nearest_point(self) -> bool:
+        ...
+    @use_nearest_point.setter
+    def use_nearest_point(self, arg1: bool) -> None:
+        ...
+    @property
+    def max_id(self) -> int:
+        ...
+    @max_id.setter
+    def max_id(self, arg1: int) -> None:
         ...
 class Entity:
     """

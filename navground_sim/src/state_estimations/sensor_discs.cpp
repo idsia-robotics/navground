@@ -33,6 +33,7 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
 
     std::sort(distance.begin(), distance.end());
 
+    std::valarray<unsigned> id(static_cast<unsigned>(0), number);
     std::valarray<ng_float_t> radius(0.0, number);
     std::valarray<ng_float_t> position(0.0, 2 * number);
     std::valarray<ng_float_t> velocity(0.0, 2 * number);
@@ -47,6 +48,7 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
         const auto &n = neighbors[index];
         // radius[i] = n.radius;
         radius[i] = std::min(n.radius, max_radius);
+        id[i] = std::min(n.id, max_id);
         pn = to_relative(n.position - p.position, p);
         if (use_nearest_point) {
           pn -= pn.normalized() * n.radius;
@@ -95,6 +97,13 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
       }
       if (buffer) buffer->set_data(valid);
     }
+    if (include_id()) {
+      auto buffer = _state->get_buffer("id");
+      if (!buffer) {
+        buffer = _state->init_buffer("id", get_description().at("id"));
+      }
+      if (buffer) buffer->set_data(id);
+    }
   }
 }
 
@@ -126,6 +135,10 @@ const std::map<std::string, Property> DiscsStateEstimation::properties =
              &DiscsStateEstimation::set_use_nearest_point,
              default_use_nearest_point,
              "Whether to use the nearest point as position")},
+        {"max_id", make_property<int, DiscsStateEstimation>(
+                       &DiscsStateEstimation::get_max_id,
+                       &DiscsStateEstimation::set_max_id, default_max_id,
+                       "The maximal possible id")},
     } +
     StateEstimation::properties;
 

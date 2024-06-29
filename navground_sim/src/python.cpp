@@ -1346,7 +1346,15 @@ Creates a rectangular region
       .def_property(
           "max_speed", &DiscsStateEstimation::get_max_speed,
           &DiscsStateEstimation::set_max_speed,
-          DOC(navground, sim, DiscsStateEstimation, property_max_speed));
+          DOC(navground, sim, DiscsStateEstimation, property_max_speed))
+      .def_property(
+          "include_valid", &DiscsStateEstimation::get_include_valid,
+          &DiscsStateEstimation::set_include_valid,
+          DOC(navground, sim, DiscsStateEstimation, property_include_valid))
+      .def_property(
+          "use_nearest_point", &DiscsStateEstimation::get_use_nearest_point,
+          &DiscsStateEstimation::set_use_nearest_point,
+          DOC(navground, sim, DiscsStateEstimation, property_use_nearest_point));
 
   py::class_<BoundarySensor, Sensor, StateEstimation,
              std::shared_ptr<BoundarySensor>>

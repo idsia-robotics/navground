@@ -195,7 +195,7 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    *
    * @return     The maximal id.
    */
-  int get_max_id() const { return number; }
+  int get_max_id() const { return max_id; }
 
   /**
    * @private

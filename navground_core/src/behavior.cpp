@@ -259,7 +259,7 @@ Vector2 Behavior::get_target_velocity(Frame frame) const {
   if (e) {
     return (*e) * get_target_speed();
   }
-  return Vector2();
+  return Vector2::Zero();
 }
 
 ng_float_t Behavior::get_target_speed() const {

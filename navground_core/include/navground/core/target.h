@@ -104,7 +104,7 @@ struct Target {
   //   if (direction) {
   //     return *direction * speed.value_or(speed_);
   //   }
-  //   return Vector2();
+  //   return Vector2::Zero();
   // }
 
   static Target Point(const Vector2& position, ng_float_t tolerance = 0) {

@@ -299,7 +299,7 @@ std::vector<Disc> World::get_discs(bool ignore_lattice) const {
   if (!ignore_lattice) {
     grid = get_lattice_grid();
   } else {
-    grid = {Vector2()};
+    grid = {Vector2::Zero()};
   }
   std::vector<Disc> discs(obstacles.size() * grid.size());
   auto it = discs.begin();
@@ -339,7 +339,7 @@ BoundingBox World::get_lattice_bounding_box() const {
 std::vector<std::tuple<Vector2, BoundingBox>> World::subdivide_bounding_box(
     const BoundingBox &bounding_box, bool ignore_lattice) const {
   if (!_has_lattice || ignore_lattice) {
-    return {{Vector2(), bounding_box}};
+    return {{Vector2::Zero(), bounding_box}};
   }
   std::vector<std::tuple<Vector2, BoundingBox>> rs;
   std::vector<core::Vector2> grid = get_lattice_grid();
@@ -752,7 +752,7 @@ std::vector<Vector2> World::get_lattice_grid(bool include_zero, bool c8) const {
     rs = {{0, -l1}, {0, l1}};
   }
   if (include_zero) {
-    rs.push_back(Vector2());
+    rs.push_back(Vector2::Zero());
   }
   return rs;
 }

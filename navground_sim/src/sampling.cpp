@@ -12,7 +12,7 @@ std::vector<core::Disc> sample_discs(
     ng_float_t disc_margin, const std::vector<core::Disc> &discs,
     unsigned max_tries, std::vector<core::Vector2> lattice_grid) {
   if (lattice_grid.size() == 0) {
-    lattice_grid = {core::Vector2()};
+    lattice_grid = {core::Vector2::Zero()};
   }
   std::vector<core::Disc> rs;
   unsigned tries = 0;

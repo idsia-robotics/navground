@@ -15,9 +15,9 @@ from ._navground import (Buffer, BufferDescription, BufferMap,
 from ._navground import Kinematics as _Kinematics
 from ._navground import (LineSegment, Neighbor, Pose2, SensingState,
                          SocialMargin, Target, Twist2, dump, load_behavior,
-                         load_kinematics, load_behavior_modulation,
-                         to_absolute, to_relative)
+                         load_behavior_modulation, load_kinematics)
 from ._navground import load_plugins as load_cpp_plugins
+from ._navground import to_absolute, to_relative, uses_doubles
 
 # TODO(Jerome): Add vector shape = (2, )
 # numpy.ndarray[numpy.float32[2, 1]]
@@ -187,5 +187,6 @@ __all__ = [
     'dump', 'load_behavior', 'load_behavior_modulation', 'load_kinematics',
     'load_plugins', 'to_absolute', 'to_relative', 'Buffer', 'BufferMap',
     'BufferDescription', 'SocialMargin', 'CachedCollisionComputation',
-    'EnvironmentState', 'CollisionComputation', 'behaviors', 'kinematics'
+    'EnvironmentState', 'CollisionComputation', 'behaviors', 'kinematics',
+    'uses_doubles'
 ]

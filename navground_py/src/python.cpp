@@ -1309,4 +1309,9 @@ Load a behavior modulation from a YAML string.
   pickle_via_yaml<PyKinematics>(wk2);
   pickle_via_yaml<PyKinematics>(wk4);
   pickle_via_yaml_native<SocialMargin>(social_margin);
+
+  m.def(
+      "uses_doubles",
+      []() { return std::is_same<ng_float_t, float>::value == false; },
+      "Returns whether navground has been compiled to use floats or doubles");
 }

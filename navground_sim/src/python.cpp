@@ -2571,6 +2571,11 @@ Load an experiment from a YAML string.
   pickle_via_yaml<PyAgent>(agent);
   pickle_via_yaml<PyExperiment>(experiment);
 
+  m.def(
+      "uses_doubles",
+      []() { return std::is_same<ng_float_t, float>::value == false; },
+      "Returns whether navground has been compiled to use floats or doubles");
+
   // m.def("load_plugins", &load_plugins, py::arg("plugins") = "",
   //       py::arg("env") = "", py::arg("directory") = py::none());
 }

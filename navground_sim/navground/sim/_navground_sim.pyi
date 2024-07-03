@@ -10,6 +10,9 @@ import pathlib
 
 Vector2Like = numpy.ndarray | tuple[float, float] | list[float]
 
+def uses_doubles() -> bool:
+    ...
+
 __all__ = ['Agent', 'AntipodalScenario', 'BoundedStateEstimation', 'BoundingBox', 'CorridorScenario', 'CrossScenario', 'CrossTorusScenario', 'Dataset', 'DiscsStateEstimation', 'Entity', 'Experiment', 'ExperimentalRun', 'GroupRecordProbe', 'LidarStateEstimation', 'Obstacle', 'Probe', 'RecordConfig', 'RecordProbe', 'Scenario', 'ScenarioRegister', 'Sensor', 'SimpleScenario', 'StateEstimation', 'StateEstimationRegister', 'Task', 'TaskRegister', 'Wall', 'WaypointsTask', 'World', 'dump', 'load_agent', 'load_experiment', 'load_scenario', 'load_state_estimation', 'load_task', 'load_world']
 class Agent(NativeAgent, Entity):
     """

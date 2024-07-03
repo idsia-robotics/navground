@@ -7,6 +7,8 @@ __all__ = ['Action', 'AheadKinematics', 'Behavior', 'BehaviorRegister', 'Buffer'
 
 Vector2Like = numpy.ndarray | tuple[float, float] | list[float]
 
+def uses_doubles() -> bool:
+    ...
 
 class Action:
     """

@@ -12,15 +12,16 @@ from navground.core import register
 
 from ._navground_sim import (Agent, BoundingBox, Dataset, Entity, Experiment,
                              ExperimentalRun, GroupRecordProbe, Obstacle,
-                             Probe, RecordSensingConfig, RecordConfig,
-                             RecordProbe, SensingProbe, use_compact_samplers)
+                             Probe, RecordConfig, RecordProbe,
+                             RecordSensingConfig)
 from ._navground_sim import Scenario as _Scenario
+from ._navground_sim import SensingProbe
 from ._navground_sim import Sensor as _Sensor
 from ._navground_sim import StateEstimation as _StateEstimation
 from ._navground_sim import Task as _Task
 from ._navground_sim import (Wall, World, dump, load_agent, load_experiment,
                              load_scenario, load_state_estimation, load_task,
-                             load_world)
+                             load_world, use_compact_samplers, uses_doubles)
 from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
 from .run_mp import run_mp
 
@@ -189,5 +190,6 @@ __all__ = [
     'load_scenario', 'load_experiment', 'load_plugins', 'register', 'Sensor',
     'ExperimentalRun', 'RecordSensingConfig', 'RecordConfig', 'RecordProbe',
     'GroupRecordProbe', 'Probe', 'Dataset', 'RecordedExperiment',
-    'RecordedExperimentalRun', 'SensingProbe', 'use_compact_samplers'
+    'RecordedExperimentalRun', 'SensingProbe', 'use_compact_samplers',
+    'uses_doubles'
 ]

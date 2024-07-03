@@ -1426,6 +1426,8 @@ class ExperimentalRun:
         """
         Returns the simulated world.
         """
+    def get_collision_events(self, min_interval: int) -> np.ndarray:
+        ...
 class GroupRecordProbe(Probe):
     """
     Base class for probes that record a group of datasets, possibly to be

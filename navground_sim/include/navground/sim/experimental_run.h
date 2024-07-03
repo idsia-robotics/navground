@@ -194,6 +194,21 @@ inline std::set<std::string> _keys(const std::map<std::string, T> &m) {
 }
 
 /**
+ * @brief      Extracts collisions events, i.e.
+ *             collisions separated by more
+ *             than min_interval steps
+ *
+ * @param[in] collisions    A dataset of collisions, i.e. of tuples
+ *                          <time_step, uid_1, uid_2> of type unsigned.
+ * @param[in] min_interval  The minimal interval between collision among
+ *                          the same pair to be considered a new event
+ *
+ * @return     A dataset with the same type and item shape.
+ */
+std::shared_ptr<Dataset> NAVGROUND_SIM_EXPORT extract_collision_events(
+    const std::shared_ptr<Dataset> &collisions, unsigned min_interval = 1);
+
+/**
  * @brief      Simulates a world and collects data.
  */
 class NAVGROUND_SIM_EXPORT ExperimentalRun {
@@ -447,6 +462,19 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   const std::shared_ptr<Dataset> get_collisions() const {
     return get_record("collisions");
+  }
+  /**
+   * @brief      Gets the recorded collisions events, i.e.
+   *             collisions separated by more than min_interval steps
+   *
+   * @param[in] min_interval  The minimal interval between collision among
+   *                          the same pair to be considered a new event
+   *
+   * @return     The record or none if not recorded.
+   */
+  std::shared_ptr<Dataset> get_collision_events(
+      unsigned min_interval = 1) const {
+    return extract_collision_events(get_collisions(), min_interval);
   }
   /**
    * @brief      Gets the recorded task logs.

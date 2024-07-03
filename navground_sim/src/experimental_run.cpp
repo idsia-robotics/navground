@@ -6,7 +6,7 @@
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/yaml/world.h"
 
-using namespace navground::sim;
+namespace navground::sim {
 
 #if 0
 static void store_world(const World &world, HighFive::Group &group) {
@@ -25,6 +25,36 @@ template <typename T>
 static void store_attribute(T value, const std::string &name,
                             HighFive::Group &group) {
   group.createAttribute<T>(name, HighFive::DataSpace::From(value)).write(value);
+}
+
+std::shared_ptr<Dataset> extract_collision_events(
+    const std::shared_ptr<Dataset> &collisions, unsigned min_interval) {
+  const auto shape = collisions->get_shape();
+  if (shape.size() != 2 and shape[1] != 3) {
+    std::cerr << "Collisions dataset has unexpected shape" << std::endl;
+    return nullptr;
+  }
+  const auto ptr = collisions->get_typed_data<unsigned>();
+  if (!ptr) {
+    std::cerr << "Collisions dataset has unexpected type" << std::endl;
+    return nullptr;
+  }
+  std::shared_ptr<Dataset> collision_events = Dataset::make<unsigned>({3});
+  collision_events->set_dtype<unsigned>();
+  const std::vector<unsigned> values = *ptr;
+  std::map<std::tuple<unsigned, unsigned>, unsigned> ts;
+  for (size_t i = 0; i < shape[0]; ++i) {
+    const unsigned t = values[3 * i];
+    const std::tuple<unsigned, unsigned> es{values[3 * i + 1],
+                                            values[3 * i + 2]};
+    if (!ts.count(es) || t >= ts[es]) {
+      collision_events->push<unsigned>(t);
+      collision_events->push<unsigned>(values[3 * i + 1]);
+      collision_events->push<unsigned>(values[3 * i + 2]);
+    }
+    ts[es] = t + min_interval + 1;
+  }
+  return collision_events;
 }
 
 class TimeProbe : public RecordProbe {
@@ -578,3 +608,5 @@ bool ExperimentalRun::go_to_step(int step, bool ignore_collisions,
   }
   return true;
 }
+
+}  // namespace navground::sim

@@ -1694,7 +1694,17 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
             auto dt = py::dtype(py::cast<std::string>(t[1]));
             set_dataset_data_py(ds, arr, false, dt);
             return ds;
-          }));
+          }))
+      .def("__len__",
+           [](Dataset &ds) -> size_t {
+             const auto shape = ds.get_shape();
+             if (shape.size()) {
+               return shape[0];
+             }
+             return 0;
+           })
+      .def("__iter__",
+           [](Dataset &ds) { return as_array(ds).attr("__iter__")(); });
 
   py::class_<Probe, PyProbe, std::shared_ptr<Probe>>(m, "Probe",
                                                      DOC(navground, sim, Probe))
@@ -2000,6 +2010,25 @@ and dtype ``np.uint32``::
   [[time_step, uid_0, uid_1], 
    ...]
 
+The array is empty if collisions have not been recorded in the run.
+
+)doc")
+      .def(
+          "get_collision_events",
+          [](const ExperimentalRun *run, unsigned min_interval) {
+            auto record = run->get_collision_events(min_interval);
+            return record;
+          },
+          py::arg("min_interval") = 1, R"doc(
+The recorded collision events between pairs of entities as
+as a Dataset of shape ``(number of collisions, 3)``
+and dtype ``np.uint32``::
+
+  [[time_step, uid_0, uid_1], 
+   ...]
+
+Only collision among the same pair separated by at least 
+``minimal_interval`` are returned.
 The array is empty if collisions have not been recorded in the run.
 
 )doc")

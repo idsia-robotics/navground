@@ -161,7 +161,7 @@ bool Behavior::check_if_target_satisfied() const {
 
 ng_float_t Behavior::estimate_time_until_target_satisfied() const {
   ng_float_t time = 0;
-  const auto dist = get_target_distance();
+  const auto dist = get_target_distance(false);
   if (dist) {
     const ng_float_t speed = get_target_speed();
     if (speed) {
@@ -246,10 +246,15 @@ std::optional<Vector2> Behavior::get_target_direction(Frame frame) const {
   return std::nullopt;
 }
 
-std::optional<ng_float_t> Behavior::get_target_distance() const {
+std::optional<ng_float_t> Behavior::get_target_distance(
+    bool ignore_tolerance) const {
   const auto delta = get_target_position(Frame::relative);
   if (delta) {
-    return delta->norm();
+    ng_float_t distance = delta->norm();
+    if (!ignore_tolerance) {
+      distance -= target.position_tolerance;
+    }
+    return std::max<ng_float_t>(0, distance);
   }
   return std::nullopt;
 }

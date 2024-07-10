@@ -840,13 +840,14 @@ PYBIND11_MODULE(_navground, m) {
                     DOC(navground, core, Behavior, property_is_stuck))
       .def("get_target_position", &Behavior::get_target_position,
            py::arg_v("frame", Frame::absolute, "Frame.absolute"),
-           DOC(navground, core, Behavior, get_target_direction))
+           DOC(navground, core, Behavior, get_target_position))
       .def("get_target_orientation", &Behavior::get_target_orientation,
-           DOC(navground, core, Behavior, get_target_distance))
+           DOC(navground, core, Behavior, get_target_orientation))
       .def("get_target_direction", &Behavior::get_target_direction,
            py::arg_v("frame", Frame::absolute, "Frame.absolute"),
            DOC(navground, core, Behavior, get_target_direction))
       .def("get_target_distance", &Behavior::get_target_distance,
+           py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_distance))
       .def("get_target_velocity", &Behavior::get_target_velocity,
            py::arg_v("frame", Frame::absolute, "Frame.absolute"),

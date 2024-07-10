@@ -879,10 +879,12 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
   /**
    * @brief      Returns the distance to the target point, if valid,
    *             else null.
+   *             
+   * @param[in]  ignore_tolerance  Whether to ignore the target tolerance      
    *
    * @return     The distance.
    */
-  std::optional<ng_float_t> get_target_distance() const;
+  std::optional<ng_float_t> get_target_distance(bool ignore_tolerance=false) const;
 
   /**
    * @brief      Gets the current target velocity.

@@ -360,13 +360,132 @@ class Plugin : public sim::Plugin {
     }
   }
 
+  void get_target_position(get_target_position_in *in,
+                           get_target_position_out *out) {
+    auto behavior = behavior_with_handle(in->handle);
+    if (behavior) {
+      const auto &value =
+          behavior->get_target_position(static_cast<core::Frame>(in->frame));
+      if (value) {
+        out->valid = true;
+        out->position.x = value->x();
+        out->position.y = value->y();
+      } else {
+        out->valid = false;
+      }
+    }
+  }
+
+  void get_target_orientation(get_target_orientation_in *in,
+                              get_target_orientation_out *out) {
+    auto behavior = behavior_with_handle(in->handle);
+    if (behavior) {
+      const auto &value =
+          behavior->get_target_orientation(static_cast<core::Frame>(in->frame));
+      if (value) {
+        out->valid = true;
+        out->orientation = *value;
+      } else {
+        out->valid = false;
+      }
+    }
+  }
+
+  void get_target_velocity(get_target_velocity_in *in,
+                           get_target_velocity_out *out) {
+    auto behavior = behavior_with_handle(in->handle);
+    if (behavior) {
+      const auto &value =
+          behavior->get_target_velocity(static_cast<core::Frame>(in->frame));
+      out->velocity.x = value.x();
+      out->velocity.y = value.y();
+    }
+  }
+
+  void get_target_speed(get_target_speed_in *in, get_target_speed_out *out) {
+    auto behavior = behavior_with_handle(in->handle);
+    if (behavior) {
+      out->speed = behavior->get_target_speed();
+    }
+  }
+
+  void get_target_angular_speed(get_target_angular_speed_in *in,
+                                get_target_angular_speed_out *out) {
+    auto behavior = behavior_with_handle(in->handle);
+    if (behavior) {
+      out->angular_speed = behavior->get_target_angular_speed();
+    }
+  }
+
+  void get_target_direction(get_target_direction_in *in,
+                            get_target_direction_out *out) {
+    auto behavior = behavior_with_handle(in->handle);
+    if (behavior) {
+      const auto &value =
+          behavior->get_target_direction(static_cast<core::Frame>(in->frame));
+      if (value) {
+        out->valid = true;
+        out->direction.x = value->x();
+        out->direction.y = value->y();
+      } else {
+        out->valid = false;
+      }
+    }
+  }
+
+  void get_target_distance(get_target_distance_in *in,
+                           get_target_distance_out *out) {
+    auto behavior = behavior_with_handle(in->handle);
+    if (behavior) {
+      const auto &value = behavior->get_target_distance(in->ignore_tolerance);
+      if (value) {
+        out->valid = true;
+        out->distance = *value;
+      } else {
+        out->valid = false;
+      }
+    }
+  }
+
   void get_target(get_target_in *in, get_target_out *out) {
-    auto agent = agent_with_handle(in->handle);
-    if (agent) {
-      const auto &target = agent->get_behavior()->get_target();
-      const auto &p = target.position;
-      out->point.x = p->x();
-      out->point.y = p->y();
+    auto behavior = behavior_with_handle(in->handle);
+    if (behavior) {
+      const auto &target = behavior->get_target();
+      auto & o = out->target;
+      if (target.position) {
+        o.position.x = target.position->x();
+        o.position.y = target.position->y();
+        o.position_valid = true;
+        o.position_tolerance = target.position_tolerance;
+      } else {
+        o.position_valid = false;
+      }
+      if (target.orientation) {
+        o.orientation = *(target.orientation);
+        o.orientation_valid = true;
+        o.orientation_tolerance = target.orientation_tolerance;
+      } else {
+        o.orientation_valid = false;
+      }
+      if (target.direction) {
+        o.direction.x = target.direction->x();
+        o.direction.y = target.direction->y();
+        o.direction_valid = true;
+      } else {
+        o.direction_valid = false;
+      }
+      if (target.speed) {
+        o.speed = *(target.speed);
+        o.speed_valid = true;
+      } else {
+        o.speed_valid = false;
+      }
+      if (target.angular_speed) {
+        o.angular_speed = *(target.angular_speed);
+        o.angular_speed_valid = true;
+      } else {
+        o.angular_speed_valid = false;
+      }
     }
   }
 

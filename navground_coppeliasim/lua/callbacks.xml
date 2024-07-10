@@ -266,17 +266,142 @@
         <return>
         </return>
     </command>
+    <command name="get_target_position">
+      <description>TODO
+      </description>
+      <params>
+        <param name="handle" type="int">
+          <description>The agent or controller handle</description>
+        </param>
+        <param name="frame" type="int">
+          <description>The reference frame (0 for relative, 1 for absolute)</description>
+        </param>
+      </params>
+      <return>
+        <param name="position" type="vector2_t">
+          <description>The target position</description>
+        </param>
+        <param name="valid" type="bool">
+          <description>TODO</description>
+        </param>
+      </return>
+    </command>
+    <command name="get_target_orientation">
+      <description>TODO
+      </description>
+      <params>
+        <param name="handle" type="int">
+          <description>The agent or controller handle</description>
+        </param>
+        <param name="frame" type="int">
+          <description>The reference frame (0 for relative, 1 for absolute)</description>
+        </param>
+      </params>
+      <return>
+        <param name="orientation" type="float">
+          <description>The target orientation</description>
+        </param>
+        <param name="valid" type="bool">
+          <description>TODO</description>
+        </param>
+      </return>
+    </command>
+    <command name="get_target_direction">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The agent or controller handle</description>
+          </param>
+          <param name="frame" type="int">
+            <description>The reference frame (0 for relative, 1 for absolute)</description>
+          </param>
+        </params>
+        <return>
+          <param name="direction" type="vector2_t">
+            <description>The 2d target</description>
+          </param>
+          <param name="valid" type="bool">
+            <description>TODO</description>
+          </param>
+        </return>
+    </command> 
+    <command name="get_target_velocity">
+      <description>TODO
+      </description>
+      <params>
+        <param name="handle" type="int">
+          <description>The agent or controller handle</description>
+        </param>
+        <param name="frame" type="int">
+          <description>The reference frame (0 for relative, 1 for absolute)</description>
+        </param>
+      </params>
+      <return>
+        <param name="velocity" type="vector2_t">
+          <description>The target velocity</description>
+        </param>
+      </return>
+    </command>
+    <command name="get_target_distance">
+      <description>TODO
+      </description>
+      <params>
+        <param name="handle" type="int">
+          <description>The agent or controller handle</description>
+        </param>
+        <param name="ignore_tolerance" type="bool">
+          <description>TODO</description>
+        </param>
+      </params>
+      <return>
+        <param name="distance" type="float">
+          <description>The target distance</description>
+        </param>
+        <param name="valid" type="bool">
+          <description>TODO</description>
+        </param>
+      </return>
+    </command>
+    <command name="get_target_speed">
+      <description>TODO
+      </description>
+      <params>
+        <param name="handle" type="int">
+          <description>The agent or controller handle</description>
+        </param>
+      </params>
+      <return>
+        <param name="speed" type="float">
+          <description>The target speed</description>
+        </param>
+      </return>
+    </command>
+    <command name="get_target_angular_speed">
+      <description>TODO
+      </description>
+      <params>
+        <param name="handle" type="int">
+          <description>The agent or controller handle</description>
+        </param>
+      </params>
+      <return>
+        <param name="angular_speed" type="float">
+          <description>The target angular speed</description>
+        </param>
+      </return>
+    </command>  
     <command name="get_target">
         <description>TODO
         </description>
         <params>
           <param name="handle" type="int">
-            <description>The agent handle</description>
+            <description>The agent or controller handle</description>
           </param>
         </params>
         <return>
-          <param name="point" type="vector2_t">
-            <description>The 2d target</description>
+          <param name="target" type="target_t">
+            <description>The target</description>
           </param>
         </return>
     </command>    
@@ -792,7 +917,46 @@
         <param name="y" type="ng_float_t" default="0.0">
           <description>y</description>
         </param>
-    </struct>    
+    </struct>
+    <struct name="target_t">
+      <description>TODO</description>
+      <param name="position" type="vector2_t">
+        <description>TODO</description>
+      </param>
+      <param name="position_valid" type="bool">
+        <description>TODO</description>
+      </param>
+      <param name="position_tolerance" type="float">
+        <description>TODO</description>
+      </param>
+      <param name="orientation" type="float">
+        <description>TODO</description>
+      </param>
+      <param name="orientation_valid" type="bool">
+        <description>TODO</description>
+      </param>
+      <param name="orientation_tolerance" type="float">
+        <description>TODO</description>
+      </param>
+      <param name="speed" type="float">
+        <description>TODO</description>
+      </param>
+      <param name="speed_valid" type="bool">
+        <description>TODO</description>
+      </param>
+      <param name="angular_speed" type="float">
+        <description>TODO</description>
+      </param>
+      <param name="angular_speed_valid" type="bool">
+        <description>TODO</description>
+      </param>
+      <param name="direction" type="vector2_t">
+        <description>TODO</description>
+      </param>
+      <param name="direction_valid" type="bool">
+        <description>TODO</description>
+      </param>
+    </struct>  
     <struct name="property_t">
       <description>A property</description>
       <param name="name" type="string">

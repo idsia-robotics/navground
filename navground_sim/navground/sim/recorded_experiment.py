@@ -7,7 +7,7 @@ import h5py
 import numpy as np
 from navground import core
 
-from . import Agent, World, load_experiment, load_world
+from . import Agent, World, load_experiment, load_world, BoundingBox
 
 
 def _timedelta_from_ns(ns: int):
@@ -289,6 +289,26 @@ class RecordedExperimentalRun:
         a = np.min(self.poses, axis=(0, 1))[:2]
         b = np.max(self.poses, axis=(0, 1))[:2]
         return a, b
+
+    @property
+    def bounding_box(self) -> BoundingBox:
+        """
+        Gets the rectangle that contains the world during the whole run.
+        """
+        bb = self.world.bounding_box
+        if self.poses:
+            min_over_steps = np.min(self.poses, axis=(0, ))[:2]
+            max_over_steps = np.max(self.poses, axis=(0, ))[:2]
+            radii = np.array([a.radius for a in self.world.agents])
+            min_over_steps -= radii
+            max_over_steps += radii
+            min_over_agents = np.min(min_over_steps, axis=0)
+            max_over_agents = np.max(max_over_steps, axis=0)
+            return BoundingBox(min(bb.min_x, min_over_agents[0]),
+                               max(bb.max_x, max_over_agents[0]),
+                               min(bb.min_y, min_over_agents[1]),
+                               max(bb.max_y, max_over_agents[1]))
+        return bb
 
 
 class RecordedExperiment:

@@ -801,6 +801,13 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   ng_float_t get_final_sim_time() const;
 
+  /**
+   * @brief      Gets the rectangle that contains the world during the whole run.
+   *
+   * @return     The bounding box.
+   */
+  BoundingBox get_bounding_box() const;
+
  private:
   State _state;
   /**

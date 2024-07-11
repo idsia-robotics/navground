@@ -609,4 +609,35 @@ bool ExperimentalRun::go_to_step(int step, bool ignore_collisions,
   return true;
 }
 
+BoundingBox ExperimentalRun::get_bounding_box() const {
+  const auto &poses = get_poses();
+  const auto &world = get_world();
+  const auto world_bb = world->get_bounding_box();
+  const auto &agents = world->get_agents();
+  if (poses) {
+    const auto data = poses->as_tensor<ng_float_t, 3>();
+    Eigen::Tensor<ng_float_t, 2> max_over_steps =
+        data.maximum(std::array<int, 1>{2});
+    Eigen::Tensor<ng_float_t, 2> min_over_steps =
+        data.minimum(std::array<int, 1>{2});
+    size_t i = 0;
+    for (const auto &agent : agents) {
+      max_over_steps(0, i) += agent->radius;
+      max_over_steps(1, i) += agent->radius;
+      min_over_steps(0, i) -= agent->radius;
+      min_over_steps(1, i) -= agent->radius;
+      i++;
+    }
+    const Eigen::Tensor<ng_float_t, 1> max_over_agents =
+        max_over_steps.maximum(std::array<int, 1>{1});
+    const Eigen::Tensor<ng_float_t, 1> min_over_agents =
+        min_over_steps.minimum(std::array<int, 1>{1});
+    BoundingBox bb = BoundingBox(min_over_agents(0), max_over_agents(0),
+                                 min_over_agents(1), max_over_agents(1));
+    bb.expandToInclude(world_bb);
+    return bb;
+  }
+  return world_bb;
+}
+
 }  // namespace navground::sim

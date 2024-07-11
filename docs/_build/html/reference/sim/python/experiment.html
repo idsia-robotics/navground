@@ -487,6 +487,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.go_to_step"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.go_to_step()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.index_of_agent"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.index_of_agent()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.run"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.bounding_box"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.bounding_box</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.collisions"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.collisions</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.commands"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.commands</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.deadlocks"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.deadlocks</span></code></a></li>
@@ -1169,6 +1170,17 @@ a given time step are stored as <code class="docutils literal notranslate"><span
 <p>You don’t need to call <a class="reference internal" href="#navground.sim.ExperimentalRun.run" title="navground.sim.ExperimentalRun.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> when running an <a class="reference internal" href="#navground.sim.Experiment" title="navground.sim.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a> (see
 <a class="reference internal" href="#navground.sim.Experiment.run" title="navground.sim.Experiment.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Experiment.run()</span></code></a> instead) but only if you are want to perform a
 run outside of an <a class="reference internal" href="#navground.sim.Experiment" title="navground.sim.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.ExperimentalRun.bounding_box">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounding_box</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.bounding_box" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="world.html#navground.sim.BoundingBox" title="navground.sim.BoundingBox">navground.sim.BoundingBox</a></p>
+</dd>
+</dl>
+<p>The rectangle that contains the world during the whole run.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -2185,6 +2197,7 @@ of the world, typically after each simulation step.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.go_to_step"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.go_to_step()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.index_of_agent"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.index_of_agent()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.run"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.bounding_box"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.bounding_box</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.collisions"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.collisions</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.commands"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.commands</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.deadlocks"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.deadlocks</span></code></a></li>

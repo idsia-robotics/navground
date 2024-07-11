@@ -1428,6 +1428,11 @@ class ExperimentalRun:
         """
     def get_collision_events(self, min_interval: int) -> np.ndarray:
         ...
+    @property
+    def bounding_box(self) -> BoundingBox:
+        """
+        The bounding box.
+        """
 class GroupRecordProbe(Probe):
     """
     Base class for probes that record a group of datasets, possibly to be

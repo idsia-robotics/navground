@@ -21,9 +21,12 @@ jinjia_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(template_folder))
 
 
-def bounds_for_world(world: World) -> Rect:
-    bb = world.bounding_box
+def bounds_of_bounding_box(bb: BoundingBox) -> Rect:
     return bb.p1, bb.p2
+
+
+def bounds_for_world(world: World) -> Rect:
+    return bounds_of_bounding_box(world.bounding_box)
 
 
 def rect_around(center: Point, width: float | None,
@@ -383,6 +386,8 @@ def size(
     else:
         scale = 1
     height = max(min_height, scale * world_height)
+    if height % 1:
+        height = height + 1
     return width, height, (min_x, -max_y, world_width, world_height), min_y
 
 

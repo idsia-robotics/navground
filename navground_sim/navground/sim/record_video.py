@@ -5,37 +5,43 @@ import random
 import sys
 from typing import Any, Optional
 
-from . import _Scenario, World, load_experiment, load_plugins, Agent
-from .ui.video import record_video
+import h5py
+
+from . import (Agent, Experiment, RecordedExperiment, load_experiment,
+               load_plugins)
 from .ui import Decorate
+from .ui.video import record_video_from_run
 
 
 def run(path: str,
-        scenario: _Scenario,
+        experiment: Experiment,
         factor: float = 1.0,
-        time_step: float = 0.04,
         fps: int = 24,
-        duration: float = 60.0,
         seed: int = -1,
         decorate: Optional[Decorate] = None,
         follow_index: int = -1,
         **kwargs: Any) -> None:
-    world = World()
-    if seed < 0:
-        seed = random.randint(0, 2**31)
-    scenario.init_world(world, seed=seed)
-    if follow_index >= 0 and follow_index < len(world.agents):
-        follow: Agent | None = world.agents[follow_index]
+
+    if isinstance(experiment, Experiment):
+        if seed < 0:
+            seed = random.randint(0, 2**31)
+        experiment.record_config.pose = True
+        run = experiment.run_once(seed)
+    else:
+        if seed < 0:
+            run = experiment.runs[0]
+        else:
+            run = experiment.runs[seed]
+    if follow_index >= 0 and follow_index < len(run.world.agents):
+        follow: Agent | None = run.world.agents[follow_index]
     else:
         follow = None
-    record_video(path,
-                 world,
-                 time_step,
-                 duration,
-                 factor=factor,
-                 decorate=decorate,
-                 follow=follow,
-                 **kwargs)
+    record_video_from_run(path,
+                          run,
+                          factor=factor,
+                          decorate=decorate,
+                          follow=follow,
+                          **kwargs)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -43,10 +49,13 @@ def parser() -> argparse.ArgumentParser:
         description='Make video from an experiment using the Python interpreter'
     )
     parser.add_argument(
-        'YAML',
-        help='YAML string, or path to a YAML file, describing an experiment',
+        'input',
+        help=('YAML string, or path to a YAML file describing an experiment,'
+              ' or a path to HDF5 file of a recorded experiment'),
         type=str)
-    parser.add_argument('path', help='Path where to save the video', type=str)
+    parser.add_argument('output',
+                        help='Path where to save the video',
+                        type=str)
     parser.add_argument(
         '--seed',
         help=
@@ -75,15 +84,22 @@ def parser() -> argparse.ArgumentParser:
         # default=(0.0, 0.0, 0.0, 0.0),
         nargs=4,
         metavar=("MIN_X", "MIN_Y", "MAX_X", "MAX_Y"))
+    parser.add_argument('--relative_margin',
+                        help='A relative margin to add around the area',
+                        default='0.05',
+                        type=float)
     parser.add_argument('--display-shape',
                         help='Display effective agent shape',
                         action='store_true')
     parser.add_argument('--follow',
                         help='The index of the agent to follow',
-                        default=-1, type=int)
+                        default=-1,
+                        type=int)
     parser.add_argument('--grid',
                         help='The size of the grid',
-                        default='0', type=float)
+                        default='0',
+                        type=float)
+
     # parser.add_argument('--display-deadlocks',
     #                     help='Color deadlocked agent in blue',
     #                     action='store_true')
@@ -93,30 +109,43 @@ def parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _load_recorded_experiment(path: str) -> Optional[RecordedExperiment]:
+    try:
+        file = h5py.File(path)
+        return RecordedExperiment(file=file)
+    except Exception:
+        return None
+
+
+def _load_experiment(value: str) -> Optional[Experiment]:
+    if os.path.exists(value) and os.path.isfile(value):
+        with open(value, 'r') as f:
+            yaml = f.read()
+    else:
+        yaml = value
+    try:
+        return load_experiment(yaml)
+    except RuntimeError:
+        return None
+
+
 def main(decorate: Optional[Decorate] = None) -> None:
     logging.basicConfig(level=logging.INFO)
     load_plugins()
     arg = parser().parse_args()
-    if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
-        with open(arg.YAML, 'r') as f:
-            yaml = f.read()
-    else:
-        yaml = arg.YAML
-
-    try:
-        experiment = load_experiment(yaml)
-    except RuntimeError as e:
+    experiment = _load_recorded_experiment(arg.input) or _load_experiment(
+        arg.input)
+    if not experiment:
         logging.error(f"Could not load the experiment: {e}")
         sys.exit(1)
+
     if arg.area is not None:
         bounds = arg.area[:2], arg.area[2:]
     else:
         bounds = None
-    run(path=arg.path,
-        scenario=experiment.scenario,
+    run(path=arg.output,
+        experiment=experiment,
         factor=arg.factor,
-        time_step=experiment.time_step,
-        duration=experiment.steps * experiment.time_step,
         fps=arg.fps,
         width=arg.width,
         background_color=arg.background_color,
@@ -124,4 +153,5 @@ def main(decorate: Optional[Decorate] = None) -> None:
         seed=arg.seed,
         decorate=decorate,
         follow_index=arg.follow,
-        grid=arg.grid)
+        grid=arg.grid,
+        relative_margin=arg.relative_margin)

@@ -7,7 +7,7 @@ from navground import core
 
 from .. import Agent, ExperimentalRun, RecordedExperimentalRun, World
 from .render import image_for_world
-from .to_svg import Rect
+from .to_svg import Rect, bounds_of_bounding_box
 
 
 def make_video(world: World,
@@ -87,8 +87,8 @@ def make_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
             theta = float(rotation)
         except TypeError:
             pass
-    elif not bounds and isinstance(run, RecordedExperimentalRun):
-        bounds = run.bounds
+    elif not bounds:
+        bounds = bounds_of_bounding_box(run.bounding_box)
 
     def make_frame(t: float) -> np.ndarray:
         nonlocal frame

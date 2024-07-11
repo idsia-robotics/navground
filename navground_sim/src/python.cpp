@@ -2196,6 +2196,9 @@ The array is empty if efficacy has not been recorded in the run.
                     nullptr,
                     DOC(navground, sim, ExperimentalRun,
                         property_terminate_when_all_idle_or_stuck))
+      .def_property(
+          "bounding_box", &ExperimentalRun::get_bounding_box, nullptr,
+          DOC(navground, sim, ExperimentalRun, property_bounding_box))
       .def("get_collisions_at_step", &ExperimentalRun::get_collisions_at_step,
            py::arg("step"),
            DOC(navground, sim, ExperimentalRun, get_collisions_at_step))

@@ -82,6 +82,7 @@ struct AgentSampler : public Sampler<typename W::A::C>,
     if (type) type->reset(index);
     if (color) color->reset(index);
     if (number) number->reset(index);
+    if (tags) tags->reset(index);
   }
 
   std::string name;
@@ -97,6 +98,7 @@ struct AgentSampler : public Sampler<typename W::A::C>,
   std::shared_ptr<Sampler<std::string>> type;
   std::shared_ptr<Sampler<std::string>> color;
   std::shared_ptr<Sampler<unsigned>> number;
+  std::shared_ptr<Sampler<std::vector<std::string>>> tags;
 
  protected:
   C s(RandomGenerator& rg) override {
@@ -116,6 +118,10 @@ struct AgentSampler : public Sampler<typename W::A::C>,
     }
     if (color) {
       agent->color = color->sample(rg);
+    }
+    if (tags) {
+      const auto & values = tags->sample(rg);
+      agent->tags = std::set<std::string>(values.begin(), values.end());
     }
     if (id) {
       agent->id = id->sample(rg);

@@ -586,6 +586,9 @@ struct convert<AgentSampler<W>> {
     if (rhs.color) {
       node["color"] = rhs.color;
     }
+    if (rhs.tags) {
+      node["tags"] = rhs.tags;
+    }
     if (rhs.id) {
       node["id"] = rhs.id;
     }
@@ -637,6 +640,9 @@ struct convert<AgentSampler<W>> {
     }
     if (node["name"]) {
       rhs.name = node["name"].as<std::string>();
+    }
+    if (node["tags"]) {
+      rhs.tags = read_sampler<std::vector<std::string>>(node["tags"]);
     }
     return true;
   }

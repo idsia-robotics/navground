@@ -28,6 +28,7 @@ Schema
      id: {$ref: /schemas/sampler<integer>} 
      type: {$ref: /schemas/sampler<string>} 
      number: {$ref: /schemas/sampler<number>} 
+     tags: {$ref: /schemas/sampler<list<string>>} 
      # Should be unique across groups
      name: string
    required: [type]

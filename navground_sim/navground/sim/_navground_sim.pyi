@@ -1675,6 +1675,13 @@ class NativeAgent(Entity):
         instance by the :py:class:`Group` that generated it
         (if any), to simplify analysis.
         """
+    @tags.setter
+    def tags(self, value: set[str]) -> None:
+        ...
+    def add_tag(self, value: str) -> None:
+        ...
+    def remove_tag(self, value: str) -> None:
+        ...
     @property
     def task(self) -> Task:
         """

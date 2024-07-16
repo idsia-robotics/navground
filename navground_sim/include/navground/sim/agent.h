@@ -332,6 +332,23 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   std::set<std::string> tags;
 
   /**
+   * @brief      Adds a tag.
+   *
+   * @param[in]  tag   The tag
+   */
+  void add_tag(const std::string & tag) {
+    tags.insert(tag);
+  }
+  /**
+   * @brief      Removes a tag.
+   *
+   * @param[in]  tag   The tag
+   */
+  void remove_tag(const std::string & tag) {
+    tags.erase(tag);
+  }
+
+  /**
    * @brief Whether the agent is controlled externally.
    *
    * External agents are not controlled by this simulation but are part of the

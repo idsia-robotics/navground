@@ -1028,7 +1028,9 @@ Creates a rectangular region
            py::overload_cast<navground::core::Frame>(&Agent::get_last_cmd,
                                                      py::const_),
            py::arg("frame"), DOC(navground, sim, Agent, get_last_cmd))
-      .def_readonly("tags", &Agent::tags, DOC(navground, sim, Agent, tags))
+      .def_readwrite("tags", &Agent::tags, DOC(navground, sim, Agent, tags))
+      .def("add_tag", &Agent::add_tag, py::arg("tag"), DOC(navground, sim, Agent, add_tag))
+      .def("remove_tag", &Agent::remove_tag, py::arg("tag"), DOC(navground, sim, Agent, remove_tag))
       .def_property(
           "position", [](const Agent *agent) { return agent->pose.position; },
           [](Agent *agent, const Vector2 &value) {

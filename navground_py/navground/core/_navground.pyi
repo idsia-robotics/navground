@@ -2971,6 +2971,9 @@ class Twist2:
             The tolerance
         """
 
+    def interpolate(self, target: Twist2, time_step: float, max_acceleration: float, max_angular_acceleration: float) -> Twist2:
+        ...
+
     @property
     def angular_speed(self) -> float:
         """

@@ -93,7 +93,8 @@ inline Vector2 unit(ng_float_t angle) {
  *
  * @param[in]  angle The desired orientation
  *
- * @return     Vector of norm one and orientation normal to the desired orientation
+ * @return     Vector of norm one and orientation normal to the desired
+ * orientation
  */
 inline Vector2 normal(ng_float_t angle) {
   return {-std::sin(angle), std::cos(angle)};
@@ -232,7 +233,8 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
   }
 
   /**
-   * @brief      Snap components to zero if their module is smaller than epsilon.
+   * @brief      Snap components to zero if their module is smaller than
+   * epsilon.
    *
    * @param[in]  epsilon  The tolerance
    */
@@ -246,6 +248,35 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
     if (abs(angular_speed) < epsilon) {
       angular_speed = 0;
     }
+  }
+
+  /**
+   * @brief      Interpolates a twist towards a target
+   *             respecting acceleration limits
+   *
+   * @param[in]  target                     The target twist, must be in the
+   * same frame
+   * @param[in]  time_step                 The time step
+   * @param[in]  max_acceleration          The maximum acceleration
+   * @param[in]  max_angular_acceleration  The maximum angular acceleration
+   *
+   * @return     The interpolate twist
+   */
+  Twist2 interpolate(const Twist2& target, ng_float_t time_step,
+                     ng_float_t max_acceleration,
+                     ng_float_t max_angular_acceleration) const {
+    assert(target.frame == frame);
+    Vector2 acc = (target.velocity - velocity) / time_step;
+    auto ang_acc = (target.angular_speed - angular_speed) / time_step;
+    if (acc.norm() > max_acceleration) {
+      acc = acc.normalized() * max_acceleration;
+    }
+    if (abs(ang_acc) > max_angular_acceleration) {
+      ang_acc = std::clamp(ang_acc, -max_angular_acceleration,
+                           max_angular_acceleration);
+    }
+    return Twist2(velocity + acc * time_step,
+                  angular_speed + ang_acc * time_step, frame);
   }
 };
 

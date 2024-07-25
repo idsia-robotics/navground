@@ -11,18 +11,9 @@ namespace navground::core {
 Twist2 LimitAccelerationModulation::post(Behavior& behavior,
                                          ng_float_t time_step,
                                          const Twist2& cmd_twist) {
-  auto current = behavior.get_twist(cmd_twist.frame);
-  Vector2 acc = (cmd_twist.velocity - current.velocity) / time_step;
-  auto ang_acc = (cmd_twist.angular_speed - current.angular_speed) / time_step;
-  if (acc.norm() > _max_acceleration) {
-    acc = acc.normalized() * _max_acceleration;
-  }
-  if (abs(ang_acc) > _max_angular_acceleration) {
-    ang_acc = std::clamp(ang_acc, -_max_angular_acceleration,
-                         _max_angular_acceleration);
-  }
-  return Twist2(current.velocity + acc * time_step,
-                current.angular_speed + ang_acc * time_step, current.frame);
+  const auto current = behavior.get_twist(cmd_twist.frame);
+  return current.interpolate(cmd_twist, time_step, _max_acceleration,
+                             _max_angular_acceleration);
 }
 
 const std::map<std::string, Property> LimitAccelerationModulation::properties =

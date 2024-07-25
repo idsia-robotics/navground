@@ -382,6 +382,7 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Twist2, is_almost_zero))
       .def("snap_to_zero", &Twist2::snap_to_zero, py::arg("epsilon") = 1e-6,
            DOC(navground, core, Twist2, snap_to_zero))
+      .def("interpolate", &Twist2::interpolate, py::arg("target"), py::arg("time_step"), py::arg("max_acceleration"), py::arg("max_angular_acceleration"))
       .def("__repr__", &to_string<Twist2>);
 
   m.def("to_absolute", &to_absolute, py::arg("value"), py::arg("reference"),
@@ -577,9 +578,9 @@ PYBIND11_MODULE(_navground, m) {
              std::shared_ptr<DynamicTwoWheelsDifferentialDriveKinematics>>
       dwk2(m, "DynamicTwoWheelsDifferentialDriveKinematics",
            DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics));
-  dwk2.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t>(),
+  dwk2.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, bool>(),
            py::arg("max_speed"), py::arg("axis"), py::arg("max_acceleration"),
-           py::arg("moi") = 1,
+           py::arg("moi") = 1, py::arg("reduce_torques") = false,
            DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
                DynamicTwoWheelsDifferentialDriveKinematics))
       .def_property(
@@ -600,7 +601,12 @@ PYBIND11_MODULE(_navground, m) {
           "moi", &DynamicTwoWheelsDifferentialDriveKinematics::get_moi,
           &DynamicTwoWheelsDifferentialDriveKinematics::set_moi,
           DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
-              property_moi));
+              property_moi))
+      .def_property(
+          "reduce_torques", &DynamicTwoWheelsDifferentialDriveKinematics::get_reduce_torques,
+          &DynamicTwoWheelsDifferentialDriveKinematics::set_reduce_torques,
+          DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
+              property_reduce_torques));
 
   py::class_<SocialMargin::Modulation,
              std::shared_ptr<SocialMargin::Modulation>>(

@@ -427,10 +427,12 @@ class NAVGROUND_CORE_EXPORT FourWheelsOmniDriveKinematics
  * *Registered properties*:
  *
  *   - `wheel_axis` (float, \ref WheeledKinematics::get_axis)
- *   
+ *
  *   - `max_acceleration` (float, \ref get_max_acceleration)
- *   
+ *
  *   - `moi` (float, \ref get_moi, 1.0 by default)
+ *
+ *   - `reduce_torques` (bool, \ref get_reduce_torques, false by default)
  */
 class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
     : public TwoWheelsDifferentialDriveKinematics {
@@ -447,10 +449,12 @@ class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
   DynamicTwoWheelsDifferentialDriveKinematics(ng_float_t max_speed = 0,
                                               ng_float_t axis = 0,
                                               ng_float_t max_acceleration = 0,
-                                              ng_float_t moi = 1)
+                                              ng_float_t moi = 1,
+                                              bool reduce_torques = false)
       : TwoWheelsDifferentialDriveKinematics(max_speed, axis),
         max_acceleration(max_acceleration),
-        moi(moi) {}
+        moi(moi),
+        reduce_torques(reduce_torques) {}
 
   using TwoWheelsDifferentialDriveKinematics::feasible;
 
@@ -477,6 +481,21 @@ class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
   void set_moi(ng_float_t value) {
     if (value > 0) moi = value;
   }
+
+  /**
+   * @brief      Returns whether to reduce the torques proportionally
+   *             instead of clipping them independently.
+   *
+   * @return     True if will reduce torques proportionally
+   */
+  bool get_reduce_torques() const { return reduce_torques; }
+  /**
+   * @brief      Sets whether to reduce the torques proportionally
+   *             instead of clipping them independently.
+   *
+   * @param[in]  value  The desired value
+   */
+  void set_reduce_torques(bool value) { reduce_torques = value; }
 
   /**
    * @brief      Gets the maximal (body) acceleration.
@@ -525,6 +544,7 @@ class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
   const static std::string type;
   ng_float_t max_acceleration;
   ng_float_t moi;
+  bool reduce_torques;
 };
 
 }  // namespace navground::core

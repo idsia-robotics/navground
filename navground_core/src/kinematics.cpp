@@ -144,7 +144,10 @@ void DynamicTwoWheelsDifferentialDriveKinematics::set_max_angular_acceleration(
 
 Twist2 DynamicTwoWheelsDifferentialDriveKinematics::feasible(
     const Twist2& target, const Twist2& current, ng_float_t time_step) const {
-  auto ts = wheel_speeds(target);
+  Twist2 ltarget = feasible(target);
+  ltarget = current.interpolate(ltarget, time_step, max_acceleration,
+                                get_max_angular_acceleration());
+  auto ts = wheel_speeds(ltarget);
   const auto cs = wheel_speeds(current);
   std::array<ng_float_t, 2> wheel_acceleration;
   for (int i = 0; i < 2; ++i) {
@@ -152,10 +155,23 @@ Twist2 DynamicTwoWheelsDifferentialDriveKinematics::feasible(
   }
   std::array<ng_float_t, 2> wheel_force;
   for (int i = 0; i < 2; ++i) {
-    wheel_force[i] = std::clamp(((2 + moi) * wheel_acceleration[i] +
-                                 (2 - moi) * wheel_acceleration[1 - i]) /
-                                    8,
-                                -max_acceleration / 2, max_acceleration / 2);
+    wheel_force[i] = ((2 + moi) * wheel_acceleration[i] +
+                      (2 - moi) * wheel_acceleration[1 - i]) /
+                     8;
+  }
+  if (reduce_torques) {
+    const ng_float_t f = 2 *
+                         std::max(abs(wheel_force[0]), abs(wheel_force[1])) /
+                         max_acceleration;
+    if (f > 1) {
+      wheel_force[0] /= f;
+      wheel_force[1] /= f;
+    }
+  } else {
+    for (int i = 0; i < 2; ++i) {
+      wheel_force[i] = std::clamp(wheel_force[i], -max_acceleration / 2,
+                                  max_acceleration / 2);
+    }
   }
   for (int i = 0; i < 2; ++i) {
     const ng_float_t acc =
@@ -182,6 +198,15 @@ const std::map<std::string, Property>
                         &DynamicTwoWheelsDifferentialDriveKinematics::get_moi,
                         &DynamicTwoWheelsDifferentialDriveKinematics::set_moi,
                         1, "Scaled moment of inertia")},
+            {"reduce_torques",
+             make_property<bool, DynamicTwoWheelsDifferentialDriveKinematics>(
+                 &DynamicTwoWheelsDifferentialDriveKinematics::
+                     get_reduce_torques,
+                 &DynamicTwoWheelsDifferentialDriveKinematics::
+                     set_reduce_torques,
+                 false,
+                 "Whether to scale down torques instead of clipping "
+                 "independently")},
         };
 
 const std::string DynamicTwoWheelsDifferentialDriveKinematics::type =

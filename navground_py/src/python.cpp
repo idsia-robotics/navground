@@ -518,8 +518,14 @@ PYBIND11_MODULE(_navground, m) {
           DOC(navground, core, HasRegister, property_type))
       .def_property("cmd_frame", &Kinematics::cmd_frame, nullptr,
                     DOC(navground, core, Kinematics, property_cmd_frame))
-      .def("feasible", &Kinematics::feasible,
-           DOC(navground, core, Kinematics, feasible));
+      .def("feasible", py::overload_cast<const Twist2 &>(
+               &Kinematics::feasible, py::const_), py::arg("twist"),
+           DOC(navground, core, Kinematics, feasible))
+      .def("feasible",
+           py::overload_cast<const Twist2 &, const Twist2 &, ng_float_t>(
+               &Kinematics::feasible, py::const_),
+           py::arg("twist"), py::arg("current"), py::arg("time_step"),
+           DOC(navground, core, Kinematics, feasible_2));
 
   py::class_<OmnidirectionalKinematics, Kinematics,
              std::shared_ptr<OmnidirectionalKinematics>>
@@ -563,6 +569,36 @@ PYBIND11_MODULE(_navground, m) {
           py::arg("axis"),
           DOC(navground, core, FourWheelsOmniDriveKinematics,
               FourWheelsOmniDriveKinematics));
+
+  py::class_<DynamicTwoWheelsDifferentialDriveKinematics,
+             TwoWheelsDifferentialDriveKinematics, WheeledKinematics,
+             std::shared_ptr<DynamicTwoWheelsDifferentialDriveKinematics>>
+      dwk2(m, "DynamicTwoWheelsDifferentialDriveKinematics",
+           DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics));
+  dwk2.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t>(),
+           py::arg("max_speed"), py::arg("axis"), py::arg("max_acceleration"),
+           py::arg("moi") = 1,
+           DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
+               DynamicTwoWheelsDifferentialDriveKinematics))
+      .def_property(
+          "max_acceleration",
+          &DynamicTwoWheelsDifferentialDriveKinematics::get_max_acceleration,
+          &DynamicTwoWheelsDifferentialDriveKinematics::set_max_acceleration,
+          DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
+              property_max_acceleration))
+      .def_property(
+          "max_angular_acceleration",
+          &DynamicTwoWheelsDifferentialDriveKinematics::
+              get_max_angular_acceleration,
+          &DynamicTwoWheelsDifferentialDriveKinematics::
+              set_max_angular_acceleration,
+          DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
+              property_max_angular_acceleration))
+      .def_property(
+          "moi", &DynamicTwoWheelsDifferentialDriveKinematics::get_moi,
+          &DynamicTwoWheelsDifferentialDriveKinematics::set_moi,
+          DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
+              property_moi));
 
   py::class_<SocialMargin::Modulation,
              std::shared_ptr<SocialMargin::Modulation>>(
@@ -1309,6 +1345,7 @@ Load a behavior modulation from a YAML string.
   pickle_via_yaml<PyKinematics>(ahead);
   pickle_via_yaml<PyKinematics>(wk2);
   pickle_via_yaml<PyKinematics>(wk4);
+  pickle_via_yaml<PyKinematics>(dwk2);
   pickle_via_yaml_native<SocialMargin>(social_margin);
 
   m.def(

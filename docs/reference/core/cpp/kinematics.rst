@@ -41,6 +41,14 @@ Two wheels differential drive
 .. doxygenclass:: navground::core::TwoWheelsDifferentialDriveKinematics
    :members:
 
+
+Two wheels differential drive with dynamic constraints
+======================================================
+
+.. doxygenclass:: navground::core::DynamicTwoWheelsDifferentialDriveKinematics
+   :members:
+
+
 Four wheels omnidirectional drive
 =================================
 

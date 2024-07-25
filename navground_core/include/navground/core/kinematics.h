@@ -63,6 +63,23 @@ class NAVGROUND_CORE_EXPORT Kinematics
   virtual Twist2 feasible(const Twist2& twist) const = 0;
 
   /**
+   * @brief      Computes the nearest feasible twist to a desired twist.
+   *             taking into account dynamic constraints
+   *
+   * @param[in]  twist     The desired twist
+   * @param[in]  current   The current twist
+   * @param[in]  time_step The time step to reach the desired twist
+   *
+   * @return     The same desired twist if feasible else the nearest feasible
+   * value. How this is defined depends on the concrete sub-class.
+   */
+  virtual Twist2 feasible(const Twist2& twist,
+                          [[maybe_unused]] const Twist2& current,
+                          [[maybe_unused]] ng_float_t time_step) const {
+    return feasible(twist);
+  }
+
+  /**
    * @brief      Returns whether the kinematics has wheels.
    *
    * @return     True if wheeled, False otherwise.
@@ -399,6 +416,115 @@ class NAVGROUND_CORE_EXPORT FourWheelsOmniDriveKinematics
 
  private:
   const static std::string type;
+};
+
+/**
+ * @brief   Two differential drive wheels (left, right) (e.g., a wheelchair)
+ *          with acceleration limits due to limited motor torque.
+ *
+ * The two motors have the same maximal torque.
+ *
+ * *Registered properties*:
+ *
+ *   - `wheel_axis` (float, \ref WheeledKinematics::get_axis)
+ *   
+ *   - `max_acceleration` (float, \ref get_max_acceleration)
+ *   
+ *   - `moi` (float, \ref get_moi, 1.0 by default)
+ */
+class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
+    : public TwoWheelsDifferentialDriveKinematics {
+ public:
+  /**
+   * @brief      Constructs a new instance.
+   *
+   * @param[in]  max_speed  The maximal wheel speed
+   * @param[in]  axis  The wheel axis (i.e., the distance between the wheels)
+   * @param[in]  max_acceleration The maximal linear body acceleration
+   * @param[in]  moi The scaled moment of inertial (``moi = I / (mass * axis^2 /
+   * 8)``) Equal to one for an homogeneous disc of diameter ``axis``.
+   */
+  DynamicTwoWheelsDifferentialDriveKinematics(ng_float_t max_speed = 0,
+                                              ng_float_t axis = 0,
+                                              ng_float_t max_acceleration = 0,
+                                              ng_float_t moi = 1)
+      : TwoWheelsDifferentialDriveKinematics(max_speed, axis),
+        max_acceleration(max_acceleration),
+        moi(moi) {}
+
+  using TwoWheelsDifferentialDriveKinematics::feasible;
+
+  Twist2 feasible(const Twist2& twist, const Twist2& current,
+                  ng_float_t time_step) const override;
+
+  /**
+   * @brief      Gets the scaled moment of inertial
+   *
+   *             Equal to 1.0 for an homogeneous of disc of diameter \ref
+   * get_axis. Lower for when weight is shifted towards the center.
+   *
+   * @return     A positive value
+   */
+  ng_float_t get_moi() const { return moi; }
+  /**
+   * @brief      Sets the scaled moment of inertial
+   *
+   *             Equal to 1.0 for an homogeneous of disc of diameter \ref
+   * get_axis. Lower for when weight is shifted towards the center.
+   *
+   * @param[in]  value  A positive value
+   */
+  void set_moi(ng_float_t value) {
+    if (value > 0) moi = value;
+  }
+
+  /**
+   * @brief      Gets the maximal (body) acceleration.
+   *
+   * @return     The acceleration.
+   */
+  ng_float_t get_max_acceleration() const { return max_acceleration; }
+  /**
+   * @brief      Sets the maximal (body) acceleration.
+   *
+   * @param[in]  value  A positive value
+   */
+  void set_max_acceleration(ng_float_t value) {
+    if (value > 0) max_acceleration = value;
+  }
+
+  /**
+   * @brief      Gets the maximal (body) angular acceleration.
+   *
+   * @return     The angular acceleration.
+   */
+  ng_float_t get_max_angular_acceleration() const;
+  /**
+   * @brief      Sets the maximal (body) angular acceleration.
+   *
+   * @param[in]  value  A positive value
+   */
+  void set_max_angular_acceleration(ng_float_t value);
+
+  /**
+   * @private
+   */
+  std::string get_type() const override { return type; }
+
+  /**
+   * @private
+   */
+  const Properties& get_properties() const override { return properties; };
+
+  /**
+   * @private
+   */
+  static const std::map<std::string, Property> properties;
+
+ private:
+  const static std::string type;
+  ng_float_t max_acceleration;
+  ng_float_t moi;
 };
 
 }  // namespace navground::core

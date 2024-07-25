@@ -42,6 +42,13 @@ Two wheels differential drive
    :members:
    :show-inheritance:
 
+Two wheels differential drive with dynamic constraints
+======================================================
+
+.. autoclass:: navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics
+   :members:
+   :show-inheritance:
+
 Four wheels omnidirectional drive
 =================================
 

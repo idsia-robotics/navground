@@ -2,7 +2,7 @@ from __future__ import annotations
 import numpy
 import os
 import typing
-__all__ = ['Action', 'AheadKinematics', 'Behavior', 'BehaviorRegister', 'Buffer', 'BufferDescription', 'BufferMap', 'CachedCollisionComputation', 'CollisionComputation', 'Controller', 'Disc', 'DummyBehavior', 'EnvironmentState', 'FourWheelsOmniDriveKinematics', 'Frame', 'GeometricState', 'HLBehavior', 'HRVOBehavior', 'HasProperties', 'Kinematics', 'KinematicsRegister', 'LineSegment', 'Neighbor', 'ORCABehavior', 'OmnidirectionalKinematics', 'Pose2', 'Property', 'SensingState', 'SocialMargin', 'SocialMarginConstantModulation', 'SocialMarginLinearModulation', 'SocialMarginLogisticModulation', 'SocialMarginModulation', 'SocialMarginQuadraticModulation', 'SocialMarginZeroModulation', 'Target', 'Twist2', 'TwoWheelsDifferentialDriveKinematics', 'WheeledKinematics', 'behavior_has_geometric_state', 'dump', 'load_behavior', 'load_kinematics', 'load_plugins', 'to_absolute', 'to_relative']
+__all__ = ['Action', 'AheadKinematics', 'Behavior', 'BehaviorRegister', 'Buffer', 'BufferDescription', 'BufferMap', 'CachedCollisionComputation', 'CollisionComputation', 'Controller', 'Disc', 'DummyBehavior', 'EnvironmentState', 'FourWheelsOmniDriveKinematics', 'Frame', 'GeometricState', 'HLBehavior', 'HRVOBehavior', 'HasProperties', 'Kinematics', 'KinematicsRegister', 'LineSegment', 'Neighbor', 'ORCABehavior', 'OmnidirectionalKinematics', 'Pose2', 'Property', 'SensingState', 'SocialMargin', 'SocialMarginConstantModulation', 'SocialMarginLinearModulation', 'SocialMarginLogisticModulation', 'SocialMarginModulation', 'SocialMarginQuadraticModulation', 'SocialMarginZeroModulation', 'Target', 'Twist2', 'TwoWheelsDifferentialDriveKinematics', 'DynamicTwoWheelsDifferentialDriveKinematics', 'WheeledKinematics', 'behavior_has_geometric_state', 'dump', 'load_behavior', 'load_kinematics', 'load_plugins', 'to_absolute', 'to_relative']
 
 
 Vector2Like = numpy.ndarray | tuple[float, float] | list[float]
@@ -1645,6 +1645,8 @@ class Kinematics(KinematicsRegister, HasProperties):
             The same desired twist if feasible else the nearest feasible
             value. How this is defined depends on the concrete sub-class.
         """
+    def feasible(self, arg0: Twist2, arg1: Twist2, time_step: float) -> Twist2:
+        ...
     @property
     def cmd_frame(self) -> Frame:
         """
@@ -2359,6 +2361,33 @@ class TwoWheelsDifferentialDriveKinematics(WheeledKinematics):
         """
     def __setstate__(self, arg0: tuple) -> None:
         ...
+
+class DynamicTwoWheelsDifferentialDriveKinematics(TwoWheelsDifferentialDriveKinematics):
+    def __getstate__(self) -> tuple:
+        ...
+    def __init__(self, max_speed: float, axis: float, max_acceleration: float, moi: float = 1) -> None:
+        ...
+    def __setstate__(self, arg0: tuple) -> None:
+        ...
+    @property
+    def max_acceleration(self) -> float:
+        ...
+    @max_acceleration.setter
+    def max_acceleration(self, arg1: float) -> None:
+        ...
+    @property
+    def max_angular_acceleration(self) -> float:
+        ...
+    @max_angular_acceleration.setter
+    def max_angular_acceleration(self, arg1: float) -> None:
+        ...
+    @property
+    def moi(self) -> float:
+        ...
+    @moi.setter
+    def moi(self, arg1: float) -> None:
+        ...
+
 class WheeledKinematics(Kinematics):
     """
     Abstract wheeled kinematics

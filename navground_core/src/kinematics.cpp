@@ -1,5 +1,7 @@
 #include "navground/core/kinematics.h"
 
+#include <limits>
+
 namespace navground::core {
 
 Twist2 OmnidirectionalKinematics::feasible(const Twist2& twist) const {
@@ -10,7 +12,7 @@ Twist2 OmnidirectionalKinematics::feasible(const Twist2& twist) const {
 }
 
 const std::string OmnidirectionalKinematics::type =
-register_type<OmnidirectionalKinematics>("Omni");
+    register_type<OmnidirectionalKinematics>("Omni");
 
 Twist2 AheadKinematics::feasible(const Twist2& twist) const {
   assert(twist.frame == Frame::relative);
@@ -21,17 +23,18 @@ Twist2 AheadKinematics::feasible(const Twist2& twist) const {
 }
 
 const std::string AheadKinematics::type =
-register_type<AheadKinematics>("Ahead");
+    register_type<AheadKinematics>("Ahead");
 
 Twist2 WheeledKinematics::feasible(const Twist2& value) const {
   return twist(wheel_speeds(value));
 }
 
-const std::map<std::string, Property> WheeledKinematics::properties = Properties{
-     {"wheel_axis", make_property<ng_float_t, WheeledKinematics>(
-                        &WheeledKinematics::get_axis,
-                        &WheeledKinematics::set_axis, 0, "Wheel Axis")},
-};
+const std::map<std::string, Property> WheeledKinematics::properties =
+    Properties{
+        {"wheel_axis", make_property<ng_float_t, WheeledKinematics>(
+                           &WheeledKinematics::get_axis,
+                           &WheeledKinematics::set_axis, 0, "Wheel Axis")},
+    };
 
 Twist2 TwoWheelsDifferentialDriveKinematics::twist(
     const WheelSpeeds& speeds) const {
@@ -45,7 +48,7 @@ Twist2 TwoWheelsDifferentialDriveKinematics::twist(
 }
 
 const std::string TwoWheelsDifferentialDriveKinematics::type =
-register_type<TwoWheelsDifferentialDriveKinematics>("2WDiff");
+    register_type<TwoWheelsDifferentialDriveKinematics>("2WDiff");
 
 WheelSpeeds TwoWheelsDifferentialDriveKinematics::wheel_speeds(
     const Twist2& twist) const {
@@ -119,6 +122,69 @@ WheelSpeeds FourWheelsOmniDriveKinematics::wheel_speeds(
 }
 
 const std::string FourWheelsOmniDriveKinematics::type =
-register_type<FourWheelsOmniDriveKinematics>("4WOmni");
+    register_type<FourWheelsOmniDriveKinematics>("4WOmni");
+
+ng_float_t
+DynamicTwoWheelsDifferentialDriveKinematics::get_max_angular_acceleration()
+    const {
+  if (moi > 0 && axis > 0) {
+    return 4 * max_acceleration / (moi * axis);
+  }
+  return std::numeric_limits<ng_float_t>::max();
+}
+
+void DynamicTwoWheelsDifferentialDriveKinematics::set_max_angular_acceleration(
+    ng_float_t value) {
+  if (value > 0 && axis > 0) {
+    set_moi(4 * value / (value * axis));
+  } else {
+    set_moi(std::numeric_limits<ng_float_t>::max());
+  }
+}
+
+Twist2 DynamicTwoWheelsDifferentialDriveKinematics::feasible(
+    const Twist2& target, const Twist2& current, ng_float_t time_step) const {
+  auto ts = wheel_speeds(target);
+  const auto cs = wheel_speeds(current);
+  std::array<ng_float_t, 2> wheel_acceleration;
+  for (int i = 0; i < 2; ++i) {
+    wheel_acceleration[i] = (ts[i] - cs[i]) / time_step;
+  }
+  std::array<ng_float_t, 2> wheel_force;
+  for (int i = 0; i < 2; ++i) {
+    wheel_force[i] = std::clamp(((2 + moi) * wheel_acceleration[i] +
+                                 (2 - moi) * wheel_acceleration[1 - i]) /
+                                    8,
+                                -max_acceleration / 2, max_acceleration / 2);
+  }
+  for (int i = 0; i < 2; ++i) {
+    const ng_float_t acc =
+        ((2 + moi) * wheel_force[i] - (2 - moi) * wheel_force[1 - i]) / moi;
+    ts[i] = cs[i] + time_step * acc;
+  }
+  return twist(ts);
+}
+
+const std::map<std::string, Property>
+    DynamicTwoWheelsDifferentialDriveKinematics::properties =
+        WheeledKinematics::properties +
+        Properties{
+            {"max_acceleration",
+             make_property<ng_float_t,
+                           DynamicTwoWheelsDifferentialDriveKinematics>(
+                 &DynamicTwoWheelsDifferentialDriveKinematics::
+                     get_max_acceleration,
+                 &DynamicTwoWheelsDifferentialDriveKinematics::
+                     set_max_acceleration,
+                 0, "Maximal acceleration")},
+            {"moi", make_property<ng_float_t,
+                                  DynamicTwoWheelsDifferentialDriveKinematics>(
+                        &DynamicTwoWheelsDifferentialDriveKinematics::get_moi,
+                        &DynamicTwoWheelsDifferentialDriveKinematics::set_moi,
+                        1, "Scaled moment of inertia")},
+        };
+
+const std::string DynamicTwoWheelsDifferentialDriveKinematics::type =
+    register_type<DynamicTwoWheelsDifferentialDriveKinematics>("2WDiffDyn");
 
 }  // namespace navground::core

@@ -26,7 +26,9 @@ Twist2 relax(Behavior& behavior, const Twist2& current_value,
  * @brief      A modulation to relax the command over time.
  *             used by \ref HLBehavior.
  *
- * *Registered properties*: tau
+ * *Registered properties*: 
+ * 
+ * - tau (see \ref get_tau)
  */
 class NAVGROUND_CORE_EXPORT RelaxationModulation : public BehaviorModulation {
  public:
@@ -86,7 +88,7 @@ class NAVGROUND_CORE_EXPORT RelaxationModulation : public BehaviorModulation {
 
  private:
   static const std::string type;
-  float _tau;
+  ng_float_t _tau;
   Twist2 _actuated_twist;
 };
 

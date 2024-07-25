@@ -25,6 +25,8 @@
 #include "navground/core/types.h"
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/yaml.h"
+#include "navground/core/behavior_modulations/limit_acceleration.h"
+#include "navground/core/behavior_modulations/relaxation.h"
 #include "navground_py/behavior_modulation.h"
 #include "navground_py/buffer.h"
 #include "navground_py/pickle.h"
@@ -518,9 +520,9 @@ PYBIND11_MODULE(_navground, m) {
           DOC(navground, core, HasRegister, property_type))
       .def_property("cmd_frame", &Kinematics::cmd_frame, nullptr,
                     DOC(navground, core, Kinematics, property_cmd_frame))
-      .def("feasible", py::overload_cast<const Twist2 &>(
-               &Kinematics::feasible, py::const_), py::arg("twist"),
-           DOC(navground, core, Kinematics, feasible))
+      .def("feasible",
+           py::overload_cast<const Twist2 &>(&Kinematics::feasible, py::const_),
+           py::arg("twist"), DOC(navground, core, Kinematics, feasible))
       .def("feasible",
            py::overload_cast<const Twist2 &, const Twist2 &, ng_float_t>(
                &Kinematics::feasible, py::const_),
@@ -704,6 +706,42 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("enabled", &BehaviorModulation::get_enabled,
                     &BehaviorModulation::set_enabled,
                     DOC(navground, core, BehaviorModulation, property_enabled));
+
+  py::class_<RelaxationModulation, BehaviorModulation,
+             std::shared_ptr<RelaxationModulation>>
+      relaxation(m, "RelaxationModulation",
+                 DOC(navground, core, RelaxationModulation));
+
+  relaxation
+      .def(py::init<ng_float_t>(), py::arg("tau") = 0.125,
+           DOC(navground, core, RelaxationModulation, RelaxationModulation))
+      .def_property("tau", &RelaxationModulation::get_tau,
+                    &RelaxationModulation::set_tau,
+                    DOC(navground, core, RelaxationModulation, property_tau));
+
+  py::class_<LimitAccelerationModulation, BehaviorModulation,
+             std::shared_ptr<LimitAccelerationModulation>>
+      limit_acceleration(m, "LimitAccelerationModulation",
+                         DOC(navground, core, LimitAccelerationModulation));
+
+  limit_acceleration
+      .def(py::init<ng_float_t, ng_float_t>(),
+           py::arg("max_acceleration") =
+               std::numeric_limits<ng_float_t>::infinity(),
+           py::arg("max_angular_acceleration") =
+               std::numeric_limits<ng_float_t>::infinity(),
+           DOC(navground, core, LimitAccelerationModulation,
+               LimitAccelerationModulation))
+      .def_property("max_acceleration",
+                    &LimitAccelerationModulation::get_max_acceleration,
+                    &LimitAccelerationModulation::set_max_acceleration,
+                    DOC(navground, core, LimitAccelerationModulation,
+                        property_max_acceleration))
+      .def_property("max_angular_acceleration",
+                    &LimitAccelerationModulation::get_max_angular_acceleration,
+                    &LimitAccelerationModulation::set_max_angular_acceleration,
+                    DOC(navground, core, LimitAccelerationModulation,
+                        property_max_angular_acceleration));
 
   py::class_<Behavior, PyBehavior, HasRegister<Behavior>, HasProperties,
              std::shared_ptr<Behavior>>
@@ -1346,6 +1384,8 @@ Load a behavior modulation from a YAML string.
   pickle_via_yaml<PyKinematics>(wk2);
   pickle_via_yaml<PyKinematics>(wk4);
   pickle_via_yaml<PyKinematics>(dwk2);
+  pickle_via_yaml<PyBehaviorModulation>(relaxation);
+  pickle_via_yaml<PyBehaviorModulation>(limit_acceleration);
   pickle_via_yaml_native<SocialMargin>(social_margin);
 
   m.def(

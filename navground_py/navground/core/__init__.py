@@ -158,7 +158,7 @@ class BehaviorModulation(_BehaviorModulation):
         _BehaviorModulation.__setstate__(self, value[1])
 
 
-from . import behaviors, kinematics
+from . import behavior_modulations, behaviors, kinematics
 
 
 def load_py_plugins() -> None:
@@ -187,6 +187,6 @@ __all__ = [
     'dump', 'load_behavior', 'load_behavior_modulation', 'load_kinematics',
     'load_plugins', 'to_absolute', 'to_relative', 'Buffer', 'BufferMap',
     'BufferDescription', 'SocialMargin', 'CachedCollisionComputation',
-    'EnvironmentState', 'CollisionComputation', 'behaviors', 'kinematics',
-    'uses_doubles'
+    'EnvironmentState', 'CollisionComputation', 'behaviors',
+    'behavior_modulations', 'kinematics', 'uses_doubles'
 ]

@@ -63,6 +63,7 @@ add_library(navground_core SHARED
   src/behaviors/HRVO/HRVO.cpp
   ${HRVO}
   src/behavior_modulations/relaxation.cpp
+  src/behavior_modulations/limit_acceleration.cpp
   src/controller.cpp
   src/controller_3d.cpp
   src/kinematics.cpp

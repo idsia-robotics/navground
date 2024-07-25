@@ -130,7 +130,7 @@ DynamicTwoWheelsDifferentialDriveKinematics::get_max_angular_acceleration()
   if (moi > 0 && axis > 0) {
     return 4 * max_acceleration / (moi * axis);
   }
-  return std::numeric_limits<ng_float_t>::max();
+  return std::numeric_limits<ng_float_t>::infinity();
 }
 
 void DynamicTwoWheelsDifferentialDriveKinematics::set_max_angular_acceleration(
@@ -138,7 +138,7 @@ void DynamicTwoWheelsDifferentialDriveKinematics::set_max_angular_acceleration(
   if (value > 0 && axis > 0) {
     set_moi(4 * value / (value * axis));
   } else {
-    set_moi(std::numeric_limits<ng_float_t>::max());
+    set_moi(std::numeric_limits<ng_float_t>::infinity());
   }
 }
 

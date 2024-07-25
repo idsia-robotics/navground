@@ -266,6 +266,9 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
                      ng_float_t max_acceleration,
                      ng_float_t max_angular_acceleration) const {
     assert(target.frame == frame);
+    if (time_step <= 0) {
+      return Twist2(velocity, angular_speed);
+    }
     Vector2 acc = (target.velocity - velocity) / time_step;
     auto ang_acc = (target.angular_speed - angular_speed) / time_step;
     if (acc.norm() > max_acceleration) {

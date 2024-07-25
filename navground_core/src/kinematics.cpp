@@ -144,6 +144,9 @@ void DynamicTwoWheelsDifferentialDriveKinematics::set_max_angular_acceleration(
 
 Twist2 DynamicTwoWheelsDifferentialDriveKinematics::feasible(
     const Twist2& target, const Twist2& current, ng_float_t time_step) const {
+  if (time_step <= 0) {
+    return current;
+  }
   Twist2 ltarget = feasible(target);
   ltarget = current.interpolate(ltarget, time_step, max_acceleration,
                                 get_max_angular_acceleration());

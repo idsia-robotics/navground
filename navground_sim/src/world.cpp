@@ -138,7 +138,7 @@ void World::add_entity(Entity *entity) { entities[entity->uid] = entity; }
 
 void World::remove_entity(Entity *entity) {
   if (entity) {
-    delete entities[entity->uid];
+    entities.erase(entity->uid);
   }
 }
 
@@ -165,6 +165,7 @@ void World::remove_agent(Agent *agent) {
     if (it != std::end(agents)) {
       agents.erase(it);
     }
+    agents_strtree_is_updated = false;
   }
 }
 

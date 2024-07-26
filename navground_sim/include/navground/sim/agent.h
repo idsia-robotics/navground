@@ -89,6 +89,9 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
         id(id),
         radius(radius),
         control_period(control_period),
+        pose(),
+        twist(),
+        last_cmd(),
         type(""),
         color(""),
         tags(),
@@ -101,7 +104,9 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
         control_deadline(0.0),
         collision_correction(),
         is_stuck_since_time(-1),
-        ready(false) {}
+        ready(false),
+        enabled(true),
+        actuated_cmd() {}
 
   /**
    * @brief      Factory method to build an agent
@@ -239,7 +244,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   /**
    * @brief      Gets the last command.
    *
-   * @return     The controller.
+   * @return     The command.
    */
   Twist2 get_last_cmd() const { return last_cmd; }
 
@@ -250,6 +255,17 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    *
    */
   void set_last_cmd(const Twist2 &value) { last_cmd = value; }
+
+  /**
+   * @brief      Gets the last actuated command.
+   * 
+   *             The actuated command is always kinematically feasible
+   *
+   * @return     The command.
+   */
+  Twist2 get_actuated_cmd() const {
+    return actuated_cmd;
+  }
 
   /**
    * @brief      Gets the current pose.
@@ -382,6 +398,23 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    */
   ng_float_t get_time_since_stuck() const { return is_stuck_since_time; }
 
+  /**
+   * @brief      Gets whether the agent is enabled.
+   * 
+   *             Disabled agents are ignored in the simulation.
+   *
+   * @return     True if enabled.
+   */
+  bool get_enabled() const { return enabled;}
+  /**
+   * @brief      Sets whether the agent is enabled.
+   * 
+   *             Disabled agents are ignored in the simulation.
+   *
+   * @param[in]  value  The desired value
+   */
+  void set_enabled(bool value) { enabled = value;}
+
  private:
   std::shared_ptr<Task> task;
   std::shared_ptr<StateEstimation> state_estimation;
@@ -392,6 +425,12 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   Vector2 collision_correction;
   ng_float_t is_stuck_since_time;
   bool ready;
+  bool enabled;
+
+  /**
+   * The actuated control command
+   */
+  Twist2 actuated_cmd;
 
   /**
    * @brief      Tick the agent for a time step.

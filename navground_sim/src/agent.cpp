@@ -22,7 +22,7 @@ void Agent::prepare(World *world) {
     controller.set_behavior(behavior);
     // TODO(J): should be optional now that we added support for external
     // run-loops
-    controller.set_cmd_frame(core::Frame::absolute);
+    // controller.set_cmd_frame(core::Frame::absolute);
   }
   ready = true;
 }
@@ -55,15 +55,16 @@ void Agent::update(ng_float_t dt, ng_float_t time, World *world) {
 
 void Agent::actuate(ng_float_t dt) {
   if (external) return;
-  twist = last_cmd;  // + collision_force / mass * dt;
-  pose = pose.integrate(twist, dt);
+  actuate(last_cmd, dt);
 }
 
 void Agent::actuate(const Twist2 &cmd, ng_float_t dt) {
   if (!kinematics) return;
-  last_cmd = kinematics->feasible(cmd.to_frame(kinematics->cmd_frame(), pose));
-  twist = last_cmd;
-  pose = pose.integrate(cmd, dt);
+  actuated_cmd =
+      kinematics->feasible(cmd.to_frame(kinematics->cmd_frame(), pose),
+                           twist.to_frame(kinematics->cmd_frame(), pose), dt);
+  twist = actuated_cmd.to_frame(core::Frame::absolute, pose);
+  pose = pose.integrate(twist, dt);
 }
 
 void Agent::set_behavior(const std::shared_ptr<Behavior> &value) {

@@ -11,6 +11,8 @@
 #include "docstrings.h"
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
+#include "navground/core/behavior_modulations/limit_acceleration.h"
+#include "navground/core/behavior_modulations/relaxation.h"
 #include "navground/core/behaviors/HL.h"
 #include "navground/core/behaviors/HRVO.h"
 #include "navground/core/behaviors/ORCA.h"
@@ -25,8 +27,6 @@
 #include "navground/core/types.h"
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/yaml.h"
-#include "navground/core/behavior_modulations/limit_acceleration.h"
-#include "navground/core/behavior_modulations/relaxation.h"
 #include "navground_py/behavior_modulation.h"
 #include "navground_py/buffer.h"
 #include "navground_py/pickle.h"
@@ -382,7 +382,9 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Twist2, is_almost_zero))
       .def("snap_to_zero", &Twist2::snap_to_zero, py::arg("epsilon") = 1e-6,
            DOC(navground, core, Twist2, snap_to_zero))
-      .def("interpolate", &Twist2::interpolate, py::arg("target"), py::arg("time_step"), py::arg("max_acceleration"), py::arg("max_angular_acceleration"))
+      .def("interpolate", &Twist2::interpolate, py::arg("target"),
+           py::arg("time_step"), py::arg("max_acceleration"),
+           py::arg("max_angular_acceleration"))
       .def("__repr__", &to_string<Twist2>);
 
   m.def("to_absolute", &to_absolute, py::arg("value"), py::arg("reference"),
@@ -603,7 +605,8 @@ PYBIND11_MODULE(_navground, m) {
           DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
               property_moi))
       .def_property(
-          "reduce_torques", &DynamicTwoWheelsDifferentialDriveKinematics::get_reduce_torques,
+          "reduce_torques",
+          &DynamicTwoWheelsDifferentialDriveKinematics::get_reduce_torques,
           &DynamicTwoWheelsDifferentialDriveKinematics::set_reduce_torques,
           DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
               property_reduce_torques));
@@ -895,8 +898,17 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Behavior, feasible_speed))
       .def("feasible_angular_speed", &Behavior::feasible_angular_speed,
            DOC(navground, core, Behavior, feasible_angular_speed))
-      .def("feasible_twist", &Behavior::feasible_twist,
+      .def("feasible_twist",
+           py::overload_cast<const Twist2 &, std::optional<Frame>>(
+               &Behavior::feasible_twist, py::const_),
+           py::arg("value"), py::arg("frame") = std::nullopt,
            DOC(navground, core, Behavior, feasible_twist))
+      .def("feasible_twist",
+           py::overload_cast<const Twist2 &, ng_float_t, std::optional<Frame>>(
+               &Behavior::feasible_twist, py::const_),
+           py::arg("value"), py::arg("time_step"),
+           py::arg("frame") = std::nullopt,
+           DOC(navground, core, Behavior, feasible_twist_2))
       .def("estimate_time_until_target_satisfied",
            &Behavior::estimate_time_until_target_satisfied,
            DOC(navground, core, Behavior, estimate_time_until_target_satisfied))

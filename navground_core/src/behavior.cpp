@@ -23,6 +23,21 @@ Twist2 Behavior::feasible_twist(const Twist2& value,
   return Twist2{Vector2::Zero(), 0, frame.value_or(value.frame)};
 }
 
+Twist2 Behavior::feasible_twist(const Twist2& value, ng_float_t time_step,
+                                std::optional<Frame> frame) const {
+  if (kinematics) {
+    Twist2 f_value;
+    if (kinematics->is_wheeled() && value.frame == Frame::absolute) {
+      f_value = kinematics->feasible(to_relative(value),
+                                     get_twist(Frame::relative), time_step);
+    } else {
+      f_value = kinematics->feasible(value, get_twist(value.frame), time_step);
+    }
+    return to_frame(f_value, frame.value_or(f_value.frame));
+  }
+  return Twist2{Vector2::Zero(), 0, frame.value_or(value.frame)};
+}
+
 Vector2 Behavior::desired_velocity_towards_point(
     [[maybe_unused]] const Vector2& point, [[maybe_unused]] ng_float_t speed,
     [[maybe_unused]] ng_float_t time_step) {

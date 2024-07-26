@@ -286,6 +286,19 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
                         std::optional<Frame> frame = std::nullopt) const;
 
   /**
+   * @brief      Clamp an twist in the range of feasible values given by the
+   * kinematics over one time step.
+   *
+   * @param[in]  value  The desired value
+   * @param[in]  time_step  The time step
+   * @param[in]  frame  The desired frame
+   * 
+   * @return the nearest feasible value
+   */
+  Twist2 feasible_twist(const Twist2 &value, ng_float_t time_step,
+                        std::optional<Frame> frame = std::nullopt) const;
+
+  /**
    * @brief      Gets the desired optimal angular speed.
    *
    * Unless configured with \ref set_optimal_angular_speed,

@@ -362,6 +362,7 @@ class Behavior(BehaviorRegister, HasProperties):
             the nearest feasible value
         """
 
+    @typing.overload
     def feasible_twist(self, arg0: Twist2, arg1: Frame | None) -> Twist2:
         """
         Clamp an twist in the range of feasible values given by the
@@ -376,6 +377,10 @@ class Behavior(BehaviorRegister, HasProperties):
         :return:
             the nearest feasible value
         """
+
+    @typing.overload
+    def feasible_twist(self, arg0: Twist2, time_step: float, arg1: Frame | None) -> Twist2:
+        ...
 
     def get_actuated_twist(self, frame: Frame = ...) -> Twist2:
         """

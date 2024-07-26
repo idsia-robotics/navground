@@ -275,111 +275,107 @@ We simulate one run of the same scenario as in:doc:`tutorials/tour`, with a sing
 
       .. code-block:: yaml
 
-         steps: 300
+         steps: 2000
          time_step: 0.1
          record_pose: true
+         record_actuated_cmd: true
          scenario:
            obstacles:
              - radius: 1
                position: [5, 0.1]
            groups:
              -
-               type: thymio
                number: 1
-               radius: 0.08
+               radius: 1
                control_period: 0.1
                speed_tolerance: 0.02
                kinematics:
                  type: 2WDiff
-                 wheel_axis: 0.094
-                 max_speed: 0.166
+                 wheel_axis: 1
+                 max_speed: 1
                behavior:
-                 type: HL
-                 optimal_speed: 0.12
-                 horizon: 5.0
-                 safety_margin: 0.05
+                 type: ORCA
                state_estimation:
                  type: Bounded
-                 range: 5.0
+                 range: 10.0
                task:
-                 type: WayPoints
+                 type: Waypoints
                  waypoints: [[10, 0]]
+                 loop: false
+                 tolerance: 1
 
    .. tab:: No dynamic, acceleration limits
 
       .. code-block:: yaml
 
-         steps: 300
+         steps: 2000
          time_step: 0.1
          record_pose: true
+         record_actuated_cmd: true
          scenario:
            obstacles:
              - radius: 1
                position: [5, 0.1]
            groups:
              -
-               type: thymio
                number: 1
-               radius: 0.08
+               radius: 1
                control_period: 0.1
                speed_tolerance: 0.02
                kinematics:
                  type: 2WDiff
-                 wheel_axis: 0.094
-                 max_speed: 0.166
+                 wheel_axis: 1
+                 max_speed: 1
                behavior:
-                 type: HL
-                 optimal_speed: 0.12
-                 horizon: 5.0
-                 safety_margin: 0.05
+                 type: ORCA
                  modulations:
                    - type: LimitAcceleration
-                     max_acceleration: 1.0
-                     max_angular_acceleration: 4.0
-                     enabled: false
+                     max_acceleration: 1
+                     max_angular_acceleration: 4
                state_estimation:
                  type: Bounded
-                 range: 5.0
+                 range: 10.0
                task:
-                 type: WayPoints
+                 type: Waypoints
                  waypoints: [[10, 0]]
-
-
+                 loop: false
+                 tolerance: 1
+         
+         
    .. tab:: Dynamic
-
+   
       .. code-block:: yaml
-
-         steps: 300
+   
+         steps: 2000
          time_step: 0.1
          record_pose: true
+         record_actuated_cmd: true
          scenario:
            obstacles:
              - radius: 1
                position: [5, 0.1]
            groups:
              -
-               type: thymio
                number: 1
-               radius: 0.08
+               radius: 1
                control_period: 0.1
                speed_tolerance: 0.02
                kinematics:
                  type: 2WDiffDyn
-                 wheel_axis: 0.094
-                 max_speed: 0.166
-                 max_acceleration: 0.1
-                 moi: 1.0
+                 wheel_axis: 1
+                 max_speed: 1
+                 max_acceleration: 1
+                 moi: 1
                behavior:
-                 type: HL
-                 optimal_speed: 0.12
-                 horizon: 5.0
-                 safety_margin: 0.05
+                 type: ORCA
                state_estimation:
                  type: Bounded
-                 range: 5.0
+                 range: 10
                task:
-                 type: WayPoints
+                 type: Waypoints
                  waypoints: [[10, 0]]
+                 loop: false
+                 tolerance: 1
 
 
 Let's compare the trajectories,

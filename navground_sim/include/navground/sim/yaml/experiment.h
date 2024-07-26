@@ -85,6 +85,7 @@ struct convert_experiment {
     node["record_pose"] = rhs.record_config.pose;
     node["record_twist"] = rhs.record_config.twist;
     node["record_cmd"] = rhs.record_config.cmd;
+    node["record_actuated_cmd"] = rhs.record_config.actuated_cmd;
     node["record_target"] = rhs.record_config.target;
     node["record_collisions"] = rhs.record_config.collisions;
     node["record_safety_violation"] = rhs.record_config.safety_violation;
@@ -132,6 +133,9 @@ struct convert_experiment {
     }
     if (node["record_cmd"]) {
       rhs.record_config.cmd = node["record_cmd"].as<bool>();
+    }
+    if (node["record_actuated_cmd"]) {
+      rhs.record_config.actuated_cmd = node["record_actuated_cmd"].as<bool>();
     }
     if (node["record_target"]) {
       rhs.record_config.target = node["record_target"].as<bool>();

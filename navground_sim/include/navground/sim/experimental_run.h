@@ -83,6 +83,10 @@ struct RecordConfig {
    */
   bool cmd;
   /**
+   * Whether to record the agents actuated control commands
+   */
+  bool actuated_cmd;
+  /**
    * Whether to record the agents targets
    */
   bool target;
@@ -131,6 +135,7 @@ struct RecordConfig {
    */
   static RecordConfig all(bool value) {
     return {value,
+            value,
             value,
             value,
             value,
@@ -439,6 +444,12 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    * @return     The record or none if not recorded.
    */
   const std::shared_ptr<Dataset> get_cmds() const { return get_record("cmds"); }
+  /**
+   * @brief      Gets the recorded actuated commands.
+   *
+   * @return     The record or none if not recorded.
+   */
+  const std::shared_ptr<Dataset> get_actuated_cmds() const { return get_record("actuated_cmds"); }
   /**
    * @brief      Gets the recorded targets.
    *

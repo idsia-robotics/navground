@@ -126,6 +126,25 @@ class CmdProbe : public RecordProbe {
   }
 };
 
+class ActuatedCmdProbe : public RecordProbe {
+ public:
+  using RecordProbe::RecordProbe;
+  using Type = ng_float_t;
+
+  void update(ExperimentalRun *run) override {
+    for (const auto &agent : run->get_world()->get_agents()) {
+      const auto twist = agent->get_actuated_cmd();
+      data->push(twist.velocity[0]);
+      data->push(twist.velocity[1]);
+      data->push(twist.angular_speed);
+    }
+  }
+
+  Dataset::Shape get_shape(const World &world) const override {
+    return {world.get_agents().size(), 3};
+  }
+};
+
 class TargetProbe : public RecordProbe {
  public:
   using RecordProbe::RecordProbe;
@@ -333,6 +352,9 @@ void ExperimentalRun::prepare() {
   }
   if (_record_config.cmd) {
     add_record_probe<CmdProbe>("cmds");
+  }
+  if (_record_config.actuated_cmd) {
+    add_record_probe<ActuatedCmdProbe>("actuated_cmds");
   }
   if (_record_config.target) {
     add_record_probe<TargetProbe>("targets");

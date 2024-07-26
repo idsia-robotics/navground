@@ -1013,6 +1013,8 @@ Creates a rectangular region
       .def_readwrite("id", &Agent::id, DOC(navground, sim, Agent, id))
       .def_readwrite("type", &Agent::type, DOC(navground, sim, Agent, type))
       .def_readwrite("color", &Agent::color, DOC(navground, sim, Agent, color))
+      .def_property("enabled", &Agent::get_enabled, &Agent::set_enabled,
+                    DOC(navground, sim, Agent, property_enabled))
       .def_readwrite("radius", &Agent::radius,
                      DOC(navground, sim, Agent, radius))
       .def_readwrite("control_period", &Agent::control_period,
@@ -1021,6 +1023,8 @@ Creates a rectangular region
                     DOC(navground, sim, Agent, property_pose))
       .def_property("twist", &Agent::get_twist, &Agent::set_twist,
                     DOC(navground, sim, Agent, property_twist))
+      .def_property("actuated_cmd", &Agent::get_actuated_cmd, nullptr,
+                    DOC(navground, sim, Agent, property_actuated_cmd))
       .def_property(
           "last_cmd", py::overload_cast<>(&Agent::get_last_cmd, py::const_),
           &Agent::set_last_cmd, DOC(navground, sim, Agent, property_last_cmd))
@@ -1029,8 +1033,10 @@ Creates a rectangular region
                                                      py::const_),
            py::arg("frame"), DOC(navground, sim, Agent, get_last_cmd))
       .def_readwrite("tags", &Agent::tags, DOC(navground, sim, Agent, tags))
-      .def("add_tag", &Agent::add_tag, py::arg("tag"), DOC(navground, sim, Agent, add_tag))
-      .def("remove_tag", &Agent::remove_tag, py::arg("tag"), DOC(navground, sim, Agent, remove_tag))
+      .def("add_tag", &Agent::add_tag, py::arg("tag"),
+           DOC(navground, sim, Agent, add_tag))
+      .def("remove_tag", &Agent::remove_tag, py::arg("tag"),
+           DOC(navground, sim, Agent, remove_tag))
       .def_property(
           "position", [](const Agent *agent) { return agent->pose.position; },
           [](Agent *agent, const Vector2 &value) {
@@ -1498,24 +1504,33 @@ Creates a rectangular region
           }));
 
   py::class_<RecordConfig>(m, "RecordConfig", DOC(navground, sim, RecordConfig))
-      .def(py::init([](bool time, bool pose, bool twist, bool cmd, bool target,
-                       bool safety_violation, bool collisions, bool task_events,
-                       bool deadlocks, bool efficacy,
-                       RecordNeighborsConfig neighbors,
+      .def(py::init([](bool time, bool pose, bool twist, bool cmd,
+                       bool actuated_cmd, bool target, bool safety_violation,
+                       bool collisions, bool task_events, bool deadlocks,
+                       bool efficacy, RecordNeighborsConfig neighbors,
                        bool use_agent_uid_as_key,
                        std::vector<RecordSensingConfig> sensing) {
-             return new RecordConfig{
-                 time,       pose,        twist,
-                 cmd,        target,      safety_violation,
-                 collisions, task_events, deadlocks,
-                 efficacy,   neighbors,   use_agent_uid_as_key,
-                 sensing};
+             return new RecordConfig{time,
+                                     pose,
+                                     twist,
+                                     cmd,
+                                     actuated_cmd,
+                                     target,
+                                     safety_violation,
+                                     collisions,
+                                     task_events,
+                                     deadlocks,
+                                     efficacy,
+                                     neighbors,
+                                     use_agent_uid_as_key,
+                                     sensing};
            }),
            py::arg("time") = false, py::arg("pose") = false,
            py::arg("twist") = false, py::arg("cmd") = false,
-           py::arg("target") = false, py::arg("safety_violation") = false,
-           py::arg("collisions") = false, py::arg("task_events") = false,
-           py::arg("deadlocks") = false, py::arg("efficacy") = false,
+           py::arg("actuated_cmd") = false, py::arg("target") = false,
+           py::arg("safety_violation") = false, py::arg("collisions") = false,
+           py::arg("task_events") = false, py::arg("deadlocks") = false,
+           py::arg("efficacy") = false,
            py::arg("neighbors") = RecordNeighborsConfig{false, 0, false},
            py::arg("use_agent_uid_as_key") = true,
            py::arg("sensing") = std::vector<RecordSensingConfig>{})
@@ -1528,6 +1543,8 @@ Creates a rectangular region
                      DOC(navground, sim, RecordConfig, twist))
       .def_readwrite("cmd", &RecordConfig::cmd,
                      DOC(navground, sim, RecordConfig, cmd))
+      .def_readwrite("actuated_cmd", &RecordConfig::actuated_cmd,
+                     DOC(navground, sim, RecordConfig, actuated_cmd))
       .def_readwrite("target", &RecordConfig::target,
                      DOC(navground, sim, RecordConfig, target))
       .def_readwrite("safety_violation", &RecordConfig::safety_violation,
@@ -1561,6 +1578,8 @@ Creates a rectangular region
              r += py::str(", pose=") + py::str(py::cast(value.pose));
              r += py::str(", twist=") + py::str(py::cast(value.twist));
              r += py::str(", cmd=") + py::str(py::cast(value.cmd));
+             r += py::str(", actuated_cmd=") +
+                  py::str(py::cast(value.actuated_cmd));
              r += py::str(", target=") + py::str(py::cast(value.target));
              r += py::str(", safety_violation=") +
                   py::str(py::cast(value.safety_violation));
@@ -1577,11 +1596,12 @@ Creates a rectangular region
            })
       .def(py::pickle(
           [](const RecordConfig &value) {
-            return py::make_tuple(
-                value.time, value.pose, value.twist, value.cmd, value.target,
-                value.safety_violation, value.collisions, value.task_events,
-                value.deadlocks, value.efficacy, value.neighbors,
-                value.use_agent_uid_as_key, value.sensing);
+            return py::make_tuple(value.time, value.pose, value.twist,
+                                  value.cmd, value.actuated_cmd, value.target,
+                                  value.safety_violation, value.collisions,
+                                  value.task_events, value.deadlocks,
+                                  value.efficacy, value.neighbors,
+                                  value.use_agent_uid_as_key, value.sensing);
           },
           [](py::tuple v) {  // __setstate__
             return RecordConfig{
@@ -1595,9 +1615,10 @@ Creates a rectangular region
                 py::cast<bool>(v[7]),
                 py::cast<bool>(v[8]),
                 py::cast<bool>(v[9]),
-                py::cast<RecordNeighborsConfig>(v[10]),
-                py::cast<bool>(v[11]),
-                py::cast<std::vector<RecordSensingConfig>>(v[12])};
+                py::cast<bool>(v[10]),
+                py::cast<RecordNeighborsConfig>(v[11]),
+                py::cast<bool>(v[12]),
+                py::cast<std::vector<RecordSensingConfig>>(v[13])};
           }));
 
   py::class_<Dataset, std::shared_ptr<Dataset>>(
@@ -1980,6 +2001,24 @@ The recorded commands of the agents as a numpy array of shape
 The array is empty if commands have not been recorded in the run.
 )doc")
       .def_property(
+          "actuated_commands",
+          [](const ExperimentalRun *run) {
+            auto record = run->get_actuated_cmds();
+            if (record) return as_array(*record);
+            return make_empty_array<ng_float_t>();
+          },
+          nullptr, R"doc(
+The recorded actuated commands of the agents as a numpy array of shape 
+``(simulation steps, number of agents, 3)`` and dtype ``float``::
+
+  [[[vx_0, vy_0, omega_0], 
+    [vx_1, vy_1, omega_1], 
+    ...], 
+   ...]
+  
+The array is empty if actuated commands have not been recorded in the run.
+)doc")
+      .def_property(
           "safety_violations",
           [](const ExperimentalRun *run) {
             auto record = run->get_safety_violations();
@@ -2198,9 +2237,8 @@ The array is empty if efficacy has not been recorded in the run.
                     nullptr,
                     DOC(navground, sim, ExperimentalRun,
                         property_terminate_when_all_idle_or_stuck))
-      .def_property(
-          "bounding_box", &ExperimentalRun::get_bounding_box, nullptr,
-          DOC(navground, sim, ExperimentalRun, property_bounding_box))
+      .def_property("bounding_box", &ExperimentalRun::get_bounding_box, nullptr,
+                    DOC(navground, sim, ExperimentalRun, property_bounding_box))
       .def("get_collisions_at_step", &ExperimentalRun::get_collisions_at_step,
            py::arg("step"),
            DOC(navground, sim, ExperimentalRun, get_collisions_at_step))

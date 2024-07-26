@@ -1262,6 +1262,9 @@ class ExperimentalRun:
         The array is empty if commands have not been recorded in the run.
         """
     @property
+    def actuated_commands(self) -> numpy.ndarray:
+        ...
+    @property
     def deadlocks(self) -> numpy.ndarray:
         """
         The time since agents are deadlocked as a numpy array of shape 
@@ -2231,6 +2234,12 @@ class RecordConfig:
         """
     @cmd.setter
     def cmd(self, arg0: bool) -> None:
+        ...
+    @property
+    def actuated_cmd(self) -> bool:
+        ...
+    @actuated_cmd.setter
+    def actuated_cmd(self, arg0: bool) -> None:
         ...
     @property
     def collisions(self) -> bool:

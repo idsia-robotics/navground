@@ -18,6 +18,7 @@ Welcome to navground's documentation!
    tutorials/index
    guides/index
    scenarios/index
+   background/index
    reference/index
 
 

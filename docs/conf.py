@@ -30,9 +30,12 @@ extensions = [
     'sphinx_toolbox.collapse',
     'sphinxcontrib.luadomain',
     'sphinxcontrib.video',
-    'sphinx_copybutton'
+    'sphinx_copybutton',
+    'sphinxcontrib.tikz'
     # 'sphinx_autodoc_defaultargs'
 ]
+
+tikz_resolution = 600
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']

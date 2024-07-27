@@ -63,7 +63,7 @@ class NAVGROUND_CORE_EXPORT Kinematics
   virtual Twist2 feasible(const Twist2& twist) const = 0;
 
   /**
-   * @brief      Computes the nearest feasible twist to a desired twist.
+   * @brief      Computes the nearest feasible twist to a desired twist,
    *             taking into account dynamic constraints
    *
    * @param[in]  twist     The desired twist
@@ -499,7 +499,7 @@ class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
   /**
    * @brief      Gets the scaled moment of inertial
    *
-   *             Equal to 1.0 for an homogeneous of disc of diameter \ref
+   * Equal to 1.0 for an homogeneous of disc of diameter \ref
    * get_axis. Lower for when weight is shifted towards the center.
    *
    * @return     A positive value
@@ -508,7 +508,7 @@ class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
   /**
    * @brief      Sets the scaled moment of inertial
    *
-   *             Equal to 1.0 for an homogeneous of disc of diameter \ref
+   * Equal to 1.0 for an homogeneous of disc of diameter \ref
    * get_axis. Lower for when weight is shifted towards the center.
    *
    * @param[in]  value  A positive value

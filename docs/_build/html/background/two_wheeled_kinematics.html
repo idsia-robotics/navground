@@ -1,0 +1,840 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Two-wheeled kinematics &#8212; navground 0.0.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../_static/documentation_options.js?v=dfd84850"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/tabs.js?v=3030b3cb"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'background/two_wheeled_kinematics';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reference" href="../reference/index.html" />
+    <link rel="prev" title="Background Information" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">navground 0.0.4 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../first_steps.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tour.html">A tour of navground</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_core.html">navground_core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_py.html">navground_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_sim.html">navground_sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_ros.html">navground_ros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_msgs.html">navground_msgs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_coppeliasim.html">navground_coppeliasim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples.html">navground_examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples_py.html">navground_examples_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_demos.html">navground_demos</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/display.html">Visualize a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/playback.html">Load and playing back recorded experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/modulations.html">Behavior Modulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/register.html">How to register a component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/probes.html">How to record custom data in experiments</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../scenarios/index.html">Benchmark scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenarios/cross.html">Cross</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Background Information</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Two-wheeled kinematics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/types.html">Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/helper.html">Helpers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/controller.html">Controller</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/behavior.html">Behavior</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/state.html">Environment State</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/sampling.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/yaml.html">YAML</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/visualization.html">Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/recorded_experiment.html">Recorded Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/real_time.html">Real-time simulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/plugins.html">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/task.html">Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/samplers.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/scenario.html">Scenario</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/experiment.html">Experiment</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/background/two_wheeled_kinematics.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Two-wheeled kinematics</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kinematics">Kinematics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acceleration">Acceleration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamics">Dynamics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment">Experiment</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="two-wheeled-kinematics">
+<h1>Two-wheeled kinematics<a class="headerlink" href="#two-wheeled-kinematics" title="Link to this heading">#</a></h1>
+<p>In navground, kinematics are responsible to compute feasible commands (i.e., twists) from arbitrary commands. The most basic kinematics, called “Omni”, just limits the norm of velocity to <code class="docutils literal notranslate"><span class="pre">maximal_speed</span></code> and of angular speed to <code class="docutils literal notranslate"><span class="pre">maximal_angular_speed</span></code>. Here we focus instead on the kinematics of a robot with two differential drive wheels depicted below.</p>
+<div class="figure" id="id3" style="text-align: center"><p><img width="25%" src="../_images/tikz-2c0947d7fe1d1a01fc7c0811c6b1cf7fa601f201.png" alt="Figure made with TikZ" /></p>
+<p><span class="caption-text">Top view of a two-wheeled differential drive robot</span></p>
+</div><p>The robot has radius <span class="math notranslate nohighlight">\(R\)</span> and its two wheels (left <span class="math notranslate nohighlight">\(l\)</span> and right <span class="math notranslate nohighlight">\(r\)</span>) are placed on a common axis, distanced by <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<section id="kinematics">
+<h2>Kinematics<a class="headerlink" href="#kinematics" title="Link to this heading">#</a></h2>
+<p>Kinematics primary deals with velocity and in particular with the mapping between body and actuators velocities.</p>
+<p>In our case, the robot moves forwards at linear speed <span class="math notranslate nohighlight">\(v\)</span> with respect to its reference frame <span class="math notranslate nohighlight">\(\{\vec e_1, \vec e_2\}\)</span> which in turn rotates at angular speed <span class="math notranslate nohighlight">\(\omega\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\vec v &amp; = v \vec e_1 \\
+\dot{\vec e_1} &amp; = \omega \vec e_2\end{split}\]</div>
+<p>To convert between wheel speeds <span class="math notranslate nohighlight">\(v_{l, r}\)</span> and body velocity <span class="math notranslate nohighlight">\((v, \omega)\)</span>, we can use</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}v = \frac{v_r + v_l}{2} \\
+\omega = \frac{v_r - v_l}{A} \\
+v_{r, l} = v \pm \frac{A \omega}{2}\end{split}\]</div>
+<p>If wheel speed in limited by <span class="math notranslate nohighlight">\(v^\max\)</span>, not all body velocities are feasible anymore; for example, it is not possible to move and rotate at maximal speed at the same time. In the diagram below, we see in dark green the interval of body velocities <span class="math notranslate nohighlight">\([-v^\max, v^\max] \times [-\omega^\max, \omega^\max]\)</span>, with</p>
+<div class="math notranslate nohighlight">
+\[\omega^\max = \frac{2v^\max}{A}\]</div>
+<p>and in bright green the feasible set of velocities that corresponds to wheel velocities in <span class="math notranslate nohighlight">\([-v^\max, v^\max]\)</span>.</p>
+<div class="figure" id="id4" style="text-align: center"><p><img width="40%" src="../_images/tikz-e8157429606712cc864582d4de4bbbbe6f55452c.png" alt="Figure made with TikZ" /></p>
+<p><span class="caption-text">Feasible velocity set</span></p>
+</div><p>There are many ways to match a twist that lies outside of the feasible set to a twist inside the feasible test. The navground “2WDiff” kinematics uses the following strategy that privileges angular over linear speed:</p>
+<ol class="arabic">
+<li><p>First, the angular speed is clipped</p>
+<div class="math notranslate nohighlight">
+\[\omega \leftarrow \omega \left|_{[-\omega^\max, -\omega^\max]} \right.\]</div>
+</li>
+<li><p>Then, the linear speed is clipped, so that the twist is contained in the feasible set:</p>
+<div class="math notranslate nohighlight">
+\[v \leftarrow v \left|_{[-v^\max - |\omega \frac{A}{2}|, v^\max + |\omega \frac{A}{2}|]}  \right.\]</div>
+<p>This is the same as first clipping the largest wheel speed and then setting the other wheel speed so that their difference is maintained.</p>
+</li>
+</ol>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kinematics</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">kinematics</span><span class="o">.</span><span class="n">TwoWheelsDifferentialDriveKinematics</span><span class="p">(</span><span class="n">max_speed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kinematics</span><span class="o">.</span><span class="n">max_angular_speed</span>
+<span class="go">2.0</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmd</span> <span class="o">=</span> <span class="n">kinematics</span><span class="o">.</span><span class="n">feasible</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Twist2</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmd</span>
+<span class="go">Twist2((0.250000, 0.000000), 1.500000, frame=Frame.relative)</span>
+
+<span class="go"># the corresponding (left, right) wheel speeds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kinematics</span><span class="o">.</span><span class="n">wheel_speeds</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+<span class="go">[-0.5, 1.0]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="acceleration">
+<h2>Acceleration<a class="headerlink" href="#acceleration" title="Link to this heading">#</a></h2>
+<p>Moving to second order, we can compute the acceleration:</p>
+<div class="math notranslate nohighlight">
+\[\frac{d(\vec v, \omega)}{dt} = (\dot v \vec e_1 + v \omega \vec e_2, \dot \omega)\]</div>
+<p>We can ignore the transversal component <span class="math notranslate nohighlight">\(\vec e_2\)</span> as it is sonely due to the lateral friction between wheel and floor that avoids that the robot slips and focus just on linear and angular accelerations:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}a &amp; \doteq \dot v  \\
+\alpha &amp; \doteq \dot \omega\end{split}\]</div>
+<p>If we want to limit accelerations, we can add a “LimitAcceleration” modulation to the behavior that is computing the commands. This will simply compute the acceleration required to actuate the command over a given time step <span class="math notranslate nohighlight">\(\Delta t\)</span>, clip it and return the command obtained by applying the (clipped) acceleration on the current velocity <span class="math notranslate nohighlight">\((v_0, \omega_0)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}(a, \alpha) &amp; \leftarrow \left(\left. \frac{v - v_0}{\Delta t} \right|_{[-a^\max, -a^\max]},\left.\frac{\omega - \omega_0}{\Delta t} \right|_{[-\alpha^\max, -\alpha^\max]} \right) \\
+(v, \omega) &amp; \leftarrow \left(v_0 + a \Delta t, \omega_0 + \alpha \Delta t \right)\end{split}\]</div>
+<p>The same functionality is exposed by <a class="reference internal" href="../reference/core/python/common.html#navground.core.Twist2.interpolate" title="navground.core.Twist2.interpolate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">navground.core.Twist2.interpolate()</span></code></a>.</p>
+<section id="id1">
+<h3>Example<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kinematics</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">kinematics</span><span class="o">.</span><span class="n">TwoWheelsDifferentialDriveKinematics</span><span class="p">(</span>  <span class="n">max_speed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmd</span> <span class="o">=</span> <span class="n">kinematics</span><span class="o">.</span><span class="n">feasible</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Twist2</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">current</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Twist2</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">core</span><span class="o">.</span><span class="n">Frame</span><span class="o">.</span><span class="n">relative</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">current</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_acceleration</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>   <span class="n">max_angular_acceleration</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="go">Twist2((0.100000, 0.000000), 0.100000, frame=Frame.relative)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="dynamics">
+<h2>Dynamics<a class="headerlink" href="#dynamics" title="Link to this heading">#</a></h2>
+<p>Let’s say we want to simulate a robot having motors. The simplest assumption we can make is that the motor torque is limited, which in turn limits acceleration. To understand this relationship, we compute the dynamics of the system. Let us assume that the robot has mass <span class="math notranslate nohighlight">\(m\)</span>, vertical-component of moment of inertia <span class="math notranslate nohighlight">\(I\)</span> and that the two motors apply forces <span class="math notranslate nohighlight">\(F_{r,l}\)</span> to the robot body without slipping.</p>
+<div class="figure" id="id5" style="text-align: center"><p><img width="25%" src="../_images/tikz-4d1f99d2642ff524d1f1b348ff9dcfd8a7dffef2.png" alt="Figure made with TikZ" /></p>
+<p><span class="caption-text">Top view of a two-wheeled differential drive robot with motors</span></p>
+</div><p>These forces will cause the robot to accelerate as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}m a &amp;= F_l + F_r \\
+I \alpha &amp;= (F_l - F_r) \frac{A}{2}\end{split}\]</div>
+<p>The reverse is given by</p>
+<div class="math notranslate nohighlight">
+\[F_{r,l} = (m a \pm 2 I \alpha / A) / 2\]</div>
+<p>To simplify the expressions, we introduce the unit-less (scaled) moment of inertia as the ratio between <span class="math notranslate nohighlight">\(I\)</span> and the moment of inertial of an homogeneous disc of diameter <span class="math notranslate nohighlight">\(A\)</span>, and <span class="math notranslate nohighlight">\(f\)</span> as the ratio between wheel force and mass:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}i &amp; \doteq \frac{I}{m A^2/8} \\
+f_{r, l} &amp; \doteq \frac{2 F_{r, l}}{m} \\\end{split}\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f_{r,l} &amp;= a \pm i A \alpha / 4  \\
+a &amp;= (f_{r} + f_{l}) / 2\\
+\alpha &amp;= 2 (f_{r} - f_{l}) / (i A) \\\end{split}\]</div>
+<p>The mapping between wheel accelerations and forces shows how one wheel motor impacts also the other wheel (when <span class="math notranslate nohighlight">\(i \neq 2\)</span>)</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f_{r,l} &amp; = \left((2 + i) \dot v_r  + (2 - i) \dot v_l\right) / 4  \\
+\dot v_{r, l} &amp; = \left((2+i) f_{r, l} - (2-i) f_{l, r}\right) / (2i)\end{split}\]</div>
+<p>Maximal body acceleration is obtained when both forces are maximal in the same direction, while maximal body angular acceleration when they act in opposite directions:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}a^\max &amp;= f^\max \\
+\alpha^\max &amp;= 4 a^\max / (i A) \\\end{split}\]</div>
+<p>We can fully specify the dynamics with <span class="math notranslate nohighlight">\(a^\max\)</span> and <span class="math notranslate nohighlight">\(i\)</span> (or <span class="math notranslate nohighlight">\(\alpha^\max\)</span>) instead of mass and maximal motor torque.</p>
+<p>The relationship between wheel forces and body acceleration is similar to the relationship between wheel speeds and body velocity and adds a constrain on feasible accelerations represented in the diagram below:</p>
+<div class="figure" id="id6" style="text-align: center"><p><img width="40%" src="../_images/tikz-4800671c60fe5b13bff937a8a400b7ee72e9494e.png" alt="Figure made with TikZ" /></p>
+<p><span class="caption-text">Feasible acceleration set</span></p>
+</div><p>As before, given an arbitrary velocity <span class="math notranslate nohighlight">\((v, \omega)\)</span> there may be different ways to compute a feasible velocity from the current velocity <span class="math notranslate nohighlight">\((v_0, \omega_0)\)</span> (the dot below) over one time step <span class="math notranslate nohighlight">\(\Delta t\)</span>, respecting both constraints: maximal acceleration in blue and maximal velocity in green.</p>
+<div class="figure" id="id7" style="text-align: center"><p><img width="40%" src="../_images/tikz-dff132a791b149219264c7c943ab7bf68cf99020.png" alt="Figure made with TikZ" /></p>
+<p><span class="caption-text">Feasible velocity set with dynamic</span></p>
+</div><p>Similarly to “2WDiff”, the navground kinematics “2WDiffDyn” privileges angular speed:</p>
+<ol class="arabic">
+<li><p>First, a feasible velocity is computed ignoring dynamics, i.e., clipping it inside the green set using the same strategy as “2WDiff”.</p></li>
+<li><p>Then, the angular speed is clipped to respect maximal angular acceleration</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\Delta \omega^\max &amp; \leftarrow \alpha^\max \Delta t \\
+\omega &amp; \leftarrow \omega \left|_{[\omega_0 -\Delta \omega^\max, \omega_0 + \Delta \omega^\max]} \right.\end{split}\]</div>
+</li>
+<li><p>Finally, the linear speed is clipped, so that the twist is contained in the blue set:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\Delta v^\max &amp; \leftarrow a^\max \Delta t - |\omega - \omega_0| \frac{A i}{4} \\
+v &amp; \leftarrow v \left|_{[v_0 -\Delta v^\max, v_0 + \Delta v^\max]} \right.\end{split}\]</div>
+</li>
+</ol>
+<p>Alternatively, we could compute and clip the motor torques independently.</p>
+<section id="id2">
+<h3>Example<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kinematics</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">kinematics</span><span class="o">.</span><span class="n">DynamicTwoWheelsDifferentialDriveKinematics</span><span class="p">(</span>
+<span class="go">        max_speed=1, axis=1, max_acceleration=1, moi=1)0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kinematics</span><span class="o">.</span><span class="n">max_angular_acceleration</span>
+<span class="go">4.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kinematics</span><span class="o">.</span><span class="n">feasible</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Twist2</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mf">1.5</span><span class="p">),</span> <span class="n">current</span><span class="o">=</span><span class="n">core</span><span class="o">.</span><span class="n">Twist2</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">),</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="go">Twist2((0.050000, 0.000000), 0.200000, frame=Frame.relative)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="experiment">
+<h2>Experiment<a class="headerlink" href="#experiment" title="Link to this heading">#</a></h2>
+<p>Let us do a short experiment that test the three solutions.
+We simulate one run of the same scenario as in <a class="reference internal" href="../tutorials/tour.html"><span class="doc">A tour of navground</span></a>, with a single static obstacle to pass before reaching the target.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">No dynamic, no acceleration limits</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">No dynamic, acceleration limits</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Dynamic</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">140</span>
+<span class="nt">time_step</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="nt">record_pose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">record_time</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">record_actuated_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">terminate_when_all_idle_or_stuck</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="nt">scenario</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">obstacles</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">radius</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">position</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.1</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">groups</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span>
+<span class="w">      </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">radius</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">control_period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="w">      </span><span class="nt">speed_tolerance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.02</span>
+<span class="w">      </span><span class="nt">kinematics</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2WDiff</span>
+<span class="w">        </span><span class="nt">wheel_axis</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">max_speed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">behavior</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ORCA</span>
+<span class="w">      </span><span class="nt">state_estimation</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bounded</span>
+<span class="w">        </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span>
+<span class="w">      </span><span class="nt">task</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Waypoints</span>
+<span class="w">        </span><span class="nt">waypoints</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[[</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">]]</span>
+<span class="w">        </span><span class="nt">loop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">        </span><span class="nt">tolerance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">140</span>
+<span class="nt">time_step</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="nt">record_pose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">record_time</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">record_actuated_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">terminate_when_all_idle_or_stuck</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="nt">scenario</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">obstacles</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">radius</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">position</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.1</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">groups</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span>
+<span class="w">      </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">radius</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">control_period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="w">      </span><span class="nt">speed_tolerance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.02</span>
+<span class="w">      </span><span class="nt">kinematics</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2WDiff</span>
+<span class="w">        </span><span class="nt">wheel_axis</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">max_speed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">behavior</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ORCA</span>
+<span class="w">        </span><span class="nt">modulations</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LimitAcceleration</span>
+<span class="w">            </span><span class="nt">max_acceleration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">            </span><span class="nt">max_angular_acceleration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="w">      </span><span class="nt">state_estimation</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bounded</span>
+<span class="w">        </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span>
+<span class="w">      </span><span class="nt">task</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Waypoints</span>
+<span class="w">        </span><span class="nt">waypoints</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[[</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">]]</span>
+<span class="w">        </span><span class="nt">loop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">        </span><span class="nt">tolerance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-2" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-2" name="0-2" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">140</span>
+<span class="nt">time_step</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="nt">record_pose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">record_time</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">record_actuated_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">terminate_when_all_idle_or_stuck</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="nt">scenario</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">obstacles</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">radius</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">position</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.1</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">groups</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span>
+<span class="w">      </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">radius</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">control_period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="w">      </span><span class="nt">speed_tolerance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.02</span>
+<span class="w">      </span><span class="nt">kinematics</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2WDiffDyn</span>
+<span class="w">        </span><span class="nt">wheel_axis</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">max_speed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">max_acceleration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">moi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">behavior</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ORCA</span>
+<span class="w">      </span><span class="nt">state_estimation</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bounded</span>
+<span class="w">        </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">      </span><span class="nt">task</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Waypoints</span>
+<span class="w">        </span><span class="nt">waypoints</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[[</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">]]</span>
+<span class="w">        </span><span class="nt">loop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">        </span><span class="nt">tolerance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</pre></div>
+</div>
+</div></div>
+<p>Let’s compare the trajectories,</p>
+<a class="reference internal image-reference" href="../_images/2wk_trajectory.pdf"><img alt="../_images/2wk_trajectory.pdf" src="../_images/2wk_trajectory.pdf" style="width: 800px;" /></a>
+<p>the wheel speeds,</p>
+<a class="reference internal image-reference" href="../_images/2wk_actuated_wheel_speed.pdf"><img alt="../_images/2wk_actuated_wheel_speed.pdf" src="../_images/2wk_actuated_wheel_speed.pdf" style="width: 800px;" /></a>
+<p>the linear accelerations,</p>
+<a class="reference internal image-reference" href="../_images/2wk_actuated_lin_acc.pdf"><img alt="../_images/2wk_actuated_lin_acc.pdf" src="../_images/2wk_actuated_lin_acc.pdf" style="width: 800px;" /></a>
+<p>the angular accelerations,</p>
+<a class="reference internal image-reference" href="../_images/2wk_actuated_ang_acc.pdf"><img alt="../_images/2wk_actuated_ang_acc.pdf" src="../_images/2wk_actuated_ang_acc.pdf" style="width: 800px;" /></a>
+<p>and the forces required by the motors (dashed = left motor).</p>
+<a class="reference internal image-reference" href="../_images/2wk_actuated_force.pdf"><img alt="../_images/2wk_actuated_force.pdf" src="../_images/2wk_actuated_force.pdf" style="width: 800px;" /></a>
+<p>Because the acceleration limits are large enough, the trajectories are similar. All respect the wheel speed limits. We observe how the forces required by the robot wheels in case of no acceleration limits are much larger and exceed the feasible band ([-1, 1]) defined by the “2WDiffDyn” kinematics.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Background Information</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../reference/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kinematics">Kinematics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acceleration">Acceleration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamics">Dynamics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment">Experiment</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jérôme Guzzi, IDSIA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Jérôme Guzzi, IDSIA.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

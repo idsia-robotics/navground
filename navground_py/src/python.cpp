@@ -555,7 +555,9 @@ PYBIND11_MODULE(_navground, m) {
       .def("twist", &WheeledKinematics::twist,
            DOC(navground, core, WheeledKinematics, twist))
       .def("wheel_speeds", &WheeledKinematics::wheel_speeds,
-           DOC(navground, core, WheeledKinematics, wheel_speeds));
+           DOC(navground, core, WheeledKinematics, wheel_speeds))
+      .def("feasible_wheel_speeds", &WheeledKinematics::feasible_wheel_speeds,
+           DOC(navground, core, WheeledKinematics, feasible_wheel_speeds));
 
   py::class_<TwoWheelsDifferentialDriveKinematics, WheeledKinematics,
              std::shared_ptr<TwoWheelsDifferentialDriveKinematics>>

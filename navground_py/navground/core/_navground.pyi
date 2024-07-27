@@ -3111,6 +3111,9 @@ class WheeledKinematics(Kinematics):
             The corresponding wheel speeds.
         """
 
+    def feasible_wheel_speeds(self, arg0: Twist2) -> list[float]:
+        ...
+
     @property
     def axis(self) -> float:
         """

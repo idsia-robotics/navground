@@ -254,6 +254,15 @@ class NAVGROUND_CORE_EXPORT WheeledKinematics : public Kinematics {
   virtual WheelSpeeds wheel_speeds(const Twist2& value) const = 0;
 
   /**
+   * @brief      Convert a twist to feasible wheel speeds
+   *
+   * @param[in]  value  The twist
+   *
+   * @return     The corresponding wheel speeds.
+   */
+  virtual WheelSpeeds feasible_wheel_speeds(const Twist2& value) const = 0;
+
+  /**
    * @private
    */
   Twist2 feasible(const Twist2& value) const override;
@@ -343,6 +352,19 @@ class NAVGROUND_CORE_EXPORT TwoWheelsDifferentialDriveKinematics
   WheelSpeeds wheel_speeds(const Twist2& twist) const override;
 
   /**
+   * @brief      See \ref WheeledKinematics::feasible_wheel_speeds.
+   *
+   * @param[in]  twist  The twist
+   *
+   * @return     The corresponding wheel speeds in the order {left, right}
+   */
+  WheelSpeeds feasible_wheel_speeds(const Twist2& twist) const override;
+
+  /** @private
+   */
+  Twist2 feasible(const Twist2& twist) const override;
+
+  /**
    * @private
    */
   std::string get_type() const override { return type; }
@@ -410,6 +432,16 @@ class NAVGROUND_CORE_EXPORT FourWheelsOmniDriveKinematics
   WheelSpeeds wheel_speeds(const Twist2& twist) const override;
 
   /**
+   * @brief      See \ref WheeledKinematics::feasible_wheel_speeds.
+   *
+   * @param[in]  twist  The twist
+   *
+   * @return     The corresponding wheel speeds in the order {front left, rear
+   * left, rear right, rear left}
+   */
+  WheelSpeeds feasible_wheel_speeds(const Twist2& twist) const override;
+
+  /**
    * @private
    */
   std::string get_type() const override { return type; }
@@ -458,6 +490,9 @@ class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
 
   using TwoWheelsDifferentialDriveKinematics::feasible;
 
+  /**
+   * @private
+   */
   Twist2 feasible(const Twist2& twist, const Twist2& current,
                   ng_float_t time_step) const override;
 

@@ -50,35 +50,34 @@ If wheel speed in limited by :math:`v^\max`, not all body velocities are feasibl
 
 and in bright green the feasible set of velocities that corresponds to wheel velocities in :math:`[-v^\max, v^\max]`.
 
-.. tikz:: Feasible velocity
+.. tikz:: Feasible velocity set
    :libs: arrows.meta
    :align: center
    :xscale: 40
 
    \draw[->] (-1.5,0)--(1.5,0) node[below]{$v$};
    \draw[->] (0,-1.5)--(0,1.5) node[left]{$\frac{A \omega}{2}$};
-   \draw[->] (-1.5,-1.5)--(1.5,1.5) node[below, rotate=60]{$v_l$};
-   \draw[->] (1.5,-1.5)--(-1.5, 1.5) node[left, rotate=60]{$v_r$};
+   \draw[->] (-1.5,-1.5)--(1.5,1.5) node[below, rotate=60]{$v_r$};
+   \draw[->] (1.5,-1.5)--(-1.5, 1.5) node[left, rotate=60]{$v_l$};
  
    \draw[fill=green!10!black, fill opacity=0.5] (-1, -1) -- (1, -1) -- (1, 1)  -- (-1, 1) -- cycle;
    \draw[fill=green!75!black, fill opacity=0.5] (-1, 0) -- (0, -1) -- (1, 0) --  (0, 1) -- cycle;
 
 There are many ways to match a twist that lies outside of the feasible set to a twist inside the feasible test. The navground "2WDiff" kinematics uses the following strategy that privileges angular over linear speed:
 
-1. If the twist lies outside of dark green area, it is clipped, i.e., 
+1. First, the angular speed is clipped
 
    .. math::
 	
-	  (v, \omega) \leftarrow (v|_{[-v^\max, -v^\max]}, \omega|_{[-\omega^\max, -\omega^\max]}) 
+	  \omega \leftarrow \omega \left|_{[-\omega^\max, -\omega^\max]} \right.
 
-2. If the twist still lies outside of the bright area, we move it along the x-axis (i.e., we change :math:`v` while keeping :math:`\omega` until it meets the bright area). This is the same as first clipping the wheel speed that lies outside of the feasible interval and then setting the other wheel speed so that their difference is maintained. For example, if :math:`|v_l| > v^\max`, then
+2. Then, the linear speed is clipped, so that the twist is contained in the feasible set:
 
    .. math::
 
-   	  \delta &\leftarrow v_r - v_l \\
-      v_l &\leftarrow v_l|_{[-v^\max, -v^\max]} \\
-      v_r &\leftarrow v_l + \delta
+      v \leftarrow v \left|_{[-v^\max - |\omega \frac{A}{2}|, v^\max + |\omega \frac{A}{2}|]}  \right.
 
+   This is the same as first clipping the largest wheel speed and then setting the other wheel speed so that their difference is maintained.
 
 Example
 -------
@@ -90,11 +89,12 @@ Example
    >>> kinematics.max_angular_speed
    2.0
 
-   >>> kinematics.feasible(core.Twist2((2, 0), 1.5))
+   >>> cmd = kinematics.feasible(core.Twist2((2, 0), 1.5))
+   >>> cmd
    Twist2((0.250000, 0.000000), 1.500000, frame=Frame.relative)
 
    # the corresponding (left, right) wheel speeds
-   >>> kinematics.wheel_speeds(core.Twist2((2, 0), 1.5))
+   >>> kinematics.wheel_speeds(cmd)
    [-0.5, 1.0]
 
 Acceleration
@@ -118,8 +118,7 @@ If we want to limit accelerations, we can add a "LimitAcceleration" modulation t
 
 .. math::
 
-	(a, \alpha) & \leftarrow \left(\frac{v - v_0}{\Delta t}, \frac{\omega - \omega_0}{\Delta t}\right) \\
-	(a, \alpha) & \leftarrow \left(a|_{[-a^\max, -a^\max]}, \alpha|_{[-\alpha^\max, -\alpha^\max]}\right)  \\
+	(a, \alpha) & \leftarrow \left(\left. \frac{v - v_0}{\Delta t} \right|_{[-a^\max, -a^\max]},\left.\frac{\omega - \omega_0}{\Delta t} \right|_{[-\alpha^\max, -\alpha^\max]} \right) \\
 	(v, \omega) & \leftarrow \left(v_0 + a \Delta t, \omega_0 + \alpha \Delta t \right)
 
 The same functionality is exposed by the :py:meth:`navground.core.Twist2.interpolate`.
@@ -140,11 +139,11 @@ Example
 Dynamics
 ========
 
-Let's say we want to simulate a robot having motors. The simplest assumption we can make is that the motor torque is limited, which in turn limits accelerations. To understand this relationships, let's us compute the dynamic of the system. Let us assume that the robot as mass :math:`m`, vertical-component of moment of inertia :math:`I` and that the two motors apply traction :math:`F_{r,l}` on the ground without slipping.
+Let's say we want to simulate a robot having motors. The simplest assumption we can make is that the motor torque is limited, which in turn limits acceleration. To understand this relationship, we compute the dynamic of the system. Let us assume that the robot has mass :math:`m`, vertical-component of moment of inertia :math:`I` and that the two motors apply forces :math:`F_{r,l}` to the robot body without slipping.
 
 
-.. tikz:: Top view of a two-wheeled differential drive robot
-   :libs: arrows.meta
+.. tikz:: Top view of a two-wheeled differential drive robot with motors
+   :libs: arrows.my
    :align: center
    :xscale: 25
 
@@ -173,77 +172,85 @@ To simplify the expressions, we introduce the unit-less (scaled) moment of inert
 
 .. math::
 
-   i & = \frac{I}{m A^2/8} \\
-   f_{r, l} & = \frac{F_{r, l}}{m} \\
+   i & \doteq \frac{I}{m A^2/8} \\
+   f_{r, l} & \doteq \frac{2 F_{r, l}}{m} \\
 
 then
 
 .. math::
 
-	f_{r,l} &= (a \pm i A \alpha / 4) / 2  \\
-	a &= f_{r} + f_{l}\\
-	\alpha &= 4 (f_{r} - f_{l}) / (i A) \\
+	f_{r,l} &= a \pm i A \alpha / 4  \\
+	a &= (f_{r} + f_{l}) / 2\\
+	\alpha &= 2 (f_{r} - f_{l}) / (i A) \\
 
-From these, we can compute the mapping between wheel acceleration and forces
+The mapping between wheel accelerations and forces shows how one wheel motor impacts also the other wheel (when :math:`i \neq 2`) 
 
 .. math::
 
-   f_{r,l} & = \left((2 + i) \dot v_r  + (2 - i) \dot v_l\right) / 8  \\
-   \dot v_{r, l} & = \left((2+i) f_{r, l} - (2-i) f_{l, r}\right) / i
-
+   f_{r,l} & = \left((2 + i) \dot v_r  + (2 - i) \dot v_l\right) / 4  \\
+   \dot v_{r, l} & = \left((2+i) f_{r, l} - (2-i) f_{l, r}\right) / (2i)
 
 Maximal body acceleration is obtained when both forces are maximal in the same direction, while maximal body angular acceleration when they act in opposite directions:
 
 .. math::
 
-   a^\max &= 2f^\max \\
+   a^\max &= f^\max \\
    \alpha^\max &= 4 a^\max / (i A) \\
 
-We can specify the dynamic by :math:`a^\max` and :math:`i` (or :math:`\alpha^\max` instead of mass, and maximal motor torque.
+We can fully specify the dynamics with :math:`a^\max` and :math:`i` (or :math:`\alpha^\max`) instead of mass and maximal motor torque.
 
-The relationship between wheel forces and speeds is similar to the relationship between body and wheel speeds and creates further constrains on feasible accelerations.
+The relationship between wheel forces and body acceleration is similar to the relationship between wheel speeds and body velocity and adds a constrain on feasible accelerations represented in the diagram below:
 
-As before, given an arbitrary acceleration :math:`(a, \alpha)` there may be different ways to compute a feasible acceleration (which do not require excessive motor torque). The navground kinematics "2WDiffDyn" first compute the required torques,  and then compute the corresponding accelerations.
-
-1. first computes the required torques
-
-   .. math::
-
-   	  (f_r, f_l) \leftarrow (a \pm i A \alpha / 4) / 2
-
-2. then clip them
-	
-   .. math::
-
-	  f_{r, l} \leftarrow f_{r, l} |_{[-f^\max, f^\max]}
-
-3. before computing feasible acceleration 
-
-   .. math::
-
-	  (a, \alpha) \leftarrow \left(f_{r} + f_{l}, 4 (f_{r} - f_{l}) / (i A)\right)
-
-
-.. tikz:: Feasible accelerations
+.. tikz:: Feasible acceleration set
    :libs: arrows.meta
    :align: center
    :xscale: 40
 
    \draw[->] (-1.5,0)--(1.5,0) node[below]{$a$};
    \draw[->] (0,-1.5)--(0,1.5) node[left]{$\frac{i A \alpha}{4}$};
-   \draw[->] (-1.5,-1.5)--(1.5,1.5) node[below, rotate=45]{$\frac{f_l}{2}$};
-   \draw[->] (1.5,-1.5)--(-1.5, 1.5) node[left, rotate=45]{$\frac{f_r}{2}$};
+   \draw[->] (-1.5,-1.5)--(1.5,1.5) node[below, rotate=45]{$f_r$};
+   \draw[->] (1.5,-1.5)--(-1.5, 1.5) node[left, rotate=45]{$f_l$};
  
-   \draw[fill=green!10!black, fill opacity=0.5] (-1, -1) -- (1, -1) -- (1, 1)  -- (-1, 1) -- cycle;
-   \draw[fill=green!75!black, fill opacity=0.5] (-1, 0) -- (0, -1) -- (1, 0) --  (0, 1) -- cycle;
+   \draw[fill=blue!10!black, fill opacity=0.5] (-1, -1) -- (1, -1) -- (1, 1)  -- (-1, 1) -- cycle;
+   \draw[fill=blue!75!white, fill opacity=0.5] (-1, 0) -- (0, -1) -- (1, 0) --  (0, 1) -- cycle;
 
 
-This dynamic-aware differential drive kinematics, when computing a feasible twist, at first it perform the same as the not-dynamic-aware differential drive kinematics, but in addition makes sure that the motors are able to actuate the command. To summarize, given a twist, it compute the feasible twist achievable over a time_step by:
+As before, given an arbitrary velocity :math:`(v, \omega)` there may be different ways to compute a feasible velocity from the current velocity :math:`(v_0, \omega_0)` (the dot below) over one time step :math:`\Delta t`, respecting both constraints: maximal acceleration in blue and maximal velocity in green.
 
-1. computing a feasible twist ignoring accelerations,
-2. computing the required motor torque to achieve this twist over a time step,
-3. applies the (potentially clipped) torques for a time step
+.. tikz:: Feasible velocity set with dynamic
+   :libs: arrows.meta
+   :align: center
+   :xscale: 40
 
+   \draw[->] (-3,0)--(3,0) node[below]{$v$};
+   \draw[->] (0,-4)--(0,4) node[left]{$\omega$};
+ 
+   \draw[fill=green!75!black, fill opacity=0.5] (-2, 0) -- (0, -3) -- (2, 0) --  (0, 3) -- cycle;
+   \draw[fill=blue!75!white, fill opacity=0.5] (0.6, -0.1) -- (1.2, 0.4) -- (0.6, 0.9)  -- (0.0, 0.4) -- cycle;
+
+   \draw[->] (-0.2,0.4)--(1.4,0.4) node[below]{$a \Delta t$};
+   \draw[->] (0.6,-0.4)--(0.6,1.2) node[left]{$\alpha \Delta t$};
+   \filldraw[black] (0.6, 0.4) circle (2pt);
+
+Similarly to "2WDiff", the navground kinematics "2WDiffDyn" privileges angular speed:
+
+1. First, a feasible velocity is computed ignoring dynamics, i.e., clipping it inside the green set using the same strategy as "2WDiff".
+
+2. Then, the angular speed is clipped to respect maximal angular acceleration
+   
+   .. math::
+   
+     \Delta \omega^\max & \leftarrow \alpha^\max \Delta t \\
+     \omega & \leftarrow \omega \left|_{[\omega_0 -\Delta \omega^\max, \omega_0 + \Delta \omega^\max]} \right.
+
+3. Finally, the linear speed is clipped, so that the twist is contained in the blue set:
+
+   .. math::
+
+      \Delta v^\max & \leftarrow a^\max \Delta t - |\omega - \omega_0| \frac{A i}{4} \\
+      v & \leftarrow v \left|_{[v_0 -\Delta v^\max, v_0 + \Delta v^\max]} \right.
+
+Alternatively, we could compute and clip the motor torques independently.
 
 Example
 -------
@@ -251,9 +258,8 @@ Example
 .. code-block:: python
   
    >>> from navground import core
-   >>> kinematics = core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics(max_speed=1, axis=1, max_acceleration=1, moi=1)
-   >>> kinematics.max_angular_speed
-   2.0
+   >>> kinematics = core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics(
+           max_speed=1, axis=1, max_acceleration=1, moi=1)0
    >>> kinematics.max_angular_acceleration
    4.0
    >>> kinematics.feasible(core.Twist2((2, 0), 1.5), current=core.Twist2((0, 0), 0), time_step=0.1)
@@ -265,9 +271,7 @@ Experiment
 ==========
 
 Let us do a short experiment that test the three solutions.
-
-
-We simulate one run of the same scenario as in:doc:`tutorials/tour`, with a single static obstacle that obstruct a target.
+We simulate one run of the same scenario as in :doc:`../tutorials/tour`, with a single static obstacle to pass before reaching the target.
 
 .. tabs::
 
@@ -275,10 +279,12 @@ We simulate one run of the same scenario as in:doc:`tutorials/tour`, with a sing
 
       .. code-block:: yaml
 
-         steps: 2000
+         steps: 140
          time_step: 0.1
          record_pose: true
+         record_time: true
          record_actuated_cmd: true
+         terminate_when_all_idle_or_stuck: false
          scenario:
            obstacles:
              - radius: 1
@@ -308,10 +314,12 @@ We simulate one run of the same scenario as in:doc:`tutorials/tour`, with a sing
 
       .. code-block:: yaml
 
-         steps: 2000
+         steps: 140
          time_step: 0.1
          record_pose: true
+         record_time: true
          record_actuated_cmd: true
+         terminate_when_all_idle_or_stuck: false
          scenario:
            obstacles:
              - radius: 1
@@ -346,10 +354,12 @@ We simulate one run of the same scenario as in:doc:`tutorials/tour`, with a sing
    
       .. code-block:: yaml
    
-         steps: 2000
+         steps: 140
          time_step: 0.1
          record_pose: true
+         record_time: true
          record_actuated_cmd: true
+         terminate_when_all_idle_or_stuck: false
          scenario:
            obstacles:
              - radius: 1
@@ -383,6 +393,11 @@ Let's compare the trajectories,
 .. image:: 2wk_trajectory.pdf
    :width: 800
 
+the wheel speeds,
+
+.. image:: 2wk_actuated_wheel_speed.pdf
+   :width: 800
+
 the linear accelerations,
 
 .. image:: 2wk_actuated_lin_acc.pdf
@@ -393,12 +408,11 @@ the angular accelerations,
 .. image:: 2wk_actuated_ang_acc.pdf
    :width: 800
 
-
-and the forces acting on the motors (dashed = left motor).
+and the forces required by the motors (dashed = left motor).
 
 .. image:: 2wk_actuated_force.pdf
    :width: 800
 
 
-Because the acceleration limits are large enough, the trajectories are similar. Yet, we observe how the forces required by the robot wheels in case of no acceleration limits are much larger and exceed the feasible band ([-0.5, 0.5]) defined by the "2WDiffDyn" kinematics.
+Because the acceleration limits are large enough, the trajectories are similar. All respect the wheel speed limits. We observe how the forces required by the robot wheels in case of no acceleration limits are much larger and exceed the feasible band ([-0.5, 0.5]) defined by the "2WDiffDyn" kinematics.
 

@@ -26,7 +26,7 @@ const std::string AheadKinematics::type =
     register_type<AheadKinematics>("Ahead");
 
 Twist2 WheeledKinematics::feasible(const Twist2& value) const {
-  return twist(wheel_speeds(value));
+  return twist(feasible_wheel_speeds(value));
 }
 
 const std::map<std::string, Property> WheeledKinematics::properties =
@@ -35,6 +35,18 @@ const std::map<std::string, Property> WheeledKinematics::properties =
                            &WheeledKinematics::get_axis,
                            &WheeledKinematics::set_axis, 0, "Wheel Axis")},
     };
+
+// a more efficient? alternative
+Twist2 TwoWheelsDifferentialDriveKinematics::feasible(
+    const Twist2& value) const {
+  assert(value.frame == Frame::relative);
+  const ng_float_t w_max = get_max_angular_speed();
+  const ng_float_t w = std::clamp(value.angular_speed, -w_max, w_max);
+  const ng_float_t v_max = get_max_speed() - abs(w) * get_axis() / 2;
+  const ng_float_t v = std::clamp<ng_float_t>(value.velocity[0], 0, v_max);
+  // const ng_float_t v = std::clamp(value.velocity[0], -v_max, v_max);
+  return Twist2{{v, 0}, w, Frame::relative};
+}
 
 Twist2 TwoWheelsDifferentialDriveKinematics::twist(
     const WheelSpeeds& speeds) const {
@@ -47,10 +59,15 @@ Twist2 TwoWheelsDifferentialDriveKinematics::twist(
   return {};
 }
 
-const std::string TwoWheelsDifferentialDriveKinematics::type =
-    register_type<TwoWheelsDifferentialDriveKinematics>("2WDiff");
-
 WheelSpeeds TwoWheelsDifferentialDriveKinematics::wheel_speeds(
+    const Twist2& twist) const {
+  assert(twist.frame == Frame::relative);
+  const ng_float_t rotation = 0.5 * twist.angular_speed * axis;
+  const ng_float_t linear = twist.velocity[0];
+  return {linear - rotation, linear + rotation};
+}
+
+WheelSpeeds TwoWheelsDifferentialDriveKinematics::feasible_wheel_speeds(
     const Twist2& twist) const {
   assert(twist.frame == Frame::relative);
   // {left, right}
@@ -71,6 +88,9 @@ WheelSpeeds TwoWheelsDifferentialDriveKinematics::wheel_speeds(
   return {left, right};
 }
 
+const std::string TwoWheelsDifferentialDriveKinematics::type =
+    register_type<TwoWheelsDifferentialDriveKinematics>("2WDiff");
+
 Twist2 FourWheelsOmniDriveKinematics::twist(const WheelSpeeds& speeds) const {
   if (speeds.size() == 4) {
     // {front left, rear left, rear right, rear left}
@@ -82,7 +102,18 @@ Twist2 FourWheelsOmniDriveKinematics::twist(const WheelSpeeds& speeds) const {
   return {};
 }
 
+// {front left, rear left, rear right, rear left}
 WheelSpeeds FourWheelsOmniDriveKinematics::wheel_speeds(
+    const Twist2& twist) const {
+  assert(twist.frame == Frame::relative);
+  const ng_float_t rotation = twist.angular_speed * axis;
+  const ng_float_t longitudinal = twist.velocity[0];
+  const ng_float_t lateral = twist.velocity[1];
+  return {longitudinal - lateral - rotation, longitudinal + lateral + rotation,
+          longitudinal + lateral - rotation, longitudinal - lateral + rotation};
+}
+
+WheelSpeeds FourWheelsOmniDriveKinematics::feasible_wheel_speeds(
     const Twist2& twist) const {
   assert(twist.frame == Frame::relative);
   // {front left, rear left, rear right, rear left}
@@ -136,7 +167,7 @@ DynamicTwoWheelsDifferentialDriveKinematics::get_max_angular_acceleration()
 void DynamicTwoWheelsDifferentialDriveKinematics::set_max_angular_acceleration(
     ng_float_t value) {
   if (value > 0 && axis > 0) {
-    set_moi(4 * value / (value * axis));
+    set_moi(4 * max_acceleration / (value * axis));
   } else {
     set_moi(std::numeric_limits<ng_float_t>::infinity());
   }
@@ -147,11 +178,75 @@ Twist2 DynamicTwoWheelsDifferentialDriveKinematics::feasible(
   if (time_step <= 0) {
     return current;
   }
+  assert(target.frame == current.frame == Frame::relative);
+  const Twist2 feasible_target = feasible(target);
+  const ng_float_t dw_max = get_max_angular_acceleration() * time_step;
+  const ng_float_t w0 = current.angular_speed;
+  const ng_float_t w =
+      std::clamp(feasible_target.angular_speed, w0 - dw_max, w0 + dw_max);
+  const ng_float_t dv_max = get_max_acceleration() * time_step -
+                            abs(w - w0) * get_axis() * get_moi() / 4;
+  const ng_float_t v0 = current.velocity[0];
+  const ng_float_t v =
+      std::clamp(feasible_target.velocity[0], v0 - dv_max, v0 + dv_max);
+  return Twist2{{v, 0}, w, Frame::relative};
+}
+
+#if 0
+
+//alternative via torques
+Twist2 DynamicTwoWheelsDifferentialDriveKinematics::feasible(
+    const Twist2& target, const Twist2& current, ng_float_t time_step) const {
+  if (time_step <= 0) {
+    return current;
+  }
+  const ng_float_t k = moi * axis / 4;
+  const Twist2 ltarget = feasible(target);
+  ng_float_t lin_acc =
+      std::clamp((ltarget.velocity[0] - current.velocity[0]) / time_step,
+                 -max_acceleration, max_acceleration);
+  ng_float_t ang_acc = std::clamp(
+      k * (ltarget.angular_speed - current.angular_speed) / time_step,
+      -max_acceleration, max_acceleration);
+
+  std::array<ng_float_t, 2> wheel_force_2{lin_acc - ang_acc, lin_acc + ang_acc};
+  if (abs(wheel_force_2[0]) > max_acceleration ||
+      abs(wheel_force_2[1]) > max_acceleration) {
+    if (reduce_torques) {
+      const ng_float_t f =
+          std::max(abs(wheel_force_2[0]), abs(wheel_force_2[1])) /
+          max_acceleration;
+      wheel_force_2[0] /= f;
+      wheel_force_2[1] /= f;
+    } else {
+      for (int i = 0; i < 2; ++i) {
+        wheel_force_2[i] =
+            std::clamp(wheel_force_2[i], -max_acceleration, max_acceleration);
+      }
+    } 
+    lin_acc = 0.5 * (wheel_force_2[1] + wheel_force_2[0]);
+    ang_acc = 0.5 * (wheel_force_2[1] - wheel_force_2[0]);
+    // return Twist2{{current.velocity[0] + time_step * lin_acc, 0},
+    //               current.angular_speed + time_step * ang_acc / k,
+    //               Frame::relative};
+  }
+  return Twist2{{current.velocity[0] + time_step * lin_acc, 0},
+                  current.angular_speed + time_step * ang_acc / k,
+                  Frame::relative};
+  // return ltarget;
+}
+
+//alternative via wheel speeds and torques
+Twist2 DynamicTwoWheelsDifferentialDriveKinematics::feasible(
+    const Twist2& target, const Twist2& current, ng_float_t time_step) const {
+  if (time_step <= 0) {
+    return current;
+  }
   Twist2 ltarget = feasible(target);
   ltarget = current.interpolate(ltarget, time_step, max_acceleration,
                                 get_max_angular_acceleration());
-  auto ts = wheel_speeds(ltarget);
-  const auto cs = wheel_speeds(current);
+  auto ts = feasible_wheel_speeds(ltarget);
+  const auto cs = feasible_wheel_speeds(current);
   std::array<ng_float_t, 2> wheel_acceleration;
   for (int i = 0; i < 2; ++i) {
     wheel_acceleration[i] = (ts[i] - cs[i]) / time_step;
@@ -183,6 +278,8 @@ Twist2 DynamicTwoWheelsDifferentialDriveKinematics::feasible(
   }
   return twist(ts);
 }
+
+#endif
 
 const std::map<std::string, Property>
     DynamicTwoWheelsDifferentialDriveKinematics::properties =

@@ -69,10 +69,9 @@ struct is_ros_param_type<std::vector<float>> : std::true_type {};
 template <>
 struct is_ros_param_type<std::vector<std::string>> : std::true_type {};
 
-static std::shared_ptr<Kinematics> make_kinematics(const std::string &name,
-                                                   float max_speed,
-                                                   float max_angular_speed,
-                                                   float axis) {
+static std::shared_ptr<Kinematics> make_kinematics(
+    const std::string &name, float max_speed, float max_angular_speed,
+    float axis, float max_acceleration, float max_angular_acceleration) {
   auto kinematics = Kinematics::make_type(name);
   if (kinematics) {
     kinematics->set_max_speed(max_speed);
@@ -80,6 +79,12 @@ static std::shared_ptr<Kinematics> make_kinematics(const std::string &name,
     if (WheeledKinematics *wk =
             dynamic_cast<WheeledKinematics *>(kinematics.get())) {
       wk->set_axis(axis);
+    }
+    if (DynamicTwoWheelsDifferentialDriveKinematics *wk =
+            dynamic_cast<DynamicTwoWheelsDifferentialDriveKinematics *>(
+                kinematics.get())) {
+      wk->set_max_acceleration(max_acceleration);
+      wk->set_max_angular_acceleration(max_angular_acceleration);
     }
     return kinematics;
   }
@@ -624,7 +629,10 @@ class ROSControllerNode : public rclcpp::Node {
         declare_parameter("kinematics.type", std::string("2WDiff"), param_desc),
         declare_parameter("kinematics.max_speed", 1.0, param_desc),
         declare_parameter("kinematics.max_angular_speed", 1.0, param_desc),
-        declare_parameter("kinematics.wheel_axis", 1.0, param_desc));
+        declare_parameter("kinematics.wheel_axis", 1.0, param_desc),
+        declare_parameter("kinematics.max_acceleration", 1.0, param_desc),
+        declare_parameter("kinematics.max_angular_acceleration", 0.0,
+                          param_desc));
     const float radius = declare_parameter("radius", 0.0, param_desc);
     should_publish_cmd_stamped =
         declare_parameter("publish_cmd_stamped", false, param_desc);

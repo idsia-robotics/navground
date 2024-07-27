@@ -26,7 +26,7 @@ Kinematics
 
 Kinematics primary deals with velocity and in particular with the mapping between body and actuators velocities.
 
-In this case, the robot move forwards at linear speed :math:`v` with respect to its reference frame :math:`\{\vec e_1, \vec e_2\}` which in turn rotates at angular speed :math:`\omega`.
+In our case, the robot moves forwards at linear speed :math:`v` with respect to its reference frame :math:`\{\vec e_1, \vec e_2\}` which in turn rotates at angular speed :math:`\omega`.
 
 .. math::
 
@@ -34,7 +34,7 @@ In this case, the robot move forwards at linear speed :math:`v` with respect to 
    \dot{\vec e_1} & = \omega \vec e_2
    
 
-To convert between wheel speeds :math:`v_{l, r}` and body velocity :math:`(v, \omega)`
+To convert between wheel speeds :math:`v_{l, r}` and body velocity :math:`(v, \omega)`, we can use
 
 .. math::
 
@@ -114,14 +114,14 @@ We can ignore the transversal component :math:`\vec e_2` as it is sonely due to 
    \alpha & \doteq \dot \omega
 
 
-If we want to limit accelerations, we can add a "LimitAcceleration" modulation to the behavior that is computing the commands. This will simply compute the acceleration required to actuate the command over a given time step :math:`\Delta t`, clip it and returns the command obtained by applying the (clipped) acceleration on the current velocity :math:`(v_0, \omega_0)`:
+If we want to limit accelerations, we can add a "LimitAcceleration" modulation to the behavior that is computing the commands. This will simply compute the acceleration required to actuate the command over a given time step :math:`\Delta t`, clip it and return the command obtained by applying the (clipped) acceleration on the current velocity :math:`(v_0, \omega_0)`:
 
 .. math::
 
 	(a, \alpha) & \leftarrow \left(\left. \frac{v - v_0}{\Delta t} \right|_{[-a^\max, -a^\max]},\left.\frac{\omega - \omega_0}{\Delta t} \right|_{[-\alpha^\max, -\alpha^\max]} \right) \\
 	(v, \omega) & \leftarrow \left(v_0 + a \Delta t, \omega_0 + \alpha \Delta t \right)
 
-The same functionality is exposed by the :py:meth:`navground.core.Twist2.interpolate`.
+The same functionality is exposed by :py:meth:`navground.core.Twist2.interpolate`.
 
 Example
 -------
@@ -139,7 +139,7 @@ Example
 Dynamics
 ========
 
-Let's say we want to simulate a robot having motors. The simplest assumption we can make is that the motor torque is limited, which in turn limits acceleration. To understand this relationship, we compute the dynamic of the system. Let us assume that the robot has mass :math:`m`, vertical-component of moment of inertia :math:`I` and that the two motors apply forces :math:`F_{r,l}` to the robot body without slipping.
+Let's say we want to simulate a robot having motors. The simplest assumption we can make is that the motor torque is limited, which in turn limits acceleration. To understand this relationship, we compute the dynamics of the system. Let us assume that the robot has mass :math:`m`, vertical-component of moment of inertia :math:`I` and that the two motors apply forces :math:`F_{r,l}` to the robot body without slipping.
 
 
 .. tikz:: Top view of a two-wheeled differential drive robot with motors
@@ -414,5 +414,5 @@ and the forces required by the motors (dashed = left motor).
    :width: 800
 
 
-Because the acceleration limits are large enough, the trajectories are similar. All respect the wheel speed limits. We observe how the forces required by the robot wheels in case of no acceleration limits are much larger and exceed the feasible band ([-0.5, 0.5]) defined by the "2WDiffDyn" kinematics.
+Because the acceleration limits are large enough, the trajectories are similar. All respect the wheel speed limits. We observe how the forces required by the robot wheels in case of no acceleration limits are much larger and exceed the feasible band ([-1, 1]) defined by the "2WDiffDyn" kinematics.
 

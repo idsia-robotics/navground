@@ -37,5 +37,5 @@ Motor PID
    
    #include "navground/core/behavior_modulations/motor_pid.h"
 
-.. doxygenclass:: navground::core::MotorPID
+.. doxygenclass:: navground::core::MotorPIDModulation
     :members:

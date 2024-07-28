@@ -286,8 +286,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
                         std::optional<Frame> frame = std::nullopt) const;
 
   /**
-   * @brief      Clamp an twist in the range of feasible values given by the
-   * kinematics over one time step.
+   * @brief      Computes the nearest feasible twist given the
+   * kinematics and the current twist over a time step
    *
    * @param[in]  value  The desired value
    * @param[in]  time_step  The time step

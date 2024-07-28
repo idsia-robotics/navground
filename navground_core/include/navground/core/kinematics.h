@@ -463,8 +463,6 @@ class NAVGROUND_CORE_EXPORT FourWheelsOmniDriveKinematics
  *   - `max_acceleration` (float, \ref get_max_acceleration)
  *
  *   - `moi` (float, \ref get_moi, 1.0 by default)
- *
- *   - `reduce_torques` (bool, \ref get_reduce_torques, false by default)
  */
 class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
     : public TwoWheelsDifferentialDriveKinematics {
@@ -481,12 +479,10 @@ class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
   DynamicTwoWheelsDifferentialDriveKinematics(ng_float_t max_speed = 0,
                                               ng_float_t axis = 0,
                                               ng_float_t max_acceleration = 0,
-                                              ng_float_t moi = 1,
-                                              bool reduce_torques = false)
+                                              ng_float_t moi = 1)
       : TwoWheelsDifferentialDriveKinematics(max_speed, axis),
         max_acceleration(max_acceleration),
-        moi(moi),
-        reduce_torques(reduce_torques) {}
+        moi(moi){}
 
   using TwoWheelsDifferentialDriveKinematics::feasible;
 
@@ -523,14 +519,14 @@ class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
    *
    * @return     True if will reduce torques proportionally
    */
-  bool get_reduce_torques() const { return reduce_torques; }
+  // bool get_reduce_torques() const { return reduce_torques; }
   /**
    * @brief      Sets whether to reduce the torques proportionally
    *             instead of clipping them independently.
    *
    * @param[in]  value  The desired value
    */
-  void set_reduce_torques(bool value) { reduce_torques = value; }
+  // void set_reduce_torques(bool value) { reduce_torques = value; }
 
   /**
    * @brief      Gets the maximal (body) acceleration.
@@ -561,6 +557,39 @@ class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
   void set_max_angular_acceleration(ng_float_t value);
 
   /**
+   * @brief      Computes the wheel torques required to accelerate over a time step
+   *
+   * @param[in]  value      The target value
+   * @param[in]  current    The current value
+   * @param[in]  time_step  The time step
+   *
+   * @return     {left, right} wheel torques. May not be feasible
+   */
+  std::vector<ng_float_t> wheel_torques(const Twist2& value, const Twist2& current, ng_float_t time_step) const;
+  
+  /**
+   * @brief      Applies wheel torques to accelerate a twist over a time step
+   *
+   *             Does not check the motor torques are feasible.
+   *  
+   * @param[in]  values     The motor torques
+   * @param[in]  current    The current twist
+   * @param[in]  time_step  The time step
+   *
+   * @return     The accelerated twist.
+   */
+  Twist2 twist_from_wheel_torques(const std::vector<ng_float_t> & values, const Twist2& current, ng_float_t time_step) const;
+
+  /**
+   * @brief      Gets the maximal [scaled] wheel torque.
+   *
+   * @return     The maximal wheel torque (in acceleration units)
+   */
+  ng_float_t get_max_wheel_torque() const {
+    return max_acceleration;
+  }
+
+  /**
    * @private
    */
   std::string get_type() const override { return type; }
@@ -579,7 +608,7 @@ class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
   const static std::string type;
   ng_float_t max_acceleration;
   ng_float_t moi;
-  bool reduce_torques;
+  // bool reduce_torques;
 };
 
 }  // namespace navground::core

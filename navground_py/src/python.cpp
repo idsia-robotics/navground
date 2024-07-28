@@ -12,6 +12,7 @@
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/behavior_modulations/limit_acceleration.h"
+#include "navground/core/behavior_modulations/motor_pid.h"
 #include "navground/core/behavior_modulations/relaxation.h"
 #include "navground/core/behaviors/HL.h"
 #include "navground/core/behaviors/HRVO.h"
@@ -582,9 +583,9 @@ PYBIND11_MODULE(_navground, m) {
              std::shared_ptr<DynamicTwoWheelsDifferentialDriveKinematics>>
       dwk2(m, "DynamicTwoWheelsDifferentialDriveKinematics",
            DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics));
-  dwk2.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, bool>(),
+  dwk2.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t>(),
            py::arg("max_speed"), py::arg("axis"), py::arg("max_acceleration"),
-           py::arg("moi") = 1, py::arg("reduce_torques") = false,
+           py::arg("moi") = 1,
            DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
                DynamicTwoWheelsDifferentialDriveKinematics))
       .def_property(
@@ -606,12 +607,29 @@ PYBIND11_MODULE(_navground, m) {
           &DynamicTwoWheelsDifferentialDriveKinematics::set_moi,
           DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
               property_moi))
+      .def("wheel_torques",
+           &DynamicTwoWheelsDifferentialDriveKinematics::wheel_torques,
+           py::arg("value"), py::arg("current"), py::arg("time_step"),
+           DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
+               wheel_torques))
+      .def("twist_from_wheel_torques",
+           &DynamicTwoWheelsDifferentialDriveKinematics::
+               twist_from_wheel_torques,
+           py::arg("values"), py::arg("current"), py::arg("time_step"),
+           DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
+               twist_from_wheel_torques))
       .def_property(
-          "reduce_torques",
-          &DynamicTwoWheelsDifferentialDriveKinematics::get_reduce_torques,
-          &DynamicTwoWheelsDifferentialDriveKinematics::set_reduce_torques,
+          "max_wheel_torque",
+          &DynamicTwoWheelsDifferentialDriveKinematics::get_max_wheel_torque,
+          nullptr,
           DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
-              property_reduce_torques));
+              property_max_wheel_torque));
+  // .def_property(
+  //     "reduce_torques",
+  //     &DynamicTwoWheelsDifferentialDriveKinematics::get_reduce_torques,
+  //     &DynamicTwoWheelsDifferentialDriveKinematics::set_reduce_torques,
+  //     DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
+  //         property_reduce_torques));
 
   py::class_<SocialMargin::Modulation,
              std::shared_ptr<SocialMargin::Modulation>>(
@@ -753,6 +771,25 @@ PYBIND11_MODULE(_navground, m) {
                     &LimitAccelerationModulation::set_max_angular_acceleration,
                     DOC(navground, core, LimitAccelerationModulation,
                         property_max_angular_acceleration));
+
+  py::class_<MotorPIDModulation, BehaviorModulation,
+             std::shared_ptr<MotorPIDModulation>>
+      motor_pid(m, "MotorPIDModulation",
+                DOC(navground, core, MotorPIDModulation));
+
+  motor_pid
+      .def(py::init<ng_float_t, ng_float_t, ng_float_t>(), py::arg("k_p") = 1,
+           py::arg("k_i") = 0, py::arg("k_d") = 0,
+           DOC(navground, core, MotorPIDModulation, MotorPIDModulation))
+      .def_property("k_p", &MotorPIDModulation::get_k_p,
+                    &MotorPIDModulation::set_k_p,
+                    DOC(navground, core, MotorPIDModulation, property_k_p))
+      .def_property("k_i", &MotorPIDModulation::get_k_i,
+                    &MotorPIDModulation::set_k_i,
+                    DOC(navground, core, MotorPIDModulation, property_k_i))
+      .def_property("k_d", &MotorPIDModulation::get_k_d,
+                    &MotorPIDModulation::set_k_d,
+                    DOC(navground, core, MotorPIDModulation, property_k_d));
 
   py::class_<Behavior, PyBehavior, HasRegister<Behavior>, HasProperties,
              std::shared_ptr<Behavior>>
@@ -1406,6 +1443,7 @@ Load a behavior modulation from a YAML string.
   pickle_via_yaml<PyKinematics>(dwk2);
   pickle_via_yaml<PyBehaviorModulation>(relaxation);
   pickle_via_yaml<PyBehaviorModulation>(limit_acceleration);
+  pickle_via_yaml<PyBehaviorModulation>(motor_pid);
   pickle_via_yaml_native<SocialMargin>(social_margin);
 
   m.def(

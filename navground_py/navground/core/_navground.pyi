@@ -2,6 +2,7 @@ from __future__ import annotations
 import numpy
 import os
 import typing
+import math
 
 __all__ = [
     'Action', 'AheadKinematics', 'Behavior', 'BehaviorRegister', 'Buffer',
@@ -18,7 +19,7 @@ __all__ = [
     'TwoWheelsDifferentialDriveKinematics',
     'DynamicTwoWheelsDifferentialDriveKinematics', 'WheeledKinematics',
     'behavior_has_geometric_state', 'dump', 'load_behavior', 'load_kinematics',
-    'load_plugins', 'to_absolute', 'to_relative'
+    'load_plugins', 'to_absolute', 'to_relative', 'BehaviorModulation'
 ]
 
 Vector2Like = numpy.ndarray | tuple[float, float] | list[float]
@@ -178,7 +179,10 @@ class Behavior(BehaviorRegister, HasProperties):
     1. select the concrete behavior, the agent's size (agents are shaped
        like discs), and :py:class:`Kinematics`;
 
-    2. configure the generic parameters: :py:attr:`optimal_speed`, :py:attr:`horizon`, :py:attr:`safety_margin` :py:attr:`rotation_tau`, and :py:attr:`heading_behavior`;
+2. configure the generic parameters : : py : attr :`optimal_speed`,
+    : py : attr :`horizon`,
+    : py : attr :`safety_margin` : py : attr :`rotation_tau`,
+    and : py : attr :`heading_behavior`;
 
     3. configure the specific parameters of the concrete behavior.
 
@@ -535,7 +539,8 @@ class Behavior(BehaviorRegister, HasProperties):
     @property
     def default_cmd_frame(self) -> Frame:
         """
-        The most natural frame for the current kinematics: :py:meth:`Frame.relative` in case the agent is wheeled, else :py:meth:`Frame.absolute`.
+        The most natural frame for the current kinematics: :py:meth:`Frame.relative` in case the agent is wheeled, else :
+    py:meth:`Frame.absolute`.
 
         :return:
             The frame
@@ -694,7 +699,10 @@ class Behavior(BehaviorRegister, HasProperties):
         The relaxation time to rotate towards a desired orientation.
 
         the default behaviors applies a p control to rotations, e.g.,
-        :math:`\\omega = \\frac{\\delta \\theta}{\\tau_\\textrm{rot}}`
+        :math:`\\omega = \\frac{\\delta \\theta}{
+      \\tau_\\textrm { rot }
+    }
+    `
         """
 
     @rotation_tau.setter
@@ -806,7 +814,28 @@ class Behavior(BehaviorRegister, HasProperties):
 
 class BehaviorRegister:
     type_properties: typing.ClassVar[
-        dict]  # value = {'Dummy': {}, 'HL': {'aperture': <navground.core._navground.Property object>, 'barrier_angle': <navground.core._navground.Property object>, 'epsilon': <navground.core._navground.Property object>, 'eta': <navground.core._navground.Property object>, 'resolution': <navground.core._navground.Property object>, 'tau': <navground.core._navground.Property object>}, 'HRVO': {}, 'ORCA': {'effective_center': <navground.core._navground.Property object>, 'time_horizon': <navground.core._navground.Property object>}, 'PyDummy': {'dummy': <navground.core._navground.Property object>, 'tired': <navground.core._navground.Property object>}, 'SocialForce': {}}
+        dict]  # value = {
+      'Dummy' : {},
+                'HL' : {
+                  'aperture' : <navground.core._navground.Property object>,
+                  'barrier_angle' : <navground.core._navground.Property object>,
+                  'epsilon' : <navground.core._navground.Property object>,
+                  'eta' : <navground.core._navground.Property object>,
+                  'resolution' : <navground.core._navground.Property object>,
+                  'tau' : <navground.core._navground.Property object>
+                },
+                       'HRVO' : {},
+                                'ORCA'
+          : {
+            'effective_center' : <navground.core._navground.Property object>,
+            'time_horizon' : <navground.core._navground.Property object>
+          },
+            'PyDummy' : {
+              'dummy' : <navground.core._navground.Property object>,
+              'tired' : <navground.core._navground.Property object>
+            },
+                        'SocialForce' : {}
+    }
     types: typing.ClassVar[list] = [
         'Dummy', 'HL', 'HRVO', 'ORCA', 'PyDummy', 'SocialForce'
     ]
@@ -869,7 +898,7 @@ class BehaviorModulation(BehaviorModulationRegister, HasProperties):
 
 class BehaviorModulationRegister:
     type_properties: typing.ClassVar[dict]
-    types: typing.ClassVar[list] = ['LimitAcceleration', 'Relaxation']
+    types: typing.ClassVar[list] = ['LimitAcceleration', 'Relaxation', 'MotorPID']
 
     @staticmethod
     def _add_property(arg0: str, arg1: str, arg2: typing.Any, arg3: bool | int
@@ -889,7 +918,7 @@ class BehaviorModulationRegister:
 
 class RelaxationModulation(BehaviorModulation):
 
-    def __init__(self, tau: float) -> None:
+    def __init__(self, tau: float = 0.125) -> None:
         ...
 
     @property
@@ -903,8 +932,8 @@ class RelaxationModulation(BehaviorModulation):
 
 class LimitAccelerationModulation(BehaviorModulation):
 
-    def __init__(self, max_acceleration: float,
-                 max_angular_acceleration: float) -> None:
+    def __init__(self, max_acceleration: float = math.inf,
+                 max_angular_acceleration: float = math.inf) -> None:
         ...
 
     @property
@@ -921,6 +950,36 @@ class LimitAccelerationModulation(BehaviorModulation):
 
     @max_angular_acceleration.setter
     def max_angular_acceleration(self, arg0: float) -> None:
+        ...
+
+class MotorPIDModulation(BehaviorModulation):
+
+    def __init__(self, k_p: float = 1,
+                 k_i: float = 0, k_d: float = 0) -> None:
+        ...
+
+    @property
+    def k_p(self) -> float:
+        ...
+
+    @k_p.setter
+    def k_p(self, arg0: float) -> None:
+        ...
+
+    @property
+    def k_i(self) -> float:
+        ...
+
+    @k_i.setter
+    def k_i(self, arg0: float) -> None:
+        ...
+
+    @property
+    def k_d(self) -> float:
+        ...
+
+    @k_d.setter
+    def k_d(self, arg0: float) -> None:
         ...
 
 
@@ -2176,7 +2235,12 @@ class Kinematics(KinematicsRegister, HasProperties):
 
 class KinematicsRegister:
     type_properties: typing.ClassVar[
-        dict]  # value = {'2WDiff': {'wheel_axis': <navground.core._navground.Property object>}, '4WOmni': {'wheel_axis': <navground.core._navground.Property object>}, 'Ahead': {}, 'Omni': {}}
+        dict]  # value = {
+  '2WDiff' : {'wheel_axis' : <navground.core._navground.Property object>},
+             '4WOmni'
+      : {'wheel_axis' : <navground.core._navground.Property object>},
+        'Ahead' : {},
+                  'Omni' : {}}
     types: typing.ClassVar[list] = ['2WDiff', '4WOmni', 'Ahead', 'Omni']
 
     @staticmethod

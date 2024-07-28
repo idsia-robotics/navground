@@ -1,3 +1,6 @@
-from .._navground import LimitAccelerationModulation, RelaxationModulation
+from .._navground import (LimitAccelerationModulation, MotorPIDModulation,
+                          RelaxationModulation)
 
-__all__ = ['LimitAccelerationModulation', 'RelaxationModulation']
+__all__ = [
+    'LimitAccelerationModulation', 'RelaxationModulation', 'MotorPIDModulation'
+]

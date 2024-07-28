@@ -199,6 +199,14 @@ Maximal body acceleration is obtained when both forces are maximal in the same d
 
 We can fully specify the dynamics with :math:`a^\max` and :math:`i` (or :math:`\alpha^\max`) instead of mass and maximal motor torque.
 
+The moment of inertia can be computed from the wheel accelerations when the robot accelerates at maximum moving straight (:math:`a^\max_{\mathit{fwd}} = a^\max`) and rotating in place (:math:`a^\max_{\mathit{rot}} = \alpha^\max \frac{A}{2}`):
+
+.. math::
+ 
+   i & = \frac{4 a^\max}{A \alpha^\max} \\
+     & = 2 \frac{a^\max_{\mathit{fwd}}}{a^\max_{\mathit{rot}}}
+
+
 The relationship between wheel forces and body acceleration is similar to the relationship between wheel speeds and body velocity and adds a constrain on feasible accelerations represented in the diagram below:
 
 .. tikz:: Feasible acceleration set
@@ -266,6 +274,62 @@ Example
    Twist2((0.050000, 0.000000), 0.200000, frame=Frame.relative)
 
 
+
+Motor controller
+================
+
+If we want to apply a more complex motor controller compared to clipping torque to the feasible range, we can either create a new kinematics (possibly sub-classing "2WDiffDyn") or, preferably as kinematics should focus on constrains, introduce a new behavior modulation. 
+Here we show an example of the latter, for a proportional torque controller.
+
+.. math::
+
+   e & \leftarrow f_{\mathrm{des}} - f \\
+   f & \leftarrow f + k e
+
+.. note::
+
+   A similar PID controller is offered by :py:class:`navground.core.behavior_modulations.MotorPIDModulation`.
+
+Example
+-------
+
+.. code-block:: python
+  
+   from navground import core
+   import numpy as np
+      
+   class MotorController(core.BehaviorModulation, name="MotorController"):
+       def __init__(self, k: float = 0.1):
+           super().__init__()
+           self._k = k
+           self.torques: np.ndarray = np.zeros(2)
+   
+       def post(self, behavior: core.Behavior, time_step: float, 
+                cmd: core.Twist2) -> core.Twist2:
+           # We assume that the kinematics supports dynamics
+           # Let's compute a feasible control
+           current = behavior.get_twist(core.Frame.relative)
+           cmd = behavior.kinematics.feasible(cmd, current, time_step)
+           # and torques, which are also feasible
+           target_torques = behavior.kinematics.wheel_torques(
+               cmd, current, time_step)
+           # We then apply a simple P-controller to the torques
+           e = target_torques - self.torques
+           self.torques += e
+           max_torque = behavior.kinematics.max_wheel_torque
+           self.torques = np.clip(self.torques, -max_torque, max_torque)
+           # and return the twist obtained by applying these torques. 
+           return behavior.kinematics.twist_from_wheel_torques(
+               self.torques, current, time_step)
+       
+       @property
+       @core.register(0.2, "P factor")
+       def k(self) -> float:
+           return self._k
+      
+       @k.setter
+       def k(self, value: float) -> None:
+           self._k = value
 
 Experiment
 ==========
@@ -387,6 +451,45 @@ We simulate one run of the same scenario as in :doc:`../tutorials/tour`, with a 
                  loop: false
                  tolerance: 1
 
+   .. tab:: Dynamic with motor controller
+   
+      .. code-block:: yaml
+   
+         steps: 140
+         time_step: 0.1
+         record_pose: true
+         record_time: true
+         record_actuated_cmd: true
+         terminate_when_all_idle_or_stuck: false
+         scenario:
+           obstacles:
+             - radius: 1
+               position: [5, 0.1]
+           groups:
+             -
+               number: 1
+               radius: 1
+               control_period: 0.1
+               speed_tolerance: 0.02
+               kinematics:
+                 type: 2WDiffDyn
+                 wheel_axis: 1
+                 max_speed: 1
+                 max_acceleration: 1
+                 moi: 1
+               behavior:
+                 type: ORCA
+                 modulations:
+                   - type: MotorController
+                     k: 0.2
+               state_estimation:
+                 type: Bounded
+                 range: 10
+               task:
+                 type: Waypoints
+                 waypoints: [[10, 0]]
+                 loop: false
+                 tolerance: 1
 
 Let's compare the trajectories,
 

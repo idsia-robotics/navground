@@ -181,7 +181,7 @@ struct Twist3 {
   Twist3(const Vector3& velocity, Radians angular_speed = 0.0,
          Frame frame = Frame::absolute)
       : velocity(velocity), angular_speed(angular_speed), frame(frame) {}
-  Twist3() : Twist3(Vector3{}) {}
+  Twist3() : Twist3(Vector3::Zero()) {}
   Twist3(const Twist2& twist, ng_float_t vz)
       : velocity{twist.velocity.x(), twist.velocity.x(), vz},
         angular_speed(twist.angular_speed),
@@ -211,7 +211,7 @@ struct Pose3 {
 
   Pose3(const Vector3& position, Radians orientation = 0.0)
       : position(position), orientation(orientation) {}
-  Pose3() : Pose3(Vector3{}) {}
+  Pose3() : Pose3(Vector3::Zero()) {}
   Pose3(const Pose2& pose, ng_float_t z)
       : position{pose.position.x(), pose.position.x(), z},
         orientation(pose.orientation) {}

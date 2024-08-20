@@ -6,6 +6,7 @@
 #define NAVGROUND_CORE_COMMON_H_
 
 #define _USE_MATH_DEFINES
+#include <assert.h>
 #include <math.h>
 #include <time.h>
 

@@ -18,6 +18,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic -Wno-gnu-zero-variadic-macro-arguments -Wno-unused-parameter)
 endif()
 
+if (WIN32)
+add_compile_options(/wd4251)
+endif()
 
 include(GenerateExportHeader)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)

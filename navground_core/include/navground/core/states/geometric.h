@@ -264,7 +264,7 @@ struct LineSegment {
   // negative <=> penetration
   ng_float_t distance(const Disc& disc, bool penetration = false) const {
     const ng_float_t dist = distance(disc.position) - disc.radius;
-    return (penetration || dist > 0) ? dist : 0.0;
+    return (penetration || dist > 0) ? dist : 0;
   }
 
   /**

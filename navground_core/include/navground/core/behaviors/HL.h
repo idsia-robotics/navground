@@ -53,15 +53,15 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   /**
    * Default \f$\eta\f$
    */
-  static constexpr ng_float_t default_eta = 0.5;
+  static constexpr ng_float_t default_eta =  static_cast<ng_float_t>(0.5);
   /**
    * Default \f$\tau\f$
    */
-  static constexpr ng_float_t default_tau = 0.125;
+  static constexpr ng_float_t default_tau =  static_cast<ng_float_t>(0.125);
   /**
    * Default aperture (full circular sector)
    */
-  static constexpr ng_float_t default_aperture = M_PI;
+  static constexpr ng_float_t default_aperture =  static_cast<ng_float_t>(M_PI);
   /**
    * Maximal resolution
    */
@@ -77,7 +77,7 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   /**
    * Default barrier angle.
    */
-  static constexpr ng_float_t default_barrier_angle = M_PI_2;
+  static constexpr ng_float_t default_barrier_angle = static_cast<ng_float_t>(M_PI_2);
 
   /**
    * @brief      Contruct a new instance

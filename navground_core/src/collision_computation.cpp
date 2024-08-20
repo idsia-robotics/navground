@@ -23,7 +23,7 @@ std::valarray<ng_float_t> CollisionComputation::get_free_distance_for_sector(
   std::valarray<ng_float_t> d(resolution + 1);
   Radians a = from;
   if (resolution == 0) {
-    a += length * 0.5;
+    a += length / 2;
     d[0] = dynamic ? dynamic_free_distance(a, max_distance, speed)
                    : static_free_distance(a, max_distance, true);
     return d;
@@ -41,7 +41,7 @@ std::valarray<ng_float_t> CollisionComputation::get_angles_for_sector(
   std::valarray<ng_float_t> d(resolution + 1);
   Radians a = from;
   if (resolution == 0) {
-    a += length * 0.5;
+    a += length / 2;
     d[0] = a;
     return d;
   }
@@ -86,12 +86,12 @@ ng_float_t CollisionComputation::static_free_distance_to(
   const ng_float_t d = line.e2.dot(e);
   if (y * d >= 0) {
     // moving away
-    return no_collision;
+    return static_cast<ng_float_t>(no_collision);
   }
 #if LINE_CAP_SQUARE
   if (abs(y) < margin && x > -margin && x < line.length + margin) {
     // already colliding
-    return 0.0;
+    return 0;
   }
 #else
   // Does not consider as collision if the disc is colliding at the edges but
@@ -99,17 +99,17 @@ ng_float_t CollisionComputation::static_free_distance_to(
   if (abs(y) < margin) {
     const ng_float_t ex = line.e1.dot(e);
     if (x < -margin) return no_collision;
-    if (x < 0) return ex < 0 ? no_collision : 0.0;
+    if (x < 0) return ex < 0 ? no_collision : 0;
     if (x < line.length) return 0.0;
-    if (x < line.length + margin) return ex > 0 ? no_collision : 0.0;
-    return no_collision;
+    if (x < line.length + margin) return ex > 0 ? no_collision : 0;
+    return static_cast<ng_float_t>(no_collision);
   }
 #endif  // LINE_CAP_SQUARE
   const ng_float_t distance = -y / d - margin;
   const ng_float_t x_delta = line.e1.dot(distance * e + delta);
   if (x_delta < -margin || x_delta > line.length + margin) {
     // will not collide
-    return no_collision;
+    return static_cast<ng_float_t>(no_collision);
   }
   return distance;
 }
@@ -118,13 +118,13 @@ ng_float_t CollisionComputation::static_free_distance_to(const DiscCache &disc,
                                                          Radians alpha) {
   if (disc.C < 0) {
     if (abs(normalize(alpha - disc.gamma)) < disc.visible_angle) return 0;
-    return no_collision;
+    return static_cast<ng_float_t>(no_collision);
   }
   const ng_float_t B =
       disc.delta.x() * cos(alpha) + disc.delta.y() * sin(alpha);
-  if (B < 0) return no_collision;
+  if (B < 0) return static_cast<ng_float_t>(no_collision);
   const ng_float_t D = B * B - disc.C;
-  if (D < 0) return no_collision;
+  if (D < 0) return static_cast<ng_float_t>(no_collision);
   return B - sqrt(D);
 }
 
@@ -162,14 +162,14 @@ ng_float_t CollisionComputation::dynamic_free_distance_to(const DiscCache &disc,
     // visible_angle = pi/2)
     //
     return B < dv.norm() * disc.delta.norm() * cos(disc.visible_angle)
-               ? no_collision
+               ? static_cast<ng_float_t>(no_collision)
                : 0;
   }
 
-  if (B < 0) return no_collision;
+  if (B < 0) return static_cast<ng_float_t>(no_collision);
   const ng_float_t A = dv.squaredNorm();
   const ng_float_t D = B * B - A * disc.C;
-  if (D < 0) return no_collision;
+  if (D < 0) return static_cast<ng_float_t>(no_collision);
   return speed * (B - sqrt(D)) / A;
 }
 

@@ -27,7 +27,7 @@ class ExperimentalRun;
  * Concrete classes should overwrite \ref prepare, \ref update, and/or \ref
  * finalize as the base class does nothing.
  */
-class Probe {
+class NAVGROUND_SIM_EXPORT Probe {
  public:
   Probe() {}
   virtual ~Probe() = default;

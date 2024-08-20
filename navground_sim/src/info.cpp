@@ -13,6 +13,8 @@
 #include "navground/sim/scenario.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/task.h"
+// include, else it does not load the symbols when compiled with GCC
+#include "navground/sim/experiment.h"
 
 int main(int argc, char* argv[]) {
   navground::core::load_plugins();

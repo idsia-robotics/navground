@@ -7,7 +7,7 @@
 #include <iostream>
 #include <string>
 
-#include "./register.h"
+#include "navground/core/register.h"
 
 template <typename T>
 void print_register(const std::string& title, const std::string& name = "") {

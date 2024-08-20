@@ -7,7 +7,7 @@
 
 #include <optional>
 
-#include "./common.h"
+#include "navground/core/common.h"
 #include "navground/core/types.h"
 
 namespace navground::core {

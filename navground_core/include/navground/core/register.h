@@ -5,8 +5,8 @@
 #include <memory>
 #include <vector>
 
-#include "./property.h"
-#include "./utilities.h"
+#include "navground/core/property.h"
+#include "navground/core/utilities.h"
 #include "navground_core_export.h"
 #include "yaml-cpp/yaml.h"
 
@@ -141,17 +141,17 @@ struct
   static inline const std::string type = "";
 
   /**
-   * @brief      Allows to customize YAML encoding 
+   * @brief      Allows to customize YAML encoding
    *
    * @param      node  The YAML node
    */
-  virtual void encode([[maybe_unused]] YAML::Node& node) const {};
+  virtual void encode([[maybe_unused]] YAML::Node &node) const {};
   /**
-   * @brief      Allows to customize YAML decoding 
+   * @brief      Allows to customize YAML decoding
    *
    * @param      node  The YAML node
    */
-  virtual void decode([[maybe_unused]] const YAML::Node& node) {};
+  virtual void decode([[maybe_unused]] const YAML::Node &node) {};
 };
 
 }  // namespace navground::core

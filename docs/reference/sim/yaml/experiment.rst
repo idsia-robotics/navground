@@ -47,6 +47,7 @@ Schema
      save_directory: string
      record_pose: bool
      record_twist: bool
+     record_actuated_cmd: bool
      record_cmd: bool
      record_target: bool
      record_collisions: bool

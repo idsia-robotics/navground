@@ -34,10 +34,10 @@ std::optional<navground::core::Vector2> WaypointsTask::next_waypoint(
   if (waypoints.size() == 0) return std::nullopt;
   if (random) {
     if (first) {
-      std::uniform_int_distribution<int> d(0, waypoints.size() - 1);
+      std::uniform_int_distribution<int> d(0, static_cast<int>(waypoints.size() - 1));
       index = d(world->get_random_generator());
     } else {
-      std::uniform_int_distribution<int> d(1, waypoints.size() - 1);
+      std::uniform_int_distribution<int> d(1, static_cast<int>(waypoints.size() - 1));
       index = (index + d(world->get_random_generator())) % waypoints.size();
     }
   } else {

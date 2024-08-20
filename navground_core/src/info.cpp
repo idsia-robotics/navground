@@ -4,8 +4,7 @@
 
 #include "navground/core/info.h"
 
-#include <iostream>
-#include <vector>
+#include <cstdlib>
 
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"

@@ -178,7 +178,7 @@ Twist2 DynamicTwoWheelsDifferentialDriveKinematics::feasible(
   if (time_step <= 0) {
     return current;
   }
-  assert(target.frame == current.frame == Frame::relative);
+  assert(target.frame == current.frame && target.frame == Frame::relative);
   const Twist2 feasible_target = feasible(target);
   const ng_float_t dw_max = get_max_angular_acceleration() * time_step;
   const ng_float_t w0 = current.angular_speed;

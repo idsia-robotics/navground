@@ -64,6 +64,23 @@ struct NAVGROUND_SIM_EXPORT Entity {
    */
   void set_as_colliding_at(ng_float_t time) { last_collision_time = time; }
 
+  /**
+   * @brief      Returns the last collision time
+   *
+   * @return     The time
+   */
+  ng_float_t get_last_collision_time() const {
+    return last_collision_time;
+  }
+
+
+  /**
+   * @brief      Resets the entity.
+   */
+  void reset() {
+    last_collision_time = -1;
+  }
+
  private:
   static inline unsigned _uid = 0;
   ng_float_t last_collision_time;

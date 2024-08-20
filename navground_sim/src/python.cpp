@@ -928,7 +928,13 @@ PYBIND11_MODULE(_navground_sim, m) {
 
   py::class_<Entity, std::shared_ptr<Entity>>(m, "Entity",
                                               DOC(navground, sim, Entity))
-      .def_readonly("_uid", &Entity::uid, DOC(navground, sim, Entity, uid));
+      .def_readonly("_uid", &Entity::uid, DOC(navground, sim, Entity, uid))
+      .def_property("last_collision_time", &Entity::get_last_collision_time,
+                    nullptr,
+                    DOC(navground, sim, Entity, property, last_collision_time))
+      .def("has_been_in_collision_since", &Entity::has_been_in_collision_since,
+           py::arg("time"),
+           DOC(navground, sim, Entity, has_been_in_collision_since));
 
   py::class_<Wall, Entity, std::shared_ptr<Wall>>(m, "Wall",
                                                   DOC(navground, sim, Wall))
@@ -1238,6 +1244,10 @@ Creates a rectangular region
            DOC(navground, sim, World, agents_are_idle_or_stuck))
       .def("in_collision", &World::in_collision, py::arg("e1"), py::arg("e2"),
            DOC(navground, sim, World, in_collision))
+      .def("record_collision", &World::record_collision, py::arg("e1"),
+           py::arg("e2"), DOC(navground, sim, World, record_collision))
+      .def("clear_collisions", &World::record_collision,
+           DOC(navground, sim, World, clear_collisions))
       .def_property("minimal_bounding_box", &World::get_minimal_bounding_box,
                     nullptr,
                     DOC(navground, sim, World, property_minimal_bounding_box))
@@ -2246,6 +2256,8 @@ The array is empty if efficacy has not been recorded in the run.
            py::arg("ignore_collisions") = false,
            py::arg("ignore_twists") = false, py::arg("ignore_cmds") = false,
            DOC(navground, sim, ExperimentalRun, go_to_step))
+      .def("reset", &ExperimentalRun::reset,
+           DOC(navground, sim, ExperimentalRun, reset))
       .def(py::pickle(
           [](const ExperimentalRun &run) {
             // __getstate__

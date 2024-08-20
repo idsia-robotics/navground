@@ -775,8 +775,30 @@ class NAVGROUND_SIM_EXPORT World {
     agents_strtree_is_updated = false;
   }
 
- private:
+  /**
+   * @brief      Record the collision between two entities
+   *
+   * @param      e1    The first entity
+   * @param      e2    The second entity
+   */
   void record_collision(Entity *e1, Entity *e2);
+
+  /**
+   * @brief      Clear collisions
+   */
+  void clear_collisions() {
+    collisions.clear();
+  }
+
+  /**
+   * @brief      Resets the world.
+   * 
+   * @private
+   */
+  void reset();
+
+ private:
+  
 
   bool resolve_collision(Agent *a1, Agent *a2, Vector2 delta = Vector2::Zero(),
                          ng_float_t margin = 0);

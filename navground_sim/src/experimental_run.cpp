@@ -578,6 +578,11 @@ ExperimentalRun::get_collisions_at_step(int step) {
   return cs;
 }
 
+void ExperimentalRun::reset() {
+  _world->reset();
+  go_to_step(0);
+}
+
 bool ExperimentalRun::go_to_step(int step, bool ignore_collisions,
                                  bool ignore_twists, bool ignore_cmds) {
   if (step < 0) {

@@ -610,6 +610,9 @@ class Entity:
         """
         Unique identifier
         """
+    @property
+    def last_collision_time(self) -> float:
+        ...
 class Experiment:
     """
     An experiment supervises the execution of several runs of simulation.
@@ -1972,6 +1975,10 @@ class NativeWorld:
         :return:
             True if they are in collision.
         """
+    def record_collision(self, e1: Entity, e2: Entity) -> None:
+        ...
+    def clear_collisions(self) -> None:
+        ...
     def index_of_agent(self, agent: Agent) -> int | None:
         """
         Searches for the index of an agent.

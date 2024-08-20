@@ -238,19 +238,18 @@ class RecordedExperimentalRun:
             #             # TODO(Jerome): we are ignoring that values may be optional
             #             agent.behavior.task.position = ps[:2]
             #             agent.behavior.task.orientation = ps[2]
-            if self.collisions:
-                cs = self.collisions[(self.collisions[:, 0] == self._step)]
-                ucs = [(self.world.get_entity(e1), self.world.get_entity(e2))
-                       for _, e1, e2 in cs]
-                self.world.collisions = set([
-                    (e1, e2) for e1, e2 in ucs
-                    if e1 is not None and e2 is not None
-                ])
 
             if self.times:
                 self.world.time = self.times[self._step]
             else:
                 self.world.time = self.time_step * (self._step + 1)
+            self.world.clear_collisions()
+            if self.collisions:
+                cs = self.collisions[(self.collisions[:, 0] == self._step)]
+                ucs = [(self.world.get_entity(e1), self.world.get_entity(e2))
+                       for _, e1, e2 in cs]
+                for e1, e2 in ucs:
+                    self.world.record_collisions(e1, e2)
             return True
         return False
 

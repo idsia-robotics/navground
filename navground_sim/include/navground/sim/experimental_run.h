@@ -796,6 +796,13 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
                   bool ignore_twists = false, bool ignore_cmds = false);
 
   /**
+   * @brief      Resets the run.
+   *
+   */
+  void reset();
+
+
+  /**
    * @brief      Gets recorded collisions at a given step.
    *
    * @param[in]  step  The step. Negative steps are interpreted as relative to

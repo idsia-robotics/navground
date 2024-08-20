@@ -824,4 +824,12 @@ void World::add_random_obstacles(unsigned number, ng_float_t min_radius,
   }
 }
 
+void World::reset() {
+  step = 0;
+  time = 0;
+  for (auto & [_, e] : entities) {
+    e->reset();
+  }
+}
+
 }  // namespace navground::sim

@@ -77,6 +77,7 @@ def make_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
 
     to_time = max(0, min(run.final_sim_time, to_time))
     from_time = min(from_time, max(0, from_time))
+    run.reset()
 
     if follow:
         if bounds is None:
@@ -237,7 +238,7 @@ def display_video(world: World,
                                 width=display_width)
 
 
-def display_video_from_run(run: RecordedExperimentalRun,
+def display_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
                            factor: float = 1.0,
                            fps: int = 30,
                            display_width: int = 640,

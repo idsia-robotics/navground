@@ -385,8 +385,8 @@ def size(
         scale = width / world_width
     else:
         scale = 1
-    height = max(min_height, scale * world_height)
-    if height % 1:
+    height = int(max(min_height, scale * world_height))
+    if height % 2:
         height = height + 1
     return width, height, (min_x, -max_y, world_width, world_height), min_y
 

@@ -193,8 +193,8 @@ void ORCABehavior::prepare(const Vector2 &target_velocity) {
     _RVOAgent->radius_ = safety_margin + radius + D;
     _RVOAgent->velocity_ = vector_from(
         twist.velocity + normal(pose.orientation) * D * twist.angular_speed);
-    _RVOAgent->maxSpeed_ = target_velocity.norm() /
-                           sqrt(1 + std::pow(0.5 * wk->get_axis() / D, 2));
+    _RVOAgent->maxSpeed_ =
+        target_velocity.norm() / sqrt(1 + std::pow(wk->get_axis() / D / 2, 2));
   } else {
     _RVOAgent->radius_ = safety_margin + radius;
     _RVOAgent->velocity_ = vector_from(twist.velocity);
@@ -238,7 +238,7 @@ void ORCABehavior::prepare(const Vector2 &target_velocity) {
   _RVOAgent->obstacleNeighbors_.clear();
   _RVOAgent->agentNeighbors_.clear();
   float rangeSq = (horizon * 2) * (horizon * 2);
-  float rangeSqObst = std::pow<float>(
+  float rangeSqObst = std::pow(
       _RVOAgent->timeHorizonObst_ * _RVOAgent->maxSpeed_ + _RVOAgent->radius_,
       2);
   for (const auto &obstacle : rvo_line_obstacles) {

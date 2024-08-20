@@ -72,7 +72,7 @@ void Experiment::init_dataset(std::optional<fs::path> path) {
     try {
       fs::create_directory(dir);
     }
-    catch (const fs::filesystem_error &e) {
+    catch (const fs::filesystem_error &) {
       std::cerr << "Could not create directory " << dir << std::endl;
       return;
     }
@@ -99,7 +99,7 @@ void Experiment::store_yaml(const std::string &yaml) const {
 
 void Experiment::finalize_dataset() {
   if (file) {
-    unsigned long d = get_duration_ns().count();
+    unsigned long d = static_cast<unsigned long >(get_duration_ns().count());
     file->createAttribute<unsigned long>("duration_ns",
                                          HighFive::DataSpace::From(d))
         .write(d);
@@ -156,7 +156,7 @@ void Experiment::run_in_sequence(bool keep, std::optional<unsigned> start_index,
   start(data_path);
   const unsigned max_index =
       start_index.value_or(run_index) + number.value_or(number_of_runs);
-  for (size_t i = start_index.value_or(run_index); i < max_index; i++) {
+  for (unsigned i = start_index.value_or(run_index); i < max_index; i++) {
     if (runs.count(i)) continue;
     auto &sim_run = _run_once(i);
     save_run(sim_run);
@@ -175,7 +175,7 @@ void Experiment::run_in_parallel(unsigned number_of_threads, bool keep,
   std::queue<unsigned> indices;
   const unsigned max_index =
       start_index.value_or(run_index) + number.value_or(number_of_runs);
-  for (size_t i = start_index.value_or(run_index); i < max_index; i++) {
+  for (unsigned i = start_index.value_or(run_index); i < max_index; i++) {
     indices.push(i);
   }
 

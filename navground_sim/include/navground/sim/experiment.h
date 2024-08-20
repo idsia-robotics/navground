@@ -454,7 +454,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @param[in]  value  The desired value
    */
-  void set_steps(ng_float_t value) { run_config.steps = value; }
+  void set_steps(unsigned value) { run_config.steps = value; }
   /**
    * @brief      Gets whether to terminate when all agents are idle or stuck.
    *

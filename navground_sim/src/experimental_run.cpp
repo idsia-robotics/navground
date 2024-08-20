@@ -287,7 +287,7 @@ class NeighborsProbe : public RecordProbe {
   void prepare(ExperimentalRun *run) override {
     const auto config = run->get_record_config().neighbors;
     if (config.number < 0) {
-      number = run->get_world()->get_agents().size() - 1;
+      number = static_cast<unsigned>(run->get_world()->get_agents().size() - 1);
     } else {
       number = config.number;
     }
@@ -444,7 +444,7 @@ void ExperimentalRun::save(HighFive::Group &group) const {
   store_attribute<unsigned>(_steps, "steps", group);
   store_attribute<unsigned>(get_seed(), "seed", group);
   store_attribute<ng_float_t>(_world->get_time(), "final_sim_time", group);
-  const unsigned long d = get_duration_ns().count();
+  const unsigned long d = static_cast<unsigned long>(get_duration_ns().count());
   group
       .createAttribute<unsigned long>("duration_ns",
                                       HighFive::DataSpace::From(d))
@@ -562,7 +562,7 @@ ExperimentalRun::get_collisions_at_step(int step) {
   if (collisions) {
     auto data = *(collisions->get_typed_data<unsigned>());
     auto b = SkipIt<unsigned>(data.data(), 3);
-    auto number = data.size() / 3;
+    const unsigned number = data.size() / 3;
     auto lower = std::lower_bound(b, b + number, step);
     unsigned i = std::distance(b, lower);
     if (i < number) {

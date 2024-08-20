@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Kinematics &#8212; navground 0.0.4 documentation</title>
+    <title>Kinematics &#8212; navground 0.0.5 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=dfd84850"></script>
+    <script src="../../../_static/documentation_options.js?v=6424ca4d"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -141,7 +141,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.4 documentation</p>
+    <p class="title logo__title">navground 0.0.5 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -195,6 +195,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/antipodal.html">Antipodal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/corridor.html">Corridor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross.html">Cross</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -451,6 +455,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wheeled-kinematics-based-class">Wheeled kinematics based class</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.WheeledKinematics"><code class="docutils literal notranslate"><span class="pre">WheeledKinematics</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.WheeledKinematics.__init__"><code class="docutils literal notranslate"><span class="pre">WheeledKinematics.__init__()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.WheeledKinematics.feasible_wheel_speeds"><code class="docutils literal notranslate"><span class="pre">WheeledKinematics.feasible_wheel_speeds()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.WheeledKinematics.twist"><code class="docutils literal notranslate"><span class="pre">WheeledKinematics.twist()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.WheeledKinematics.wheel_speeds"><code class="docutils literal notranslate"><span class="pre">WheeledKinematics.wheel_speeds()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.WheeledKinematics.axis"><code class="docutils literal notranslate"><span class="pre">WheeledKinematics.axis</span></code></a></li>
@@ -477,6 +482,19 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-wheels-differential-drive">Two wheels differential drive</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics.__init__"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-wheels-differential-drive-with-dynamic-constraints">Two wheels differential drive with dynamic constraints</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.__init__"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.twist_from_wheel_torques"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.twist_from_wheel_torques()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.wheel_torques"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.wheel_torques()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_acceleration"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.max_acceleration</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_angular_acceleration"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.max_angular_acceleration</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_wheel_torque"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.max_wheel_torque</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.moi"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.moi</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -523,11 +541,33 @@ document.write(`
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Kinematics.feasible">
-<span class="sig-name descname"><span class="pre">feasible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></span><a class="headerlink" href="#navground.core.Kinematics.feasible" title="Link to this definition">#</a></dt>
-<dd><p>Computes the nearest feasible twist to a desired twist.</p>
+<span class="sig-name descname"><span class="pre">feasible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#navground.core.Kinematics.feasible" title="Link to this definition">#</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>feasible(twist: navground.core.Twist2) -&gt; navground.core.Twist2</p></li>
+</ol>
+<p>Computes the nearest feasible twist to a desired twist.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>twist</strong> – The desired twist</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The same desired twist if feasible else the nearest feasible
+value. How this is defined depends on the concrete sub-class.</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>feasible(twist: navground.core.Twist2, current: navground.core.Twist2, time_step: float) -&gt; navground.core.Twist2</p></li>
+</ol>
+<p>Computes the nearest feasible twist to a desired twist, taking into
+account dynamic constraints</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>twist</strong> – The desired twist</p></li>
+<li><p><strong>current</strong> – The current twist</p></li>
+<li><p><strong>time_step</strong> – The time step to reach the desired twist</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The same desired twist if feasible else the nearest feasible
@@ -695,6 +735,20 @@ kinematics)</p>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="navground.core.kinematics.WheeledKinematics.feasible_wheel_speeds">
+<span class="sig-name descname"><span class="pre">feasible_wheel_speeds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.core.kinematics.WheeledKinematics.feasible_wheel_speeds" title="Link to this definition">#</a></dt>
+<dd><p>Convert a twist to feasible wheel speeds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – The twist</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The corresponding wheel speeds.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.core.kinematics.WheeledKinematics.twist">
 <span class="sig-name descname"><span class="pre">twist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></span><a class="headerlink" href="#navground.core.kinematics.WheeledKinematics.twist" title="Link to this definition">#</a></dt>
 <dd><p>Convert wheel speeds to a twist</p>
@@ -810,6 +864,124 @@ kinematics)</p>
 </dd></dl>
 
 </section>
+<section id="two-wheels-differential-drive-with-dynamic-constraints">
+<h2>Two wheels differential drive with dynamic constraints<a class="headerlink" href="#two-wheels-differential-drive-with-dynamic-constraints" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics</span></span><a class="headerlink" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics" title="navground.core._navground.TwoWheelsDifferentialDriveKinematics"><code class="xref py py-class docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics</span></code></a>, <a class="reference internal" href="#navground.core.kinematics.WheeledKinematics" title="navground.core._navground.WheeledKinematics"><code class="xref py py-class docutils literal notranslate"><span class="pre">WheeledKinematics</span></code></a></p>
+<p>Two differential drive wheels (left, right) (e.g., a wheelchair) with
+acceleration limits due to limited motor torque.</p>
+<p>The two motors have the same maximal torque.</p>
+<p><em>Registered properties</em>:</p>
+<ul class="simple">
+<li><p><cite>wheel_axis</cite> (float, <a class="reference internal" href="#navground.core.kinematics.WheeledKinematics.axis" title="navground.core.kinematics.WheeledKinematics.axis"><code class="xref py py-attr docutils literal notranslate"><span class="pre">WheeledKinematics.axis</span></code></a>)</p></li>
+<li><p><cite>max_acceleration</cite> (float, <a class="reference internal" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_acceleration" title="navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_acceleration"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max_acceleration</span></code></a>)</p></li>
+<li><p><cite>moi</cite> (float, <a class="reference internal" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.moi" title="navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.moi"><code class="xref py py-attr docutils literal notranslate"><span class="pre">moi</span></code></a>, 1.0 by default)</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_acceleration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Constructs a new instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_speed</strong> – The maximal wheel speed</p></li>
+<li><p><strong>axis</strong> – The wheel axis (i.e., the distance between the wheels)</p></li>
+<li><p><strong>max_acceleration</strong> – The maximal linear body acceleration</p></li>
+<li><p><strong>moi</strong> – The scaled moment of inertial (<code class="docutils literal notranslate"><span class="pre">moi</span> <span class="pre">=</span> <span class="pre">I</span> <span class="pre">/</span> <span class="pre">(mass</span> <span class="pre">*</span> <span class="pre">axis^2</span> <span class="pre">/</span> <span class="pre">8)</span></code>)
+Equal to one for an homogeneous disc of diameter <code class="docutils literal notranslate"><span class="pre">axis</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.twist_from_wheel_torques">
+<span class="sig-name descname"><span class="pre">twist_from_wheel_torques</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></span><a class="headerlink" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.twist_from_wheel_torques" title="Link to this definition">#</a></dt>
+<dd><p>Applies wheel torques to accelerate a twist over a time step</p>
+<p>Does not check the motor torques are feasible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – The motor torques</p></li>
+<li><p><strong>current</strong> – The current twist</p></li>
+<li><p><strong>time_step</strong> – The time step</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The accelerated twist.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.wheel_torques">
+<span class="sig-name descname"><span class="pre">wheel_torques</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">current</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.wheel_torques" title="Link to this definition">#</a></dt>
+<dd><p>Computes the wheel torques required to accelerate over a time step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – The target value</p></li>
+<li><p><strong>current</strong> – The current value</p></li>
+<li><p><strong>time_step</strong> – The time step</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>{left, right} wheel torques. May not be feasible</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_acceleration">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_acceleration</span></span><a class="headerlink" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_acceleration" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The maximal (body) acceleration.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_angular_acceleration">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_angular_acceleration</span></span><a class="headerlink" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_angular_acceleration" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The maximal (body) angular acceleration.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_wheel_torque">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_wheel_torque</span></span><a class="headerlink" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_wheel_torque" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The maximal [scaled] wheel torque.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.moi">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">moi</span></span><a class="headerlink" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.moi" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The scaled moment of inertial</p>
+<p>equal to 1.0 for an homogeneous of disc of diameter <code class="xref py py-attr docutils literal notranslate"><span class="pre">axis</span></code>.
+lower for when weight is shifted towards the center.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="four-wheels-omnidirectional-drive">
 <h2>Four wheels omnidirectional drive<a class="headerlink" href="#four-wheels-omnidirectional-drive" title="Link to this heading">#</a></h2>
 <dl class="py class">
@@ -909,6 +1081,7 @@ is the same as the lateral distance.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wheeled-kinematics-based-class">Wheeled kinematics based class</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.WheeledKinematics"><code class="docutils literal notranslate"><span class="pre">WheeledKinematics</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.WheeledKinematics.__init__"><code class="docutils literal notranslate"><span class="pre">WheeledKinematics.__init__()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.WheeledKinematics.feasible_wheel_speeds"><code class="docutils literal notranslate"><span class="pre">WheeledKinematics.feasible_wheel_speeds()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.WheeledKinematics.twist"><code class="docutils literal notranslate"><span class="pre">WheeledKinematics.twist()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.WheeledKinematics.wheel_speeds"><code class="docutils literal notranslate"><span class="pre">WheeledKinematics.wheel_speeds()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.WheeledKinematics.axis"><code class="docutils literal notranslate"><span class="pre">WheeledKinematics.axis</span></code></a></li>
@@ -935,6 +1108,19 @@ is the same as the lateral distance.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-wheels-differential-drive">Two wheels differential drive</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics.__init__"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-wheels-differential-drive-with-dynamic-constraints">Two wheels differential drive with dynamic constraints</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.__init__"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.twist_from_wheel_torques"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.twist_from_wheel_torques()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.wheel_torques"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.wheel_torques()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_acceleration"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.max_acceleration</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_angular_acceleration"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.max_angular_acceleration</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_wheel_torque"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.max_wheel_torque</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.moi"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics.moi</span></code></a></li>
 </ul>
 </li>
 </ul>

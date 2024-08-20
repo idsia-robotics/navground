@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Experiments &#8212; navground 0.0.4 documentation</title>
+    <title>Experiments &#8212; navground 0.0.5 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=dfd84850"></script>
+    <script src="../../../_static/documentation_options.js?v=6424ca4d"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -141,7 +141,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.4 documentation</p>
+    <p class="title logo__title">navground 0.0.5 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -195,6 +195,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/antipodal.html">Antipodal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/corridor.html">Corridor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross.html">Cross</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -496,6 +500,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig4poseE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::pose</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig5twistE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::twist</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig3cmdE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::cmd</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig12actuated_cmdE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::actuated_cmd</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig6targetE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::target</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig10collisionsE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::collisions</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig16safety_violationE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::safety_violation</span></code></a></li>
@@ -528,6 +533,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun9get_posesEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_poses()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun10get_twistsEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_twists()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun8get_cmdsEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_cmds()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun17get_actuated_cmdsEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_actuated_cmds()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun11get_targetsEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_targets()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun21get_safety_violationsEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_safety_violations()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun14get_collisionsEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_collisions()</span></code></a></li>
@@ -1146,6 +1152,12 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim12RecordConfig12actuated_cmdE">
+<span class="target" id="structnavground_1_1sim_1_1_record_config_1af060e840ca33e36db1d7feef63fb6846"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">actuated_cmd</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim12RecordConfig12actuated_cmdE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether to record the agents actuated control commands </p>
+</dd></dl>
+
+<dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim12RecordConfig6targetE">
 <span class="target" id="structnavground_1_1sim_1_1_record_config_1a27c96e552ecbedde84ab2bf31d17e9e0"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">target</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim12RecordConfig6targetE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether to record the agents targets </p>
@@ -1442,6 +1454,17 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim15ExperimentalRun8get_cmdsEv">
 <span class="target" id="classnavground_1_1sim_1_1_experimental_run_1a6bfadc3248f8c4df171bfcb9e5fb264f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim7DatasetE" title="navground::sim::Dataset"><span class="n"><span class="pre">Dataset</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_cmds</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim15ExperimentalRun8get_cmdsEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the recorded commands. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The record or none if not recorded. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim15ExperimentalRun17get_actuated_cmdsEv">
+<span class="target" id="classnavground_1_1sim_1_1_experimental_run_1a877b317e56ef14c4e067c8e3c961bab9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim7DatasetE" title="navground::sim::Dataset"><span class="n"><span class="pre">Dataset</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_actuated_cmds</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim15ExperimentalRun17get_actuated_cmdsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the recorded actuated commands. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The record or none if not recorded. </p>
@@ -2510,6 +2533,7 @@ Adds a callback to be executed before/after each run.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig4poseE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::pose</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig5twistE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::twist</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig3cmdE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::cmd</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig12actuated_cmdE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::actuated_cmd</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig6targetE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::target</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig10collisionsE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::collisions</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12RecordConfig16safety_violationE"><code class="docutils literal notranslate"><span class="pre">RecordConfig::safety_violation</span></code></a></li>
@@ -2542,6 +2566,7 @@ Adds a callback to be executed before/after each run.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun9get_posesEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_poses()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun10get_twistsEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_twists()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun8get_cmdsEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_cmds()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun17get_actuated_cmdsEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_actuated_cmds()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun11get_targetsEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_targets()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun21get_safety_violationsEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_safety_violations()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15ExperimentalRun14get_collisionsEv"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun::get_collisions()</span></code></a></li>

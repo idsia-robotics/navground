@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Agent &#8212; navground 0.0.4 documentation</title>
+    <title>Agent &#8212; navground 0.0.5 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=dfd84850"></script>
+    <script src="../../../_static/documentation_options.js?v=6424ca4d"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -141,7 +141,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.4 documentation</p>
+    <p class="title logo__title">navground 0.0.5 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -195,6 +195,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/antipodal.html">Antipodal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/corridor.html">Corridor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross.html">Cross</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -445,13 +449,18 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent12get_last_cmdEN4core5FrameE"><code class="docutils literal notranslate"><span class="pre">Agent::get_last_cmd()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent12get_last_cmdEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_last_cmd()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent12set_last_cmdERK6Twist2"><code class="docutils literal notranslate"><span class="pre">Agent::set_last_cmd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent16get_actuated_cmdEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_actuated_cmd()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent8get_poseEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_pose()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent8set_poseERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Agent::set_pose()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent9get_twistEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent9set_twistERK6Twist2"><code class="docutils literal notranslate"><span class="pre">Agent::set_twist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent7add_tagERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Agent::add_tag()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent10remove_tagERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Agent::remove_tag()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent7actuateERK6Twist210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Agent::actuate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent20has_been_stuck_sinceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Agent::has_been_stuck_since()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent20get_time_since_stuckEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_time_since_stuck()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent11get_enabledEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_enabled()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent11set_enabledEb"><code class="docutils literal notranslate"><span class="pre">Agent::set_enabled()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent2idE"><code class="docutils literal notranslate"><span class="pre">Agent::id</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent6radiusE"><code class="docutils literal notranslate"><span class="pre">Agent::radius</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent14control_periodE"><code class="docutils literal notranslate"><span class="pre">Agent::control_period</span></code></a></li>
@@ -664,7 +673,7 @@ document.write(`
 <dd><p>Gets the last command. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The controller. </p>
+<dd class="field-odd"><p>The command. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -676,6 +685,20 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5Agent16get_actuated_cmdEv">
+<span class="target" id="classnavground_1_1sim_1_1_agent_1adbd76489d33dd0b55b2e6f6691e4a490"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_actuated_cmd</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent16get_actuated_cmdEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the last actuated command. </p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        <span class="n">The</span> <span class="n">actuated</span> <span class="n">command</span> <span class="ow">is</span> <span class="n">always</span> <span class="n">kinematically</span> <span class="n">feasible</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The command. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -725,6 +748,28 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent7add_tagERKNSt6stringE">
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a45a4268248dfa585d60dfe3243570fe8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_tag</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">tag</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent7add_tagERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Adds a tag. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tag</strong> – <strong>[in]</strong> The tag </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent10remove_tagERKNSt6stringE">
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a3e8f510982a87ceba29048fd83d64b3b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_tag</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">tag</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent10remove_tagERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Removes a tag. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tag</strong> – <strong>[in]</strong> The tag </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent7actuateERK6Twist210ng_float_t">
 <span class="target" id="classnavground_1_1sim_1_1_agent_1af5470251a04f016f0c994c70e1623a0c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">actuate</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cmd</span></span>, <a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">dt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent7actuateERK6Twist210ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Actuate the current agent control command. </p>
@@ -759,6 +804,34 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The time since stuck. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5Agent11get_enabledEv">
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a1731ca45c262fe58241c1fe40742c28b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_enabled</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5Agent11get_enabledEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets whether the agent is enabled. </p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        <span class="n">Disabled</span> <span class="n">agents</span> <span class="n">are</span> <span class="n">ignored</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">simulation</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if enabled. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5Agent11set_enabledEb">
+<span class="target" id="classnavground_1_1sim_1_1_agent_1a3202fe6e1c3309f053696ef66c4e25f0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_enabled</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5Agent11set_enabledEb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets whether the agent is enabled. </p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        <span class="n">Disabled</span> <span class="n">agents</span> <span class="n">are</span> <span class="n">ignored</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">simulation</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired value </p>
 </dd>
 </dl>
 </dd></dl>
@@ -922,13 +995,18 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent12get_last_cmdEN4core5FrameE"><code class="docutils literal notranslate"><span class="pre">Agent::get_last_cmd()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent12get_last_cmdEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_last_cmd()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent12set_last_cmdERK6Twist2"><code class="docutils literal notranslate"><span class="pre">Agent::set_last_cmd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent16get_actuated_cmdEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_actuated_cmd()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent8get_poseEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_pose()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent8set_poseERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Agent::set_pose()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent9get_twistEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent9set_twistERK6Twist2"><code class="docutils literal notranslate"><span class="pre">Agent::set_twist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent7add_tagERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Agent::add_tag()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent10remove_tagERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Agent::remove_tag()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent7actuateERK6Twist210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Agent::actuate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent20has_been_stuck_sinceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Agent::has_been_stuck_since()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent20get_time_since_stuckEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_time_since_stuck()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5Agent11get_enabledEv"><code class="docutils literal notranslate"><span class="pre">Agent::get_enabled()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent11set_enabledEb"><code class="docutils literal notranslate"><span class="pre">Agent::set_enabled()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent2idE"><code class="docutils literal notranslate"><span class="pre">Agent::id</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent6radiusE"><code class="docutils literal notranslate"><span class="pre">Agent::radius</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5Agent14control_periodE"><code class="docutils literal notranslate"><span class="pre">Agent::control_period</span></code></a></li>

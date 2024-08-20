@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Two-wheeled kinematics &#8212; navground 0.0.4 documentation</title>
+    <title>Two-wheeled kinematics &#8212; navground 0.0.5 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=dfd84850"></script>
+    <script src="../_static/documentation_options.js?v=6424ca4d"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -144,7 +144,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.4 documentation</p>
+    <p class="title logo__title">navground 0.0.5 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -447,6 +447,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Example</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motor-controller">Motor controller</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Example</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment">Experiment</a></li>
 </ul>
             </nav>
@@ -461,40 +465,44 @@ document.write(`
                   
   <section id="two-wheeled-kinematics">
 <h1>Two-wheeled kinematics<a class="headerlink" href="#two-wheeled-kinematics" title="Link to this heading">#</a></h1>
-<p>In navground, kinematics are responsible to compute feasible commands (i.e., twists) from arbitrary commands. The most basic kinematics, called “Omni”, just limits the norm of velocity to <code class="docutils literal notranslate"><span class="pre">maximal_speed</span></code> and of angular speed to <code class="docutils literal notranslate"><span class="pre">maximal_angular_speed</span></code>. Here we focus instead on the kinematics of a robot with two differential drive wheels depicted below.</p>
-<div class="figure" id="id3" style="text-align: center"><p><img width="25%" src="../_images/tikz-2c0947d7fe1d1a01fc7c0811c6b1cf7fa601f201.png" alt="Figure made with TikZ" /></p>
+<p>In navground, kinematics are responsible to compute feasible commands (i.e., twists) from arbitrary commands. The most basic kinematics, called “Omni”, simply limits the norm of velocity to <code class="docutils literal notranslate"><span class="pre">maximal_speed</span></code> and the absolute value of angular speed to <code class="docutils literal notranslate"><span class="pre">maximal_angular_speed</span></code>. In this section, we focus on the kinematics of a robot with two differential drive wheels as depicted below.</p>
+<div class="figure" id="id4" style="text-align: center"><p><img width="25%" src="../_images/tikz-2c0947d7fe1d1a01fc7c0811c6b1cf7fa601f201.png" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Top view of a two-wheeled differential drive robot</span></p>
-</div><p>The robot has radius <span class="math notranslate nohighlight">\(R\)</span> and its two wheels (left <span class="math notranslate nohighlight">\(l\)</span> and right <span class="math notranslate nohighlight">\(r\)</span>) are placed on a common axis, distanced by <span class="math notranslate nohighlight">\(A\)</span>.</p>
+</div><p>The robot has radius <span class="math notranslate nohighlight">\(R\)</span> with two wheels (left <span class="math notranslate nohighlight">\(l\)</span> and right <span class="math notranslate nohighlight">\(r\)</span>), positioned on a common axis, distanced by <span class="math notranslate nohighlight">\(A\)</span>. We introduce a robot-fixed, positively oriented, orthonormal reference frame <span class="math notranslate nohighlight">\(\{\vec e_1, \vec e_2\}\)</span>, positioned at the center of the wheel axis.</p>
 <section id="kinematics">
 <h2>Kinematics<a class="headerlink" href="#kinematics" title="Link to this heading">#</a></h2>
-<p>Kinematics primary deals with velocity and in particular with the mapping between body and actuators velocities.</p>
-<p>In our case, the robot moves forwards at linear speed <span class="math notranslate nohighlight">\(v\)</span> with respect to its reference frame <span class="math notranslate nohighlight">\(\{\vec e_1, \vec e_2\}\)</span> which in turn rotates at angular speed <span class="math notranslate nohighlight">\(\omega\)</span>.</p>
+<p>Kinematics primary deals with velocities and in particular with the mapping between body velocity and actuators velocities.
+In our case, the robot moves forwards at linear speed <span class="math notranslate nohighlight">\(v\)</span> with respect to its reference frame <span class="math notranslate nohighlight">\(\{\vec e_1, \vec e_2\}\)</span>, which in turn rotates at angular speed <span class="math notranslate nohighlight">\(\omega\)</span></p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\vec v &amp; = v \vec e_1 \\
-\dot{\vec e_1} &amp; = \omega \vec e_2\end{split}\]</div>
+\[\begin{split}\vec v &amp; = v \vec e_1, \\
+\dot{\vec e_1} &amp; = \omega \vec e_2.\end{split}\]</div>
 <p>To convert between wheel speeds <span class="math notranslate nohighlight">\(v_{l, r}\)</span> and body velocity <span class="math notranslate nohighlight">\((v, \omega)\)</span>, we can use</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}v = \frac{v_r + v_l}{2} \\
-\omega = \frac{v_r - v_l}{A} \\
-v_{r, l} = v \pm \frac{A \omega}{2}\end{split}\]</div>
-<p>If wheel speed in limited by <span class="math notranslate nohighlight">\(v^\max\)</span>, not all body velocities are feasible anymore; for example, it is not possible to move and rotate at maximal speed at the same time. In the diagram below, we see in dark green the interval of body velocities <span class="math notranslate nohighlight">\([-v^\max, v^\max] \times [-\omega^\max, \omega^\max]\)</span>, with</p>
+\[\begin{split}v = \frac{v_r + v_l}{2}, \\
+\omega = \frac{v_r - v_l}{A}, \\
+v_{r, l} = v \pm \frac{A \omega}{2}.\end{split}\]</div>
+<p>If wheel speed is limited by <span class="math notranslate nohighlight">\(v^\max\)</span>, not all body velocities are feasible anymore; for example, it is not possible to move and rotate at maximal speed at the same time. In the diagram below, we represent in dark green the interval of body velocities <span class="math notranslate nohighlight">\([-v^\max, v^\max] \times [-\omega^\max, \omega^\max]\)</span> with</p>
 <div class="math notranslate nohighlight">
-\[\omega^\max = \frac{2v^\max}{A}\]</div>
+\[\omega^\max = \frac{2v^\max}{A},\]</div>
 <p>and in bright green the feasible set of velocities that corresponds to wheel velocities in <span class="math notranslate nohighlight">\([-v^\max, v^\max]\)</span>.</p>
-<div class="figure" id="id4" style="text-align: center"><p><img width="40%" src="../_images/tikz-e8157429606712cc864582d4de4bbbbe6f55452c.png" alt="Figure made with TikZ" /></p>
+<div class="figure" id="id5" style="text-align: center"><p><img width="40%" src="../_images/tikz-e8157429606712cc864582d4de4bbbbe6f55452c.png" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Feasible velocity set</span></p>
-</div><p>There are many ways to match a twist that lies outside of the feasible set to a twist inside the feasible test. The navground “2WDiff” kinematics uses the following strategy that privileges angular over linear speed:</p>
+</div><p>There are different ways to match a twist that lies outside of the feasible set to a twist inside the feasible test. The navground “2WDiff” kinematics uses the following strategy that privileges angular over linear speed:</p>
 <ol class="arabic">
-<li><p>First, the angular speed is clipped</p>
+<li><p>first, angular speed is clipped</p>
 <div class="math notranslate nohighlight">
 \[\omega \leftarrow \omega \left|_{[-\omega^\max, -\omega^\max]} \right.\]</div>
-</li>
-<li><p>Then, the linear speed is clipped, so that the twist is contained in the feasible set:</p>
+<div class="figure" id="id6" style="text-align: center"><p><img width="30%" src="../_images/tikz-f74d21f512bcab96c11e2cba4044aa7ff3ed2dea.png" alt="Figure made with TikZ" /></p>
+<p><span class="caption-text">Clipping angular speed</span></p>
+</div></li>
+<li><p>then, linear speed is clipped so that the twist is contained in the feasible set:</p>
 <div class="math notranslate nohighlight">
 \[v \leftarrow v \left|_{[-v^\max - |\omega \frac{A}{2}|, v^\max + |\omega \frac{A}{2}|]}  \right.\]</div>
-<p>This is the same as first clipping the largest wheel speed and then setting the other wheel speed so that their difference is maintained.</p>
-</li>
+<div class="figure" id="id7" style="text-align: center"><p><img width="18%" src="../_images/tikz-68d307fcdca463f5a59032dc20cf244452369e0b.png" alt="Figure made with TikZ" /></p>
+<p><span class="caption-text">Clipping linear speed</span></p>
+</div></li>
 </ol>
+<p>This is the same as first clipping the largest wheel speed and then setting the other wheel speed so that their difference is maintained.</p>
 <section id="example">
 <h3>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">core</span>
@@ -502,7 +510,7 @@ v_{r, l} = v \pm \frac{A \omega}{2}\end{split}\]</div>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">kinematics</span><span class="o">.</span><span class="n">max_angular_speed</span>
 <span class="go">2.0</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cmd</span> <span class="o">=</span> <span class="n">kinematics</span><span class="o">.</span><span class="n">feasible</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Twist2</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmd</span> <span class="o">=</span> <span class="n">kinematics</span><span class="o">.</span><span class="n">feasible</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Twist2</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">Frame</span><span class="o">.</span><span class="n">relative</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cmd</span>
 <span class="go">Twist2((0.250000, 0.000000), 1.500000, frame=Frame.relative)</span>
 
@@ -518,7 +526,7 @@ v_{r, l} = v \pm \frac{A \omega}{2}\end{split}\]</div>
 <p>Moving to second order, we can compute the acceleration:</p>
 <div class="math notranslate nohighlight">
 \[\frac{d(\vec v, \omega)}{dt} = (\dot v \vec e_1 + v \omega \vec e_2, \dot \omega)\]</div>
-<p>We can ignore the transversal component <span class="math notranslate nohighlight">\(\vec e_2\)</span> as it is sonely due to the lateral friction between wheel and floor that avoids that the robot slips and focus just on linear and angular accelerations:</p>
+<p>We can ignore the transversal component <span class="math notranslate nohighlight">\(\vec e_2\)</span> as it is sonely due to the lateral friction between wheel and floor that avoids that the robot slips. Therefore, we focus on linear and angular accelerations:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}a &amp; \doteq \dot v  \\
 \alpha &amp; \doteq \dot \omega\end{split}\]</div>
@@ -533,7 +541,7 @@ v_{r, l} = v \pm \frac{A \omega}{2}\end{split}\]</div>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">kinematics</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">kinematics</span><span class="o">.</span><span class="n">TwoWheelsDifferentialDriveKinematics</span><span class="p">(</span>  <span class="n">max_speed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cmd</span> <span class="o">=</span> <span class="n">kinematics</span><span class="o">.</span><span class="n">feasible</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Twist2</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mf">1.5</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">current</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Twist2</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">core</span><span class="o">.</span><span class="n">Frame</span><span class="o">.</span><span class="n">relative</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">current</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_acceleration</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>   <span class="n">max_angular_acceleration</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">current</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_acceleration</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">max_angular_acceleration</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="go">Twist2((0.100000, 0.000000), 0.100000, frame=Frame.relative)</span>
 </pre></div>
 </div>
@@ -541,8 +549,8 @@ v_{r, l} = v \pm \frac{A \omega}{2}\end{split}\]</div>
 </section>
 <section id="dynamics">
 <h2>Dynamics<a class="headerlink" href="#dynamics" title="Link to this heading">#</a></h2>
-<p>Let’s say we want to simulate a robot having motors. The simplest assumption we can make is that the motor torque is limited, which in turn limits acceleration. To understand this relationship, we compute the dynamics of the system. Let us assume that the robot has mass <span class="math notranslate nohighlight">\(m\)</span>, vertical-component of moment of inertia <span class="math notranslate nohighlight">\(I\)</span> and that the two motors apply forces <span class="math notranslate nohighlight">\(F_{r,l}\)</span> to the robot body without slipping.</p>
-<div class="figure" id="id5" style="text-align: center"><p><img width="25%" src="../_images/tikz-4d1f99d2642ff524d1f1b348ff9dcfd8a7dffef2.png" alt="Figure made with TikZ" /></p>
+<p>Let’s say we want to simulate a robot having motors. The simplest assumption we can make is that the motor torque is limited, which in turn would limit acceleration. To understand this relationship, we compute the dynamics of the system. Let us assume that the robot has mass <span class="math notranslate nohighlight">\(m\)</span>, vertical-component of moment of inertia <span class="math notranslate nohighlight">\(I\)</span> and that the two motors apply forces <span class="math notranslate nohighlight">\(F_{r,l}\)</span> to the robot body without slipping.</p>
+<div class="figure" id="id8" style="text-align: center"><p><img width="25%" src="../_images/tikz-4d1f99d2642ff524d1f1b348ff9dcfd8a7dffef2.png" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Top view of a two-wheeled differential drive robot with motors</span></p>
 </div><p>These forces will cause the robot to accelerate as</p>
 <div class="math notranslate nohighlight">
@@ -558,23 +566,27 @@ f_{r, l} &amp; \doteq \frac{2 F_{r, l}}{m} \\\end{split}\]</div>
 <p>then</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}f_{r,l} &amp;= a \pm i A \alpha / 4  \\
-a &amp;= (f_{r} + f_{l}) / 2\\
-\alpha &amp;= 2 (f_{r} - f_{l}) / (i A) \\\end{split}\]</div>
-<p>The mapping between wheel accelerations and forces shows how one wheel motor impacts also the other wheel (when <span class="math notranslate nohighlight">\(i \neq 2\)</span>)</p>
+a &amp;= \frac{f_{r} + f_{l}}{2}\\
+\alpha &amp;= 2 \frac{f_{r} - f_{l}}{i A} \\\end{split}\]</div>
+<p>The mapping between wheel accelerations and forces shows that one wheel motor impacts also the other wheel when <span class="math notranslate nohighlight">\(i \neq 2\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}f_{r,l} &amp; = \left((2 + i) \dot v_r  + (2 - i) \dot v_l\right) / 4  \\
-\dot v_{r, l} &amp; = \left((2+i) f_{r, l} - (2-i) f_{l, r}\right) / (2i)\end{split}\]</div>
+\[\begin{split}f_{r,l} &amp; = \frac{(2 + i) \dot v_{r, l}  + (2 - i) \dot v_{l, r}}{4}  \\
+\dot v_{r, l} &amp; = \frac{(2+i) f_{r, l} - (2-i) f_{l, r}}{2i}\end{split}\]</div>
 <p>Maximal body acceleration is obtained when both forces are maximal in the same direction, while maximal body angular acceleration when they act in opposite directions:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}a^\max &amp;= f^\max \\
 \alpha^\max &amp;= 4 a^\max / (i A) \\\end{split}\]</div>
 <p>We can fully specify the dynamics with <span class="math notranslate nohighlight">\(a^\max\)</span> and <span class="math notranslate nohighlight">\(i\)</span> (or <span class="math notranslate nohighlight">\(\alpha^\max\)</span>) instead of mass and maximal motor torque.</p>
+<p>The moment of inertia can be computed from the wheel accelerations when the robot accelerates at maximum moving straight (<span class="math notranslate nohighlight">\(a^\max_{\mathit{fwd}} = a^\max\)</span>) and rotating in place (<span class="math notranslate nohighlight">\(a^\max_{\mathit{rot}} = \alpha^\max \frac{A}{2}\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}i &amp; = \frac{4 a^\max}{A \alpha^\max} \\
+  &amp; = 2 \frac{a^\max_{\mathit{fwd}}}{a^\max_{\mathit{rot}}}\end{split}\]</div>
 <p>The relationship between wheel forces and body acceleration is similar to the relationship between wheel speeds and body velocity and adds a constrain on feasible accelerations represented in the diagram below:</p>
-<div class="figure" id="id6" style="text-align: center"><p><img width="40%" src="../_images/tikz-4800671c60fe5b13bff937a8a400b7ee72e9494e.png" alt="Figure made with TikZ" /></p>
+<div class="figure" id="id9" style="text-align: center"><p><img width="40%" src="../_images/tikz-4800671c60fe5b13bff937a8a400b7ee72e9494e.png" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Feasible acceleration set</span></p>
-</div><p>As before, given an arbitrary velocity <span class="math notranslate nohighlight">\((v, \omega)\)</span> there may be different ways to compute a feasible velocity from the current velocity <span class="math notranslate nohighlight">\((v_0, \omega_0)\)</span> (the dot below) over one time step <span class="math notranslate nohighlight">\(\Delta t\)</span>, respecting both constraints: maximal acceleration in blue and maximal velocity in green.</p>
-<div class="figure" id="id7" style="text-align: center"><p><img width="40%" src="../_images/tikz-dff132a791b149219264c7c943ab7bf68cf99020.png" alt="Figure made with TikZ" /></p>
-<p><span class="caption-text">Feasible velocity set with dynamic</span></p>
+</div><p>As before, given an arbitrary velocity <span class="math notranslate nohighlight">\((v, \omega)\)</span> there may be different ways to compute a feasible velocity from the current velocity <span class="math notranslate nohighlight">\((v_0, \omega_0)\)</span> (the dot below) over one time step <span class="math notranslate nohighlight">\(\Delta t\)</span>, respecting both constraints: maximal torque (blue) and maximal velocity (green).</p>
+<div class="figure" id="id10" style="text-align: center"><p><img width="40%" src="../_images/tikz-dff132a791b149219264c7c943ab7bf68cf99020.png" alt="Figure made with TikZ" /></p>
+<p><span class="caption-text">Respecting dynamics, the feasible velocity set is the intersection of green and blue sets.</span></p>
 </div><p>Similarly to “2WDiff”, the navground kinematics “2WDiffDyn” privileges angular speed:</p>
 <ol class="arabic">
 <li><p>First, a feasible velocity is computed ignoring dynamics, i.e., clipping it inside the green set using the same strategy as “2WDiff”.</p></li>
@@ -589,7 +601,10 @@ a &amp;= (f_{r} + f_{l}) / 2\\
 v &amp; \leftarrow v \left|_{[v_0 -\Delta v^\max, v_0 + \Delta v^\max]} \right.\end{split}\]</div>
 </li>
 </ol>
-<p>Alternatively, we could compute and clip the motor torques independently.</p>
+<p>These three steps are illustrated below:</p>
+<div class="figure" id="id11" style="text-align: center"><p><img width="30%" src="../_images/tikz-1c3481cd7fd9e1e6ed3484aef20858d31b78e1aa.png" alt="Figure made with TikZ" /></p>
+<p><span class="caption-text">Computing a feasible twist respecting maximal torque.</span></p>
+</div><p>Alternatively, we could compute and clip the motor torques independently.</p>
 <section id="id2">
 <h3>Example<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">core</span>
@@ -603,12 +618,63 @@ v &amp; \leftarrow v \left|_{[v_0 -\Delta v^\max, v_0 + \Delta v^\max]} \right.\
 </div>
 </section>
 </section>
+<section id="motor-controller">
+<h2>Motor controller<a class="headerlink" href="#motor-controller" title="Link to this heading">#</a></h2>
+<p>If we want to apply a more complex motor controller compared to clipping torque to the feasible range, we can either create a new kinematics (possibly sub-classing “2WDiffDyn”) or, preferably as kinematics should focus on constrains, introduce a new behavior modulation.
+Here we show an example of the latter, for a proportional torque controller that updates like:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}e &amp; \leftarrow f_{\mathrm{des}} - f \\
+f &amp; \leftarrow f + k e\end{split}\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A similar PID controller is offered by <a class="reference internal" href="../reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.MotorPIDModulation" title="navground.core.behavior_modulations.MotorPIDModulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">navground.core.behavior_modulations.MotorPIDModulation</span></code></a>.</p>
+</div>
+<section id="id3">
+<h3>Example<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">class</span> <span class="nc">MotorController</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">BehaviorModulation</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MotorController&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">torques</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">behavior</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Behavior</span><span class="p">,</span> <span class="n">time_step</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+             <span class="n">cmd</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Twist2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">Twist2</span><span class="p">:</span>
+        <span class="c1"># We assume that the kinematics supports dynamics</span>
+        <span class="c1"># Let&#39;s compute a feasible control</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">behavior</span><span class="o">.</span><span class="n">get_twist</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Frame</span><span class="o">.</span><span class="n">relative</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">behavior</span><span class="o">.</span><span class="n">kinematics</span><span class="o">.</span><span class="n">feasible</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">current</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
+        <span class="c1"># and torques, which are also feasible</span>
+        <span class="n">target_torques</span> <span class="o">=</span> <span class="n">behavior</span><span class="o">.</span><span class="n">kinematics</span><span class="o">.</span><span class="n">wheel_torques</span><span class="p">(</span>
+            <span class="n">cmd</span><span class="p">,</span> <span class="n">current</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
+        <span class="c1"># We then apply a simple P-controller to the torques</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">target_torques</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">torques</span>
+        <span class="n">max_torque</span> <span class="o">=</span> <span class="n">behavior</span><span class="o">.</span><span class="n">kinematics</span><span class="o">.</span><span class="n">max_wheel_torque</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">torques</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">torques</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="n">e</span><span class="p">,</span> <span class="o">-</span><span class="n">max_torque</span><span class="p">,</span> <span class="n">max_torque</span><span class="p">)</span>
+        <span class="c1"># and return the twist obtained by applying these torques.</span>
+        <span class="k">return</span> <span class="n">behavior</span><span class="o">.</span><span class="n">kinematics</span><span class="o">.</span><span class="n">twist_from_wheel_torques</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">torques</span><span class="p">,</span> <span class="n">current</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@core</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="s2">&quot;P factor&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">k</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_k</span>
+
+    <span class="nd">@k</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_k</span> <span class="o">=</span> <span class="n">value</span>
+</pre></div>
+</div>
+</section>
+</section>
 <section id="experiment">
 <h2>Experiment<a class="headerlink" href="#experiment" title="Link to this heading">#</a></h2>
-<p>Let us do a short experiment that test the three solutions.
+<p>Let us do a short experiment that tests the four alternatives.
 We simulate one run of the same scenario as in <a class="reference internal" href="../tutorials/tour.html"><span class="doc">A tour of navground</span></a>, with a single static obstacle to pass before reaching the target.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">No dynamic, no acceleration limits</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">No dynamic, acceleration limits</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Dynamic</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">140</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">No dynamic, no acceleration limits</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">No dynamic, acceleration limits</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Dynamic</button><button aria-controls="panel-0-0-3" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-3" name="0-3" role="tab" tabindex="-1">Dynamic with motor controller</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">140</span>
 <span class="nt">time_step</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
 <span class="nt">record_pose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="nt">record_time</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -710,6 +776,43 @@ We simulate one run of the same scenario as in <a class="reference internal" hre
 <span class="w">        </span><span class="nt">tolerance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 </pre></div>
 </div>
+</div><div aria-labelledby="tab-0-0-3" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-3" name="0-3" role="tabpanel" tabindex="0"><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">140</span>
+<span class="nt">time_step</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="nt">record_pose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">record_time</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">record_actuated_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">terminate_when_all_idle_or_stuck</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="nt">scenario</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">obstacles</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">radius</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">position</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.1</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">groups</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span>
+<span class="w">      </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">radius</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">control_period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="w">      </span><span class="nt">speed_tolerance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.02</span>
+<span class="w">      </span><span class="nt">kinematics</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2WDiffDyn</span>
+<span class="w">        </span><span class="nt">wheel_axis</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">max_speed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">max_acceleration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">moi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">behavior</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ORCA</span>
+<span class="w">        </span><span class="nt">modulations</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MotorController</span>
+<span class="w">            </span><span class="nt">k</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+<span class="w">      </span><span class="nt">state_estimation</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bounded</span>
+<span class="w">        </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">      </span><span class="nt">task</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Waypoints</span>
+<span class="w">        </span><span class="nt">waypoints</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[[</span><span class="nv">10</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">]]</span>
+<span class="w">        </span><span class="nt">loop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">        </span><span class="nt">tolerance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</pre></div>
+</div>
 </div></div>
 <p>Let’s compare the trajectories,</p>
 <a class="reference internal image-reference" href="../_images/2wk_trajectory.pdf"><img alt="../_images/2wk_trajectory.pdf" src="../_images/2wk_trajectory.pdf" style="width: 800px;" /></a>
@@ -721,7 +824,7 @@ We simulate one run of the same scenario as in <a class="reference internal" hre
 <a class="reference internal image-reference" href="../_images/2wk_actuated_ang_acc.pdf"><img alt="../_images/2wk_actuated_ang_acc.pdf" src="../_images/2wk_actuated_ang_acc.pdf" style="width: 800px;" /></a>
 <p>and the forces required by the motors (dashed = left motor).</p>
 <a class="reference internal image-reference" href="../_images/2wk_actuated_force.pdf"><img alt="../_images/2wk_actuated_force.pdf" src="../_images/2wk_actuated_force.pdf" style="width: 800px;" /></a>
-<p>Because the acceleration limits are large enough, the trajectories are similar. All respect the wheel speed limits. We observe how the forces required by the robot wheels in case of no acceleration limits are much larger and exceed the feasible band ([-1, 1]) defined by the “2WDiffDyn” kinematics.</p>
+<p>Because the acceleration limits are large enough, the trajectories are similar. All controllers respect the wheel speed limits. We observe how the forces required by the robot wheels in case of no acceleration limits are much larger and exceed the feasible band ([-1, 1]) defined by the “2WDiffDyn” kinematics.</p>
 </section>
 </section>
 
@@ -780,6 +883,10 @@ We simulate one run of the same scenario as in <a class="reference internal" hre
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamics">Dynamics</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motor-controller">Motor controller</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Example</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment">Experiment</a></li>

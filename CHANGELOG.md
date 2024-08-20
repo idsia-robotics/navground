@@ -10,6 +10,72 @@
 
 ### Removed
 
+## [0.0.5] - 2024-20-8
+
+### Added
+
+
+- Core:
+
+  - algebraic and geometric operators to Disc and Neighbor
+  - added custom YAML serialization/deserialization to registered subclasses (C++ and Python)
+  - behavior modulations
+    - acceleration limiting modulation
+    - motor PID modulation
+  - behavior tag manipulation from Python
+  - dynamic two-wheeled diff drive kinematics
+
+- Sim:
+
+  - Eigen tensor view of datasets
+  - jumping to time steps in recorded runs
+  - user customizable World termination criteria
+  - `World` bounds property
+  - grid, agent following, rotation and trimming to visualization/videos
+  - support to make videos from simulated runs
+  - python (sub) modules for notebook and pyplot
+  - exposed random generator (seed) in Python
+  - sensor combination and boundary sensor
+  - recording sensor readings and neighbors
+  - experiment init callback
+  - method to extract collision "events"
+
+- Python:
+  - stubs for core and sim
+  - increased pickle support
+
+### Fixed
+
+  - Corrected (registered) Python sub-classes pickling
+  - Lines were sometimes ignored by ORCA
+  - Replaced implicit zero eigen vectors with explicit `Vector2::Zero()`` calls
+
+### Changed
+
+- Core:
+
+  - improved ORCA: switched to most recent library version, new options, exposed ORCA lines, neighbor computation aligned to RVO2 implementation
+  - improved HRVO: new options and cleaned up
+  - improved SocialForce: exposed options
+  - it is now possible to instantiate "empty" behaviors from YAML
+  - refactored `Behavior::compute_cmd` into public not virtual class and protected virtual internal implementation
+
+- Sim:
+
+  - group number is now a random variable
+  - function to sample discs
+  - lattice implementation does not use ghosts anymore
+  - refactored World preparation and validity checks
+  - requires now `multiprocess` instead of `multiprocessing`
+  - added option to report nearest point instead of center  and id to `DiscsStateEstimation`
+  - wall/obstacle YAML include Line/disc as an child now
+  - corrected collision with walls
+  - scenario properties are now random variables too.
+  - experiments now stores Python probes
+  - samplers reset seed is now optional
+
+### Removed
+
 ## [0.0.4] - 2024-1-4
 
 ### Added

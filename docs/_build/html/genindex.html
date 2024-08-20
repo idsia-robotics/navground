@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; navground 0.0.4 documentation</title>
+    <title>Index &#8212; navground 0.0.5 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 
     <script src="_static/jquery.js?v=5d32c60e"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="_static/documentation_options.js?v=dfd84850"></script>
+    <script src="_static/documentation_options.js?v=6424ca4d"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -141,7 +141,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.4 documentation</p>
+    <p class="title logo__title">navground 0.0.5 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -195,6 +195,10 @@
 <li class="toctree-l2"><a class="reference internal" href="scenarios/antipodal.html">Antipodal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scenarios/corridor.html">Corridor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scenarios/cross.html">Cross</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -455,6 +459,8 @@ document.write(`
 </li>
         <li><a href="reference/core/python/behaviors/dummy.html#navground.core.behaviors.DummyBehavior.__init__">(DummyBehavior method)</a>
 </li>
+        <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.__init__">(DynamicTwoWheelsDifferentialDriveKinematics method)</a>
+</li>
         <li><a href="reference/core/python/state.html#navground.core.EnvironmentState.__init__">(EnvironmentState method)</a>
 </li>
         <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.__init__">(Experiment method)</a>
@@ -475,7 +481,11 @@ document.write(`
 </li>
         <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.__init__">(LidarStateEstimation method)</a>
 </li>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.LimitAccelerationModulation.__init__">(LimitAccelerationModulation method)</a>
+</li>
         <li><a href="reference/core/python/state.html#navground.core.LineSegment.__init__">(LineSegment method)</a>
+</li>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.MotorPIDModulation.__init__">(MotorPIDModulation method)</a>
 </li>
         <li><a href="reference/core/python/state.html#navground.core.Neighbor.__init__">(Neighbor method)</a>
 </li>
@@ -498,6 +508,8 @@ document.write(`
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.__init__">(RecordedExperiment method)</a>
 </li>
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.__init__">(RecordedExperimentalRun method)</a>
+</li>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.RelaxationModulation.__init__">(RelaxationModulation method)</a>
 </li>
         <li><a href="reference/core/python/state.html#navground.core.SensingState.__init__">(SensingState method)</a>
 </li>
@@ -566,6 +578,14 @@ document.write(`
         <li><a href="reference/sim/python/world.html#navground.sim.World.actuate">(World method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.actuated_cmd">actuated_cmd (Agent property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.actuated_cmd">(RecordConfig property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.actuated_commands">actuated_commands (ExperimentalRun property)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.actuated_twist">actuated_twist (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.actuated_wheel_speeds">actuated_wheel_speeds (Behavior property)</a>
@@ -620,6 +640,8 @@ document.write(`
         <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.add_safety_to_agent_margin">(CrossTorusScenario property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.add_tag">add_tag() (Agent method)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.add_wall">add_wall() (World method)</a>
 </li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent">Agent (class in navground.sim)</a>
@@ -911,6 +933,8 @@ document.write(`
       </ul></li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation.dynamic_free_distance">dynamic_free_distance() (CollisionComputation method)</a>
 </li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics">DynamicTwoWheelsDifferentialDriveKinematics (class in navground.core.kinematics)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -931,10 +955,12 @@ document.write(`
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.efficacy">(RecordedExperimentalRun attribute)</a>
 </li>
       </ul></li>
-      <li><a href="reference/sim/python/world.html#navground.sim.Entity">Entity (class in navground.sim)</a>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.enabled">enabled (Agent property)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/world.html#navground.sim.Entity">Entity (class in navground.sim)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.environment_state">environment_state (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.EnvironmentState">EnvironmentState (class in navground.core)</a>
@@ -965,16 +991,18 @@ document.write(`
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.feasible_twist">feasible_twist() (Behavior method)</a>
 </li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.WheeledKinematics.feasible_wheel_speeds">feasible_wheel_speeds() (WheeledKinematics method)</a>
+</li>
       <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.field_of_view">field_of_view (LidarStateEstimation property)</a>
 
       <ul>
         <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.field_of_view">(PyLidarStateEstimation property)</a>
 </li>
       </ul></li>
-      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.final_sim_time">final_sim_time (ExperimentalRun property)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.final_sim_time">final_sim_time (ExperimentalRun property)</a>
+</li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_direction">follow_direction() (Controller method)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_point">follow_point() (Controller method)</a>
@@ -1215,14 +1243,14 @@ document.write(`
         <li><a href="reference/sim/python/world.html#navground.sim.World.index_of_agent">(World method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/real_time.html#navground.sim.real_time.RealTimeSimulation.init">init() (RealTimeSimulation method)</a>
 
       <ul>
         <li><a href="reference/sim/python/visualization.html#navground.sim.ui.WebUI.init">(WebUI method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/state.html#navground.core.SensingState.init_buffer">init_buffer() (SensingState method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.init_run">init_run() (Experiment method)</a>
@@ -1230,6 +1258,8 @@ document.write(`
       <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.init_world">init_world() (Scenario method)</a>
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Pose2.integrate">integrate() (Pose2 method)</a>
+</li>
+      <li><a href="reference/core/python/common.html#navground.core.Twist2.interpolate">interpolate() (Twist2 method)</a>
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Twist2.is_almost_zero">is_almost_zero() (Twist2 method)</a>
 </li>
@@ -1255,10 +1285,16 @@ document.write(`
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.kinematics">kinematics (Behavior property)</a>
+      <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.MotorPIDModulation.k_d">k_d (MotorPIDModulation property)</a>
+</li>
+      <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.MotorPIDModulation.k_i">k_i (MotorPIDModulation property)</a>
+</li>
+      <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.MotorPIDModulation.k_p">k_p (MotorPIDModulation property)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.kinematics">kinematics (Behavior property)</a>
+</li>
       <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics">Kinematics (class in navground.core)</a>
 </li>
       <li><a href="reference/core/python/register.html#navground.core._navground.KinematicsRegister">KinematicsRegister (class in navground.core._navground)</a>
@@ -1280,6 +1316,8 @@ document.write(`
 </li>
       </ul></li>
       <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation">LidarStateEstimation (class in navground.sim.state_estimations)</a>
+</li>
+      <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.LimitAccelerationModulation">LimitAccelerationModulation (class in navground.core.behavior_modulations)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.Wall.line">line (Wall property)</a>
 </li>
@@ -1389,6 +1427,18 @@ document.write(`
         <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.make_type">(Task static method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_acceleration">max_acceleration (DynamicTwoWheelsDifferentialDriveKinematics property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.LimitAccelerationModulation.max_acceleration">(LimitAccelerationModulation property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_angular_acceleration">max_angular_acceleration (DynamicTwoWheelsDifferentialDriveKinematics property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.LimitAccelerationModulation.max_angular_acceleration">(LimitAccelerationModulation property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.max_angular_speed">max_angular_speed (Behavior property)</a>
 
       <ul>
@@ -1419,6 +1469,8 @@ document.write(`
       </ul></li>
       <li><a href="reference/core/python/social_margin.html#navground.core.SocialMargin.max_value">max_value (SocialMargin property)</a>
 </li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_wheel_torque">max_wheel_torque (DynamicTwoWheelsDifferentialDriveKinematics property)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.maximal_steps">maximal_steps (ExperimentalRun property)</a>
 
       <ul>
@@ -1432,6 +1484,10 @@ document.write(`
       <li><a href="reference/core/python/social_margin.html#navground.core.SocialMargin.modulation">modulation (SocialMargin property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.modulations">modulations (Behavior property)</a>
+</li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.moi">moi (DynamicTwoWheelsDifferentialDriveKinematics property)</a>
+</li>
+      <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.MotorPIDModulation">MotorPIDModulation (class in navground.core.behavior_modulations)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1515,7 +1571,7 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior14feasible_speedE10ng_float_t">navground::core::Behavior::feasible_speed (C++ function)</a>
 </li>
-      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior14feasible_twistERK6Twist2NSt8optionalI5FrameEE">navground::core::Behavior::feasible_twist (C++ function)</a>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior14feasible_twistERK6Twist210ng_float_tNSt8optionalI5FrameEE">navground::core::Behavior::feasible_twist (C++ function)</a>, <a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior14feasible_twistERK6Twist2NSt8optionalI5FrameEE">[1]</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior18get_actuated_twistE5Frame">navground::core::Behavior::get_actuated_twist (C++ function)</a>
 </li>
@@ -1919,11 +1975,35 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/behaviors/dummy.html#_CPPv4N9navground4core13DummyBehavior13DummyBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t">navground::core::DummyBehavior::DummyBehavior (C++ function)</a>
 </li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematicsE">navground::core::DynamicTwoWheelsDifferentialDriveKinematics (C++ class)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics43DynamicTwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::DynamicTwoWheelsDifferentialDriveKinematics (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core43DynamicTwoWheelsDifferentialDriveKinematics20get_max_accelerationEv">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::get_max_acceleration (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core43DynamicTwoWheelsDifferentialDriveKinematics28get_max_angular_accelerationEv">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::get_max_angular_acceleration (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core43DynamicTwoWheelsDifferentialDriveKinematics20get_max_wheel_torqueEv">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::get_max_wheel_torque (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core43DynamicTwoWheelsDifferentialDriveKinematics7get_moiEv">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::get_moi (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics20set_max_accelerationE10ng_float_t">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::set_max_acceleration (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics28set_max_angular_accelerationE10ng_float_t">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::set_max_angular_acceleration (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics7set_moiE10ng_float_t">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::set_moi (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core43DynamicTwoWheelsDifferentialDriveKinematics24twist_from_wheel_torquesERKNSt6vectorI10ng_float_tEERK6Twist210ng_float_t">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::twist_from_wheel_torques (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core43DynamicTwoWheelsDifferentialDriveKinematics13wheel_torquesERK6Twist2RK6Twist210ng_float_t">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::wheel_torques (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core16EnvironmentStateE">navground::core::EnvironmentState (C++ struct)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core29FourWheelsOmniDriveKinematicsE">navground::core::FourWheelsOmniDriveKinematics (C++ class)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core29FourWheelsOmniDriveKinematics3dofEv">navground::core::FourWheelsOmniDriveKinematics::dof (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core29FourWheelsOmniDriveKinematics21feasible_wheel_speedsERK6Twist2">navground::core::FourWheelsOmniDriveKinematics::feasible_wheel_speeds (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core29FourWheelsOmniDriveKinematics29FourWheelsOmniDriveKinematicsE10ng_float_t10ng_float_t">navground::core::FourWheelsOmniDriveKinematics::FourWheelsOmniDriveKinematics (C++ function)</a>
 </li>
@@ -2055,7 +2135,7 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core10Kinematics3dofEv">navground::core::Kinematics::dof (C++ function)</a>
 </li>
-      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core10Kinematics8feasibleERK6Twist2">navground::core::Kinematics::feasible (C++ function)</a>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core10Kinematics8feasibleERK6Twist2">navground::core::Kinematics::feasible (C++ function)</a>, <a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core10Kinematics8feasibleERK6Twist2RK6Twist210ng_float_t">[1]</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core10Kinematics21get_max_angular_speedEv">navground::core::Kinematics::get_max_angular_speed (C++ function)</a>
 </li>
@@ -2066,6 +2146,18 @@ document.write(`
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core10Kinematics21set_max_angular_speedE10ng_float_t">navground::core::Kinematics::set_max_angular_speed (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core10Kinematics13set_max_speedE10ng_float_t">navground::core::Kinematics::set_max_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core27LimitAccelerationModulationE">navground::core::LimitAccelerationModulation (C++ class)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4NK9navground4core27LimitAccelerationModulation20get_max_accelerationEv">navground::core::LimitAccelerationModulation::get_max_acceleration (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4NK9navground4core27LimitAccelerationModulation28get_max_angular_accelerationEv">navground::core::LimitAccelerationModulation::get_max_angular_acceleration (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core27LimitAccelerationModulation27LimitAccelerationModulationE10ng_float_t10ng_float_t">navground::core::LimitAccelerationModulation::LimitAccelerationModulation (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core27LimitAccelerationModulation20set_max_accelerationE10ng_float_t">navground::core::LimitAccelerationModulation::set_max_acceleration (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core27LimitAccelerationModulation28set_max_angular_accelerationE10ng_float_t">navground::core::LimitAccelerationModulation::set_max_angular_acceleration (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core11LineSegmentE">navground::core::LineSegment (C++ struct)</a>
 </li>
@@ -2086,6 +2178,22 @@ document.write(`
       <li><a href="reference/core/cpp/plugins.html#_CPPv4N9navground4core12load_pluginsERKNSt6stringENSt6stringENSt8optionalINSt10filesystem4pathEEE">navground::core::load_plugins (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/property.html#_CPPv4I00EN9navground4core13make_propertyE8PropertyRK11TypedGetterI1T1CERK11TypedSetterI1T1CERK1TRKNSt6stringERKNSt6vectorINSt6stringEEE">navground::core::make_property (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core18MotorPIDModulationE">navground::core::MotorPIDModulation (C++ class)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4NK9navground4core18MotorPIDModulation7get_k_dEv">navground::core::MotorPIDModulation::get_k_d (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4NK9navground4core18MotorPIDModulation7get_k_iEv">navground::core::MotorPIDModulation::get_k_i (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4NK9navground4core18MotorPIDModulation7get_k_pEv">navground::core::MotorPIDModulation::get_k_p (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core18MotorPIDModulation18MotorPIDModulationE10ng_float_t10ng_float_t10ng_float_t">navground::core::MotorPIDModulation::MotorPIDModulation (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core18MotorPIDModulation7set_k_dE10ng_float_t">navground::core::MotorPIDModulation::set_k_d (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core18MotorPIDModulation7set_k_iE10ng_float_t">navground::core::MotorPIDModulation::set_k_i (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core18MotorPIDModulation7set_k_pE10ng_float_t">navground::core::MotorPIDModulation::set_k_p (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core8NeighborE">navground::core::Neighbor (C++ struct)</a>
 </li>
@@ -2315,6 +2423,8 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core6Twist25frameE">navground::core::Twist2::frame (C++ member)</a>
 </li>
+      <li><a href="reference/core/cpp/common.html#_CPPv4NK9navground4core6Twist211interpolateERK6Twist210ng_float_t10ng_float_t10ng_float_t">navground::core::Twist2::interpolate (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/common.html#_CPPv4NK9navground4core6Twist214is_almost_zeroE10ng_float_t10ng_float_t">navground::core::Twist2::is_almost_zero (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/common.html#_CPPv4NK9navground4core6Twist2neERK6Twist2">navground::core::Twist2::operator!= (C++ function)</a>
@@ -2345,6 +2455,8 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics3dofEv">navground::core::TwoWheelsDifferentialDriveKinematics::dof (C++ function)</a>
 </li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics21feasible_wheel_speedsERK6Twist2">navground::core::TwoWheelsDifferentialDriveKinematics::feasible_wheel_speeds (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics5twistERK11WheelSpeeds">navground::core::TwoWheelsDifferentialDriveKinematics::twist (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics36TwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t">navground::core::TwoWheelsDifferentialDriveKinematics::TwoWheelsDifferentialDriveKinematics (C++ function)</a>
@@ -2363,10 +2475,14 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core17WheeledKinematicsE">navground::core::WheeledKinematics (C++ class)</a>
 </li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core17WheeledKinematics21feasible_wheel_speedsERK6Twist2">navground::core::WheeledKinematics::feasible_wheel_speeds (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core17WheeledKinematics8get_axisEv">navground::core::WheeledKinematics::get_axis (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core17WheeledKinematics10is_wheeledEv">navground::core::WheeledKinematics::is_wheeled (C++ function)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core17WheeledKinematics8set_axisE10ng_float_t">navground::core::WheeledKinematics::set_axis (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core17WheeledKinematics5twistERK11WheelSpeeds">navground::core::WheeledKinematics::twist (C++ function)</a>
@@ -2381,6 +2497,8 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent7actuateERK6Twist210ng_float_t">navground::sim::Agent::actuate (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent7add_tagERKNSt6stringE">navground::sim::Agent::add_tag (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent5AgentE10ng_float_tNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEE10ng_float_tj">navground::sim::Agent::Agent (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent11as_neighborEv">navground::sim::Agent::as_neighbor (C++ function)</a>
@@ -2389,15 +2507,17 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent5colorE">navground::sim::Agent::color (C++ member)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent14control_periodE">navground::sim::Agent::control_period (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent8externalE">navground::sim::Agent::external (C++ member)</a>
 </li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent16get_actuated_cmdEv">navground::sim::Agent::get_actuated_cmd (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent12get_behaviorEv">navground::sim::Agent::get_behavior (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent14get_controllerEv">navground::sim::Agent::get_controller (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent11get_enabledEv">navground::sim::Agent::get_enabled (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent14get_kinematicsEv">navground::sim::Agent::get_kinematics (C++ function)</a>
 </li>
@@ -2427,7 +2547,11 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent6radiusE">navground::sim::Agent::radius (C++ member)</a>
 </li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent10remove_tagERKNSt6stringE">navground::sim::Agent::remove_tag (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent12set_behaviorERKNSt10shared_ptrI8BehaviorEE">navground::sim::Agent::set_behavior (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent11set_enabledEb">navground::sim::Agent::set_enabled (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent14set_kinematicsERKNSt10shared_ptrI10KinematicsEE">navground::sim::Agent::set_kinematics (C++ function)</a>
 </li>
@@ -2821,6 +2945,8 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim15ExperimentalRun15ExperimentalRunENSt10shared_ptrI5WorldEE10ng_float_tjbRK12RecordConfigj">navground::sim::ExperimentalRun::ExperimentalRun (C++ function)</a>, <a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim15ExperimentalRun15ExperimentalRunENSt10shared_ptrI5WorldEERK9RunConfigRK12RecordConfigj">[1]</a>
 </li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun17get_actuated_cmdsEv">navground::sim::ExperimentalRun::get_actuated_cmds (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun9get_beginEv">navground::sim::ExperimentalRun::get_begin (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim15ExperimentalRun16get_bounding_boxEv">navground::sim::ExperimentalRun::get_bounding_box (C++ function)</a>
@@ -2986,6 +3112,8 @@ document.write(`
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4I00EN9navground3sim15PropertySampler15PropertySamplerENSt10unique_ptrI7SamplerI1TEEE">navground::sim::PropertySampler::PropertySampler (C++ function)</a>, <a href="reference/sim/cpp/sampling.html#_CPPv4I00EN9navground3sim15PropertySampler15PropertySamplerERR1S">[1]</a>, <a href="reference/sim/cpp/sampling.html#_CPPv4I0Dp0EN9navground3sim15PropertySampler15PropertySamplerEDp5Targs">[2]</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim12RecordConfigE">navground::sim::RecordConfig (C++ struct)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim12RecordConfig12actuated_cmdE">navground::sim::RecordConfig::actuated_cmd (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim12RecordConfig3allEb">navground::sim::RecordConfig::all (C++ function)</a>
 </li>
@@ -3573,11 +3701,15 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/state.html#navground.core.Neighbor.relative_to">relative_to() (Neighbor method)</a>
 </li>
+      <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.RelaxationModulation">RelaxationModulation (class in navground.core.behavior_modulations)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.remove_all_runs">remove_all_runs() (Experiment method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.remove_modulation">remove_modulation() (Behavior method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.remove_run">remove_run() (Experiment method)</a>
+</li>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.remove_tag">remove_tag() (Agent method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Dataset.reset">reset() (Dataset method)</a>
 
@@ -3990,6 +4122,8 @@ document.write(`
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.tau">tau (HLBehavior property)</a>
 
       <ul>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.RelaxationModulation.tau">(RelaxationModulation property)</a>
+</li>
         <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.tau">(SocialForceBehavior property)</a>
 </li>
       </ul></li>
@@ -4054,6 +4188,8 @@ document.write(`
       <li><a href="reference/core/python/common.html#navground.core.Twist2">Twist2 (class in navground.core)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.twist_from_wheel_speeds">twist_from_wheel_speeds() (Behavior method)</a>
+</li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.twist_from_wheel_torques">twist_from_wheel_torques() (DynamicTwoWheelsDifferentialDriveKinematics method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.twists">twists (ExperimentalRun property)</a>
 
@@ -4195,15 +4331,17 @@ document.write(`
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.weight">weight() (SocialForceBehavior method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.weighted">weighted() (SocialForceBehavior method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.wheel_speeds">wheel_speeds (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.WheeledKinematics.wheel_speeds">wheel_speeds() (WheeledKinematics method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.wheel_speeds_from_twist">wheel_speeds_from_twist() (Behavior method)</a>
+</li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.wheel_torques">wheel_torques() (DynamicTwoWheelsDifferentialDriveKinematics method)</a>
 </li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.WheeledKinematics">WheeledKinematics (class in navground.core.kinematics)</a>
 </li>

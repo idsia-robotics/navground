@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Experiments &#8212; navground 0.0.4 documentation</title>
+    <title>Experiments &#8212; navground 0.0.5 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=dfd84850"></script>
+    <script src="../../../_static/documentation_options.js?v=6424ca4d"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -141,7 +141,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.4 documentation</p>
+    <p class="title logo__title">navground 0.0.5 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -195,6 +195,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/antipodal.html">Antipodal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/corridor.html">Corridor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross.html">Cross</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -458,6 +462,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.all"><code class="docutils literal notranslate"><span class="pre">RecordConfig.all()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.record_sensor"><code class="docutils literal notranslate"><span class="pre">RecordConfig.record_sensor()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.set_all"><code class="docutils literal notranslate"><span class="pre">RecordConfig.set_all()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.actuated_cmd"><code class="docutils literal notranslate"><span class="pre">RecordConfig.actuated_cmd</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.cmd"><code class="docutils literal notranslate"><span class="pre">RecordConfig.cmd</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.collisions"><code class="docutils literal notranslate"><span class="pre">RecordConfig.collisions</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.deadlocks"><code class="docutils literal notranslate"><span class="pre">RecordConfig.deadlocks</span></code></a></li>
@@ -487,6 +492,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.go_to_step"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.go_to_step()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.index_of_agent"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.index_of_agent()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.run"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.actuated_commands"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.actuated_commands</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.bounding_box"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.bounding_box</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.collisions"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.collisions</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.commands"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.commands</span></code></a></li>
@@ -781,6 +787,17 @@ yet associated to the key.</p>
 <dd class="field-odd"><p><strong>value</strong> – The desired value</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.RecordConfig.actuated_cmd">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">actuated_cmd</span></span><a class="headerlink" href="#navground.sim.RecordConfig.actuated_cmd" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>Whether to record the agents actuated control commands</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1170,6 +1187,25 @@ a given time step are stored as <code class="docutils literal notranslate"><span
 <p>You don’t need to call <a class="reference internal" href="#navground.sim.ExperimentalRun.run" title="navground.sim.ExperimentalRun.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> when running an <a class="reference internal" href="#navground.sim.Experiment" title="navground.sim.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a> (see
 <a class="reference internal" href="#navground.sim.Experiment.run" title="navground.sim.Experiment.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Experiment.run()</span></code></a> instead) but only if you are want to perform a
 run outside of an <a class="reference internal" href="#navground.sim.Experiment" title="navground.sim.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.ExperimentalRun.actuated_commands">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">actuated_commands</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.actuated_commands" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p>The recorded actuated commands of the agents as a numpy array of shape 
+<code class="docutils literal notranslate"><span class="pre">(simulation</span> <span class="pre">steps,</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">agents,</span> <span class="pre">3)</span></code> and dtype <code class="docutils literal notranslate"><span class="pre">float</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[[</span><span class="n">vx_0</span><span class="p">,</span> <span class="n">vy_0</span><span class="p">,</span> <span class="n">omega_0</span><span class="p">],</span> 
+  <span class="p">[</span><span class="n">vx_1</span><span class="p">,</span> <span class="n">vy_1</span><span class="p">,</span> <span class="n">omega_1</span><span class="p">],</span> 
+  <span class="o">...</span><span class="p">],</span> 
+ <span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The array is empty if actuated commands have not been recorded in the run.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -2168,6 +2204,7 @@ of the world, typically after each simulation step.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.all"><code class="docutils literal notranslate"><span class="pre">RecordConfig.all()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.record_sensor"><code class="docutils literal notranslate"><span class="pre">RecordConfig.record_sensor()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.set_all"><code class="docutils literal notranslate"><span class="pre">RecordConfig.set_all()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.actuated_cmd"><code class="docutils literal notranslate"><span class="pre">RecordConfig.actuated_cmd</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.cmd"><code class="docutils literal notranslate"><span class="pre">RecordConfig.cmd</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.collisions"><code class="docutils literal notranslate"><span class="pre">RecordConfig.collisions</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.RecordConfig.deadlocks"><code class="docutils literal notranslate"><span class="pre">RecordConfig.deadlocks</span></code></a></li>
@@ -2197,6 +2234,7 @@ of the world, typically after each simulation step.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.go_to_step"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.go_to_step()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.index_of_agent"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.index_of_agent()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.run"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.actuated_commands"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.actuated_commands</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.bounding_box"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.bounding_box</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.collisions"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.collisions</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.commands"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.commands</span></code></a></li>

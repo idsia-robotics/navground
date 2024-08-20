@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Behavior Modulation &#8212; navground 0.0.4 documentation</title>
+    <title>Behavior Modulation &#8212; navground 0.0.5 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=dfd84850"></script>
+    <script src="../../../_static/documentation_options.js?v=6424ca4d"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,8 @@
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../_static/design-tabs.js?v=36754332"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/python/behavior_modulation';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -141,7 +143,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.4 documentation</p>
+    <p class="title logo__title">navground 0.0.5 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -195,6 +197,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/antipodal.html">Antipodal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/corridor.html">Corridor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross.html">Cross</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -432,6 +438,33 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.BehaviorModulation.__init__"><code class="docutils literal notranslate"><span class="pre">BehaviorModulation.__init__()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relaxation">Relaxation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.RelaxationModulation"><code class="docutils literal notranslate"><span class="pre">RelaxationModulation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.RelaxationModulation.__init__"><code class="docutils literal notranslate"><span class="pre">RelaxationModulation.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.RelaxationModulation.tau"><code class="docutils literal notranslate"><span class="pre">RelaxationModulation.tau</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limit-acceleration">Limit Acceleration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.LimitAccelerationModulation"><code class="docutils literal notranslate"><span class="pre">LimitAccelerationModulation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.LimitAccelerationModulation.__init__"><code class="docutils literal notranslate"><span class="pre">LimitAccelerationModulation.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.LimitAccelerationModulation.max_acceleration"><code class="docutils literal notranslate"><span class="pre">LimitAccelerationModulation.max_acceleration</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.LimitAccelerationModulation.max_angular_acceleration"><code class="docutils literal notranslate"><span class="pre">LimitAccelerationModulation.max_angular_acceleration</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motor-pid">Motor PID</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.MotorPIDModulation"><code class="docutils literal notranslate"><span class="pre">MotorPIDModulation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.MotorPIDModulation.__init__"><code class="docutils literal notranslate"><span class="pre">MotorPIDModulation.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.MotorPIDModulation.k_d"><code class="docutils literal notranslate"><span class="pre">MotorPIDModulation.k_d</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.MotorPIDModulation.k_i"><code class="docutils literal notranslate"><span class="pre">MotorPIDModulation.k_i</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.MotorPIDModulation.k_p"><code class="docutils literal notranslate"><span class="pre">MotorPIDModulation.k_p</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -457,6 +490,153 @@ before (<code class="xref py py-meth docutils literal notranslate"><span class="
 
 </dd></dl>
 
+<section id="relaxation">
+<h2>Relaxation<a class="headerlink" href="#relaxation" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="navground.core.behavior_modulations.RelaxationModulation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RelaxationModulation</span></span><a class="headerlink" href="#navground.core.behavior_modulations.RelaxationModulation" title="Link to this definition">#</a></dt>
+<dd><p>A modulation to relax the command over time. used by <code class="xref py py-class docutils literal notranslate"><span class="pre">HLBehavior</span></code>.</p>
+<p><em>Registered properties</em>:</p>
+<ul class="simple">
+<li><p>tau (see <a class="reference internal" href="#navground.core.behavior_modulations.RelaxationModulation.tau" title="navground.core.behavior_modulations.RelaxationModulation.tau"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tau</span></code></a>)</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.behavior_modulations.RelaxationModulation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.125</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.behavior_modulations.RelaxationModulation.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Construct a new instance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tau</strong> – The relaxation time</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.behavior_modulations.RelaxationModulation.tau">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tau</span></span><a class="headerlink" href="#navground.core.behavior_modulations.RelaxationModulation.tau" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The relaxation time <span class="math notranslate nohighlight">\(\tau\)</span>. higher values lead to lower
+accelerations.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="limit-acceleration">
+<h2>Limit Acceleration<a class="headerlink" href="#limit-acceleration" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="navground.core.behavior_modulations.LimitAccelerationModulation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LimitAccelerationModulation</span></span><a class="headerlink" href="#navground.core.behavior_modulations.LimitAccelerationModulation" title="Link to this definition">#</a></dt>
+<dd><p>A modulation that limits accelerations.</p>
+<p><em>Registered properties</em>:</p>
+<ul class="simple">
+<li><p>max_acceleration (see <a class="reference internal" href="#navground.core.behavior_modulations.LimitAccelerationModulation.max_acceleration" title="navground.core.behavior_modulations.LimitAccelerationModulation.max_acceleration"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max_acceleration</span></code></a>)</p></li>
+<li><p>max_angular_acceleration (see <a class="reference internal" href="#navground.core.behavior_modulations.LimitAccelerationModulation.max_angular_acceleration" title="navground.core.behavior_modulations.LimitAccelerationModulation.max_angular_acceleration"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max_angular_acceleration</span></code></a>)</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.behavior_modulations.LimitAccelerationModulation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_acceleration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_angular_acceleration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.behavior_modulations.LimitAccelerationModulation.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Construct a new instance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tau</strong> – The relaxation time</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.behavior_modulations.LimitAccelerationModulation.max_acceleration">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_acceleration</span></span><a class="headerlink" href="#navground.core.behavior_modulations.LimitAccelerationModulation.max_acceleration" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The maximal acceleration.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.behavior_modulations.LimitAccelerationModulation.max_angular_acceleration">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_angular_acceleration</span></span><a class="headerlink" href="#navground.core.behavior_modulations.LimitAccelerationModulation.max_angular_acceleration" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The maximal angular acceleration.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="motor-pid">
+<h2>Motor PID<a class="headerlink" href="#motor-pid" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="navground.core.behavior_modulations.MotorPIDModulation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MotorPIDModulation</span></span><a class="headerlink" href="#navground.core.behavior_modulations.MotorPIDModulation" title="Link to this definition">#</a></dt>
+<dd><p>A modulation that control motor torques using a PID.</p>
+<p>Requires that the behavior has a <code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics</span></code> kinematics.</p>
+<p><em>Registered properties</em>:</p>
+<ul class="simple">
+<li><p>k_p (see <a class="reference internal" href="#navground.core.behavior_modulations.MotorPIDModulation.k_p" title="navground.core.behavior_modulations.MotorPIDModulation.k_p"><code class="xref py py-attr docutils literal notranslate"><span class="pre">k_p</span></code></a>, default 1)</p></li>
+<li><p>k_d (see <a class="reference internal" href="#navground.core.behavior_modulations.MotorPIDModulation.k_d" title="navground.core.behavior_modulations.MotorPIDModulation.k_d"><code class="xref py py-attr docutils literal notranslate"><span class="pre">k_d</span></code></a>, default 0)</p></li>
+<li><p>k_i (see <a class="reference internal" href="#navground.core.behavior_modulations.MotorPIDModulation.k_i" title="navground.core.behavior_modulations.MotorPIDModulation.k_i"><code class="xref py py-attr docutils literal notranslate"><span class="pre">k_i</span></code></a>, default 0)</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.behavior_modulations.MotorPIDModulation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.behavior_modulations.MotorPIDModulation.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Construct a new instance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k_p</strong> – The P factor</p></li>
+<li><p><strong>k_i</strong> – The I factor</p></li>
+<li><p><strong>k_d</strong> – The D factor</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.behavior_modulations.MotorPIDModulation.k_d">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">k_d</span></span><a class="headerlink" href="#navground.core.behavior_modulations.MotorPIDModulation.k_d" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The d factor.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.behavior_modulations.MotorPIDModulation.k_i">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">k_i</span></span><a class="headerlink" href="#navground.core.behavior_modulations.MotorPIDModulation.k_i" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The p factor.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.behavior_modulations.MotorPIDModulation.k_p">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">k_p</span></span><a class="headerlink" href="#navground.core.behavior_modulations.MotorPIDModulation.k_p" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The p factor.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -506,6 +686,33 @@ before (<code class="xref py py-meth docutils literal notranslate"><span class="
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.BehaviorModulation"><code class="docutils literal notranslate"><span class="pre">BehaviorModulation</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.BehaviorModulation.__init__"><code class="docutils literal notranslate"><span class="pre">BehaviorModulation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relaxation">Relaxation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.RelaxationModulation"><code class="docutils literal notranslate"><span class="pre">RelaxationModulation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.RelaxationModulation.__init__"><code class="docutils literal notranslate"><span class="pre">RelaxationModulation.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.RelaxationModulation.tau"><code class="docutils literal notranslate"><span class="pre">RelaxationModulation.tau</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limit-acceleration">Limit Acceleration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.LimitAccelerationModulation"><code class="docutils literal notranslate"><span class="pre">LimitAccelerationModulation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.LimitAccelerationModulation.__init__"><code class="docutils literal notranslate"><span class="pre">LimitAccelerationModulation.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.LimitAccelerationModulation.max_acceleration"><code class="docutils literal notranslate"><span class="pre">LimitAccelerationModulation.max_acceleration</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.LimitAccelerationModulation.max_angular_acceleration"><code class="docutils literal notranslate"><span class="pre">LimitAccelerationModulation.max_angular_acceleration</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motor-pid">Motor PID</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.MotorPIDModulation"><code class="docutils literal notranslate"><span class="pre">MotorPIDModulation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.MotorPIDModulation.__init__"><code class="docutils literal notranslate"><span class="pre">MotorPIDModulation.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.MotorPIDModulation.k_d"><code class="docutils literal notranslate"><span class="pre">MotorPIDModulation.k_d</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.MotorPIDModulation.k_i"><code class="docutils literal notranslate"><span class="pre">MotorPIDModulation.k_i</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behavior_modulations.MotorPIDModulation.k_p"><code class="docutils literal notranslate"><span class="pre">MotorPIDModulation.k_p</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

@@ -30,7 +30,7 @@ static void store_attribute(T value, const std::string &name,
 std::shared_ptr<Dataset> extract_collision_events(
     const std::shared_ptr<Dataset> &collisions, unsigned min_interval) {
   const auto shape = collisions->get_shape();
-  if (shape.size() != 2 and shape[1] != 3) {
+  if (shape.size() != 2 && shape[1] != 3) {
     std::cerr << "Collisions dataset has unexpected shape" << std::endl;
     return nullptr;
   }

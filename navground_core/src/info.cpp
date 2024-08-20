@@ -8,11 +8,8 @@
 
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
-#include "navground/core/common.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/plugins.h"
-#include "navground/core/property.h"
-#include "navground/core/utilities.h"
 
 int main(int argc, char* argv[]) {
   navground::core::load_plugins();

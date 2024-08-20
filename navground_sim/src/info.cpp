@@ -8,11 +8,11 @@
 
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
+#include "navground/core/kinematics.h"
 #include "navground/core/plugins.h"
-#include "navground/core/property.h"
-#include "navground/core/utilities.h"
 #include "navground/sim/scenario.h"
-#include "navground/sim/world.h"
+#include "navground/sim/state_estimation.h"
+#include "navground/sim/task.h"
 
 int main(int argc, char* argv[]) {
   navground::core::load_plugins();

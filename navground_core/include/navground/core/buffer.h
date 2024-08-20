@@ -123,8 +123,8 @@ inline size_t get_size(const BufferShape& shape) {
   if (!shape.size()) {
     return 0;
   }
-  return std::accumulate(std::begin(shape), std::end(shape), 1,
-                         std::multiplies<>{});
+  return static_cast<size_t>(std::accumulate(std::begin(shape), std::end(shape),
+                                             1, std::multiplies<ssize_t>{}));
 }
 
 /**

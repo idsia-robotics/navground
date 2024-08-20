@@ -240,7 +240,7 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
   /**
    * Marks absence of collisions
    */
-  static constexpr int no_collision = -1;
+  static constexpr ng_float_t no_collision = -1;
   ng_float_t static_free_distance_to(const LineSegment &line, Radians alpha);
 
   ng_float_t static_free_distance_to(const DiscCache &disc, Radians alpha);

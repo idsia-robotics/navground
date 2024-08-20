@@ -224,7 +224,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
   /**
    * Marks yet-not-computed entries in \ref get_cache
    */
-  static constexpr int uncomputed = -2;
+  static constexpr ng_float_t uncomputed = -2;
 
   ng_float_t from_relative_angle;
   ng_float_t length;

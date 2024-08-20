@@ -59,10 +59,10 @@ void HRVOBehavior::prepare(const Vector2 &target_velocity) {
     agentIndex = 0;
 
     for (const auto &n : state.get_neighbors()) {
-      add_neighbor(n, rangeSq, true, 2e-3);
+      add_neighbor(n, rangeSq, true, static_cast<ng_float_t>(2e-3));
     }
     for (const auto &o : state.get_static_obstacles()) {
-      add_obstacle(o, rangeSq, true, 2e-3);
+      add_obstacle(o, rangeSq, true, static_cast<ng_float_t>(2e-3));
     }
   }
 

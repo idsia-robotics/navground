@@ -172,7 +172,7 @@ void ORCABehavior::set_max_number_of_neighbors(unsigned value) {
 }
 
 unsigned ORCABehavior::get_max_number_of_neighbors() const {
-  return _RVOAgent->maxNeighbors_;
+  return static_cast<unsigned>(_RVOAgent->maxNeighbors_);
 }
 
 Vector2 ORCABehavior::effective_position() const {
@@ -187,7 +187,7 @@ void ORCABehavior::prepare(const Vector2 &target_velocity) {
   // TODO(Jerome): avoid repetitions (effective_position vs this function)
   if (is_using_effective_center()) {
     WheeledKinematics *wk = dynamic_cast<WheeledKinematics *>(kinematics.get());
-    D = wk->get_axis() * 0.5;
+    D = wk->get_axis() / 2;
     const RVO::Vector2 delta = vector_from(unit(pose.orientation) * D);
     _RVOAgent->position_ = vector_from(pose.position) + delta;
     _RVOAgent->radius_ = safety_margin + radius + D;
@@ -215,12 +215,12 @@ void ORCABehavior::prepare(const Vector2 &target_velocity) {
     if (treat_obstacles_as_agents) {
       rvo_static_obstacles.clear();
       for (const auto &o : state.get_static_obstacles()) {
-        add_obstacle_as_agent(o, true, 2e-3);
+        add_obstacle_as_agent(o, true, static_cast<ng_float_t>(2e-3));
       }
     } else {
       rvo_square_obstacles.clear();
       for (const auto &o : state.get_static_obstacles()) {
-        add_obstacle_as_square(o, true, 2e-3);
+        add_obstacle_as_square(o, true, static_cast<ng_float_t>(2e-3));
       }
     }
   }
@@ -228,7 +228,7 @@ void ORCABehavior::prepare(const Vector2 &target_velocity) {
       Behavior::changed(POSITION | SAFETY_MARGIN | RADIUS)) {
     rvo_neighbors.clear();
     for (const auto &n : state.get_neighbors()) {
-      add_neighbor(n, true, 2e-3);
+      add_neighbor(n, true, static_cast<ng_float_t>(2e-3));
     }
   }
   // Does the same job as RVO::Agent::computeNeighbors()
@@ -238,7 +238,7 @@ void ORCABehavior::prepare(const Vector2 &target_velocity) {
   _RVOAgent->obstacleNeighbors_.clear();
   _RVOAgent->agentNeighbors_.clear();
   float rangeSq = (horizon * 2) * (horizon * 2);
-  float rangeSqObst = std::pow(
+  float rangeSqObst = std::pow<float>(
       _RVOAgent->timeHorizonObst_ * _RVOAgent->maxSpeed_ + _RVOAgent->radius_,
       2);
   for (const auto &obstacle : rvo_line_obstacles) {

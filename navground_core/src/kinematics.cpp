@@ -285,7 +285,7 @@ Twist2 DynamicTwoWheelsDifferentialDriveKinematics::feasible(
 std::vector<ng_float_t>
 DynamicTwoWheelsDifferentialDriveKinematics::wheel_torques(
     const Twist2& value, const Twist2& current, ng_float_t time_step) const {
-  assert(value.frame == current.frame == Frame::relative);
+  assert(value.frame == current.frame && value.frame == Frame::relative);
   if (time_step <= 0) {
     return {0, 0};
   }

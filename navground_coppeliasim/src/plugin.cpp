@@ -3,6 +3,7 @@
 #include <memory>
 #include <optional>
 #include <vector>
+#include <mutex>
 
 #include "config.h"
 #include "navground/core/behavior.h"
@@ -44,6 +45,12 @@ static std::shared_ptr<core::Kinematics> make_kinematics(
   if (core::WheeledKinematics *wk =
           dynamic_cast<core::WheeledKinematics *>(kinematics.get())) {
     wk->set_axis(k.wheel_axis);
+  }
+  if (core::DynamicTwoWheelsDifferentialDriveKinematics *wk =
+          dynamic_cast<core::DynamicTwoWheelsDifferentialDriveKinematics *>(
+              kinematics.get())) {
+    wk->set_max_acceleration(k.max_acceleration);
+    wk->set_max_angular_acceleration(k.max_angular_acceleration);
   }
   return kinematics;
 }
@@ -174,6 +181,7 @@ class Plugin : public sim::Plugin {
 #else
   void onSimulationBeforeActuation() {
 #endif
+    const std::lock_guard<std::mutex> lock(m);
     if (world) {
       if (experiment && !experiment->is_running()) {
         experiment->start();
@@ -254,7 +262,7 @@ class Plugin : public sim::Plugin {
 
   nsim::Agent *agent_with_handle(unsigned handle) const {
     if (agents.count(handle)) {
-      return agents.at(handle).get();
+      return agents.at(handle);
     }
     return nullptr;
   }
@@ -794,6 +802,7 @@ class Plugin : public sim::Plugin {
 
   void add_agent_from_yaml(add_agent_from_yaml_in *in,
                            add_agent_from_yaml_out *out) {
+    const std::lock_guard<std::mutex> lock(m);
     // int agent_handle = agent_handles.size();
     YAML::Node node;
     try {
@@ -809,7 +818,7 @@ class Plugin : public sim::Plugin {
       agent_handles[agent->uid] = in->handle;
       has_set_twist[in->handle] = false;
       get_world()->add_agent(agent);
-      agents[in->handle] = agent;
+      agents[in->handle] = agent.get();
       out->handle = in->handle;
     } else {
       out->handle = -1;
@@ -817,13 +826,24 @@ class Plugin : public sim::Plugin {
   }
 
   void remove_agent(remove_agent_in *in, remove_agent_out *out) {
-    int handle = in->handle;
-    auto agent = agent_with_handle(handle);
+    const std::lock_guard<std::mutex> lock(m);
+    const int handle = in->handle;
+    const auto agent = agent_with_handle(handle);
     if (agent) {
-      get_world()->remove_agent_with_uid(agent->uid);
-      agent_handles.erase(agent->uid);
+      const auto uid = agent->uid;
+      agent_handles.erase(uid);
       has_set_twist.erase(handle);
       agents.erase(handle);
+      get_world()->remove_agent_with_uid(uid);
+    }
+  }
+
+  void set_enabled(set_enabled_in *in, set_enabled_out *out) {
+    const std::lock_guard<std::mutex> lock(m);
+    const int handle = in->handle;
+    const auto agent = agent_with_handle(handle);
+    if (agent) {
+      agent->set_enabled(in->enabled);
     }
   }
 
@@ -846,7 +866,7 @@ class Plugin : public sim::Plugin {
       if (kinematics && kinematics->is_wheeled()) {
         core::WheeledKinematics *wk =
             dynamic_cast<core::WheeledKinematics *>(kinematics);
-        out->speeds = wk->wheel_speeds(twist);
+        out->speeds = wk->feasible_wheel_speeds(twist);
       }
     }
   }
@@ -902,11 +922,12 @@ class Plugin : public sim::Plugin {
   // uid -> handle
   std::map<int, int> agent_handles;
   // handle -> agent
-  std::map<int, std::shared_ptr<nsim::Agent>> agents;
+  std::map<int, nsim::Agent*> agents;
   // handle -> value
   std::map<int, bool> has_set_twist;
   int frame;
   int seed;
+  std::mutex m;
 };
 
 #if SIM_PROGRAM_VERSION_NB < 40600

@@ -805,6 +805,20 @@
         <return>
         </return>
     </command>
+    <command name="set_enabled">
+        <description>TODO
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The agent handle</description>
+          </param>
+          <param name="enabled" type="bool">
+            <description>TODO</description>
+          </param>
+        </params>
+        <return>
+        </return>
+    </command>
     <command name="get_last_cmd">
         <description>TODO
         </description>
@@ -907,6 +921,12 @@
         </param>
         <param name="wheel_axis" type="ng_float_t" default="0.0">
             <description>The axis length</description>
+        </param>
+        <param name="max_acceleration" type="ng_float_t" default="1.0">
+            <description>The maximal acceleration</description>
+        </param>
+        <param name="max_angular_acceleration" type="ng_float_t" default="0.0">
+            <description>The maximal angular acceleration</description>
         </param>
     </struct>  
     <struct name="vector2_t">

@@ -39,13 +39,13 @@ struct NAVGROUND_SIM_EXPORT CorridorScenario : public Scenario {
  public:
   // corridor width
   ng_float_t width;
-  inline static ng_float_t default_width = 1.0;
+  inline static ng_float_t default_width = 1;
   // corridor length
   ng_float_t length;
-  inline static ng_float_t default_length = 10.0;
+  inline static ng_float_t default_length = 10;
   // initial minimal distance between agents
   ng_float_t agent_margin;
-  inline static ng_float_t default_agent_margin = 0.1;
+  inline static ng_float_t default_agent_margin = static_cast<ng_float_t>(0.1);
   // whether to add the safety margin to the agent margin;
   bool add_safety_to_agent_margin;
   inline static bool default_add_safety_to_agent_margin = true;

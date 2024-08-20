@@ -19,7 +19,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 if (WIN32)
-add_compile_options(/wd4251 /wd4996)
+add_compile_options(/wd4251 /wd4996 /wd4244)
 endif()
 
 include(GenerateExportHeader)

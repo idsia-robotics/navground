@@ -7,6 +7,7 @@
 
 #include <vector>
 
+#include "navground/core/common.h"
 #include "navground/core/collision_computation.h"
 #include "navground/core/types.h"
 #include "navground/sim/state_estimations/sensor.h"
@@ -38,15 +39,15 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
   /**
    * The default range
    */
-  inline static const ng_float_t default_range = 1.0;
+  inline static const ng_float_t default_range = 1;
   /**
    * The default start angle [radians]
    */
-  inline static const ng_float_t default_start_angle = -M_PI;
+  inline static const ng_float_t default_start_angle = -static_cast<ng_float_t>(M_PI);
   /**
    * The default field of view [radians]
    */
-  inline static const ng_float_t default_field_of_view = 2 * M_PI;
+  inline static const ng_float_t default_field_of_view = core::TWO_PI;
   /**
    * The default resolution
    */

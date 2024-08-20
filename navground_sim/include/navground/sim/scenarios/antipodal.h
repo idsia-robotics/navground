@@ -39,11 +39,11 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
   /**
    * The default circle radius
    */
-  static constexpr ng_float_t default_radius = 1.0;
+  static constexpr ng_float_t default_radius = 1;
   /**
    * The default goal tolerance
    */
-  static constexpr ng_float_t default_tolerance = 0.1;
+  static constexpr ng_float_t default_tolerance = static_cast<ng_float_t>(0.1);
   /**
    * The default position noise
    */

@@ -555,7 +555,8 @@ ExperimentalRun::get_collisions_at_step(int step) {
   if (step < 0) {
     step += get_recorded_steps();
   }
-  if (step >= static_cast<int>(get_recorded_steps()) || step < 0) {
+  unsigned ustep = static_cast<unsigned>(step);
+  if (ustep >= get_recorded_steps()) {
     return cs;
   }
   auto collisions = get_collisions();
@@ -563,10 +564,10 @@ ExperimentalRun::get_collisions_at_step(int step) {
     auto data = *(collisions->get_typed_data<unsigned>());
     auto b = SkipIt<unsigned>(data.data(), 3);
     const unsigned number = static_cast<unsigned>(data.size() / 3);
-    auto lower = std::lower_bound(b, b + number, step);
+    auto lower = std::lower_bound(b, b + number, ustep);
     unsigned i = std::distance(b, lower);
     if (i < number) {
-      for (; data[3 * i] == static_cast<unsigned>(step); ++i) {
+      for (; data[3 * i] == ustep; ++i) {
         auto e1 = _world->get_entity(data[3 * i + 1]);
         auto e2 = _world->get_entity(data[3 * i + 2]);
         if (e1 && e2) {

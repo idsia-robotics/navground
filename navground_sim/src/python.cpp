@@ -145,6 +145,9 @@ struct PyTask : Task, virtual PyHasRegister<Task> {
   /* Inherit the constructors */
   using Task::Task;
   using PyHasRegister<Task>::C;
+  using PyHasRegister<Task>::get_type;
+  using PyHasRegister<Task>::decode;
+  using PyHasRegister<Task>::encode;
   using Native = Task;
 
   void update(Agent *agent, World *world, ng_float_t time) override {
@@ -174,6 +177,9 @@ struct PyStateEstimation : StateEstimation,
   /* Inherit the constructors */
   using StateEstimation::StateEstimation;
   using PyHasRegister<StateEstimation>::C;
+  using PyHasRegister<StateEstimation>::get_type;
+  using PyHasRegister<StateEstimation>::decode;
+  using PyHasRegister<StateEstimation>::encode;
   using Native = StateEstimation;
 
   void update(Agent *agent, World *world,
@@ -198,6 +204,11 @@ struct PyStateEstimation : StateEstimation,
 };
 
 struct PySensor : Sensor, virtual PyStateEstimation {
+
+  using PyStateEstimation::get_type;
+  using PyStateEstimation::decode;
+  using PyStateEstimation::encode;
+
   Sensor::Description get_description() const override {
     PYBIND11_OVERRIDE_PURE(Sensor::Description, Sensor, get_description);
   }

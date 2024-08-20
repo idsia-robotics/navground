@@ -37,10 +37,10 @@ struct NAVGROUND_SIM_EXPORT CrossTorusScenario : public Scenario {
  public:
   // distance between targets
   ng_float_t side;
-  inline static ng_float_t default_side = 2.0;
+  inline static ng_float_t default_side = 2;
   // initial minimal distance between agents
   ng_float_t agent_margin;
-  inline static ng_float_t default_agent_margin = 0.1;
+  inline static ng_float_t default_agent_margin = static_cast<ng_float_t>(0.1);
   // whether to add the safety margin to the agent margin;
   bool add_safety_to_agent_margin;
   inline static bool default_add_safety_to_agent_margin = true;

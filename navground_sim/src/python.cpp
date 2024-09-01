@@ -1770,7 +1770,14 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
            py::arg("agent_indices") = std::vector<unsigned>{},
            DOC(navground, sim, SensingProbe, SensingProbe))
       .def("get_data", &SensingProbe::get_data,
-           DOC(navground, sim, SensingProbe, get_data));
+           R"doc(
+The stored sensor readings, indexed by UID or index
+
+:rtype: typing.Dict[str, np.ndarray]
+
+)doc"
+           // DOC(navground, sim, SensingProbe, get_data)
+        );
 
   py::class_<ExperimentalRun, std::shared_ptr<ExperimentalRun>>(
       m, "ExperimentalRun", py::dynamic_attr(),

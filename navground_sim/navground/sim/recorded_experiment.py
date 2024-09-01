@@ -341,7 +341,7 @@ class RecordedExperiment:
             self._file = h5py.File(path)
 
         self.runs: Dict[int, RecordedExperimentalRun] = {
-            int(re.match("run_(\d+)", k).groups()[0]):  # type: ignore
+            int(re.match(r"run_(\d+)", k).groups()[0]):  # type: ignore
             RecordedExperimentalRun(v)
             for k, v in self._file.items()
         }

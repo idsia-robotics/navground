@@ -66,8 +66,9 @@ Schema
      - $ref: #/$defs/sequence<T>
      - $ref: #/$defs/regular<T>
      - $ref: #/$defs/regular_step<T>
-     - $ref: #/$defs/uniform<T>
-     - $ref: #/$defs/normal<T>
+     - $ref: #/$defs/uniform
+     - $ref: #/$defs/normal
+     - $ref: #/$defs/grid
    $defs:
      constant<T>:
        oneOf:
@@ -128,7 +129,7 @@ Schema
          to: T
          numbers: 
            type: array, 
-           items: integer, 
+           items: number 
            minItems: 2, 
            maxItems: 2
          wrap: 
@@ -144,7 +145,7 @@ Schema
          to: number 
          once: bool
        required: [sampler, from, to]   
-     normal<T>:
+     normal:
        type: object
        properties:
          sampler: 
@@ -222,7 +223,7 @@ Grid
 
 .. code-block:: yaml
 
-   sampler: regular
+   sampler: grid
    from: [0, 0]
    to: [1, 1]
    number: [2, 2]

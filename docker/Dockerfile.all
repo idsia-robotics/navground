@@ -1,0 +1,36 @@
+FROM ubuntu:latest
+MAINTAINER Jerome Guzzi "jerome@idsia.ch"
+
+ENV DEBIAN_FRONTEND="noninteractive" TZ="Europe/Zurich"
+
+SHELL ["/bin/bash", "-c"]
+
+# Following the all-at-once instructions
+# https://idsia-robotics.github.io/navground/_build/html/installation.html#all-at-once
+
+RUN apt-get update && apt-get install -y \
+   cmake git python3-dev python3-pip python3-venv \
+   && rm -rf /var/lib/apt/lists/*
+
+ENV COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+
+RUN mkdir /ws \
+    && cd /ws \
+    && python3 -m venv env --system-site-packages \
+    && source env/bin/activate \
+    && pip install colcon-common-extensions vcstool numpy multiprocess
+
+WORKDIR /ws
+
+RUN source env/bin/activate \
+    && vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos \
+    && colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
+
+RUN source env/bin/activate \
+    && export HDF5_DIR=/ws/install \
+    && pip install colcon-common-extensions h5py
+
+COPY ./entrypoint.sh /
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bash"]

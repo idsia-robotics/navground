@@ -50,6 +50,15 @@ html_theme = "sphinx_rtd_theme"
 html_theme = 'sphinx_book_theme'
 html_static_path = ['_static']
 
+html_theme_options = {
+    "repository_url": "https://github.com/idsia-robotics/navground",
+    "repository_branch": "main",
+    "path_to_docs": "",
+    "launch_buttons": {
+        "binderhub_url": "https://mybinder.org"
+    },
+}
+
 # -- Options for todo extension ----------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/extensions/todo.html#configuration
 

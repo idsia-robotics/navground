@@ -1246,7 +1246,7 @@ Creates a rectangular region
            DOC(navground, sim, World, in_collision))
       .def("record_collision", &World::record_collision, py::arg("e1"),
            py::arg("e2"), DOC(navground, sim, World, record_collision))
-      .def("clear_collisions", &World::record_collision,
+      .def("clear_collisions", &World::clear_collisions,
            DOC(navground, sim, World, clear_collisions))
       .def_property("minimal_bounding_box", &World::get_minimal_bounding_box,
                     nullptr,

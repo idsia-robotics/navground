@@ -437,6 +437,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.actuate"><code class="docutils literal notranslate"><span class="pre">Agent.actuate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.add_tag"><code class="docutils literal notranslate"><span class="pre">Agent.add_tag()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.get_last_cmd"><code class="docutils literal notranslate"><span class="pre">Agent.get_last_cmd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.has_been_in_collision_since"><code class="docutils literal notranslate"><span class="pre">Agent.has_been_in_collision_since()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.has_been_stuck_since"><code class="docutils literal notranslate"><span class="pre">Agent.has_been_stuck_since()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.remove_tag"><code class="docutils literal notranslate"><span class="pre">Agent.remove_tag()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.actuated_cmd"><code class="docutils literal notranslate"><span class="pre">Agent.actuated_cmd</span></code></a></li>
@@ -447,6 +448,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.id"><code class="docutils literal notranslate"><span class="pre">Agent.id</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.idle"><code class="docutils literal notranslate"><span class="pre">Agent.idle</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.last_cmd"><code class="docutils literal notranslate"><span class="pre">Agent.last_cmd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.last_collision_time"><code class="docutils literal notranslate"><span class="pre">Agent.last_collision_time</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.orientation"><code class="docutils literal notranslate"><span class="pre">Agent.orientation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.pose"><code class="docutils literal notranslate"><span class="pre">Agent.pose</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.position"><code class="docutils literal notranslate"><span class="pre">Agent.position</span></code></a></li>
@@ -535,6 +537,21 @@ if the world is updated at a faster rate.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The controller.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.Agent.has_been_in_collision_since">
+<span class="sig-name descname"><span class="pre">has_been_in_collision_since</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#navground.sim.Agent.has_been_in_collision_since" title="Link to this definition">#</a></dt>
+<dd><p>Determines if the entity has been in collision at least once since the
+given time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> – The time</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if been in collision since, False otherwise.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -659,6 +676,17 @@ default color.</p>
 </dd>
 </dl>
 <p>The last command.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.Agent.last_collision_time">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">last_collision_time</span></span><a class="headerlink" href="#navground.sim.Agent.last_collision_time" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>Returns the last collision time</p>
 </dd></dl>
 
 <dl class="py property">
@@ -819,6 +847,7 @@ is mainly used internally to draw the agents in the UI.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.actuate"><code class="docutils literal notranslate"><span class="pre">Agent.actuate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.add_tag"><code class="docutils literal notranslate"><span class="pre">Agent.add_tag()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.get_last_cmd"><code class="docutils literal notranslate"><span class="pre">Agent.get_last_cmd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.has_been_in_collision_since"><code class="docutils literal notranslate"><span class="pre">Agent.has_been_in_collision_since()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.has_been_stuck_since"><code class="docutils literal notranslate"><span class="pre">Agent.has_been_stuck_since()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.remove_tag"><code class="docutils literal notranslate"><span class="pre">Agent.remove_tag()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.actuated_cmd"><code class="docutils literal notranslate"><span class="pre">Agent.actuated_cmd</span></code></a></li>
@@ -829,6 +858,7 @@ is mainly used internally to draw the agents in the UI.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.id"><code class="docutils literal notranslate"><span class="pre">Agent.id</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.idle"><code class="docutils literal notranslate"><span class="pre">Agent.idle</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.last_cmd"><code class="docutils literal notranslate"><span class="pre">Agent.last_cmd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.last_collision_time"><code class="docutils literal notranslate"><span class="pre">Agent.last_collision_time</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.orientation"><code class="docutils literal notranslate"><span class="pre">Agent.orientation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.pose"><code class="docutils literal notranslate"><span class="pre">Agent.pose</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Agent.position"><code class="docutils literal notranslate"><span class="pre">Agent.position</span></code></a></li>

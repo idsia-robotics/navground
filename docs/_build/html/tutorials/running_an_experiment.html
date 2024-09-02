@@ -567,7 +567,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-1.587842
+2.047188
 </pre></div></div>
 </div>
 <p>and saves the results to an H5DF file</p>
@@ -585,7 +585,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-PosixPath(&#39;experiment_10599385036846325164_2024-04-04_22-51-13/data.h5&#39;)
+PosixPath(&#39;experiment_2317153905871209610_2024-09-02_10-50-26/data.h5&#39;)
 </pre></div></div>
 </div>
 </section>
@@ -639,7 +639,7 @@ PosixPath(&#39;experiment_10599385036846325164_2024-04-04_22-51-13/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-1.587842
+2.047188541
 </pre></div></div>
 </div>
 <p>The metadata contains the YAML dump of the experiment itself. This way, users can reload and potentially rerun the same experiment.</p>
@@ -712,7 +712,7 @@ PosixPath(&#39;experiment_10599385036846325164_2024-04-04_22-51-13/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.783992958
+0.996162416
 </pre></div></div>
 </div>
 <p>Other attributes includes the seed</p>
@@ -870,7 +870,7 @@ PosixPath(&#39;experiment_10599385036846325164_2024-04-04_22-51-13/data.h5&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Safety margin was violated 10.5% of the time
+Safety margin was violated 10.0% of the time
 </pre></div></div>
 </div>
 <p>Most violation should be small. Let’s check this by plotting their distribution.</p>
@@ -908,7 +908,7 @@ Safety margin was violated 10.5% of the time
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.17276807424319862
+0.17032534388393264
 </pre></div></div>
 </div>
 <p>We look also at event logged by the agents’ tasks.</p>
@@ -997,8 +997,8 @@ Safety margin was violated 10.5% of the time
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The time to reach a waypoint ranges betweeen 4.90 and 30.90 seconds,
-and 99% of the time between 4.90 and 16.80 seconds
+The time to reach a waypoint ranges betweeen 4.90 and 29.00 seconds,
+and 99% of the time between 4.90 and 16.50 seconds
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1051,55 +1051,91 @@ and 99% of the time between 4.90 and 16.80 seconds
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "cd40083cebd64719b56e35ce711098f4", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "07ddc8b0aa334bb5a86168084915f757", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Performed 20 runs in 6.402804 seconds over 4 processes
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">BlockingIOError</span>                           Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[30], line 8</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span> experiment<span style="color: rgb(98,98,98)">.</span>remove_all_runs()
+<span class="ansi-green-intense-fg ansi-bold">      7</span> <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> tqdm(total<span style="color: rgb(98,98,98)">=</span>runs) <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> bar:
+<span class="ansi-green-fg">----&gt; 8</span>     <span class="ansi-yellow-bg">experiment</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">run_mp</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">number_of_processes</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">processes</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span>
+<span class="ansi-green-intense-fg ansi-bold">      9</span> <span class="ansi-yellow-bg">                      </span><span class="ansi-yellow-bg">number_of_runs</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">runs</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">bar</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">bar</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">keep</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">False</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span> <span style="color: rgb(0,135,0)">print</span>(<span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">Performed </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>runs<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)"> runs in </span><span style="color: rgb(175,0,0)">&#34;</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>       <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">&#34;</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>experiment<span style="color: rgb(98,98,98)">.</span>duration<span style="color: rgb(98,98,98)">.</span>total_seconds()<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)"> seconds </span><span style="color: rgb(175,0,0)">&#34;</span>
+<span class="ansi-green-intense-fg ansi-bold">     13</span>       <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">over </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>processes<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)"> processes </span><span style="color: rgb(175,0,0)">&#34;</span>)
+
+File <span class="ansi-green-fg">~/Dev/ROS/ros2_j_ws/install/lib/python3.12/site-packages/navground/sim/run_mp.py:161</span>, in <span class="ansi-cyan-fg">run_mp</span><span class="ansi-blue-fg">(experiment, number_of_processes, keep, number_of_runs, start_index, callback, bar, scenario_init_callback)</span>
+<span class="ansi-green-intense-fg ansi-bold">    159</span> add_links <span style="color: rgb(98,98,98)">=</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> keep <span class="ansi-bold" style="color: rgb(175,0,255)">and</span> path <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-intense-fg ansi-bold">    160</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> add_links:
+<span class="ansi-green-fg">--&gt; 161</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> <span class="ansi-yellow-bg">h5py</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">File</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">path</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">a</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">)</span> <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> file:
+<span class="ansi-green-intense-fg ansi-bold">    162</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> (_, _, i, number_of_runs, data_path,
+<span class="ansi-green-intense-fg ansi-bold">    163</span>              <span style="color: rgb(98,98,98)">*</span>_) <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> partial_experiments:
+<span class="ansi-green-intense-fg ansi-bold">    164</span>             <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> data_path:
+
+File <span class="ansi-green-fg">~/Dev/venv/ros_jazzy/lib/python3.12/site-packages/h5py/_hl/files.py:562</span>, in <span class="ansi-cyan-fg">File.__init__</span><span class="ansi-blue-fg">(self, name, mode, driver, libver, userblock_size, swmr, rdcc_nslots, rdcc_nbytes, rdcc_w0, track_order, fs_strategy, fs_persist, fs_threshold, fs_page_size, page_buf_size, min_meta_keep, min_raw_keep, locking, alignment_threshold, alignment_interval, meta_block_size, **kwds)</span>
+<span class="ansi-green-intense-fg ansi-bold">    553</span>     fapl <span style="color: rgb(98,98,98)">=</span> make_fapl(driver, libver, rdcc_nslots, rdcc_nbytes, rdcc_w0,
+<span class="ansi-green-intense-fg ansi-bold">    554</span>                      locking, page_buf_size, min_meta_keep, min_raw_keep,
+<span class="ansi-green-intense-fg ansi-bold">    555</span>                      alignment_threshold<span style="color: rgb(98,98,98)">=</span>alignment_threshold,
+<span class="ansi-green-intense-fg ansi-bold">    556</span>                      alignment_interval<span style="color: rgb(98,98,98)">=</span>alignment_interval,
+<span class="ansi-green-intense-fg ansi-bold">    557</span>                      meta_block_size<span style="color: rgb(98,98,98)">=</span>meta_block_size,
+<span class="ansi-green-intense-fg ansi-bold">    558</span>                      <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwds)
+<span class="ansi-green-intense-fg ansi-bold">    559</span>     fcpl <span style="color: rgb(98,98,98)">=</span> make_fcpl(track_order<span style="color: rgb(98,98,98)">=</span>track_order, fs_strategy<span style="color: rgb(98,98,98)">=</span>fs_strategy,
+<span class="ansi-green-intense-fg ansi-bold">    560</span>                      fs_persist<span style="color: rgb(98,98,98)">=</span>fs_persist, fs_threshold<span style="color: rgb(98,98,98)">=</span>fs_threshold,
+<span class="ansi-green-intense-fg ansi-bold">    561</span>                      fs_page_size<span style="color: rgb(98,98,98)">=</span>fs_page_size)
+<span class="ansi-green-fg">--&gt; 562</span>     fid <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">make_fid</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">name</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">mode</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">userblock_size</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">fapl</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">fcpl</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">swmr</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">swmr</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    564</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">isinstance</span>(libver, <span style="color: rgb(0,135,0)">tuple</span>):
+<span class="ansi-green-intense-fg ansi-bold">    565</span>     <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_libver <span style="color: rgb(98,98,98)">=</span> libver
+
+File <span class="ansi-green-fg">~/Dev/venv/ros_jazzy/lib/python3.12/site-packages/h5py/_hl/files.py:247</span>, in <span class="ansi-cyan-fg">make_fid</span><span class="ansi-blue-fg">(name, mode, userblock_size, fapl, fcpl, swmr)</span>
+<span class="ansi-green-intense-fg ansi-bold">    242</span> <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> mode <span style="color: rgb(98,98,98)">==</span> <span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">a</span><span style="color: rgb(175,0,0)">&#39;</span>:
+<span class="ansi-green-intense-fg ansi-bold">    243</span>     <span style="color: rgb(95,135,135)"># Open in append mode (read/write).</span>
+<span class="ansi-green-intense-fg ansi-bold">    244</span>     <span style="color: rgb(95,135,135)"># If that fails, create a new file only if it won&#39;t clobber an</span>
+<span class="ansi-green-intense-fg ansi-bold">    245</span>     <span style="color: rgb(95,135,135)"># existing one (ACC_EXCL)</span>
+<span class="ansi-green-intense-fg ansi-bold">    246</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
+<span class="ansi-green-fg">--&gt; 247</span>         fid <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">h5f</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">open</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">name</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">h5f</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">ACC_RDWR</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">fapl</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">fapl</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    248</span>     <span style="color: rgb(95,135,135)"># Not all drivers raise FileNotFoundError (commented those that do not)</span>
+<span class="ansi-green-intense-fg ansi-bold">    249</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> <span class="ansi-bold" style="color: rgb(215,95,95)">FileNotFoundError</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> fapl<span style="color: rgb(98,98,98)">.</span>get_driver() <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> (
+<span class="ansi-green-intense-fg ansi-bold">    250</span>         h5fd<span style="color: rgb(98,98,98)">.</span>SEC2,
+<span class="ansi-green-intense-fg ansi-bold">    251</span>         h5fd<span style="color: rgb(98,98,98)">.</span>DIRECT <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> direct_vfd <span class="ansi-bold" style="color: rgb(0,135,0)">else</span> <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">1</span>,
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-intense-fg ansi-bold">    259</span>         h5fd<span style="color: rgb(98,98,98)">.</span>ROS3D <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> ros3 <span class="ansi-bold" style="color: rgb(0,135,0)">else</span> <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">1</span>,
+<span class="ansi-green-intense-fg ansi-bold">    260</span>     ) <span class="ansi-bold" style="color: rgb(0,135,0)">else</span> <span class="ansi-bold" style="color: rgb(215,95,95)">OSError</span>:
+
+File <span class="ansi-green-fg">h5py/_objects.pyx:54</span>, in <span class="ansi-cyan-fg">h5py._objects.with_phil.wrapper</span><span class="ansi-blue-fg">()</span>
+
+File <span class="ansi-green-fg">h5py/_objects.pyx:55</span>, in <span class="ansi-cyan-fg">h5py._objects.with_phil.wrapper</span><span class="ansi-blue-fg">()</span>
+
+File <span class="ansi-green-fg">h5py/h5f.pyx:102</span>, in <span class="ansi-cyan-fg">h5py.h5f.open</span><span class="ansi-blue-fg">()</span>
+
+<span class="ansi-red-fg">BlockingIOError</span>: [Errno 35] Unable to open file (unable to lock file, errno = 35, error message = &#39;Resource temporarily unavailable&#39;)
 </pre></div></div>
 </div>
 <p>As before, the results are stored in <code class="docutils literal notranslate"><span class="pre">experiment.path</span></code></p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-PosixPath(&#39;experiment_10599385036846325164_2024-04-04_22-51-22/data.h5&#39;)
-</pre></div></div>
-</div>
 <p>We find other HDF5 files stored alongside:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.h5&quot;</span><span class="p">)])</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&#39;data.h5&#39;, &#39;data_0.h5&#39;, &#39;data_1.h5&#39;, &#39;data_2.h5&#39;, &#39;data_3.h5&#39;]
-</pre></div></div>
-</div>
 <p>In fact, by parallelizing 20 runs over 4 processes, we have effectively split the experiment in 4 sub-experiments of 5 runs each:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span> <span class="s1">&#39;data_0.h5&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -1107,17 +1143,9 @@ PosixPath(&#39;experiment_10599385036846325164_2024-04-04_22-51-22/data.h5&#39;)
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&#39;run_0&#39;, &#39;run_1&#39;, &#39;run_2&#39;, &#39;run_3&#39;, &#39;run_4&#39;]
-</pre></div></div>
-</div>
 <p>The main file <code class="docutils literal notranslate"><span class="pre">data.h5</span></code> contains runs <em>linked</em> to these files</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -1125,17 +1153,9 @@ PosixPath(&#39;experiment_10599385036846325164_2024-04-04_22-51-22/data.h5&#39;)
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&#39;run_0&#39;, &#39;run_1&#39;, &#39;run_10&#39;, &#39;run_11&#39;, &#39;run_12&#39;, &#39;run_13&#39;, &#39;run_14&#39;, &#39;run_15&#39;, &#39;run_16&#39;, &#39;run_17&#39;, &#39;run_18&#39;, &#39;run_19&#39;, &#39;run_2&#39;, &#39;run_3&#39;, &#39;run_4&#39;, &#39;run_5&#39;, &#39;run_6&#39;, &#39;run_7&#39;, &#39;run_8&#39;, &#39;run_9&#39;]
-</pre></div></div>
-</div>
 <p>which we can access as usual, for example to compute the overall statistics of safety violations:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -1144,8 +1164,8 @@ PosixPath(&#39;experiment_10599385036846325164_2024-04-04_22-51-22/data.h5&#39;)
 </pre></div>
 </div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">svs</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">svs</span><span class="p">)</span>
@@ -1153,16 +1173,8 @@ PosixPath(&#39;experiment_10599385036846325164_2024-04-04_22-51-22/data.h5&#39;)
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Safety margin was violated 9.8% of the time
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -1174,11 +1186,12 @@ Safety margin was violated 9.8% of the time
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
 </div>
-<div class="output_area docutils container">
-<img alt="../_images/tutorials_running_an_experiment_67_0.png" src="../_images/tutorials_running_an_experiment_67_0.png" />
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
 </div>
 </div>
 </section>

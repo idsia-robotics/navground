@@ -443,7 +443,11 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.BoundingBox.__init__"><code class="docutils literal notranslate"><span class="pre">BoundingBox.__init__()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="world.html#navground.sim.Entity"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="world.html#navground.sim.Entity"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.Entity.has_been_in_collision_since"><code class="docutils literal notranslate"><span class="pre">Entity.has_been_in_collision_since()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.Entity.last_collision_time"><code class="docutils literal notranslate"><span class="pre">Entity.last_collision_time</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="world.html#navground.sim.Obstacle"><code class="docutils literal notranslate"><span class="pre">Obstacle</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.Obstacle.__init__"><code class="docutils literal notranslate"><span class="pre">Obstacle.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.Obstacle.disc"><code class="docutils literal notranslate"><span class="pre">Obstacle.disc</span></code></a></li>
@@ -464,6 +468,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.add_wall"><code class="docutils literal notranslate"><span class="pre">World.add_wall()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.agents_are_idle"><code class="docutils literal notranslate"><span class="pre">World.agents_are_idle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.agents_are_idle_or_stuck"><code class="docutils literal notranslate"><span class="pre">World.agents_are_idle_or_stuck()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.clear_collisions"><code class="docutils literal notranslate"><span class="pre">World.clear_collisions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.compute_safety_violation"><code class="docutils literal notranslate"><span class="pre">World.compute_safety_violation()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.copy_random_generator"><code class="docutils literal notranslate"><span class="pre">World.copy_random_generator()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.get_agents_in_collision"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_collision()</span></code></a></li>
@@ -478,6 +483,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.get_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_obstacles_in_region()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.in_collision"><code class="docutils literal notranslate"><span class="pre">World.in_collision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.index_of_agent"><code class="docutils literal notranslate"><span class="pre">World.index_of_agent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.record_collision"><code class="docutils literal notranslate"><span class="pre">World.record_collision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.reset_callbacks"><code class="docutils literal notranslate"><span class="pre">World.reset_callbacks()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.run"><code class="docutils literal notranslate"><span class="pre">World.run()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="world.html#navground.sim.World.run_until"><code class="docutils literal notranslate"><span class="pre">World.run_until()</span></code></a></li>
@@ -512,6 +518,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.actuate"><code class="docutils literal notranslate"><span class="pre">Agent.actuate()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.add_tag"><code class="docutils literal notranslate"><span class="pre">Agent.add_tag()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.get_last_cmd"><code class="docutils literal notranslate"><span class="pre">Agent.get_last_cmd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.has_been_in_collision_since"><code class="docutils literal notranslate"><span class="pre">Agent.has_been_in_collision_since()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.has_been_stuck_since"><code class="docutils literal notranslate"><span class="pre">Agent.has_been_stuck_since()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.remove_tag"><code class="docutils literal notranslate"><span class="pre">Agent.remove_tag()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.actuated_cmd"><code class="docutils literal notranslate"><span class="pre">Agent.actuated_cmd</span></code></a></li>
@@ -522,6 +529,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.id"><code class="docutils literal notranslate"><span class="pre">Agent.id</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.idle"><code class="docutils literal notranslate"><span class="pre">Agent.idle</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.last_cmd"><code class="docutils literal notranslate"><span class="pre">Agent.last_cmd</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.last_collision_time"><code class="docutils literal notranslate"><span class="pre">Agent.last_collision_time</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.orientation"><code class="docutils literal notranslate"><span class="pre">Agent.orientation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.pose"><code class="docutils literal notranslate"><span class="pre">Agent.pose</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="agent.html#navground.sim.Agent.position"><code class="docutils literal notranslate"><span class="pre">Agent.position</span></code></a></li>

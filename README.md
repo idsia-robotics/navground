@@ -54,6 +54,10 @@ It also provides all the infrastructure to run offline experiments.
 
 For more information, we refer to the [project documentation](https://idsia-robotics.github.io/navground) that contains also detailed installation instructions.
 
+## Try the tutorials on binder
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/idsia-robotics/navground.git/HEAD?labpath=tutorials)
+
 ## License and copyright
 
 This software is free for reuse according to the attached MIT license.

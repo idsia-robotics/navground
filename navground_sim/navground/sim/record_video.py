@@ -8,13 +8,13 @@ from typing import Any, Optional
 import h5py
 
 from . import (Agent, Experiment, RecordedExperiment, load_experiment,
-               load_plugins)
+               load_plugins, RecordedExperimentalRun, ExperimentalRun)
 from .ui import Decorate
 from .ui.video import record_video_from_run
 
 
 def run(path: str,
-        experiment: Experiment,
+        experiment: Experiment | RecordedExperiment,
         factor: float = 1.0,
         fps: int = 24,
         seed: int = -1,
@@ -26,7 +26,7 @@ def run(path: str,
         if seed < 0:
             seed = random.randint(0, 2**31)
         experiment.record_config.pose = True
-        run = experiment.run_once(seed)
+        run: ExperimentalRun | RecordedExperimentalRun = experiment.run_once(seed)
     else:
         if seed < 0:
             run = experiment.runs[0]
@@ -136,7 +136,7 @@ def main(decorate: Optional[Decorate] = None) -> None:
     experiment = _load_recorded_experiment(arg.input) or _load_experiment(
         arg.input)
     if not experiment:
-        logging.error(f"Could not load the experiment: {e}")
+        logging.error(f"Could not load the experiment from {arg.input}")
         sys.exit(1)
 
     if arg.area is not None:

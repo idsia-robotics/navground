@@ -16,7 +16,7 @@ def plot_agent(ax: plt.Axes,
                velocity: Optional[core.Vector2] = None,
                color: str | None = None,
                alpha: float = 0.5) -> None:
-    circle = patches.Circle(position, radius, color=color, alpha=alpha)
+    circle = patches.Circle(tuple(position), radius, color=color, alpha=alpha)
     ax.add_patch(circle)
     if velocity is not None:
         vel = patches.Arrow(position[0],
@@ -36,11 +36,11 @@ def plot_world(ax: plt.Axes,
                agent_color: str = 'b') -> None:
     for obstacle in world.obstacles:
         disc = obstacle.disc
-        c = plt.Circle(disc.position, disc.radius, color=color)
+        c = plt.Circle(tuple(disc.position), disc.radius, color=color)
         ax.add_patch(c)
     if with_agents:
         for agent in world.agents:
-            c = plt.Circle(agent.position, agent.radius, color=agent_color)
+            c = plt.Circle(tuple(agent.position), agent.radius, color=agent_color)
             ax.add_patch(c)
     for wall in world.walls:
         line = wall.line
@@ -94,7 +94,12 @@ def plot_run(ax: plt.Axes,
              label: str = ''):
     if with_world:
         plot_world(ax, world=run.world, with_box=with_box)
-    for i, agent in list(enumerate(run.world.agents))[agent_indices]:
+    lia = list(enumerate(run.world.agents))
+    if isinstance(agent_indices, slice):
+        lia = lia[agent_indices]
+    else:
+        lia = [lia[i] for i in agent_indices]
+    for i, agent in lia:
         points = run.poses[:, i, :2]
         if agent.behavior:
             safety_margin = agent.behavior.safety_margin

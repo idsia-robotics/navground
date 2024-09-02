@@ -366,11 +366,11 @@ def _svg_for_world(world: Optional[World] = None,
 
 def size(
     bounds: Rect,
-    width: float = 600,
+    width: int = 600,
     min_height: float = 100,
     relative_margin: float = 0.05
-) -> Tuple[float, float, Tuple[float, float, float, float], float]:
-    min_p, max_p = bounds
+) -> Tuple[int, int, Tuple[float, float, float, float], float]:
+    min_p, max_p = tuple(bounds)
     min_x, min_y = min_p
     max_x, max_y = max_p
     world_width = max_x - min_x

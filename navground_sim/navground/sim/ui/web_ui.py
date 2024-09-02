@@ -43,7 +43,7 @@ async def producer_handler(
 
 
 def pose_msg(agent: Agent) -> PoseMsg:
-    return (*agent.position.tolist(), agent.orientation)
+    return (*agent.position.tolist(), float(agent.orientation))
 
 
 def wall_msg(wall: Wall) -> EntityMsg:
@@ -60,7 +60,7 @@ def obstacle_msg(obstacle: Obstacle) -> EntityMsg:
     return {
         'kind': 'o',
         'point': obstacle.disc.position.tolist(),
-        'radius': obstacle.disc.radius
+        'radius': float(obstacle.disc.radius)
     }
 
 
@@ -69,7 +69,7 @@ def agent_msg(agent: Agent) -> EntityMsg:
     return {
         'kind': 'a',
         'type': agent.type,
-        'size': agent.radius,
+        'size': float(agent.radius),
         'pose': pose_msg(agent),
         'color': agent.color
     }

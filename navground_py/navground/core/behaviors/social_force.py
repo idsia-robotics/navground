@@ -155,38 +155,50 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
     @property
     @register(2.1, "Neighbors potential amplitude")
     def v_a(self) -> float:
-        return self.v.a
+        if isinstance(self.v, ExponentialPotential):
+            return self.v.a
+        return 0
 
     @v_a.setter
     def v_a(self, value: float) -> None:
-        self.v.a = value
+        if isinstance(self.v, ExponentialPotential):
+            self.v.a = value
 
     @property
     @register(0.3, "Neighbors potential length scale")
     def v_r(self) -> float:
-        return self.v.r
+        if isinstance(self.v, ExponentialPotential):
+            return self.v.r
+        return 0
 
     @v_r.setter
     def v_r(self, value: float) -> None:
-        self.v.r = max(0, value)
+        if isinstance(self.v, ExponentialPotential):
+            self.v.r = max(0, value)
 
     @property
     @register(10, "Obstacles potential amplitude")
     def u_a(self) -> float:
-        return self.u.a
+        if isinstance(self.u, ExponentialPotential):
+            return self.u.a
+        return 0
 
     @u_a.setter
     def u_a(self, value: float) -> None:
-        self.u.a = value
+        if isinstance(self.u, ExponentialPotential):
+            self.u.a = value
 
     @property
     @register(0.2, "Obstacles potential length scale")
     def u_r(self) -> float:
-        return self.u.r
+        if isinstance(self.u, ExponentialPotential):
+            return self.u.r
+        return 0
 
     @u_r.setter
     def u_r(self, value: float) -> None:
-        self.u.r = max(0, value)
+        if isinstance(self.u, ExponentialPotential):
+            self.u.r = max(0, value)
 
     def __init__(
             self,

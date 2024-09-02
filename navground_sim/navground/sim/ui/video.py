@@ -28,10 +28,8 @@ def make_video(world: World,
             relative_bounds = np.asarray(((-1, -1), (1, 1)))
         else:
             relative_bounds = np.asarray(bounds)
-        try:
-            theta = float(rotation)
-        except TypeError:
-            pass
+        if isinstance(rotation, float):
+            theta = rotation
 
     def make_frame(t: float) -> np.ndarray:
         nonlocal bounds
@@ -44,8 +42,8 @@ def make_video(world: World,
             world.update(dt)
         if follow:
             bounds = relative_bounds + follow.position
-        if theta:
-            rotation = (follow.position, theta)
+            if theta:
+                rotation = (follow.position, theta)
 
         # TODO(Jerome): they don't have always the same size ...
         return image_for_world(world,
@@ -84,10 +82,8 @@ def make_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
             relative_bounds = np.asarray(((-1, -1), (1, 1)))
         else:
             relative_bounds = np.asarray(bounds)
-        try:
-            theta = float(rotation)
-        except TypeError:
-            pass
+        if isinstance(rotation, float):
+            theta = rotation
     elif not bounds:
         bounds = bounds_of_bounding_box(run.bounding_box)
 
@@ -103,8 +99,8 @@ def make_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
                 step = new_step
                 if follow:
                     bounds = relative_bounds + follow.position
-                if theta:
-                    rotation = (follow.position, theta)
+                    if theta:
+                        rotation = (follow.position, theta)
                 # TODO(Jerome): they don't have always the same size ...
                 frame = image_for_world(run.world,
                                         bounds=bounds,

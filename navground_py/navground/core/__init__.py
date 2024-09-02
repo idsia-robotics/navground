@@ -21,7 +21,10 @@ from ._navground import to_absolute, to_relative, uses_doubles
 
 # TODO(Jerome): Add vector shape = (2, )
 # numpy.ndarray[numpy.float32[2, 1]]
-Vector2: TypeAlias = "numpy.ndarray[numpy.float32, Any]"
+
+# TODO(Jerome): how to define an alias that depends on `uses_doubles`?
+# Vector2: TypeAlias = "numpy.ndarray[numpy.float64, Any]"
+Vector2: TypeAlias = numpy.ndarray
 PropertyField = Union[bool, int, float, str, Vector2, List[bool], List[int],
                       List[float], List[str], List[Vector2]]
 

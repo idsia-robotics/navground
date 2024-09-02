@@ -9,8 +9,12 @@ import typing
 import pathlib
 
 Vector2Like = numpy.ndarray | tuple[float, float] | list[float]
+ScenarioInitCallback = typing.Callable[['Scenario', int], None]
 
 def uses_doubles() -> bool:
+    ...
+
+def use_compact_samplers(value: bool) -> None:
     ...
 
 __all__ = ['Agent', 'AntipodalScenario', 'BoundedStateEstimation', 'BoundingBox', 'CorridorScenario', 'CrossScenario', 'CrossTorusScenario', 'Dataset', 'DiscsStateEstimation', 'Entity', 'Experiment', 'ExperimentalRun', 'GroupRecordProbe', 'LidarStateEstimation', 'Obstacle', 'Probe', 'RecordConfig', 'RecordProbe', 'Scenario', 'ScenarioRegister', 'Sensor', 'SimpleScenario', 'StateEstimation', 'StateEstimationRegister', 'Task', 'TaskRegister', 'Wall', 'WaypointsTask', 'World', 'dump', 'load_agent', 'load_experiment', 'load_scenario', 'load_state_estimation', 'load_task', 'load_world']
@@ -1052,10 +1056,18 @@ class Experiment:
     @time_step.setter
     def time_step(self, arg1: float) -> None:
         ...
+    @property
+    def scenario_init_callback(self) -> typing.Optional[ScenarioInitCallback]:
+        ...
+    @scenario_init_callback.setter
+    def scenario_init_callback(self, value: typing.Optional[ScenarioInitCallback]) -> None:
+        ...
 class ExperimentalRun:
     """
     Simulates a world and collects data.
     """
+    def reset(self) -> None:
+        ...
     def __getstate__(self) -> tuple:
         ...
     def __init__(self, world: World, time_step: float = 0.1, steps: int = 1000, terminate_when_all_idle_or_stuck: bool = True, record_config: RecordConfig = ..., seed: int = 0) -> None:
@@ -1432,7 +1444,7 @@ class ExperimentalRun:
         """
         Returns the simulated world.
         """
-    def get_collision_events(self, min_interval: int) -> np.ndarray:
+    def get_collision_events(self, min_interval: int) -> numpy.ndarray:
         ...
     @property
     def bounding_box(self) -> BoundingBox:
@@ -1531,6 +1543,56 @@ class LidarStateEstimation(Sensor, StateEstimation):
         """
     @start_angle.setter
     def start_angle(self, arg1: float) -> None:
+        ...
+class BoundarySensor(Sensor, StateEstimation):
+    def __getstate__(self) -> tuple:
+        ...
+    def __init__(self, range: float = 0.0, min_x: float = -numpy.inf, min_y: float = -numpy.inf, max_x: float = numpy.inf, max_y: float = numpy.inf) -> None:
+        ...
+    def __setstate__(self, arg0: tuple) -> None:
+        ...
+    @property
+    def min_x(self) -> float:
+        ...
+    @min_x.setter
+    def min_x(self, arg1: float) -> None:
+        ...
+    @property
+    def min_y(self) -> float:
+        ...
+    @min_y.setter
+    def min_y(self, arg1: float) -> None:
+        ...
+    @property
+    def max_x(self) -> float:
+        ...
+    @max_x.setter
+    def max_x(self, arg1: float) -> None:
+        ...
+    @property
+    def max_y(self) -> float:
+        ...
+    @max_y.setter
+    def max_y(self, arg1: float) -> None:
+        ...
+    @property
+    def range(self) -> float:
+        ...
+    @range.setter
+    def range(self, arg1: float) -> None:
+        ...
+class SensorCombination(Sensor, StateEstimation):
+    def __getstate__(self) -> tuple:
+        ...
+    def __init__(self, sensors: list[Sensor] = []) -> None:
+        ...
+    def __setstate__(self, arg0: tuple) -> None:
+        ...
+    @property
+    def sensors(self) -> list[Sensor]:
+        ...
+    @sensors.setter
+    def sensors(self, arg1: list[Sensor]) -> None:
         ...
 class NativeAgent(Entity):
     """
@@ -2201,11 +2263,11 @@ class Probe:
     """
     def __init__(self) -> None:
         ...
-    def _prepare(self, run: sim.ExperimentalRun) -> None:
+    def _prepare(self, run: ExperimentalRun) -> None:
         ...
-    def _update(self, run: sim.ExperimentalRun) -> None:
+    def _update(self, run: ExperimentalRun) -> None:
         ...
-    def _finalize(self, run: sim.ExperimentalRun) -> None:
+    def _finalize(self, run: ExperimentalRun) -> None:
         ...
 class RecordConfig:
     """
@@ -2766,3 +2828,29 @@ def load_world(value: str) -> World:
     :return:
       The loaded world or ``None`` if loading fails.
     """
+class RecordSensingConfig:
+    def __init__(self, name: str = "", sensor: typing.Optional[Sensor] = None, agent_indices: list[int] = []) -> None:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @name.setter
+    def name(self, value: str) -> None:
+        ...
+    @property
+    def sensor(self) -> typing.Optional[Sensor]:
+        ...
+    @sensor.setter
+    def sensor(self, value: typing.Optional[Sensor]) -> None:
+        ...
+    @property
+    def agent_indices(self) -> list[int]:
+        ...
+    @agent_indices.setter
+    def agent_indices(self, value: list[int]) -> None:
+        ...
+class SensingProbe(Probe):
+    def __init__(self, name: str = "sensing", sensor: typing.Optional[Sensor] = None, agent_indices: list[int] = []) -> None:
+        ...
+    def get_data(self) -> typing.Dict[str, Dataset]:
+        ...

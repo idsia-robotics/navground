@@ -813,29 +813,7 @@ class Behavior(BehaviorRegister, HasProperties):
 
 
 class BehaviorRegister:
-    type_properties: typing.ClassVar[
-        dict]  # value = {
-      'Dummy' : {},
-                'HL' : {
-                  'aperture' : <navground.core._navground.Property object>,
-                  'barrier_angle' : <navground.core._navground.Property object>,
-                  'epsilon' : <navground.core._navground.Property object>,
-                  'eta' : <navground.core._navground.Property object>,
-                  'resolution' : <navground.core._navground.Property object>,
-                  'tau' : <navground.core._navground.Property object>
-                },
-                       'HRVO' : {},
-                                'ORCA'
-          : {
-            'effective_center' : <navground.core._navground.Property object>,
-            'time_horizon' : <navground.core._navground.Property object>
-          },
-            'PyDummy' : {
-              'dummy' : <navground.core._navground.Property object>,
-              'tired' : <navground.core._navground.Property object>
-            },
-                        'SocialForce' : {}
-    }
+    type_properties: typing.ClassVar[dict]
     types: typing.ClassVar[list] = [
         'Dummy', 'HL', 'HRVO', 'ORCA', 'PyDummy', 'SocialForce'
     ]
@@ -2171,6 +2149,7 @@ class Kinematics(KinematicsRegister, HasProperties):
     def __setstate__(self, arg0: tuple) -> None:
         ...
 
+    @typing.overload
     def feasible(self, arg0: Twist2) -> Twist2:
         """
         Computes the nearest feasible twist to a desired twist.
@@ -2183,6 +2162,7 @@ class Kinematics(KinematicsRegister, HasProperties):
             value. How this is defined depends on the concrete sub-class.
         """
 
+    @typing.overload
     def feasible(self, arg0: Twist2, arg1: Twist2, time_step: float) -> Twist2:
         ...
 
@@ -2234,13 +2214,7 @@ class Kinematics(KinematicsRegister, HasProperties):
 
 
 class KinematicsRegister:
-    type_properties: typing.ClassVar[
-        dict]  # value = {
-  '2WDiff' : {'wheel_axis' : <navground.core._navground.Property object>},
-             '4WOmni'
-      : {'wheel_axis' : <navground.core._navground.Property object>},
-        'Ahead' : {},
-                  'Omni' : {}}
+    type_properties: typing.ClassVar[dict]
     types: typing.ClassVar[list] = ['2WDiff', '4WOmni', 'Ahead', 'Omni']
 
     @staticmethod
@@ -3215,6 +3189,8 @@ def load_behavior(value: str) -> typing.Any:
       The loaded behavior or ``None`` if loading fails.
     """
 
+def load_behavior_modulation(value: str) -> typing.Any:
+    ...
 
 def load_kinematics(value: str) -> typing.Any:
     """

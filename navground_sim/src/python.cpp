@@ -1773,7 +1773,7 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
            R"doc(
 The stored sensor readings, indexed by UID or index
 
-:rtype: typing.Dict[str, np.ndarray]
+:rtype: typing.Dict[str, navground.sim.Dataset]
 
 )doc"
            // DOC(navground, sim, SensingProbe, get_data)

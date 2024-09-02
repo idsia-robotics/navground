@@ -75,12 +75,15 @@ def main() -> None:
             from tqdm import tqdm
 
             with tqdm(total=experiment.number_of_runs) as bar:
+                def cb(_: sim.ExperimentalRun) -> None:
+                    bar.update(1)
+
                 if arg.processes > 1:
                     experiment.run_mp(number_of_processes=arg.processes,  # type: ignore
                                       bar=bar,
                                       keep=arg.save_single_hdf5)
                 else:
-                    experiment.add_run_callback(lambda _: bar.update(1))
+                    experiment.add_run_callback(cb)
                     experiment.run(keep=False, number_of_threads=arg.threads)
         else:
             if arg.processes > 1:

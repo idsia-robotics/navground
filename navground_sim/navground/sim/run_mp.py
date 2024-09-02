@@ -18,7 +18,7 @@ Probes = Tuple[List[Callable[[], sim.Probe]],
                Dict[str, Callable[[], sim.RecordProbe]],
                Dict[str, Callable[[], sim.GroupRecordProbe]]]
 
-ScenarioInitCallback = Callable[['sim.Scenario', int], None]
+ScenarioInitCallback = Callable[['sim._navground_sim.Scenario', int], None]
 
 
 def _load_and_run_experiment(
@@ -125,7 +125,7 @@ def run_mp(experiment: sim.Experiment,
             f"data_{i}.h5" if experiment.path else None
             for i in range(number_of_processes)
         ]
-    scenario_init_callback = itertools.repeat(scenario_init_callback)
+    scenario_init_callbacks = itertools.repeat(scenario_init_callback)
     yaml = itertools.repeat(sim.dump(experiment), number_of_processes)
     queues = itertools.repeat(queue, number_of_processes)
     keeps = itertools.repeat(keep, number_of_processes)
@@ -134,7 +134,7 @@ def run_mp(experiment: sim.Experiment,
                               number_of_processes)
     partial_experiments = list(
         zip(keeps, yaml, start_indices, chunks, paths, queues, probes,
-            scenario_init_callback))
+            scenario_init_callbacks))
 
     with mp.Pool(number_of_processes) as p:
         r = p.starmap_async(_load_and_run_experiment, partial_experiments)

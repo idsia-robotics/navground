@@ -1,0 +1,41 @@
+FROM python:3.12-slim as base
+MAINTAINER Jerome Guzzi "jerome@idsia.ch"
+
+ENV DEBIAN_FRONTEND="noninteractive" TZ="Europe/Zurich"
+
+SHELL ["/bin/bash", "-c"]
+
+# Following the all-at-once instructions
+# https://idsia-robotics.github.io/navground/_build/html/installation.html#all-at-once
+
+RUN pip install numpy==1.26.4 multiprocess
+
+FROM base as base1
+
+RUN apt-get update && apt-get install -y \
+   cmake git libclang-dev python3-dev build-essential \
+   && rm -rf /var/lib/apt/lists/*
+
+RUN pip install colcon-common-extensions vcstool clang==14 git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+
+ENV COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+
+RUN mkdir /ws \
+    && cd /ws \
+    && vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos \
+    && colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
+
+RUN export HDF5_DIR=/ws/install \
+    && pip install --no-binary=h5py h5py
+
+FROM base as base2
+
+WORKDIR /ws
+
+COPY --from=base1 /usr/local/lib/python3.12/site-packages/h5py /usr/local/lib/python3.12/site-packages/h5py
+COPY --from=base1 /ws/install /ws/install
+
+COPY ./entrypoint.slim.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bash"]

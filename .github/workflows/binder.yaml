@@ -1,5 +1,8 @@
 name: Binder
-on: [push]
+on:
+  workflow_run:
+    workflows: ['Docker']
+    types: [completed]
 
 jobs:
   Create-MyBinderOrg-Cache:
@@ -9,4 +12,5 @@ jobs:
       uses: jupyterhub/repo2docker-action@master
       with:
         NO_PUSH: true
-        MYBINDERORG_TAG: ${{ github.event.ref }} # This builds the container on mybinder.org with the branch that was pushed on.
+        # This builds the container on mybinder.org with the branch that was pushed on.
+        MYBINDERORG_TAG: ${{ github.event.ref }} 

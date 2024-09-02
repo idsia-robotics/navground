@@ -37,6 +37,11 @@ def parser() -> argparse.ArgumentParser:
         help=
         "Whether to store a single HDF5 file when using multiple processes",
         action='store_true')
+    parser.add_argument(
+        "--use_multiprocess",
+        help=
+        "Whether to use the multiprocess package instead of multiprocessings",
+        action='store_true')
     return parser
 
 
@@ -81,14 +86,16 @@ def main() -> None:
                 if arg.processes > 1:
                     experiment.run_mp(number_of_processes=arg.processes,  # type: ignore
                                       bar=bar,
-                                      keep=arg.save_single_hdf5)
+                                      keep=arg.save_single_hdf5,
+                                      use_multiprocess=arg.use_multiprocess)
                 else:
                     experiment.add_run_callback(cb)
                     experiment.run(keep=False, number_of_threads=arg.threads)
         else:
             if arg.processes > 1:
                 experiment.run_mp(number_of_processes=arg.processes,  # type: ignore
-                                  keep=arg.save_single_hdf5)
+                                  keep=arg.save_single_hdf5,
+                                  use_multiprocess=arg.use_multiprocess)
             else:
                 experiment.run(keep=False, number_of_threads=arg.threads)
 

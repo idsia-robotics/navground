@@ -1,6 +1,11 @@
 import itertools
-import multiprocess as mp
-# import multiprocessing as mp
+import multiprocessing
+
+try:
+    import multiprocess  # type: ignore
+except ImportError:
+    multiprocess = None
+
 import pathlib
 import warnings
 from queue import Empty
@@ -27,7 +32,7 @@ def _load_and_run_experiment(
     start_index: int,
     number_of_runs: int,
     data_path: Optional[pathlib.Path],
-    queue: Optional[mp.Queue] = None,
+    queue: Optional[multiprocessing.Queue] = None,
     probes: Probes = ([], {}, {}),
     scenario_init_callback: ScenarioInitCallback | None = None
 ) -> Dict[int, sim.ExperimentalRun]:
@@ -61,7 +66,8 @@ def run_mp(experiment: sim.Experiment,
            start_index: Optional[int] = None,
            callback: Optional[Callable[[int], None]] = None,
            bar: Optional['tqdm.tqdm'] = None,
-           scenario_init_callback: ScenarioInitCallback | None = None) -> None:
+           scenario_init_callback: ScenarioInitCallback | None = None,
+           use_multiprocess: bool = False) -> None:
     """
 
     Run an experiment distributing its runs in parallel over multiple processes.
@@ -77,15 +83,20 @@ def run_mp(experiment: sim.Experiment,
     it will save one HDF5 file per process (``"data_<i>.h5"``) and one "data.h5" linking all the runs together.
     To access the data, you will need to load the HFD5 file.
 
-    :param      experiment:           The experiment
-    :param      number_of_processes:  The number of processes
-    :param      keep:                 Whether to keep runs in memory
-    :param      number_of_runs:       The number of runs
-    :param      start_index:          The index of the first run
-    :param      callback:             An optional callback to run after each run is completed
-    :param      bar:                  An optional tqdm bar to display the progresses.
-
+    :param      experiment:             The experiment
+    :param      number_of_processes:    The number of processes
+    :param      keep:                   Whether to keep runs in memory
+    :param      number_of_runs:         The number of runs
+    :param      start_index:            The index of the first run
+    :param      callback:               An optional callback to run after each run is completed
+    :param      bar:                    An optional tqdm bar to display the progresses.
+    :param      scenario_init_callback: An optional callback to set as :py:attr:`Experiment.scenario_init_callback`.
+    :param      use_multiprocess:       Whether to use the `multiprocess` package instead of `multiprocessing`
     """
+    if use_multiprocess and multiprocess:
+        mp = multiprocess
+    else:
+        mp = multiprocessing
 
     if number_of_processes < 1:
         warnings.warn(

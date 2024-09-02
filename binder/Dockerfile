@@ -1,13 +1,13 @@
 FROM jeguzzi/navground:slim
 
 RUN pip install websockets cairosvg moviepy matplotlib pandas\
-    && pip install --no-cache notebook jupyterlab
+    && pip install --no-cache notebook jupyterlab ipywidgets
 
 RUN apt-get update && apt-get install -y \
     libcairo2 \
    && rm -rf /var/lib/apt/lists/*
 
-ARG NB_USER=user
+ARG NB_USER=jovyan
 ARG NB_UID=1000
 ENV USER=${NB_USER}
 ENV NB_UID=${NB_UID}

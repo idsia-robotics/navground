@@ -249,7 +249,7 @@ class RecordedExperimentalRun:
                 ucs = [(self.world.get_entity(e1), self.world.get_entity(e2))
                        for _, e1, e2 in cs]
                 for e1, e2 in ucs:
-                    self.world.record_collisions(e1, e2)
+                    self.world.record_collision(e1, e2)
             return True
         return False
 

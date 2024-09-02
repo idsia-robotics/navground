@@ -182,8 +182,8 @@ def svg_for_world(world: Optional[World] = None,
                   precision: int = 3,
                   decorate: Optional[Decorate] = None,
                   bounds: Optional[Rect] = None,
-                  width: float = 600,
-                  min_height: float = 100,
+                  width: int = 600,
+                  min_height: int = 100,
                   relative_margin: float = 0.05,
                   background_color: str = 'snow',
                   display_shape: bool = False,
@@ -233,8 +233,8 @@ def _svg_for_world(world: Optional[World] = None,
                    decorate: Optional[Decorate] = None,
                    standalone: bool = True,
                    bounds: Optional[Rect] = None,
-                   width: float = 600,
-                   min_height: float = 100,
+                   width: int = 600,
+                   min_height: int = 100,
                    relative_margin: float = 0.05,
                    include_default_style: bool = True,
                    external_style_path: str = '',
@@ -297,9 +297,9 @@ def _svg_for_world(world: Optional[World] = None,
         min_y = 0
     dims = {
         'width':
-        f'{width:.0f}',
+        f'{width}',
         'height':
-        f'{height:.0f}',
+        f'{height}',
         'viewBox':
         f"{view_box[0]:.4f} {view_box[1]:.4f} {view_box[2]:.4f} {view_box[3]:.4f}"
     }

@@ -1,8 +1,9 @@
 #include "navground/sim/dataset.h"
-#include "navground/core/utilities.h"
 
 #include <highfive/H5DataSpace.hpp>
 #include <string>
+
+#include "navground/core/utilities.h"
 
 using namespace navground::sim;
 
@@ -34,7 +35,7 @@ void Dataset::set_item_shape(const Shape &value) {
 bool Dataset::is_valid() const { return size() % _item_size == 0; }
 
 Dataset::Shape Dataset::get_shape() const {
-  Dataset::Shape shape = {size() / _item_size};
+  Dataset::Shape shape = {_item_size ? size() / _item_size : 0};
   shape.insert(std::end(shape), std::begin(_item_shape), std::end(_item_shape));
   return shape;
 }
@@ -87,8 +88,7 @@ void Dataset::push(const Dataset::Scalar &data) {
 //   return ds;
 // }
 
-
-void Dataset::config_to_hold_buffer(const navground::core::Buffer& buffer) {
+void Dataset::config_to_hold_buffer(const navground::core::Buffer &buffer) {
   Dataset::Shape shape;
   const auto &bshape = buffer.get_shape();
   std::copy(bshape.begin(), bshape.end(), std::back_inserter(shape));

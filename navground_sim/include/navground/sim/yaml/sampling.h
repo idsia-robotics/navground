@@ -73,14 +73,14 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
   // implicit const
   try {
     return std::make_unique<ConstantSampler<T>>(node.as<T>(), once);
-  } catch (YAML::BadConversion & e) {
+  } catch (YAML::BadConversion &) {
   }
   // implicit sequence
   if (node.Type() == YAML::NodeType::Sequence) {
     try {
       return std::make_unique<SequenceSampler<T>>(node.as<std::vector<T>>(),
                                                   Wrap::loop, once);
-    } catch (YAML::BadConversion & e) {
+    } catch (YAML::BadConversion &) {
     }
   }
   if (node.Type() != YAML::NodeType::Map || !node["sampler"]) {

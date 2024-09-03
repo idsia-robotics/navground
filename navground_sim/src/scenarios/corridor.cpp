@@ -39,7 +39,7 @@ void CorridorScenario::init_world(World *world,
     ng_float_t orientation = 0;
     Vector2 direction{1.0, 0.0};
     if (index % 2) {
-      orientation = M_PI;
+      orientation = static_cast<ng_float_t>(M_PI);
       direction *= -1;
     }
     agent->pose.orientation = orientation;

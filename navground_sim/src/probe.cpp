@@ -19,7 +19,7 @@ void SensingProbe::prepare(ExperimentalRun* run) {
   const bool use_uid = run->get_record_config().use_agent_uid_as_key;
   const auto agents = world->get_agents();
   if (_agent_indices.size() == 0) {
-    for (size_t i = 0; i < agents.size(); ++i) {
+    for (unsigned i = 0; i < agents.size(); ++i) {
       _agent_indices.push_back(i);
     }
   } else {

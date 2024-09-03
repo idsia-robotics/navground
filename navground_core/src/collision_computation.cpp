@@ -23,7 +23,7 @@ std::valarray<ng_float_t> CollisionComputation::get_free_distance_for_sector(
   std::valarray<ng_float_t> d(resolution + 1);
   Radians a = from;
   if (resolution == 0) {
-    a += length * 0.5;
+    a += length / 2;
     d[0] = dynamic ? dynamic_free_distance(a, max_distance, speed)
                    : static_free_distance(a, max_distance, true);
     return d;
@@ -41,7 +41,7 @@ std::valarray<ng_float_t> CollisionComputation::get_angles_for_sector(
   std::valarray<ng_float_t> d(resolution + 1);
   Radians a = from;
   if (resolution == 0) {
-    a += length * 0.5;
+    a += length / 2;
     d[0] = a;
     return d;
   }
@@ -91,7 +91,7 @@ ng_float_t CollisionComputation::static_free_distance_to(
 #if LINE_CAP_SQUARE
   if (abs(y) < margin && x > -margin && x < line.length + margin) {
     // already colliding
-    return 0.0;
+    return 0;
   }
 #else
   // Does not consider as collision if the disc is colliding at the edges but
@@ -99,9 +99,9 @@ ng_float_t CollisionComputation::static_free_distance_to(
   if (abs(y) < margin) {
     const ng_float_t ex = line.e1.dot(e);
     if (x < -margin) return no_collision;
-    if (x < 0) return ex < 0 ? no_collision : 0.0;
+    if (x < 0) return ex < 0 ? no_collision : 0;
     if (x < line.length) return 0.0;
-    if (x < line.length + margin) return ex > 0 ? no_collision : 0.0;
+    if (x < line.length + margin) return ex > 0 ? no_collision : 0;
     return no_collision;
   }
 #endif  // LINE_CAP_SQUARE

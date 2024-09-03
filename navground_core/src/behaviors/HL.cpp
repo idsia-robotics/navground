@@ -109,7 +109,7 @@ Vector2 HLBehavior::desired_velocity_towards_point(
   // effective_horizon=fmin(horizon,D);
   // Vector2 effectiveTarget = agentToTarget / D * effective_horizon;
   const ng_float_t max_distance = effective_horizon;  // - radius;
-  const Radians max_angle{1.6};                       // Radians::PI_OVER_TW0;
+  const Radians max_angle = static_cast<Radians>(1.6);  // Radians::PI_OVER_TW0;
   Radians angle = 0;
   // relative to target direction
   Radians optimal_angle = 0;

@@ -62,7 +62,7 @@ Twist2 TwoWheelsDifferentialDriveKinematics::twist(
 WheelSpeeds TwoWheelsDifferentialDriveKinematics::wheel_speeds(
     const Twist2& twist) const {
   assert(twist.frame == Frame::relative);
-  const ng_float_t rotation = 0.5 * twist.angular_speed * axis;
+  const ng_float_t rotation = twist.angular_speed * axis / 2;
   const ng_float_t linear = twist.velocity[0];
   return {linear - rotation, linear + rotation};
 }
@@ -72,8 +72,8 @@ WheelSpeeds TwoWheelsDifferentialDriveKinematics::feasible_wheel_speeds(
   assert(twist.frame == Frame::relative);
   // {left, right}
   ng_float_t max_speed = get_max_speed();
-  const ng_float_t rotation = std::clamp<ng_float_t>(
-      0.5 * twist.angular_speed * axis, -max_speed, max_speed);
+  const ng_float_t rotation =
+      std::clamp(twist.angular_speed * axis / 2, -max_speed, max_speed);
   const ng_float_t linear =
       std::clamp<ng_float_t>(twist.velocity[0], 0, max_speed);
   ng_float_t left = linear - rotation;

@@ -29,7 +29,7 @@ size_t Dataset::get_shape_size(const Dataset::Shape &shape) {
 
 void Dataset::set_item_shape(const Shape &value) {
   _item_shape = value;
-  _item_size = get_shape_size(value);
+  _item_size = static_cast<unsigned>(get_shape_size(value));
 }
 
 bool Dataset::is_valid() const { return size() % _item_size == 0; }

@@ -207,14 +207,14 @@ struct SequenceSampler final : public Sampler<T> {
   /**
    * @private
    */
-  bool done() const override { return wrap_done(wrap, _index, values.size()); }
+  bool done() const override { return wrap_done(wrap, _index, static_cast<unsigned>(values.size())); }
 
   std::vector<T> values;
   Wrap wrap;
 
  protected:
   T s(RandomGenerator& rg) override {
-    return values[wrap_index(wrap, _index, values.size())];
+    return values[wrap_index(wrap, _index, static_cast<unsigned>(values.size()))];
   }
 
   // std::ostream& output(std::ostream& os) const override {

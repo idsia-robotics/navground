@@ -27,7 +27,7 @@ class ExperimentalRun;
  * Concrete classes should overwrite \ref prepare, \ref update, and/or \ref
  * finalize as the base class does nothing.
  */
-class Probe {
+class NAVGROUND_SIM_EXPORT Probe {
  public:
   Probe() {}
   virtual ~Probe() = default;
@@ -197,6 +197,9 @@ class NAVGROUND_SIM_EXPORT GroupRecordProbe : public Probe {
  */
 class NAVGROUND_SIM_EXPORT SensingProbe : public Probe {
  public:
+
+  using Data = std::map<unsigned, std::map<std::string, std::shared_ptr<Dataset>>>;
+
   explicit SensingProbe(const std::string name = "sensing",
                         const std::shared_ptr<Sensor> &sensor = nullptr,
                         const std::vector<unsigned> &agent_indices = {})
@@ -226,8 +229,17 @@ class NAVGROUND_SIM_EXPORT SensingProbe : public Probe {
    */
   void update(ExperimentalRun *run) override;
 
+  /**
+   * @brief      Gets the stored sensor readings, indexed by UID or index.
+   *
+   * @return     The data.
+   */
+  const Data & get_data() const {
+    return _data;
+  }
+
  private:
-  std::map<unsigned, std::map<std::string, std::shared_ptr<Dataset>>> _data;
+  Data _data;
   std::shared_ptr<Sensor> _sensor;
   std::map<unsigned, core::SensingState> _states;
   std::vector<unsigned> _agent_indices;

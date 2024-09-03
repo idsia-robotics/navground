@@ -41,19 +41,19 @@ struct NAVGROUND_SIM_EXPORT CrossScenario : public Scenario {
  public:
   // distance between targets
   ng_float_t side;
-  inline static ng_float_t default_side = 2.0;
+  inline static ng_float_t default_side = 2;
   // goal tolerance
   ng_float_t tolerance;
-  inline static ng_float_t default_tolerance = 0.25;
+  inline static ng_float_t default_tolerance = static_cast<ng_float_t>(0.25);
   // initial minimal distance between agents
   ng_float_t agent_margin;
-  inline static ng_float_t default_agent_margin = 0.1;
+  inline static ng_float_t default_agent_margin = static_cast<ng_float_t>(0.1);
   // whether to add the safety margin to the agent margin;
   bool add_safety_to_agent_margin;
   inline static bool default_add_safety_to_agent_margin = true;
   // initial minimal distance between agents and targets
   ng_float_t target_margin;
-  inline static ng_float_t default_target_margin = 0.5;
+  inline static ng_float_t default_target_margin = static_cast<ng_float_t>(0.5);
 
   CrossScenario(
       ng_float_t side = default_side, ng_float_t tolerance = default_tolerance,

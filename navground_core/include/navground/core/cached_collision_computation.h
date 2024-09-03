@@ -91,7 +91,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    */
   void set_length(ng_float_t value) {
     if (value > 0) {
-      value = std::min<ng_float_t>(value, 2 * M_PI);
+      value = std::min(value, TWO_PI);
       if (length != value) {
         length = value;
         reset();
@@ -224,7 +224,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
   /**
    * Marks yet-not-computed entries in \ref get_cache
    */
-  static constexpr int uncomputed = -2;
+  static constexpr ng_float_t uncomputed = -2;
 
   ng_float_t from_relative_angle;
   ng_float_t length;
@@ -237,8 +237,8 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
   // can be outsize of 0 ... resolution range
   int index_of(Radians delta_relative_angle) {
     if (resolution < 2) return 0;
-    return (delta_relative_angle - from_relative_angle) / length *
-           static_cast<ng_float_t>(resolution - 1);
+    return static_cast<int>((delta_relative_angle - from_relative_angle) /
+                            length * static_cast<ng_float_t>(resolution - 1));
   }
 };
 

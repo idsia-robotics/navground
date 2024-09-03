@@ -373,7 +373,7 @@ struct convert_world {
     }
     if (node["lattice"]) {
       std::array<std::string, 2> axes{"x", "y"};
-      for (size_t i = 0; i < axes.size(); ++i) {
+      for (unsigned i = 0; i < axes.size(); ++i) {
         if (node["lattice"][axes[i]]) {
           auto value = node["lattice"][axes[i]].as<World::Lattice>();
           rhs.set_lattice(i, value);

@@ -60,6 +60,8 @@ inline Radians orientation_of(const Vector2& vector) {
   return std::atan2(vector.y(), vector.x());
 }
 
+constexpr Radians TWO_PI = static_cast<Radians>(2 * M_PI);
+
 /**
  * @brief      Normalize an angle to a value in \f$[-\pi, \pi]\f$.
  * Apply it when computing angular differences.
@@ -68,12 +70,13 @@ inline Radians orientation_of(const Vector2& vector) {
  *
  * @return     The equivalent angle in \f$[-\pi, \pi]\f$
  */
+
 inline Radians normalize(Radians value) {
-  value = std::fmod(value, 2 * M_PI);
+  value = std::fmod(value, TWO_PI);
   if (value < -M_PI) {
-    value += 2 * M_PI;
+    value += TWO_PI;
   } else if (value > M_PI) {
-    value -= 2 * M_PI;
+    value -= TWO_PI;
   }
   return value;
 }
@@ -408,7 +411,7 @@ inline Vector2 to_relative(const Vector2& value, const Pose2& reference) {
  * changes in a \ref Behavior to enable caching when the relevant part of the
  * state has not changed.
  */
-class TrackChanges {
+class NAVGROUND_CORE_EXPORT TrackChanges {
  public:
   /**
    * @brief      Constructs a new instance.

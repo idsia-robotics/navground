@@ -1517,7 +1517,7 @@ Creates a rectangular region
       .def(py::init([](bool time, bool pose, bool twist, bool cmd,
                        bool actuated_cmd, bool target, bool safety_violation,
                        bool collisions, bool task_events, bool deadlocks,
-                       bool efficacy, RecordNeighborsConfig neighbors,
+                       bool efficacy, bool world, RecordNeighborsConfig neighbors,
                        bool use_agent_uid_as_key,
                        std::vector<RecordSensingConfig> sensing) {
              return new RecordConfig{time,
@@ -1531,6 +1531,7 @@ Creates a rectangular region
                                      task_events,
                                      deadlocks,
                                      efficacy,
+                                     world,
                                      neighbors,
                                      use_agent_uid_as_key,
                                      sensing};
@@ -1540,7 +1541,7 @@ Creates a rectangular region
            py::arg("actuated_cmd") = false, py::arg("target") = false,
            py::arg("safety_violation") = false, py::arg("collisions") = false,
            py::arg("task_events") = false, py::arg("deadlocks") = false,
-           py::arg("efficacy") = false,
+           py::arg("efficacy") = false, py::arg("world") = false,
            py::arg("neighbors") = RecordNeighborsConfig{false, 0, false},
            py::arg("use_agent_uid_as_key") = true,
            py::arg("sensing") = std::vector<RecordSensingConfig>{})
@@ -1567,6 +1568,8 @@ Creates a rectangular region
                      DOC(navground, sim, RecordConfig, deadlocks))
       .def_readwrite("efficacy", &RecordConfig::efficacy,
                      DOC(navground, sim, RecordConfig, efficacy))
+      .def_readwrite("world", &RecordConfig::world,
+                     DOC(navground, sim, RecordConfig, world))
       .def_readwrite("neighbors", &RecordConfig::neighbors,
                      DOC(navground, sim, RecordConfig, neighbors))
       .def_readwrite("use_agent_uid_as_key",
@@ -1599,6 +1602,7 @@ Creates a rectangular region
                   py::str(py::cast(value.task_events));
              r += py::str(", deadlocks=") + py::str(py::cast(value.deadlocks));
              r += py::str(", efficacy=") + py::str(py::cast(value.efficacy));
+             r += py::str(", world=") + py::str(py::cast(value.world));
              r += py::str(", neighbors=") + py::str(py::cast(value.neighbors));
              r += py::str(", use_agent_uid_as_key=") +
                   py::str(py::cast(value.use_agent_uid_as_key)) + py::str(")");
@@ -1610,7 +1614,7 @@ Creates a rectangular region
                                   value.cmd, value.actuated_cmd, value.target,
                                   value.safety_violation, value.collisions,
                                   value.task_events, value.deadlocks,
-                                  value.efficacy, value.neighbors,
+                                  value.efficacy, value.world, value.neighbors,
                                   value.use_agent_uid_as_key, value.sensing);
           },
           [](py::tuple v) {  // __setstate__
@@ -1626,9 +1630,10 @@ Creates a rectangular region
                 py::cast<bool>(v[8]),
                 py::cast<bool>(v[9]),
                 py::cast<bool>(v[10]),
-                py::cast<RecordNeighborsConfig>(v[11]),
-                py::cast<bool>(v[12]),
-                py::cast<std::vector<RecordSensingConfig>>(v[13])};
+                py::cast<bool>(v[11]),
+                py::cast<RecordNeighborsConfig>(v[12]),
+                py::cast<bool>(v[13]),
+                py::cast<std::vector<RecordSensingConfig>>(v[14])};
           }));
 
   py::class_<Dataset, std::shared_ptr<Dataset>>(

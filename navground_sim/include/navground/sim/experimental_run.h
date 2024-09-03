@@ -69,15 +69,15 @@ struct RecordConfig {
   /**
    * Whether to record the simulation time
    */
-  bool time;
+  bool time = false;
   /**
    * Whether to record the agents poses
    */
-  bool pose;
+  bool pose = false;
   /**
    * Whether to record the agents twists
    */
-  bool twist;
+  bool twist = false;
   /**
    * Whether to record the agents control commands
    */
@@ -113,6 +113,11 @@ struct RecordConfig {
   bool efficacy;
 
   /**
+   * Whether to record the initial world state (as YAML)
+   */
+  bool world;
+
+  /**
    * Whether and how to record neighbors
    */
   RecordNeighborsConfig neighbors;
@@ -135,6 +140,7 @@ struct RecordConfig {
    */
   static RecordConfig all(bool value) {
     return {value,
+            value,
             value,
             value,
             value,

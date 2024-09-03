@@ -2383,6 +2383,12 @@ class RecordConfig:
     @twist.setter
     def twist(self, arg0: bool) -> None:
         ...
+    @property
+    def world(self) -> bool:
+        ...
+    @world.setter
+    def world(self, arg0: bool) -> None:
+        ...
 class RecordProbe(Probe):
     """
     Base class for probes that records numerical data on a single dataset,

@@ -6,8 +6,9 @@ from typing import Dict, Optional, Tuple, Union, Set
 import h5py
 import numpy as np
 from navground import core
+import warnings
 
-from . import Agent, World, load_experiment, load_world, BoundingBox
+from . import Agent, World, _Scenario, load_experiment, load_world, BoundingBox
 
 
 def _timedelta_from_ns(ns: int):
@@ -47,7 +48,7 @@ class RecordedExperimentalRun:
     world: World
     """The world that has been simulated"""
 
-    def __init__(self, group: h5py.Group):
+    def __init__(self, group: h5py.Group, scenario: _Scenario | None = None):
         """
         Constructs a new instance.
 
@@ -55,6 +56,7 @@ class RecordedExperimentalRun:
         """
 
         self._group = group
+        self._scenario = scenario
         self.reset()
         self.collisions: Optional[h5py.Dataset] = group.get('collisions')
         """The recorded collisions"""
@@ -106,8 +108,18 @@ class RecordedExperimentalRun:
         """
         Reset the run to the state at the begin of the recorded run.
         """
-        self.world = load_world(self._group.attrs['world'])
-        self.world.seed = self._group.attrs['seed']
+        seed = self._group.attrs['seed']
+        if 'world' in self._group.attrs:
+            self.world = load_world(self._group.attrs['world'])
+            self.world.seed = seed
+        elif self._scenario:
+            warnings.warn(
+                'HDF5 group does store a world ... sampling from '
+                'the scenario may not be correct')
+            self.world = World()
+            self._scenario.init_world(self.world, seed=seed)
+        else:
+            raise ValueError("World not stored and no scenario")
         self._step = -1
 
     @property
@@ -340,13 +352,6 @@ class RecordedExperiment:
         else:
             self._file = h5py.File(path)
 
-        self.runs: Dict[int, RecordedExperimentalRun] = {
-            int(re.match(r"run_(\d+)", k).groups()[0]):  # type: ignore
-            RecordedExperimentalRun(v)
-            for k, v in self._file.items()
-        }
-        """The recorded runs, indexed by their seed"""
-
         self.has_finished = True
         """Set to ``True``: the experiment is no more running"""
         self.is_running = False
@@ -354,6 +359,14 @@ class RecordedExperiment:
         self.path = pathlib.Path(path)
         """The path of the HDF5 file"""
         self._experiment = load_experiment(self._file.attrs['experiment'])
+
+        self.runs: Dict[int, RecordedExperimentalRun] = {
+            int(re.match(r"run_(\d+)", k).groups()[0]):  # type: ignore
+            RecordedExperimentalRun(v, self._experiment.scenario)
+            for k, v in self._file.items()
+        }
+        """The recorded runs, indexed by their seed"""
+
         self.name = self._experiment.name
         """The experiment name"""
         self.number_of_runs = self._experiment.number_of_runs

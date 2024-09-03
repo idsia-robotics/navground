@@ -556,7 +556,7 @@ document.write(`
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-datetime.timedelta(seconds=1, microseconds=980784)
+datetime.timedelta(seconds=1, microseconds=948885)
 </pre></div></div>
 </div>
 </section>
@@ -577,8 +577,8 @@ datetime.timedelta(seconds=1, microseconds=980784)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{0: &lt;navground.sim._navground_sim.ExperimentalRun at 0x106381250&gt;,
- 1: &lt;navground.sim._navground_sim.ExperimentalRun at 0x116b52690&gt;}
+{0: &lt;navground.sim._navground_sim.ExperimentalRun at 0x102b324b0&gt;,
+ 1: &lt;navground.sim._navground_sim.ExperimentalRun at 0x10bb4af30&gt;}
 </pre></div></div>
 </div>
 <p>initialized with seeds 0 and 1. Let’s check that the first run has ideed the correct seed.</p>
@@ -863,7 +863,7 @@ and 99% of the time between 4.90 and 16.50 seconds
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Performed 500 runs in 8.976675 seconds
+Performed 500 runs in 4.576514 seconds
 </pre></div></div>
 </div>
 <p>Let’s collect safety margins and numbers of collisions in a table.</p>
@@ -938,19 +938,19 @@ Performed 500 runs in 8.976675 seconds
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "84c14dd3cfa742ba940a184fcae9e590", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "a59af2a3ff664edcb33b079e2f679e27", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Performed 5000 runs in 31.217846 seconds over 4 threads
+Performed 5000 runs in 12.604729 seconds over 4 threads
 </pre></div></div>
 </div>
 <p>We can also parallize over <em>processes</em>. Passing the argument <code class="docutils literal notranslate"><span class="pre">keep</span></code> will retrieve the runs performed in the dfferent processes and store them in <code class="docutils literal notranslate"><span class="pre">experiment.runs</span></code></p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
@@ -971,17 +971,17 @@ Performed 5000 runs in 31.217846 seconds over 4 threads
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "edafc44beb594a65b362208465ea9c44", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "2d114bfaeb2c4d15b8961471db7e20d5", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Performed 5000 runs in 77.829294 seconds over 4 processes
+Performed 5000 runs in 14.469892 seconds over 4 processes
 </pre></div></div>
 </div>
-<p>Performing the single runs have comparable costs, but setting up the processes and retrieving the data, adds in this case significat costs.</p>
+<p>Performing the single runs have comparable costs, but setting up the processes and retrieving the data requires additional time.</p>
 <p>Nonetheless, multiprocessing is an important alternative that enable parallelizing experiments that invove Python, like when using Python-implemented navigation behaviors.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:

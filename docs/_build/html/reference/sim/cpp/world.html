@@ -437,6 +437,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEv"><code class="docutils literal notranslate"><span class="pre">Entity::Entity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEj"><code class="docutils literal notranslate"><span class="pre">Entity::Entity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Entity::has_been_in_collision_since()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity23get_last_collision_timeEv"><code class="docutils literal notranslate"><span class="pre">Entity::get_last_collision_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity5resetEv"><code class="docutils literal notranslate"><span class="pre">Entity::reset()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity3uidE"><code class="docutils literal notranslate"><span class="pre">Entity::uid</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity9reset_uidEv"><code class="docutils literal notranslate"><span class="pre">Entity::reset_uid()</span></code></a></li>
 </ul>
@@ -519,6 +521,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">World::get_bounding_box()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16has_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">World::has_bounding_box()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12agents_movedEv"><code class="docutils literal notranslate"><span class="pre">World::agents_moved()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16record_collisionEP6EntityP6Entity"><code class="docutils literal notranslate"><span class="pre">World::record_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16clear_collisionsEv"><code class="docutils literal notranslate"><span class="pre">World::clear_collisions()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -580,6 +584,23 @@ document.write(`
 <dd class="field-even"><p>True if been in collision since, False otherwise. </p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim6Entity23get_last_collision_timeEv">
+<span class="target" id="structnavground_1_1sim_1_1_entity_1a0f1bd2f858785623a8b3c9cef61fb255"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_last_collision_time</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim6Entity23get_last_collision_timeEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the last collision time. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The time </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim6Entity5resetEv">
+<span class="target" id="structnavground_1_1sim_1_1_entity_1a0c145d16e7fc250fdae4a84b62347e36"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim6Entity5resetEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Resets the entity. </p>
 </dd></dl>
 
 </div>
@@ -1483,6 +1504,26 @@ document.write(`
 <dd><p>Notify that some agents have moved, therefore the str tree need to be updated. </p>
 </dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World16record_collisionEP6EntityP6Entity">
+<span class="target" id="classnavground_1_1sim_1_1_world_1ac05040285cbec440fe7beb94b6dbc96a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_collision</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">e1</span></span>, <a class="reference internal" href="#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">e2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World16record_collisionEP6EntityP6Entity" title="Link to this definition">#</a><br /></dt>
+<dd><p>Record the collision between two entities. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>e1</strong> – The first entity </p></li>
+<li><p><strong>e2</strong> – The second entity </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World16clear_collisionsEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1ac074a4da2b88ba5eddb4e86a0b5be460"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clear_collisions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World16clear_collisionsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Clear collisions. </p>
+</dd></dl>
+
 </div>
 </dd></dl>
 
@@ -1538,6 +1579,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEv"><code class="docutils literal notranslate"><span class="pre">Entity::Entity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEj"><code class="docutils literal notranslate"><span class="pre">Entity::Entity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Entity::has_been_in_collision_since()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity23get_last_collision_timeEv"><code class="docutils literal notranslate"><span class="pre">Entity::get_last_collision_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity5resetEv"><code class="docutils literal notranslate"><span class="pre">Entity::reset()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity3uidE"><code class="docutils literal notranslate"><span class="pre">Entity::uid</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity9reset_uidEv"><code class="docutils literal notranslate"><span class="pre">Entity::reset_uid()</span></code></a></li>
 </ul>
@@ -1620,6 +1663,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">World::get_bounding_box()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16has_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">World::has_bounding_box()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12agents_movedEv"><code class="docutils literal notranslate"><span class="pre">World::agents_moved()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16record_collisionEP6EntityP6Entity"><code class="docutils literal notranslate"><span class="pre">World::record_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16clear_collisionsEv"><code class="docutils literal notranslate"><span class="pre">World::clear_collisions()</span></code></a></li>
 </ul>
 </li>
 </ul>

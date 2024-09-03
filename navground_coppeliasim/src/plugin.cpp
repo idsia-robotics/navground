@@ -893,6 +893,7 @@ class Plugin : public sim::Plugin {
     experiment->record_config.task_events = in->config.task_events;
     experiment->record_config.deadlocks = in->config.deadlocks;
     experiment->record_config.efficacy = in->config.efficacy;
+    experiment->record_config.world = in->config.world;
     seed = in->config.seed;
   }
 

@@ -335,7 +335,11 @@ class NeighborsProbe : public RecordProbe {
 };
 
 void ExperimentalRun::prepare() {
-  _world_yaml = YAML::dump<World>(_world.get());
+  if (_record_config.world) {
+    _world_yaml = YAML::dump<World>(_world.get());
+  } else {
+    _world_yaml = "";
+  }
   // const auto number = _world->get_agents().size();
   // const auto &agents = _world->get_agents();
   // for (unsigned i = 0; i < number; ++i) {
@@ -438,7 +442,9 @@ void ExperimentalRun::finalize() {
 }
 
 void ExperimentalRun::save(HighFive::Group &group) const {
-  store_world(_world_yaml, group);
+  if (!_world_yaml.empty()) {
+    store_world(_world_yaml, group);
+  }
   store_attribute<ng_float_t>(_run_config.time_step, "time_step", group);
   store_attribute<unsigned>(_run_config.steps, "maximal_steps", group);
   store_attribute<unsigned>(_steps, "steps", group);

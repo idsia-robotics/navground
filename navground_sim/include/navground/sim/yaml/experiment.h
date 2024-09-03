@@ -92,6 +92,7 @@ struct convert_experiment {
     node["record_task_events"] = rhs.record_config.task_events;
     node["record_deadlocks"] = rhs.record_config.deadlocks;
     node["record_efficacy"] = rhs.record_config.efficacy;
+    node["record_world"] = rhs.record_config.world;
     node["use_agent_uid_as_key"] = rhs.record_config.use_agent_uid_as_key;
     if (rhs.record_config.neighbors.enabled) {
       node["record_neighbors"] = rhs.record_config.neighbors;
@@ -155,6 +156,9 @@ struct convert_experiment {
     }
     if (node["record_efficacy"]) {
       rhs.record_config.efficacy = node["record_efficacy"].as<bool>();
+    }
+    if (node["record_world"]) {
+      rhs.record_config.world = node["record_world"].as<bool>();
     }
     if (node["record_neighbors"]) {
       rhs.record_config.neighbors =

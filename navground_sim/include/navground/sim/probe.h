@@ -211,15 +211,6 @@ class NAVGROUND_SIM_EXPORT SensingProbe : public Probe {
         _name(name) {}
 
   /**
-   * @brief      Gets the stored sensor readings, indexed by UID or index.
-   *
-   * @return     The data.
-   */
-  const std::map<unsigned, std::map<std::string, std::shared_ptr<Dataset>>> &get_data() const {
-    return _data;
-  }
-
-  /**
    * @private
    */
   void prepare(ExperimentalRun *) override;

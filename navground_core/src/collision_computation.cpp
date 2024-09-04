@@ -57,13 +57,20 @@ std::valarray<ng_float_t> CollisionComputation::get_angles_for_sector(
 ng_float_t CollisionComputation::static_free_distance(Radians angle,
                                                       ng_float_t max_distance,
                                                       bool include_neighbors) {
-  max_distance =
-      static_free_distance_to_collection(angle, max_distance, line_obstacles);
+  return static_free_distance(angle, unit(angle), max_distance, include_neighbors);
+}
+
+ng_float_t CollisionComputation::static_free_distance(Radians angle,
+                                                      const Vector2 &e,
+                                                      ng_float_t max_distance,
+                                                      bool include_neighbors) {
+  max_distance = static_free_distance_to_collection(angle, e, max_distance,
+                                                    line_obstacles);
   if (max_distance == 0) return 0;
-  max_distance = static_free_distance_to_collection(angle, max_distance,
+  max_distance = static_free_distance_to_collection(angle, e, max_distance,
                                                     static_obstacles_cache);
   if (!include_neighbors || max_distance == 0) return max_distance;
-  return static_free_distance_to_collection(angle, max_distance,
+  return static_free_distance_to_collection(angle, e, max_distance,
                                             neighbors_cache);
 }
 
@@ -71,32 +78,32 @@ ng_float_t CollisionComputation::static_free_distance(Radians angle,
 ng_float_t CollisionComputation::dynamic_free_distance(Radians angle,
                                                        ng_float_t max_distance,
                                                        ng_float_t speed) {
-  max_distance = static_free_distance(angle, max_distance, false);
+  const Vector2 e = unit(angle);
+  max_distance = static_free_distance(angle, e, max_distance, false);
   if (max_distance == 0) return 0;
-  return dynamic_free_distance_to_collection(angle, max_distance, speed,
+  return dynamic_free_distance_to_collection(e, max_distance, speed,
                                              neighbors_cache);
 }
 
 ng_float_t CollisionComputation::static_free_distance_to(
-    const LineSegment &line, Radians alpha) {
+    const LineSegment &line, Radians alpha, const Vector2 &e) {
   const Vector2 delta = pose.position - line.p1;
   const ng_float_t y = delta.dot(line.e2);
   const ng_float_t x = delta.dot(line.e1);
-  const Vector2 e = unit(alpha);
   const ng_float_t d = line.e2.dot(e);
   if (y * d >= 0) {
     // moving away
     return no_collision;
   }
 #if LINE_CAP_SQUARE
-  if (abs(y) < margin && x > -margin && x < line.length + margin) {
+  if (std::abs(y) < margin && x > -margin && x < line.length + margin) {
     // already colliding
     return 0;
   }
 #else
   // Does not consider as collision if the disc is colliding at the edges but
   // moving outwards.
-  if (abs(y) < margin) {
+  if (std::abs(y) < margin) {
     const ng_float_t ex = line.e1.dot(e);
     if (x < -margin) return no_collision;
     if (x < 0) return ex < 0 ? no_collision : 0;
@@ -115,17 +122,17 @@ ng_float_t CollisionComputation::static_free_distance_to(
 }
 
 ng_float_t CollisionComputation::static_free_distance_to(const DiscCache &disc,
-                                                         Radians alpha) {
+                                                         Radians alpha,
+                                                         const Vector2 &e) {
   if (disc.C < 0) {
-    if (abs(normalize(alpha - disc.gamma)) < disc.visible_angle) return 0;
+    if (std::abs(normalize(alpha - disc.gamma)) < disc.visible_angle) return 0;
     return no_collision;
   }
-  const ng_float_t B =
-      disc.delta.x() * cos(alpha) + disc.delta.y() * sin(alpha);
+  const ng_float_t B = disc.delta.dot(e);
   if (B < 0) return no_collision;
   const ng_float_t D = B * B - disc.C;
   if (D < 0) return no_collision;
-  return B - sqrt(D);
+  return B - std::sqrt(D);
 }
 
 // CHANGED: when colliding, instead of the same criteria as the static case,
@@ -134,13 +141,12 @@ ng_float_t CollisionComputation::static_free_distance_to(const DiscCache &disc,
 // i.e. |p - dv |^2 > |p|^2 => p . dv = B < -dv^2 dt < 0
 // we can impose B < 0. It is not continuous with respect to C!
 ng_float_t CollisionComputation::dynamic_free_distance_to(const DiscCache &disc,
-                                                          Radians alpha,
-                                                          ng_float_t speed) {
+                                                          const Vector2 &v, ng_float_t speed) {
   // if (disc.C < 0) {
   //   if (abs(normalize(alpha - disc.gamma)) < disc.visible_angle) return 0;
   //   return no_collision;
   // }
-  Vector2 dv = speed * unit(alpha) - disc.velocity;
+  Vector2 dv = v - disc.velocity;
   // TODO(J): use dot prod
   // TODO(J 2023): maybe pre-compute minimal distance
   // a = optimal_speed + agent_speed
@@ -151,7 +157,7 @@ ng_float_t CollisionComputation::dynamic_free_distance_to(const DiscCache &disc,
   // min_dist = optimal_speed * (-B - sqrt(D)) / A = optimal_speed * (dist * a -
   // r * a) (a * a)
   //          = optimal_speed * (dist - r) / (optimal_speed + agent_speed)
-  const ng_float_t B = disc.delta.x() * dv.x() + disc.delta.y() * dv.y();
+  const ng_float_t B = disc.delta.dot(dv);
 
   if (disc.C < 0) {
     // colliding
@@ -161,16 +167,16 @@ ng_float_t CollisionComputation::dynamic_free_distance_to(const DiscCache &disc,
     // if dv * dx / |dv||dx| = cos(angle) < cos(visible_angle) (= 0 for
     // visible_angle = pi/2)
     //
-    return B < dv.norm() * disc.delta.norm() * cos(disc.visible_angle)
+    return B < dv.norm() * disc.delta.norm() * std::cos(disc.visible_angle)
                ? no_collision
                : 0;
   }
 
-  if (B < 0) return no_collision;
+  if (B <= 0) return no_collision;
   const ng_float_t A = dv.squaredNorm();
   const ng_float_t D = B * B - A * disc.C;
   if (D < 0) return no_collision;
-  return speed * (B - sqrt(D)) / A;
+  return speed * (B - std::sqrt(D)) / A;
 }
 
 bool CollisionComputation::dynamic_may_collide(const DiscCache &c,

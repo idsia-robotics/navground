@@ -237,26 +237,31 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
   Pose2 pose;
   ng_float_t margin;
 
+  ng_float_t static_free_distance(Radians angle, const Vector2 &e,
+                                  ng_float_t max_distance,
+                                  bool include_neighbors);
+
   /**
    * Marks absence of collisions
    */
   static constexpr ng_float_t no_collision = -1;
-  ng_float_t static_free_distance_to(const LineSegment &line, Radians alpha);
+  ng_float_t static_free_distance_to(const LineSegment &line, Radians alpha,
+                                     const Vector2 &e);
 
-  ng_float_t static_free_distance_to(const DiscCache &disc, Radians alpha);
+  ng_float_t static_free_distance_to(const DiscCache &disc, Radians alpha,
+                                     const Vector2 &e);
 
-  ng_float_t dynamic_free_distance_to(const DiscCache &disc, Radians alpha,
-                                      ng_float_t speed);
+  ng_float_t dynamic_free_distance_to(const DiscCache &disc, const Vector2 &v, ng_float_t speed);
 
   template <typename T>
-  ng_float_t static_free_distance_to_collection(Radians angle,
+  ng_float_t static_free_distance_to_collection(Radians angle, const Vector2 &e,
                                                 ng_float_t max_distance,
                                                 const std::vector<T> &objects) {
     ng_float_t min_distance = max_distance;
     for (const auto &object : objects) {
-      ng_float_t distance = static_free_distance_to(object, angle);
+      ng_float_t distance = static_free_distance_to(object, angle, e);
       if (distance < 0) continue;
-      min_distance = fmin(min_distance, distance);
+      min_distance = std::min(min_distance, distance);
       if (min_distance == 0) return 0;
     }
     return min_distance;
@@ -264,13 +269,14 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
 
   template <typename T>
   ng_float_t dynamic_free_distance_to_collection(
-      Radians angle, ng_float_t max_distance, ng_float_t speed,
-      const std::vector<T> &objects) {
+      const Vector2 &e, ng_float_t max_distance,
+      ng_float_t speed, const std::vector<T> &objects) {
     ng_float_t min_distance = max_distance;
+    const Vector2 v = speed * e;
     for (const auto &object : objects) {
-      ng_float_t distance = dynamic_free_distance_to(object, angle, speed);
+      ng_float_t distance = dynamic_free_distance_to(object, v, speed);
       if (distance < 0) continue;
-      min_distance = fmin(min_distance, distance);
+      min_distance = std::min(min_distance, distance);
       if (min_distance == 0) return 0;
     }
     return min_distance;

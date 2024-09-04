@@ -17,7 +17,7 @@ ng_float_t CachedCollisionComputation::static_free_distance(
       value = static_free_distance(angle, false);
       if (value != 0) {
         value =
-            static_free_distance_to_collection(angle, value, neighbors_cache);
+            static_free_distance_to_collection(angle, unit(angle), value, neighbors_cache);
       }
     } else {
       value = CollisionComputation::static_free_distance(angle, max_distance,

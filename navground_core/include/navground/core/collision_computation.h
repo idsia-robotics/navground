@@ -122,11 +122,7 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
   std::tuple<std::valarray<ng_float_t>, std::valarray<ng_float_t>>
   get_contour_for_sector(Radians from, Radians length, size_t resolution,
                          ng_float_t max_distance, bool dynamic = false,
-                         ng_float_t speed = 0) {
-    return {get_angles_for_sector(from, length, resolution),
-            get_free_distance_for_sector(from, length, resolution, max_distance,
-                                         dynamic, speed)};
-  }
+                         ng_float_t speed = 0);
 
   /**
    * @brief      Set the state from collections of \ref LineSegment and \ref
@@ -141,13 +137,7 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
   void setup(Pose2 pose_, ng_float_t margin_,
              const std::vector<LineSegment> &line_segments,
              std::vector<DiscCache> static_discs,
-             std::vector<DiscCache> dynamic_discs) {
-    line_obstacles = line_segments;
-    static_obstacles_cache = static_discs;
-    neighbors_cache = dynamic_discs;
-    pose = pose_;
-    margin = margin_;
-  }
+             std::vector<DiscCache> dynamic_discs);
 
   /**
    * @brief      Set the state from collections of \ref LineSegment, \ref Disc,
@@ -162,23 +152,7 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
   void setup(Pose2 pose_, ng_float_t margin_,
              const std::vector<LineSegment> &line_segments,
              const std::vector<Disc> &static_discs,
-             const std::vector<Neighbor> &dynamic_discs) {
-    line_obstacles = line_segments;
-    pose = pose_;
-    margin = margin_;
-    neighbors_cache.clear();
-    neighbors_cache.reserve(dynamic_discs.size());
-    for (const auto &disc : dynamic_discs) {
-      neighbors_cache.push_back({disc.position - pose.position,
-                                 margin_ + disc.radius, disc.velocity});
-    }
-    static_obstacles_cache.clear();
-    static_obstacles_cache.reserve(static_discs.size());
-    for (const auto &disc : static_discs) {
-      static_obstacles_cache.push_back(
-          {disc.position - pose.position, margin_ + disc.radius});
-    }
-  }
+             const std::vector<Neighbor> &dynamic_discs);
 
   /**
    * @brief      Returns the free distance if the agent will be static
@@ -251,7 +225,8 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
   ng_float_t static_free_distance_to(const DiscCache &disc, Radians alpha,
                                      const Vector2 &e);
 
-  ng_float_t dynamic_free_distance_to(const DiscCache &disc, const Vector2 &v, ng_float_t speed);
+  ng_float_t dynamic_free_distance_to(const DiscCache &disc, const Vector2 &v,
+                                      ng_float_t speed);
 
   template <typename T>
   ng_float_t static_free_distance_to_collection(Radians angle, const Vector2 &e,
@@ -269,8 +244,8 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
 
   template <typename T>
   ng_float_t dynamic_free_distance_to_collection(
-      const Vector2 &e, ng_float_t max_distance,
-      ng_float_t speed, const std::vector<T> &objects) {
+      const Vector2 &e, ng_float_t max_distance, ng_float_t speed,
+      const std::vector<T> &objects) {
     ng_float_t min_distance = max_distance;
     const Vector2 v = speed * e;
     for (const auto &object : objects) {

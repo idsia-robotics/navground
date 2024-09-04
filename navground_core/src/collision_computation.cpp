@@ -17,6 +17,48 @@ DiscCache::DiscCache(Vector2 delta, ng_float_t margin, Vector2 velocity,
       gamma(orientation_of(delta)),
       visible_angle(visible_angle) {}
 
+std::tuple<std::valarray<ng_float_t>, std::valarray<ng_float_t>>
+CollisionComputation::get_contour_for_sector(Radians from, Radians length,
+                                             size_t resolution,
+                                             ng_float_t max_distance,
+                                             bool dynamic, ng_float_t speed) {
+  return {get_angles_for_sector(from, length, resolution),
+          get_free_distance_for_sector(from, length, resolution, max_distance,
+                                       dynamic, speed)};
+}
+
+void CollisionComputation::setup(Pose2 pose_, ng_float_t margin_,
+                                 const std::vector<LineSegment> &line_segments,
+                                 std::vector<DiscCache> static_discs,
+                                 std::vector<DiscCache> dynamic_discs) {
+  line_obstacles = line_segments;
+  static_obstacles_cache = static_discs;
+  neighbors_cache = dynamic_discs;
+  pose = pose_;
+  margin = margin_;
+}
+
+void CollisionComputation::setup(Pose2 pose_, ng_float_t margin_,
+                                 const std::vector<LineSegment> &line_segments,
+                                 const std::vector<Disc> &static_discs,
+                                 const std::vector<Neighbor> &dynamic_discs) {
+  line_obstacles = line_segments;
+  pose = pose_;
+  margin = margin_;
+  neighbors_cache.clear();
+  neighbors_cache.reserve(dynamic_discs.size());
+  for (const auto &disc : dynamic_discs) {
+    neighbors_cache.push_back(
+        {disc.position - pose.position, margin_ + disc.radius, disc.velocity});
+  }
+  static_obstacles_cache.clear();
+  static_obstacles_cache.reserve(static_discs.size());
+  for (const auto &disc : static_discs) {
+    static_obstacles_cache.push_back(
+        {disc.position - pose.position, margin_ + disc.radius});
+  }
+}
+
 std::valarray<ng_float_t> CollisionComputation::get_free_distance_for_sector(
     Radians from, Radians length, size_t resolution, ng_float_t max_distance,
     bool dynamic, ng_float_t speed) {
@@ -57,7 +99,8 @@ std::valarray<ng_float_t> CollisionComputation::get_angles_for_sector(
 ng_float_t CollisionComputation::static_free_distance(Radians angle,
                                                       ng_float_t max_distance,
                                                       bool include_neighbors) {
-  return static_free_distance(angle, unit(angle), max_distance, include_neighbors);
+  return static_free_distance(angle, unit(angle), max_distance,
+                              include_neighbors);
 }
 
 ng_float_t CollisionComputation::static_free_distance(Radians angle,
@@ -86,7 +129,7 @@ ng_float_t CollisionComputation::dynamic_free_distance(Radians angle,
 }
 
 ng_float_t CollisionComputation::static_free_distance_to(
-    const LineSegment &line, Radians alpha, const Vector2 &e) {
+    const LineSegment &line, [[maybe_unused]] Radians alpha, const Vector2 &e) {
   const Vector2 delta = pose.position - line.p1;
   const ng_float_t y = delta.dot(line.e2);
   const ng_float_t x = delta.dot(line.e1);
@@ -141,7 +184,8 @@ ng_float_t CollisionComputation::static_free_distance_to(const DiscCache &disc,
 // i.e. |p - dv |^2 > |p|^2 => p . dv = B < -dv^2 dt < 0
 // we can impose B < 0. It is not continuous with respect to C!
 ng_float_t CollisionComputation::dynamic_free_distance_to(const DiscCache &disc,
-                                                          const Vector2 &v, ng_float_t speed) {
+                                                          const Vector2 &v,
+                                                          ng_float_t speed) {
   // if (disc.C < 0) {
   //   if (abs(normalize(alpha - disc.gamma)) < disc.visible_angle) return 0;
   //   return no_collision;

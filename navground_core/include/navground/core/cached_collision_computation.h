@@ -47,16 +47,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @param[in]  value  A positive value
    */
-  void set_resolution(size_t value) {
-    if (value > 0 && value != resolution) {
-      resolution = value;
-      dynamic_cache.resize(value);
-      for (auto &s : static_cache) {
-        s.resize(value);
-      }
-      reset();
-    }
-  }
+  void set_resolution(size_t value);
 
   /**
    * @brief      Gets the resolution: the number of discrete angles \f$N\f$.
@@ -70,13 +61,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @param[in]  value  The lower bound
    */
-  void set_min_angle(Radians value) {
-    value = normalize(value);
-    if (value != from_relative_angle) {
-      from_relative_angle = value;
-      reset();
-    }
-  }
+  void set_min_angle(Radians value);
   /**
    * @brief      Gets the cache interval lower bound \f$\alpha\f$.
    *
@@ -89,15 +74,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @param[in]  value  The interval length
    */
-  void set_length(ng_float_t value) {
-    if (value > 0) {
-      value = std::min(value, TWO_PI);
-      if (length != value) {
-        length = value;
-        reset();
-      }
-    }
-  }
+  void set_length(ng_float_t value);
 
   /**
    * @brief      Gets the cache interval length \f$\Delta\f$.
@@ -111,13 +88,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @param[in]  value  The maximal distance
    */
-  void set_max_distance(ng_float_t value) {
-    if (value > 0 && value != max_distance) {
-      max_distance = value;
-      reset();
-    }
-  }
-
+  void set_max_distance(ng_float_t value);
   /**
    * @brief      Gets the maximal distance \f$D\f$ to consider
    *
@@ -130,12 +101,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    *
    * @param[in]  value  The speed
    */
-  void set_speed(ng_float_t value) {
-    if (value > 0 && value != speed) {
-      speed = value;
-    }
-    std::fill(std::begin(dynamic_cache), std::end(dynamic_cache), uncomputed);
-  }
+  void set_speed(ng_float_t value);
 
   /**
    * @brief      Gets the agent speed.
@@ -167,31 +133,16 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
   void setup(Pose2 pose_, ng_float_t margin_,
              const std::vector<LineSegment> &line_segments,
              const std::vector<DiscCache> &static_discs,
-             const std::vector<DiscCache> &dynamic_discs) {
-    CollisionComputation::setup(pose_, margin_, line_segments, static_discs,
-                                dynamic_discs);
-    reset();
-  }
+             const std::vector<DiscCache> &dynamic_discs);
 
   void setup(Pose2 pose_, ng_float_t margin_,
              const std::vector<LineSegment> &line_segments,
              const std::vector<Disc> &static_discs,
-             const std::vector<Neighbor> &dynamic_discs) {
-    CollisionComputation::setup(pose_, margin_, line_segments, static_discs,
-                                dynamic_discs);
-    reset();
-  }
-
+             const std::vector<Neighbor> &dynamic_discs);
   /**
    * @brief      Resets the cache.
    */
-  void reset() {
-    std::fill(std::begin(static_cache[false]), std::end(static_cache[false]),
-              uncomputed);
-    std::fill(std::begin(static_cache[true]), std::end(static_cache[true]),
-              uncomputed);
-    std::fill(std::begin(dynamic_cache), std::end(dynamic_cache), uncomputed);
-  }
+  void reset();
 
   /**
    * @brief      Gets a pointer where collision distances are cached. Negative
@@ -204,11 +155,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
    * @return     The collision distance cache.
    */
   const std::valarray<ng_float_t> &get_cache(bool assuming_static = false,
-                                             bool include_neighbors = true) {
-    if (assuming_static) return static_cache[include_neighbors];
-    return dynamic_cache;
-  }
-
+                                             bool include_neighbors = true);
   /**
    * @brief      Returns the free distance to collision for the cached
    * interval of headings.
@@ -235,11 +182,7 @@ class NAVGROUND_CORE_EXPORT CachedCollisionComputation
   std::array<std::valarray<ng_float_t>, 2> static_cache;
 
   // can be outsize of 0 ... resolution range
-  int index_of(Radians delta_relative_angle) {
-    if (resolution < 2) return 0;
-    return static_cast<int>((delta_relative_angle - from_relative_angle) /
-                            length * static_cast<ng_float_t>(resolution - 1));
-  }
+  int index_of(Radians delta_relative_angle);
 };
 
 }  // namespace navground::core

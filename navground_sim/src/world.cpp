@@ -40,11 +40,11 @@ std::optional<Vector2> penetration_vector_inside_line(const LineSegment &line,
                                                       const Vector2 &center,
                                                       ng_float_t radius) {
   ng_float_t y = (center - line.p1).dot(line.e2);
-  if (abs(y) < radius) {
+  if (std::abs(y) < radius) {
     ng_float_t x = (center - line.p1).dot(line.e1);
     if (x < radius + 1e-3 || x > line.length - radius - 1e-3)
       return std::nullopt;
-    ng_float_t p = radius - abs(y);
+    ng_float_t p = radius - std::abs(y);
     if (y < 0) p *= -1;
     return p * line.e2;
   }
@@ -54,10 +54,10 @@ std::optional<Vector2> penetration_vector_inside_line(const LineSegment &line,
 ng_float_t penetration_inside_line(const LineSegment &line,
                                    const Vector2 &center, ng_float_t radius) {
   ng_float_t y = (center - line.p1).dot(line.e2);
-  if (abs(y) < radius) {
+  if (std::abs(y) < radius) {
     ng_float_t x = (center - line.p1).dot(line.e1);
     if (x < radius + 1e-3 || x > line.length - radius - 1e-3) return 0.0;
-    return radius - abs(y);
+    return radius - std::abs(y);
   }
   return 0;
 }

@@ -7,6 +7,7 @@
 #include <assert.h>
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 
 #include "navground/core/collision_computation.h"
@@ -87,11 +88,11 @@ std::valarray<ng_float_t> HLBehavior::get_collision_angles() const {
 static inline ng_float_t distance_from_target(Radians angle,
                                               ng_float_t free_distance,
                                               ng_float_t horizon) {
-  if (cos(angle) * horizon < free_distance) {
-    return fabs(sin(angle) * horizon);
+  if (std::cos(angle) * horizon < free_distance) {
+    return std::abs(std::sin(angle) * horizon);
   }
-  return sqrt(horizon * horizon + free_distance * free_distance -
-              2 * free_distance * horizon * cos(angle));
+  return std::sqrt(horizon * horizon + free_distance * free_distance -
+                   2 * free_distance * horizon * std::cos(angle));
 }
 
 // TODO(J:revision2023): check why we need effective_horizon
@@ -108,7 +109,7 @@ Vector2 HLBehavior::desired_velocity_towards_point(
   // effective_horizon = horizon;
   // effective_horizon=fmin(horizon,D);
   // Vector2 effectiveTarget = agentToTarget / D * effective_horizon;
-  const ng_float_t max_distance = effective_horizon;  // - radius;
+  const ng_float_t max_distance = effective_horizon;    // - radius;
   const Radians max_angle = static_cast<Radians>(1.6);  // Radians::PI_OVER_TW0;
   Radians angle = 0;
   // relative to target direction
@@ -118,7 +119,7 @@ Vector2 HLBehavior::desired_velocity_towards_point(
   bool found = false;
   while (angle < max_angle && !(out[0] == 2 && out[1] == 2)) {
     ng_float_t distance_from_target_lower_bound =
-        fabs(sin(angle) * max_distance);
+        std::abs(std::sin(angle) * max_distance);
     // distance_from_target_lower_bound=2*D*Sin(0.5*optimal_angle);
     if (optimal_distance_from_target <= distance_from_target_lower_bound) {
       // break;
@@ -126,7 +127,7 @@ Vector2 HLBehavior::desired_velocity_towards_point(
     for (int i = 0; i < 2; ++i) {
       const ng_float_t s_angle = i == 0 ? angle : -angle;
       const bool inside =
-          abs(normalize(relative_start_angle + s_angle)) < aperture;
+          std::abs(normalize(relative_start_angle + s_angle)) < aperture;
       if (out[i] == 1 && !inside) out[i] = 2;
       if (out[i] == 0 && inside) out[i] = 1;
       if (inside) {
@@ -149,7 +150,8 @@ Vector2 HLBehavior::desired_velocity_towards_point(
   if (!found) return Vector2::Zero();
   const ng_float_t static_distance = collision_computation.static_free_distance(
       start_angle + optimal_angle, max_distance);
-  const ng_float_t desired_speed = fmin(target_speed, static_distance / eta);
+  const ng_float_t desired_speed =
+      std::min(target_speed, static_distance / eta);
   return desired_speed * unit(start_angle + optimal_angle);
 }
 
@@ -217,8 +219,7 @@ Twist2 HLBehavior::relax(const Twist2 &current_value, const Twist2 &value,
 Twist2 HLBehavior::compute_cmd_internal(ng_float_t dt, Frame frame) {
   Twist2 cmd_twist = Behavior::compute_cmd_internal(dt, frame);
   if (tau > 0) {
-    cmd_twist =
-        to_frame(relax(actuated_twist, cmd_twist, dt), cmd_twist.frame);
+    cmd_twist = to_frame(relax(actuated_twist, cmd_twist, dt), cmd_twist.frame);
   }
   return cmd_twist;
 }

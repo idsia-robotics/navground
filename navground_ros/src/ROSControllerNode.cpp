@@ -145,7 +145,7 @@ static float yaw_from(const geometry_msgs::msg::Quaternion &q) {
 
 static float yaw_from(const Transform &t) {
   const auto rpy = t.linear().eulerAngles(2, 1, 0);
-  if (abs(rpy[1]) > M_PI_2 && abs(rpy[2]) > M_PI_2) {
+  if (std::abs(rpy[1]) > M_PI_2 && std::abs(rpy[2]) > M_PI_2) {
     return rpy[0] + M_PI;
   }
   return rpy[0];

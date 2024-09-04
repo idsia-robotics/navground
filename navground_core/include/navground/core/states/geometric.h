@@ -258,7 +258,7 @@ struct LineSegment {
     const ng_float_t x = delta.dot(e1);
     if (x < 0) return delta.norm();
     if (x > length) return (point - p2).norm();
-    return abs(delta.dot(e2));
+    return std::abs(delta.dot(e2));
   }
 
   // negative <=> penetration

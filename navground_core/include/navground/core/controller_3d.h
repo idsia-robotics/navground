@@ -480,7 +480,7 @@ class NAVGROUND_CORE_EXPORT Controller3 : public Controller {
       return t;
     }
     return std::max(
-        t, abs(altitude.target - altitude.value) / altitude.optimal_speed);
+        t, std::abs(altitude.target - altitude.value) / altitude.optimal_speed);
   }
 
   /**
@@ -488,7 +488,7 @@ class NAVGROUND_CORE_EXPORT Controller3 : public Controller {
    */
   bool is_still() const override {
     return Controller::is_still() &&
-           (limit_to_2d || abs(altitude.speed) < speed_tolerance);
+           (limit_to_2d || std::abs(altitude.speed) < speed_tolerance);
   }
 
   /**

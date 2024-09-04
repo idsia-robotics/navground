@@ -42,7 +42,7 @@ Twist2 TwoWheelsDifferentialDriveKinematics::feasible(
   assert(value.frame == Frame::relative);
   const ng_float_t w_max = get_max_angular_speed();
   const ng_float_t w = std::clamp(value.angular_speed, -w_max, w_max);
-  const ng_float_t v_max = get_max_speed() - abs(w) * get_axis() / 2;
+  const ng_float_t v_max = get_max_speed() - std::abs(w) * get_axis() / 2;
   const ng_float_t v = std::clamp<ng_float_t>(value.velocity[0], 0, v_max);
   // const ng_float_t v = std::clamp(value.velocity[0], -v_max, v_max);
   return Twist2{{v, 0}, w, Frame::relative};
@@ -78,10 +78,10 @@ WheelSpeeds TwoWheelsDifferentialDriveKinematics::feasible_wheel_speeds(
       std::clamp<ng_float_t>(twist.velocity[0], 0, max_speed);
   ng_float_t left = linear - rotation;
   ng_float_t right = linear + rotation;
-  if (abs(left) > max_speed) {
+  if (std::abs(left) > max_speed) {
     left = std::clamp(left, -max_speed, max_speed);
     right = left + 2 * rotation;
-  } else if (abs(right) > max_speed) {
+  } else if (std::abs(right) > max_speed) {
     right = std::clamp(right, -max_speed, max_speed);
     left = right - 2 * rotation;
   }
@@ -128,22 +128,22 @@ WheelSpeeds FourWheelsOmniDriveKinematics::feasible_wheel_speeds(
   ng_float_t front_right = longitudinal + lateral + rotation;
   ng_float_t rear_left = longitudinal + lateral - rotation;
   ng_float_t rear_right = longitudinal - lateral + rotation;
-  if (abs(front_left) > max_speed) {
+  if (std::abs(front_left) > max_speed) {
     front_left = std::clamp(front_left, -max_speed, max_speed);
     front_right = front_left + 2 * lateral + 2 * rotation;
     rear_left = front_left + 2 * lateral;
     rear_right = front_left + 2 * rotation;
-  } else if (abs(front_right) > max_speed) {
+  } else if (std::abs(front_right) > max_speed) {
     front_right = std::clamp(front_right, -max_speed, max_speed);
     front_left = front_right - 2 * lateral - 2 * rotation;
     rear_left = front_right - 2 * rotation;
     rear_right = front_right - 2 * lateral;
-  } else if (abs(rear_left) > max_speed) {
+  } else if (std::abs(rear_left) > max_speed) {
     rear_left = std::clamp(rear_left, -max_speed, max_speed);
     front_left = rear_left - 2 * lateral;
     front_right = rear_left + 2 * rotation;
     rear_right = rear_left - 2 * rotation + 2 * rotation;
-  } else if (abs(rear_right) > max_speed) {
+  } else if (std::abs(rear_right) > max_speed) {
     rear_right = std::clamp(rear_right, -max_speed, max_speed);
     front_left = rear_right - 2 * rotation;
     front_right = rear_right + 2 * lateral;
@@ -185,7 +185,7 @@ Twist2 DynamicTwoWheelsDifferentialDriveKinematics::feasible(
   const ng_float_t w =
       std::clamp(feasible_target.angular_speed, w0 - dw_max, w0 + dw_max);
   const ng_float_t dv_max = get_max_acceleration() * time_step -
-                            abs(w - w0) * get_axis() * get_moi() / 4;
+                            std::abs(w - w0) * get_axis() * get_moi() / 4;
   const ng_float_t v0 = current.velocity[0];
   const ng_float_t v =
       std::clamp(feasible_target.velocity[0], v0 - dv_max, v0 + dv_max);

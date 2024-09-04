@@ -233,7 +233,7 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
   bool is_almost_zero(ng_float_t epsilon_speed = 1e-6,
                       ng_float_t epsilon_angular_speed = 1e-6) const {
     return velocity.norm() < epsilon_speed &&
-           abs(angular_speed) < epsilon_angular_speed;
+           std::abs(angular_speed) < epsilon_angular_speed;
   }
 
   /**
@@ -243,13 +243,13 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    * @param[in]  epsilon  The tolerance
    */
   void snap_to_zero(ng_float_t epsilon = 1e-6) {
-    if (abs(velocity[0]) < epsilon) {
+    if (std::abs(velocity[0]) < epsilon) {
       velocity[0] = 0;
     }
-    if (abs(velocity[1]) < epsilon) {
+    if (std::abs(velocity[1]) < epsilon) {
       velocity[1] = 0;
     }
-    if (abs(angular_speed) < epsilon) {
+    if (std::abs(angular_speed) < epsilon) {
       angular_speed = 0;
     }
   }
@@ -278,7 +278,7 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
     if (acc.norm() > max_acceleration) {
       acc = acc.normalized() * max_acceleration;
     }
-    if (abs(ang_acc) > max_angular_acceleration) {
+    if (std::abs(ang_acc) > max_angular_acceleration) {
       ang_acc = std::clamp(ang_acc, -max_angular_acceleration,
                            max_angular_acceleration);
     }

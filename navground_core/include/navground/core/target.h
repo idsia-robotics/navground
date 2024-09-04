@@ -80,7 +80,7 @@ struct Target {
 
   bool satisfied(Radians value) const {
     return !orientation ||
-           abs(normalize(*orientation - value)) < orientation_tolerance;
+           std::abs(normalize(*orientation - value)) < orientation_tolerance;
   }
 
   bool satisfied(const Vector2& value) const {

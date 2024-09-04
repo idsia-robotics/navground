@@ -231,31 +231,13 @@ class NAVGROUND_CORE_EXPORT CollisionComputation {
   template <typename T>
   ng_float_t static_free_distance_to_collection(Radians angle, const Vector2 &e,
                                                 ng_float_t max_distance,
-                                                const std::vector<T> &objects) {
-    ng_float_t min_distance = max_distance;
-    for (const auto &object : objects) {
-      ng_float_t distance = static_free_distance_to(object, angle, e);
-      if (distance < 0) continue;
-      min_distance = std::min(min_distance, distance);
-      if (min_distance == 0) return 0;
-    }
-    return min_distance;
-  }
+                                                const std::vector<T> &objects);
 
   template <typename T>
-  ng_float_t dynamic_free_distance_to_collection(
-      const Vector2 &e, ng_float_t max_distance, ng_float_t speed,
-      const std::vector<T> &objects) {
-    ng_float_t min_distance = max_distance;
-    const Vector2 v = speed * e;
-    for (const auto &object : objects) {
-      ng_float_t distance = dynamic_free_distance_to(object, v, speed);
-      if (distance < 0) continue;
-      min_distance = std::min(min_distance, distance);
-      if (min_distance == 0) return 0;
-    }
-    return min_distance;
-  }
+  ng_float_t dynamic_free_distance_to_collection(const Vector2 &e,
+                                                 ng_float_t max_distance,
+                                                 ng_float_t speed,
+                                                 const std::vector<T> &objects);
 };
 
 }  // namespace navground::core

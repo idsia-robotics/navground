@@ -1,40 +1,44 @@
-FROM python:3.12-slim as base
+FROM python:3.12-slim as deps
 MAINTAINER Jerome Guzzi "jerome@idsia.ch"
 
 ENV DEBIAN_FRONTEND="noninteractive" TZ="Europe/Zurich"
 
 SHELL ["/bin/bash", "-c"]
 
-# Following the all-at-once instructions
-# https://idsia-robotics.github.io/navground/_build/html/installation.html#all-at-once
+RUN apt-get update && apt-get install -y \
+    libgeos++-dev libhdf5-dev libeigen3-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN pip install numpy==1.26.4 multiprocess
+RUN pip install numpy h5py
 
-FROM base as base1
+FROM deps as build
 
 RUN apt-get update && apt-get install -y \
-   cmake git libclang-dev python3-dev build-essential \
-   && rm -rf /var/lib/apt/lists/*
+    cmake git libclang-16-dev clang-16 \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN pip install colcon-common-extensions vcstool clang==14 git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+RUN pip install clang==16.0.6 colcon-common-extensions git+https://github.com/jeguzzi/pybind11_mkdoc@rst
 
-ENV COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+RUN mkdir /ws && cd /ws \
+    && export COLCON_DEFAULTS_FILE=/ws/src/navground/colcon/defaults.yaml \
+    && export CC=/usr/bin/clang-16 \
+    && export CXX=/usr/bin/clang++-16 \
+    && git clone https://github.com/BlueBrain/HighFive.git src/HighFive \
+    && git clone https://github.com/p-ranav/argparse.git src/argparse \
+    && git clone https://github.com/idsia-robotics/navground.git src/navground \
+    && git clone https://github.com/ament/ament_cmake.git src/ament_cmake \
+    && git clone https://github.com/ament/ament_package.git src/ament_package\
+    && git clone https://github.com/jbeder/yaml-cpp.git src/yaml-cpp \
+    && git clone https://github.com/pybind/pybind11.git src/pybind11 \
+    # && git clone https://gitlab.com/libeigen/eigen src/libeigen3-dev \
+    && colcon build --metas src/navground/colcon/navground.meta --packages-up-to \
+        navground_sim navground_demos navground_examples navground_examples_py
 
-RUN mkdir /ws \
-    && cd /ws \
-    && vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos \
-    && colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
-
-RUN export HDF5_DIR=/ws/install \
-    && pip install --no-binary=h5py h5py
-
-FROM base as base2
+FROM deps as install
 
 WORKDIR /ws
 
-COPY --from=base1 /usr/local/lib/python3.12/site-packages/h5py /usr/local/lib/python3.12/site-packages/h5py
-COPY --from=base1 /ws/install /ws/install
-
+COPY --from=build /ws/install /ws/install
 COPY ./entrypoint.slim.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]

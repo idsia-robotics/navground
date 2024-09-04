@@ -1342,7 +1342,10 @@ PYBIND11_MODULE(_navground, m) {
           py::arg("static_discs") = std::vector<Disc>(),
           py::arg("dynamic_discs") = std::vector<Neighbor>(),
           DOC(navground, core, CollisionComputation, setup, 2))
-      .def("static_free_distance", &CollisionComputation::static_free_distance,
+
+      .def("static_free_distance",
+           py::overload_cast<ng_float_t, ng_float_t, bool>(
+               &CollisionComputation::static_free_distance),
            py::arg("angle"), py::arg("max_distance"),
            py::arg("include_neighbors") = true,
            DOC(navground, core, CollisionComputation, static_free_distance))

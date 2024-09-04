@@ -150,7 +150,7 @@ class NAVGROUND_CORE_EXPORT Controller {
    *
    * @param[in]  behavior                  The navigation behavior
    */
-  Controller(std::shared_ptr<Behavior> behavior = nullptr)
+  explicit Controller(std::shared_ptr<Behavior> behavior = nullptr)
       : behavior(behavior), speed_tolerance(1e-2), cmd_frame(std::nullopt) {}
 
   virtual ~Controller() = default;

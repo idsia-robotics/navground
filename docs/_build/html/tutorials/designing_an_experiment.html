@@ -492,7 +492,7 @@ document.write(`
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
 </pre></div>
 </div>
-<p>Except <code class="docutils literal notranslate"><span class="pre">number</span></code>, all the other configuration variables represents samplings: when the scenario is initialized, a sample from that sampling is used to initialize the agent. For example, let’s say we want the agents to have individual random radii picked uniformly between 0.5 and 1.0 meters, a common type picked randomly as either <code class="docutils literal notranslate"><span class="pre">&quot;type1&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;type2&quot;</span></code>, and a control period of 0.1 s:</p>
+<p>All configuration variables represent samplings: when the scenario is initialized, a sample from that sampling is used to initialize the agent. For example, let’s say we want the agents to have individual random radii picked uniformly between 0.5 and 1.0 meters, a common type picked randomly as either <code class="docutils literal notranslate"><span class="pre">&quot;type1&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;type2&quot;</span></code>, and a control period of 0.1 s:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="c1"># Experiment configuration</span>
 <span class="nt">scenario</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Corridor</span>
@@ -515,7 +515,7 @@ document.write(`
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Note how we specify <code class="docutils literal notranslate"><span class="pre">once:</span> <span class="pre">true</span></code> to sample once and assign the same value to all agents.</p>
+<p>Note how we specify <code class="docutils literal notranslate"><span class="pre">once:</span> <span class="pre">true</span></code> for <code class="docutils literal notranslate"><span class="pre">type</span></code> to sample once per run and assign the same <code class="docutils literal notranslate"><span class="pre">type</span></code> value to all agents in the group; without it, values (e.g., <code class="docutils literal notranslate"><span class="pre">radius</span></code> or <code class="docutils literal notranslate"><span class="pre">type</span></code>) would sampled for each individual agent in the group. The scenario fields (e.g., <code class="docutils literal notranslate"><span class="pre">radius</span></code>, <code class="docutils literal notranslate"><span class="pre">length</span></code> and <code class="docutils literal notranslate"><span class="pre">width</span></code>) and the group <code class="docutils literal notranslate"><span class="pre">number</span></code> are always sampled per run instead.</p>
 </div>
 <p>To avoid unnecessary verbose configurations, <code class="docutils literal notranslate"><span class="pre">navground</span></code> supports more compact notations for some distributions, like just providing the value for <code class="docutils literal notranslate"><span class="pre">constant</span></code> distributions, therefore we can simplify as</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="c1"># Experiment configuration</span>
@@ -536,7 +536,7 @@ document.write(`
 <span class="w">        </span><span class="nt">once</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </pre></div>
 </div>
-<p>To finalize the configuration of agents, we need to fix their kinematics, behaviors, tasks, state estimations and initial poses. In fact, some may be already configured by the scenario. For instance, <code class="docutils literal notranslate"><span class="pre">Corridor</span></code> initializes agents at random poses inside the corridor, therefore there is no need to configure their initial poses separately. Similarly, <code class="docutils literal notranslate"><span class="pre">Corridor</span></code> ask each agents to travel along the corridor, therefore we can skip <code class="docutils literal notranslate"><span class="pre">task</span></code>. We still need to set the kinematics (here, omnidirectional), behavior (here, <code class="docutils literal notranslate"><span class="pre">HL</span></code>) and state estimation (here, with a maximal range of 4 meters, i.e. half of a corridor):</p>
+<p>To finalize the configuration of agents, we need to fix their kinematics, behaviors, tasks, state estimations and initial poses. In fact, some may be already configured by the scenario. For instance, <code class="docutils literal notranslate"><span class="pre">Corridor</span></code> initializes agents at random poses inside the corridor, therefore there is no need to configure their initial poses separately. Similarly, <code class="docutils literal notranslate"><span class="pre">Corridor</span></code> ask each agents to travel along the corridor, therefore we can skip <code class="docutils literal notranslate"><span class="pre">task</span></code>. We still need to set the kinematics (here, omni-directional), behavior (here, <code class="docutils literal notranslate"><span class="pre">HL</span></code>) and state estimation (here, with a maximal range of 4 meters, i.e. half of the corridor length):</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="c1"># Experiment configuration</span>
 <span class="nt">scenario</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Corridor</span>
@@ -679,7 +679,8 @@ document.write(`
 </section>
 <section id="metrics">
 <h2>Metrics<a class="headerlink" href="#metrics" title="Link to this heading">#</a></h2>
-<p>What should we record? Let’s say we want to plot the agents trajectories … then we need to record their poses. We may want to record collisions too to perform some safety assessment. We should also set where to save data, for instance to the current directory.</p>
+<p>What should we record? Let’s say we want to plot the agents trajectories … then we need to record their poses. We may want to record collisions too to perform some safety assessment and the initial state of the world.
+We should also set where to save data, for instance to the current directory.</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="c1"># Experiment configuration</span>
 <span class="nt">scenario</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Corridor</span>
@@ -708,7 +709,12 @@ document.write(`
 <span class="nt">save_directory</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;.&#39;</span>
 <span class="nt">record_poses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="nt">record_colllisions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">record_world</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Recordings are disabled by default to be as efficient as possible. You need to enabled the data you want to record.</p>
 </div>
 </section>
 <section id="runs">
@@ -743,6 +749,7 @@ document.write(`
 <span class="nt">save_directory</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;.&#39;</span>
 <span class="nt">record_poses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="nt">record_colllisions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">record_world</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="nt">runs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
 <span class="nt">steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200</span>
 <span class="nt">time_step</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
@@ -786,6 +793,7 @@ document.write(`
 <span class="nt">save_directory</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;.&#39;</span>
 <span class="nt">record_poses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="nt">record_colllisions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">record_world</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="nt">runs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">11</span>
 <span class="nt">steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200</span>
 <span class="nt">time_step</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>

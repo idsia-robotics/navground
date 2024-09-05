@@ -56,7 +56,7 @@ We now populate the scenario with groups of agents. Agents in the same group sha
      groups: 
        - number: 10
 
-Except ``number``, all the other configuration variables represents samplings: when the scenario is initialized, a sample from that sampling is used to initialize the agent. For example, let's say we want the agents to have individual random radii picked uniformly between 0.5 and 1.0 meters, a common type picked randomly as either ``"type1"`` or ``"type2"``, and a control period of 0.1 s:
+All configuration variables represent samplings: when the scenario is initialized, a sample from that sampling is used to initialize the agent. For example, let's say we want the agents to have individual random radii picked uniformly between 0.5 and 1.0 meters, a common type picked randomly as either ``"type1"`` or ``"type2"``, and a control period of 0.1 s:
 
 .. code-block:: YAML
 
@@ -81,7 +81,7 @@ Except ``number``, all the other configuration variables represents samplings: w
 
 .. note::
 
-  Note how we specify ``once: true`` to sample once and assign the same value to all agents. 
+  Note how we specify ``once: true`` for ``type`` to sample once per run and assign the same ``type`` value to all agents in the group; without it, values (e.g., ``radius`` or ``type``) would sampled for each individual agent in the group. The scenario fields (e.g., ``radius``, ``length`` and ``width``) and the group ``number`` are always sampled per run instead.
 
 To avoid unnecessary verbose configurations, ``navground`` supports more compact notations for some distributions, like just providing the value for ``constant`` distributions, therefore we can simplify as
 
@@ -105,7 +105,7 @@ To avoid unnecessary verbose configurations, ``navground`` supports more compact
            values: ["type_1", "type_2"]
            once: true
 
-To finalize the configuration of agents, we need to fix their kinematics, behaviors, tasks, state estimations and initial poses. In fact, some may be already configured by the scenario. For instance, ``Corridor`` initializes agents at random poses inside the corridor, therefore there is no need to configure their initial poses separately. Similarly, ``Corridor`` ask each agents to travel along the corridor, therefore we can skip ``task``. We still need to set the kinematics (here, omnidirectional), behavior (here, ``HL``) and state estimation (here, with a maximal range of 4 meters, i.e. half of a corridor):
+To finalize the configuration of agents, we need to fix their kinematics, behaviors, tasks, state estimations and initial poses. In fact, some may be already configured by the scenario. For instance, ``Corridor`` initializes agents at random poses inside the corridor, therefore there is no need to configure their initial poses separately. Similarly, ``Corridor`` ask each agents to travel along the corridor, therefore we can skip ``task``. We still need to set the kinematics (here, omni-directional), behavior (here, ``HL``) and state estimation (here, with a maximal range of 4 meters, i.e. half of the corridor length):
 
 .. code-block:: YAML
 
@@ -254,7 +254,8 @@ We can try to sample a world from such a scenario. Save all but the root element
 Metrics
 =======
 
-What should we record? Let's say we want to plot the agents trajectories ... then we need to record their poses. We may want to record collisions too to perform some safety assessment. We should also set where to save data, for instance to the current directory.
+What should we record? Let's say we want to plot the agents trajectories ... then we need to record their poses. We may want to record collisions too to perform some safety assessment and the initial state of the world.
+We should also set where to save data, for instance to the current directory.
 
 .. code-block:: YAML
 
@@ -286,6 +287,11 @@ What should we record? Let's say we want to plot the agents trajectories ... the
    save_directory: '.'
    record_poses: true
    record_colllisions: true
+   record_world: true
+
+.. warning::
+
+  Recordings are disabled by default to be as efficient as possible. You need to enabled the data you want to record.
 
 Runs
 ====
@@ -324,6 +330,7 @@ Let's say that we are good with a statistics collected from 100 runs, each 20 se
    save_directory: '.'
    record_poses: true
    record_colllisions: true
+   record_world: true
    runs: 100
    steps: 200
    time_step: 0.1
@@ -376,6 +383,7 @@ If we want to perform an experiment where we measure the impact of different *gr
    save_directory: '.'
    record_poses: true
    record_colllisions: true
+   record_world: true
    runs: 11
    steps: 200
    time_step: 0.1

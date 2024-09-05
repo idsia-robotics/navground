@@ -20,4 +20,4 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         BINDER_CACHE: true
         PUBLIC_REGISTRY_CHECK: true
-        IMAGE_NAME: jeguzzi/navground:binder
+        IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/navground

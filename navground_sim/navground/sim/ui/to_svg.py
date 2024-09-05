@@ -370,7 +370,8 @@ def size(
     min_height: float = 100,
     relative_margin: float = 0.05
 ) -> Tuple[int, int, Tuple[float, float, float, float], float]:
-    min_p, max_p = tuple(bounds)
+    # We want python not numpy floats
+    min_p, max_p = [xs.tolist() for xs in bounds]
     min_x, min_y = min_p
     max_x, max_y = max_p
     world_width = max_x - min_x

@@ -54,7 +54,7 @@ DiscCache HLBehavior::make_neighbor_cache(const Neighbor &neighbor) {
     delta = delta / delta.norm() * (margin + epsilon);
     distance = epsilon;
   }
-  margin += social_margin.get(0, distance);
+  margin += social_margin.get(neighbor.id, distance);
   return {delta, margin, neighbor.velocity, barrier_angle};
 }
 

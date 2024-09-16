@@ -107,7 +107,7 @@ void HRVOBehavior::add_neighbor(const Neighbor &neighbor, float rangeSq,
   }
   a->position_ = HRVO::Vector2(static_cast<ng_float_t>(p.x()),
                                static_cast<ng_float_t>(p.y()));
-  a->radius_ = neighbor.radius + safety_margin + social_margin.get(0, distance);
+  a->radius_ = neighbor.radius + safety_margin + social_margin.get(neighbor.id, distance);
 
   // float distance;
   // [[maybe_unused]] Vector2 relative_position =

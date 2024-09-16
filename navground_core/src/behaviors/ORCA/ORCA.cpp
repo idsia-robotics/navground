@@ -141,7 +141,7 @@ void ORCABehavior::add_neighbor(const Neighbor &neighbor, bool push_away,
     distance = epsilon;
   }
   a->position_ = vector_from(p);
-  a->radius_ = neighbor.radius + social_margin.get(0, distance);
+  a->radius_ = neighbor.radius + social_margin.get(neighbor.id, distance);
   // [[maybe_unused]] Vector2 relative_position =
   //     obstacle_relative_position(pose.position, p, radius, d.radius,
   //     distance);

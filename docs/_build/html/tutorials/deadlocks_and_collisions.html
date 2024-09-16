@@ -473,7 +473,7 @@ document.write(`
 <p>In this notebook, we will look at two negative events that may happen while navigating: collisions and deadlocks. We will first learn own to visualize them during a simulation, then how to perform many simulations to assess the impact of two parameters: the safety radius and barrier angle.</p>
 <p>We are going to color colliding agents in red and deadlocked agents in blue</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground.sim.ui.video</span> <span class="kn">import</span> <span class="n">display_video</span><span class="p">,</span> <span class="n">display_video_from_run</span>
@@ -489,7 +489,7 @@ document.write(`
 </div>
 <p>We start by specifying an experiment with <code class="docutils literal notranslate"><span class="pre">safety_margin=0</span></code>, which is an unsafe setup that will lead to collisions.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
@@ -526,7 +526,7 @@ document.write(`
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
@@ -537,7 +537,7 @@ document.write(`
 </div>
 <p>We run the simulation for some time with some agents colliding shoulder-to-shoulder.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_video</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">decorate</span><span class="o">=</span><span class="n">decorate</span><span class="p">,</span> <span class="n">display_width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
@@ -545,7 +545,7 @@ document.write(`
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -553,7 +553,7 @@ document.write(`
 </div>
 <p>Try now to increase the safety margin to 0.5, which is so large that it will rapidly lead to deadlocked agents, which are colored in blue.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yaml</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
@@ -588,7 +588,7 @@ document.write(`
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
@@ -600,7 +600,7 @@ document.write(`
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -608,7 +608,7 @@ document.write(`
 </div>
 <p>In between these two extrema, there should be good trade-off with no collisions and no deadlocks. We invistigate it with an experiment where we vary the safety margin.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
@@ -659,7 +659,7 @@ document.write(`
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
@@ -677,7 +677,7 @@ document.write(`
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1272adcbb891443fa6d2a3e2e06b9ff5", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "6b7336c7709e4e43a7b3dec503584c62", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <p>We import all relevant data into a pandas frame where we also define</p>
 <ul class="simple">
@@ -686,7 +686,7 @@ document.write(`
 <li><p>“ok”: when safe and fluid</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -731,7 +731,7 @@ document.write(`
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">extract_data</span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span>
@@ -740,7 +740,7 @@ document.write(`
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -779,96 +779,96 @@ document.write(`
       <td>250.000000</td>
       <td>250.000000</td>
       <td>250.000000</td>
-      <td>250.000000</td>
+      <td>250.00000</td>
       <td>2.500000e+02</td>
       <td>250.000000</td>
       <td>250.000000</td>
       <td>250.000000</td>
-      <td>250.00000</td>
+      <td>250.000000</td>
     </tr>
     <tr>
       <th>mean</th>
       <td>124.500000</td>
       <td>0.127183</td>
-      <td>2.020000</td>
-      <td>7.248000</td>
+      <td>2.088000</td>
+      <td>7.22000</td>
       <td>1.570796e+00</td>
-      <td>0.763041</td>
+      <td>0.763716</td>
       <td>0.812000</td>
-      <td>0.808000</td>
-      <td>0.62000</td>
+      <td>0.788000</td>
+      <td>0.600000</td>
     </tr>
     <tr>
       <th>std</th>
       <td>72.312977</td>
       <td>0.073709</td>
-      <td>4.706187</td>
-      <td>27.781898</td>
+      <td>4.599661</td>
+      <td>27.77252</td>
       <td>2.224900e-16</td>
-      <td>0.113683</td>
+      <td>0.110923</td>
       <td>0.391496</td>
-      <td>0.394663</td>
-      <td>0.48636</td>
+      <td>0.409545</td>
+      <td>0.490881</td>
     </tr>
     <tr>
       <th>min</th>
       <td>0.000000</td>
       <td>0.001417</td>
       <td>0.000000</td>
-      <td>0.000000</td>
+      <td>0.00000</td>
       <td>1.570796e+00</td>
       <td>0.319647</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>0.00000</td>
+      <td>0.000000</td>
     </tr>
     <tr>
       <th>25%</th>
       <td>62.250000</td>
       <td>0.054341</td>
       <td>0.000000</td>
-      <td>0.000000</td>
-      <td>1.570796e+00</td>
-      <td>0.751212</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
       <td>0.00000</td>
+      <td>1.570796e+00</td>
+      <td>0.752402</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
     </tr>
     <tr>
       <th>50%</th>
       <td>124.500000</td>
       <td>0.126612</td>
       <td>0.000000</td>
-      <td>0.000000</td>
+      <td>0.00000</td>
       <td>1.570796e+00</td>
-      <td>0.802135</td>
+      <td>0.802537</td>
       <td>1.000000</td>
       <td>1.000000</td>
-      <td>1.00000</td>
+      <td>1.000000</td>
     </tr>
     <tr>
       <th>75%</th>
       <td>186.750000</td>
       <td>0.193269</td>
       <td>0.000000</td>
-      <td>0.000000</td>
+      <td>0.00000</td>
       <td>1.570796e+00</td>
-      <td>0.833472</td>
+      <td>0.833147</td>
       <td>1.000000</td>
       <td>1.000000</td>
-      <td>1.00000</td>
+      <td>1.000000</td>
     </tr>
     <tr>
       <th>max</th>
       <td>249.000000</td>
       <td>0.249757</td>
-      <td>18.000000</td>
-      <td>255.000000</td>
+      <td>19.000000</td>
+      <td>255.00000</td>
       <td>1.570796e+00</td>
       <td>0.869987</td>
       <td>1.000000</td>
       <td>1.000000</td>
-      <td>1.00000</td>
+      <td>1.000000</td>
     </tr>
   </tbody>
 </table>
@@ -876,7 +876,7 @@ document.write(`
 </div>
 <p>We plot the consequences of the safety margin on deadlocks and collisions. We see that - for low safety margins, there are collisions - for high safety margins, there are deadlocks</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;safety_margin&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;collisions&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
@@ -893,7 +893,7 @@ document.write(`
 </div>
 <p>Efficacy measures how much agents are progressing towards their target (1 = ideal, 0 = stuck). Looking at efficacy gives a more fine-grained picture than deadlocks, which are still visible on the right (points lower than the slowing degrading line).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;safety_margin&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;efficacy&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">);</span>
@@ -909,7 +909,7 @@ document.write(`
 </div>
 <p>Deadlocks can be mitigated by reducing the barrier angle but this may cause collisions. We investigate the effect of safety margin <em>and</em> barrier angle with a larger experiment where we vary both parameters.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
@@ -964,7 +964,7 @@ document.write(`
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_experiment</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
@@ -979,10 +979,10 @@ document.write(`
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "dfbc5334435c4bf39776c03dfbf6ba6f", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "86e3dd9aaf8846568144a1122b968b4a", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">extract_data</span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span>
@@ -991,7 +991,7 @@ document.write(`
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1041,25 +1041,25 @@ document.write(`
       <th>mean</th>
       <td>2499.500000</td>
       <td>0.123464</td>
-      <td>0.569800</td>
-      <td>30.931400</td>
+      <td>0.530600</td>
+      <td>30.948800</td>
       <td>1.179999</td>
-      <td>0.789946</td>
-      <td>0.588600</td>
-      <td>0.944000</td>
-      <td>0.532600</td>
+      <td>0.790137</td>
+      <td>0.590000</td>
+      <td>0.949600</td>
+      <td>0.539600</td>
     </tr>
     <tr>
       <th>std</th>
       <td>1443.520003</td>
       <td>0.072286</td>
-      <td>2.567888</td>
-      <td>75.459904</td>
+      <td>2.523953</td>
+      <td>75.471532</td>
       <td>0.227654</td>
-      <td>0.073515</td>
-      <td>0.492137</td>
-      <td>0.229945</td>
-      <td>0.498986</td>
+      <td>0.073303</td>
+      <td>0.491882</td>
+      <td>0.218791</td>
+      <td>0.498479</td>
     </tr>
     <tr>
       <th>min</th>
@@ -1080,7 +1080,7 @@ document.write(`
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.982294</td>
-      <td>0.769134</td>
+      <td>0.769180</td>
       <td>0.000000</td>
       <td>1.000000</td>
       <td>0.000000</td>
@@ -1092,7 +1092,7 @@ document.write(`
       <td>0.000000</td>
       <td>0.000000</td>
       <td>1.184699</td>
-      <td>0.806973</td>
+      <td>0.807085</td>
       <td>1.000000</td>
       <td>1.000000</td>
       <td>1.000000</td>
@@ -1127,7 +1127,7 @@ document.write(`
 </div>
 <p>Lower barrier angles reduce safety:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;safety_margin&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;barrier_angle&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">&quot;safe&quot;</span><span class="p">,</span>
@@ -1145,7 +1145,7 @@ document.write(`
 </div>
 <p>Higher barrier angles increase the probability of deadlocks:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;safety_margin&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;barrier_angle&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">&quot;fluid&quot;</span><span class="p">,</span>
@@ -1163,7 +1163,7 @@ document.write(`
 </div>
 <p>For parameters in the dark green region below, agents are behaving well:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;safety_margin&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;barrier_angle&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
@@ -1181,7 +1181,7 @@ document.write(`
 </div>
 <p>Finally, we also plot the efficacy:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;safety_margin&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;barrier_angle&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">&quot;efficacy&quot;</span><span class="p">,</span>

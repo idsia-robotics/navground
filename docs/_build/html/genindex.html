@@ -453,6 +453,8 @@ document.write(`
 </li>
         <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.__init__">(CrossTorusScenario method)</a>
 </li>
+        <li><a href="reference/sim/python/tasks/direction.html#navground.sim.tasks.DirectionTask.__init__">(DirectionTask method)</a>
+</li>
         <li><a href="reference/core/python/state.html#navground.core.Disc.__init__">(Disc method)</a>
 </li>
         <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.__init__">(DiscsStateEstimation method)</a>
@@ -875,18 +877,24 @@ document.write(`
         <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.desired_velocity_towards_velocity">(SocialForceBehavior method)</a>
 </li>
       </ul></li>
-      <li><a href="reference/core/python/target.html#navground.core.Target.direction">direction (Target property)</a>
+      <li><a href="reference/sim/python/tasks/direction.html#navground.sim.tasks.DirectionTask.direction">direction (DirectionTask property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/target.html#navground.core.Target.direction">(Target property)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/target.html#navground.core.Target.Direction">Direction() (Target static method)</a>
+</li>
+      <li><a href="reference/sim/python/tasks/direction.html#navground.sim.tasks.DirectionTask">DirectionTask (class in navground.sim.tasks)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.Disc">Disc (class in navground.core)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.Obstacle.disc">disc (Obstacle property)</a>
 </li>
-      <li><a href="reference/sim/python/world.html#navground.sim.World.discs">discs (World property)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/world.html#navground.sim.World.discs">discs (World property)</a>
+</li>
       <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation">DiscsStateEstimation (class in navground.sim.state_estimations)</a>
 </li>
       <li><a href="reference/sim/python/visualization.html#navground.sim.ui.video.display_video">display_video() (in module navground.sim.ui.video)</a>
@@ -2501,14 +2509,14 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core17WheeledKinematics12wheel_speedsERK6Twist2">navground::core::WheeledKinematics::wheel_speeds (C++ function)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core11WheelSpeedsE">navground::core::WheelSpeeds (C++ type)</a>
 </li>
       <li><a href="reference/sim/cpp/index.html#_CPPv4N9navground3simE">navground::sim (C++ type)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5AgentE">navground::sim::Agent (C++ class)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent7actuateERK6Twist210ng_float_t">navground::sim::Agent::actuate (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent7add_tagERKNSt6stringE">navground::sim::Agent::add_tag (C++ function)</a>
@@ -2797,6 +2805,16 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim7Dataset4sizeEv">navground::sim::Dataset::size (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/tasks/direction.html#_CPPv4N9navground3sim13DirectionTaskE">navground::sim::DirectionTask (C++ struct)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/direction.html#_CPPv4N9navground3sim13DirectionTask13DirectionTaskE7Vector2">navground::sim::DirectionTask::DirectionTask (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/direction.html#_CPPv4NK9navground3sim13DirectionTask13get_directionEv">navground::sim::DirectionTask::get_direction (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/direction.html#_CPPv4NK9navground3sim13DirectionTask14get_propertiesEv">navground::sim::DirectionTask::get_properties (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/direction.html#_CPPv4N9navground3sim13DirectionTask13set_directionERK7Vector2">navground::sim::DirectionTask::set_direction (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimationE">navground::sim::DiscsStateEstimation (C++ struct)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation21default_include_validE">navground::sim::DiscsStateEstimation::default_include_valid (C++ member)</a>
@@ -2935,7 +2953,7 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment26set_scenario_init_callbackERKNSt8optionalI20ScenarioInitCallbackEE">navground::sim::Experiment::set_scenario_init_callback (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment9set_stepsE10ng_float_t">navground::sim::Experiment::set_steps (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment9set_stepsEj">navground::sim::Experiment::set_steps (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim10Experiment36set_terminate_when_all_idle_or_stuckEb">navground::sim::Experiment::set_terminate_when_all_idle_or_stuck (C++ function)</a>
 </li>

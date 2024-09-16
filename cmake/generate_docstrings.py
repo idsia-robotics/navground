@@ -54,6 +54,8 @@ def main():
 
     if result.returncode or len(header) == 0:
         print("Failed running pybind11_mkdoc", file=sys.stderr)
+        print(result.stderr.decode("ascii"), file=sys.stderr)
+        print(result.stdout.decode("ascii"), file=sys.stdout)
         with open(destination, 'w') as f:
             f.write('#define DOC(...) ""')
         return
@@ -109,6 +111,16 @@ def main():
             doc = doc.capitalize()
         doc = doc[:-1]
         extras += f'static const char *__doc_{owner}_property_{name} =\nR"doc({doc})doc";\n'
+
+    header += extras
+    docs = ['__doc_' + '_'.join([y.strip() for y in x.split(',')])
+            for x in re.findall(r"DOC\(([^\)]*)\)", python) if '/' not in x]
+    extras = '\n\n// ********** missing docstrings ********** //\n\n'
+    for doc in docs:
+        if doc not in header:
+            # warnings.warn(f"missing {doc}")
+            print(f"missing {doc}", file=sys.stderr)
+            extras += f'static const char *{doc} = "";\n'
 
     header += extras
 

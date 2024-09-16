@@ -70,10 +70,8 @@ async def run(scenario: _Scenario,
         await web_ui.stop()
 
 
-def parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description=
-        'Runs an experiment using the Python interpreter in real-time')
+def init_parser(parser: argparse.ArgumentParser) -> None:
+    parser.description = 'Runs an experiment using the Python interpreter in real-time'
     parser.add_argument(
         'YAML',
         help='YAML string, or path to a YAML file, describing an experiment',
@@ -129,13 +127,11 @@ def parser() -> argparse.ArgumentParser:
         help=
         'Where to save the HTML file. Leave empty to use a temporary directory',
         default='')
-    return parser
 
 
-def main(decorate: Optional[Decorate] = None) -> None:
+def _main(arg: argparse.Namespace, decorate: Optional[Decorate] = None) -> None:
     logging.basicConfig(level=logging.INFO)
     load_plugins()
-    arg = parser().parse_args()
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
         with open(arg.YAML, 'r') as f:
             yaml = f.read()
@@ -176,3 +172,14 @@ def main(decorate: Optional[Decorate] = None) -> None:
             display_collisions=arg.display_collisions,
             seed=arg.seed,
             decorate=decorate))
+
+
+def parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser()
+    init_parser(parser)
+    return parser
+
+
+def main() -> None:
+    arg = parser().parse_args()
+    _main(arg)

@@ -6,9 +6,8 @@ import sys
 from navground import sim
 
 
-def parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description='Runs an experiment using the Python interpreter')
+def init_parser(parser: argparse.ArgumentParser) -> None:
+    parser.description = 'Runs an experiment using the Python interpreter'
     parser.add_argument(
         'YAML',
         help='YAML string, or path to a YAML file, describing an experiment',
@@ -42,14 +41,12 @@ def parser() -> argparse.ArgumentParser:
         help=
         "Whether to use the multiprocess package instead of multiprocessings",
         action='store_true')
-    return parser
 
 
-def main() -> None:
+def _main(arg: argparse.Namespace) -> None:
     logging.basicConfig(level=logging.INFO)
     # nav.load_plugins()
     sim.load_plugins()
-    arg = parser().parse_args()
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
         with open(arg.YAML, 'r') as f:
             yaml = f.read()
@@ -103,3 +100,14 @@ def main() -> None:
         print(f"Duration: {experiment.duration.total_seconds(): .3f} s")
         if experiment.path:
             print(f"Saved to: {experiment.path}")
+
+
+def parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser()
+    init_parser(parser)
+    return parser
+
+
+def main() -> None:
+    arg = parser().parse_args()
+    _main(arg)

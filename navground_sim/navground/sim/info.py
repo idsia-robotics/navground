@@ -10,17 +10,25 @@ registers = list(core_registers) + [
 ]
 
 
-def parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Lists registered components.")
+def init_parser(parser: argparse.ArgumentParser) -> None:
+    parser.description = "Lists registered components"
     for _, title, arg in registers:
         add_arg_for_register(parser, arg, title)
+
+
+def _main(arg: argparse.Namespace) -> None:
+    sim.load_plugins()
+    components = [(cls, title, getattr(arg, k.replace('-', '')))
+                  for cls, title, k in registers]
+    display_registers(*components)
+
+
+def parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser()
+    init_parser(parser)
     return parser
 
 
 def main() -> None:
-    sim.load_plugins()
     arg = parser().parse_args()
-    components = [(cls, title, getattr(arg, k.replace('-', '')))
-                  for cls, title, k in registers]
-    display_registers(*components)
+    _main(arg)

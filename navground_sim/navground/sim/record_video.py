@@ -7,10 +7,9 @@ from typing import Any, Optional
 
 import h5py
 
-from . import (Agent, Experiment, RecordedExperiment, load_experiment,
-               load_plugins, RecordedExperimentalRun, ExperimentalRun)
+from . import (Agent, Experiment, ExperimentalRun, RecordedExperiment,
+               RecordedExperimentalRun, load_experiment, load_plugins)
 from .ui import Decorate
-from .ui.video import record_video_from_run
 
 
 def run(path: str,
@@ -21,6 +20,8 @@ def run(path: str,
         decorate: Optional[Decorate] = None,
         follow_index: int = -1,
         **kwargs: Any) -> None:
+
+    from .ui.video import record_video_from_run
 
     if isinstance(experiment, Experiment):
         if seed < 0:
@@ -44,10 +45,8 @@ def run(path: str,
                           **kwargs)
 
 
-def parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description='Make video from an experiment using the Python interpreter'
-    )
+def init_parser(parser: argparse.ArgumentParser) -> None:
+    parser.description = 'Make video from an experiment using the Python interpreter'
     parser.add_argument(
         'input',
         help=('YAML string, or path to a YAML file describing an experiment,'
@@ -106,6 +105,11 @@ def parser() -> argparse.ArgumentParser:
     # parser.add_argument('--display-collisions',
     #                     help='Color deadlocked agent in red',
     #                     action='store_true')
+
+
+def parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser()
+    init_parser(parser)
     return parser
 
 
@@ -130,9 +134,13 @@ def _load_experiment(value: str) -> Optional[Experiment]:
 
 
 def main(decorate: Optional[Decorate] = None) -> None:
+    arg = parser().parse_args()
+    _main(arg, decorate=decorate)
+
+
+def _main(arg: argparse.Namespace, decorate: Optional[Decorate] = None) -> None:
     logging.basicConfig(level=logging.INFO)
     load_plugins()
-    arg = parser().parse_args()
     experiment = _load_recorded_experiment(arg.input) or _load_experiment(
         arg.input)
     if not experiment:

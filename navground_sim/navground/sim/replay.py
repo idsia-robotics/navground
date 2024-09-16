@@ -56,8 +56,13 @@ class RealTimeReplay(RealTimeSimulation):
 
 
 def parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description='Replay an experiment in real-time')
+    parser = argparse.ArgumentParser()
+    init_parser(parser)
+    return parser
+
+
+def init_parser(parser: argparse.ArgumentParser) -> None:
+    parser.description = 'Replay an experiment in real-time'
     parser.add_argument('path',
                         help='The path an HDF5 file that store an experiment',
                         type=str)
@@ -98,7 +103,6 @@ def parser() -> argparse.ArgumentParser:
         help=
         'Where to save the HTML file. Leave empty to use a temporary directory',
         default='')
-    return parser
 
 
 async def run(file: h5py.File,
@@ -146,9 +150,8 @@ async def run(file: h5py.File,
         await web_ui.stop()
 
 
-def main() -> None:
+def _main(arg: argparse.Namespace) -> None:
     logging.basicConfig(level=logging.INFO)
-    arg = parser().parse_args()
     should_open_view = not (arg.no_ui or arg.no_browser or arg.record_video)
     if should_open_view:
         if arg.html:
@@ -170,3 +173,8 @@ def main() -> None:
             seed=arg.seed,
             video=arg.record_video,
             background_color=arg.background_color))
+
+
+def main() -> None:
+    arg = parser().parse_args()
+    _main(arg)

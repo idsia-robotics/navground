@@ -6,19 +6,17 @@ import sys
 from navground import sim
 
 
-def parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description='Samples a world from a scenario.')
-    parser.add_argument('YAML',
-                        help='YAML string, or path to a YAML file, describing an experiment',
-                        type=str)
-    return parser
+def init_parser(parser: argparse.ArgumentParser) -> None:
+    parser.description = 'Samples a world from a scenario'
+    parser.add_argument(
+        'YAML',
+        help='YAML string, or path to a YAML file, describing an experiment',
+        type=str)
 
 
-def main() -> None:
+def _main(arg: argparse.Namespace) -> None:
     logging.basicConfig(level=logging.INFO)
     sim.load_plugins()
-    arg = parser().parse_args()
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
         with open(arg.YAML, 'r') as f:
             yaml = f.read()
@@ -35,3 +33,14 @@ def main() -> None:
         world = sim.World()
         scenario.init_world(world)
         print(sim.dump(world))
+
+
+def parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser()
+    init_parser(parser)
+    return parser
+
+
+def main() -> None:
+    arg = parser().parse_args()
+    _main(arg)

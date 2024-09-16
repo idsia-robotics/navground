@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 project(navground_py)
 
-include(${CMAKE_CURRENT_LIST_DIR}/../cmake/ament_python_install_namespace_package.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/../cmake/generate_docstrings.cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../cmake)
+include(ament_python_install_namespace_package)
+include(generate_docstrings)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)

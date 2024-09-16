@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
     cmake git libclang-16-dev clang-16 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install clang==16.0.6 colcon-common-extensions git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+RUN pip install setuptools==74.1.3 clang==16.0.6 colcon-common-extensions git+https://github.com/jeguzzi/pybind11_mkdoc@rst
 
 RUN mkdir /ws && cd /ws \
     && export COLCON_DEFAULTS_FILE=/ws/src/navground/colcon/defaults.yaml \

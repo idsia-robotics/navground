@@ -12,6 +12,7 @@
 #include "navground/core/common.h"
 #include "navground/core/property.h"
 #include "navground/sim/sampling/sampler.h"
+#include "navground/sim/tasks/direction.h"
 
 namespace navground::sim {
 
@@ -24,7 +25,7 @@ void CorridorScenario::init_world(World *world,
   for (int side = 0; side < 2; ++side) {
     world->add_wall(Wall{{-length, side * width}, {2 * length, side * width}});
   }
-  RandomGenerator & rg = world->get_random_generator();
+  RandomGenerator &rg = world->get_random_generator();
   UniformSampler<ng_float_t> x(0.0, length);
   UniformSampler<ng_float_t> y(0.0, width);
   for (const auto &agent : world->get_agents()) {
@@ -34,7 +35,7 @@ void CorridorScenario::init_world(World *world,
   world->set_lattice(0, std::make_tuple<ng_float_t>(0.0, length));
   world->space_agents_apart(agent_margin, add_safety_to_agent_margin);
   unsigned index = 0;
-  world->prepare();
+  // world->prepare();
   for (const auto &agent : world->get_agents()) {
     ng_float_t orientation = 0;
     Vector2 direction{1.0, 0.0};
@@ -43,7 +44,8 @@ void CorridorScenario::init_world(World *world,
       direction *= -1;
     }
     agent->pose.orientation = orientation;
-    agent->get_controller()->follow_direction(direction);
+    agent->set_task(std::make_shared<DirectionTask>(direction));
+    // agent->get_controller()->follow_direction(direction);
     index++;
   }
 }
@@ -52,10 +54,9 @@ const std::map<std::string, Property> CorridorScenario::properties = {
     {"width", make_property<ng_float_t, CorridorScenario>(
                   &CorridorScenario::get_width, &CorridorScenario::set_width,
                   default_width, "Corridor width")},
-    {"length",
-     make_property<ng_float_t, CorridorScenario>(
-         &CorridorScenario::get_length, &CorridorScenario::set_length,
-         default_length, "Corridor length")},
+    {"length", make_property<ng_float_t, CorridorScenario>(
+                   &CorridorScenario::get_length, &CorridorScenario::set_length,
+                   default_length, "Corridor length")},
     {"agent_margin", make_property<ng_float_t, CorridorScenario>(
                          &CorridorScenario::get_agent_margin,
                          &CorridorScenario::set_agent_margin, 0.1f,
@@ -65,7 +66,7 @@ const std::map<std::string, Property> CorridorScenario::properties = {
          &CorridorScenario::get_add_safety_to_agent_margin,
          &CorridorScenario::set_add_safety_to_agent_margin,
          default_add_safety_to_agent_margin,
-         "Whether to add the safety margin to the agent margin")} };
+         "Whether to add the safety margin to the agent margin")}};
 
 const std::string CorridorScenario::type =
     register_type<CorridorScenario>("Corridor");

@@ -12,9 +12,6 @@ void Agent::prepare(World *world) {
     // state_estimation->world = this;
     state_estimation->prepare(this, world);
   }
-  if (task) {
-    task->prepare(this, world);
-  }
   collision_correction = Vector2::Zero();
   if (behavior) {
     behavior->set_kinematics(kinematics);
@@ -23,6 +20,9 @@ void Agent::prepare(World *world) {
     // TODO(J): should be optional now that we added support for external
     // run-loops
     // controller.set_cmd_frame(core::Frame::absolute);
+  }
+  if (task) {
+    task->prepare(this, world);
   }
   ready = true;
 }

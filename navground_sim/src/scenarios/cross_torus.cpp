@@ -11,7 +11,7 @@
 #include "navground/core/common.h"
 #include "navground/core/property.h"
 #include "navground/sim/sampling/sampler.h"
-#include "navground/sim/tasks/waypoints.h"
+#include "navground/sim/tasks/direction.h"
 
 namespace navground::sim {
 
@@ -31,10 +31,11 @@ void CrossTorusScenario::init_world(World *world,
   }
   world->space_agents_apart(agent_margin, add_safety_to_agent_margin);
   unsigned index = 0;
-  world->prepare();
+  // world->prepare();
   for (const auto &agent : world->get_agents()) {
     agent->pose.orientation = M_PI_2 * (index % 4);
-    agent->get_controller()->follow_direction(unit(agent->pose.orientation));
+    // agent->get_controller()->follow_direction(unit(agent->pose.orientation));
+    agent->set_task(std::make_shared<DirectionTask>(unit(agent->pose.orientation)));
     index++;
   }
 }

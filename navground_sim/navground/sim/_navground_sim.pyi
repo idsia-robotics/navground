@@ -17,7 +17,7 @@ def uses_doubles() -> bool:
 def use_compact_samplers(value: bool) -> None:
     ...
 
-__all__ = ['Agent', 'AntipodalScenario', 'BoundedStateEstimation', 'BoundingBox', 'CorridorScenario', 'CrossScenario', 'CrossTorusScenario', 'Dataset', 'DiscsStateEstimation', 'Entity', 'Experiment', 'ExperimentalRun', 'GroupRecordProbe', 'LidarStateEstimation', 'Obstacle', 'Probe', 'RecordConfig', 'RecordProbe', 'Scenario', 'ScenarioRegister', 'Sensor', 'SimpleScenario', 'StateEstimation', 'StateEstimationRegister', 'Task', 'TaskRegister', 'Wall', 'WaypointsTask', 'World', 'dump', 'load_agent', 'load_experiment', 'load_scenario', 'load_state_estimation', 'load_task', 'load_world']
+__all__ = ['Agent', 'AntipodalScenario', 'BoundedStateEstimation', 'BoundingBox', 'CorridorScenario', 'CrossScenario', 'CrossTorusScenario', 'Dataset', 'DiscsStateEstimation', 'Entity', 'Experiment', 'ExperimentalRun', 'GroupRecordProbe', 'LidarStateEstimation', 'Obstacle', 'Probe', 'RecordConfig', 'RecordProbe', 'Scenario', 'ScenarioRegister', 'Sensor', 'SimpleScenario', 'StateEstimation', 'StateEstimationRegister', 'Task', 'TaskRegister', 'Wall', 'DirectionTask', 'WaypointsTask', 'World', 'dump', 'load_agent', 'load_experiment', 'load_scenario', 'load_state_estimation', 'load_task', 'load_world']
 class Agent(NativeAgent, Entity):
     """
     This class describes an agent.
@@ -2662,6 +2662,19 @@ class Wall(Entity):
         """
     @line.setter
     def line(self, arg0: core.LineSegment) -> None:
+        ...
+class DirectionTask(Task):
+    def __getstate__(self) -> tuple:
+        ...
+    def __init__(self, direction: Vector2Like = (1, 0)) -> None:
+        ...
+    def __setstate__(self, arg0: tuple) -> None:
+        ...
+    @property
+    def direction(self) -> numpy.ndarray:
+        ...
+    @direction.setter
+    def direction(self, arg1: Vector2Like) -> None:
         ...
 class WaypointsTask(Task):
     """

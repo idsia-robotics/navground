@@ -1,1 +1,1 @@
-from .._navground_sim import WaypointsTask
+from .._navground_sim import DirectionTask, WaypointsTask

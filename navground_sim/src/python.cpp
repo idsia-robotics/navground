@@ -39,6 +39,7 @@
 #include "navground/sim/state_estimations/sensor_lidar.h"
 #include "navground/sim/task.h"
 #include "navground/sim/tasks/waypoints.h"
+#include "navground/sim/tasks/direction.h"
 #include "navground/sim/world.h"
 #include "navground/sim/yaml/experiment.h"
 #include "navground/sim/yaml/scenario.h"
@@ -204,7 +205,6 @@ struct PyStateEstimation : StateEstimation,
 };
 
 struct PySensor : Sensor, virtual PyStateEstimation {
-
   // using PyStateEstimation::get_type;
   // using PyStateEstimation::decode;
   // using PyStateEstimation::encode;
@@ -1439,6 +1439,15 @@ Creates a rectangular region
       .def("add_callback", &Task::add_callback, py::arg("callback"),
            DOC(navground, sim, Task, add_callback));
 
+  py::class_<DirectionTask, Task, std::shared_ptr<DirectionTask>> direction(
+      m, "DirectionTask", DOC(navground, sim, DirectionTask));
+  direction
+      .def(py::init<Vector2>(), py::arg("direction") = Vector2(1, 0),
+           DOC(navground, sim, DirectionTask, DirectionTask))
+      .def_property("direction", &DirectionTask::get_direction,
+                    &DirectionTask::set_direction,
+                    DOC(navground, sim, DirectionTask, property_direction));
+
   py::class_<WaypointsTask, Task, std::shared_ptr<WaypointsTask>> waypoints(
       m, "WaypointsTask", DOC(navground, sim, WaypointsTask));
   waypoints
@@ -1525,28 +1534,28 @@ Creates a rectangular region
           }));
 
   py::class_<RecordConfig>(m, "RecordConfig", DOC(navground, sim, RecordConfig))
-      .def(py::init([](bool time, bool pose, bool twist, bool cmd,
-                       bool actuated_cmd, bool target, bool safety_violation,
-                       bool collisions, bool task_events, bool deadlocks,
-                       bool efficacy, bool world, RecordNeighborsConfig neighbors,
-                       bool use_agent_uid_as_key,
-                       std::vector<RecordSensingConfig> sensing) {
-             return new RecordConfig{time,
-                                     pose,
-                                     twist,
-                                     cmd,
-                                     actuated_cmd,
-                                     target,
-                                     safety_violation,
-                                     collisions,
-                                     task_events,
-                                     deadlocks,
-                                     efficacy,
-                                     world,
-                                     neighbors,
-                                     use_agent_uid_as_key,
-                                     sensing};
-           }),
+      .def(py::init(
+               [](bool time, bool pose, bool twist, bool cmd, bool actuated_cmd,
+                  bool target, bool safety_violation, bool collisions,
+                  bool task_events, bool deadlocks, bool efficacy, bool world,
+                  RecordNeighborsConfig neighbors, bool use_agent_uid_as_key,
+                  std::vector<RecordSensingConfig> sensing) {
+                 return new RecordConfig{time,
+                                         pose,
+                                         twist,
+                                         cmd,
+                                         actuated_cmd,
+                                         target,
+                                         safety_violation,
+                                         collisions,
+                                         task_events,
+                                         deadlocks,
+                                         efficacy,
+                                         world,
+                                         neighbors,
+                                         use_agent_uid_as_key,
+                                         sensing};
+               }),
            py::arg("time") = false, py::arg("pose") = false,
            py::arg("twist") = false, py::arg("cmd") = false,
            py::arg("actuated_cmd") = false, py::arg("target") = false,
@@ -1786,14 +1795,13 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
            py::arg("agent_indices") = std::vector<unsigned>{},
            DOC(navground, sim, SensingProbe, SensingProbe))
       .def("get_data", &SensingProbe::get_data,
-//            R"doc(
-// The stored sensor readings, indexed by UID or index
+           //            R"doc(
+           // The stored sensor readings, indexed by UID or index
 
-// :rtype: typing.Dict[str, navground.sim.Dataset]
+           // :rtype: typing.Dict[str, navground.sim.Dataset]
 
-// )doc"
-           DOC(navground, sim, SensingProbe, get_data)
-        );
+           // )doc"
+           DOC(navground, sim, SensingProbe, get_data));
 
   py::class_<ExperimentalRun, std::shared_ptr<ExperimentalRun>>(
       m, "ExperimentalRun", py::dynamic_attr(),
@@ -2668,6 +2676,7 @@ Load an experiment from a YAML string.
   pickle_via_yaml<PyStateEstimation>(boundary_sensor);
   pickle_via_yaml<PyTask>(task);
   pickle_via_yaml<PyTask>(waypoints);
+  pickle_via_yaml<PyTask>(direction);
   pickle_via_yaml<PyScenario>(scenario);
   pickle_via_yaml<PyScenario>(simple);
   pickle_via_yaml<PyScenario>(antipodal);

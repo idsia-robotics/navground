@@ -11,6 +11,7 @@
 ### Changed
 
 - Separated the python package `navground_sim_py` from the C++ package `navground_sim`
+- Changed package name from `navground_py` to `navground_core_py`
 
 ### Removed
 

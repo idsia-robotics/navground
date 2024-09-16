@@ -52,8 +52,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'packages/navground_sim';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="navground_ros" href="navground_ros.html" />
-    <link rel="prev" title="navground_py" href="navground_py.html" />
+    <link rel="next" title="navground_sim_py" href="navground_sim_py.html" />
+    <link rel="prev" title="navground_core_py" href="navground_core_py.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -165,8 +165,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Packages</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="navground_core.html">navground_core</a></li>
-<li class="toctree-l2"><a class="reference internal" href="navground_py.html">navground_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="navground_core_py.html">navground_core_py</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">navground_sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="navground_sim_py.html">navground_sim_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_ros.html">navground_ros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_msgs.html">navground_msgs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_coppeliasim.html">navground_coppeliasim</a></li>
@@ -437,43 +438,21 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">navground_sim</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-packages">Python packages</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">navground.sim</a></li>
-</ul>
-</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executables">Executables</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#info-and-info-py">info and info_py</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#info">info</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.info-parser-named-arguments">Named Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-and-sample-py">sample and sample_py</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample">sample</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.sample-parser-positional-arguments">Positional Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Example</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-and-run-py">run and run_py</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run">run</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.run-parser-positional-arguments">Positional Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.run-parser-named-arguments">Named Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-rt">run_rt</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.run_rt-parser-positional-arguments">Positional Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.run_rt-parser-named-arguments">Named Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Example</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#record-video">record video</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.record_video-parser-positional-arguments">Positional Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.record_video-parser-named-arguments">Named Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Example</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replay">replay</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.replay-parser-positional-arguments">Positional Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.replay-parser-named-arguments">Named Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Example</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -497,7 +476,6 @@ document.write(`
 <ul class="simple">
 <li><p><a class="reference external" href="https://index.ros.org/p/ament_cmake/#humble">ament_cmake</a> to build the package</p></li>
 <li><p><a class="reference internal" href="navground_core.html"><span class="doc">navground_core</span></a> the core library</p></li>
-<li><p><a class="reference internal" href="navground_py.html"><span class="doc">navground_py</span></a> the core python package</p></li>
 <li><p><a class="reference external" href="https://libgeos.org">GEOS</a> for computational geometry</p></li>
 <li><p><a class="reference external" href="https://github.com/BlueBrain/HighFive">HighFive</a> to write HDF5 files</p></li>
 </ul>
@@ -528,29 +506,12 @@ document.write(`
 </ol>
 </section>
 </section>
-<section id="python-packages">
-<h2>Python packages<a class="headerlink" href="#python-packages" title="Link to this heading">#</a></h2>
-<section id="id2">
-<h3>navground.sim<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
-<p>A Python package to perform navigation simulations; see the <a class="reference internal" href="../reference/sim/python/index.html"><span class="doc">API reference</span></a>.</p>
-<p>To use the package</p>
-<ol class="arabic">
-<li><p>add the install path to <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code></p></li>
-<li><p>import the packge</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
-</pre></div>
-</div>
-</li>
-</ol>
-</section>
-</section>
 <section id="executables">
 <h2>Executables<a class="headerlink" href="#executables" title="Link to this heading">#</a></h2>
-<section id="info-and-info-py">
-<span id="info-sim"></span><h3>info and info_py<a class="headerlink" href="#info-and-info-py" title="Link to this heading">#</a></h3>
-<p>Lists registered components (behaviors, kinematics, state estimations, tasks, and scenarios).
-<code class="docutils literal notranslate"><span class="pre">info</span></code> is limited to components implemented in C++, while <code class="docutils literal notranslate"><span class="pre">info_py</span></code> accesses components implemented in Python too.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span><span class="o">|</span><span class="n">info_py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behavior</span> <span class="p">[</span><span class="n">BEHAVIOR</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">modulation</span> <span class="p">[</span><span class="n">MODULATION</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">state_estimation</span> <span class="p">[</span><span class="n">STATE_ESTIMATION</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">task</span> <span class="p">[</span><span class="n">TASK</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">scenario</span> <span class="p">[</span><span class="n">SCENARIO</span><span class="p">]]</span>
+<section id="info">
+<span id="info-sim"></span><h3>info<a class="headerlink" href="#info" title="Link to this heading">#</a></h3>
+<p>Lists registered components (behaviors, kinematics, state estimations, tasks, and scenarios) implemented in C++.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behavior</span> <span class="p">[</span><span class="n">BEHAVIOR</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">modulation</span> <span class="p">[</span><span class="n">MODULATION</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">state_estimation</span> <span class="p">[</span><span class="n">STATE_ESTIMATION</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">task</span> <span class="p">[</span><span class="n">TASK</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">scenario</span> <span class="p">[</span><span class="n">SCENARIO</span><span class="p">]]</span>
 </pre></div>
 </div>
 <section id="navground.sim.info-parser-named-arguments">
@@ -578,75 +539,122 @@ document.write(`
 </section>
 <section id="example">
 <h4>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h4>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>info_py
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>info
 <span class="go">Behaviors</span>
 <span class="go">---------</span>
+
 <span class="go">Dummy</span>
 <span class="go">HL</span>
-<span class="go">     aperture: 3.1415927410125732 [float]</span>
-<span class="go">     eta: 0.5 [float]</span>
+<span class="go">     aperture: 3.14159 [double]</span>
+<span class="go">     barrier_angle: 1.5708 [double]</span>
+<span class="go">     epsilon: 0 [double]</span>
+<span class="go">     eta: 0.5 [double]</span>
 <span class="go">     resolution: 101 [int]</span>
-<span class="go">     tau: 0.125 [float]</span>
+<span class="go">     tau: 0.125 [double]</span>
 <span class="go">HRVO</span>
+<span class="go">     max_neighbors: 1000 [int]</span>
+<span class="go">     uncertainty_offset: 0 [double]</span>
+<span class="go">Idle</span>
 <span class="go">ORCA</span>
-<span class="go">     effective_center: False [bool]</span>
-<span class="go">     time_horizon: 10.0 [float]</span>
-<span class="go">PyDummy</span>
-<span class="go">     dummy: True [bool]</span>
-<span class="go">     tired: False [bool]</span>
-<span class="go">SocialForce</span>
+<span class="go">     effective_center: 0 [bool]</span>
+<span class="go">     max_neighbors: 1000 [int]</span>
+<span class="go">     static_time_horizon: 10 [double]</span>
+<span class="go">     time_horizon: 10 [double]</span>
+<span class="go">     treat_obstacles_as_agents: 1 [bool]</span>
 
 <span class="go">Kinematics</span>
 <span class="go">----------</span>
 <span class="go">2WDiff</span>
-<span class="go">     wheel_axis: 0.0 [float]</span>
+<span class="go">     wheel_axis: 0 [double]</span>
+<span class="go">2WDiffDyn</span>
+<span class="go">     max_acceleration: 0 [double]</span>
+<span class="go">     moi: 1 [double]</span>
+<span class="go">     wheel_axis: 0 [double]</span>
 <span class="go">4WOmni</span>
-<span class="go">     wheel_axis: 0.0 [float]</span>
+<span class="go">     wheel_axis: 0 [double]</span>
 <span class="go">Ahead</span>
 <span class="go">Omni</span>
 
-<span class="go">State estimations</span>
+<span class="go">Modulations</span>
+<span class="go">-----------</span>
+<span class="go">LimitAcceleration</span>
+<span class="go">     max_acceleration: 1.79769e+308 [double]</span>
+<span class="go">     max_angular_acceleration: 1.79769e+308 [double]</span>
+<span class="go">MotorPID</span>
+<span class="go">     k_d: 0 [double]</span>
+<span class="go">     k_i: 0 [double]</span>
+<span class="go">     k_p: 1 [double]</span>
+<span class="go">Relaxation</span>
+<span class="go">     tau: 0.125 [double]</span>
+
+<span class="go">State Estimations</span>
 <span class="go">-----------------</span>
-<span class="go">Dummy</span>
-<span class="go">HL</span>
-<span class="go">     aperture: 3.1415927410125732 [float]</span>
-<span class="go">     eta: 0.5 [float]</span>
-<span class="go">     resolution: 101 [int]</span>
-<span class="go">     tau: 0.125 [float]</span>
-<span class="go">HRVO</span>
-<span class="go">ORCA</span>
-<span class="go">     effective_center: False [bool]</span>
-<span class="go">     time_horizon: 10.0 [float]</span>
-<span class="go">PyDummy</span>
-<span class="go">     dummy: True [bool]</span>
-<span class="go">     tired: False [bool]</span>
-<span class="go">SocialForce</span>
+<span class="go">Boundary</span>
+<span class="go">     max_x: inf [double]</span>
+<span class="go">     max_y: inf [double]</span>
+<span class="go">     min_x: -inf [double]</span>
+<span class="go">     min_y: -inf [double]</span>
+<span class="go">     range: 1 [double]</span>
+<span class="go">Bounded</span>
+<span class="go">     range: 1 [double], deprecated synonyms: range_of_view</span>
+<span class="go">     update_static_obstacles: 0 [bool]</span>
+<span class="go">Combination</span>
+<span class="go">Discs</span>
+<span class="go">     include_valid: 1 [bool]</span>
+<span class="go">     max_id: 0 [int]</span>
+<span class="go">     max_radius: 0 [double]</span>
+<span class="go">     max_speed: 0 [double]</span>
+<span class="go">     number: 1 [int]</span>
+<span class="go">     range: 1 [double]</span>
+<span class="go">     use_nearest_point: 1 [bool]</span>
+<span class="go">Lidar</span>
+<span class="go">     field_of_view: 6.28319 [double]</span>
+<span class="go">     range: 1 [double]</span>
+<span class="go">     resolution: 100 [int]</span>
+<span class="go">     start_angle: -3.14159 [double]</span>
 
 <span class="go">Tasks</span>
 <span class="go">-----</span>
-<span class="go">2WDiff</span>
-<span class="go">     wheel_axis: 0.0 [float]</span>
-<span class="go">4WOmni</span>
-<span class="go">     wheel_axis: 0.0 [float]</span>
-<span class="go">Ahead</span>
-<span class="go">Omni</span>
+<span class="go">Direction</span>
+<span class="go">     direction: [1, 0] [Eigen::Matrix&lt;double, 2, 1&gt;]</span>
+<span class="go">Waypoints</span>
+<span class="go">     loop: 1 [bool]</span>
+<span class="go">     random: 0 [bool]</span>
+<span class="go">     tolerance: 1 [double]</span>
+<span class="go">     waypoints: [] [std::vector&lt;Eigen::Matrix&lt;double, 2, 1&gt;&gt;]</span>
 
 <span class="go">Scenarios</span>
 <span class="go">---------</span>
-<span class="go">2WDiff</span>
-<span class="go">     wheel_axis: 0.0 [float]</span>
-<span class="go">4WOmni</span>
-<span class="go">     wheel_axis: 0.0 [float]</span>
-<span class="go">Ahead</span>
-<span class="go">Omni</span>
+<span class="go">Antipodal</span>
+<span class="go">     orientation_noise: 0 [double]</span>
+<span class="go">     position_noise: 0 [double]</span>
+<span class="go">     radius: 1 [double]</span>
+<span class="go">     shuffle: 0 [bool]</span>
+<span class="go">     tolerance: 0.1 [double]</span>
+<span class="go">Corridor</span>
+<span class="go">     add_safety_to_agent_margin: 1 [bool]</span>
+<span class="go">     agent_margin: 0.1 [double]</span>
+<span class="go">     length: 10 [double]</span>
+<span class="go">     width: 1 [double]</span>
+<span class="go">Cross</span>
+<span class="go">     add_safety_to_agent_margin: 1 [bool]</span>
+<span class="go">     agent_margin: 0.1 [float]</span>
+<span class="go">     side: 2 [float]</span>
+<span class="go">     target_margin: 0.5 [float]</span>
+<span class="go">     tolerance: 0.25 [float]</span>
+<span class="go">CrossTorus</span>
+<span class="go">     add_safety_to_agent_margin: 1 [bool]</span>
+<span class="go">     agent_margin: 0.1 [float]</span>
+<span class="go">     side: 2 [float]</span>
+<span class="go">Simple</span>
 </pre></div>
 </div>
 </section>
 </section>
-<section id="sample-and-sample-py">
-<span id="sample"></span><h3>sample and sample_py<a class="headerlink" href="#sample-and-sample-py" title="Link to this heading">#</a></h3>
-<p>Samples a world from a scenario. <code class="docutils literal notranslate"><span class="pre">sample_py</span></code> uses a Python interpreter to access components implemented in Python too, while <code class="docutils literal notranslate"><span class="pre">sample</span></code> is limited to components implemented in C++.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">sample</span><span class="o">|</span><span class="n">sample_py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="n">YAML</span>
+<section id="sample">
+<span id="id2"></span><h3>sample<a class="headerlink" href="#sample" title="Link to this heading">#</a></h3>
+<p>Samples a world from a scenario containing components implemented in C++.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">sample</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="n">YAML</span>
 </pre></div>
 </div>
 <section id="navground.sim.sample-parser-positional-arguments">
@@ -711,10 +719,10 @@ document.write(`
 </div>
 </section>
 </section>
-<section id="run-and-run-py">
-<span id="run"></span><h3>run and run_py<a class="headerlink" href="#run-and-run-py" title="Link to this heading">#</a></h3>
-<p>Run an experiment. <code class="docutils literal notranslate"><span class="pre">run_py</span></code> uses a Python interpreter: it is slightly slower but has access to components implemented in Python too, while <code class="docutils literal notranslate"><span class="pre">run</span></code> is limited to components implemented in C++.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run</span><span class="o">|</span><span class="n">run_py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">tqdm</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">run_index</span> <span class="n">RUN_INDEX</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">runs</span> <span class="n">RUNS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">threads</span> <span class="n">THREADS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">processes</span> <span class="n">PROCESSES</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">save_single_hdf5</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">use_multiprocess</span><span class="p">]</span> <span class="n">YAML</span>
+<section id="run">
+<span id="id4"></span><h3>run<a class="headerlink" href="#run" title="Link to this heading">#</a></h3>
+<p>Run an experiment limited to components implemented in C++.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">tqdm</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">run_index</span> <span class="n">RUN_INDEX</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">runs</span> <span class="n">RUNS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">threads</span> <span class="n">THREADS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">processes</span> <span class="n">PROCESSES</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">save_single_hdf5</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">use_multiprocess</span><span class="p">]</span> <span class="n">YAML</span>
 </pre></div>
 </div>
 <section id="navground.sim.run-parser-positional-arguments">
@@ -763,8 +771,8 @@ document.write(`
 <li><p>an HDF5 file <cite>data.h5`</cite> with data recorded during the experiment,</p></li>
 <li><p>a YAML file <cite>experiment.yaml</cite> with the configuration of the experiment.</p></li>
 </ul>
-<section id="id4">
-<h4>Example<a class="headerlink" href="#id4" title="Link to this heading">#</a></h4>
+<section id="id5">
+<h4>Example<a class="headerlink" href="#id5" title="Link to this heading">#</a></h4>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>run<span class="w">  </span><span class="s2">&quot;{save_directory: &quot;</span>.<span class="s2">&quot;, scenario: {type: Antipodal, groups: [{number: 20}]}}&quot;</span>
 <span class="go">Duration: 0.0120453 s</span>
 <span class="go">Saved to: &quot;./experiment_3784746994027959661_2023-07-07_16-13-36/data.h5&quot;</span>
@@ -772,214 +780,7 @@ document.write(`
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Although individual runs in a single thread, we can speed up experiments consisting of <em>multiple</em> runs by parallelizing them. Check out <a class="reference internal" href="../guides/parallelize.html#parallelize-guide"><span class="std std-ref">the related guide</span></a> to know more.</p>
-</div>
-</section>
-</section>
-<section id="run-rt">
-<span id="id5"></span><h3>run_rt<a class="headerlink" href="#run-rt" title="Link to this heading">#</a></h3>
-<p>Run an experiment using Python in real time. You can visualize the world in a browser view.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run_rt</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">port</span> <span class="n">PORT</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">width</span> <span class="n">WIDTH</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">shape</span><span class="p">]</span>
-              <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">deadlocks</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">collisions</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">html</span> <span class="n">HTML</span><span class="p">]</span>
-              <span class="n">YAML</span>
-</pre></div>
-</div>
-<section id="navground.sim.run_rt-parser-positional-arguments">
-<h4>Positional Arguments<a class="headerlink" href="#navground.sim.run_rt-parser-positional-arguments" title="Link to this heading">#</a></h4>
-<dl class="option-list">
-<dt><kbd>YAML</kbd></dt>
-<dd><p>YAML string, or path to a YAML file, describing an experiment</p>
-</dd>
-</dl>
-</section>
-<section id="navground.sim.run_rt-parser-named-arguments">
-<h4>Named Arguments<a class="headerlink" href="#navground.sim.run_rt-parser-named-arguments" title="Link to this heading">#</a></h4>
-<dl class="option-list">
-<dt><kbd>--factor</kbd></dt>
-<dd><p>Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">1.0</span></code></p>
-</dd>
-<dt><kbd>--no-ui</kbd></dt>
-<dd><p>Do not use a view</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>--seed</kbd></dt>
-<dd><p>The random seed of the simulation. If negative, it will be picked randomly</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">-1</span></code></p>
-</dd>
-<dt><kbd>--port</kbd></dt>
-<dd><p>The websocket port</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">8000</span></code></p>
-</dd>
-<dt><kbd>--width</kbd></dt>
-<dd><p>Size of the view in pixels</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">500</span></code></p>
-</dd>
-<dt><kbd>--no-browser</kbd></dt>
-<dd><p>Do not open a browser view</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>--ui-fps</kbd></dt>
-<dd><p>Maximal update rate of the view</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">25.0</span></code></p>
-</dd>
-<dt><kbd>--background-color</kbd></dt>
-<dd><p>View background color</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'lightgray'</span></code></p>
-</dd>
-<dt><kbd>--area</kbd></dt>
-<dd><p>Minimal area rendered in the view</p>
-</dd>
-<dt><kbd>--display-shape</kbd></dt>
-<dd><p>Display effective agent shape</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>--display-deadlocks</kbd></dt>
-<dd><p>Color deadlocked agent in blue</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>--display-collisions</kbd></dt>
-<dd><p>Color deadlocked agent in red</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>--html</kbd></dt>
-<dd><p>Where to save the HTML file. Leave empty to use a temporary directory</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
-</dd>
-</dl>
-</section>
-<section id="id6">
-<h4>Example<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>run_rt<span class="w"> </span>experiment.yaml<span class="w"> </span>--factor<span class="w"> </span><span class="m">5</span>.0
-</pre></div>
-</div>
-</section>
-</section>
-<section id="record-video">
-<h3>record video<a class="headerlink" href="#record-video" title="Link to this heading">#</a></h3>
-<p>Record a video from an experiment.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">record_video</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">width</span> <span class="n">WIDTH</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">fps</span> <span class="n">FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">relative_margin</span> <span class="n">RELATIVE_MARGIN</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">shape</span><span class="p">]</span>
-                    <span class="p">[</span><span class="o">--</span><span class="n">follow</span> <span class="n">FOLLOW</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">grid</span> <span class="n">GRID</span><span class="p">]</span>
-                    <span class="nb">input</span> <span class="n">output</span>
-</pre></div>
-</div>
-<section id="navground.sim.record_video-parser-positional-arguments">
-<h4>Positional Arguments<a class="headerlink" href="#navground.sim.record_video-parser-positional-arguments" title="Link to this heading">#</a></h4>
-<dl class="option-list">
-<dt><kbd>input</kbd></dt>
-<dd><p>YAML string, or path to a YAML file describing an experiment, or a path to HDF5 file of a recorded experiment</p>
-</dd>
-<dt><kbd>output</kbd></dt>
-<dd><p>Path where to save the video</p>
-</dd>
-</dl>
-</section>
-<section id="navground.sim.record_video-parser-named-arguments">
-<h4>Named Arguments<a class="headerlink" href="#navground.sim.record_video-parser-named-arguments" title="Link to this heading">#</a></h4>
-<dl class="option-list">
-<dt><kbd>--seed</kbd></dt>
-<dd><p>The random seed of the simulation. If negative, it will be picked randomly</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">-1</span></code></p>
-</dd>
-<dt><kbd>--factor</kbd></dt>
-<dd><p>Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">1.0</span></code></p>
-</dd>
-<dt><kbd>--width</kbd></dt>
-<dd><p>Size of the video in pixels</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">640</span></code></p>
-</dd>
-<dt><kbd>--fps</kbd></dt>
-<dd><p>Video fps</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">24</span></code></p>
-</dd>
-<dt><kbd>--background-color</kbd></dt>
-<dd><p>View background color</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'lightgray'</span></code></p>
-</dd>
-<dt><kbd>--area</kbd></dt>
-<dd><p>Minimal area rendered in the view</p>
-</dd>
-<dt><kbd>--relative_margin</kbd></dt>
-<dd><p>A relative margin to add around the area</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">0.05</span></code></p>
-</dd>
-<dt><kbd>--display-shape</kbd></dt>
-<dd><p>Display effective agent shape</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>--follow</kbd></dt>
-<dd><p>The index of the agent to follow</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">-1</span></code></p>
-</dd>
-<dt><kbd>--grid</kbd></dt>
-<dd><p>The size of the grid</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
-</dd>
-</dl>
-</section>
-<section id="id7">
-<h4>Example<a class="headerlink" href="#id7" title="Link to this heading">#</a></h4>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>record_video<span class="w"> </span>experiment.yaml<span class="w"> </span>video.mp4<span class="w"> </span>--factor<span class="w"> </span><span class="m">5</span>.0
-</pre></div>
-</div>
-</section>
-</section>
-<section id="replay">
-<h3>replay<a class="headerlink" href="#replay" title="Link to this heading">#</a></h3>
-<p>Replays an experiment in real-time. You can visualize the world in a browser view, similarly to <a class="reference internal" href="#run-rt">run_rt</a> but for recorded experiment, or create a video from it.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">replay</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">record_video</span> <span class="n">RECORD_VIDEO</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">html</span> <span class="n">HTML</span><span class="p">]</span> <span class="n">path</span>
-</pre></div>
-</div>
-<section id="navground.sim.replay-parser-positional-arguments">
-<h4>Positional Arguments<a class="headerlink" href="#navground.sim.replay-parser-positional-arguments" title="Link to this heading">#</a></h4>
-<dl class="option-list">
-<dt><kbd>path</kbd></dt>
-<dd><p>The path an HDF5 file that store an experiment</p>
-</dd>
-</dl>
-</section>
-<section id="navground.sim.replay-parser-named-arguments">
-<h4>Named Arguments<a class="headerlink" href="#navground.sim.replay-parser-named-arguments" title="Link to this heading">#</a></h4>
-<dl class="option-list">
-<dt><kbd>--factor</kbd></dt>
-<dd><p>Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">1.0</span></code></p>
-</dd>
-<dt><kbd>--no-ui</kbd></dt>
-<dd><p>Do not use a view</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>--record_video</kbd></dt>
-<dd><p>The path to a folder where to save videos instead of replaying in an UI. If left empty, it will not create videos.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
-</dd>
-<dt><kbd>--no-browser</kbd></dt>
-<dd><p>Do not open a browser view</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
-</dd>
-<dt><kbd>--ui-fps</kbd></dt>
-<dd><p>Maximal update rate of the view</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">25.0</span></code></p>
-</dd>
-<dt><kbd>--seed</kbd></dt>
-<dd><p>The seed of the run to replay. If negative or not specified, will replay all runs</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">-1</span></code></p>
-</dd>
-<dt><kbd>--background-color</kbd></dt>
-<dd><p>View background color</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'lightgray'</span></code></p>
-</dd>
-<dt><kbd>--html</kbd></dt>
-<dd><p>Where to save the HTML file. Leave empty to use a temporary directory</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
-</dd>
-</dl>
-</section>
-<section id="id8">
-<h4>Example<a class="headerlink" href="#id8" title="Link to this heading">#</a></h4>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>replay<span class="w"> </span>./experiment_3784746994027959661_2023-07-07_16-13-36/data.h5<span class="w"> </span>--factor<span class="w"> </span><span class="m">10</span>
-</pre></div>
+<p>Although individual runs run in a single thread, we can speed up experiments consisting of <em>multiple</em> runs by parallelizing them. Check out <a class="reference internal" href="../guides/parallelize.html#parallelize-guide"><span class="std std-ref">the related guide</span></a> to know more.</p>
 </div>
 </section>
 </section>
@@ -998,20 +799,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="navground_py.html"
+       href="navground_core_py.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">navground_py</p>
+        <p class="prev-next-title">navground_core_py</p>
       </div>
     </a>
     <a class="right-next"
-       href="navground_ros.html"
+       href="navground_sim_py.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">navground_ros</p>
+        <p class="prev-next-title">navground_sim_py</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1036,43 +837,21 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">navground_sim</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-packages">Python packages</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">navground.sim</a></li>
-</ul>
-</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executables">Executables</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#info-and-info-py">info and info_py</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#info">info</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.info-parser-named-arguments">Named Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-and-sample-py">sample and sample_py</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample">sample</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.sample-parser-positional-arguments">Positional Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Example</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-and-run-py">run and run_py</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run">run</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.run-parser-positional-arguments">Positional Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.run-parser-named-arguments">Named Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-rt">run_rt</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.run_rt-parser-positional-arguments">Positional Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.run_rt-parser-named-arguments">Named Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Example</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#record-video">record video</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.record_video-parser-positional-arguments">Positional Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.record_video-parser-named-arguments">Named Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Example</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replay">replay</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.replay-parser-positional-arguments">Positional Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.replay-parser-named-arguments">Named Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Example</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Example</a></li>
 </ul>
 </li>
 </ul>

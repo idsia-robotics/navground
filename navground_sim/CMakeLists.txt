@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(navground_sim)
 
-include(${CMAKE_CURRENT_LIST_DIR}/../cmake/ament_python_install_namespace_package.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/../cmake/generate_docstrings.cmake)
-
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
@@ -42,20 +39,13 @@ message("cpptqdm_SOURCE_DIR ${cpptqdm_SOURCE_DIR}")
 # add_subdirectory(../yaml-cpp yaml-cpp)
 
 find_package(ament_cmake REQUIRED)
-find_package(ament_cmake_python REQUIRED)
 find_package(navground_core REQUIRED)
-find_package(navground_py REQUIRED)
-find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(GEOS REQUIRED)
-find_package(pybind11 REQUIRED)
 find_package(HighFive REQUIRED)
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
 # add_subdirectory(../external/geos geos)
-# add_subdirectory(../external/pybind11 pybind11 EXCLUDE_FROM_ALL)
 # add_subdirectory(../external/HighFive highFive)
-# find_package(pybind11_vendor REQUIRED)
-# find_package(pybind11 REQUIRED)
 
 # Force to C++17
 set(CMAKE_CXX_STANDARD 17)
@@ -129,36 +119,6 @@ add_dependencies(info navground_sim)
 # target_link_libraries(echo navground_sim)
 # add_dependencies(echo navground_sim)
 
-ament_python_install_namespace_package(sim
-  SCRIPTS_DESTINATION lib/${PROJECT_NAME}
-  PACKAGE_DIR navground/sim
-  NAMESPACE navground
-)
-pybind11_add_module(_navground_sim src/python.cpp)
-
-generate_docstrings(
-  _navground_sim 
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/python.cpp 
-  ${CMAKE_CURRENT_SOURCE_DIR}/include/navground/sim
-  ${CMAKE_INSTALL_PREFIX}/include 
-  ${PROJECT_BINARY_DIR} 
-  ${EIGEN3_INCLUDE_DIR}
-)
-
-# target_compile_options(_navground_sim PRIVATE -fvisibility=hidden)
-target_link_libraries(_navground_sim 
-  PRIVATE 
-  navground_sim
-)
-target_link_libraries(_navground_sim INTERFACE navground_py)
-target_compile_definitions(_navground_sim PRIVATE PYBIND11_DETAILED_ERROR_MESSAGES=1)
-# 
-add_dependencies(_navground_sim navground_sim docstrings)
-
-# target_link_libraries(_navground_sim PRIVATE -Wl,-force_load navground_sim)
-
-install(TARGETS _navground_sim DESTINATION "${PYTHON_INSTALL_DIR}/navground/sim")
-
 install(TARGETS
   info
   run
@@ -185,16 +145,5 @@ install(
   RUNTIME DESTINATION bin
   INCLUDES DESTINATION include
 )
-
-IF (WIN32)
-install(
-	FILES 
-	${CMAKE_INSTALL_PREFIX}/bin/navground_core.dll 
-	${CMAKE_INSTALL_PREFIX}/bin/navground_sim.dll 
-	${CMAKE_INSTALL_PREFIX}/bin/hdf5.dll 
-  ${CMAKE_INSTALL_PREFIX}/bin/geos.dll 
-	DESTINATION "${PYTHON_INSTALL_DIR}/navground/sim"
-)
-ENDIF()
 
 ament_package()

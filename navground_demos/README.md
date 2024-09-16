@@ -30,7 +30,7 @@
 	
 #### Depends on
 - navground
-- navground_py
+- navground_core_py
 
 ### C++ simulation
 
@@ -58,7 +58,7 @@
 	
 #### Depends on
 - navground
-- navground_py
+- navground_core_py
 
 ### CoppeliaSim internal simulation
 

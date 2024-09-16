@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(navground_py)
+project(navground_core_py)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../cmake)
 include(ament_python_install_namespace_package)
@@ -38,8 +38,8 @@ find_package(pybind11 REQUIRED)
 
 include_directories(include ${PROJECT_BINARY_DIR})
 
-add_library(navground_py INTERFACE )
-target_include_directories(navground_py INTERFACE include)
+add_library(navground_core_py INTERFACE )
+target_include_directories(navground_core_py INTERFACE include)
 
 # ament_python_install_package seems to not support namespace packages
 # For those: we should install the pkg to <site-packages>/navground

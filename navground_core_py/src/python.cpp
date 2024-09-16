@@ -28,11 +28,11 @@
 #include "navground/core/types.h"
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/yaml.h"
-#include "navground_py/behavior_modulation.h"
-#include "navground_py/buffer.h"
-#include "navground_py/pickle.h"
-#include "navground_py/register.h"
-#include "navground_py/yaml.h"
+#include "navground_core_py/behavior_modulation.h"
+#include "navground_core_py/buffer.h"
+#include "navground_core_py/pickle.h"
+#include "navground_core_py/register.h"
+#include "navground_core_py/yaml.h"
 
 using namespace navground::core;
 namespace py = pybind11;

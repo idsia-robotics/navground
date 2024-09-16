@@ -103,7 +103,7 @@ All-at-once
 
 
 The following script install everything needed to run navground simulations.
-Change ``navground_sim`` to another package name, like ``navground_examples``, to install additional packages.
+Change ``navground_sim_py`` to another package name, like ``navground_examples``, to install additional packages.
 
 .. tabs::
 
@@ -116,7 +116,7 @@ Change ``navground_sim`` to another package name, like ``navground_examples``, t
          python3 -m pip install colcon-common-extensions vcstool numpy h5py multiprocess
          vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
          export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
+         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim_py
 
    .. tab:: Linux
 
@@ -127,7 +127,7 @@ Change ``navground_sim`` to another package name, like ``navground_examples``, t
          python3 -m pip install colcon-common-extensions vcstool numpy h5py multiprocess
          vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
          export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
+         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim_py
 
 
    .. tab:: Windows
@@ -139,7 +139,7 @@ Change ``navground_sim`` to another package name, like ``navground_examples``, t
          python -m pip install colcon-common-extensions vcstool numpy h5py multiprocess
          vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
+         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim_py
       
 .. note::
 
@@ -410,27 +410,17 @@ Once all dependencies are installed, compile the package using ``colcon``.
 
 .. code-block:: console
 
-   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_py
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_core_py
 
-..
-   warning::
+.. _Simulation C++:
 
-   On Windows, you need to copy the dll library 
-
-   .. code-block:: console
-
-      copy install\bin\navground_core.dll install\Lib\site-packages\navground\core\navground_core.dll 
-
-
-.. _Simulation:
-
-Simulation (C++ and Python)
-###########################
+Simulation (C++)
+################
 
 Dependencies
 ------------
 
-Depends on `Core C++`_ and `Core Python`_.
+Depends on `Core C++`_.
 
 
 GEOS
@@ -512,14 +502,25 @@ Then, install HighFive.
    git clone https://github.com/BlueBrain/HighFive.git src/HighFive
    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DHIGHFIVE_UNIT_TESTS=OFF -DHIGHFIVE_USE_BOOST=OFF -DHIGHFIVE_BUILD_DOCS=OFF --packages-select HighFive
 
-multiprocess
-^^^^^^^^^^^^
+Package
+-------
 
-We use `multiprocess <https://pypi.org/project/multiprocess/>`_ instead of the `multiprocessing` package contained in the Python standard library because more flexible
+Once all dependencies are installed, compile the package using ``colcon``.
 
 .. code-block:: console
 
-   python3 -m pip install multiprocess
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim
+
+
+.. _Simulation Python:
+
+Simulation (Python)
+###################
+
+Dependencies
+------------
+
+Depends on `Simulation C++`_ and `Core Python`_.
 
 h5py
 ^^^^
@@ -529,6 +530,16 @@ To be able to reload a simulation from a saved experiment, install ``h5py``
 .. code-block:: console
 
    python3 -m pip install h5py
+
+multiprocess [optional]
+^^^^^^^^^^^^^^^^^^^^^^^
+
+We support `multiprocess <https://pypi.org/project/multiprocess/>`_ as an optional alternative of the `multiprocessing` package contained in the Python standard library
+
+.. code-block:: console
+
+   python3 -m pip install multiprocess
+
 
 websockets [optional]
 ^^^^^^^^^^^^^^^^^^^^^
@@ -567,22 +578,13 @@ Once all dependencies are installed, compile the package using ``colcon``.
 
 .. code-block:: console
 
-   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim
-
-.. 
-   warning::
-
-   On Windows, you need to copy the dll library 
-
-   .. code-block:: console
-
-      copy install\bin\navground_sim.dll install\Lib\site-packages\navground\sim\navground_sim.dll 
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim_py
 
 
 Examples and demos
 ##################
 
-Depends on `Core C++`_, `Core Python`_, and `Simulation`_.
+Depends on `Core C++`_, `Core Python`_, `Simulation C++`_, `Simulation Python`_.
 
 
 .. code-block:: console
@@ -603,7 +605,7 @@ Depends on `Core C++`_. You also need to have ROS installed and to source its se
 CoppeliaSim
 ###########
 
-Depends on `Simulation`_. You also need to install `coppeliaSim <https://www.coppeliarobotics.com>`_ (versions 4.3, 4.4, 4.5, 4.6 [latest]).
+Depends on `Simulation C++`_. You also need to install `coppeliaSim <https://www.coppeliarobotics.com>`_ (versions 4.3, 4.4, 4.5, 4.6 [latest]).
 
 
 .. code-block:: console

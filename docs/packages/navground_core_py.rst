@@ -1,6 +1,6 @@
-============
-navground_py
-============
+=================
+navground_core_py
+=================
 
 This package provides Python bindings to the core library.
 
@@ -36,8 +36,8 @@ To use the package
 Libraries
 ==========
 
-navground_py
-------------
+navground_core_py
+-----------------
 
 A C++ headers-only library with utilities for Python bindings for internal use.
 

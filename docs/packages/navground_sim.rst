@@ -9,7 +9,6 @@ Dependencies
 
 - `ament_cmake <https://index.ros.org/p/ament_cmake/#humble>`_ to build the package
 - :doc:`navground_core </packages/navground_core>` the core library
-- :doc:`navground_py </packages/navground_py>` the core python package
 - `GEOS <https://libgeos.org>`_ for computational geometry
 - `HighFive <https://github.com/BlueBrain/HighFive>`_ to write HDF5 files
 
@@ -41,41 +40,21 @@ To use the library in a C++ CMake project:
 
       #include "navground/sim/world.h"
 
-
-Python packages
-===============
-
-navground.sim
---------------
-
-A Python package to perform navigation simulations; see the :doc:`API reference </reference/sim/python/index>`.
-
-To use the package
-
-#. add the install path to ``PYTHONPATH``
-
-#. import the packge
-
-   .. code-block:: python
-
-      from navground import sim
-
 Executables
 ===========
 
 .. _info_sim:
 
-info and info_py
-----------------
+info
+----
 
-Lists registered components (behaviors, kinematics, state estimations, tasks, and scenarios).
-``info`` is limited to components implemented in C++, while ``info_py`` accesses components implemented in Python too.
+Lists registered components (behaviors, kinematics, state estimations, tasks, and scenarios) implemented in C++.
 
 
 .. argparse::
    :module: navground.sim.info
    :func: parser
-   :prog: info|info_py
+   :prog: info
    :nodescription:
    :nodefault:
 
@@ -85,81 +64,128 @@ Example
 
 .. code-block:: console
 
-   $ info_py       
+   $ info       
    Behaviors
    ---------
+   
    Dummy
    HL
-        aperture: 3.1415927410125732 [float]
-        eta: 0.5 [float]
+        aperture: 3.14159 [double]
+        barrier_angle: 1.5708 [double]
+        epsilon: 0 [double]
+        eta: 0.5 [double]
         resolution: 101 [int]
-        tau: 0.125 [float]
+        tau: 0.125 [double]
    HRVO
+        max_neighbors: 1000 [int]
+        uncertainty_offset: 0 [double]
+   Idle
    ORCA
-        effective_center: False [bool]
-        time_horizon: 10.0 [float]
-   PyDummy
-        dummy: True [bool]
-        tired: False [bool]
-   SocialForce
+        effective_center: 0 [bool]
+        max_neighbors: 1000 [int]
+        static_time_horizon: 10 [double]
+        time_horizon: 10 [double]
+        treat_obstacles_as_agents: 1 [bool]
    
    Kinematics
    ----------
    2WDiff
-        wheel_axis: 0.0 [float]
+        wheel_axis: 0 [double]
+   2WDiffDyn
+        max_acceleration: 0 [double]
+        moi: 1 [double]
+        wheel_axis: 0 [double]
    4WOmni
-        wheel_axis: 0.0 [float]
+        wheel_axis: 0 [double]
    Ahead
    Omni
    
-   State estimations
+   Modulations
+   -----------
+   LimitAcceleration
+        max_acceleration: 1.79769e+308 [double]
+        max_angular_acceleration: 1.79769e+308 [double]
+   MotorPID
+        k_d: 0 [double]
+        k_i: 0 [double]
+        k_p: 1 [double]
+   Relaxation
+        tau: 0.125 [double]
+   
+   State Estimations
    -----------------
-   Dummy
-   HL
-        aperture: 3.1415927410125732 [float]
-        eta: 0.5 [float]
-        resolution: 101 [int]
-        tau: 0.125 [float]
-   HRVO
-   ORCA
-        effective_center: False [bool]
-        time_horizon: 10.0 [float]
-   PyDummy
-        dummy: True [bool]
-        tired: False [bool]
-   SocialForce
+   Boundary
+        max_x: inf [double]
+        max_y: inf [double]
+        min_x: -inf [double]
+        min_y: -inf [double]
+        range: 1 [double]
+   Bounded
+        range: 1 [double], deprecated synonyms: range_of_view 
+        update_static_obstacles: 0 [bool]
+   Combination
+   Discs
+        include_valid: 1 [bool]
+        max_id: 0 [int]
+        max_radius: 0 [double]
+        max_speed: 0 [double]
+        number: 1 [int]
+        range: 1 [double]
+        use_nearest_point: 1 [bool]
+   Lidar
+        field_of_view: 6.28319 [double]
+        range: 1 [double]
+        resolution: 100 [int]
+        start_angle: -3.14159 [double]
    
    Tasks
    -----
-   2WDiff
-        wheel_axis: 0.0 [float]
-   4WOmni
-        wheel_axis: 0.0 [float]
-   Ahead
-   Omni
+   Direction
+        direction: [1, 0] [Eigen::Matrix<double, 2, 1>]
+   Waypoints
+        loop: 1 [bool]
+        random: 0 [bool]
+        tolerance: 1 [double]
+        waypoints: [] [std::vector<Eigen::Matrix<double, 2, 1>>]
    
    Scenarios
    ---------
-   2WDiff
-        wheel_axis: 0.0 [float]
-   4WOmni
-        wheel_axis: 0.0 [float]
-   Ahead
-   Omni
+   Antipodal
+        orientation_noise: 0 [double]
+        position_noise: 0 [double]
+        radius: 1 [double]
+        shuffle: 0 [bool]
+        tolerance: 0.1 [double]
+   Corridor
+        add_safety_to_agent_margin: 1 [bool]
+        agent_margin: 0.1 [double]
+        length: 10 [double]
+        width: 1 [double]
+   Cross
+        add_safety_to_agent_margin: 1 [bool]
+        agent_margin: 0.1 [float]
+        side: 2 [float]
+        target_margin: 0.5 [float]
+        tolerance: 0.25 [float]
+   CrossTorus
+        add_safety_to_agent_margin: 1 [bool]
+        agent_margin: 0.1 [float]
+        side: 2 [float]
+   Simple
 
 
 .. _sample:
 
-sample and sample_py
---------------------
+sample
+------
 
-Samples a world from a scenario. ``sample_py`` uses a Python interpreter to access components implemented in Python too, while ``sample`` is limited to components implemented in C++.
+Samples a world from a scenario containing components implemented in C++.
 
 
 .. argparse::
    :module: navground.sim.sample
    :func: parser
-   :prog: sample|sample_py
+   :prog: sample
    :nodescription:
 
 Example
@@ -219,15 +245,15 @@ Example
 
 .. _run:
 
-run and run_py
---------------
+run
+---
 
-Run an experiment. ``run_py`` uses a Python interpreter: it is slightly slower but has access to components implemented in Python too, while ``run`` is limited to components implemented in C++.
+Run an experiment limited to components implemented in C++.
 
 .. argparse::
    :module: navground.sim.run
    :func: parser
-   :prog: run|run_py
+   :prog: run
    :nodescription:
 
 If the experiment is recording data, it will create a directory named ``<experiment_name>_<experiment_hash>_<datestamp>`` with
@@ -247,65 +273,4 @@ Example
 
 .. note::
 
-    Although individual runs in a single thread, we can speed up experiments consisting of *multiple* runs by parallelizing them. Check out :ref:`the related guide <parallelize_guide>` to know more.
-
-.. _run_rt:
-
-run_rt
-------
-
-Run an experiment using Python in real time. You can visualize the world in a browser view.
-
-
-.. argparse::
-   :module: navground.sim.run_rt
-   :func: parser
-   :prog: run_rt
-   :nodescription:
-
-
-Example
-~~~~~~~
-
-.. code-block:: console
-
-   $ run_rt experiment.yaml --factor 5.0
-
-
-record video
-------------
-
-Record a video from an experiment.
-
-
-.. argparse::
-   :module: navground.sim.record_video
-   :func: parser
-   :prog: record_video
-   :nodescription:
-
-Example
-~~~~~~~
-
-.. code-block:: console
-
-   $ record_video experiment.yaml video.mp4 --factor 5.0
-
-replay
-------
-
-Replays an experiment in real-time. You can visualize the world in a browser view, similarly to run_rt_ but for recorded experiment, or create a video from it.
-
-
-.. argparse::
-   :module: navground.sim.replay
-   :func: parser
-   :prog: replay
-   :nodescription:
-
-Example
-~~~~~~~
-
-.. code-block:: console
-
-   $ replay ./experiment_3784746994027959661_2023-07-07_16-13-36/data.h5 --factor 10
+   Although individual runs run in a single thread, we can speed up experiments consisting of *multiple* runs by parallelizing them. Check out :ref:`the related guide <parallelize_guide>` to know more.

@@ -4,9 +4,13 @@
 
 ### Added
 
+- The `navground` executable that group together all `navground_sim_py` commands.
+
 ### Fixed
 
 ### Changed
+
+- Separated the python package `navground_sim_py` from the C++ package `navground_sim`
 
 ### Removed
 

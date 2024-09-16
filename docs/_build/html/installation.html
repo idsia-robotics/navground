@@ -166,8 +166,9 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_core.html">navground_core</a></li>
-<li class="toctree-l2"><a class="reference internal" href="packages/navground_py.html">navground_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages/navground_core_py.html">navground_core_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_sim.html">navground_sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages/navground_sim_py.html">navground_sim_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_ros.html">navground_ros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_msgs.html">navground_msgs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_coppeliasim.html">navground_coppeliasim</a></li>
@@ -471,22 +472,29 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Package</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-c-and-python">Simulation (C++ and Python)</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Dependencies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-c">Simulation (C++)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Dependencies</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#geos">GEOS</a><ul class="nav section-nav flex-column">
-<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Installation from source</a></li>
-<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Binary installation</a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Installation from source</a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Binary installation</a></li>
 </ul>
 </li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#highfive">HighFive</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#multiprocess">multiprocess</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Package</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-python">Simulation (Python)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Dependencies</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#h5py">h5py</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#multiprocess-optional">multiprocess [optional]</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#websockets-optional">websockets [optional]</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#cairosvg-optional">cairosvg [optional]</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#moviepy-optional">moviepy [optional]</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Package</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Package</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-and-demos">Examples and demos</a></li>
@@ -560,14 +568,14 @@ document.write(`
 </div></div>
 </div>
 <p>The following script install everything needed to run navground simulations.
-Change <code class="docutils literal notranslate"><span class="pre">navground_sim</span></code> to another package name, like <code class="docutils literal notranslate"><span class="pre">navground_examples</span></code>, to install additional packages.</p>
+Change <code class="docutils literal notranslate"><span class="pre">navground_sim_py</span></code> to another package name, like <code class="docutils literal notranslate"><span class="pre">navground_examples</span></code>, to install additional packages.</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-3-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-3-3-0" name="3-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-3-3-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-1" name="3-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-3-3-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-2" name="3-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-3-3-0" class="sphinx-tabs-panel" id="panel-3-3-0" name="3-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir ws</span>
 <span class="go">cd ws</span>
 <span class="go">python3 -m pip install colcon-common-extensions vcstool numpy h5py multiprocess</span>
 <span class="go">vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos</span>
 <span class="go">export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml</span>
-<span class="go">colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim</span>
+<span class="go">colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim_py</span>
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-3-3-1" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-1" name="3-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir ws</span>
@@ -575,7 +583,7 @@ Change <code class="docutils literal notranslate"><span class="pre">navground_si
 <span class="go">python3 -m pip install colcon-common-extensions vcstool numpy h5py multiprocess</span>
 <span class="go">vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos</span>
 <span class="go">export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml</span>
-<span class="go">colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim</span>
+<span class="go">colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim_py</span>
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-3-3-2" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-2" name="3-2" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir ws</span>
@@ -583,7 +591,7 @@ Change <code class="docutils literal notranslate"><span class="pre">navground_si
 <span class="go">python -m pip install colcon-common-extensions vcstool numpy h5py multiprocess</span>
 <span class="go">vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos</span>
 <span class="go">set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml</span>
-<span class="go">colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim</span>
+<span class="go">colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim_py</span>
 </pre></div>
 </div>
 </div></div>
@@ -773,27 +781,27 @@ Just install the python package of the corresponding version.</p>
 <section id="id9">
 <h4>Package<a class="headerlink" href="#id9" title="Link to this heading">#</a></h4>
 <p>Once all dependencies are installed, compile the package using <code class="docutils literal notranslate"><span class="pre">colcon</span></code>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_py</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_core_py</span>
 </pre></div>
 </div>
 </section>
 </section>
-<section id="simulation-c-and-python">
-<span id="simulation"></span><h3>Simulation (C++ and Python)<a class="headerlink" href="#simulation-c-and-python" title="Link to this heading">#</a></h3>
-<section id="id10">
-<h4>Dependencies<a class="headerlink" href="#id10" title="Link to this heading">#</a></h4>
-<p>Depends on <a class="reference internal" href="#core-c">Core C++</a> and <a class="reference internal" href="#core-python">Core Python</a>.</p>
+<section id="simulation-c">
+<span id="id10"></span><h3>Simulation (C++)<a class="headerlink" href="#simulation-c" title="Link to this heading">#</a></h3>
+<section id="id11">
+<h4>Dependencies<a class="headerlink" href="#id11" title="Link to this heading">#</a></h4>
+<p>Depends on <a class="reference internal" href="#core-c">Core C++</a>.</p>
 <section id="geos">
 <h5>GEOS<a class="headerlink" href="#geos" title="Link to this heading">#</a></h5>
-<section id="id11">
-<h6>Installation from source<a class="headerlink" href="#id11" title="Link to this heading">#</a></h6>
+<section id="id12">
+<h6>Installation from source<a class="headerlink" href="#id12" title="Link to this heading">#</a></h6>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/libgeos/geos.git src/geos</span>
 <span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DGEOS_BUILD_DEVELOPER=OFF --packages-select GEOS</span>
 </pre></div>
 </div>
 </section>
-<section id="id12">
-<h6>Binary installation<a class="headerlink" href="#id12" title="Link to this heading">#</a></h6>
+<section id="id13">
+<h6>Binary installation<a class="headerlink" href="#id13" title="Link to this heading">#</a></h6>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-9-9-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-9-9-0" name="9-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-9-9-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-9-9-1" name="9-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-9-9-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-9-9-2" name="9-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-9-9-0" class="sphinx-tabs-panel" id="panel-9-9-0" name="9-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">brew install geos</span>
 </pre></div>
@@ -835,17 +843,31 @@ Just install the python package of the corresponding version.</p>
 </pre></div>
 </div>
 </section>
-<section id="multiprocess">
-<h5>multiprocess<a class="headerlink" href="#multiprocess" title="Link to this heading">#</a></h5>
-<p>We use <a class="reference external" href="https://pypi.org/project/multiprocess/">multiprocess</a> instead of the <cite>multiprocessing</cite> package contained in the Python standard library because more flexible</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install multiprocess</span>
+</section>
+<section id="id14">
+<h4>Package<a class="headerlink" href="#id14" title="Link to this heading">#</a></h4>
+<p>Once all dependencies are installed, compile the package using <code class="docutils literal notranslate"><span class="pre">colcon</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim</span>
 </pre></div>
 </div>
 </section>
+</section>
+<section id="simulation-python">
+<span id="id15"></span><h3>Simulation (Python)<a class="headerlink" href="#simulation-python" title="Link to this heading">#</a></h3>
+<section id="id16">
+<h4>Dependencies<a class="headerlink" href="#id16" title="Link to this heading">#</a></h4>
+<p>Depends on <a class="reference internal" href="#simulation-c">Simulation C++</a> and <a class="reference internal" href="#core-python">Core Python</a>.</p>
 <section id="h5py">
 <h5>h5py<a class="headerlink" href="#h5py" title="Link to this heading">#</a></h5>
 <p>To be able to reload a simulation from a saved experiment, install <code class="docutils literal notranslate"><span class="pre">h5py</span></code></p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install h5py</span>
+</pre></div>
+</div>
+</section>
+<section id="multiprocess-optional">
+<h5>multiprocess [optional]<a class="headerlink" href="#multiprocess-optional" title="Link to this heading">#</a></h5>
+<p>We support <a class="reference external" href="https://pypi.org/project/multiprocess/">multiprocess</a> as an optional alternative of the <cite>multiprocessing</cite> package contained in the Python standard library</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install multiprocess</span>
 </pre></div>
 </div>
 </section>
@@ -871,17 +893,17 @@ Just install the python package of the corresponding version.</p>
 </div>
 </section>
 </section>
-<section id="id14">
-<h4>Package<a class="headerlink" href="#id14" title="Link to this heading">#</a></h4>
+<section id="id17">
+<h4>Package<a class="headerlink" href="#id17" title="Link to this heading">#</a></h4>
 <p>Once all dependencies are installed, compile the package using <code class="docutils literal notranslate"><span class="pre">colcon</span></code>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim_py</span>
 </pre></div>
 </div>
 </section>
 </section>
 <section id="examples-and-demos">
 <h3>Examples and demos<a class="headerlink" href="#examples-and-demos" title="Link to this heading">#</a></h3>
-<p>Depends on <a class="reference internal" href="#core-c">Core C++</a>, <a class="reference internal" href="#core-python">Core Python</a>, and <a class="reference internal" href="#simulation">Simulation</a>.</p>
+<p>Depends on <a class="reference internal" href="#core-c">Core C++</a>, <a class="reference internal" href="#core-python">Core Python</a>, <a class="reference internal" href="#simulation-c">Simulation C++</a>, <a class="reference internal" href="#simulation-python">Simulation Python</a>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_examples navground_examples_py navground_demos</span>
 </pre></div>
 </div>
@@ -895,7 +917,7 @@ Just install the python package of the corresponding version.</p>
 </section>
 <section id="coppeliasim">
 <h3>CoppeliaSim<a class="headerlink" href="#coppeliasim" title="Link to this heading">#</a></h3>
-<p>Depends on <a class="reference internal" href="#simulation">Simulation</a>. You also need to install <a class="reference external" href="https://www.coppeliarobotics.com">coppeliaSim</a> (versions 4.3, 4.4, 4.5, 4.6 [latest]).</p>
+<p>Depends on <a class="reference internal" href="#simulation-c">Simulation C++</a>. You also need to install <a class="reference external" href="https://www.coppeliarobotics.com">coppeliaSim</a> (versions 4.3, 4.4, 4.5, 4.6 [latest]).</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export COPPELIASIM_ROOT_DIR=&lt;path to the folder containing the programming subfolder&gt;</span>
 <span class="go">colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_coppeliasim</span>
 </pre></div>
@@ -1045,22 +1067,29 @@ Just install the python package of the corresponding version.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Package</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-c-and-python">Simulation (C++ and Python)</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Dependencies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-c">Simulation (C++)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Dependencies</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#geos">GEOS</a><ul class="nav section-nav flex-column">
-<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Installation from source</a></li>
-<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Binary installation</a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Installation from source</a></li>
+<li class="toc-h6 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Binary installation</a></li>
 </ul>
 </li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#highfive">HighFive</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#multiprocess">multiprocess</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Package</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-python">Simulation (Python)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Dependencies</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#h5py">h5py</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#multiprocess-optional">multiprocess [optional]</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#websockets-optional">websockets [optional]</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#cairosvg-optional">cairosvg [optional]</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#moviepy-optional">moviepy [optional]</a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Package</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Package</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-and-demos">Examples and demos</a></li>

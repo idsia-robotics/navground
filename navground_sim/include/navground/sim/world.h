@@ -66,6 +66,11 @@ ng_float_t penetration_inside_disc(const Disc &disc, const Vector2 &center,
  */
 struct NAVGROUND_SIM_EXPORT Wall : Entity {
   /**
+   * @brief      The line segment
+   */
+  LineSegment line; 
+
+  /**
    * @brief      Constructs a new instance.
    *
    * @param[in]  p1    The line segment start vertex
@@ -81,22 +86,23 @@ struct NAVGROUND_SIM_EXPORT Wall : Entity {
    *
    * @param[in]  ls    A line segment
    */
-  Wall(const LineSegment &ls) : Entity(), line(ls) {}
+  explicit Wall(const LineSegment &ls) : Entity(), line(ls) {}
   /**
    * @brief      LineSegment conversion operator.
    */
   operator LineSegment() const { return line; }
-
-  /**
-   * The line segment
-   */
-  LineSegment line;
 };
 
 /**
  * @brief      A static obstacle with circular shape
  */
 struct NAVGROUND_SIM_EXPORT Obstacle : Entity {
+
+  /**
+   * @brief      The disc.
+   */
+  Disc disc;
+
   /**
    * @brief      Constructs a new instance.
    *
@@ -123,11 +129,6 @@ struct NAVGROUND_SIM_EXPORT Obstacle : Entity {
   Disc get_translated_disc(const Vector2 &delta) const {
     return Disc(disc.position + delta, disc.radius);
   }
-
-  /**
-   * The disc.
-   */
-  Disc disc;
 };
 
 /**

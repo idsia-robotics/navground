@@ -306,7 +306,6 @@ PYBIND11_MODULE(_navground, m) {
 #if PYBIND11_VERSION_MAJOR >= 2 && PYBIND11_VERSION_MINOR >= 10
 
   options.disable_enum_members_docstring();
-
 #endif
 
   declare_register<Behavior>(m, "Behavior");

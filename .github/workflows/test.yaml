@@ -3,28 +3,47 @@ on: workflow_dispatch
 env:
   COLCON_DEFAULTS_FILE: src/navground/colcon/defaults.yaml
 jobs:
+  build_deps:
+    name: build deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - run: pip install colcon-common-extensions vcstool 
+      - run: vcs import --shallow --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/external.repos
+      - run: colcon build --metas src/navground/colcon/navground.meta
+      - name: archive install
+        uses: actions/upload-artifact@v4
+        with:
+          name: install_deps_${{runner.os}}
+          path: install
   build_cpp:
-    name: build cpp packages
+    needs: build_deps
+    name: build navground cpp packages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           path: src/navground
+      - uses: actions/download-artifact@v4
+        with:
+          name: install_deps_${{runner.os}}
+          path: install
       - uses: actions/setup-python@v5
         with:
           python-version: 3.12
-      - run: pip install colcon-common-extensions vcstool 
-      - run: vcs import --input src/navground/colcon/external.repos --shallow
-      - run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to pybind11 navground_core
-      - name: Archive install
+      - run: pip install colcon-common-extensions
+      - run: colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core
+      - name: archive install
         uses: actions/upload-artifact@v4
         with:
-          name: install
+          name: install_cpp
           path: install
   build_py:
     needs: build_cpp
     runs-on: ubuntu-latest
-    name: build python packages
+    name: build navground python packages
     strategy:
       matrix:
         python-version: ["3.11", "3.12"]
@@ -32,20 +51,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: src/navground
-      - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
-          name: install
+          name: install_cpp_${{runner.os}}
           path: install
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install colcon-common-extensions
       - run: colcon build --metas src/navground/colcon/navground.meta --packages-select navground_py
-      - name: Archive install
+      - name: archive install
         uses: actions/upload-artifact@v4
         with:
-          name: install
+          name: install_${{runner.os}}_py${{matrix.python-version}}
           path: install
        
 

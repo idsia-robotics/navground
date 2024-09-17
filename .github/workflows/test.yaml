@@ -15,7 +15,7 @@ jobs:
           python-version: 3.12
       - run: pip install colcon-common-extensions vcstool 
       - run: vcs import --input src/navground/colcon/external.repos --shallow
-      - run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_core
+      - run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to pybind11 navground_core
       - name: Archive install
         uses: actions/upload-artifact@v4
         with:
@@ -41,7 +41,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install colcon-common-extensions
-      - run: colcon build --metas src/navground/colcon/navground.meta --packages-skip-build-finished --packages-up-to navground_py
+      - run: colcon build --metas src/navground/colcon/navground.meta --packages-select navground_py
       - name: Archive install
         uses: actions/upload-artifact@v4
         with:

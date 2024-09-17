@@ -22,6 +22,7 @@ jobs:
           name: install
           path: install
   build_py:
+    needs: build_cpp
     runs-on: ubuntu-latest
     name: build python packages
     strategy:

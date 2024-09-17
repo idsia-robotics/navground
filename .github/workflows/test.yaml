@@ -40,6 +40,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install colcon-common-extensions
+      - run: pwd
+      - run: ls -lah src
       - run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_py
        
 

@@ -41,7 +41,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install colcon-common-extensions
-      - run: colcon build --metas src/navground/colcon/navground.meta --packages-select pybind11 navground_py
+      - run: colcon build --metas src/navground/colcon/navground.meta --packages-skip-build-finished --packages-up-to navground_py
       - name: Archive install
         uses: actions/upload-artifact@v4
         with:

@@ -1,0 +1,25 @@
+name: Test
+on: workflow_dispatch
+env:
+  COLCON_DEFAULTS_FILE: src/navground/colcon/defaults.yaml
+jobs:
+  build:
+    name: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v2
+        path: src/navground
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - run: pip install colcon-common-extensions vcstool
+      - run: vcs import --input colcon/deps.repos 
+      - run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_core
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+        

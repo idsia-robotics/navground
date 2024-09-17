@@ -7,11 +7,14 @@ jobs:
     name: build deps
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
       - uses: actions/setup-python@v5
         with:
           python-version: 3.12
       - run: pip install colcon-common-extensions vcstool 
-      - run: vcs import --shallow --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/external.repos
+      - run: vcs import --shallow --input src/navground/colcon/external.repos
       - run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to Eigen3 GEOS HDF5 HighFive YAML_CPP ament_cmake argparse pybind11
       - name: archive install
         uses: actions/upload-artifact@v4

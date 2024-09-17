@@ -12,7 +12,7 @@ jobs:
           python-version: 3.12
       - run: pip install colcon-common-extensions vcstool 
       - run: vcs import --shallow --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/external.repos
-      - run: colcon build --metas src/navground/colcon/navground.meta
+      - run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to Eigen3 GEOS HDF5 HighFive YAML_CPP ament_cmake argparse pybind11
       - name: archive install
         uses: actions/upload-artifact@v4
         with:

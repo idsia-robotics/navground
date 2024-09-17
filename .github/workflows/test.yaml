@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: 3.12
       - run: pip install colcon-common-extensions vcstool
-      - run: vcs import --input colcon/deps.repos 
+      - run: vcs import --input src/navground/colcon/external.repos 
       - run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_core
       - uses: actions/setup-python@v5
         with:

@@ -2,11 +2,13 @@ import asyncio
 import logging
 import threading
 import time
-from typing import Optional, Callable
+from typing import Optional, Callable, TYPE_CHECKING
 
 from . import World
 
-from .ui.web_ui import Rect, WebUI
+if TYPE_CHECKING:
+    from .ui.web_ui import Rect, WebUI
+
 
 Callback = Callable[[], bool]
 
@@ -26,8 +28,8 @@ class RealTimeSimulation:
                  world: World,
                  time_step: float,
                  factor: float = 1.0,
-                 web_ui: Optional[WebUI] = None,
-                 bounds: Optional[Rect] = None):
+                 web_ui: Optional['WebUI'] = None,
+                 bounds: Optional['Rect'] = None):
         """
         Constructs a new instance.
 

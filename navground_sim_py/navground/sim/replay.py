@@ -3,14 +3,15 @@ import asyncio
 import logging
 import pathlib
 import sys
-from typing import Optional, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 import h5py
 
 from .real_time import RealTimeSimulation
 from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
-from .ui import open_html
-from .ui.web_ui import Rect, WebUI
+
+if TYPE_CHECKING:
+    from .ui.web_ui import Rect, WebUI
 
 
 class RealTimeReplay(RealTimeSimulation):
@@ -28,8 +29,8 @@ class RealTimeReplay(RealTimeSimulation):
     def __init__(self,
                  run: RecordedExperimentalRun,
                  factor: float = 1.0,
-                 web_ui: Optional[WebUI] = None,
-                 bounds: Optional[Rect] = None):
+                 web_ui: Optional['WebUI'] = None,
+                 bounds: Optional['Rect'] = None):
         """
         Constructs a new instance.
 
@@ -113,6 +114,9 @@ async def run(file: h5py.File,
               seed: int = -1,
               video: Union[str, pathlib.Path] = '') -> None:
     if with_ui:
+
+        from .ui.web_ui import WebUI
+
         web_ui = WebUI(host='127.0.0.1', max_rate=ui_fps)
         await web_ui.prepare()
         logging.info("Waiting for a client")
@@ -158,6 +162,9 @@ def _main(arg: argparse.Namespace) -> None:
             path = pathlib.Path(arg.html)
         else:
             path = None
+
+        from .ui import open_html
+
         open_html(path=path)
     try:
         file = h5py.File(arg.path, 'r')

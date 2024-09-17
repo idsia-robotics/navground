@@ -3,13 +3,15 @@ import logging
 import os
 import random
 import sys
-from typing import Any, Optional
+from typing import Any, Optional, TYPE_CHECKING
 
 import h5py
 
 from . import (Agent, Experiment, ExperimentalRun, RecordedExperiment,
                RecordedExperimentalRun, load_experiment, load_plugins)
-from .ui import Decorate
+
+if TYPE_CHECKING:
+    from .ui import Decorate
 
 
 def run(path: str,
@@ -17,7 +19,7 @@ def run(path: str,
         factor: float = 1.0,
         fps: int = 24,
         seed: int = -1,
-        decorate: Optional[Decorate] = None,
+        decorate: Optional['Decorate'] = None,
         follow_index: int = -1,
         **kwargs: Any) -> None:
 
@@ -133,12 +135,12 @@ def _load_experiment(value: str) -> Optional[Experiment]:
         return None
 
 
-def main(decorate: Optional[Decorate] = None) -> None:
+def main(decorate: Optional['Decorate'] = None) -> None:
     arg = parser().parse_args()
     _main(arg, decorate=decorate)
 
 
-def _main(arg: argparse.Namespace, decorate: Optional[Decorate] = None) -> None:
+def _main(arg: argparse.Namespace, decorate: Optional['Decorate'] = None) -> None:
     logging.basicConfig(level=logging.INFO)
     load_plugins()
     experiment = _load_recorded_experiment(arg.input) or _load_experiment(

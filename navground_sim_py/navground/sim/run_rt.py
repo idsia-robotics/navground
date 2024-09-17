@@ -5,12 +5,15 @@ import os
 import pathlib
 import random
 import sys
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from . import _Scenario, World, load_experiment, load_plugins
 from .real_time import RealTimeSimulation
-from .ui import Decorate, open_html
-from .ui.web_ui import Rect, WebUI
+
+
+if TYPE_CHECKING:
+    from .ui import Decorate
+    from .ui.web_ui import Rect
 
 
 def until_done(world: World, max_duration: float = -1):
@@ -31,17 +34,20 @@ async def run(scenario: _Scenario,
               max_duration: float = -1,
               port: int = 8000,
               background_color: str = 'lightgray',
-              bounds: Optional[Rect] = None,
+              bounds: Optional['Rect'] = None,
               display_deadlocks: bool = False,
               display_collisions: bool = False,
               seed: int = -1,
-              decorate: Optional[Decorate] = None) -> None:
+              decorate: Optional['Decorate'] = None) -> None:
     world = World()
     if seed < 0:
         seed = random.randint(0, 2**31)
     scenario.init_world(world, seed=seed)
     world.run(1, 0.0)
     if with_ui:
+
+        from .ui.web_ui import WebUI
+
         web_ui = WebUI(host='127.0.0.1',
                        port=port,
                        max_rate=ui_fps,
@@ -129,7 +135,7 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
         default='')
 
 
-def _main(arg: argparse.Namespace, decorate: Optional[Decorate] = None) -> None:
+def _main(arg: argparse.Namespace, decorate: Optional['Decorate'] = None) -> None:
     logging.basicConfig(level=logging.INFO)
     load_plugins()
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
@@ -144,6 +150,9 @@ def _main(arg: argparse.Namespace, decorate: Optional[Decorate] = None) -> None:
             path = pathlib.Path(arg.html)
         else:
             path = None
+
+        from .ui import open_html
+
         open_html(width=arg.width,
                   port=arg.port,
                   display_shape=arg.display_shape,

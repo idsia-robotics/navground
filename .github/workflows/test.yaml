@@ -41,7 +41,7 @@ jobs:
       - name: archive install
         uses: actions/upload-artifact@v4
         with:
-          name: install_cpp
+          name: install_cpp_${{runner.os}}
           path: install
   build_py:
     needs: build_cpp

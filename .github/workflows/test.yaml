@@ -16,7 +16,7 @@ jobs:
           python-version: 3.12
       - run: pip install colcon-common-extensions vcstool
       - run: vcs import --input src/navground/colcon/external.repos 
-      - run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_core
+      - run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to ament_cmake
       - name: Archive install
         uses: actions/upload-artifact@v4
         with:

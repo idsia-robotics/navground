@@ -4,11 +4,8 @@ env:
   COLCON_DEFAULTS_FILE: src/navground/colcon/defaults.yaml
 jobs:
   build:
-    name: test
+    name: build cpp packages
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -19,8 +16,30 @@ jobs:
       - run: pip install colcon-common-extensions vcstool
       - run: vcs import --input src/navground/colcon/external.repos 
       - run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_core
+      - name: Archive install
+        uses: actions/upload-artifact@v4
+        with:
+          name: install
+          path: install
+  build_py:
+    runs-on: ubuntu-latest
+    name: build python packages
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: install
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - run: pip install colcon-common-extensions
+      - run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_py
+       
 
         

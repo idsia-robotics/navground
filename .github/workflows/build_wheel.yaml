@@ -1,7 +1,9 @@
 name: build_wheel
 
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows: [build_py]
+    types: [completed]
 
 jobs:
   test:

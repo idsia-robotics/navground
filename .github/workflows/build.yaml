@@ -48,7 +48,7 @@ jobs:
       - name: build navgroun cpp
         # if: runner.os != 'Windows'
         run: |
-          source install/setup.bash
+          . install/setup.bash
           colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim # navground_examples
       # - if: runner.os == 'Windows'
       #   run: |

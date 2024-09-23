@@ -1,0 +1,86 @@
+name: Build
+on: workflow_dispatch
+env:
+  COLCON_DEFAULTS_FILE: src/navground/colcon/defaults.yaml
+jobs:
+  build_cpp:
+    name: build navground cpp packages
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - run: pip install colcon-common-extensions
+      - uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: install
+          key: ${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}
+      - name: build deps
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install vcstool
+          vcs import --shallow --input src/navground/colcon/deps.repos
+          colcon build --metas src/navground/colcon/navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11
+          vcs import --shallow --input src/navground/colcon/ament.repos
+          colcon build --metas src/navground/colcon/navground.meta --packages-up-to ament_cmake ament_package ament_index_cpp
+      - uses: actions/cache/save@v4
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: install
+          key: ${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}   
+      - run: colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim navground_examples
+      - name: archive install
+        uses: actions/upload-artifact@v4
+        with:
+          name: install-${{ runner.os }}-${{ runner.arch }}
+          path: install
+  build_py:
+    needs: build_cpp
+    runs-on: macos-latest
+    name: build navground python packages
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+      - uses: actions/download-artifact@v4
+        with:
+          name: install-${{ runner.os }}-${{ runner.arch }}
+          path: install
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install colcon-common-extensions git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+      - run: source ./install/setup.bash && colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core_py navground_sim_py navground_examples_py
+      - name: archive install
+        uses: actions/upload-artifact@v4
+        with:
+          name: install-${{ runner.os }}-${{ runner.arch }}-py${{matrix.python-version}}
+          path: install
+      - name: build wheel
+        run: |
+          cd src/navground/navground_py
+          python setup.py bdist_wheel
+      - if: runner.os == 'macOS'
+        run: |
+          pip install delocate
+          delocate-wheel -w fixed -v dist/*.whl
+      - if: runner.os == 'Linux'
+        run: |
+          pip install auditwheel
+          auditwheel repair --plat linux_aarch64 -w fixed dist/*.whl
+      - if: runner.os == 'Windows'
+        run: |
+          pip install delvewheel
+          delvewheel repair -w fixed dist/*.whl
+      - name: archive wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheel-${{ runner.os }}-${{ runner.arch }}-py${{matrix.python-version}}
+          path: fixed/*

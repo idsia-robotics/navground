@@ -1,0 +1,11 @@
+name: Placeholder
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show environment
+        run: echo "🔎 The name of your branch is ${{ github.ref }}."

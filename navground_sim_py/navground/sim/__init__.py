@@ -5,7 +5,7 @@ if TYPE_CHECKING:
     import tqdm
 
 import navground.core
-import pkg_resources
+import importlib.metadata
 from navground.core import _register, load_cpp_plugins
 from navground.core import load_py_plugins as _load_py_core_plugins
 from navground.core import register
@@ -105,9 +105,9 @@ TaskCallback = Callable[[List[float]], None]
 
 def load_py_plugins():
     _load_py_core_plugins()
-    for name in ('navground_tasks', 'navground_state_estimations',
-                 'navground_scenarios'):
-        for entry_point in pkg_resources.iter_entry_points(name):
+    for group in ('navground_tasks', 'navground_state_estimations',
+                  'navground_scenarios'):
+        for entry_point in importlib.metadata.entry_points(group=group):
             entry_point.load()
 
 

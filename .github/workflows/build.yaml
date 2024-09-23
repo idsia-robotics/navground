@@ -88,7 +88,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
       - run: pip install colcon-common-extensions wheel libclang
-      - run: |
+      - if: runner.os != 'Windows'
+        run: |
           git clone https://github.com/jeguzzi/pybind11_mkdoc.git --branch rst src/pybind11_mkdoc
           cd src/pybind11_mkdoc
           pip install .

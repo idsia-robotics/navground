@@ -113,8 +113,8 @@ jobs:
           delocate-wheel -w fixed -v dist/*.whl
       - if: runner.os == 'Linux'
         run: |
-          apt-get update
-          apt-get -y install patchelf
+          sudo apt-get update
+          sudo apt-get -y install patchelf
           pip install auditwheel
           auditwheel repair --plat linux_aarch64 -w fixed dist/*.whl
       - if: runner.os == 'Windows'

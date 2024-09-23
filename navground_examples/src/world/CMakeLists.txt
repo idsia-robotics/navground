@@ -1,11 +1,11 @@
 add_executable(world world.cpp)
-ament_target_dependencies(world navground_sim)
+target_link_libraries(world navground_sim::navground_sim)
 
 add_executable(world_yaml world_from_yaml.cpp)
-ament_target_dependencies(world_yaml navground_sim)
+target_link_libraries(world_yaml navground_sim::navground_sim)
 
 add_executable(world_group world_with_group.cpp)
-ament_target_dependencies(world_group navground_sim)
+target_link_libraries(world_group navground_sim::navground_sim)
 
 install(TARGETS
   world 

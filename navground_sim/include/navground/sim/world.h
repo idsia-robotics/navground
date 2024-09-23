@@ -18,7 +18,7 @@
 #include "navground/core/types.h"
 #include "navground/sim/agent.h"
 #include "navground/sim/entity.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 
 using navground::core::Disc;
 using navground::core::LineSegment;

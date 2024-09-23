@@ -1,8 +1,8 @@
 add_executable(collision collision.cpp)
-ament_target_dependencies(collision navground_core)
+target_link_libraries(collision navground_core::navground_core)
 
 add_executable(collision_cached cached_collision.cpp)
-ament_target_dependencies(collision_cached navground_core)
+target_link_libraries(collision_cached navground_core::navground_core)
 
 install(TARGETS
   collision 

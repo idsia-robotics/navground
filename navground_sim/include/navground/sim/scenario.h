@@ -14,7 +14,7 @@
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/sampling/sampler.h"
 #include "navground/sim/world.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 
 using navground::core::Disc;
 using navground::core::HasProperties;

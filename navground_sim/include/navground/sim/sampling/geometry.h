@@ -10,7 +10,7 @@
 #include <random>
 
 #include "navground/core/states/geometric.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 
 namespace navground::sim {
 

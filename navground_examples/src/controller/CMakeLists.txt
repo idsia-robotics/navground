@@ -1,11 +1,11 @@
 add_executable(controller controller.cpp)
-ament_target_dependencies(controller navground_core)
+target_link_libraries(controller navground_core::navground_core)
 
 add_executable(controller_3d controller_3d.cpp)
-ament_target_dependencies(controller_3d navground_core)
+target_link_libraries(controller_3d navground_core::navground_core)
 
 add_executable(controller_async controller_async.cpp)
-ament_target_dependencies(controller_async navground_core)
+target_link_libraries(controller_async navground_core::navground_core)
 
 
 install(TARGETS

@@ -3,6 +3,7 @@ import numpy
 import os
 import typing
 import math
+import pathlib
 
 __all__ = [
     'Action', 'AheadKinematics', 'Behavior', 'BehaviorRegister', 'Buffer',
@@ -3201,27 +3202,10 @@ def load_kinematics(value: str) -> typing.Any:
     """
 
 
-def load_plugins(plugins: str = '',
-                 env: str = '',
-                 directory: os.PathLike | None = None) -> None:
-    """
-    Loads plugins
-
-    Plugins are shared libraries that extend one or more registered
-    classes.
-
-    :param plugins:
-        A list of paths separated by ";".
-
-    :param env:
-        An environment variable with additional paths separated by ";". If
-        empty, it defaults to ``"NAVGROUND_PLUGINS"``
-
-    :param directory:
-        A directory with files containing additional paths separated by
-        ";". If null, it defaults to the value of the macro
-        ``NAVGROUND_PLUGINS_PATH``
-    """
+def load_plugins(plugins: set[pathlib.Path] = set(),
+                 directories: dict[set[pathlib.Path], set[pathlib.Path]] = {},
+                 include_default: bool = True) -> None:
+    ...
 
 
 def to_absolute(value: Vector2Like, reference: Pose2) -> numpy.ndarray:

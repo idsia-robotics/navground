@@ -1,0 +1,23 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+include("${CMAKE_CURRENT_LIST_DIR}/navground_coreTargets.cmake")
+
+set(NAVGROUND_PLUGINS_IN_AMENT_INDEX @NAVGROUND_PLUGINS_IN_AMENT_INDEX@)
+
+
+# these are needed to export dependencies
+# similar to ament_export_dependencies
+
+find_dependency(argparse)
+find_dependency(yaml-cpp)
+find_dependency(Eigen3 3.3 NO_MODULE)
+if (NAVGROUND_PLUGINS_IN_AMENT_INDEX)
+  find_dependency(ament_cmake)
+  find_dependency(ament_index_cpp)
+endif()
+
+check_required_components(navground_core)
+
+include("${CMAKE_CURRENT_LIST_DIR}/register_plugins.cmake")

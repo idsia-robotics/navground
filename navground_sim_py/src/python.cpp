@@ -44,11 +44,11 @@
 #include "navground/sim/yaml/experiment.h"
 #include "navground/sim/yaml/scenario.h"
 #include "navground/sim/yaml/world.h"
-#include "navground_core_py/behavior_modulation.h"
-#include "navground_core_py/collection.h"
-#include "navground_core_py/pickle.h"
-#include "navground_core_py/register.h"
-#include "navground_core_py/yaml.h"
+#include "navground/core_py/behavior_modulation.h"
+#include "navground/core_py/collection.h"
+#include "navground/core_py/pickle.h"
+#include "navground/core_py/register.h"
+#include "navground/core_py/yaml.h"
 
 using namespace navground::core;
 using namespace navground::sim;

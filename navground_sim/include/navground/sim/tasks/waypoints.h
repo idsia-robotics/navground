@@ -10,7 +10,7 @@
 #include "navground/core/common.h"
 #include "navground/core/types.h"
 #include "navground/sim/task.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 
 using navground::core::make_property;
 using navground::core::Properties;

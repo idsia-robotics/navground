@@ -35,7 +35,6 @@ else()
   set(NG_FLOAT_T float)
 endif()
 
-
 find_package(CoppeliaSim 4 REQUIRED)
 find_package(navground_core REQUIRED)
 find_package(navground_sim REQUIRED)

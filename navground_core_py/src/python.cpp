@@ -28,24 +28,22 @@
 #include "navground/core/types.h"
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/yaml.h"
-#include "navground_core_py/behavior_modulation.h"
-#include "navground_core_py/buffer.h"
-#include "navground_core_py/pickle.h"
-#include "navground_core_py/register.h"
-#include "navground_core_py/yaml.h"
+#include "navground/core_py/behavior_modulation.h"
+#include "navground/core_py/buffer.h"
+#include "navground/core_py/pickle.h"
+#include "navground/core_py/register.h"
+#include "navground/core_py/yaml.h"
 
 using namespace navground::core;
 namespace py = pybind11;
 
 PYBIND11_MAKE_OPAQUE(std::map<std::string, Buffer>);
 
-template <typename T>
-static std::string to_string(const T &value) {
+template <typename T> static std::string to_string(const T &value) {
   return std::to_string(value);
 }
 
-template <>
-std::string to_string(const Vector2 &value) {
+template <> std::string to_string(const Vector2 &value) {
   return "(" + std::to_string(value[0]) + ", " + std::to_string(value[1]) + ")";
 }
 
@@ -54,60 +52,63 @@ std::string to_string(const Vector2 &value) {
 //   return value ? "True" : "False";
 // }
 
-template <>
-std::string to_string(const Frame &frame) {
+template <> std::string to_string(const Frame &frame) {
   return frame == Frame::relative ? "Frame.relative" : "Frame.absolute";
 }
 
-template <>
-std::string to_string(const Pose2 &value) {
+template <> std::string to_string(const Pose2 &value) {
   return "Pose2(" + to_string(value.position) + ", " +
          std::to_string(value.orientation) + ")";
 }
 
-template <>
-std::string to_string(const Twist2 &value) {
+template <> std::string to_string(const Twist2 &value) {
   return "Twist2(" + to_string(value.velocity) + ", " +
          std::to_string(value.angular_speed) +
          ", frame=" + to_string(value.frame) + ")";
 }
 
-template <>
-std::string to_string(const Target &value) {
+template <> std::string to_string(const Target &value) {
   std::string r = "Target(";
   bool first = true;
   if (value.position) {
-    if (!first) r += ", ";
+    if (!first)
+      r += ", ";
     r += "position=" + to_string(*value.position);
     first = false;
   }
   if (value.orientation) {
-    if (!first) r += ", ";
+    if (!first)
+      r += ", ";
     r += "orientation=" + to_string(*value.orientation);
     first = false;
   }
   if (value.direction) {
-    if (!first) r += ", ";
+    if (!first)
+      r += ", ";
     r += "direction=" + to_string(*value.direction);
     first = false;
   }
   if (value.speed) {
-    if (!first) r += ", ";
+    if (!first)
+      r += ", ";
     r += "speed=" + to_string(*value.speed);
     first = false;
   }
   if (value.angular_speed) {
-    if (!first) r += ", ";
+    if (!first)
+      r += ", ";
     r += "angular_speed=" + to_string(*value.angular_speed);
     first = false;
   }
   if (value.position_tolerance) {
-    if (!first) r += ", ";
+    if (!first)
+      r += ", ";
     r += "position_tolerance=" + to_string(value.position_tolerance);
     first = false;
   }
   if (value.orientation_tolerance) {
-    if (!first) r += ", ";
+    if (!first)
+      r += ", ";
     r += "orientation_tolerance=" + to_string(value.orientation_tolerance);
     first = false;
   }
@@ -115,27 +116,24 @@ std::string to_string(const Target &value) {
   return r;
 }
 
-template <>
-std::string to_string(const Disc &value) {
+template <> std::string to_string(const Disc &value) {
   return "Disc(" + to_string(value.position) + ", " +
          std::to_string(value.radius) + ")";
 }
 
-template <>
-std::string to_string(const Neighbor &value) {
+template <> std::string to_string(const Neighbor &value) {
   return "Neighbor(" + to_string<Disc>(value) + ", " +
          to_string(value.velocity) + ", " + std::to_string(value.id) + ")";
 }
 
-template <>
-std::string to_string(const LineSegment &value) {
+template <> std::string to_string(const LineSegment &value) {
   return "LineSegment(" + to_string(value.p1) + ", " + to_string(value.p2) +
          ")";
 }
 
 class PyBehaviorModulation : public BehaviorModulation,
                              virtual public PyHasRegister<BehaviorModulation> {
- public:
+public:
   /* Inherit the constructors */
   using BehaviorModulation::BehaviorModulation;
   using Native = BehaviorModulation;
@@ -165,7 +163,7 @@ class PyBehaviorModulation : public BehaviorModulation,
 };
 
 class PyBehavior : public Behavior, virtual public PyHasRegister<Behavior> {
- public:
+public:
   /* Inherit the constructors */
   using Behavior::Behavior;
   using Native = Behavior;
@@ -248,7 +246,7 @@ class PyBehavior : public Behavior, virtual public PyHasRegister<Behavior> {
 
 class PyKinematics : public Kinematics,
                      virtual public PyHasRegister<Kinematics> {
- public:
+public:
   /* Inherit the constructors */
   using Kinematics::Kinematics;
   using Native = Kinematics;
@@ -283,8 +281,7 @@ class PyKinematics : public Kinematics,
 };
 
 namespace YAML {
-template <>
-py::object load_node_py<PyBehavior>(const Node &node) {
+template <> py::object load_node_py<PyBehavior>(const Node &node) {
   auto obj = make_type_from_yaml_py<PyBehavior>(node);
   if (!obj.is_none()) {
     for (auto item : node["modulations"]) {
@@ -297,7 +294,7 @@ py::object load_node_py<PyBehavior>(const Node &node) {
   }
   return obj;
 }
-}  // namespace YAML
+} // namespace YAML
 
 PYBIND11_MODULE(_navground, m) {
   py::options options;
@@ -593,14 +590,14 @@ PYBIND11_MODULE(_navground, m) {
           &DynamicTwoWheelsDifferentialDriveKinematics::set_max_acceleration,
           DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
               property_max_acceleration))
-      .def_property(
-          "max_angular_acceleration",
-          &DynamicTwoWheelsDifferentialDriveKinematics::
-              get_max_angular_acceleration,
-          &DynamicTwoWheelsDifferentialDriveKinematics::
-              set_max_angular_acceleration,
-          DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
-              property_max_angular_acceleration))
+      .def_property("max_angular_acceleration",
+                    &DynamicTwoWheelsDifferentialDriveKinematics::
+                        get_max_angular_acceleration,
+                    &DynamicTwoWheelsDifferentialDriveKinematics::
+                        set_max_angular_acceleration,
+                    DOC(navground, core,
+                        DynamicTwoWheelsDifferentialDriveKinematics,
+                        property_max_angular_acceleration))
       .def_property(
           "moi", &DynamicTwoWheelsDifferentialDriveKinematics::get_moi,
           &DynamicTwoWheelsDifferentialDriveKinematics::set_moi,
@@ -1425,8 +1422,8 @@ Load a behavior modulation from a YAML string.
   m.def("dump", &YAML::dump<BehaviorModulation>, py::arg("modulation"),
         "Dump a behavior modulation to a YAML-string");
 
-  m.def("load_plugins", &load_plugins, py::arg("plugins") = "",
-        py::arg("env") = "", py::arg("directory") = py::none(),
+  m.def("load_plugins", &load_plugins, py::arg("plugins") = py::set(),
+        py::arg("directories") = py::dict(), py::arg("include_default") = true, 
         DOC(navground, core, load_plugins));
 
   // add [partial] pickle support

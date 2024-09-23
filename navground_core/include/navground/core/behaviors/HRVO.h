@@ -11,7 +11,7 @@
 #include "navground/core/property.h"
 #include "navground/core/states/geometric.h"
 #include "navground/core/types.h"
-#include "navground_core_export.h"
+#include "navground/core/export.h"
 
 namespace HRVO {
 class Agent;

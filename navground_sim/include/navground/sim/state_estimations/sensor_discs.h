@@ -11,7 +11,7 @@
 #include "navground/core/types.h"
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/world.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 
 using navground::core::BufferDescription;
 using navground::core::make_property;

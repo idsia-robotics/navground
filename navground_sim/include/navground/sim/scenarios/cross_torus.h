@@ -12,7 +12,7 @@
 
 #include "navground/core/types.h"
 #include "navground/sim/scenario.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 
 using navground::core::make_property;
 using navground::core::Properties;

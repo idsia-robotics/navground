@@ -13,7 +13,7 @@
 
 #include "navground/core/behavior.h"
 #include "navground/core/types.h"
-#include "navground_core_export.h"
+#include "navground/core/export.h"
 
 namespace navground::core {
 

@@ -32,9 +32,10 @@ def ref(_renamed_classes, _methods):
 
 def main():
 
-    python_src = sys.argv[1]
-    library = sys.argv[2]
-    deps = sys.argv[3:]
+    destination = sys.argv[1]
+    python_src = sys.argv[2]
+    library = sys.argv[3]
+    deps = sys.argv[4:]
 
     headers = []
 
@@ -50,7 +51,7 @@ def main():
 
     result = subprocess.run(args, capture_output=True)
     header = result.stdout.decode("utf-8")
-    destination = 'docstrings.h'
+    # destination = 'docstrings.h'
 
     if result.returncode or len(header) == 0:
         print("Failed running pybind11_mkdoc", file=sys.stderr)
@@ -123,6 +124,8 @@ def main():
             extras += f'static const char *{doc} = "";\n'
 
     header += extras
+
+    print('Save docstrings to', destination, file=sys.stderr)
 
     with open(destination, 'w') as f:
         f.write(header)

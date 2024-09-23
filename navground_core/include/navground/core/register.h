@@ -7,7 +7,7 @@
 
 #include "navground/core/property.h"
 #include "navground/core/utilities.h"
-#include "navground_core_export.h"
+#include "navground/core/export.h"
 #include "yaml-cpp/yaml.h"
 
 namespace navground::core {

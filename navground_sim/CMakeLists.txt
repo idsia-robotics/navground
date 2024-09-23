@@ -38,11 +38,9 @@ message("cpptqdm_SOURCE_DIR ${cpptqdm_SOURCE_DIR}")
 # set(YAML_CPP_INSTALL ON CACHE INTERNAL "")
 # add_subdirectory(../yaml-cpp yaml-cpp)
 
-find_package(ament_cmake REQUIRED)
 find_package(navground_core REQUIRED)
 find_package(GEOS REQUIRED)
 find_package(HighFive REQUIRED)
-find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
 # add_subdirectory(../external/geos geos)
 # add_subdirectory(../external/HighFive highFive)
@@ -83,7 +81,7 @@ add_library(navground_sim SHARED
   src/yaml.cpp
 )
 
-generate_export_header(navground_sim)
+generate_export_header(navground_sim EXPORT_FILE_NAME navground/sim/export.h)
 
 # -Wl,-force_load 
 target_link_libraries(
@@ -98,9 +96,6 @@ target_link_libraries(navground_sim PRIVATE )
 target_include_directories(navground_sim INTERFACE $<TARGET_PROPERTY:HighFive,INTERFACE_INCLUDE_DIRECTORIES>)
 # Else fails compiling with clang 15, see https://developer.apple.com/documentation/xcode-release-notes/xcode-15-release-notes
 target_compile_definitions(navground_sim PUBLIC _LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION)
-
-ament_export_dependencies(geos navground_core HighFive Eigen3)
-ament_export_targets(navground_simTargets HAS_LIBRARY_TARGET)
 
 add_executable(run src/run.cpp)
 target_link_libraries(run navground_sim)
@@ -134,16 +129,41 @@ install(
 )
 
 install(FILES
- ${PROJECT_BINARY_DIR}/navground_sim_export.h DESTINATION include
+ ${PROJECT_BINARY_DIR}/navground/sim/export.h DESTINATION include/navground/sim
 )
 
 install(
   TARGETS navground_sim
-  EXPORT navground_simTargets
+  EXPORT ${PROJECT_NAME}Targets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
   INCLUDES DESTINATION include
 )
 
-ament_package()
+if (ament_cmake_FOUND)
+  ament_export_dependencies(geos navground_core HighFive Eigen3)
+  ament_export_targets(${PROJECT_NAME}Targets HAS_LIBRARY_TARGET)
+  ament_package()
+else()
+  install(
+    EXPORT ${PROJECT_NAME}Targets
+    FILE ${PROJECT_NAME}Targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION share/${PROJECT_NAME}/cmake
+  )
+
+  include(CMakePackageConfigHelpers)
+    
+  configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    INSTALL_DESTINATION share/${PROJECT_NAME}/cmake
+  )
+  
+  install(
+    FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    DESTINATION share/${PROJECT_NAME}/cmake
+  )
+
+endif()

@@ -11,7 +11,7 @@
 #include "./common.h"
 #include "./utilities.h"
 #include "navground/core/types.h"
-#include "navground_core_export.h"
+#include "navground/core/export.h"
 
 namespace navground::core {
 
@@ -253,6 +253,12 @@ inline std::ostream& operator<<(std::ostream& os,
     os << value;
   }
   os << "]";
+  return os;
+}
+
+inline std::ostream& operator<<(std::ostream& os,
+                                const navground::core::Vector2& value) {
+  os << "[" << value[0] << ", " << value[1] << "]";
   return os;
 }
 

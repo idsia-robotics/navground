@@ -3,14 +3,19 @@
         "ament_cmake": {
             "cmake-args": ["-DBUILD_TESTING=OFF"]
         },
+        "argparse": {
+            "cmake-args": ["-DARGPARSE_BUILD_TESTS=OFF"]
+        },
         "GEOS": {
-            "cmake-args": ["-DGEOS_BUILD_DEVELOPER=OFF"]
+            "cmake-args": ["-DGEOS_BUILD_DEVELOPER=OFF", "-DBUILD_GEOSOP=OFF"]
         },
         "HDF5": {
-            "cmake-args": ["-DONLY_SHARED_LIBS=ON", "-DBUILD_TESTING=OFF", "-DHDF5_BUILD_TOOLS=OFF", "-DHDF5_BUILD_EXAMPLES=OFF"]
+            "cmake-args": ["-DONLY_SHARED_LIBS=ON", "-DBUILD_TESTING=OFF", "-DHDF5_BUILD_TOOLS=OFF", "-DHDF5_BUILD_EXAMPLES=OFF",
+            "-DHDF5_BUILD_UTILS=OFF"]
         },
         "HighFive": {
-            "cmake-args": ["-DHIGHFIVE_UNIT_TESTS=OFF", "-DHIGHFIVE_USE_BOOST=OFF", "-DHIGHFIVE_BUILD_DOCS=OFF"]
+            "cmake-args": ["-DHIGHFIVE_UNIT_TESTS=OFF", "-DHIGHFIVE_USE_BOOST=OFF", "-DHIGHFIVE_BUILD_DOCS=OFF",
+            "-DHIGHFIVE_EXAMPLES=OFF"]
         },
         "pybind11": {
             "cmake-args": ["-DPYBIND11_TEST=OFF"]

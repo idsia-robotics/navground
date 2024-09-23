@@ -1,16 +1,16 @@
 add_executable(behavior behavior.cpp)
-ament_target_dependencies(behavior navground_core)
+target_link_libraries(behavior navground_core::navground_core)
 
 add_executable(behavior_yaml echo_yaml.cpp)
-ament_target_dependencies(behavior_yaml navground_core)
+target_link_libraries(behavior_yaml navground_core::navground_core)
 
 add_executable(behavior_benchmark benchmark.cpp)
-ament_target_dependencies(behavior_benchmark navground_core)
+target_link_libraries(behavior_benchmark navground_core::navground_core)
 
 add_library(my_behavior SHARED my_behavior.cpp)
-ament_target_dependencies(my_behavior navground_core)
-ament_export_dependencies(my_behavior)
+target_link_libraries(my_behavior navground_core::navground_core)
 set_target_properties(my_behavior PROPERTIES LINKER_LANGUAGE CXX)
+# ament_export_dependencies(my_behavior)
 
 install(TARGETS
   behavior 
@@ -28,6 +28,6 @@ install(
   INCLUDES DESTINATION include/${PROJECT_NAME}
 )
 
-install(FILES
- ${PROJECT_BINARY_DIR}/my_behavior_export.h DESTINATION include/${PROJECT_NAME}
-)
+# install(FILES
+#  ${PROJECT_BINARY_DIR}/my_behavior_export.h DESTINATION include/${PROJECT_NAME}
+# )

@@ -91,6 +91,7 @@ if (ament_cmake_python_FOUND)
   if (WIN32)
     install(
       FILES ${CMAKE_INSTALL_PREFIX}/bin/navground_core.dll 
+            ${CMAKE_INSTALL_PREFIX}/bin/ament_index_cpp.dll 
       DESTINATION "${PYTHON_INSTALL_DIR}/navground/core"
     )
   endif()

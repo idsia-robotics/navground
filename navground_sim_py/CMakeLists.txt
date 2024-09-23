@@ -72,6 +72,7 @@ if (ament_cmake_python_FOUND)
     install(
       FILES 
       ${CMAKE_INSTALL_PREFIX}/bin/navground_core.dll 
+      ${CMAKE_INSTALL_PREFIX}/bin/ament_index_cpp.dll 
       ${CMAKE_INSTALL_PREFIX}/bin/navground_sim.dll 
       ${CMAKE_INSTALL_PREFIX}/bin/hdf5.dll 
       ${CMAKE_INSTALL_PREFIX}/bin/geos.dll 

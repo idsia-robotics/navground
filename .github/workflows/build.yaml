@@ -47,6 +47,7 @@ jobs:
           key: ${{ matrix.os }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}   
       - name: build navgroun cpp
         # if: runner.os != 'Windows'
+        shell: bash
         run: |
           . install/setup.bash
           colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim # navground_examples

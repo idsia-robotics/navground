@@ -53,7 +53,7 @@ jobs:
         run: |
           .\install\setup.bat
           set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-          colcon build --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
+          colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
       - name: archive install
         uses: actions/upload-artifact@v4
         with:
@@ -99,7 +99,7 @@ jobs:
         run: |
           .\install\setup.bat
           set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-          colcon build --event-handlers console_direct+ --metas src\navground\colcon\navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
+          colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
       - name: archive install
         uses: actions/upload-artifact@v4
         with:

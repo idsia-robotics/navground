@@ -33,8 +33,8 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 # FetchContent_MakeAvailable(argparse)
 
 if (WITH_AMENT)
-  find_package(ament_cmake)
-  find_package(ament_index_cpp)
+  find_package(ament_cmake QUIET)
+  find_package(ament_index_cpp QUIET)
 endif()
 find_package(argparse REQUIRED)
 find_package(yaml-cpp REQUIRED)
@@ -168,12 +168,7 @@ else()
 
 endif()
 
-if (NOT NAVGROUND_PLUGINS_IN_AMENT_INDEX)
-  set("DSV" "prepend-non-duplicate;NAVGROUND_PLUGINS_PREFIX;")
-else()
-  set("DSV" ";")
-endif()
-
+set("DSV" "prepend-non-duplicate;NAVGROUND_PLUGINS_PREFIX;")
 file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/plugins.dsv" CONTENT "${DSV}")
 install(
   FILES "${CMAKE_CURRENT_BINARY_DIR}/plugins.dsv"

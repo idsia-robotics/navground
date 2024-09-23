@@ -36,7 +36,7 @@ jobs:
           vcs import --shallow --input src/navground/colcon/ament.repos
       - if: ${{runner.os == 'Windows' && steps.cache.outputs.cache-hit != 'true' }}
         run: |
-          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+          set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
           colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11 ament_cmake ament_package ament_index_cpp      
       - if: ${{runner.os != 'Windows' && steps.cache.outputs.cache-hit != 'true' }}
         run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11 ament_cmake ament_package ament_index_cpp
@@ -52,7 +52,7 @@ jobs:
       - if: runner.os == 'Windows'
         run: |
           install\setup.ps1
-          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+          set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
           colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
       - name: archive install
         uses: actions/upload-artifact@v4
@@ -98,8 +98,8 @@ jobs:
       - if: runner.os == 'Windows'
         run: |
           install\setup.ps1
-          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-          colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
+          set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
+          colcon build --event-handlers console_direct+ --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
       - name: archive install
         uses: actions/upload-artifact@v4
         with:
@@ -108,7 +108,7 @@ jobs:
       - name: build wheel
         shell: bash
         run: |
-          install/setup.ps1
+          source install/setup.bash
           cd src/navground/navground_py
           python setup.py bdist_wheel
       - run: pip install repairwheel

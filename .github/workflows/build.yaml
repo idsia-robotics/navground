@@ -19,6 +19,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.12
+          cache: 'pip'
       - run: pip install colcon-common-extensions
       - uses: actions/cache/restore@v4
         id: cache
@@ -79,7 +80,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - run: pip install colcon-common-extensions git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+          cache: 'pip'
+      - run: pip install colcon-common-extensions wheels git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+      - uses: ilammy/msvc-dev-cmd@v1
       - if: runner.os != 'Windows'
         run: |
           source install/setup.bash
@@ -104,6 +107,8 @@ jobs:
           delocate-wheel -w fixed -v dist/*.whl
       - if: runner.os == 'Linux'
         run: |
+          apt-get update
+          apt-get -y install patchelf
           pip install auditwheel
           auditwheel repair --plat linux_aarch64 -w fixed dist/*.whl
       - if: runner.os == 'Windows'

@@ -1,7 +1,9 @@
 name: build_py
 
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows: [build_cpp]
+    types: [completed]
 
 jobs:
   test:

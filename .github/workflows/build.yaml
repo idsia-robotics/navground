@@ -9,6 +9,7 @@ jobs:
         os:
           - ubuntu-latest
           - ubuntu-20.04
+          - ubuntu-24.04
           # - windows-latest
           # - macos-latest
     name: build navground cpp packages
@@ -28,8 +29,7 @@ jobs:
           path: install
           key: ${{ matrix.os }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}
       - uses: ilammy/msvc-dev-cmd@v1
-      - name: build deps
-        if: steps.cache.outputs.cache-hit != 'true'
+      - if: steps.cache.outputs.cache-hit != 'true'
         run: |
           pip install vcstool
           vcs import --shallow --input src/navground/colcon/deps.repos
@@ -62,6 +62,11 @@ jobs:
   build_py:
     needs: build_cpp
     name: build navground python packages
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/navground
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
     strategy:
       matrix:
         os:
@@ -115,7 +120,11 @@ jobs:
         shell: bash
         run: |
           source install/setup.bash
-          repairwheel -o wheels src/navground/navground_py/dist/*.whl
+          repairwheel -o dist src/navground/navground_py/dist/*.whl
+      - name: Publish distribution 📦 to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
       # - if: runner.os == 'macOS'
       #   run: |
       #     pip install delocate
@@ -133,8 +142,8 @@ jobs:
       #   run: |
       #     pip install delvewheel
       #     delvewheel repair -w fixed src/navground/navground_py/dist/*.whl
-      - name: archive wheel
-        uses: actions/upload-artifact@v4
-        with:
-          name: wheel-${{ matrix.os }}-py${{matrix.python-version}}
-          path: wheels/*
+      # - name: archive wheel
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: wheel-${{ matrix.os }}-py${{matrix.python-version}}
+      #     path: wheels/*

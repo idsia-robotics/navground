@@ -122,7 +122,6 @@ jobs:
       - if: runner.os == 'Windows'
         run: |
           pip install delvewheel
-          cd src/navground/navground_py
           delvewheel repair -w fixed src/navground/navground_py/dist/*.whl
       - name: archive wheel
         uses: actions/upload-artifact@v4

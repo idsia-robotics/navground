@@ -45,17 +45,15 @@ jobs:
         with:
           path: install
           key: ${{ matrix.os }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}   
-      - name: build navgroun cpp
-        # if: runner.os != 'Windows'
-        shell: bash
+      - if: runner.os != 'Windows'
         run: |
-          . install/setup.bash
+          source install/setup.bash
           colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim # navground_examples
-      # - if: runner.os == 'Windows'
-      #   run: |
-      #     .\install\setup.bat
-      #     set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-      #     colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
+      - if: runner.os == 'Windows'
+        run: |
+          call install\setup.bat
+          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+          colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
       - name: archive install
         uses: actions/upload-artifact@v4
         with:
@@ -99,7 +97,7 @@ jobs:
           colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
       - if: runner.os == 'Windows'
         run: |
-          .\install\setup.bat
+          call install\setup.bat
           set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
           colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
       - name: archive install

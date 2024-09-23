@@ -148,6 +148,9 @@ install(
 
 if (ament_cmake_FOUND)
   ament_export_dependencies(geos navground_core HighFive Eigen3)
+  if (UNIX)
+    ament_export_dependencies(Threads)
+  endif()
   ament_export_targets(${PROJECT_NAME}Targets HAS_LIBRARY_TARGET)
   ament_package()
 else()

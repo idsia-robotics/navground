@@ -11,7 +11,7 @@ jobs:
           - ubuntu-20.04
           - ubuntu-24.04
           # - windows-latest
-          # - macos-latest
+          - macos-latest
     name: build navground cpp packages
     runs-on: ${{ matrix.os }}
     steps:
@@ -72,8 +72,9 @@ jobs:
         os:
           - ubuntu-latest
           - ubuntu-20.04
+          - ubuntu-24.04
           # - windows-latest
-          # - macos-latest
+          - macos-latest
         python-version: ["3.10", "3.11", "3.12"]
     runs-on: ${{ matrix.os }}
     steps:

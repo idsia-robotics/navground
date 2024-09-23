@@ -26,7 +26,7 @@ jobs:
         id: cache
         with:
           path: install
-          key: ${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}
+          key: ${{ matrix.os }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}
       - uses: ilammy/msvc-dev-cmd@v1
       - name: build deps
         if: steps.cache.outputs.cache-hit != 'true'
@@ -44,7 +44,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         with:
           path: install
-          key: ${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}   
+          key: ${{ matrix.os }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}   
       - if: runner.os != 'Windows'
         run: |
           source install/setup.bash
@@ -57,7 +57,7 @@ jobs:
       - name: archive install
         uses: actions/upload-artifact@v4
         with:
-          name: install-${{ runner.os }}-${{ runner.arch }}
+          name: install-${{ matrix.os }}
           path: install
   build_py:
     needs: build_cpp
@@ -77,7 +77,7 @@ jobs:
           path: src/navground
       - uses: actions/download-artifact@v4
         with:
-          name: install-${{ runner.os }}-${{ runner.arch }}
+          name: install-${{ matrix.os }}
           path: install
       - uses: actions/setup-python@v5
         with:
@@ -102,7 +102,7 @@ jobs:
       - name: archive install
         uses: actions/upload-artifact@v4
         with:
-          name: install-${{ runner.os }}-${{ runner.arch }}-py${{matrix.python-version}}
+          name: install-${{ matrix.os }}-py${{matrix.python-version}}
           path: install
       - name: build wheel
         shell: bash
@@ -136,5 +136,5 @@ jobs:
       - name: archive wheel
         uses: actions/upload-artifact@v4
         with:
-          name: wheel-${{ runner.os }}-${{ runner.arch }}-py${{matrix.python-version}}
+          name: wheel-${{ matrix.os }}-py${{matrix.python-version}}
           path: wheels/*

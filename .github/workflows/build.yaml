@@ -37,7 +37,7 @@ jobs:
       - if: ${{runner.os == 'Windows' && steps.cache.outputs.cache-hit != 'true' }}
         run: |
           set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-          colcon build --metas src\navground\colcon\navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11 ament_cmake ament_package ament_index_cpp      
+          colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11 ament_cmake ament_package ament_index_cpp      
       - if: ${{runner.os != 'Windows' && steps.cache.outputs.cache-hit != 'true' }}
         run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11 ament_cmake ament_package ament_index_cpp
       - uses: actions/cache/save@v4
@@ -45,15 +45,16 @@ jobs:
         with:
           path: install
           key: ${{ matrix.os }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}   
-      - if: runner.os != 'Windows'
+      - name: build navgroun cpp
+        # if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim # navground_examples
-      - if: runner.os == 'Windows'
-        run: |
-          .\install\setup.bat
-          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-          colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
+      # - if: runner.os == 'Windows'
+      #   run: |
+      #     .\install\setup.bat
+      #     set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+      #     colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
       - name: archive install
         uses: actions/upload-artifact@v4
         with:

@@ -4,8 +4,11 @@ env:
   COLCON_DEFAULTS_FILE: src/navground/colcon/defaults.yaml
 jobs:
   build_cpp:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
     name: build navground cpp packages
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
         with:

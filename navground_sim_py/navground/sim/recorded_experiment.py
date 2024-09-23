@@ -1,24 +1,27 @@
 import datetime
 import pathlib
 import re
-from typing import Dict, Optional, Tuple, Union, Set
+import warnings
+from typing import TYPE_CHECKING, Dict, Optional, Set, Tuple, Union
 
-import h5py
 import numpy as np
 from navground import core
-import warnings
 
-from . import Agent, World, _Scenario, load_experiment, load_world, BoundingBox
+from . import Agent, BoundingBox, World, _Scenario, load_experiment, load_world
+
+if TYPE_CHECKING:
+    import h5py  # type: ignore
 
 
 def _timedelta_from_ns(ns: int):
     return datetime.timedelta(microseconds=ns / 1e3)
 
 
-def _get_all_datasets(group: h5py.Group, ns: str) -> Dict[str, h5py.Dataset]:
-    rs: Dict[str, h5py.Dataset] = {}
+def _get_all_datasets(group: 'h5py.Group',
+                      ns: str) -> Dict[str, 'h5py.Dataset']:
+    rs: Dict[str, 'h5py.Dataset'] = {}
     for k, v in group.items():
-        if isinstance(v, h5py.Group):
+        if isinstance(v, 'h5py.Group'):
             cs = _get_all_datasets(v, ns)
             rs.update(**cs)
         else:
@@ -48,7 +51,7 @@ class RecordedExperimentalRun:
     world: World
     """The world that has been simulated"""
 
-    def __init__(self, group: h5py.Group, scenario: _Scenario | None = None):
+    def __init__(self, group: 'h5py.Group', scenario: _Scenario | None = None):
         """
         Constructs a new instance.
 
@@ -58,28 +61,28 @@ class RecordedExperimentalRun:
         self._group = group
         self._scenario = scenario
         self.reset()
-        self.collisions: Optional[h5py.Dataset] = group.get('collisions')
+        self.collisions: Optional['h5py.Dataset'] = group.get('collisions')
         """The recorded collisions"""
-        self.deadlocks: Optional[h5py.Dataset] = group.get('deadlocks')
+        self.deadlocks: Optional['h5py.Dataset'] = group.get('deadlocks')
         """The recorded deadlocks"""
-        self.efficacy: Optional[h5py.Dataset] = group.get('efficacy')
+        self.efficacy: Optional['h5py.Dataset'] = group.get('efficacy')
         """The recorded efficacy"""
-        self.commands: Optional[h5py.Dataset] = group.get('cmds')
+        self.commands: Optional['h5py.Dataset'] = group.get('cmds')
         """The recorded commands"""
-        self.poses: Optional[h5py.Dataset] = group.get('poses')
+        self.poses: Optional['h5py.Dataset'] = group.get('poses')
         """The recorded poses"""
-        self.twists: Optional[h5py.Dataset] = group.get('twists')
+        self.twists: Optional['h5py.Dataset'] = group.get('twists')
         """The recorded twists"""
-        self.times: Optional[h5py.Dataset] = group.get('times')
+        self.times: Optional['h5py.Dataset'] = group.get('times')
         """The recorded times"""
-        self.targets: Optional[h5py.Dataset] = group.get('targets')
+        self.targets: Optional['h5py.Dataset'] = group.get('targets')
         """The recorded targets"""
-        self.task_events: Dict[int, h5py.Dataset] = {
+        self.task_events: Dict[int, 'h5py.Dataset'] = {
             int(k): v
             for k, v in group.get('task_events', {}).items()
         }
         """The recorded task events"""
-        self.safety_violations: Optional[h5py.Dataset] = group.get(
+        self.safety_violations: Optional['h5py.Dataset'] = group.get(
             'safety_violations')
         """The recorded safety violations"""
         self.seed: int = group.attrs['seed']
@@ -113,9 +116,8 @@ class RecordedExperimentalRun:
             self.world = load_world(self._group.attrs['world'])
             self.world.seed = seed
         elif self._scenario:
-            warnings.warn(
-                'HDF5 group does store a world ... sampling from '
-                'the scenario may not be correct')
+            warnings.warn('HDF5 group does store a world ... sampling from '
+                          'the scenario may not be correct')
             self.world = World()
             self._scenario.init_world(self.world, seed=seed)
         else:
@@ -123,7 +125,7 @@ class RecordedExperimentalRun:
         self._step = -1
 
     @property
-    def root(self) -> h5py.Group:
+    def root(self) -> 'h5py.Group':
         """The run root HDF5 group"""
         return self._group
 
@@ -150,7 +152,7 @@ class RecordedExperimentalRun:
         """
         return set(self.get_records(group=group).keys())
 
-    def get_record(self, key: str = '') -> Optional[h5py.Dataset]:
+    def get_record(self, key: str = '') -> Optional['h5py.Dataset']:
         """
         Gets recorded data.
 
@@ -160,11 +162,11 @@ class RecordedExperimentalRun:
                  has been recorded for the given key
         """
         value = self._group.get(key)
-        if isinstance(value, h5py.Dataset):
+        if isinstance(value, 'h5py.Dataset'):
             return value
         return None
 
-    def get_records(self, group: str = '') -> Dict[str, h5py.Dataset]:
+    def get_records(self, group: str = '') -> Dict[str, 'h5py.Dataset']:
         """
         Gets recorded data map.
 
@@ -338,7 +340,7 @@ class RecordedExperiment:
 
     def __init__(self,
                  path: Union[str, pathlib.Path] = '',
-                 file: Optional[h5py.File] = None):
+                 file: Optional['h5py.File'] = None):
         """
         Constructs a new instance.
 
@@ -350,6 +352,9 @@ class RecordedExperiment:
         if file:
             self._file = file
         else:
+
+            import h5py
+
             self._file = h5py.File(path)
 
         self.has_finished = True

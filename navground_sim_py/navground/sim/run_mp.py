@@ -12,7 +12,6 @@ from queue import Empty
 from typing import (TYPE_CHECKING, Callable, Dict, Iterable, List, Optional,
                     Tuple)
 
-import h5py
 import numpy as np
 from navground import sim
 
@@ -169,6 +168,8 @@ def run_mp(experiment: sim.Experiment,
     experiment.stop(save_runs=save_runs)
     add_links = not keep and path is not None
     if add_links:
+        import h5py
+
         with h5py.File(path, 'a') as file:
             for (_, _, i, number_of_runs, data_path,
                  *_) in partial_experiments:

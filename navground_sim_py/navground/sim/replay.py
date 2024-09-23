@@ -5,13 +5,12 @@ import pathlib
 import sys
 from typing import TYPE_CHECKING, Optional, Union
 
-import h5py
-
 from .real_time import RealTimeSimulation
 from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
 
 if TYPE_CHECKING:
     from .ui.web_ui import Rect, WebUI
+    import h5py  # type: ignore
 
 
 class RealTimeReplay(RealTimeSimulation):
@@ -106,7 +105,7 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
         default='')
 
 
-async def run(file: h5py.File,
+async def run(file: 'h5py.File',
               with_ui: bool = True,
               factor: float = 1.0,
               ui_fps: float = 25.0,
@@ -167,6 +166,8 @@ def _main(arg: argparse.Namespace) -> None:
 
         open_html(path=path)
     try:
+        import h5py
+
         file = h5py.File(arg.path, 'r')
     except:
         logging.error(f"Could not open HDF5 file {arg.path}")

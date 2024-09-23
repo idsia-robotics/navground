@@ -3,9 +3,7 @@ import logging
 import os
 import random
 import sys
-from typing import Any, Optional, TYPE_CHECKING
-
-import h5py
+from typing import TYPE_CHECKING, Any, Optional
 
 from . import (Agent, Experiment, ExperimentalRun, RecordedExperiment,
                RecordedExperimentalRun, load_experiment, load_plugins)
@@ -29,7 +27,8 @@ def run(path: str,
         if seed < 0:
             seed = random.randint(0, 2**31)
         experiment.record_config.pose = True
-        run: ExperimentalRun | RecordedExperimentalRun = experiment.run_once(seed)
+        run: ExperimentalRun | RecordedExperimentalRun = experiment.run_once(
+            seed)
     else:
         if seed < 0:
             run = experiment.runs[0]
@@ -117,6 +116,8 @@ def parser() -> argparse.ArgumentParser:
 
 def _load_recorded_experiment(path: str) -> Optional[RecordedExperiment]:
     try:
+        import h5py
+
         file = h5py.File(path)
         return RecordedExperiment(file=file)
     except Exception:
@@ -140,7 +141,8 @@ def main(decorate: Optional['Decorate'] = None) -> None:
     _main(arg, decorate=decorate)
 
 
-def _main(arg: argparse.Namespace, decorate: Optional['Decorate'] = None) -> None:
+def _main(arg: argparse.Namespace,
+          decorate: Optional['Decorate'] = None) -> None:
     logging.basicConfig(level=logging.INFO)
     load_plugins()
     experiment = _load_recorded_experiment(arg.input) or _load_experiment(

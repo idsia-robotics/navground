@@ -28,7 +28,7 @@ generate_export_header(my_scenario)
 
 register_navground_plugins(
   TARGETS my_behavior my_scenario
-  DESTINATION lib/${PROJECT_NAME}
+  DESTINATION $<IF:$<BOOL:${WIN32}>,bin,lib>
 )
 
 if (ament_cmake_FOUND)

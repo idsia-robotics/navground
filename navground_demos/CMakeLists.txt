@@ -29,7 +29,7 @@ set_target_properties(navground_demos PROPERTIES LINKER_LANGUAGE CXX)
 
 register_navground_plugins(
   TARGETS navground_demos
-  DESTINATION lib
+  DESTINATION $<IF:$<BOOL:${WIN32}>,bin,lib>
 )
 
 add_executable(sim_cpp src/sim.cpp)

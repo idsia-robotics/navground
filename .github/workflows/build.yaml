@@ -83,9 +83,8 @@ jobs:
           cache: 'pip'
       - run: pip install colcon-common-extensions wheel libclang
       - run: |
-          cd src
-          git clone git+https://github.com/jeguzzi/pybind11_mkdoc@rst
-          cd pybind11_mkdoc
+          git clone https://github.com/jeguzzi/pybind11_mkdoc.git --branch rst src/pybind11_mkdoc
+          cd src/pybind11_mkdoc
           pip install .
           cd -
       - uses: ilammy/msvc-dev-cmd@v1

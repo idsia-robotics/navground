@@ -6,6 +6,7 @@
 #include <optional>
 #include <set>
 #include <sstream>
+#include <vector>
 
 #if defined(WIN32) || defined(_WIN32) ||                                       \
     defined(__WIN32) && !defined(__CYGWIN__)
@@ -27,16 +28,16 @@ namespace fs = std::filesystem;
 
 namespace navground::core {
 
-static void load_library(const std::string &path) {
+static void load_library(const fs::path &path) {
 #if defined(WIN32) || defined(_WIN32) ||                                       \
     defined(__WIN32) && !defined(__CYGWIN__)
-  const auto lib = LoadLibraryA(path.c_str());
+  const auto lib = LoadLibraryA(path.string().c_str());
 #else
   const void *lib = dlopen(path.c_str(), RTLD_LAZY);
 #endif
-  if (lib) {
-    std::cerr << "Loaded plugin " << path << std::endl;
-  }
+  // if (lib) {
+  //   std::cerr << "Loaded plugin " << path << std::endl;
+  // }
 }
 
 // static std::set<fs::path>
@@ -132,19 +133,26 @@ void load_plugins(const std::set<std::filesystem::path> &plugins,
   }
   if (include_default) {
 #if NAVGROUND_PLUGINS_IN_AMENT_INDEX
-    printf("NAVGROUND_PLUGINS_IN_AMENT_INDEX\n");
-    for (const auto &[name, install] :
-         ament_index_cpp::get_resources("navground_plugins")) {
-      printf("resource %s %s: ", name.c_str(), install.c_str());
-      std::string content;
-      ament_index_cpp::get_resource("navground_plugins", name, content);
-      printf("%s\n", content.c_str());
-      if (!content.empty()) {
-        ps.merge(read_plugins(content, install));
+    // printf("NAVGROUND_PLUGINS_IN_AMENT_INDEX\n");
+    const char *value = std::getenv("AMENT_PREFIX_PATH");
+    if (!value) {
+      std::cerr << "Navground plugins are loaded from the ament resource index";
+      std::cerr << "but the enviroment variabled AMENT_PREFIX_PATH is not set";
+      std::cerr << std::endl;
+    } else {
+      for (const auto &[name, install] :
+           ament_index_cpp::get_resources("navground_plugins")) {
+        // printf("resource %s %s: ", name.c_str(), install.c_str());
+        std::string content;
+        ament_index_cpp::get_resource("navground_plugins", name, content);
+        // printf("%s\n", content.c_str());
+        if (!content.empty()) {
+          ps.merge(read_plugins(content, install));
+        }
       }
     }
 #else
-    printf("NOT NAVGROUND_PLUGINS_IN_AMENT_INDEX\n");
+    // printf("NOT NAVGROUND_PLUGINS_IN_AMENT_INDEX\n");
     const char *value = std::getenv("NAVGROUND_PLUGINS_PREFIX");
     if (value) {
       for (const auto &s : split(std::string(value), ":")) {

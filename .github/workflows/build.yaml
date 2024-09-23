@@ -47,12 +47,12 @@ jobs:
       - if: runner.os != 'Windows'
         run: |
           source install/setup.bash
-          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim navground_examples
+          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim # navground_examples
       - if: runner.os == 'Windows'
         run: |
           .\install\setup.bat
           set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-          colcon build --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim navground_examples
+          colcon build --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
       - name: archive install
         uses: actions/upload-artifact@v4
         with:
@@ -80,18 +80,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: 'pip'
+          # cache: 'pip'
       - run: pip install colcon-common-extensions wheels git+https://github.com/jeguzzi/pybind11_mkdoc@rst
       - uses: ilammy/msvc-dev-cmd@v1
       - if: runner.os != 'Windows'
         run: |
           source install/setup.bash
-          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core_py navground_sim_py navground_examples_py
+          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
       - if: runner.os == 'Windows'
         run: |
           .\install\setup.bat
           set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-          colcon build --metas src\navground\colcon\navground.meta --packages-select navground_core_py navground_sim_py navground_examples_py
+          colcon build --metas src\navground\colcon\navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
       - name: archive install
         uses: actions/upload-artifact@v4
         with:

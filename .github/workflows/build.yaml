@@ -104,6 +104,7 @@ jobs:
           path: install
       - name: build wheel
         run: |
+          source install/setup.bash
           cd src/navground/navground_py
           python setup.py bdist_wheel
       - if: runner.os == 'macOS'

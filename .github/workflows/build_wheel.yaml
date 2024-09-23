@@ -1,0 +1,38 @@
+name: build_wheels
+on:
+  workflow_run:
+    workflows: [build_py]
+    types: [completed]
+jobs:
+  build_wheels:
+    needs: build_cpp
+    name: build navground python packages
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest 
+          # - windows-latest
+          # - macos-latest
+        python-version: ["3.11", "3.12"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+      - uses: dawidd6/action-download-artifact@v2
+        with:
+          run_id: ${{ github.event.workflow_run.id }}
+          name: install-${{ runner.os }}-${{ runner.arch }}-py${{matrix.python-version}}
+          path: install
+          search_artifacts: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      - run: pip install repairwheel
+      - run: repairwheel -o wheels src/navground/navground_py/dist/*.whl
+      - name: archive wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheel-${{ runner.os }}-${{ runner.arch }}-py${{matrix.python-version}}
+          path: wheels/*

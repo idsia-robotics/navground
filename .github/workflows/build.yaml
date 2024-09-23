@@ -107,24 +107,30 @@ jobs:
           source install/setup.bash
           cd src/navground/navground_py
           python setup.py bdist_wheel
-      - if: runner.os == 'macOS'
+      - name: repair wheel
+        shell: bash
         run: |
-          pip install delocate
-          delocate-wheel -w fixed -v cd src/navground/navground_py/dist/*.whl
-      - if: runner.os == 'Linux'
-        uses: awalsh128/cache-apt-pkgs-action@latest
-        with:
-          packages: patchelf
-      - if: runner.os == 'Linux'
-        run: |
-          pip install auditwheel
-          auditwheel repair -w fixed src/navground/navground_py/dist/*.whl
-      - if: runner.os == 'Windows'
-        run: |
-          pip install delvewheel
-          delvewheel repair -w fixed src/navground/navground_py/dist/*.whl
+          pip install repairwheel
+          repairwheel -o wheels src/navground/navground_py/dist/*.whl
+      # - if: runner.os == 'macOS'
+      #   run: |
+      #     pip install delocate
+      #     delocate-wheel -w fixed -v src/navground/navground_py/dist/*.whl
+      # - if: runner.os == 'Linux'
+      #   uses: awalsh128/cache-apt-pkgs-action@latest
+      #   with:
+      #     packages: patchelf
+      # - if: runner.os == 'Linux'
+      #   run: |
+      #     pip install auditwheel
+      #     auditwheel repair -w fixed src/navground/navground_py/dist/*.whl
+      # - if: runner.os == 'Windows'
+      #   shell: bash
+      #   run: |
+      #     pip install delvewheel
+      #     delvewheel repair -w fixed src/navground/navground_py/dist/*.whl
       - name: archive wheel
         uses: actions/upload-artifact@v4
         with:
           name: wheel-${{ runner.os }}-${{ runner.arch }}-py${{matrix.python-version}}
-          path: fixed/*
+          path: wheels/*

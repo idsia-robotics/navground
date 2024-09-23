@@ -29,6 +29,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
+      - name: build wheel
+        run: |
+          source install/setup.bash
+          cd src/navground/navground_py
+          python setup.py bdist_wheel
       - run: pip install repairwheel
       - run: repairwheel -o wheels src/navground/navground_py/dist/*.whl
       - name: archive wheel

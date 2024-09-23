@@ -92,7 +92,12 @@ target_link_libraries(
   Eigen3::Eigen
   navground_core::navground_core 
 )
-target_link_libraries(navground_sim PRIVATE )
+
+if (UNIX)
+  find_package(Threads REQUIRED)
+  target_link_libraries(navground_sim PUBLIC Threads::Threads)
+endif()
+
 target_include_directories(navground_sim INTERFACE $<TARGET_PROPERTY:HighFive,INTERFACE_INCLUDE_DIRECTORIES>)
 # Else fails compiling with clang 15, see https://developer.apple.com/documentation/xcode-release-notes/xcode-15-release-notes
 target_compile_definitions(navground_sim PUBLIC _LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION)

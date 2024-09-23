@@ -42,7 +42,7 @@ Executables
 navground
 ---------
 
-Convenience script that group together all the other executables under the same command name
+Convenience script that group together all the other executables under the same command prefix.
 
 
 .. argparse::

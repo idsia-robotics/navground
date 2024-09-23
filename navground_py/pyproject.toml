@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "navground"
+dependencies = [
+  "numpy",
+  "h5py",
+]
+requires-python = ">=3.10"
+authors = [
+  {name = "Jerome Guzzi", email = "jerome@idsia.ch"},
+]
+maintainers = [
+  {name = "Jerome Guzzi", email = "jerome@idsia.ch"}
+]
+description = "TODO"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = [""]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python"
+]
+# dynamic = ["version"]
+version = "0.0.6"
+
+[project.urls]
+Homepage = "https://github.com/idsia-robotics/navground"
+Documentation = "https://idsia-robotics.github.io/navground"
+Repository = "https://github.com/idsia-robotics/navground.git"
+"Bug Tracker" = "https://github.com/idsia-robotics/navground/issues"
+Changelog = "https://github.com/idsia-robotics/navground/blob/main/CHANGELOG.md"
+
+[project.scripts]
+navground = "navground.sim.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+# include =["navground.*"]
+
+[tool.distutils.bdist_wheel]
+universal = true
+
+[tool.setuptools-git-versioning]
+enabled = true
+# dirty_template = "{tag}-{ccount}+{branch}"

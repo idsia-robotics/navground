@@ -32,7 +32,7 @@ jobs:
         with:
           path: install
           key: ${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}   
-      - run: colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim navground_examples
+      - run: source install/setup.bash && colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim navground_examples
       - name: archive install
         uses: actions/upload-artifact@v4
         with:

@@ -6,7 +6,10 @@ jobs:
   build_cpp:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os:
+          - ubuntu-latest 
+          # - windows-latest
+          # - macos-latest
     name: build navground cpp packages
     runs-on: ${{ matrix.os }}
     steps:
@@ -59,7 +62,10 @@ jobs:
     name: build navground python packages
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os:
+          - ubuntu-latest 
+          # - windows-latest
+          # - macos-latest
         python-version: ["3.11", "3.12"]
     runs-on: ${{ matrix.os }}
     steps:

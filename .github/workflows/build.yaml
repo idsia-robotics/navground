@@ -62,11 +62,6 @@ jobs:
   build_py:
     needs: build_cpp
     name: build navground python packages
-    environment:
-      name: testpypi
-      url: https://test.pypi.org/p/navground
-    permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
     strategy:
       matrix:
         os:
@@ -122,10 +117,30 @@ jobs:
         run: |
           source install/setup.bash
           repairwheel -o dist src/navground/navground_py/dist/*.whl
-      - name: Publish distribution 📦 to TestPyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: archive wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheel-${{ matrix.os }}-py${{matrix.python-version}}
+          path: wheels/*
+  publish_wheel:
+    needs: build_py
+    name: Publish distribution 📦 to TestPyPI
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/navground
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheel-*
+          path: dist
+          merge-multiple: true
+      - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
+
       # - if: runner.os == 'macOS'
       #   run: |
       #     pip install delocate
@@ -143,8 +158,3 @@ jobs:
       #   run: |
       #     pip install delvewheel
       #     delvewheel repair -w fixed src/navground/navground_py/dist/*.whl
-      # - name: archive wheel
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: wheel-${{ matrix.os }}-py${{matrix.python-version}}
-      #     path: wheels/*

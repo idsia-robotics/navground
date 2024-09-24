@@ -59,6 +59,7 @@ jobs:
         with:
           name: install-${{ matrix.os }}
           path: install
+          if-no-files-found: error
   build_py:
     needs: build_cpp
     name: build navground python packages
@@ -108,11 +109,13 @@ jobs:
         with:
           name: log-${{ matrix.os }}-py${{matrix.python-version}}
           path: log
+          if-no-files-found: error
       - name: archive install
         uses: actions/upload-artifact@v4
         with:
           name: install-${{ matrix.os }}-py${{matrix.python-version}}
           path: install
+          if-no-files-found: error
       - name: build wheel
         if: runner.os == 'Windows'
         run: |
@@ -120,19 +123,20 @@ jobs:
           cd src\navground\navground_py
           python setup.py bdist_wheel
           $fileNames = Get-ChildItem -Path dist -Recurse -Include *.whl
-          repairwheel -o ..\..\dist $fileNames[0]
+          repairwheel -o ..\..\..\dist $fileNames[0]
       - name: build wheel
         if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           cd src/navground/navground_py
           python setup.py bdist_wheel
-          repairwheel -o ../../dist dist/*.whl
+          repairwheel -o ../../../dist dist/*.whl
       - name: archive wheel
         uses: actions/upload-artifact@v4
         with:
           name: wheel-${{ matrix.os }}-py${{matrix.python-version}}
           path: dist/*
+          if-no-files-found: error
   publish_wheel:
     needs: build_py
     name: Publish distribution 📦 to TestPyPI

@@ -119,7 +119,8 @@ jobs:
           install\setup.ps1
           cd src\navground\navground_py
           python setup.py bdist_wheel
-          for /f %f in ('dir /b dist') do repairwheel -o ..\..\dist dist\%f
+          $fileNames = Get-ChildItem -Path dist -Recurse -Include *.whl
+          repairwheel -o ..\..\dist $fileNames[0]
       - name: build wheel
         if: runner.os != 'Windows'
         run: |

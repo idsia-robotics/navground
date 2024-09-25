@@ -14,4 +14,5 @@ Packages
    navground_coppeliasim
    navground_examples
    navground_examples_py
+   navground_examples_yaml
    navground_demos

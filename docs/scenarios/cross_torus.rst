@@ -1,14 +1,15 @@
-=====
-Cross
-=====
+===========
+Cross Torus
+===========
 
+In this scenario, agents follow a target direction (left, right, up, or down). Each direction is followed by one quarter of the agents.
+The world boundaries are wrapped (like on a torus): when agents pass the border of a square lattice cell (of side ``side``), the are teleported to the opposite side. Agents perception take this wrapping also into account, possibly seeing multiple copies of the same agent on the lattice. Like ``Cross``, the scenario tests how 4 streams of agents cross.
 
-In this scenario, there are 4 target waypoints located at ``(-side/2, 0)``, ``(side/2, 0)``, ``(0, -side/2)``, and ``(0, side/2)``. Half of the agents are tasked to pendle between the two vertically aligned waypoints, and half between the horizontally aligned waypoints. The scenario tests how agents cross in the middle, where the 4 opposing flows meets. 
 
 Initialization
 ==============
 
-No extra agents or obstacles are created. Agents are uniformly initialized inside the area, avoiding that they overlap. Agents tasks are setup to go back and forth between opposing target points.
+No extra agents or obstacles are created. Agents are uniformly initialized inside the lattice cell, avoiding that they overlap.
 
 
 Parameters
@@ -26,18 +27,8 @@ Parameters
 
 :side:
 
-	the distance between opposing targets
+	the size of the squared lattice cell
 	(float, default = ``2.0``).
-
-:target_margin:
-
-	the minimal distance between agent and target at initialization
-	(float, default = ``0.5``).
-
-:tolerance:
-
-	how near to the target point before considering it as reached
-	(float, default = ``0.25``).
 
 
 Example
@@ -51,14 +42,13 @@ The video has been recorded using
 
 .. code-block:: console
 
-   $ navground record_video install/navground_examples_yaml/experiment/cross.yaml --factor 5
+   $ navground record_video install/navground_examples_yaml/experiment/cross_torus.yaml --factor 5
 
 and a real time simulation can be visualized in a browser using
 
 .. code-block:: console
 
-   $ navground run_rt install/navground_examples_yaml/experiment/cross.yaml --factor 5
-
+   $ navground run_rt install/navground_examples_yaml/experiment/cross_torus.yaml --factor 5
 
 where the experiment is configured like
 
@@ -69,11 +59,9 @@ where the experiment is configured like
    save_directory: ''
    record_pose: true
    scenario:
-     type: Cross
+     type: CrossTorus
      agent_margin: 0.1
      side: 4
-     target_margin: 0.1
-     tolerance: 0.5
      groups:
        -
          type: thymio
@@ -93,6 +81,3 @@ where the experiment is configured like
          state_estimation:
            type: Bounded
            range: 5.0
-
-
-

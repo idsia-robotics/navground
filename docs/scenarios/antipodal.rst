@@ -46,18 +46,24 @@ Example
 	:loop:
 	:width: 780
 
-The simulation in the video can be reproduced with
+The video has been recorded using
 
 .. code-block:: console
 
-   $ run_rt src/navground/navground_demos/launch/antipodal.yaml  --factor 5 --background lightgray
+   $ navground record_video install/navground_examples_yaml/experiment/antipodal.yaml --factor 5
+
+and a real time simulation can be visualized in a browser using
+
+.. code-block:: console
+
+   $ navground run_rt install/navground_examples_yaml/experiment/antipodal.yaml --factor 5
 
 
 where the experiment is configured like
 
 .. code-block:: YAML
 
-   steps: 3000
+   steps: 1000
    time_step: 0.1
    save_directory: ''
    record_pose: true

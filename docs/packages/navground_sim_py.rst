@@ -8,13 +8,8 @@ This package provides Python bindings to the simulation library and utilities to
 Dependencies
 ============
 
-- `ament_cmake <https://index.ros.org/p/ament_cmake/#humble>`_ to build the package
 - :doc:`navground_core_py </packages/navground_core_py>` the core python package
 - :doc:`navground_sim </packages/navground_sim>` the simulation library
-- `pybind11 <https://pybind11.readthedocs.io/en/stable/>`_ for binding the C++ library
-- `NumPy <https://numpy.org>`_ pybind11 exposes Eigen objects using `numpy`
-- `This fork of pybind11_mkdoc <https://github.com/jeguzzi/pybind11_mkdoc/tree/rst>`_ to extract Python docstrings from the C++ code.
-
 
 Python packages
 ===============
@@ -39,34 +34,6 @@ Executables
 
 .. _navground_main:
 
-navground
----------
-
-Convenience script that group together all the other executables under the same command prefix.
-
-
-.. argparse::
-   :module: navground.sim.main
-   :func: parser
-   :prog: navground
-   :nodescription:
-   :nodefault:
-
-
-Example
-~~~~~~~
-
-.. code-block:: console
-
-   $ navground --help       
-   usage: navground [-h] {info,run,run_rt,sample,record_video,replay} ...
-   
-   positional arguments:
-     {info,run,run_rt,sample,record_video,replay} Subcommands
-   
-   options:
-     -h, --help            show this help message and exit
-
 
 .. _info_sim_py:
 
@@ -89,7 +56,8 @@ Example
 
 .. code-block:: console
 
-   $ info       
+   $ info --properties
+      
    Behaviors
    ---------
    Dummy
@@ -313,3 +281,53 @@ Example
 .. code-block:: console
 
    $ replay ./experiment_3784746994027959661_2023-07-07_16-13-36/data.h5 --factor 10
+
+
+navground_py
+------------
+
+Like  :ref:`navground`, a command that contains all other commands of this package as sub-commands, installed in the binary directory. Using it, you can run
+
+.. code-block:: console
+
+   naground_py <command> [arguments]
+
+instead of 
+
+.. code-block:: console
+
+   install/lib/<navground_sim_py>/<command> [arguments]
+
+
+You can also execute this command directly from Python
+
+.. code-block:: console
+
+   python -m navground.sim [sub-command] [arguments]
+
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ navground_py run --help 
+
+   usage: navground_py run [-h] [--tqdm] [--run_index RUN_INDEX] [--runs    RUNS] [--threads THREADS] [--processes PROCESSES] [--save_single_hdf5]    [--use_multiprocess] YAML
+   
+   Runs an experiment using the Python interpreter
+   
+   positional arguments:
+     YAML                  YAML string, or path to a YAML file,    describing an experiment
+   
+   options:
+     -h, --help            show this help message and exit
+     --tqdm                Display tqdm bar
+     --run_index RUN_INDEX
+                           Will overwrite the experiment own run_index if    positive.
+     --runs RUNS           Will overwrite the experiment own runs if    positive.
+     --threads THREADS     Number of threads
+     --processes PROCESSES
+                           Number of processes
+     --save_single_hdf5    Whether to store a single HDF5 file when using    multiple processes
+     --use_multiprocess    Whether to use the multiprocess package    instead of multiprocessings

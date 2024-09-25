@@ -83,12 +83,15 @@ add_library(navground_core SHARED
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/register_plugins.cmake)
 
 if (ament_cmake_FOUND AND ament_index_cpp_FOUND)
+  message("Using ament index to register plugins")
   set(NAVGROUND_PLUGINS_IN_AMENT_INDEX TRUE)
   target_compile_definitions(navground_core PUBLIC NAVGROUND_PLUGINS_IN_AMENT_INDEX)
   target_link_libraries(navground_core PUBLIC ament_index_cpp::ament_index_cpp)
 else()
+  message("Using ad-hoc index to register plugins")
   set(NAVGROUND_PLUGINS_IN_AMENT_INDEX FALSE)
 endif()
+
 target_compile_definitions(navground_core PUBLIC NAVGROUND_PLUGINS_INDEX="${NAVGROUND_PLUGINS_INDEX}")
 target_include_directories(navground_core
   PUBLIC
@@ -136,6 +139,13 @@ install(
   DESTINATION share/${PROJECT_NAME}/cmake
 )
 
+set("DSV" "prepend-non-duplicate;NAVGROUND_PLUGINS_PREFIX;")
+file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/plugins.dsv" CONTENT "${DSV}")
+install(
+  FILES "${CMAKE_CURRENT_BINARY_DIR}/plugins.dsv"
+  DESTINATION share/${PROJECT_NAME}/hook
+)
+
 if(ament_cmake_FOUND)
   if (ament_index_cpp_FOUND)
     ament_export_dependencies(ament_index_cpp)
@@ -167,10 +177,3 @@ else()
   )
 
 endif()
-
-set("DSV" "prepend-non-duplicate;NAVGROUND_PLUGINS_PREFIX;")
-file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/plugins.dsv" CONTENT "${DSV}")
-install(
-  FILES "${CMAKE_CURRENT_BINARY_DIR}/plugins.dsv"
-  DESTINATION share/${PROJECT_NAME}/hook
-)

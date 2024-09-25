@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, Callable, List, Type, TypeAlias, TypeVar, Union
 
 import numpy
-import pkg_resources
+import importlib.metadata
 
 from ._navground import Action
 from ._navground import Behavior as _Behavior
@@ -165,9 +165,9 @@ from . import behavior_modulations, behaviors, kinematics
 
 
 def load_py_plugins() -> None:
-    for name in ('navground_behaviors', 'navground_kinematics',
+    for group in ('navground_behaviors', 'navground_kinematics',
                  'navground_modulations'):
-        for entry_point in pkg_resources.iter_entry_points(name):
+        for entry_point in importlib.metadata.entry_points(group=group):
             entry_point.load()
 
 

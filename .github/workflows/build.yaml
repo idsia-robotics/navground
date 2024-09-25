@@ -8,10 +8,10 @@ jobs:
       matrix:
         os:
           # - ubuntu-22.04
-          # - ubuntu-20.04
-          # - ubuntu-24.04
+          - ubuntu-20.04
+          - ubuntu-24.04
           - windows-latest
-          # - macos-latest
+          - macos-latest
     name: build navground cpp packages
     runs-on: ${{ matrix.os }}
     steps:
@@ -27,13 +27,13 @@ jobs:
         id: cache
         with:
           path: install
-          key: ${{ matrix.os }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}
+          key: ${{ matrix.os }}-${{ hashFiles('src/navground/installation/deps.repos', 'src/navground/installation/ament.repos') }}
       - uses: ilammy/msvc-dev-cmd@v1
       - if: steps.cache.outputs.cache-hit != 'true'
         run: |
           pip install vcstool
-          vcs import --shallow --input src/navground/colcon/deps.repos
-          vcs import --shallow --input src/navground/colcon/ament.repos
+          vcs import --shallow --input src/navground/installation/deps.repos
+          vcs import --shallow --input src/navground/installation/ament.repos
       - if: ${{runner.os == 'Windows' && steps.cache.outputs.cache-hit != 'true' }}
         run: |
           set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
@@ -44,7 +44,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         with:
           path: install
-          key: ${{ matrix.os }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}   
+          key: ${{ matrix.os }}-${{ hashFiles('src/navground/installation/deps.repos', 'src/navground/installation/ament.repos') }}   
       - if: runner.os != 'Windows'
         run: |
           source install/setup.bash
@@ -66,15 +66,15 @@ jobs:
     strategy:
       matrix:
         os:
-          # - ubuntu-22.04
-          # - ubuntu-20.04
-          # - ubuntu-24.04
+          - ubuntu-22.04
+          - ubuntu-20.04
+          - ubuntu-24.04
           - windows-latest
-          # - macos-latest
+          - macos-latest
         python-version: 
           - "3.10"
-          # - "3.11"
-          # - "3.12"
+          - "3.11"
+          - "3.12"
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4

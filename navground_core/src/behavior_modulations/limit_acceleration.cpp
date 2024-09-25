@@ -22,12 +22,12 @@ const std::map<std::string, Property> LimitAccelerationModulation::properties =
          make_property<ng_float_t, LimitAccelerationModulation>(
              &LimitAccelerationModulation::get_max_acceleration,
              &LimitAccelerationModulation::set_max_acceleration,
-             std::numeric_limits<ng_float_t>::max(), "Maximal acceleration")},
+             std::numeric_limits<ng_float_t>::infinity(), "Maximal acceleration")},
         {"max_angular_acceleration",
          make_property<ng_float_t, LimitAccelerationModulation>(
              &LimitAccelerationModulation::get_max_angular_acceleration,
              &LimitAccelerationModulation::set_max_angular_acceleration,
-             std::numeric_limits<ng_float_t>::max(),
+             std::numeric_limits<ng_float_t>::infinity(),
              "Maximal angular acceleration")}};
 
 const std::string LimitAccelerationModulation::type =

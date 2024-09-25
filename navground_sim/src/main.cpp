@@ -8,6 +8,7 @@
 #include "run_command.h"
 #include "sample_command.h"
 #include "yaml-cpp/yaml.h"
+#include <iostream>
 
 namespace navground::sim {
 
@@ -44,7 +45,9 @@ struct MainCommand : Command<MainCommand> {
     if (parser.is_subcommand_used(_ip)) {
       return _info.execute(_ip);
     }
-    return 1;
+    std::cout << "Welcome to the navground!" << std::endl << std::endl;
+    std::cout << parser << std::endl;
+    return 0;
   }
 
 private:

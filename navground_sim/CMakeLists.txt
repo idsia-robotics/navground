@@ -95,7 +95,7 @@ target_link_libraries(
 
 if (UNIX)
   find_package(Threads REQUIRED)
-  target_link_libraries(navground_sim PUBLIC Threads::Threads)
+  target_link_libraries(navground_sim PRIVATE Threads::Threads)
 endif()
 
 target_include_directories(navground_sim INTERFACE $<TARGET_PROPERTY:HighFive,INTERFACE_INCLUDE_DIRECTORIES>)

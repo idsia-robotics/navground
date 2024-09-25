@@ -61,7 +61,7 @@ if (ament_cmake_python_FOUND)
     SCRIPTS_DESTINATION lib/${PROJECT_NAME}
     PACKAGE_DIR navground/sim
     NAMESPACE navground
-    INSTALL_SCRIPTS_TO_BIN navground_py
+    INSTALL_SCRIPTS_TO_BIN $<IF:$<BOOL:${WIN32}>,navground_py.exe,navground_py> 
   )
 
   install(

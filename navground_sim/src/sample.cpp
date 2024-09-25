@@ -2,75 +2,9 @@
  * @author Jerome Guzzi - <jerome@idsia.ch>
  */
 
-#include <argparse/argparse.hpp>
-#include <filesystem>
-#include <iostream>
 
-#include "navground/core/plugins.h"
-#include "navground/core/yaml/yaml.h"
-#include "navground/sim/sampling/sampler.h"
-#include "navground/sim/scenario.h"
-#include "navground/sim/yaml/scenario.h"
-#include "yaml-cpp/yaml.h"
+#include "sample_command.h"
 
 int main(int argc, char *argv[]) {
-  navground::core::load_plugins();
-  argparse::ArgumentParser parser("sample");
-  parser.add_description("Samples a world from a scenario.");
-  parser.add_argument("YAML").help(
-      "YAML string, or path to a YAML file, describing a scenario");
-  parser.add_argument("--seed").help("Seed").default_value(0).scan<'i', int>();
-
-  try {
-    parser.parse_args(argc, argv);
-  } catch (const std::runtime_error &err) {
-    std::cerr << err.what() << std::endl;
-    std::cerr << parser;
-    std::exit(1);
-  }
-
-  YAML::Node node;
-  const std::string yaml = parser.get<std::string>("YAML");
-  const int seed = parser.get<int>("seed");
-  if (std::filesystem::exists(yaml)) {
-    try {
-      node = YAML::LoadFile(yaml);
-    } catch (const YAML::ParserException &e) {
-      std::cerr << "[Error] " << e.what() << std::endl;
-      std::exit(1);
-    }
-  } else {
-    try {
-      node = YAML::Load(yaml);
-    } catch (const YAML::ParserException &e) {
-      std::cerr << "[Error] " << e.what() << std::endl;
-      std::exit(1);
-    }
-  }
-  std::shared_ptr<navground::sim::Scenario> scenario;
-  try {
-    scenario = YAML::load_node<navground::sim::Scenario>(node);
-  } catch (const std::exception &e) {
-    std::cerr << "[Error] Could not load the scenario " << e.what()
-              << std::endl;
-    std::exit(1);
-  }
-  // std::cout << "Scenario" << std::endl;
-  // std::cout << "========" << std::endl;
-  std::cout << YAML::dump<navground::sim::Scenario>(scenario.get());
-  // std::cout << std::endl << std::endl;
-  // std::cout << "Sampled world" << std::endl;
-  std::cout << std::endl;
-  for (int i = 0; i < 30; ++i) {
-    std::cout << "-";
-  }
-  std::cout << std::endl;
-  World world;
-  world.set_seed(seed);
-  // is equivalent to:
-  // navground::sim::set_random_seed(seed);
-  scenario->init_world(&world);
-  std::cout << YAML::dump<navground::sim::World>(&world);
-  std::cout << std::endl;
-  return 0;
+  return navground::sim::SampleCommand("sample").run(argc, argv);
 }

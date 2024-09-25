@@ -71,6 +71,8 @@ setup(
     CONTENT "${setup_py_content}"
   )
 
+  file(REMOVE_RECURSE ${build_dir}/build)
+
   add_custom_target(
     python_copy
     COMMAND ${CMAKE_COMMAND} -E copy_directory

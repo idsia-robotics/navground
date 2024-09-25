@@ -3,37 +3,21 @@
  */
 
 #include "navground/core/info.h"
-
-#include <cstdlib>
-
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/kinematics.h"
-#include "navground/core/plugins.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/task.h"
-// include, else it does not load the symbols when compiled with GCC
-#include "navground/sim/experiment.h"
 
-int main(int argc, char* argv[]) {
-  navground::core::load_plugins();
-  INFO info("info",
-            {{"--behavior", "Behaviors"},
-             {"--kinematics", "Kinematics"},
-             {"--modulations", "Modulations"},
-             {"--state_estimation", "State Estimations"},
-             {"--task", "Tasks"},
-             {"--scenario", "Scenarios"}},
-            argc, argv);
-  if (!info.valid) {
-    std::exit(1);
-  }
-  info.print<navground::core::Behavior>("--behavior");
-  info.print<navground::core::Kinematics>("--kinematics");
-  info.print<navground::core::BehaviorModulation>("--modulations");
-  info.print<navground::sim::StateEstimation>("--state_estimation");
-  info.print<navground::sim::Task>("--task");
-  info.print<navground::sim::Scenario>("--scenario");
-  return 0;
+int main(int argc, char *argv[]) {
+  navground::core::InfoCommand cmd(
+      "info",
+      {{"Behaviors", navground::core::Behavior::type_properties},
+       {"Kinematics", navground::core::Kinematics::type_properties},
+       {"Modulations", navground::core::BehaviorModulation::type_properties},
+       {"State Estimations", navground::sim::StateEstimation::type_properties},
+       {"Tasks", navground::sim::Task::type_properties},
+       {"Scenarios", navground::sim::Scenario::type_properties}});
+  return cmd.run(argc, argv);
 }

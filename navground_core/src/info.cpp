@@ -3,26 +3,15 @@
  */
 
 #include "navground/core/info.h"
-
-#include <cstdlib>
-
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/kinematics.h"
-#include "navground/core/plugins.h"
 
-int main(int argc, char* argv[]) {
-  navground::core::load_plugins();
-  INFO info("info",
-            {{"--behavior", "Behaviors"},
-             {"--kinematics", "Kinematics"},
-             {"--modulations", "Modulations"}},
-            argc, argv);
-  if (!info.valid) {
-    std::exit(1);
-  }
-  info.print<navground::core::Behavior>("--behavior");
-  info.print<navground::core::BehaviorModulation>("--modulations");
-  info.print<navground::core::Kinematics>("--kinematics");
-  return 0;
+int main(int argc, char *argv[]) {
+  navground::core::InfoCommand cmd(
+      "info",
+      {{"Behaviors", navground::core::Behavior::type_properties},
+       {"Kinematics", navground::core::Kinematics::type_properties},
+       {"Modulations", navground::core::BehaviorModulation::type_properties}});
+  return cmd.run(argc, argv);
 }

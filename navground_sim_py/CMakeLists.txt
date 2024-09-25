@@ -61,6 +61,7 @@ if (ament_cmake_python_FOUND)
     SCRIPTS_DESTINATION lib/${PROJECT_NAME}
     PACKAGE_DIR navground/sim
     NAMESPACE navground
+    INSTALL_SCRIPTS_TO_BIN navground_py
   )
 
   install(
@@ -90,11 +91,8 @@ else()
     VERSION "0.0.6"
     TARGET _navground_sim
   )
-  
+
 endif()
-
-
-
 
 if (ament_cmake_FOUND)
   ament_package()

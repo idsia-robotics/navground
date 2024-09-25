@@ -240,8 +240,6 @@ struct NAVGROUND_CORE_EXPORT HasProperties {
   }
 };
 
-}  // namespace navground::core
-
 template <typename T>
 inline std::ostream& operator<<(std::ostream& os,
                                 const std::vector<T>& values) {
@@ -267,5 +265,7 @@ inline std::ostream& operator<<(std::ostream& os,
   std::visit([&os](auto&& arg) { os << arg; }, value);
   return os;
 }
+
+}  // namespace navground::core
 
 #endif  // NAVGROUND_CORE_PROPERTY_H

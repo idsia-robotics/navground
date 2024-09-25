@@ -12,6 +12,8 @@
 
 namespace navground::core {
 
+  using PropertyRegister = std::map<std::string, Properties>; 
+
 /**
  * @brief      Contains a register of sub-classes of ``T``, registered by name
  * using \ref register_type. ``T`` must also be a sub-class of \ref
@@ -54,8 +56,8 @@ struct
    * @return     A map with the list of properties for all registered
    * sub-classes ``name -> properties``.
    */
-  static std::map<std::string, Properties> &type_properties() {
-    static std::map<std::string, Properties> p;
+  static PropertyRegister &type_properties() {
+    static PropertyRegister p;
     return p;
   };
 

@@ -3,7 +3,8 @@ on: workflow_dispatch
 jobs:
   check_version:
     runs-on: ubuntu-latest
-    output2: ${{ steps.check.outputs.test }}
+    outputs:
+      version: ${{ steps.check.outputs.test }}
     steps:
       - uses: actions/checkout@v4
         with:

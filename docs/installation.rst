@@ -520,7 +520,7 @@ To visualize a simulation in real-time from a browser, install ``websockets``
 jinjia [optional]
 ^^^^^^^^^^^^^^^^^^^
 
-To render a world to svg images, install ``Jinjia2``
+To render a world to svg images, install ``Jinja2``
 
 .. code-block:: console
 

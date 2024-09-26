@@ -45,7 +45,7 @@ struct MainCommand : Command<MainCommand> {
     if (parser.is_subcommand_used(_ip)) {
       return _info.execute(_ip);
     }
-    std::cout << "Welcome to the navground!" << std::endl << std::endl;
+    std::cout << "Welcome to navground!" << std::endl << std::endl;
     std::cout << parser << std::endl;
     return 0;
   }

@@ -46,8 +46,12 @@ def run(path: str,
                           **kwargs)
 
 
+def description() -> str:
+    return 'Make video from an experiment using the Python interpreter.'
+
+
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    parser.description = 'Make video from an experiment using the Python interpreter'
+    parser.description = description()
     parser.add_argument(
         'input',
         help=('YAML string, or path to a YAML file describing an experiment,'

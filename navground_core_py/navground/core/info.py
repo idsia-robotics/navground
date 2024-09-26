@@ -13,6 +13,10 @@ def get_arg(title: str) -> str:
     return title.lower().replace(' ', '_')
 
 
+def description() -> str:
+    return "Lists registered components."
+
+
 def add_arg_for_register(parser: argparse.ArgumentParser, title: str) -> None:
     parser.add_argument('--' + get_arg(title),
                         help=f'selects {title.lower()}',
@@ -24,7 +28,7 @@ def add_arg_for_register(parser: argparse.ArgumentParser, title: str) -> None:
 
 def init_parser_with_registers(parser: argparse.ArgumentParser,
                                registers: Registers) -> None:
-    parser.description = "Lists registered components."
+    parser.description = description()
     parser.add_argument('--properties',
                         help="Include properties",
                         action='store_true')

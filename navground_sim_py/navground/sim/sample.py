@@ -6,8 +6,12 @@ import sys
 from navground import sim
 
 
+def description() -> str:
+    return 'Samples a world from a scenario.'
+
+
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    parser.description = 'Samples a world from a scenario'
+    parser.description = description()
     parser.add_argument(
         'YAML',
         help='YAML string, or path to a YAML file, describing an experiment',

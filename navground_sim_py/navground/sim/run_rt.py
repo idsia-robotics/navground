@@ -76,8 +76,12 @@ async def run(scenario: _Scenario,
         await web_ui.stop()
 
 
+def description() -> str:
+    return 'Runs an experiment using the Python interpreter in real-time.'
+
+
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    parser.description = 'Runs an experiment using the Python interpreter in real-time'
+    parser.description = description()
     parser.add_argument(
         'YAML',
         help='YAML string, or path to a YAML file, describing an experiment',

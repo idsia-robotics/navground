@@ -61,8 +61,11 @@ def parser() -> argparse.ArgumentParser:
     return parser
 
 
+def description() -> str:
+    return 'Replay an experiment in real-time.'
+
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    parser.description = 'Replay an experiment in real-time'
+    parser.description = description()
     parser.add_argument('path',
                         help='The path an HDF5 file that store an experiment',
                         type=str)

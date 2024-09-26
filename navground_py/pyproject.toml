@@ -1,13 +1,13 @@
 [build-system]
-requires = ["setuptools >= 61.0"]
+requires = ["setuptools >= 61.0",  "wheel", "setuptools-git-versioning>=2.0,<3", ]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "navground"
 dependencies = [
-  "numpy",
-  "h5py",
+  "numpy"
 ]
+
 requires-python = ">=3.10"
 authors = [
   {name = "Jerome Guzzi", email = "jerome@idsia.ch"},
@@ -15,7 +15,7 @@ authors = [
 maintainers = [
   {name = "Jerome Guzzi", email = "jerome@idsia.ch"}
 ]
-description = "TODO"
+description = "A playground to experiment with navigation algorithms."
 readme = "README.md"
 license = {file = "LICENSE"}
 keywords = [""]
@@ -23,8 +23,17 @@ classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python"
 ]
-# dynamic = ["version"]
-version = "0.0.6"
+dynamic = ["version"]
+
+[project.optional-dependencies]
+all = [
+  'tqdm',
+  'h5py',
+  'websockets',
+  'cairosvg',
+  'moviepy',
+  'Jinja2'
+]
 
 [project.urls]
 Homepage = "https://github.com/idsia-robotics/navground"
@@ -38,7 +47,6 @@ navground_py = "navground.sim.main:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-# include =["navground.*"]
 
 [tool.distutils.bdist_wheel]
 universal = true

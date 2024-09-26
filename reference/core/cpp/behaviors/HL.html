@@ -1,0 +1,869 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Human-Like &#8212; navground 0.0.6 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../../_static/documentation_options.js?v=73504a2b"></script>
+    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/cpp/behaviors/HL';</script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="ORCA" href="ORCA.html" />
+    <link rel="prev" title="Dummy" href="dummy.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">navground 0.0.6 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../first_steps.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/tour.html">A tour of navground</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_core.html">navground_core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_core_py.html">navground_core_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_sim.html">navground_sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_sim_py.html">navground_sim_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_ros.html">navground_ros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_msgs.html">navground_msgs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_coppeliasim.html">navground_coppeliasim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_examples.html">navground_examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_examples_py.html">navground_examples_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_examples_yaml.html">navground_examples_yaml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_demos.html">navground_demos</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/display.html">Visualize a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/playback.html">Load and playing back recorded experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/register.html">How to register a component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/probes.html">How to record custom data in experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/install.html">How to build without the ROS build tools</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../scenarios/index.html">Benchmark scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../scenarios/cross.html">Cross</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../scenarios/cross_torus.html">Cross Torus</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../../index.html">Core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">C++ API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../types.html">Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../target.html">Target</a></li>
+<li class="toctree-l4 current active"><a class="reference internal" href="index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../helper.html">Helpers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../python/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/controller.html">Controller</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../yaml/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../yaml/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../yaml/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../yaml/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../yaml/behavior.html">Behavior</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../yaml/behavior_modulation.html">Behavior Modulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../yaml/state.html">Environment State</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../sim/index.html">Simulation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/sampling.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/cpp/yaml.html">YAML</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/visualization.html">Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/recorded_experiment.html">Recorded Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/real_time.html">Real-time simulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/plugins.html">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/helpers.html">Helpers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/yaml/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/yaml/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/yaml/task.html">Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/yaml/samplers.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/yaml/scenario.html">Scenario</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/yaml/experiment.html">Experiment</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../_sources/reference/core/cpp/behaviors/HL.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Human-Like</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehaviorE"><code class="docutils literal notranslate"><span class="pre">HLBehavior</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior10HLBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HLBehavior::HLBehavior()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior7get_etaEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_eta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior7set_etaE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HLBehavior::set_eta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior7get_tauEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_tau()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior7set_tauE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HLBehavior::set_tau()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior12get_apertureEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_aperture()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior12set_apertureE7Radians"><code class="docutils literal notranslate"><span class="pre">HLBehavior::set_aperture()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_resolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior14set_resolutionEj"><code class="docutils literal notranslate"><span class="pre">HLBehavior::set_resolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior22get_angular_resolutionEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_angular_resolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior11get_epsilonEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_epsilon()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior11set_epsilonE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HLBehavior::set_epsilon()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior17get_barrier_angleEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_barrier_angle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior17set_barrier_angleE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HLBehavior::set_barrier_angle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior22get_collision_distanceEbNSt8optionalI10ng_float_tEE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_collision_distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior20get_collision_anglesEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_collision_angles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior11default_etaE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::default_eta</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior11default_tauE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::default_tau</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior16default_apertureE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::default_aperture</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior14max_resolutionE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::max_resolution</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior18default_resolutionE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::default_resolution</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior15default_epsilonE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::default_epsilon</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior21default_barrier_angleE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::default_barrier_angle</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="human-like">
+<h1>Human-Like<a class="headerlink" href="#human-like" title="Link to this heading">#</a></h1>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/core/behaviors/HL.h&quot;</span>
+</pre></div>
+</div>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehaviorE">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HLBehavior</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core10HLBehaviorE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Human-like obstacle avoidance behavior. </p>
+<p>The behavior inspired by how pedestrian move, has been originally presented in <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Guzzi</span><span class="p">,</span> <span class="n">J</span><span class="o">.</span><span class="p">;</span> <span class="n">Giusti</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="p">;</span> <span class="n">Gambardella</span><span class="p">,</span> <span class="n">L</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="p">;</span> <span class="n">Theraulaz</span><span class="p">,</span> <span class="n">G</span><span class="o">.</span><span class="p">;</span> <span class="n">Di</span> <span class="n">Caro</span><span class="p">,</span> <span class="n">G</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="p">,</span>
+<span class="s2">&quot;Human-friendly robot navigation in dynamic environments,&quot;</span>
+<span class="n">Robotics</span> <span class="ow">and</span> <span class="n">Automation</span> <span class="p">(</span><span class="n">ICRA</span><span class="p">),</span> <span class="mi">2013</span> <span class="n">IEEE</span> <span class="n">International</span> <span class="n">Conference</span> <span class="n">on</span><span class="p">,</span>
+<span class="n">vol</span><span class="o">.</span><span class="p">,</span> <span class="n">no</span><span class="o">.</span><span class="p">,</span> <span class="n">pp</span><span class="mf">.423</span><span class="p">,</span><span class="mi">430</span><span class="p">,</span> <span class="mi">6</span><span class="o">-</span><span class="mi">10</span> <span class="n">May</span> <span class="mi">2013</span>
+</pre></div>
+</div>
+</p>
+<p><em>Registered properties</em>:</p>
+<p><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tau</span></code> (float, <a class="reference internal" href="#classnavground_1_1core_1_1_h_l_behavior_1af718e59abb8ec42f701a4ccbf0e8588c"><span class="std std-ref">get_tau</span></a>),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eta</span></code> (float, <a class="reference internal" href="#classnavground_1_1core_1_1_h_l_behavior_1a3b6df8bea9be46da31ef3d3e8fcd2986"><span class="std std-ref">get_eta</span></a>),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aperture</span></code> (float, <a class="reference internal" href="#classnavground_1_1core_1_1_h_l_behavior_1a0eb7e6a209df0f9b43c9b87663cda6c7"><span class="std std-ref">get_aperture</span></a>),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resolution</span></code> (float, <a class="reference internal" href="#classnavground_1_1core_1_1_h_l_behavior_1aff03f113032fb7f43a29ee192d1698ff"><span class="std std-ref">get_resolution</span></a>),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">epsilon</span></code> (float, <a class="reference internal" href="#classnavground_1_1core_1_1_h_l_behavior_1aa8d332818524dcc1d902e81216a572c7"><span class="std std-ref">get_epsilon</span></a>),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">barrier_angle</span></code> (float, <a class="reference internal" href="#classnavground_1_1core_1_1_h_l_behavior_1afa9baece77ab44e25d6456e4d616b597"><span class="std std-ref">get_barrier_angle</span></a>)</p></li>
+</ul>
+</p>
+<p><em>State</em>: <a class="reference internal" href="../state.html#classnavground_1_1core_1_1_geometric_state"><span class="std std-ref">GeometricState</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior10HLBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a841e98a560a34aa52974da671d99d41e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HLBehavior</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">kinematics</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior10HLBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Contruct a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kinematics</strong> – <strong>[in]</strong> The kinematics </p></li>
+<li><p><strong>radius</strong> – <strong>[in]</strong> The radius </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10HLBehavior7get_etaEv">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a3b6df8bea9be46da31ef3d3e8fcd2986"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_eta</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10HLBehavior7get_etaEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the time <span class="math notranslate nohighlight">\(\eta\)</span> that the behavior keeps away from collisions. Higher values lead to slower speeds. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="math notranslate nohighlight">\(\eta\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior7set_etaE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a7d343908e1d4b3a6978da8e5cbf3f2da"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_eta</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior7set_etaE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the time <span class="math notranslate nohighlight">\(\eta\)</span> that the behavior keeps away from collisions. Higher values lead to slower speeds. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A strict positive value. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10HLBehavior7get_tauEv">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1af718e59abb8ec42f701a4ccbf0e8588c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_tau</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10HLBehavior7get_tauEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the relaxation time <span class="math notranslate nohighlight">\(\tau\)</span>. Higher values lead to lower accelerations. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="math notranslate nohighlight">\(\eta\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior7set_tauE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a664c041c48b3109c513c952a6f4e139a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_tau</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior7set_tauE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the relaxation time <span class="math notranslate nohighlight">\(\tau\)</span>. Higher values lead to lower accelerations. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A positive value. If zero, relaxation is disabled. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10HLBehavior12get_apertureEv">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a0eb7e6a209df0f9b43c9b87663cda6c7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_aperture</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10HLBehavior12get_apertureEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the aperture <span class="math notranslate nohighlight">\(\alpha\)</span>: desired velocity is searched on a circular sector <span class="math notranslate nohighlight">\([-\alpha, \alpha]\)</span>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The positive <span class="math notranslate nohighlight">\(\alpha\)</span> in radians. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior12set_apertureE7Radians">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a1a861c9a9e02bfdd30066762075e2298"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_aperture</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior12set_apertureE7Radians" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the aperture, see <a class="reference internal" href="#classnavground_1_1core_1_1_h_l_behavior_1a0eb7e6a209df0f9b43c9b87663cda6c7"><span class="std std-ref">get_aperture</span></a>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A positive value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10HLBehavior14get_resolutionEv">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1aff03f113032fb7f43a29ee192d1698ff"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_resolution</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10HLBehavior14get_resolutionEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the number of subdivision of <span class="math notranslate nohighlight">\([-\alpha, \alpha]\)</span> to search for optimal directions. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The resolution. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior14set_resolutionEj">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1aaebd7abb114e06a8282d596bd2674840"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_resolution</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior14set_resolutionEj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the number of subdivision of <span class="math notranslate nohighlight">\([-\alpha, \alpha]\)</span> to search for optimal directions. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A strict positive value. The larger the value, the more precise the motion but also the more expensive the computations. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10HLBehavior22get_angular_resolutionEv">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a0d85c3bda19444acc502d0f5f3c33ced"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_angular_resolution</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10HLBehavior22get_angular_resolutionEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Convenience method that return the size of an angular segment in <span class="math notranslate nohighlight">\([-\alpha, \alpha]\)</span> to search for optimal directions. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The angular resolution for the optimal direction search in radians. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10HLBehavior11get_epsilonEv">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1aa8d332818524dcc1d902e81216a572c7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_epsilon</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10HLBehavior11get_epsilonEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the lowest margin to an obstacle or neighbor. </p>
+<p>Any obstacles nearer than this this value will be virtually pushing away from the agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Epsilon. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior11set_epsilonE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1ae9e5370bdb72c310cc3f23f70a1b5540"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_epsilon</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior11set_epsilonE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the lowest margin to an obstacle or neighbor. </p>
+<p>Any obstacles nearer than this this value will be virtually pushing away from the agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> Zero or negative values disable virtually pushing away obstacles. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10HLBehavior17get_barrier_angleEv">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1afa9baece77ab44e25d6456e4d616b597"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_barrier_angle</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10HLBehavior17get_barrier_angleEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the barrier angle, i.e., the minimal angle with respect to a currently virtually colliding obstacle to ignore it. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Epsilon. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior17set_barrier_angleE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a2b3f738284f9e1aff987798ea12a4c3c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_barrier_angle</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior17set_barrier_angleE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the barrier angle, i.e., the minimal angle with respect to a currently virtually colliding obstacle to ignore it. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A positive value. Higher values makes the agent more cautious. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior22get_collision_distanceEbNSt8optionalI10ng_float_tEE">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a49bc9d232f4e523f743348b5bc4bb141"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_collision_distance</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">assuming_static</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nullopt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior22get_collision_distanceEbNSt8optionalI10ng_float_tEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the free distance to collision in <span class="math notranslate nohighlight">\([-\alpha, \alpha]\)</span> at regular intervals. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>assuming_static</strong> – <strong>[in]</strong> If True, all obstacles are assumed static. </p></li>
+<li><p><strong>speed</strong> – <strong>[in]</strong> The desired speed. Will be set to the last used target speed if not specified.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A vector of distances of size <a class="reference internal" href="#classnavground_1_1core_1_1_h_l_behavior_1aff03f113032fb7f43a29ee192d1698ff"><span class="std std-ref">get_resolution</span></a>. Angles are in the agent frame. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10HLBehavior20get_collision_anglesEv">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1aa5fe96a90e053fb1a9b26b97896813d9"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_collision_angles</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10HLBehavior20get_collision_anglesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the angles in <span class="math notranslate nohighlight">\([-\alpha, \alpha]\)</span> at regular intervals used for collision checking. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A vector of angles in the fixed frame of size <a class="reference internal" href="#classnavground_1_1core_1_1_h_l_behavior_1aff03f113032fb7f43a29ee192d1698ff"><span class="std std-ref">get_resolution</span></a>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior11default_etaE">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a5de483d9787a35f9bbebebe8df4742fa"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_eta</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">static_cast</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">0.5</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior11default_etaE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Default <span class="math notranslate nohighlight">\(\eta\)</span></p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior11default_tauE">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1aabee44b9177e2b2058ea2c62cf0a4604"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_tau</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">static_cast</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">0.125</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior11default_tauE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Default <span class="math notranslate nohighlight">\(\tau\)</span></p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior16default_apertureE">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1ab20de7e77ef627d86d97a08eb8f19776"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_aperture</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">static_cast</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">M_PI</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior16default_apertureE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Default aperture (full circular sector) </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior14max_resolutionE">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a5d9ebd9a51ae0e756d366a1f452da332"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max_resolution</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">361</span></span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior14max_resolutionE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Maximal resolution </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior18default_resolutionE">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a4a2712c44ed247494d1d65d5fcbd0bda"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_resolution</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">101</span></span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior18default_resolutionE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Default resolution. Should be less than <a class="reference internal" href="#classnavground_1_1core_1_1_h_l_behavior_1a5d9ebd9a51ae0e756d366a1f452da332"><span class="std std-ref">max_resolution</span></a></p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior15default_epsilonE">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1a942a073b381d441c422cf4e02769ddd1"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_epsilon</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior15default_epsilonE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Default epsilon. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10HLBehavior21default_barrier_angleE">
+<span class="target" id="classnavground_1_1core_1_1_h_l_behavior_1af1f95f2157871da3012833986866ff28"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_barrier_angle</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">static_cast</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">M_PI_2</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N9navground4core10HLBehavior21default_barrier_angleE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Default barrier angle. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="dummy.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Dummy</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ORCA.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">ORCA</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehaviorE"><code class="docutils literal notranslate"><span class="pre">HLBehavior</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior10HLBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HLBehavior::HLBehavior()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior7get_etaEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_eta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior7set_etaE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HLBehavior::set_eta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior7get_tauEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_tau()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior7set_tauE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HLBehavior::set_tau()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior12get_apertureEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_aperture()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior12set_apertureE7Radians"><code class="docutils literal notranslate"><span class="pre">HLBehavior::set_aperture()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_resolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior14set_resolutionEj"><code class="docutils literal notranslate"><span class="pre">HLBehavior::set_resolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior22get_angular_resolutionEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_angular_resolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior11get_epsilonEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_epsilon()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior11set_epsilonE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HLBehavior::set_epsilon()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior17get_barrier_angleEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_barrier_angle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior17set_barrier_angleE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">HLBehavior::set_barrier_angle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior22get_collision_distanceEbNSt8optionalI10ng_float_tEE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_collision_distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10HLBehavior20get_collision_anglesEv"><code class="docutils literal notranslate"><span class="pre">HLBehavior::get_collision_angles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior11default_etaE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::default_eta</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior11default_tauE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::default_tau</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior16default_apertureE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::default_aperture</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior14max_resolutionE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::max_resolution</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior18default_resolutionE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::default_resolution</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior15default_epsilonE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::default_epsilon</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10HLBehavior21default_barrier_angleE"><code class="docutils literal notranslate"><span class="pre">HLBehavior::default_barrier_angle</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jérôme Guzzi, IDSIA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Jérôme Guzzi, IDSIA.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

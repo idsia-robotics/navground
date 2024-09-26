@@ -17,6 +17,6 @@ jobs:
       - id: check
         run: |
           cd src/navground/navground_py
-          echo "version=$(python setup.py --version)"
+          setuptools-git-versioning -v 
           echo "version=$(python setup.py --version)" >> "$GITHUB_OUTPUT"
 

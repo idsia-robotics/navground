@@ -21,7 +21,7 @@
 #include "navground/core/state.h"
 #include "navground/core/target.h"
 #include "navground/core/types.h"
-#include "navground_core_export.h"
+#include "navground/core/export.h"
 
 namespace navground::core {
 

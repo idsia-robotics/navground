@@ -2,6 +2,7 @@ import os
 import re
 import subprocess
 import sys
+import pathlib
 
 
 def ref(_renamed_classes, _methods):
@@ -32,9 +33,11 @@ def ref(_renamed_classes, _methods):
 
 def main():
 
-    python_src = sys.argv[1]
-    library = sys.argv[2]
-    deps = sys.argv[3:]
+    destination = sys.argv[1]
+    python_src = sys.argv[2]
+    library = sys.argv[3]
+    deps = sys.argv[4:]
+    deps = [str(pathlib.Path(p).as_posix()) for p in deps]
 
     headers = []
 
@@ -45,12 +48,20 @@ def main():
 
     includes = sum([["-I", path] for path in deps], [])
 
-    args = ["python3", "-m", "pybind11_mkdoc"
+    headers = [str(pathlib.Path(p).as_posix()) for p in headers]
+
+    args = [sys.executable, "-m", "pybind11_mkdoc"
             ] + headers + includes + ["--std=c++17"]
 
-    result = subprocess.run(args, capture_output=True)
-    header = result.stdout.decode("utf-8")
-    destination = 'docstrings.h'
+    # if it runs in a venv ...
+    result = subprocess.run(args, capture_output=True, env=os.environ)
+
+    # destination = 'docstrings.h'
+
+    try:
+        header = result.stdout.decode("utf-8")
+    except:
+        header = ''
 
     if result.returncode or len(header) == 0:
         print("Failed running pybind11_mkdoc", file=sys.stderr)
@@ -59,8 +70,6 @@ def main():
         with open(destination, 'w') as f:
             f.write('#define DOC(...) ""')
         return
-
-    header = result.stdout.decode("utf-8")
 
     with open(python_src, 'r') as f:
         python = f.read()
@@ -123,6 +132,8 @@ def main():
             extras += f'static const char *{doc} = "";\n'
 
     header += extras
+
+    print('Save docstrings to', destination, file=sys.stderr)
 
     with open(destination, 'w') as f:
         f.write(header)

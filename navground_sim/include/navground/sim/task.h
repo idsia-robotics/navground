@@ -8,7 +8,7 @@
 #include "navground/core/property.h"
 #include "navground/core/register.h"
 #include "navground/core/types.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 
 using navground::core::HasProperties;
 using navground::core::HasRegister;

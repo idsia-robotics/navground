@@ -16,7 +16,7 @@
 #include <ostream>
 
 #include "navground/core/types.h"
-#include "navground_core_export.h"
+#include "navground/core/export.h"
 
 typedef unsigned int uint;
 
@@ -447,10 +447,10 @@ inline std::ostream& operator<<(std::ostream& os, const Frame& frame) {
   return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os, const Vector2& vector) {
-  os << "Vector2(" << vector[0] << ", " << vector[1] << ")";
-  return os;
-}
+// inline std::ostream& operator<<(std::ostream& os, const Vector2& vector) {
+//   os << "Vector2(" << vector[0] << ", " << vector[1] << ")";
+//   return os;
+// }
 
 inline std::ostream& operator<<(std::ostream& os, const Twist2& twist) {
   os << "Twist2(" << twist.velocity << ", " << twist.angular_speed << ", "

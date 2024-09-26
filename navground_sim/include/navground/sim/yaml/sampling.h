@@ -10,7 +10,7 @@
 #include "navground/sim/sampling/register.h"
 #include "navground/sim/sampling/sampler.h"
 #include "navground/sim/yaml/world.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 #include "yaml-cpp/yaml.h"
 
 using navground::core::Property;

@@ -2,6 +2,8 @@
 #define NAVGROUND_CORE_UTILITIES_H
 
 #include <string_view>
+#include <vector>
+#include "navground/core/common.h"
 
 template <typename T>
 constexpr auto get_type_name() -> std::string_view {
@@ -27,5 +29,16 @@ constexpr auto get_type_name() -> std::string_view {
 
   return function.substr(start, size);
 }
+
+template <>
+constexpr auto get_type_name<navground::core::Vector2>() -> std::string_view {
+  return "Vector2";
+}
+
+template <>
+constexpr auto get_type_name<std::vector<navground::core::Vector2>>() -> std::string_view {
+  return "std::vector<Vector2>";
+}
+
 
 #endif  // NAVGROUND_CORE_UTILITIES_H

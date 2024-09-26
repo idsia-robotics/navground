@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(navground_sim)
 
-include(${CMAKE_CURRENT_LIST_DIR}/../cmake/ament_python_install_namespace_package.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/../cmake/generate_docstrings.cmake)
-
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
@@ -41,21 +38,12 @@ message("cpptqdm_SOURCE_DIR ${cpptqdm_SOURCE_DIR}")
 # set(YAML_CPP_INSTALL ON CACHE INTERNAL "")
 # add_subdirectory(../yaml-cpp yaml-cpp)
 
-find_package(ament_cmake REQUIRED)
-find_package(ament_cmake_python REQUIRED)
 find_package(navground_core REQUIRED)
-find_package(navground_py REQUIRED)
-find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(GEOS REQUIRED)
-find_package(pybind11 REQUIRED)
 find_package(HighFive REQUIRED)
-find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
 # add_subdirectory(../external/geos geos)
-# add_subdirectory(../external/pybind11 pybind11 EXCLUDE_FROM_ALL)
 # add_subdirectory(../external/HighFive highFive)
-# find_package(pybind11_vendor REQUIRED)
-# find_package(pybind11 REQUIRED)
 
 # Force to C++17
 set(CMAKE_CXX_STANDARD 17)
@@ -93,7 +81,7 @@ add_library(navground_sim SHARED
   src/yaml.cpp
 )
 
-generate_export_header(navground_sim)
+generate_export_header(navground_sim EXPORT_FILE_NAME navground/sim/export.h)
 
 # -Wl,-force_load 
 target_link_libraries(
@@ -104,13 +92,15 @@ target_link_libraries(
   Eigen3::Eigen
   navground_core::navground_core 
 )
-target_link_libraries(navground_sim PRIVATE )
+
+if (UNIX)
+  find_package(Threads REQUIRED)
+  target_link_libraries(navground_sim PRIVATE Threads::Threads)
+endif()
+
 target_include_directories(navground_sim INTERFACE $<TARGET_PROPERTY:HighFive,INTERFACE_INCLUDE_DIRECTORIES>)
 # Else fails compiling with clang 15, see https://developer.apple.com/documentation/xcode-release-notes/xcode-15-release-notes
 target_compile_definitions(navground_sim PUBLIC _LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION)
-
-ament_export_dependencies(geos navground_core HighFive Eigen3)
-ament_export_targets(navground_simTargets HAS_LIBRARY_TARGET)
 
 add_executable(run src/run.cpp)
 target_link_libraries(run navground_sim)
@@ -125,39 +115,15 @@ add_executable(info src/info.cpp)
 target_link_libraries(info navground_sim)
 add_dependencies(info navground_sim)
 
+add_executable(navground src/main.cpp)
+target_link_libraries(navground navground_sim)
+add_dependencies(navground navground_sim)
+target_include_directories(navground PRIVATE ${cpptqdm_SOURCE_DIR})
+set_target_properties(navground PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
 # add_executable(echo src/echo.cpp)
 # target_link_libraries(echo navground_sim)
 # add_dependencies(echo navground_sim)
-
-ament_python_install_namespace_package(sim
-  SCRIPTS_DESTINATION lib/${PROJECT_NAME}
-  PACKAGE_DIR navground/sim
-  NAMESPACE navground
-)
-pybind11_add_module(_navground_sim src/python.cpp)
-
-generate_docstrings(
-  _navground_sim 
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/python.cpp 
-  ${CMAKE_CURRENT_SOURCE_DIR}/include/navground/sim
-  ${CMAKE_INSTALL_PREFIX}/include 
-  ${PROJECT_BINARY_DIR} 
-  ${EIGEN3_INCLUDE_DIR}
-)
-
-# target_compile_options(_navground_sim PRIVATE -fvisibility=hidden)
-target_link_libraries(_navground_sim 
-  PRIVATE 
-  navground_sim
-)
-target_link_libraries(_navground_sim INTERFACE navground_py)
-target_compile_definitions(_navground_sim PRIVATE PYBIND11_DETAILED_ERROR_MESSAGES=1)
-# 
-add_dependencies(_navground_sim navground_sim docstrings)
-
-# target_link_libraries(_navground_sim PRIVATE -Wl,-force_load navground_sim)
-
-install(TARGETS _navground_sim DESTINATION "${PYTHON_INSTALL_DIR}/navground/sim")
 
 install(TARGETS
   info
@@ -168,33 +134,56 @@ install(TARGETS
   lib/${PROJECT_NAME}
 )
 
+install(TARGETS
+  navground
+  DESTINATION
+  bin
+)
+
 install(
   DIRECTORY include/navground/sim
   DESTINATION include/navground
 )
 
 install(FILES
- ${PROJECT_BINARY_DIR}/navground_sim_export.h DESTINATION include
+ ${PROJECT_BINARY_DIR}/navground/sim/export.h DESTINATION include/navground/sim
 )
 
 install(
   TARGETS navground_sim
-  EXPORT navground_simTargets
+  EXPORT ${PROJECT_NAME}Targets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
   INCLUDES DESTINATION include
 )
 
-IF (WIN32)
-install(
-	FILES 
-	${CMAKE_INSTALL_PREFIX}/bin/navground_core.dll 
-	${CMAKE_INSTALL_PREFIX}/bin/navground_sim.dll 
-	${CMAKE_INSTALL_PREFIX}/bin/hdf5.dll 
-  ${CMAKE_INSTALL_PREFIX}/bin/geos.dll 
-	DESTINATION "${PYTHON_INSTALL_DIR}/navground/sim"
-)
-ENDIF()
+if (ament_cmake_FOUND)
+  ament_export_dependencies(geos navground_core HighFive Eigen3)
+  if (UNIX)
+    ament_export_dependencies(Threads)
+  endif()
+  ament_export_targets(${PROJECT_NAME}Targets HAS_LIBRARY_TARGET)
+  ament_package()
+else()
+  install(
+    EXPORT ${PROJECT_NAME}Targets
+    FILE ${PROJECT_NAME}Targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION share/${PROJECT_NAME}/cmake
+  )
 
-ament_package()
+  include(CMakePackageConfigHelpers)
+    
+  configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    INSTALL_DESTINATION share/${PROJECT_NAME}/cmake
+  )
+  
+  install(
+    FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    DESTINATION share/${PROJECT_NAME}/cmake
+  )
+
+endif()

@@ -13,4 +13,5 @@ Benchmarks scenarios provide common scenarios where to test navigation behavior.
    antipodal
    corridor
    cross
+   cross_torus
 

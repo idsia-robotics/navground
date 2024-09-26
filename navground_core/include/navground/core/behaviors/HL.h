@@ -15,7 +15,7 @@
 #include "navground/core/property.h"
 #include "navground/core/states/geometric.h"
 #include "navground/core/types.h"
-#include "navground_core_export.h"
+#include "navground/core/export.h"
 
 // TODO(J): verify if behavior for tau < step is correct (non smooth)
 

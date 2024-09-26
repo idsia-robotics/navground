@@ -42,7 +42,8 @@ endif()
 add_executable(controller src/ROSControllerNode.cpp)
 ament_target_dependencies(controller
   rclcpp tf2 tf2_ros tf2_geometry_msgs std_msgs visualization_msgs
-  nav_msgs geometry_msgs navground_msgs navground_core)
+  nav_msgs geometry_msgs navground_msgs)
+target_link_libraries(controller navground_core::navground_core)
 
 install(TARGETS
   controller

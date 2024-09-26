@@ -19,7 +19,7 @@
 #include "navground/sim/entity.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/task.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 
 using navground::core::Behavior;
 using navground::core::BehaviorModulation;

@@ -11,7 +11,7 @@
 #include "navground/core/states/sensing.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/world.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 
 namespace navground::sim {
 

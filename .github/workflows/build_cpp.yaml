@@ -1,11 +1,60 @@
 name: build_cpp
-
-on:
-  workflow_dispatch:
-
+on: workflow_dispatch
+env:
+  COLCON_DEFAULTS_FILE: src/navground/colcon/defaults.yaml
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  build_cpp:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest 
+          # - windows-latest
+          # - macos-latest
+    name: build navground cpp packages
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Show environment
-        run: echo "🔎 The name of your branch is ${{ github.ref }}."
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: 'pip'
+      - run: pip install colcon-common-extensions
+      - uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: install
+          key: ${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: build deps
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install vcstool
+          vcs import --shallow --input src/navground/colcon/deps.repos
+          vcs import --shallow --input src/navground/colcon/ament.repos
+      - if: ${{runner.os == 'Windows' && steps.cache.outputs.cache-hit != 'true' }}
+        run: |
+          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+          colcon build --metas src\navground\colcon\navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11 ament_cmake ament_package ament_index_cpp      
+      - if: ${{runner.os != 'Windows' && steps.cache.outputs.cache-hit != 'true' }}
+        run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11 ament_cmake ament_package ament_index_cpp
+      - uses: actions/cache/save@v4
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: install
+          key: ${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('src/navground/colcon/deps.repos', 'src/navground/colcon/ament.repos') }}   
+      - if: runner.os != 'Windows'
+        run: |
+          source install/setup.bash
+          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim # navground_examples
+      - if: runner.os == 'Windows'
+        run: |
+          .\install\setup.bat
+          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+          colcon build --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
+      - name: archive install
+        uses: actions/upload-artifact@v4
+        with:
+          name: install-${{ runner.os }}-${{ runner.arch }}
+          path: install

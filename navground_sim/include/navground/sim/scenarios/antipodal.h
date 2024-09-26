@@ -11,7 +11,7 @@
 #include "navground/sim/scenario.h"
 #include "navground/sim/tasks/waypoints.h"
 #include "navground/sim/world.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 
 using navground::core::make_property;
 using navground::core::Properties;

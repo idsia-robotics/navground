@@ -8,3 +8,4 @@ Guides
    register
    parallelize
    probes
+   install

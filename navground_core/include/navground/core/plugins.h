@@ -2,10 +2,10 @@
 #define NAVGROUND_CORE_PLUGINS_H
 
 #include <filesystem>
-#include <optional>
-#include <string>
+#include <map>
+#include <set>
 
-#include "navground_core_export.h"
+#include "navground/core/export.h"
 
 namespace navground::core {
 
@@ -14,18 +14,20 @@ namespace navground::core {
  *
  * Plugins are shared libraries that extend one or more registered classes.
  *
- * @param[in]  plugins    A list of paths separated by ";".
- * @param[in]  env        An environment variable with additional paths
- *                        separated by ";". If empty, it defaults to
- *                        ``"NAVGROUND_PLUGINS"``
- * @param[in]  directory  A directory with files containing additional paths
- *                        separated by ";". If null, it defaults to
- *                        the value of the macro ``NAVGROUND_PLUGINS_PATH``
+ * @param[in]  plugins         Paths to the shared libraries to import.
+ * @param[in]  directories     A map of directories with files containing paths
+ *                             to the shared libraries to import,
+ *                             one per line, relative to the map keys.
+ * @param[in]  include_default Whether to load the plugin from the
+ *                             ament resources index, or from the
+ *                             "NAVGROUND_PLUGINS_INDEX_PATH" env
+ *                             (a list of directories separated by ":")
  */
-void NAVGROUND_CORE_EXPORT
-load_plugins(const std::string& plugins = "", std::string env = "",
-             std::optional<std::filesystem::path> directory = std::nullopt);
+void NAVGROUND_CORE_EXPORT load_plugins(
+    const std::set<std::filesystem::path> &plugins = {},
+    const std::map<std::filesystem::path, std::set<std::filesystem::path>>
+        &directories = {},
+    bool include_default = true);
+} // namespace navground::core
 
-}  // namespace navground::core
-
-#endif  // NAVGROUND_CORE_PLUGINS_H
+#endif // NAVGROUND_CORE_PLUGINS_H

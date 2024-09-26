@@ -47,6 +47,23 @@ For instance, to list components available from C++, we can run
 
          install\Lib/navground_sim\info.exe  
    
+
+Similarly, you find the rest of the executables in
+
+.. tabs::
+
+   .. tab:: macOS and Linux
+
+      .. code-block:: console
+
+         install/lib/<package>
+
+   .. tab:: Windows
+
+      .. code-block:: console
+
+         install\Lib/<package> 
+
 From here on, you may 
 
 want to go through some tutorials

@@ -1,11 +1,177 @@
-name: Placeholder
-
-on:
-  workflow_dispatch:
-
+name: Build
+on: workflow_dispatch
+env:
+  COLCON_DEFAULTS_FILE: src/navground/colcon/defaults.yaml
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  build_cpp:
+    strategy:
+      matrix:
+        os:
+          # - ubuntu-22.04
+          - ubuntu-20.04
+          - ubuntu-24.04
+          - windows-latest
+          - macos-latest
+    name: build navground cpp packages
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Show environment
-        run: echo "🔎 The name of your branch is ${{ github.ref }}."
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: 'pip'
+      - run: pip install colcon-common-extensions
+      - uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: install
+          key: ${{ matrix.os }}-${{ hashFiles('src/navground/installation/deps.repos', 'src/navground/installation/ament.repos') }}
+      - uses: ilammy/msvc-dev-cmd@v1
+      - if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install vcstool
+          vcs import --shallow --input src/navground/installation/deps.repos
+          vcs import --shallow --input src/navground/installation/ament.repos
+      - if: ${{runner.os == 'Windows' && steps.cache.outputs.cache-hit != 'true' }}
+        run: |
+          set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
+          colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11 ament_cmake ament_package ament_index_cpp      
+      - if: ${{runner.os != 'Windows' && steps.cache.outputs.cache-hit != 'true' }}
+        run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11 ament_cmake ament_package ament_index_cpp
+      - uses: actions/cache/save@v4
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: install
+          key: ${{ matrix.os }}-${{ hashFiles('src/navground/installation/deps.repos', 'src/navground/installation/ament.repos') }}   
+      - if: runner.os != 'Windows'
+        run: |
+          source install/setup.bash
+          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim # navground_examples
+      - if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
+          colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
+      - name: archive install
+        uses: actions/upload-artifact@v4
+        with:
+          name: install-${{ matrix.os }}
+          path: install
+          if-no-files-found: error
+  build_py:
+    needs: build_cpp
+    name: build navground python packages
+    strategy:
+      matrix:
+        os:
+          # - ubuntu-22.04
+          - ubuntu-20.04
+          - ubuntu-24.04
+          - windows-latest
+          - macos-latest
+        python-version: 
+          - "3.10"
+          - "3.11"
+          - "3.12"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+      - uses: actions/download-artifact@v4
+        with:
+          name: install-${{ matrix.os }}
+          path: install
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      - run: pip install colcon-common-extensions wheel libclang repairwheel
+      - run: |
+          git clone https://github.com/jeguzzi/pybind11_mkdoc.git --branch rst src/pybind11_mkdoc
+          cd src/pybind11_mkdoc
+          pip install .
+          cd -
+      - uses: ilammy/msvc-dev-cmd@v1
+      - if: runner.os != 'Windows'
+        run: |
+          source install/setup.bash
+          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
+      - if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
+          colcon build --event-handlers console_direct+ --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-${{ matrix.os }}-py${{matrix.python-version}}
+          path: log
+          if-no-files-found: error
+      - name: archive install
+        uses: actions/upload-artifact@v4
+        with:
+          name: install-${{ matrix.os }}-py${{matrix.python-version}}
+          path: install
+          if-no-files-found: error
+      - name: build wheel
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          cd src\navground\navground_py
+          python setup.py bdist_wheel
+          $fileNames = Get-ChildItem -Path dist -Recurse -Include *.whl
+          repairwheel -o ..\..\..\dist $fileNames[0]
+      - name: build wheel
+        if: runner.os != 'Windows'
+        run: |
+          source install/setup.bash
+          cd src/navground/navground_py
+          python setup.py bdist_wheel
+          repairwheel -o ../../../dist dist/*.whl
+      - name: archive wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheel-${{ matrix.os }}-py${{matrix.python-version}}
+          path: dist/*
+          if-no-files-found: error
+  publish_wheel:
+    needs: build_py
+    name: Publish distribution 📦 to TestPyPI
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/navground
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheel-*
+          path: dist
+          merge-multiple: true
+      - run: rm dist/*linux_x86_64*
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true
+
+      # - if: runner.os == 'macOS'
+      #   run: |
+      #     pip install delocate
+      #     delocate-wheel -w fixed -v src/navground/navground_py/dist/*.whl
+      # - if: runner.os == 'Linux'
+      #   uses: awalsh128/cache-apt-pkgs-action@latest
+      #   with:
+      #     packages: patchelf
+      # - if: runner.os == 'Linux'
+      #   run: |
+      #     pip install auditwheel
+      #     auditwheel repair -w fixed src/navground/navground_py/dist/*.whl
+      # - if: runner.os == 'Windows'
+      #   shell: bash
+      #   run: |
+      #     pip install delvewheel
+      #     delvewheel repair -w fixed src/navground/navground_py/dist/*.whl

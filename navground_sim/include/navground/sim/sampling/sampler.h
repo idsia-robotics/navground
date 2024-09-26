@@ -13,7 +13,7 @@
 #include "navground/core/common.h"
 #include "navground/core/property.h"
 #include "navground/core/types.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 
 using navground::core::Vector2;
 

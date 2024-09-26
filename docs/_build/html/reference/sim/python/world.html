@@ -165,8 +165,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_core.html">navground_core</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_py.html">navground_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_core_py.html">navground_core_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_sim.html">navground_sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_sim_py.html">navground_sim_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_ros.html">navground_ros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_msgs.html">navground_msgs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_coppeliasim.html">navground_coppeliasim</a></li>
@@ -539,7 +540,7 @@ document.write(`
 </dd>
 </dl>
 <ol class="arabic simple" start="2">
-<li><p>__init__(p1: numpy.ndarray[numpy.float64[2, 1]], p2: numpy.ndarray[numpy.float64[2, 1]]) -&gt; None</p></li>
+<li><p>__init__(p1: Vector2, p2: Vector2) -&gt; None</p></li>
 </ol>
 <p>Creates a rectangular region</p>
 <dl class="field-list simple">
@@ -598,7 +599,7 @@ given time.</p>
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#navground.sim.Obstacle.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>__init__(position: numpy.ndarray[numpy.float64[2, 1]], radius: float) -&gt; None</p></li>
+<li><p>__init__(position: Vector2, radius: float) -&gt; None</p></li>
 </ol>
 <p>Constructs a new instance.</p>
 <dl class="field-list simple">
@@ -643,7 +644,7 @@ given time.</p>
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#navground.sim.Wall.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>__init__(p1: numpy.ndarray[numpy.float64[2, 1]], p2: numpy.ndarray[numpy.float64[2, 1]]) -&gt; None</p></li>
+<li><p>__init__(p1: Vector2, p2: Vector2) -&gt; None</p></li>
 </ol>
 <p>Constructs a new instance.</p>
 <dl class="field-list simple">
@@ -940,7 +941,7 @@ wraps the selected axis.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_lattice_grid">
-<span class="sig-name descname"><span class="pre">get_lattice_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_zero</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c8</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_lattice_grid" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_lattice_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_zero</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c8</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/common.html#navground.Vector2" title="navground.Vector2"><span class="pre">Vector2</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_lattice_grid" title="Link to this definition">#</a></dt>
 <dd><p>The N=0, 1, or 2 vectors that define the lattice, e.g., <code class="docutils literal notranslate"><span class="pre">{delta_x,</span>
 <span class="pre">-delta_x}</span></code> if only the axis=0 lattice is set.</p>
 <dl class="field-list simple">
@@ -1150,7 +1151,7 @@ with any obstacle</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.subdivide_bounding_box">
-<span class="sig-name descname"><span class="pre">subdivide_bounding_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.subdivide_bounding_box" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">subdivide_bounding_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/common.html#navground.Vector2" title="navground.Vector2"><span class="pre">Vector2</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.subdivide_bounding_box" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">

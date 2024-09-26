@@ -7,10 +7,12 @@
 
 #include "navground/core/property.h"
 #include "navground/core/utilities.h"
-#include "navground_core_export.h"
+#include "navground/core/export.h"
 #include "yaml-cpp/yaml.h"
 
 namespace navground::core {
+
+  using PropertyRegister = std::map<std::string, Properties>; 
 
 /**
  * @brief      Contains a register of sub-classes of ``T``, registered by name
@@ -54,8 +56,8 @@ struct
    * @return     A map with the list of properties for all registered
    * sub-classes ``name -> properties``.
    */
-  static std::map<std::string, Properties> &type_properties() {
-    static std::map<std::string, Properties> p;
+  static PropertyRegister &type_properties() {
+    static PropertyRegister p;
     return p;
   };
 

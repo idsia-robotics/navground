@@ -16,7 +16,7 @@
 #include "navground/sim/scenario.h"
 #include "navground/sim/world.h"
 #include "navground/sim/yaml/scenario.h"
-#include "navground_sim_export.h"
+#include "navground/sim/export.h"
 
 namespace navground::sim {
 

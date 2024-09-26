@@ -9,7 +9,7 @@
 #include "navground/core/property.h"
 #include "navground/core/register.h"
 #include "navground/core/types.h"
-#include "navground_core_export.h"
+#include "navground/core/export.h"
 
 namespace navground::core {
 

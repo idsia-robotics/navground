@@ -4,9 +4,48 @@ Installation
 
 We provide installation instruction for macOS, Linux, and Windows.
 
+.. note::
+   
+   You can also `try navground on binder <https://mybinder.org/v2/gh/idsia-robotics/navground.git/HEAD?labpath=tutorials>`_ without installing anything. 
+
+Although not required, we suggest using a Python virtual environment.
+In this case, start by creating and activating the virtual environment.
+
+   .. tabs::
+
+      .. tab:: Linux & macOS
+   
+         .. code-block:: console
+      
+            python3 -m venv <path_to_the_venv>
+            . <path_to_the_venv>/bin/activate
+   
+      .. tab:: Windows
+   
+         .. code-block:: console
+   
+            python -m venv <path_to_the_venv>
+            <path_to_the_venv>/bin/activate.bat
+
+
+Binary installation
+===================
+
+You can install the navground via pip.
+
+.. code-block:: console
+
+   pip install navground
+
+.. warning::
+
+   This will install just the Python interface of navground, through which you can use and extend navground from Python but not from C++ (for this, you need to install from source).
+
+Source installation
+===================
 
 Preparation
-===========
++++++++++++
 
 
 You will need ``git``, a c++-17 compiler, ``cmake``, and ``Python 3`` with ``pip``. 
@@ -33,18 +72,6 @@ Install the appropriate package manager for your system
 
    All Windows commands below should be executed in a "Native Tools Command Prompt for VS" with admin privileges.
 
-.. 
-   warning::
-
-..    On Windows, add the following option
-
-..    
-   code-block:: console
-
-..       --cmake-args -T ClangCL
-
-..    to each colcon build commands below. It will use Clang, which is the only compiler we have tested successfully on Windows.
-
 
 Install the binary dependencies:
 
@@ -68,82 +95,57 @@ Install the binary dependencies:
 
          choco install -y cmake git python3
 
-
-All-at-once
-===========
-
-
-.. note::
-
-   In case you prefer using a virtual environment for Python, start by creating and activating it:
-
-   .. tabs::
-
-      .. tab:: macOS
-   
-         .. code-block:: console
-      
-            python3 -m venv <path_to_the_venv>
-            . <path_to_the_venv>/bin/activate
-   
-      .. tab:: Linux
-   
-         .. code-block:: console
-      
-            python3 -m venv <path_to_the_venv>
-            . <path_to_the_venv>/bin/activate
-   
-   
-      .. tab:: Windows
-   
-         .. code-block:: console
-   
-            python -m venv <path_to_the_venv>
-            <path_to_the_venv>/bin/activate.bat
-
-
-The following script install everything needed to run navground simulations.
-Change ``navground_sim`` to another package name, like ``navground_examples``, to install additional packages.
+Clone this repository in the ``src`` directory
 
 .. tabs::
 
-   .. tab:: macOS
+   .. tab:: Linux & macOS
 
       .. code-block:: console
-   
-         mkdir ws
+
+         mkdir -p ws/src
          cd ws
-         python3 -m pip install colcon-common-extensions vcstool numpy h5py multiprocess
-         vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
-         export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
-
-   .. tab:: Linux
-
-      .. code-block:: console
-   
-         mkdir ws
-         cd ws
-         python3 -m pip install colcon-common-extensions vcstool numpy h5py multiprocess
-         vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
-         export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
-
+         git clone https://github.com/idsia-robotics/navground src/navground
 
    .. tab:: Windows
 
       .. code-block:: console
 
-         mkdir ws
+         mkdir ws\src
          cd ws
-         python -m pip install colcon-common-extensions vcstool numpy h5py multiprocess
-         vcs import --input https://raw.githubusercontent.com/idsia-robotics/navground/main/colcon/navground.repos
+         git clone https://github.com/idsia-robotics/navground src\navground
+
+
+All-at-once
++++++++++++
+
+The following script installs everything needed to run navground simulations and some examples. Change the packages specified after ``--packages-up-to`` to install a different set of packages.
+
+.. tabs::
+
+   .. tab:: Linux & macOS
+
+      .. code-block:: console
+   
+         python3 -m pip install colcon-common-extensions vcstool numpy h5py git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+         vcs import --input src/navground/installation/deps.repos
+         vcs import --input src/navground/installation/ament.repos
+         export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_examples navground_examples_py navground_examples_yaml
+
+   .. tab:: Windows
+
+      .. code-block:: console
+
+         python -m pip install colcon-common-extensions vcstool numpy h5py git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+         vcs import --input src/navground/installation/deps.repos
+         vcs import --input src/navground/installation/ament.repos
          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
-         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim
+         colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_examples navground_examples_py navground_examples_yaml
       
 .. note::
 
-   You can modify the build configuration by editing the files in ``src/navground/colcon``, see the `colcon documentation <https://colcon.readthedocs.io/en/released/user/configuration.html#colcon-pkg-files>`_:
+   You can modify the build configuration (have a look at the `colcon documentation <https://colcon.readthedocs.io/en/released/user/configuration.html#colcon-pkg-files>`_) by editing the files in ``src/navground/colcon``:
 
    - ``defaults.yaml``
    - ``navground.meta``
@@ -158,52 +160,48 @@ Change ``navground_sim`` to another package name, like ``navground_examples``, t
       
    and then run ``colcon build ...`` again.
 
-Step-by-step instructions
-=========================
+Step-by-step
+++++++++++++
 
-ROS is not required (except for ROS-specific components, see below) but we do use two build tools from ROS which you can install even without ROS:
+ROS is not required (except for ROS-specific components, see below) but we do use build tools from ROS which you can install even without ROS:
 
 - `colcon <https://colcon.readthedocs.io/en/released/>`_ to coordinate the installation from source of different packages [and `vcstool <https://github.com/dirk-thomas/vcstool>`_ to simplify managing source code]
 
   .. code-block:: console
 
-     python3 -m pip install -U colcon-common-extensions [vcstool]
+     pip install -U colcon-common-extensions
 
-- `ament_cmake <https://github.com/ament/ament_cmake>`_ to manage resources and integrate better with ROS. If you installed ROS, you will already have it. Else, only on Linux, you can install it from binary
+- `ament_cmake <https://github.com/ament/ament_cmake>`_ to manage resources and integrate better with ROS. If you installed ROS, you  already have it, else you can build it from source (see below) or, only on Linux, possibly from binary
 
-  .. tabs::
+  .. code-block:: console
   
-     .. tab:: macOS
+     sudo apt install -y ament-cmake
+
+
+- `ament_package <https://github.com/ament/ament_package>`_  is needed by ``ament_cmake``. On Linux, you may install it from binary
+
+  .. code-block:: console
   
-        Install from source.
-  
-     .. tab:: Linux
-  
-        .. code-block:: console
-  
-           sudo apt install -y build-essential ament-cmake
+     sudo apt install -y python3-ament-package
 
-     .. tab:: Windows
-  
-        Install from source.
 
-  or you can build it from source (see below).
+  else you can build it from source (see below).
 
-Then, create a ``colcon`` workspace and clone ``navground``.
+- `ament_index_cpp <https://github.com/ament/ament_index>`_  is a c++ library to share resources, like plugins. It is also distributed with ROS 2, else you need to build it from source (see below).
 
-.. code-block:: console
-
-    mkdir -p ws/src
-    cd ws
-    git clone https://github.com/idsia-robotics/navground.git src/navground
-
-If you need build ``ament_cmake``, clone it and then build it with ``colcon``.
+If you need to build the ament packages, clone them and build them with ``colcon``.
 
 .. code-block:: console
 
     git clone https://github.com/ament/ament_cmake.git src/ament_cmake
     git clone https://github.com/ament/ament_package src/ament_package 
-    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF --packages-up-to ament_cmake
+    git clone https://github.com/ament/ament_index src/ament_index
+    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF --packages-up-to ament_cmake ament_index_cpp ament_package
+
+.. note::
+   
+   The ROS build tools are not required to build or run navgroud.
+   Have a look at :doc:`guides/install` to learn what they do and how to install navground without them. 
 
 .. _Core C++:
 
@@ -293,8 +291,8 @@ Installation from source
    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select argparse
 
 
-Package
--------
+Navground
+---------
 
 Once all dependencies are installed, compile the package using ``colcon``.
 
@@ -328,7 +326,7 @@ NumPy
 
 .. code-block:: console
 
-   python3 -m pip install -U numpy
+   pip install -U numpy
 
 pybind11
 ^^^^^^^^
@@ -369,68 +367,26 @@ Install ``pybind11_mkdoc`` to import docstrings from C++. It is not necessary bu
 
 .. code-block:: console
 
-   python3 -m pip install git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+   pip install git+https://github.com/jeguzzi/pybind11_mkdoc@rst
 
-
-You also need to install libclang.
-
-.. tabs::
-
-   .. tab:: macOS
-
-      Most probably you already have clang installed.
-      Just install the python package of the corresponding version.
-
-      .. code-block:: console
-
-         python3 -m pip install clang==14
-
-
-   .. tab:: Linux
-
-      Install the python package of the corresponding version.
-
-      .. code-block:: console
-
-         sudo apt install -y libclang-dev
-         python3 -m pip install clang==14
-
-   .. tab:: Windows
-
-      .. code-block:: console
-
-         clang --version
-         python -m pip install clang==<version of the install Clang compiler>
-
-
-Package
--------
+Navground
+---------
 
 Once all dependencies are installed, compile the package using ``colcon``.
 
 .. code-block:: console
 
-   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_py
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_core_py
 
-..
-   warning::
+.. _Simulation C++:
 
-   On Windows, you need to copy the dll library 
-
-   .. code-block:: console
-
-      copy install\bin\navground_core.dll install\Lib\site-packages\navground\core\navground_core.dll 
-
-
-.. _Simulation:
-
-Simulation (C++ and Python)
-###########################
+Simulation (C++)
+################
 
 Dependencies
 ------------
 
-Depends on `Core C++`_ and `Core Python`_.
+Depends on `Core C++`_.
 
 
 GEOS
@@ -463,7 +419,7 @@ Binary installation
 
       .. warning::
 
-         The current version installed in Ubuntu `is broken <https://answers.launchpad.net/ubuntu/+source/geos/+question/701657>`_. If you encounter any error, consider installing GEOS from source.
+         The version installed in Ubuntu `may be broken <https://answers.launchpad.net/ubuntu/+source/geos/+question/701657>`_. If you encounter any error, consider installing GEOS from source.
 
    .. tab:: Windows
 
@@ -512,14 +468,25 @@ Then, install HighFive.
    git clone https://github.com/BlueBrain/HighFive.git src/HighFive
    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DHIGHFIVE_UNIT_TESTS=OFF -DHIGHFIVE_USE_BOOST=OFF -DHIGHFIVE_BUILD_DOCS=OFF --packages-select HighFive
 
-multiprocess
-^^^^^^^^^^^^
+Navground
+---------
 
-We use `multiprocess <https://pypi.org/project/multiprocess/>`_ instead of the `multiprocessing` package contained in the Python standard library because more flexible
+Once all dependencies are installed, compile the package using ``colcon``.
 
 .. code-block:: console
 
-   python3 -m pip install multiprocess
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim
+
+
+.. _Simulation Python:
+
+Simulation (Python)
+###################
+
+Dependencies
+------------
+
+Depends on `Simulation C++`_ and `Core Python`_.
 
 h5py
 ^^^^
@@ -528,7 +495,17 @@ To be able to reload a simulation from a saved experiment, install ``h5py``
 
 .. code-block:: console
 
-   python3 -m pip install h5py
+   pip install h5py
+
+multiprocess [optional]
+^^^^^^^^^^^^^^^^^^^^^^^
+
+We support `multiprocess <https://pypi.org/project/multiprocess/>`_ as an optional alternative of the `multiprocessing` package contained in the Python standard library
+
+.. code-block:: console
+
+   pip install multiprocess
+
 
 websockets [optional]
 ^^^^^^^^^^^^^^^^^^^^^
@@ -537,8 +514,17 @@ To visualize a simulation in real-time from a browser, install ``websockets``
 
 .. code-block:: console
 
-   python3 -m pip install websockets
+   pip install websockets
 
+
+jinjia [optional]
+^^^^^^^^^^^^^^^^^^^
+
+To render a world to svg images, install ``Jinjia2``
+
+.. code-block:: console
+
+   pip install Jinja2
 
 cairosvg [optional]
 ^^^^^^^^^^^^^^^^^^^
@@ -547,7 +533,7 @@ To render a world to png, pdf or raw images, install ``cairosvg``
 
 .. code-block:: console
 
-   python3 -m pip install cairosvg
+   pip install cairosvg
 
 
 moviepy [optional]
@@ -557,37 +543,28 @@ To record a video from a simulation, install ``moviepy``
 
 .. code-block:: console
 
-   python3 -m pip install moviepy
+   pip install moviepy
 
 
-Package
--------
+Navground
+---------
 
 Once all dependencies are installed, compile the package using ``colcon``.
 
 .. code-block:: console
 
-   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim
-
-.. 
-   warning::
-
-   On Windows, you need to copy the dll library 
-
-   .. code-block:: console
-
-      copy install\bin\navground_sim.dll install\Lib\site-packages\navground\sim\navground_sim.dll 
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_sim_py
 
 
 Examples and demos
 ##################
 
-Depends on `Core C++`_, `Core Python`_, and `Simulation`_.
+Depends on `Core C++`_, `Core Python`_, `Simulation C++`_, `Simulation Python`_.
 
 
 .. code-block:: console
 
-   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_examples navground_examples_py navground_demos
+   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_examples navground_examples_py navground_examples_yaml navground_demos
 
 
 ROS
@@ -603,7 +580,7 @@ Depends on `Core C++`_. You also need to have ROS installed and to source its se
 CoppeliaSim
 ###########
 
-Depends on `Simulation`_. You also need to install `coppeliaSim <https://www.coppeliarobotics.com>`_ (versions 4.3, 4.4, 4.5, 4.6 [latest]).
+Depends on `Simulation C++`_. You also need to install `coppeliaSim <https://www.coppeliarobotics.com>`_ (versions 4.3, 4.4, 4.5, 4.6 [latest]).
 
 
 .. code-block:: console
@@ -614,8 +591,7 @@ Depends on `Simulation`_. You also need to install `coppeliaSim <https://www.cop
 Usage
 =====
 
-To use the installed packages, you will need to source the workspace
-
+If you built navground from source, source the workspace first.
 
 .. tabs::
 
@@ -638,49 +614,48 @@ To use the installed packages, you will need to source the workspace
         
          install\setup.bat
 
-
-If you have ROS, you can then launch executables with ``ros2 run ...``:
-
-.. code-block:: console
-
-   ros2 run <name_of_the_package> <name_of_the_executable> 
-
-like, for instance:
-
-.. code-block:: console
-
-   ros2 run navground_core info   
-
-If instead you don't have ROS, directly launch the executables located in ``install``:
+Run ``navground_py``, which is available from the ``pip`` installation too.
 
 .. tabs::
 
-   .. tab:: macOS
+   .. tab:: Linux & macOS
 
       .. code-block:: console
 
-         install/lib/navground_core/info
+         $ navground_py
 
-   .. tab:: Linux
-
-      .. code-block:: console
-
-         install/lib/navground_core/info
-
+         Welcome to the navground!
+         
+         Usage: navground [--help] [--version] {info,run,sample}
+         
+         Optional arguments:
+           -h, --help     shows help message and exits 
+           -v, --version  prints version information and exits 
+         
+         Subcommands:
+           info          Lists registered components.
+           run           Runs an experiment.
+           sample        Samples a world from a scenario.
 
    .. tab:: Windows
 
       .. code-block:: console
 
-         install\Lib\navground_core\info.exe
+         $ navground_py.exe
 
+         Welcome to the navground!
+         
+         Usage: navground [--help] [--version] {info,run,sample}
+         
+         Optional arguments:
+           -h, --help     shows help message and exits 
+           -v, --version  prints version information and exits 
+         
+         Subcommands:
+           info          Lists registered components.
+           run           Runs an experiment.
+           sample        Samples a world from a scenario.
 
-In the rest of the documentation, we omit ``ros2 run ...`` or the full path prefix and only specify the command to run
-
-
-.. code-block:: console
-
-   info
 
 Troubleshooting
 ===============

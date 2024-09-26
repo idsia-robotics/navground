@@ -57,8 +57,9 @@ RUN cd /ws/src && git clone https://github.com/idsia-robotics/navground.git
 RUN cd /ws \
     && colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select  \
         navground_core \
-        navground_py \
+        navground_core_py \
         navground_sim \
+        navground_sim_py \
         navground_examples \
         navground_examples_py \
         navground_demos

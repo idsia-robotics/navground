@@ -22,7 +22,10 @@ Scenarios may have specific configuration variables, which we list using :ref:`i
 
 .. code-block:: console
 
-   $ info --scenario Corridor
+   $ info --scenario Corridor --properties
+
+   Scenarios
+   ---------
 
    Corridor
      add_safety_to_agent_margin: 1 [bool]

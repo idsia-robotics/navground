@@ -11,7 +11,7 @@
 #include "navground/core/property.h"
 #include "navground/core/states/geometric.h"
 #include "navground/core/types.h"
-#include "navground_core_export.h"
+#include "navground/core/export.h"
 
 namespace RVO {
 class Agent;
@@ -129,7 +129,7 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
    *     J. Snape, J. van den Berg, S. J. Guy, and D. Manocha,
    *     "Smooth and collision-free navigation for multiple robots under
    *     differential-drive constraints," in 2010 IEEE/RSJ International
-   *     Conference on Intelligent, Robots and Systems, 2010, pp. 4584–4589.
+   *     Conference on Intelligent, Robots and Systems, 2010, pp. 4584-4589.
    *
    * with ``D=L/2``.
    *

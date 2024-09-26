@@ -41,7 +41,7 @@ endmacro()
 
 function(_ament_python_install_namespace_package package_name)
   cmake_parse_arguments(
-    ARG "SKIP_COMPILE" "PACKAGE_DIR;VERSION;SETUP_CFG;DESTINATION;SCRIPTS_DESTINATION;NAMESPACE" "" ${ARGN})
+    ARG "SKIP_COMPILE" "PACKAGE_DIR;VERSION;SETUP_CFG;DESTINATION;SCRIPTS_DESTINATION;NAMESPACE" "INSTALL_SCRIPTS_TO_BIN" ${ARGN})
   if(ARG_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "ament_python_install_namespace_package() called with unused "
       "arguments: ${ARG_UNPARSED_ARGUMENTS}")
@@ -180,6 +180,12 @@ setup(
       DESTINATION "${ARG_SCRIPTS_DESTINATION}/"
       ${_extra_install_args}
     )
+    foreach (script ${ARG_INSTALL_SCRIPTS_TO_BIN})
+      install(
+        PROGRAMS ${build_dir}/scripts/${script} 
+        DESTINATION bin
+      )
+    endforeach()
   endif()
 
   install(

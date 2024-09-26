@@ -124,18 +124,11 @@ Installation
 
 If the registered component has to be discoverable outside of the code where it is defined, like when you want to run an experiment using it, you have to install the component so that it can be discovered.
 
-.. 
-   warning::
-
-    Currently installing is only supported for Python components. 
-    Support for C++ components is in progress. 
-
-
 C++
 ---
 
 Wrap the extensions in one or more shared libraries. Then, 
-in `CMakeLists.txt`, add an entry to the ament index ``navground_plugins`` with
+in ``CMakeLists.txt``, call  ``navground_plugins`` with
 the paths of the installed libraries.
 
 For example, to build and install behavior ``MyBehavior`` implemented in file ``my_behavior.cpp``, add
@@ -143,19 +136,24 @@ For example, to build and install behavior ``MyBehavior`` implemented in file ``
 .. code-block:: cmake
 
    add_library(my_behavior SHARED my_behavior.cpp)
-   ament_target_dependencies(my_behavior navground_core)
-   ament_export_dependencies(my_behavior)
-   ament_export_targets(my_behaviorTargets HAS_LIBRARY_TARGET)
-   ament_index_register_resource(navground_plugins CONTENT $<TARGET_FILE:my_behavior>)  
+   target_link_libraries(my_behavior navground_core::navground_core)
+   register_navground_plugins(
+      TARGETS my_behavior
+      DESTINATION $<IF:$<BOOL:${WIN32}>,bin,lib>
+   )
 
    install(
      TARGETS my_behavior
      EXPORT my_behaviorTargets
-     LIBRARY DESTINATION lib/${PROJECT_NAME}
-     ARCHIVE DESTINATION lib/${PROJECT_NAME}
+     LIBRARY DESTINATION lib
+     ARCHIVE DESTINATION lib
      RUNTIME DESTINATION bin
-     INCLUDES DESTINATION include/${PROJECT_NAME}
+     INCLUDES DESTINATION include
    )
+
+.. note:: 
+
+   We use ``DESTINATION $<IF:$<BOOL:${WIN32}>,bin,lib>`` instead of ``DESTINATION lib`` because on Windows shared libraries are installed  to ``bin``.
 
 Then, the behavior will be automatically discovered when calling :cpp:func:`navground::core::load_plugins`.
 
@@ -169,7 +167,6 @@ Then, the behavior will be automatically discovered when calling :cpp:func:`navg
       auto behavior = navground::core::Behavior::make_type("MyBehavior");
    }
 
-   
 Python
 ------
 
@@ -187,10 +184,8 @@ to your ``setup.cfg``. The name ``my_behavior`` is currently ignored.
 
 .. note::
     
-   Following end-points are available ``navground_behaviors``, ``navground_kinematics``, ``navground_tasks``, 
+   Following end-points are available ``navground_behaviors``, ``navground_kinematics``, ``navground_modulations``, ``navground_tasks``, 
    ``navground_state_estimations``, and ``navground_scenarios`` to install components of the respective type.
-
-
 
 Then, the behavior will be automatically discovered when calling :py:func:`navground.core.load_plugins`.
 
@@ -208,6 +203,6 @@ Then, the behavior will be automatically discovered when calling :py:func:`navgr
 
 .. note::
 
-   Using :py:func:`navground.core.load_plugins`, C++ plugins are imported too and available to use from Python.
+   Calling :py:func:`navground.core.load_plugins`, C++ plugins are imported too and can then be instantiated from Python.
 
 

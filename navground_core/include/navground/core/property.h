@@ -11,7 +11,7 @@
 #include "./common.h"
 #include "./utilities.h"
 #include "navground/core/types.h"
-#include "navground_core_export.h"
+#include "navground/core/export.h"
 
 namespace navground::core {
 
@@ -240,8 +240,6 @@ struct NAVGROUND_CORE_EXPORT HasProperties {
   }
 };
 
-}  // namespace navground::core
-
 template <typename T>
 inline std::ostream& operator<<(std::ostream& os,
                                 const std::vector<T>& values) {
@@ -257,9 +255,17 @@ inline std::ostream& operator<<(std::ostream& os,
 }
 
 inline std::ostream& operator<<(std::ostream& os,
+                                const navground::core::Vector2& value) {
+  os << "[" << value[0] << ", " << value[1] << "]";
+  return os;
+}
+
+inline std::ostream& operator<<(std::ostream& os,
                                 const navground::core::Property::Field& value) {
   std::visit([&os](auto&& arg) { os << arg; }, value);
   return os;
 }
+
+}  // namespace navground::core
 
 #endif  // NAVGROUND_CORE_PROPERTY_H

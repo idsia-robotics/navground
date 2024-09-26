@@ -152,6 +152,7 @@ jobs:
           pattern: wheel-*
           path: dist
           merge-multiple: true
+      - run: rm dist/*linux_x86_64*
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/

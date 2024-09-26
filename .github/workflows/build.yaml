@@ -5,7 +5,7 @@ env:
 jobs:
   build_cpp:
     strategy:
-      matrix:
+      matrix: 
         os:
           - ubuntu-20.04
           - ubuntu-latest
@@ -99,7 +99,7 @@ jobs:
         run: pip install colcon-common-extensions wheel setuptools build libclang repairwheel
       - name: install pybind11
         run: |
-          git clone https://github.com/jeguzzi/pybind11_mkdoc.git --branch rst src/pybind11_mkdoc
+          git clone --depth=1 https://github.com/jeguzzi/pybind11_mkdoc.git --branch rst src/pybind11_mkdoc
           cd src/pybind11_mkdoc
           pip install .
           cd -

@@ -4,14 +4,45 @@
 
 ### Added
 
-- The `navground` executable that group together all `navground_sim_py` commands.
-
 ### Fixed
 
 ### Changed
 
-- Separated the python package `navground_sim_py` from the C++ package `navground_sim`
-- Changed package name from `navground_py` to `navground_core_py`
+### Removed
+
+## [0.0.6] - 2024-26-9
+
+### Added
+
+- The `navground` executable that groups together all `navground_sim` commands.
+- The `navground_py` executable that groups together all `navground_sim_py` commands.
+- Github actions to build the packages and distribute wheels.
+
+### Fixed
+
+- Switched from the deprecated `pkg_resources` to `importlib`.
+- Compilation on Linux by linking to `Threads`
+- Docstrings generation now works in Windows too and from virtual envs.
+- Avoided that missing docstrings break the whole build.
+- Core:
+  - behaviors do now make use of agent id when computing the social margin
+- Sim:
+  - now handle empty datasets correctly.
+  - videos frame are now constrained to have even dimensions as required to correctly render them.
+  - recorded experiment now report collisions correctly.
+### Changed
+
+- Separated the python package `navground_sim_py` from the C++ package `navground_sim`.
+- Changed package name from `navground_py` to `navground_core_py`.
+- Ament is now optional.
+- Update the installation instructions.
+- All Python dependencies but `numpy` are now optional for `navground_sim_py`.
+- Replaced of C math functions with their C++ stdlib equivalent.
+- Core:
+  - speeded up collision computation, avoiding unnecessary conversions.
+- Sim:
+  - recording the initial state of the world (as YAML) is now optional
+  - using `multiprocessing` is now an opt-in.
 
 ### Removed
 

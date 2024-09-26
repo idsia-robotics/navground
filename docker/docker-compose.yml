@@ -1,22 +1,18 @@
-version: '3'
 services:
-  source:
-    image: jeguzzi/navground:ubuntu22.04
+  source-deps:
+    image: jeguzzi/navground:source-deps
+    build:
+      dockerfile: Dockerfile.source-deps
+      context: .
+  binary-deps:
+    image: jeguzzi/navground
     build:
       dockerfile: Dockerfile
       context: .
-  binary:
-    image: binary
+  python:
+    image: jeguzzi/navground:python
     build:
-      dockerfile: Dockerfile.binary
+      dockerfile: Dockerfile.python
       context: .
-  all-at-once:
-    image: jeguzzi/navground:ubuntu24.04
-    build:
-      dockerfile: Dockerfile.all
-      context: .
-  slim:
-    image: jeguzzi/navground:slim
-    build:
-      dockerfile: Dockerfile.slim
-      context: .
+    ports:
+       - "8888:8888"

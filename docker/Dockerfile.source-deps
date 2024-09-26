@@ -3,8 +3,6 @@ FROM ubuntu:latest AS deps
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -y \
-    libgeos++-dev \
-    libhdf5-dev \
     python3 \
     python3-h5py \
     python3-numpy \
@@ -16,8 +14,6 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     git \
-    libeigen3-dev \
-    pybind11-dev \
     python3-pip \
     python3-dev \
     && rm -rf /var/lib/apt/lists/*
@@ -29,7 +25,7 @@ ENV COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
 RUN mkdir -p /ws/src \
     && cd /ws \
     && git clone https://github.com/idsia-robotics/navground.git src/navground \
-    && vcs import --shallow --input src/navground/installation/deps-slim.repos \
+    && vcs import --shallow --input src/navground/installation/deps.repos \
     && vcs import --shallow --input src/navground/installation/ament.repos 
 
 RUN cd /ws \

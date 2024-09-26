@@ -1,0 +1,24 @@
+name: Publish wheels
+on: workflow_dispatch
+jobs:
+  publish_wheels:
+    name: Publish distribution 📦 to TestPyPI
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/navground
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheel-*
+          path: dist
+          merge-multiple: true
+          workflow: build.yaml
+          search_artifacts: true
+      - run: rm dist/*linux_x86_64*
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true

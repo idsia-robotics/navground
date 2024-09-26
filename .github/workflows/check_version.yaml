@@ -1,0 +1,20 @@
+name: Check version
+on: workflow_dispatch
+jobs:
+  check_version:
+    runs-on: ubuntu-latest
+    output2: ${{ steps.check.outputs.test }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: 'pip'
+      - run: pip install setuptools_git_versioning build setuptools
+      - id: check
+        run: |
+          cd src/navground/navground_py
+          echo "version=$(python setup.py --version)" >> "$GITHUB_OUTPUT"
+

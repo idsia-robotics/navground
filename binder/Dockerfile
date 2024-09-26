@@ -1,6 +1,6 @@
 FROM jeguzzi/navground:slim
 
-RUN pip install websockets cairosvg moviepy matplotlib pandas\
+RUN pip install tqdm websockets cairosvg moviepy matplotlib pandas\
     && pip install --no-cache notebook jupyterlab ipywidgets
 
 RUN apt-get update && apt-get install -y \

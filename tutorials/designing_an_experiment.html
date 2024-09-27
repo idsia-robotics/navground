@@ -474,7 +474,7 @@ document.write(`
 </pre></div>
 </div>
 <p>Scenarios may have specific configuration variables, which we list using <a class="reference internal" href="../packages/navground_core.html#info"><span class="std std-ref">info</span></a></p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>info<span class="w"> </span>--scenario<span class="w"> </span>Corridor<span class="w"> </span>--properties
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>navground<span class="w"> </span>info<span class="w"> </span>--scenario<span class="w"> </span>Corridor<span class="w"> </span>--properties
 
 <span class="go">Scenarios</span>
 <span class="go">---------</span>
@@ -485,6 +485,10 @@ document.write(`
 <span class="go">  length: 10 [float]</span>
 <span class="go">  width: 1 [float]</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you have installed navground from pip and don’t have the <code class="docutils literal notranslate"><span class="pre">navground</span></code> command, use <code class="docutils literal notranslate"><span class="pre">navground_py</span></code> instead.</p>
 </div>
 <p>Let’s make the corridor wider and shorter:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="c1"># Experiment configuration</span>
@@ -580,7 +584,7 @@ document.write(`
 </pre></div>
 </div>
 <p>We can try to sample a world from such a scenario. Save all but the root element <code class="docutils literal notranslate"><span class="pre">scenario</span></code> in <code class="docutils literal notranslate"><span class="pre">my_scenario.yaml</span></code> and run</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sample<span class="w"> </span>--seed<span class="w"> </span><span class="m">0</span><span class="w"> </span>my_scenario.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>navground<span class="w"> </span>sample<span class="w"> </span>--seed<span class="w"> </span><span class="m">0</span><span class="w"> </span>my_scenario.yaml
 
 <span class="go">obstacles:</span>
 <span class="go">  []</span>
@@ -771,7 +775,7 @@ We should also set where to save data, for instance to the current directory.</p
 </pre></div>
 </div>
 <p>Now we are ready to put the configuration in a file like <code class="docutils literal notranslate"><span class="pre">my_config.yaml</span></code> and to make <code class="docutils literal notranslate"><span class="pre">navground</span></code> execute the experiment.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>run<span class="w"> </span>my_config.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>navground<span class="w"> </span>run<span class="w"> </span>my_config.yaml
 
 <span class="go">Experiment done</span>
 <span class="go">Duration: 1.64725 s</span>

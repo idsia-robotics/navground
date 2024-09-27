@@ -22,7 +22,7 @@ Scenarios may have specific configuration variables, which we list using :ref:`i
 
 .. code-block:: console
 
-   $ info --scenario Corridor --properties
+   $ navground info --scenario Corridor --properties
 
    Scenarios
    ---------
@@ -32,6 +32,10 @@ Scenarios may have specific configuration variables, which we list using :ref:`i
      agent_margin: 0.1 [float]
      length: 10 [float]
      width: 1 [float]
+
+.. note::
+  
+   If you have installed navground from pip and don't have the ``navground`` command, use ``navground_py`` instead.
 
 Let's make the corridor wider and shorter:
 
@@ -143,7 +147,7 @@ We can try to sample a world from such a scenario. Save all but the root element
 
 .. code-block:: console
 
-   $ sample --seed 0 my_scenario.yaml
+   $ navground sample --seed 0 my_scenario.yaml
    
    obstacles:
      []
@@ -346,7 +350,7 @@ Now we are ready to put the configuration in a file like ``my_config.yaml`` and 
 
 .. code-block:: console
 
-   $ run my_config.yaml
+   $ navground run my_config.yaml
    
    Experiment done
    Duration: 1.64725 s

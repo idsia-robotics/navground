@@ -10,6 +10,23 @@
 
 ### Removed
 
+## [0.1.0] - 2024-27-9
+
+### Added
+
+- This is the first version with wheels **released on PyPi** and github
+- Core: add `__main__` to `navground.core` similar to `navground.sim`
+
+### Fixed
+
+### Changed
+
+- Docs and docker files reflect now the different ways we have to install navground (pip and/or build from source) and the different ways the CLI commands are exposed.
+- Binder now uses a `requirement.txt` file instead of an custom docker image.
+- `navground_py` and `navground` CLI are now more similar. 
+
+### Removed
+
 ## [0.0.6] - 2024-26-9
 
 ### Added

@@ -56,7 +56,7 @@ For more information, we refer to the [project documentation](https://idsia-robo
 
 ## Try the tutorials on binder
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/idsia-robotics/navground.git/HEAD?labpath=tutorials)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/idsia-robotics/navground/HEAD?labpath=docs%2Ftutorials)
 
 ## License and copyright
 

@@ -36,9 +36,13 @@ def init_parser_with_registers(parser: argparse.ArgumentParser,
         add_arg_for_register(parser, title)
 
 
+def init_parser(parser: argparse.ArgumentParser) -> None:
+    init_parser_with_registers(parser, registers)
+
+
 def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser()
-    init_parser_with_registers(p, registers)
+    init_parser(p)
     return p
 
 
@@ -75,6 +79,10 @@ def info(arg: argparse.Namespace, registers: Registers) -> None:
         print("")
 
 
-def main() -> None:
+def _main(arg: argparse.Namespace) -> None:
     core.load_plugins()
-    info(parser().parse_args(), registers)
+    info(arg, registers)
+
+
+def main() -> None:
+    _main(parser().parse_args())

@@ -50,6 +50,14 @@ It also provides all the infrastructure to run offline experiments.
 - running experiments/benchmarks and recording data in HFD5 files
 - using YAML to specify experiments
 
+## Installation
+
+[Build from source]([https://idsia-robotics.github.io/navground/installation.](https://idsia-robotics.github.io/navground/installation/from_source.html) or install pre-build wheels from pip
+
+```console
+pip install navground[all]
+```
+
 ## Documentation
 
 For more information, we refer to the [project documentation](https://idsia-robotics.github.io/navground) that contains also detailed installation instructions.

@@ -54,7 +54,7 @@ struct RunCommand : Command<RunCommand> {
     const int p = parser.get<int>("processes");
     const int j = parser.get<int>("threads");
     if (p != 1 && j == 1) {
-      std::cout << "Use run_py to parallelize over multiple process or specify "
+      std::cout << "Use Python to parallelize over multiple process or specify "
                    "the number of threads instead."
                 << std::endl;
     }
@@ -105,7 +105,7 @@ struct RunCommand : Command<RunCommand> {
         .default_value(1)
         .scan<'i', int>();
     parser.add_argument("--processes")
-        .help("Number of processes [only supported by run_py]")
+        .help("Number of processes [only supported by Python]")
         .default_value(1)
         .scan<'i', int>();
   }

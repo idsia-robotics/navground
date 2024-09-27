@@ -87,7 +87,7 @@ For example, if the experiment described in ``experiment.yaml`` needs 1000 runs,
 
 .. code-block:: console
 
-    $ for i in {0..9}; do run experiment.yaml --runs 100 --run_index $((i * 100)) &; done
+    $ for i in {0..9}; do navground run experiment.yaml --runs 100 --run_index $((i * 100)) &; done
 
 This will results in 10 directories, one for each sub-experiment: you can load their data and aggregate it.  
 

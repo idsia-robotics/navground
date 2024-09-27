@@ -52,7 +52,7 @@ It also provides all the infrastructure to run offline experiments.
 
 ## Installation
 
-[Build from source]([https://idsia-robotics.github.io/navground/installation.](https://idsia-robotics.github.io/navground/installation/from_source.html) or install pre-build wheels from pip
+[Build from source](https://idsia-robotics.github.io/navground/installation/from_source.html) or install pre-build wheels from pip
 
 ```console
 pip install navground[all]

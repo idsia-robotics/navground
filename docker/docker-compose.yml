@@ -20,6 +20,11 @@ services:
     build:
       dockerfile: Dockerfile.python
       context: .
+  dev:
+    image: jeguzzi/navground:dev
+    build:
+      dockerfile: Dockerfile.dev
+      context: .
   notebook:
     image: jeguzzi/navground:notebook
     build:

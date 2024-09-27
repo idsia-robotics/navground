@@ -11,8 +11,9 @@ Welcome to navground's documentation!
    :caption: Contents:
 
    introduction
-   installation
+   installation/index
    first_steps
+   cli
    tutorials/tour
    packages/index
    tutorials/index

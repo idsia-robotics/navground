@@ -1,111 +1,121 @@
-============
+===========
 First Steps
-============
-
-Preparation
 ===========
 
-If you built navground from source, you need to source the setup script of the workspace where you installed it.
+If you have installed navground, congratulations! 
+
+Let us check that it is working too.
+
+If you built navground from source, you need to source the workspace.
 
 .. tabs::
 
-   .. tab:: bash
+   .. tab:: macOS
 
       .. code-block:: console
 
-         source ./install/setup.bash
+         . install/setup.zsh
 
-   .. tab:: zsh
-
-      .. code-block:: console
-
-         source ./install/setup.zsh
-
-   .. tab:: Windows command shell
+   .. tab:: Linux
 
       .. code-block:: console
+         
+         . install/setup.bash
 
+
+   .. tab:: Windows
+
+      .. code-block:: console
+        
          install\setup.bat
 
-
-Instead, if you installed navground using ``pip``, you don't need any setup but you are limited to the Python version of the commands (which is not a real limitation, as you Python commands are a superset of the C++ commands.)
-
-Command Line Interface
-======================
-
-Navground has a modular architecture which users can extend by implementing new behaviors, kinematics, modulations, state estimation, tasks and scenarios. At installation, navground provides the implementation of several of these components so that you can start playing with them.
-For instance, to list components available from C++, we can run
-
-.. code-block:: console
-
-   navground info
-
-
-You can list the other sub-commands with: 
-
-.. code-block:: console
-
-   navground --help
-
-
-The Python package has few more sub-commands:
-
-.. code-block:: console
-
-   navground_py --help
-
-   usage: navground_py [-h] {info,run,run_rt,sample,record_video,replay}    ...
-   
-   positional arguments:
-     {info,run,run_rt,sample,record_video,replay}
-                           Subcommands
-   
-   options:
-     -h, --help            show this help message and exit
-
-
-.. note::
-
-   You can also launch ``navground_py`` from Python too.
-
-   .. code-block:: console
-
-      python -m navground.sim --help
-
-All commands are also available as standalone executables, installed in ``install/lib``:
+Run ``navground_py``, which will have been installed by all types of installations. 
 
 .. tabs::
 
-   .. tab:: macOS and Linux
+   .. tab:: Linux & macOS
 
       .. code-block:: console
 
-         install/lib/<package>/<command>
+         navground_py
 
    .. tab:: Windows
 
       .. code-block:: console
 
-         install\Lib\<package>\<command>
+         navground_py.exe
 
-and, if installed, from ROS 2
+You should get a welcome message and few sub-commands to run.
 
 .. code-block:: console
 
-   ros2 run <package> <command>
-
-.. note::
-
-   In the rest of the documentation, when describing commands, we omit ``ros2 run ...`` or the install path prefix and only specify the command to run, like 
+   Welcome to navground!
    
-   .. code-block:: console
+   usage: navground_py [-h] {info,run,...} ...
    
-      info
+   options:
+     -h, --help      show this help message and exit
+   
+   Subcommands:
+     {info,run,...}
+       info          Lists registered components.
+       run           Runs an experiment using the Python interpreter
+       run_rt        Runs an experiment using the Python interpreter in real-time.
+       sample        Samples a world from a scenario.
+       record_video  Make video from an experiment using the Python interpreter.
+       replay        Replay an experiment in real-time.
+
+
+Navground has a modular architecture which users can extend by implementing new behaviors, kinematics, modulations, state estimation, tasks and scenarios. At installation, navground provides the implementation of several of these components to play with. Calling ``info`` will list them
+
+.. tabs::
+
+   .. tab:: Linux & macOS
+
+      .. code-block:: console
+
+         navground_py info
+
+   .. tab:: Windows
+
+      .. code-block:: console
+
+         navground_py.exe info
+
+
+.. code-block:: console
+
+   Behaviors
+   ---------
+   Dummy, HL, HRVO, ORCA, PyDummy, SocialForce
+   
+   Kinematics
+   ----------
+   2WDiff, 2WDiffDyn, 4WOmni, Ahead, Omni
+   
+   Modulations
+   -----------
+   LimitAcceleration, MotorPID, Relaxation
+   
+   State Estimations
+   -----------------
+   Boundary, Bounded, Combination, Discs, Lidar, pyLidar
+   
+   Tasks
+   -----
+   Direction, Waypoints
+   
+   Scenarios
+   ---------
+   Antipodal, Corridor, Cross, CrossTorus, Simple
 
 Next steps
 ==========
 
 From here on, you may 
+
+want to go get familiar with the command line interface
+   read :doc:`cli`
 
 want to go through some tutorials
    start with :doc:`tutorials/tour`
@@ -118,7 +128,5 @@ want get familiar with the installed packages and their commands
 
 want to check out the programming interfaces 
    have a look at :doc:`reference/index`
-
-
 
 

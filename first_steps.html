@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>First Steps &#8212; navground 0.0.6 documentation</title>
+    <title>First Steps &#8212; navground 0.1.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="_static/jquery.js?v=5d32c60e"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="_static/documentation_options.js?v=73504a2b"></script>
+    <script src="_static/documentation_options.js?v=a1637f0b"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -53,8 +53,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'first_steps';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="A tour of navground" href="tutorials/tour.html" />
-    <link rel="prev" title="Installation" href="installation.html" />
+    <link rel="next" title="Command Line Interface" href="cli.html" />
+    <link rel="prev" title="Troubleshooting" href="installation/troubleshooting.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.0.6 documentation</p>
+    <p class="title logo__title">navground 0.1.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -161,8 +161,16 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="installation/index.html">Installation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/pip.html">Pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/docker.html">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/from_source.html">Building from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/step_by_step.html">Step-by-step Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_core.html">navground_core</a></li>
@@ -437,8 +445,6 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation">Preparation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-interface">Command Line Interface</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
 </ul>
             </nav>
@@ -453,78 +459,87 @@ document.write(`
                   
   <section id="first-steps">
 <h1>First Steps<a class="headerlink" href="#first-steps" title="Link to this heading">#</a></h1>
-<section id="preparation">
-<h2>Preparation<a class="headerlink" href="#preparation" title="Link to this heading">#</a></h2>
-<p>If you built navground from source, you need to source the setup script of the workspace where you installed it.</p>
+<p>If you have installed navground, congratulations!</p>
+<p>Let us check that it is working too.</p>
+<p>If you built navground from source, you need to source the workspace.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">bash</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">zsh</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Windows command shell</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source ./install/setup.bash</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">. install/setup.zsh</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source ./install/setup.zsh</span>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">. install/setup.bash</span>
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-0-0-2" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-2" name="0-2" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">install\setup.bat</span>
 </pre></div>
 </div>
 </div></div>
-<p>Instead, if you installed navground using <code class="docutils literal notranslate"><span class="pre">pip</span></code>, you don’t need any setup but you are limited to the Python version of the commands (which is not a real limitation, as you Python commands are a superset of the C++ commands.)</p>
-</section>
-<section id="command-line-interface">
-<h2>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Link to this heading">#</a></h2>
-<p>Navground has a modular architecture which users can extend by implementing new behaviors, kinematics, modulations, state estimation, tasks and scenarios. At installation, navground provides the implementation of several of these components so that you can start playing with them.
-For instance, to list components available from C++, we can run</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">navground info</span>
-</pre></div>
-</div>
-<p>You can list the other sub-commands with:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">navground --help</span>
-</pre></div>
-</div>
-<p>The Python package has few more sub-commands:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">navground_py --help</span>
-
-<span class="go">usage: navground_py [-h] {info,run,run_rt,sample,record_video,replay}    ...</span>
-
-<span class="go">positional arguments:</span>
-<span class="go">  {info,run,run_rt,sample,record_video,replay}</span>
-<span class="go">                        Subcommands</span>
-
-<span class="go">options:</span>
-<span class="go">  -h, --help            show this help message and exit</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You can also launch <code class="docutils literal notranslate"><span class="pre">navground_py</span></code> from Python too.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m navground.sim --help</span>
-</pre></div>
-</div>
-</div>
-<p>All commands are also available as standalone executables, installed in <code class="docutils literal notranslate"><span class="pre">install/lib</span></code>:</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">navground_py</span></code>, which will have been installed by all types of installations.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">macOS and Linux</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">install/lib/&lt;package&gt;/&lt;command&gt;</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">Linux &amp; macOS</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">navground_py</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">install\Lib\&lt;package&gt;\&lt;command&gt;</span>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">navground_py.exe</span>
 </pre></div>
 </div>
 </div></div>
-<p>and, if installed, from ROS 2</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ros2 run &lt;package&gt; &lt;command&gt;</span>
+<p>You should get a welcome message and few sub-commands to run.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Welcome to navground!</span>
+
+<span class="go">usage: navground_py [-h] {info,run,...} ...</span>
+
+<span class="go">options:</span>
+<span class="go">  -h, --help      show this help message and exit</span>
+
+<span class="go">Subcommands:</span>
+<span class="go">  {info,run,...}</span>
+<span class="go">    info          Lists registered components.</span>
+<span class="go">    run           Runs an experiment using the Python interpreter</span>
+<span class="go">    run_rt        Runs an experiment using the Python interpreter in real-time.</span>
+<span class="go">    sample        Samples a world from a scenario.</span>
+<span class="go">    record_video  Make video from an experiment using the Python interpreter.</span>
+<span class="go">    replay        Replay an experiment in real-time.</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>In the rest of the documentation, when describing commands, we omit <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span> <span class="pre">...</span></code> or the install path prefix and only specify the command to run, like</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">info</span>
+<p>Navground has a modular architecture which users can extend by implementing new behaviors, kinematics, modulations, state estimation, tasks and scenarios. At installation, navground provides the implementation of several of these components to play with. Calling <code class="docutils literal notranslate"><span class="pre">info</span></code> will list them</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">Linux &amp; macOS</button><button aria-controls="panel-2-2-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-2-2-1" name="2-1" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">navground_py info</span>
 </pre></div>
 </div>
+</div><div aria-labelledby="tab-2-2-1" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-1" name="2-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">navground_py.exe info</span>
+</pre></div>
 </div>
-</section>
+</div></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Behaviors</span>
+<span class="go">---------</span>
+<span class="go">Dummy, HL, HRVO, ORCA, PyDummy, SocialForce</span>
+
+<span class="go">Kinematics</span>
+<span class="go">----------</span>
+<span class="go">2WDiff, 2WDiffDyn, 4WOmni, Ahead, Omni</span>
+
+<span class="go">Modulations</span>
+<span class="go">-----------</span>
+<span class="go">LimitAcceleration, MotorPID, Relaxation</span>
+
+<span class="go">State Estimations</span>
+<span class="go">-----------------</span>
+<span class="go">Boundary, Bounded, Combination, Discs, Lidar, pyLidar</span>
+
+<span class="go">Tasks</span>
+<span class="go">-----</span>
+<span class="go">Direction, Waypoints</span>
+
+<span class="go">Scenarios</span>
+<span class="go">---------</span>
+<span class="go">Antipodal, Corridor, Cross, CrossTorus, Simple</span>
+</pre></div>
+</div>
 <section id="next-steps">
 <h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
 <p>From here on, you may</p>
 <dl class="simple">
+<dt>want to go get familiar with the command line interface</dt><dd><p>read <a class="reference internal" href="cli.html"><span class="doc">Command Line Interface</span></a></p>
+</dd>
 <dt>want to go through some tutorials</dt><dd><p>start with <a class="reference internal" href="tutorials/tour.html"><span class="doc">A tour of navground</span></a></p>
 </dd>
 <dt>want to have a look at some examples</dt><dd><p>find them at <a class="reference internal" href="packages/navground_examples.html"><span class="doc">navground_examples</span></a>, <a class="reference internal" href="packages/navground_examples_py.html"><span class="doc">navground_examples_py</span></a>, and <a class="reference internal" href="packages/navground_demos.html"><span class="doc">navground_demos</span></a></p>
@@ -549,20 +564,20 @@ For instance, to list components available from C++, we can run</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="installation.html"
+       href="installation/troubleshooting.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Installation</p>
+        <p class="prev-next-title">Troubleshooting</p>
       </div>
     </a>
     <a class="right-next"
-       href="tutorials/tour.html"
+       href="cli.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">A tour of navground</p>
+        <p class="prev-next-title">Command Line Interface</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -582,8 +597,6 @@ For instance, to list components available from C++, we can run</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation">Preparation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-interface">Command Line Interface</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
 </ul>
   </nav></div>

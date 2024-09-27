@@ -43,6 +43,7 @@ A C++ headers-only library with utilities for Python bindings for internal use.
 Executables
 ===========
 
+.. _info_py:
 info
 ----
 

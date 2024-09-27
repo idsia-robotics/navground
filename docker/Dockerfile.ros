@@ -1,0 +1,39 @@
+FROM ros:latest AS deps
+
+SHELL ["/bin/bash", "-c"]
+
+RUN apt-get update && apt-get install -y \
+    libgeos++-dev \
+    libhdf5-dev \
+    python3-h5py \
+    && rm -rf /var/lib/apt/lists/*
+
+FROM deps AS build
+
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    libargparse-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --break-system-packages git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+
+ENV COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+
+RUN mkdir -p /ws/src \
+    && cd /ws \
+    && git clone --depth 1 https://github.com/idsia-robotics/navground.git src/navground \
+    && vcs import --shallow --input src/navground/installation/deps-ros.repos
+
+RUN cd /ws \
+    && . /opt/ros/jazzy/setup.bash \
+    && colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_examples navground_examples_py navground_examples_yaml navground_ros
+
+FROM deps AS install
+
+WORKDIR /ws
+
+COPY --from=build /ws/install /ws/install
+COPY ./entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bash"]

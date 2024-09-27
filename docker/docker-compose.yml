@@ -1,3 +1,4 @@
+---
 services:
   source-deps:
     image: jeguzzi/navground:source-deps
@@ -5,14 +6,24 @@ services:
       dockerfile: Dockerfile.source-deps
       context: .
   binary-deps:
-    image: jeguzzi/navground
+    image: jeguzzi/navground:binary-deps
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.binary-deps
+      context: .
+  ros:
+    image: jeguzzi/navground:ros
+    build:
+      dockerfile: Dockerfile.ros
       context: .
   python:
     image: jeguzzi/navground:python
     build:
       dockerfile: Dockerfile.python
+      context: .
+  notebook:
+    image: jeguzzi/navground:notebook
+    build:
+      dockerfile: Dockerfile.notebook
       context: .
     ports:
       - "8888:8888"

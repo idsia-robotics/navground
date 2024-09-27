@@ -16,15 +16,17 @@ RUN apt-get update && apt-get install -y \
     git \
     python3-pip \
     python3-dev \
+    vcstool \
+    colcon \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --break-system-packages vcstool colcon-common-extensions git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+RUN pip install --break-system-packages git+https://github.com/jeguzzi/pybind11_mkdoc@rst
 
 ENV COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
 
 RUN mkdir -p /ws/src \
     && cd /ws \
-    && git clone https://github.com/idsia-robotics/navground.git src/navground \
+    && git clone --depth 1 https://github.com/idsia-robotics/navground.git src/navground \
     && vcs import --shallow --input src/navground/installation/deps.repos \
     && vcs import --shallow --input src/navground/installation/ament.repos 
 
@@ -48,7 +50,7 @@ FROM deps AS install
 WORKDIR /ws
 
 COPY --from=build /ws/install /ws/install
-COPY ./entrypoint.slim.sh /entrypoint.sh
+COPY ./entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["bash"]

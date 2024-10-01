@@ -8,7 +8,7 @@ Behind libraries for C++ and Python, navground provides commands.
 
    As explained in :doc:`first_steps`, if you built navground from source, you need to source the setup script of the workspace where you installed it to enable the commands. Instead, if you installed navground using ``pip``, you can call Python commands without any setup.
 
-You can call a ``<command>`` in up to four different ways, depending on the installation type and on package that implements the command.
+You can call a ``command`` in up to four different ways, depending on the type of installation and on which package implements the command.
 
 ``navground{_py} <command>`` [1]
    ``navground`` exposes the commands implemented in :doc:`packages/navground_sim` in C++, while ``navground_py`` exposes the commands implemented in :doc:`packages/navground_sim_py` in Python. The Python commands are a superset of the C++ commands.
@@ -19,7 +19,7 @@ You can call a ``<command>`` in up to four different ways, depending on the inst
 ``ros2 run <package> <command>`` [4]
    ROS 2 short-cut to run command ``install/lib/<package>/<command>``, available only if you have ROS.
 
-For example, listing the installed components, can be done in three equivalent ways:
+For example, calling the command that lists installed components available for simulating in Python, can be done in four equivalent ways:
 
 .. tabs::
 
@@ -30,9 +30,9 @@ For example, listing the installed components, can be done in three equivalent w
          navground_py info
          python3 -m navground.sim info
          # only if you built from source 
-         install/lib/navground_core_sim/info
+         install/lib/navground_sim_py/info
          # only if you have ROS 
-         ros2 run navground_core_sim info
+         ros2 run navground_sim_py info
 
    .. tab:: Windows
 
@@ -41,19 +41,14 @@ For example, listing the installed components, can be done in three equivalent w
          navground_py.exe info
          python -m navground.sim info
          # only if you built from source 
-         install\Lib\navground_core_sim\info
+         install\Lib\navground_sim_py\info
          # only if you have ROS 
-         ros2 run navground_core_sim info
+         ros2 run navground_sim_py info
 
 .. note::
 
-   In the rest of the documentation, when describing a <command>, we omit the prefix, only specifying the <command>, like 
-   
-   .. code-block:: console
-   
-      info
-
-   for the previous example.
+   In the rest of the documentation, when describing a ``command``, we omit the prefix, only specifying the command like ``info``,
+   for the previous example, instead of ``navground_py info`` and so on.
 
 Commands
 ========

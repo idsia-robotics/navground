@@ -298,7 +298,7 @@ instead of
 
 .. code-block:: console
 
-   install/lib/<navground_sim_py>/<command> [arguments]
+   install/lib/navground_sim_py/<command> [arguments]
 
 
 You can also execute this command directly from Python

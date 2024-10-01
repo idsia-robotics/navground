@@ -34,7 +34,7 @@ Parameters
 Example
 =======
 
-.. video:: cross.mp4
+.. video:: cross_torus.mp4
 	:loop:
 	:width: 780
 

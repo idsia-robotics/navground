@@ -289,7 +289,7 @@ instead of
 
 .. code-block:: console
 
-   install/lib/<navground_sim>/<command> [arguments]
+   install/lib/navground_sim/<command> [arguments]
 
 Example
 ~~~~~~~

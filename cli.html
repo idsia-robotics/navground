@@ -464,7 +464,7 @@ document.write(`
 <p class="admonition-title">Warning</p>
 <p>As explained in <a class="reference internal" href="first_steps.html"><span class="doc">First Steps</span></a>, if you built navground from source, you need to source the setup script of the workspace where you installed it to enable the commands. Instead, if you installed navground using <code class="docutils literal notranslate"><span class="pre">pip</span></code>, you can call Python commands without any setup.</p>
 </div>
-<p>You can call a <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code> in up to four different ways, depending on the installation type and on package that implements the command.</p>
+<p>You can call a <code class="docutils literal notranslate"><span class="pre">command</span></code> in up to four different ways, depending on the type of installation and on which package implements the command.</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">navground{_py}</span> <span class="pre">&lt;command&gt;</span></code> [1]</dt><dd><p><code class="docutils literal notranslate"><span class="pre">navground</span></code> exposes the commands implemented in <a class="reference internal" href="packages/navground_sim.html"><span class="doc">navground_sim</span></a> in C++, while <code class="docutils literal notranslate"><span class="pre">navground_py</span></code> exposes the commands implemented in <a class="reference internal" href="packages/navground_sim_py.html"><span class="doc">navground_sim_py</span></a> in Python. The Python commands are a superset of the C++ commands.</p>
 </dd>
@@ -475,32 +475,29 @@ document.write(`
 <dt><code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span> <span class="pre">&lt;package&gt;</span> <span class="pre">&lt;command&gt;</span></code> [4]</dt><dd><p>ROS 2 short-cut to run command <code class="docutils literal notranslate"><span class="pre">install/lib/&lt;package&gt;/&lt;command&gt;</span></code>, available only if you have ROS.</p>
 </dd>
 </dl>
-<p>For example, listing the installed components, can be done in three equivalent ways:</p>
+<p>For example, calling the command that lists installed components available for simulating in Python, can be done in four equivalent ways:</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">macOS and Linux</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>navground_py<span class="w"> </span>info
 python3<span class="w"> </span>-m<span class="w"> </span>navground.sim<span class="w"> </span>info
 <span class="c1"># only if you built from source</span>
-install/lib/navground_core_sim/info
+install/lib/navground_sim_py/info
 <span class="c1"># only if you have ROS</span>
-ros2<span class="w"> </span>run<span class="w"> </span>navground_core_sim<span class="w"> </span>info
+ros2<span class="w"> </span>run<span class="w"> </span>navground_sim_py<span class="w"> </span>info
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>navground_py.exe<span class="w"> </span>info
 python<span class="w"> </span>-m<span class="w"> </span>navground.sim<span class="w"> </span>info
 <span class="c1"># only if you built from source</span>
-install<span class="se">\L</span>ib<span class="se">\n</span>avground_core_sim<span class="se">\i</span>nfo
+install<span class="se">\L</span>ib<span class="se">\n</span>avground_sim_py<span class="se">\i</span>nfo
 <span class="c1"># only if you have ROS</span>
-ros2<span class="w"> </span>run<span class="w"> </span>navground_core_sim<span class="w"> </span>info
+ros2<span class="w"> </span>run<span class="w"> </span>navground_sim_py<span class="w"> </span>info
 </pre></div>
 </div>
 </div></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>In the rest of the documentation, when describing a &lt;command&gt;, we omit the prefix, only specifying the &lt;command&gt;, like</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">info</span>
-</pre></div>
-</div>
-<p>for the previous example.</p>
+<p>In the rest of the documentation, when describing a <code class="docutils literal notranslate"><span class="pre">command</span></code>, we omit the prefix, only specifying the command like <code class="docutils literal notranslate"><span class="pre">info</span></code>,
+for the previous example, instead of <code class="docutils literal notranslate"><span class="pre">navground_py</span> <span class="pre">info</span></code> and so on.</p>
 </div>
 <section id="commands">
 <h2>Commands<a class="headerlink" href="#commands" title="Link to this heading">#</a></h2>

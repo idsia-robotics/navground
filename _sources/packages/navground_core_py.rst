@@ -24,7 +24,7 @@ A Python package with navigation algorithms, controllers, and kinematics, see th
 
 To use the package
 
-#. add the install path to `PYTHONPATH`
+#. add the install path to ``PYTHONPATH``
 
 #. import the package
 
@@ -122,3 +122,21 @@ Example
         k_p: 1.0 [double]
    Relaxation
         tau: 0.125 [double]
+
+
+navground.sim
+-------------
+
+Instead of 
+
+.. code-block:: console
+
+   install/lib/navground_core_py/<command> [arguments]
+
+
+you can call the subcommand (``info``) from Python, like
+
+.. code-block:: console
+
+   python -m navground.core [sub-command] [arguments]
+

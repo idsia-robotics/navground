@@ -129,10 +129,34 @@ Argparse
 Installation from source
 """"""""""""""""""""""""
 
+
+
 .. code-block:: console
 
    git clone  https://github.com/p-ranav/argparse.git src/argparse
    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select argparse
+
+
+Binary installation
+"""""""""""""""""""
+
+.. tabs::
+
+   .. tab:: macOS
+
+      .. code-block:: console
+
+         brew install argparse
+
+   .. tab:: Linux
+
+      .. code-block:: console
+
+         sudo apt install -y libargparse-dev
+
+   .. tab:: Windows
+
+      Install from source
 
 
 Package

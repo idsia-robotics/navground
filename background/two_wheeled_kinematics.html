@@ -172,6 +172,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../first_steps.html">First Steps</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/tour.html">A tour of navground</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -478,7 +479,7 @@ document.write(`
   <section id="two-wheeled-kinematics">
 <h1>Two-wheeled kinematics<a class="headerlink" href="#two-wheeled-kinematics" title="Link to this heading">#</a></h1>
 <p>In navground, kinematics are responsible to compute feasible commands (i.e., twists) from arbitrary commands. The most basic kinematics, called “Omni”, simply limits the norm of velocity to <code class="docutils literal notranslate"><span class="pre">maximal_speed</span></code> and the absolute value of angular speed to <code class="docutils literal notranslate"><span class="pre">maximal_angular_speed</span></code>. In this section, we focus on the kinematics of a robot with two differential drive wheels as depicted below.</p>
-<div class="figure" id="id4" style="text-align: center"><p><img width="25%" src="../_images/tikz-2c0947d7fe1d1a01fc7c0811c6b1cf7fa601f201.png" alt="Figure made with TikZ" /></p>
+<div class="figure" id="id4" style="text-align: center"><p><img width="25%" src="../_images/tikz-2c0947d7fe1d1a01fc7c0811c6b1cf7fa601f201.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Top view of a two-wheeled differential drive robot</span></p>
 </div><p>The robot has radius <span class="math notranslate nohighlight">\(R\)</span> with two wheels (left <span class="math notranslate nohighlight">\(l\)</span> and right <span class="math notranslate nohighlight">\(r\)</span>), positioned on a common axis, distanced by <span class="math notranslate nohighlight">\(A\)</span>. We introduce a robot-fixed, positively oriented, orthonormal reference frame <span class="math notranslate nohighlight">\(\{\vec e_1, \vec e_2\}\)</span>, positioned at the center of the wheel axis.</p>
 <section id="kinematics">
@@ -497,20 +498,20 @@ v_{r, l} = v \pm \frac{A \omega}{2}.\end{split}\]</div>
 <div class="math notranslate nohighlight">
 \[\omega^\max = \frac{2v^\max}{A},\]</div>
 <p>and in bright green the feasible set of velocities that corresponds to wheel velocities in <span class="math notranslate nohighlight">\([-v^\max, v^\max]\)</span>.</p>
-<div class="figure" id="id5" style="text-align: center"><p><img width="40%" src="../_images/tikz-e8157429606712cc864582d4de4bbbbe6f55452c.png" alt="Figure made with TikZ" /></p>
+<div class="figure" id="id5" style="text-align: center"><p><img width="40%" src="../_images/tikz-e8157429606712cc864582d4de4bbbbe6f55452c.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Feasible velocity set</span></p>
 </div><p>There are different ways to match a twist that lies outside of the feasible set to a twist inside the feasible test. The navground “2WDiff” kinematics uses the following strategy that privileges angular over linear speed:</p>
 <ol class="arabic">
 <li><p>first, angular speed is clipped</p>
 <div class="math notranslate nohighlight">
 \[\omega \leftarrow \omega \left|_{[-\omega^\max, -\omega^\max]} \right.\]</div>
-<div class="figure" id="id6" style="text-align: center"><p><img width="30%" src="../_images/tikz-f74d21f512bcab96c11e2cba4044aa7ff3ed2dea.png" alt="Figure made with TikZ" /></p>
+<div class="figure" id="id6" style="text-align: center"><p><img width="30%" src="../_images/tikz-f74d21f512bcab96c11e2cba4044aa7ff3ed2dea.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Clipping angular speed</span></p>
 </div></li>
 <li><p>then, linear speed is clipped so that the twist is contained in the feasible set:</p>
 <div class="math notranslate nohighlight">
 \[v \leftarrow v \left|_{[-v^\max - |\omega \frac{A}{2}|, v^\max + |\omega \frac{A}{2}|]}  \right.\]</div>
-<div class="figure" id="id7" style="text-align: center"><p><img width="18%" src="../_images/tikz-68d307fcdca463f5a59032dc20cf244452369e0b.png" alt="Figure made with TikZ" /></p>
+<div class="figure" id="id7" style="text-align: center"><p><img width="18%" src="../_images/tikz-68d307fcdca463f5a59032dc20cf244452369e0b.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Clipping linear speed</span></p>
 </div></li>
 </ol>
@@ -562,6 +563,7 @@ v_{r, l} = v \pm \frac{A \omega}{2}.\end{split}\]</div>
 <section id="dynamics">
 <h2>Dynamics<a class="headerlink" href="#dynamics" title="Link to this heading">#</a></h2>
 <p>Let’s say we want to simulate a robot having motors. The simplest assumption we can make is that the motor torque is limited, which in turn would limit acceleration. To understand this relationship, we compute the dynamics of the system. Let us assume that the robot has mass <span class="math notranslate nohighlight">\(m\)</span>, vertical-component of moment of inertia <span class="math notranslate nohighlight">\(I\)</span> and that the two motors apply forces <span class="math notranslate nohighlight">\(F_{r,l}\)</span> to the robot body without slipping.</p>
+<div class="figure" id="id8" style="text-align: center"><p><img width="25%" src="../_images/tikz-4d1f99d2642ff524d1f1b348ff9dcfd8a7dffef2.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Top view of a two-wheeled differential drive robot with motors</span></p>
 </div><p>These forces will cause the robot to accelerate as</p>
 <div class="math notranslate nohighlight">
@@ -593,10 +595,10 @@ a &amp;= \frac{f_{r} + f_{l}}{2}\\
 \[\begin{split}i &amp; = \frac{4 a^\max}{A \alpha^\max} \\
   &amp; = 2 \frac{a^\max_{\mathit{fwd}}}{a^\max_{\mathit{rot}}}\end{split}\]</div>
 <p>The relationship between wheel forces and body acceleration is similar to the relationship between wheel speeds and body velocity and adds a constrain on feasible accelerations represented in the diagram below:</p>
-<div class="figure" id="id9" style="text-align: center"><p><img width="40%" src="None" alt="Figure made with TikZ" /></p>
+<div class="figure" id="id9" style="text-align: center"><p><img width="40%" src="../_images/tikz-4800671c60fe5b13bff937a8a400b7ee72e9494e.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Feasible acceleration set</span></p>
 </div><p>As before, given an arbitrary velocity <span class="math notranslate nohighlight">\((v, \omega)\)</span> there may be different ways to compute a feasible velocity from the current velocity <span class="math notranslate nohighlight">\((v_0, \omega_0)\)</span> (the dot below) over one time step <span class="math notranslate nohighlight">\(\Delta t\)</span>, respecting both constraints: maximal torque (blue) and maximal velocity (green).</p>
-<div class="figure" id="id10" style="text-align: center"><p><img width="40%" src="None" alt="Figure made with TikZ" /></p>
+<div class="figure" id="id10" style="text-align: center"><p><img width="40%" src="../_images/tikz-dff132a791b149219264c7c943ab7bf68cf99020.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Respecting dynamics, the feasible velocity set is the intersection of green and blue sets.</span></p>
 </div><p>Similarly to “2WDiff”, the navground kinematics “2WDiffDyn” privileges angular speed:</p>
 <ol class="arabic">
@@ -613,7 +615,7 @@ v &amp; \leftarrow v \left|_{[v_0 -\Delta v^\max, v_0 + \Delta v^\max]} \right.\
 </li>
 </ol>
 <p>These three steps are illustrated below:</p>
-<div class="figure" id="id11" style="text-align: center"><p><img width="30%" src="None" alt="Figure made with TikZ" /></p>
+<div class="figure" id="id11" style="text-align: center"><p><img width="30%" src="../_images/tikz-1c3481cd7fd9e1e6ed3484aef20858d31b78e1aa.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Computing a feasible twist respecting maximal torque.</span></p>
 </div><p>Alternatively, we could compute and clip the motor torques independently.</p>
 <section id="id2">

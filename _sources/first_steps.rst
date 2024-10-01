@@ -2,9 +2,8 @@
 First Steps
 ===========
 
-If you have installed navground, congratulations! 
-
-Let us check that it is working too.
+You have installed navground, congratulations! 
+Let us now check that it is working properly.
 
 If you built navground from source, you need to source the workspace.
 
@@ -29,7 +28,7 @@ If you built navground from source, you need to source the workspace.
         
          install\setup.bat
 
-Run ``navground_py``, which will have been installed by all types of installations. 
+Run ``navground_py``, which is installed for any type of installations. 
 
 .. tabs::
 
@@ -45,7 +44,7 @@ Run ``navground_py``, which will have been installed by all types of installatio
 
          navground_py.exe
 
-You should get a welcome message and few sub-commands to run.
+You should get a welcome message with few sub-commands to run.
 
 .. code-block:: console
 
@@ -66,7 +65,7 @@ You should get a welcome message and few sub-commands to run.
        replay        Replay an experiment in real-time.
 
 
-Navground has a modular architecture which users can extend by implementing new behaviors, kinematics, modulations, state estimation, tasks and scenarios. At installation, navground provides the implementation of several of these components to play with. Calling ``info`` will list them
+Navground has a modular architecture that users can extend by implementing new behaviors, kinematics, modulations, state estimation, tasks, and scenarios. At installation, navground provides several of these components to play with: calling ``info`` will list them.
 
 .. tabs::
 
@@ -114,7 +113,7 @@ Next steps
 
 From here on, you may 
 
-want to go get familiar with the command line interface
+want to get familiar with the command line interface
    read :doc:`cli`
 
 want to go through some tutorials

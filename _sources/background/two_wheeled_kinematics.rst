@@ -194,7 +194,7 @@ Let's say we want to simulate a robot having motors. The simplest assumption we 
 
 
 .. tikz:: Top view of a two-wheeled differential drive robot with motors
-   :libs: arrows.my
+   :libs: arrows.meta
    :align: center
    :xscale: 25
 

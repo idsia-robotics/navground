@@ -9,7 +9,7 @@ We provide installation instruction for macOS, Linux, and Windows.
    You can also `try navground on binder <https://mybinder.org/v2/gh/idsia-robotics/navground/HEAD?labpath=docs%2Ftutorials>`_ without installing anything. 
 
 
-Building navground from source let you customize and install everything you need, but there are also pre-built Python wheels that may be more suitable in some cases. The different ways to install/run navground, covers the following cases:
+Building navground from source let you customize and install everything you need, but there are also pre-built Python wheels that may be more suitable in some cases. The different ways to install/run navground, cover the following cases:
 
 - to extend (and run) navground:
 

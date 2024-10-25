@@ -35,7 +35,7 @@ void SensingProbe::prepare(ExperimentalRun* run) {
     _sensor->prepare(state);
     const unsigned agent_key = use_uid ? agent->uid : i;
     for (const auto& [key, buffer] : state.get_buffers()) {
-      auto ds = run->add_record(key, std::to_string(agent->uid) + "/" + _name);
+      auto ds = run->add_record(key, std::to_string(agent_key) + "/" + _name);
       ds->config_to_hold_buffer(buffer);
       _data[agent_key][key] = ds;
     }

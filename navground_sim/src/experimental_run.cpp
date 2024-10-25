@@ -27,8 +27,9 @@ static void store_attribute(T value, const std::string &name,
   group.createAttribute<T>(name, HighFive::DataSpace::From(value)).write(value);
 }
 
-std::shared_ptr<Dataset> extract_collision_events(
-    const std::shared_ptr<Dataset> &collisions, unsigned min_interval) {
+std::shared_ptr<Dataset>
+extract_collision_events(const std::shared_ptr<Dataset> &collisions,
+                         unsigned min_interval) {
   const auto shape = collisions->get_shape();
   if (shape.size() != 2 && shape[1] != 3) {
     std::cerr << "Collisions dataset has unexpected shape" << std::endl;
@@ -58,7 +59,7 @@ std::shared_ptr<Dataset> extract_collision_events(
 }
 
 class TimeProbe : public RecordProbe {
- public:
+public:
   using RecordProbe::RecordProbe;
   using Type = ng_float_t;
 
@@ -70,7 +71,7 @@ class TimeProbe : public RecordProbe {
 };
 
 class PoseProbe : public RecordProbe {
- public:
+public:
   using RecordProbe::RecordProbe;
   using Type = ng_float_t;
 
@@ -89,7 +90,7 @@ class PoseProbe : public RecordProbe {
 };
 
 class TwistProbe : public RecordProbe {
- public:
+public:
   using RecordProbe::RecordProbe;
   using Type = ng_float_t;
 
@@ -108,7 +109,7 @@ class TwistProbe : public RecordProbe {
 };
 
 class CmdProbe : public RecordProbe {
- public:
+public:
   using RecordProbe::RecordProbe;
   using Type = ng_float_t;
 
@@ -127,7 +128,7 @@ class CmdProbe : public RecordProbe {
 };
 
 class ActuatedCmdProbe : public RecordProbe {
- public:
+public:
   using RecordProbe::RecordProbe;
   using Type = ng_float_t;
 
@@ -146,7 +147,7 @@ class ActuatedCmdProbe : public RecordProbe {
 };
 
 class TargetProbe : public RecordProbe {
- public:
+public:
   using RecordProbe::RecordProbe;
   using Type = ng_float_t;
 
@@ -172,7 +173,7 @@ class TargetProbe : public RecordProbe {
 };
 
 class SafetyViolationProbe : public RecordProbe {
- public:
+public:
   using RecordProbe::RecordProbe;
   using Type = ng_float_t;
 
@@ -189,7 +190,7 @@ class SafetyViolationProbe : public RecordProbe {
 };
 
 class CollisionProbe : public RecordProbe {
- public:
+public:
   using RecordProbe::RecordProbe;
   using Type = unsigned;
 
@@ -206,7 +207,7 @@ class CollisionProbe : public RecordProbe {
 };
 
 class DeadlockProbe : public RecordProbe {
- public:
+public:
   using RecordProbe::RecordProbe;
   using Type = ng_float_t;
 
@@ -220,7 +221,7 @@ class DeadlockProbe : public RecordProbe {
 };
 
 class EfficacyProbe : public RecordProbe {
- public:
+public:
   using RecordProbe::RecordProbe;
   using Type = ng_float_t;
 
@@ -237,7 +238,7 @@ class EfficacyProbe : public RecordProbe {
 };
 
 class TaskEventsProbe : public GroupRecordProbe {
- public:
+public:
   using GroupRecordProbe::GroupRecordProbe;
   using Type = ng_float_t;
 
@@ -265,20 +266,24 @@ class TaskEventsProbe : public GroupRecordProbe {
     }
   }
 
-  std::map<std::string, Dataset::Shape> get_shapes(
-      const World &world) const override {
+  std::map<std::string, Dataset::Shape>
+  get_shapes(const World &world) const override {
     std::map<std::string, Dataset::Shape> shapes;
+    const bool use_uid = run->get_record_config().use_agent_uid_as_key;
+    unsigned i = 0;
     for (const auto &agent : world.get_agents()) {
       if (Task *task = agent->get_task()) {
-        shapes[std::to_string(agent->uid)] = {task->get_log_size()};
+        const std::string key = std::to_string(use_uid ? agent->uid : i);
+        shapes[key] = {task->get_log_size()};
       }
+      i++;
     }
     return shapes;
   }
 };
 
 class NeighborsProbe : public RecordProbe {
- public:
+public:
   using RecordProbe::RecordProbe;
   using Type = ng_float_t;
   unsigned number;
@@ -407,7 +412,8 @@ void ExperimentalRun::stop() {
 }
 
 void ExperimentalRun::run() {
-  if (_state != State::init) return;
+  if (_state != State::init)
+    return;
   start();
   for (unsigned step = 0; step < _run_config.steps; step++) {
     if (_world->should_terminate()) {
@@ -428,7 +434,8 @@ void ExperimentalRun::run() {
 }
 
 void ExperimentalRun::update() {
-  if (_state != State::running || _steps > _run_config.steps) return;
+  if (_state != State::running || _steps > _run_config.steps)
+    return;
   for (auto &probe : _probes) {
     probe->update(this);
   }
@@ -482,8 +489,8 @@ static std::set<std::string> find_names(const std::set<std::string> &all,
   return rs;
 }
 
-static std::map<std::string, std::string> find_full_names(
-    const std::set<std::string> &all, const std::string &begin) {
+static std::map<std::string, std::string>
+find_full_names(const std::set<std::string> &all, const std::string &begin) {
   std::map<std::string, std::string> rs;
   for (const auto &value : all) {
     auto r = value.find(begin);
@@ -494,8 +501,8 @@ static std::map<std::string, std::string> find_full_names(
   return rs;
 }
 
-static std::map<std::string, std::string> find_full_names(
-    const std::set<std::string> &all) {
+static std::map<std::string, std::string>
+find_full_names(const std::set<std::string> &all) {
   std::map<std::string, std::string> rs;
   for (const auto &value : all) {
     rs.emplace(value, value);
@@ -503,8 +510,8 @@ static std::map<std::string, std::string> find_full_names(
   return rs;
 }
 
-std::set<std::string> ExperimentalRun::get_record_names(
-    const std::string &group) const {
+std::set<std::string>
+ExperimentalRun::get_record_names(const std::string &group) const {
   if (group.empty()) {
     return _record_names;
   } else {
@@ -512,8 +519,8 @@ std::set<std::string> ExperimentalRun::get_record_names(
   }
 }
 
-std::map<std::string, std::string> ExperimentalRun::get_group(
-    const std::string &name) const {
+std::map<std::string, std::string>
+ExperimentalRun::get_group(const std::string &name) const {
   if (name.empty()) {
     return find_full_names(_record_names);
   } else {
@@ -523,8 +530,7 @@ std::map<std::string, std::string> ExperimentalRun::get_group(
 
 // From https://stackoverflow.com/a/42398124
 
-template <typename T>
-struct SkipIt {
+template <typename T> struct SkipIt {
   using iterator_category = std::forward_iterator_tag;
   using value_type = unsigned;
   using difference_type = int;
@@ -550,7 +556,7 @@ struct SkipIt {
     return ret;
   }
 
- private:
+private:
   T *elt;
   unsigned skip;
 };
@@ -674,4 +680,4 @@ BoundingBox ExperimentalRun::get_bounding_box() const {
   return world_bb;
 }
 
-}  // namespace navground::sim
+} // namespace navground::sim

@@ -22,6 +22,8 @@
 
 - Resetting a sampler with `once=true` now correctly sets its index to 0.
 
+- Recording keys associated to agents (for tasks and sensing) do now correctly make use of the config `use_agent_uid_as_key`.
+
 ### Changed
 
 - Renamed `normalize` to `normalize_angle`

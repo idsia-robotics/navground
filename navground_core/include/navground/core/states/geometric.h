@@ -1,5 +1,5 @@
-#ifndef NAVGROUND_CORE_BEHAVIOR_GEOMETRIC_H
-#define NAVGROUND_CORE_BEHAVIOR_GEOMETRIC_H
+#ifndef NAVGROUND_CORE_STATES_GEOMETRIC_H
+#define NAVGROUND_CORE_STATES_GEOMETRIC_H
 
 #include <iostream>
 #include <vector>
@@ -418,4 +418,4 @@ inline std::ostream& operator<<(std::ostream& os, const GeometricState& state) {
 
 }  // namespace navground::core
 
-#endif  // NAVGROUND_CORE_BEHAVIOR_GEOMETRIC_H
+#endif  // NAVGROUND_CORE_STATES_GEOMETRIC_H

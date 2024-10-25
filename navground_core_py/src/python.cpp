@@ -67,6 +67,15 @@ template <> std::string to_string(const Twist2 &value) {
          ", frame=" + to_string(value.frame) + ")";
 }
 
+template <> std::string to_string(const Path &value) {
+  std::string s = "Path(length=" + to_string(value.length);
+  if (value.loop) {
+    s += ", loop=True";
+  }
+  s += ")";
+  return s;
+}
+
 template <> std::string to_string(const Target &value) {
   std::string r = "Target(";
   bool first = true;
@@ -110,6 +119,12 @@ template <> std::string to_string(const Target &value) {
     if (!first)
       r += ", ";
     r += "orientation_tolerance=" + to_string(value.orientation_tolerance);
+    first = false;
+  }
+  if (value.path) {
+    if (!first)
+      r += ", ";
+    r += "path=" + to_string(*value.path);
     first = false;
   }
   r += ")";
@@ -186,6 +201,17 @@ public:
                                 Frame frame) override {
     PYBIND11_OVERRIDE(Twist2, Behavior, twist_towards_velocity,
                       absolute_velocity, frame);
+  }
+  Twist2 cmd_twist_along_path(Path &path, ng_float_t speed,
+                              ng_float_t time_step, Frame frame) override {
+    PYBIND11_OVERRIDE(Twist2, Behavior, cmd_twist_along_path, path, speed,
+                      time_step, frame);
+  }
+  Twist2 cmd_twist_towards_pose(const Pose2 &pose, ng_float_t speed,
+                                ng_float_t angular_speed, ng_float_t time_step,
+                                Frame frame) override {
+    PYBIND11_OVERRIDE(Twist2, Behavior, cmd_twist_towards_pose, pose, speed,
+                      angular_speed, time_step, frame);
   }
   Twist2 cmd_twist_towards_point(const Vector2 &point, ng_float_t speed,
                                  ng_float_t time_step, Frame frame) override {
@@ -389,14 +415,33 @@ PYBIND11_MODULE(_navground, m) {
   m.def("to_relative", &to_relative, py::arg("value"), py::arg("reference"),
         DOC(navground, core, to_relative));
 
+  py::class_<Path>(m, "Path", DOC(navground, core, Path))
+      .def(py::init<const Path::Projection &, const Path::Curve &, ng_float_t,
+                    bool>(),
+           py::arg("project"), py::arg("curve"), py::arg("length"),
+           py::arg("loop") = false, DOC(navground, core, Path, Path))
+      .def_readonly("project", &Path::project,
+                    DOC(navground, core, Path, project))
+      .def_readonly("curve", &Path::curve, DOC(navground, core, Path, curve))
+      .def_readonly("length", &Path::length, DOC(navground, core, Path, length))
+      .def_readonly("coordinate", &Path::coordinate,
+                    DOC(navground, core, Path, coordinate))
+      .def_readonly("loop", &Path::loop, DOC(navground, core, Path, loop))
+      .def("track", &Path::track, py::arg("position"),
+           py::arg("look_ahead") = 0, DOC(navground, core, Path, track))
+      .def("get_point", &Path::get_point, py::arg("position"),
+           py::arg("look_ahead") = 0, DOC(navground, core, Path, get_point))
+      .def("__repr__", &to_string<Path>);
+
   py::class_<Target>(m, "Target", DOC(navground, core, Target))
       .def(py::init<std::optional<Vector2>, std::optional<Radians>,
                     std::optional<ng_float_t>, std::optional<Vector2>,
-                    std::optional<ng_float_t>, ng_float_t, ng_float_t>(),
+                    std::optional<ng_float_t>, std::optional<Path>, ng_float_t,
+                    ng_float_t>(),
            py::arg("position") = py::none(),
            py::arg("orientation") = py::none(), py::arg("speed") = py::none(),
            py::arg("direction") = py::none(),
-           py::arg("angular_speed") = py::none(),
+           py::arg("angular_speed") = py::none(), py::arg("path") = py::none(),
            py::arg("position_tolerance") = 0,
            py::arg("orientation_tolerance") = 0,
            DOC(navground, core, Target, Target))
@@ -414,6 +459,7 @@ PYBIND11_MODULE(_navground, m) {
                      DOC(navground, core, Target, position_tolerance))
       .def_readwrite("orientation_tolerance", &Target::orientation_tolerance,
                      DOC(navground, core, Target, orientation_tolerance))
+      .def_readwrite("path", &Target::path, DOC(navground, core, Target, path))
       .def("satisfied",
            py::overload_cast<const Vector2 &>(&Target::satisfied, py::const_),
            DOC(navground, core, Target, satisfied))
@@ -426,10 +472,12 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("valid", &Target::valid, nullptr,
                     DOC(navground, core, Target, valid))
       .def_static("Point", &Target::Point, py::arg("point"),
-                  py::arg("tolerance") = 0, DOC(navground, core, Target, Point))
+                  py::arg("tolerance") = 0, py::arg("along_path") = py::none(),
+                  DOC(navground, core, Target, Point))
       .def_static("Pose", &Target::Pose, py::arg("pose"),
                   py::arg("position_tolerance") = 0,
                   py::arg("orientation_tolerance") = 0,
+                  py::arg("along_path") = py::none(),
                   DOC(navground, core, Target, Pose))
       .def_static("Orientation", &Target::Orientation, py::arg("orientation"),
                   py::arg("tolerance") = 0,
@@ -846,7 +894,12 @@ PYBIND11_MODULE(_navground, m) {
                     DOC(navground, core, Behavior, property_safety_margin))
       .def_property("horizon", &Behavior::get_horizon, &Behavior::set_horizon,
                     DOC(navground, core, Behavior, property_horizon))
-
+      .def_property("path_tau", &Behavior::get_path_tau,
+                    &Behavior::set_path_tau,
+                    DOC(navground, core, Behavior, property_path_tau))
+      .def_property("path_look_ahead", &Behavior::get_path_look_ahead,
+                    &Behavior::set_path_look_ahead,
+                    DOC(navground, core, Behavior, property_path_look_ahead))
       .def_property("pose", &Behavior::get_pose, &Behavior::set_pose,
                     DOC(navground, core, Behavior, property_pose))
       .def_property("position", &Behavior::get_position,
@@ -1300,11 +1353,14 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("cmd_frame", &Controller::get_cmd_frame,
                     &Controller::set_cmd_frame,
                     DOC(navground, core, Controller, property_cmd_frame))
+      .def("follow_path", &Controller::follow_path, py::arg("path"),
+           py::arg("tolerance"), DOC(navground, core, Controller, follow_path))
       .def("go_to_position", &Controller::go_to_position, py::arg("position"),
-           py::arg("tolerance"),
+           py::arg("tolerance"), py::arg("along_path") = py::none(),
            DOC(navground, core, Controller, go_to_position))
       .def("go_to_pose", &Controller::go_to_pose, py::arg("pose"),
            py::arg("position_tolerance"), py::arg("orientation_tolerance"),
+           py::arg("along_path") = py::none(),
            DOC(navground, core, Controller, go_to_pose))
       .def("follow_point", &Controller::follow_point, py::arg("point"),
            DOC(navground, core, Controller, follow_point))
@@ -1423,7 +1479,7 @@ Load a behavior modulation from a YAML string.
         "Dump a behavior modulation to a YAML-string");
 
   m.def("load_plugins", &load_plugins, py::arg("plugins") = py::set(),
-        py::arg("directories") = py::dict(), py::arg("include_default") = true, 
+        py::arg("directories") = py::dict(), py::arg("include_default") = true,
         DOC(navground, core, load_plugins));
 
   // add [partial] pickle support

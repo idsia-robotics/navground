@@ -14,6 +14,7 @@
 
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/common.h"
+#include "navground/core/export.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/property.h"
 #include "navground/core/register.h"
@@ -21,7 +22,6 @@
 #include "navground/core/state.h"
 #include "navground/core/target.h"
 #include "navground/core/types.h"
-#include "navground/core/export.h"
 
 namespace navground::core {
 
@@ -60,7 +60,7 @@ namespace navground::core {
 class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
                                        virtual public HasRegister<Behavior>,
                                        protected TrackChanges {
- public:
+public:
   using HasRegister<Behavior>::C;
 
   /**
@@ -88,10 +88,14 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @return     The corresponding \ref Heading
    */
   static Heading heading_from_string(const std::string &value) {
-    if (value == "target_point") return Heading::target_point;
-    if (value == "target_angle") return Heading::target_angle;
-    if (value == "target_angular_speed") return Heading::target_angular_speed;
-    if (value == "velocity") return Heading::velocity;
+    if (value == "target_point")
+      return Heading::target_point;
+    if (value == "target_angle")
+      return Heading::target_angle;
+    if (value == "target_angular_speed")
+      return Heading::target_angular_speed;
+    if (value == "velocity")
+      return Heading::velocity;
     return Heading::idle;
   }
 
@@ -103,10 +107,14 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @return     The name of the \ref Heading mode.
    */
   static std::string heading_to_string(const Heading &value) {
-    if (value == Heading::target_point) return "target_point";
-    if (value == Heading::target_angle) return "target_angle";
-    if (value == Heading::target_angular_speed) return "target_angular_speed";
-    if (value == Heading::velocity) return "velocity";
+    if (value == Heading::target_point)
+      return "target_point";
+    if (value == Heading::target_angle)
+      return "target_angle";
+    if (value == Heading::target_angular_speed)
+      return "target_angular_speed";
+    if (value == Heading::velocity)
+      return "velocity";
     return "idle";
   }
 
@@ -122,7 +130,14 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * Default safety margin
    */
   static constexpr ng_float_t default_safety_margin = 0;
-
+  /**
+   * Default safety margin
+   */
+  static constexpr ng_float_t default_path_tau = 0.5;
+  /**
+   * Default safety margin
+   */
+  static constexpr ng_float_t default_path_look_ahead = 1.0;
   /**
    * @brief      Constructs a new instance.
    *
@@ -131,21 +146,15 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    */
   Behavior(std::shared_ptr<Kinematics> kinematics = nullptr,
            ng_float_t radius = 0)
-      : TrackChanges(),
-        social_margin(),
-        kinematics(kinematics),
-        radius(radius),
-        pose(),
-        twist(),
-        horizon(default_horizon),
+      : TrackChanges(), social_margin(), kinematics(kinematics), radius(radius),
+        pose(), twist(), horizon(default_horizon),
         safety_margin(default_safety_margin),
         optimal_speed(kinematics ? kinematics->get_max_speed() : 0),
         optimal_angular_speed(kinematics ? kinematics->get_max_angular_speed()
                                          : 0),
-        rotation_tau(default_rotation_tau),
-        heading_behavior(Heading::idle),
-        assume_cmd_is_actuated(true),
-        target(),
+        rotation_tau(default_rotation_tau), path_tau(default_path_tau),
+        path_look_ahead(default_path_look_ahead),
+        heading_behavior(Heading::idle), assume_cmd_is_actuated(true), target(),
         modulations() {}
 
   virtual ~Behavior() = default;
@@ -206,7 +215,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @param[in]  value  The value to pass to \ref Kinematics::set_max_speed
    */
   void set_max_speed(ng_float_t value) {
-    if (kinematics) kinematics->set_max_speed(value);
+    if (kinematics)
+      kinematics->set_max_speed(value);
   }
 
   /**
@@ -225,7 +235,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * Kinematics::set_max_angular_speed.
    */
   void set_max_angular_speed(Radians value) {
-    if (kinematics) kinematics->set_max_angular_speed(value);
+    if (kinematics)
+      kinematics->set_max_angular_speed(value);
   }
 
   // ---------------------- BEHAVIOR PARAMETERS
@@ -292,7 +303,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @param[in]  value  The desired value
    * @param[in]  time_step  The time step
    * @param[in]  frame  The desired frame
-   * 
+   *
    * @return the nearest feasible value
    */
   Twist2 feasible_twist(const Twist2 &value, ng_float_t time_step,
@@ -395,6 +406,37 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    */
   void set_assume_cmd_is_actuated(bool value) {
     assume_cmd_is_actuated = value;
+  }
+
+  /**
+   * @brief      Gets the path relaxation time
+   *
+   * @return     The time.
+   */
+  ng_float_t get_path_tau() const { return path_tau; }
+  /**
+   * @brief      Sets the path relaxation time, see \ref get_path_tau.
+   *
+   * @param[in]  value  A positive value.
+   */
+  void set_path_tau(ng_float_t value) {
+    path_tau = std::max<ng_float_t>(0, value);
+  }
+
+  /**
+   * @brief      Gets the path look-ahead distance
+   *
+   * @return     The distance.
+   */
+  ng_float_t get_path_look_ahead() const { return path_look_ahead; }
+  /**
+   * @brief      Sets the path look-ahead distance, see \ref
+   * get_path_look_ahead.
+   *
+   * @param[in]  value  A positive value.
+   */
+  void set_path_look_ahead(ng_float_t value) {
+    path_look_ahead = std::max<ng_float_t>(0, value);
   }
 
   //----------- AGENT STATE
@@ -828,8 +870,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    *
    * @return     The modulations.
    */
-  const std::vector<std::shared_ptr<BehaviorModulation>> &get_modulations()
-      const {
+  const std::vector<std::shared_ptr<BehaviorModulation>> &
+  get_modulations() const {
     return modulations;
   }
   /**
@@ -861,12 +903,11 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    * @brief      Returns the target's position if not satisfied,
    *             else null.
    *
-   * @param[in]  frame  The desired frame 
+   * @param[in]  frame  The desired frame
    *
    * @return     The position in the desired frame
    */
   std::optional<Vector2> get_target_position(Frame frame) const;
-
 
   /**
    * @brief      Returns the target's orientation if not satisfied,
@@ -892,12 +933,13 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
   /**
    * @brief      Returns the distance to the target point, if valid,
    *             else null.
-   *             
-   * @param[in]  ignore_tolerance  Whether to ignore the target tolerance      
+   *
+   * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
    *
    * @return     The distance.
    */
-  std::optional<ng_float_t> get_target_distance(bool ignore_tolerance=false) const;
+  std::optional<ng_float_t>
+  get_target_distance(bool ignore_tolerance = false) const;
 
   /**
    * @brief      Gets the current target velocity.
@@ -930,7 +972,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    */
   ng_float_t get_target_angular_speed() const;
 
- protected:
+protected:
   enum {
     POSITION = 1 << 0,
     ORIENTATION = 1 << 1,
@@ -953,6 +995,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
   ng_float_t optimal_speed;
   Radians optimal_angular_speed;
   ng_float_t rotation_tau;
+  ng_float_t path_tau;
+  ng_float_t path_look_ahead;
   Heading heading_behavior;
   bool assume_cmd_is_actuated;
   // Last computed desired velocity in \ref Frame::absolute
@@ -966,25 +1010,37 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
 
   /**
    * @brief      Calculates the control command.
-   * 
-   * 
-   *             This is the internal class that  
-   *             sub-classes may override (and call) 
+   *
+   *
+   *             This is the internal class that
+   *             sub-classes may override (and call)
    *             to define a behavior and not part of the public API.
    *             Users should call \ref compute_cmd instead.
-   *             
-   *             
+   *
+   *
    *             The base implementation checks for a valid target
-   *             
+   *
    *              1. position      => returns \ref cmd_twist_towards_point
    *              2. orientation   => returns \ref cmd_twist_towards_orientation
-   *              3. velocity      => returns \ref md_twist_towards_velocity
-   *              4. angular speed => returns \ref cmd_twist_towards_angular_speed
-   *             
+   *              3. velocity      => returns \ref cmd_twist_towards_velocity
+   *              4. angular speed => returns \ref
+   * cmd_twist_towards_angular_speed
+   *
    *             else returns zero.
-   *             
-   *             Sub-classes may specialize any of these methods above instead 
-   *             of this one.
+   *
+   *             Sub-classes may specialize any of these methods above instead
+   *             of this one. They may also specialize
+   *
+   *              - \ref cmd_twist_towards_pose, whose default implementation
+   *                just call \ref cmd_twist_towards_point, to implement
+   *                a different strategy to reach a pose than
+   *                "move towards the position and then rotate in place
+   *                towards the orientation."
+   *
+   *              - \ref \cmd_twist_along_path, whose default implementation
+   *                is a type of carrot planner that computes a target velocity
+   *                and then call \ref cmd_twist_towards_velocity,
+   *                to follow a target path.
    *
    * @param[in]  time_step  The time step
    * @param[in]  frame      The desired frame
@@ -993,7 +1049,6 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
    */
   virtual Twist2 compute_cmd_internal(ng_float_t time_step, Frame frame);
 
-
   virtual Vector2 desired_velocity_towards_point(const Vector2 &point,
                                                  ng_float_t speed,
                                                  ng_float_t time_step);
@@ -1001,6 +1056,14 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
                                                     ng_float_t time_step);
   virtual Twist2 twist_towards_velocity(const Vector2 &absolute_velocity,
                                         Frame frame);
+
+  virtual Twist2 cmd_twist_along_path(Path &path, ng_float_t speed,
+                                      ng_float_t dt, Frame frame);
+
+  virtual Twist2 cmd_twist_towards_pose(const Pose2 &pose, ng_float_t speed,
+                                        Radians angular_speed, ng_float_t dt,
+                                        Frame frame);
+
   virtual Twist2 cmd_twist_towards_point(const Vector2 &point, ng_float_t speed,
                                          ng_float_t dt, Frame frame);
   virtual Twist2 cmd_twist_towards_velocity(const Vector2 &velocity,
@@ -1012,10 +1075,10 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
                                                  ng_float_t dt, Frame frame);
   virtual Twist2 cmd_twist_towards_stopping(ng_float_t dt, Frame frame);
 
- private:
+private:
   const static std::string type;
 };
 
-}  // namespace navground::core
+} // namespace navground::core
 
-#endif  // NAVGROUND_CORE_BEHAVIOR_H_
+#endif // NAVGROUND_CORE_BEHAVIOR_H_

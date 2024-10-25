@@ -12,8 +12,8 @@
 #include <vector>
 
 #include "navground/core/behavior.h"
-#include "navground/core/types.h"
 #include "navground/core/export.h"
+#include "navground/core/types.h"
 
 namespace navground::core {
 
@@ -144,7 +144,7 @@ struct NAVGROUND_CORE_EXPORT MoveAction : Action {
  *    or by setting a callback \ref set_cmd_cb
  */
 class NAVGROUND_CORE_EXPORT Controller {
- public:
+public:
   /**
    * @brief      Constructs a new instance.
    *
@@ -243,11 +243,13 @@ class NAVGROUND_CORE_EXPORT Controller {
    *
    * @param[in]  point              The target point
    * @param[in]  tolerance  The spatial tolerance
+   * @param[in]  along_path  An optional path to follow
    *
    * @return     The new action.
    */
-  std::shared_ptr<Action> go_to_position(const Vector2 &point,
-                                         ng_float_t tolerance);
+  std::shared_ptr<Action>
+  go_to_position(const Vector2 &point, ng_float_t tolerance,
+                 std::optional<Path> along_path = std::nullopt);
   /**
    * @brief      Starts an action to go to a pose.
    *
@@ -259,12 +261,26 @@ class NAVGROUND_CORE_EXPORT Controller {
    * @param[in]  pose              The target pose
    * @param[in]  position_tolerance  The spatial tolerance
    * @param[in]  orientation_tolerance  The spatial tolerance
+   * @param[in]  along_path  An optional path to follow
    *
    * @return     The new action.
    */
-  std::shared_ptr<Action> go_to_pose(const Pose2 &pose,
-                                     ng_float_t position_tolerance,
-                                     ng_float_t orientation_tolerance);
+  std::shared_ptr<Action>
+  go_to_pose(const Pose2 &pose, ng_float_t position_tolerance,
+             ng_float_t orientation_tolerance,
+             std::optional<Path> along_path = std::nullopt);
+  /**
+   * @brief     Start following a path.
+   *
+   * Internally calls \ref go_to_position to move towards the last point of the
+   * path .
+   *
+   * @param[in]  path       The path
+   * @param[in]  tolerance  The spatial tolerance
+   *
+   * @return     The new action.
+   */
+  std::shared_ptr<Action> follow_path(const Path &path, ng_float_t tolerance);
   /**
    * @brief      Starts an action to follow a point.
    *
@@ -355,7 +371,7 @@ class NAVGROUND_CORE_EXPORT Controller {
    */
   void set_cmd_cb(std::function<void(const Twist2 &)> value) { cmd_cb = value; }
 
- protected:
+protected:
   std::shared_ptr<Action> action;
   std::shared_ptr<Behavior> behavior;
   /**
@@ -364,10 +380,10 @@ class NAVGROUND_CORE_EXPORT Controller {
   ng_float_t speed_tolerance;
   std::optional<Frame> cmd_frame;
 
- private:
+private:
   std::optional<std::function<void(const Twist2 &)>> cmd_cb;
 };
 
-}  // namespace navground::core
+} // namespace navground::core
 
 #endif /* navground_CONTROLLER_H_ */

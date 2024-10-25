@@ -9,7 +9,7 @@
 
 namespace navground::core {
 
-Twist2 Behavior::feasible_twist(const Twist2& value,
+Twist2 Behavior::feasible_twist(const Twist2 &value,
                                 std::optional<Frame> frame) const {
   if (kinematics) {
     Twist2 f_value;
@@ -23,7 +23,7 @@ Twist2 Behavior::feasible_twist(const Twist2& value,
   return Twist2{Vector2::Zero(), 0, frame.value_or(value.frame)};
 }
 
-Twist2 Behavior::feasible_twist(const Twist2& value, ng_float_t time_step,
+Twist2 Behavior::feasible_twist(const Twist2 &value, ng_float_t time_step,
                                 std::optional<Frame> frame) const {
   if (kinematics) {
     Twist2 f_value;
@@ -39,18 +39,18 @@ Twist2 Behavior::feasible_twist(const Twist2& value, ng_float_t time_step,
 }
 
 Vector2 Behavior::desired_velocity_towards_point(
-    [[maybe_unused]] const Vector2& point, [[maybe_unused]] ng_float_t speed,
+    [[maybe_unused]] const Vector2 &point, [[maybe_unused]] ng_float_t speed,
     [[maybe_unused]] ng_float_t time_step) {
   return Vector2::Zero();
 }
 
 Vector2 Behavior::desired_velocity_towards_velocity(
-    [[maybe_unused]] const Vector2& value,
+    [[maybe_unused]] const Vector2 &value,
     [[maybe_unused]] ng_float_t time_step) {
   return Vector2::Zero();
 }
 
-Twist2 Behavior::twist_towards_velocity(const Vector2& absolute_velocity,
+Twist2 Behavior::twist_towards_velocity(const Vector2 &absolute_velocity,
                                         Frame frame) {
   ng_float_t delta_angle = 0;
   Twist2 twist;
@@ -61,26 +61,26 @@ Twist2 Behavior::twist_towards_velocity(const Vector2& absolute_velocity,
     twist.velocity = absolute_velocity;
   }
   switch (get_heading_behavior()) {
-    case Heading::velocity:
-      if (absolute_velocity.norm() == 0) {
-        delta_angle = 0;
-      } else {
-        delta_angle = orientation_of(absolute_velocity) - pose.orientation;
-      }
-      break;
-    case Heading::target_angle:
-      if (target.orientation) {
-        delta_angle = *(target.orientation) - pose.orientation;
-      }
-      break;
-    case Heading::target_point:
-      if (target.position) {
-        delta_angle =
-            orientation_of(*target.position - pose.position) - pose.orientation;
-      }
-      break;
-    default:
-      break;
+  case Heading::velocity:
+    if (absolute_velocity.norm() == 0) {
+      delta_angle = 0;
+    } else {
+      delta_angle = orientation_of(absolute_velocity) - pose.orientation;
+    }
+    break;
+  case Heading::target_angle:
+    if (target.orientation) {
+      delta_angle = *(target.orientation) - pose.orientation;
+    }
+    break;
+  case Heading::target_point:
+    if (target.position) {
+      delta_angle =
+          orientation_of(*target.position - pose.position) - pose.orientation;
+    }
+    break;
+  default:
+    break;
   }
   const ng_float_t max_w = get_target_angular_speed();
   twist.angular_speed =
@@ -88,7 +88,18 @@ Twist2 Behavior::twist_towards_velocity(const Vector2& absolute_velocity,
   return twist;
 }
 
-Twist2 Behavior::cmd_twist_towards_point(const Vector2& point, ng_float_t speed,
+Twist2 Behavior::cmd_twist_along_path(Path &path, ng_float_t speed,
+                                      ng_float_t dt, Frame frame) {
+  const auto &[point, orientation, _] =
+      path.get_point(pose.position, path_look_ahead);
+  const Vector2 delta = point - pose.position;
+  const Vector2 v =
+      path_tau ? unit(orientation) * speed + delta / path_tau : delta;
+  change(TARGET);
+  return cmd_twist_towards_velocity(v.normalized() * speed, dt, frame);
+}
+
+Twist2 Behavior::cmd_twist_towards_point(const Vector2 &point, ng_float_t speed,
                                          ng_float_t dt, Frame frame) {
   desired_velocity = desired_velocity_towards_point(point, speed, dt);
   const Twist2 desired_twist =
@@ -96,12 +107,18 @@ Twist2 Behavior::cmd_twist_towards_point(const Vector2& point, ng_float_t speed,
   return feasible_twist(desired_twist, frame);
 }
 
-Twist2 Behavior::cmd_twist_towards_velocity(const Vector2& velocity,
+Twist2 Behavior::cmd_twist_towards_velocity(const Vector2 &velocity,
                                             ng_float_t dt, Frame frame) {
   desired_velocity = desired_velocity_towards_velocity(velocity, dt);
   const Twist2 desired_twist =
       twist_towards_velocity(desired_velocity, Frame::relative);
   return feasible_twist(desired_twist, frame);
+}
+
+Twist2 Behavior::cmd_twist_towards_pose(const Pose2 &pose, ng_float_t speed,
+                                        [[maybe_unused]] Radians angular_speed,
+                                        ng_float_t dt, Frame frame) {
+  return cmd_twist_towards_point(pose.position, speed, dt, frame);
 }
 
 Twist2 Behavior::cmd_twist_towards_orientation(Radians orientation,
@@ -127,7 +144,7 @@ Twist2 Behavior::cmd_twist_towards_stopping([[maybe_unused]] ng_float_t dt,
 }
 
 Twist2 Behavior::compute_cmd(ng_float_t dt, std::optional<Frame> _frame) {
-  for (auto& modulation : modulations) {
+  for (auto &modulation : modulations) {
     if (modulation->get_enabled()) {
       modulation->pre(*this, dt);
     }
@@ -151,10 +168,18 @@ Twist2 Behavior::compute_cmd(ng_float_t dt, std::optional<Frame> _frame) {
 
 Twist2 Behavior::compute_cmd_internal(ng_float_t dt, Frame frame) {
   const auto point = get_target_position(Frame::absolute);
+  const auto orientation = get_target_orientation(Frame::absolute);
+  if (point && target.path) {
+    return cmd_twist_along_path(*(target.path), get_target_speed(), dt, frame);
+  }
+  if (point && orientation) {
+    return cmd_twist_towards_pose(Pose2(*point, *orientation),
+                                  get_target_speed(),
+                                  get_target_angular_speed(), dt, frame);
+  }
   if (point) {
     return cmd_twist_towards_point(*point, get_target_speed(), dt, frame);
   }
-  const auto orientation = get_target_orientation(Frame::absolute);
   if (orientation) {
     return cmd_twist_towards_orientation(*orientation,
                                          get_target_angular_speed(), dt, frame);
@@ -198,7 +223,8 @@ ng_float_t Behavior::estimate_time_until_target_satisfied() const {
 }
 
 bool Behavior::should_stop() const {
-  if (!target.valid()) return true;
+  if (!target.valid())
+    return true;
   const auto speed = get_target_speed();
   if (target.position && !target.satisfied(pose.position) && speed)
     return false;
@@ -206,8 +232,10 @@ bool Behavior::should_stop() const {
   if (target.orientation && !target.satisfied(pose.orientation) &&
       angular_speed)
     return false;
-  if (target.direction && speed) return false;
-  if (target.angular_speed.value_or(0)) return false;
+  if (target.direction && speed)
+    return false;
+  if (target.angular_speed.value_or(0))
+    return false;
   return true;
 }
 
@@ -222,7 +250,8 @@ bool Behavior::is_stuck() const { return !should_stop() && is_stopped(); }
 ng_float_t Behavior::get_efficacy() const {
   // const auto v = target.get_ideal_velocity(pose.position, optimal_speed);
   const auto v = get_target_velocity(Frame::absolute);
-  if (!v.norm()) return 1;
+  if (!v.norm())
+    return 1;
   return v.dot(twist.velocity) / v.squaredNorm();
 }
 
@@ -261,13 +290,18 @@ std::optional<Vector2> Behavior::get_target_direction(Frame frame) const {
   return std::nullopt;
 }
 
-std::optional<ng_float_t> Behavior::get_target_distance(
-    bool ignore_tolerance) const {
+std::optional<ng_float_t>
+Behavior::get_target_distance(bool ignore_tolerance) const {
   const auto delta = get_target_position(Frame::relative);
   if (delta) {
     ng_float_t distance = delta->norm();
     if (!ignore_tolerance) {
       distance -= target.position_tolerance;
+    }
+    if (target.path && target.path->coordinate >= 0) {
+      distance =
+          std::min(distance, target.path->length - target.path->coordinate -
+                                 target.position_tolerance);
     }
     return std::max<ng_float_t>(0, distance);
   }
@@ -293,4 +327,4 @@ ng_float_t Behavior::get_target_angular_speed() const {
 
 const std::string Behavior::type = register_type<Behavior>("");
 
-}  // namespace navground::core
+} // namespace navground::core

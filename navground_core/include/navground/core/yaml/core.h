@@ -97,6 +97,8 @@ struct convert<Behavior> {
     node["rotation_tau"] = rhs.get_rotation_tau();
     node["safety_margin"] = rhs.get_safety_margin();
     node["horizon"] = rhs.get_horizon();
+    node["path_look_ahead"] = rhs.get_path_look_ahead();
+    node["path_tau"] = rhs.get_path_tau();
     node["radius"] = rhs.get_radius();
     node["heading"] = rhs.get_heading_behavior();
     auto k = rhs.get_kinematics();
@@ -126,6 +128,12 @@ struct convert<Behavior> {
     }
     if (node["horizon"]) {
       rhs.set_horizon(node["horizon"].as<ng_float_t>());
+    }
+    if (node["path_look_ahead"]) {
+      rhs.set_path_look_ahead(node["path_look_ahead"].as<ng_float_t>());
+    }
+    if (node["path_tau"]) {
+      rhs.set_path_tau(node["path_tau"].as<ng_float_t>());
     }
     if (node["radius"]) {
       rhs.set_radius(node["radius"].as<ng_float_t>());

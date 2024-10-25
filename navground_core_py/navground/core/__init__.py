@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+import importlib.metadata
 from typing import Any, Callable, List, Type, TypeAlias, TypeVar, Union
 
 import numpy
-import importlib.metadata
 
 from ._navground import Action
 from ._navground import Behavior as _Behavior
@@ -13,7 +13,7 @@ from ._navground import (Buffer, BufferDescription, BufferMap,
                          Controller, Disc, EnvironmentState, Frame,
                          GeometricState)
 from ._navground import Kinematics as _Kinematics
-from ._navground import (LineSegment, Neighbor, Pose2, SensingState,
+from ._navground import (LineSegment, Neighbor, Path, Pose2, SensingState,
                          SocialMargin, Target, Twist2, dump, load_behavior,
                          load_behavior_modulation, load_kinematics)
 from ._navground import load_plugins as load_cpp_plugins
@@ -166,7 +166,7 @@ from . import behavior_modulations, behaviors, kinematics
 
 def load_py_plugins() -> None:
     for group in ('navground_behaviors', 'navground_kinematics',
-                 'navground_modulations'):
+                  'navground_modulations'):
         for entry_point in importlib.metadata.entry_points(group=group):
             entry_point.load()
 
@@ -183,8 +183,8 @@ def load_plugins() -> None:
 
 
 __all__ = [
-    'Behavior', 'BehaviorModulation', 'Pose2', 'Twist2', 'Target', 'Disc',
-    'Neighbor', 'LineSegment', 'Kinematics', 'Action', 'Controller',
+    'Behavior', 'Path', 'BehaviorModulation', 'Pose2', 'Twist2', 'Target',
+    'Disc', 'Neighbor', 'LineSegment', 'Kinematics', 'Action', 'Controller',
     'CollisionComputation'
     'CachedCollisionComputation', 'Frame', 'GeometricState', 'SensingState',
     'dump', 'load_behavior', 'load_behavior_modulation', 'load_kinematics',

@@ -15,9 +15,11 @@ void Action::update(Controller *controller, ng_float_t dt) {
   if (state == State::running) {
     const ng_float_t progress = tick(controller, dt);
     if (done()) {
-      if (done_cb) (*done_cb)(state);
+      if (done_cb)
+        (*done_cb)(state);
     } else {
-      if (running_cb) (*running_cb)(progress);
+      if (running_cb)
+        (*running_cb)(progress);
     }
   }
 }
@@ -25,7 +27,8 @@ void Action::update(Controller *controller, ng_float_t dt) {
 void Action::abort() {
   if (state == State::running) {
     state = State::failure;
-    if (done_cb) (*done_cb)(state);
+    if (done_cb)
+      (*done_cb)(state);
   }
 }
 
@@ -37,13 +40,14 @@ ng_float_t MoveAction::tick(Controller *controller, ng_float_t dt) {
   return time;
 }
 
-std::shared_ptr<Action> Controller::go_to_position(const Vector2 &point,
-                                                   ng_float_t tolerance) {
+std::shared_ptr<Action>
+Controller::go_to_position(const Vector2 &point, ng_float_t tolerance,
+                           std::optional<Path> along_path) {
   if (action) {
     action->abort();
   }
   if (behavior) {
-    behavior->set_target(Target::Point(point, tolerance));
+    behavior->set_target(Target::Point(point, tolerance, along_path));
   }
   action = std::make_shared<MoveAction>();
   action->state = Action::State::running;
@@ -51,15 +55,16 @@ std::shared_ptr<Action> Controller::go_to_position(const Vector2 &point,
   return action;
 }
 
-std::shared_ptr<Action> Controller::go_to_pose(
-    const Pose2 &pose, ng_float_t position_tolerance,
-    ng_float_t orientation_tolerance) {
+std::shared_ptr<Action> Controller::go_to_pose(const Pose2 &pose,
+                                               ng_float_t position_tolerance,
+                                               ng_float_t orientation_tolerance,
+                                               std::optional<Path> along_path) {
   if (action) {
     action->abort();
   }
   if (behavior) {
     behavior->set_target(
-        Target::Pose(pose, position_tolerance, orientation_tolerance));
+        Target::Pose(pose, position_tolerance, orientation_tolerance, along_path));
   }
   action = std::make_shared<MoveAction>();
   action->state = Action::State::running;
@@ -80,6 +85,11 @@ std::shared_ptr<Action> Controller::follow_point(const Vector2 &point) {
     behavior->set_target(Target::Point(point));
   }
   return action;
+}
+
+std::shared_ptr<Action> Controller::follow_path(const Path &path, ng_float_t tolerance) {
+  const auto & p = path.curve(path.length);
+  return go_to_position(std::get<0>(p), tolerance, path);
 }
 
 std::shared_ptr<Action> Controller::follow_pose(const Pose2 &pose) {
@@ -166,4 +176,4 @@ void Controller::stop() {
   }
 }
 
-}  // namespace navground::core
+} // namespace navground::core

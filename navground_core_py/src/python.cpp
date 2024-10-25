@@ -1108,6 +1108,8 @@ PYBIND11_MODULE(_navground, m) {
           "type",
           [](const BufferDescription &value) { return py::dtype(value.type); },
           nullptr, DOC(navground, core, BufferDescription, type))
+      .def_property("strides", &BufferDescription::get_strides, nullptr,
+                    DOC(navground, core, BufferDescription, property_stripes))
       .def_readonly("low", &BufferDescription::low,
                     DOC(navground, core, BufferDescription, low))
       .def_readonly("high", &BufferDescription::high,

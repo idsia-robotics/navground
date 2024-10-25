@@ -47,9 +47,9 @@ using BufferData =
  *
  * @return     The code.
  */
-template <typename T>
-inline std::string get_type() {
-  if (std::is_floating_point<T>::value) return "f" + std::to_string(sizeof(T));
+template <typename T> inline std::string get_type() {
+  if (std::is_floating_point<T>::value)
+    return "f" + std::to_string(sizeof(T));
   if (std::is_integral<T>::value && std::is_unsigned<T>::value)
     return "u" + std::to_string(sizeof(T));
   if (std::is_integral<T>::value && std::is_signed<T>::value)
@@ -67,7 +67,7 @@ inline std::string get_type() {
  */
 inline std::string get_type(BufferType value) {
   return std::visit(
-      [](auto&& arg) {
+      [](auto &&arg) {
         using T = std::decay_t<decltype(arg)>;
         return get_type<T>();
       },
@@ -84,7 +84,7 @@ inline std::string get_type(BufferType value) {
  */
 inline std::string get_type(BufferData data) {
   return std::visit(
-      [](auto&& arg) {
+      [](auto &&arg) {
         using T = std::remove_reference_t<decltype(arg[0])>;
         return get_type<T>();
       },
@@ -98,18 +98,39 @@ inline std::string get_type(BufferData data) {
  *
  * @return     Zero.
  */
-inline BufferType get_zero(const std::string& dtype) {
-  if (dtype == "f4") return static_cast<float>(0);
-  if (dtype == "f8") return static_cast<double>(0);
-  if (dtype == "i8") return static_cast<int64_t>(0);
-  if (dtype == "i4") return static_cast<int32_t>(0);
-  if (dtype == "i2") return static_cast<int16_t>(0);
-  if (dtype == "i1") return static_cast<int8_t>(0);
-  if (dtype == "u8") return static_cast<uint64_t>(0);
-  if (dtype == "u4") return static_cast<uint32_t>(0);
-  if (dtype == "u2") return static_cast<uint16_t>(0);
-  if (dtype == "u1") return static_cast<uint8_t>(0);
+inline BufferType get_zero(const std::string &dtype) {
+  if (dtype == "f4")
+    return static_cast<float>(0);
+  if (dtype == "f8")
+    return static_cast<double>(0);
+  if (dtype == "i8")
+    return static_cast<int64_t>(0);
+  if (dtype == "i4")
+    return static_cast<int32_t>(0);
+  if (dtype == "i2")
+    return static_cast<int16_t>(0);
+  if (dtype == "i1")
+    return static_cast<int8_t>(0);
+  if (dtype == "u8")
+    return static_cast<uint64_t>(0);
+  if (dtype == "u4")
+    return static_cast<uint32_t>(0);
+  if (dtype == "u2")
+    return static_cast<uint16_t>(0);
+  if (dtype == "u1")
+    return static_cast<uint8_t>(0);
   return 0.0;
+}
+
+/**
+ * @brief      Gets the scalar size of a type with a given code.
+ *
+ * @param[in]  dtype  The type code
+ *
+ * @return     The size in bytes.
+ */
+inline size_t get_scalar_size(const std::string &dtype) {
+  return std::visit([](auto &&arg) { return sizeof(arg); }, get_zero(dtype));
 }
 
 /**
@@ -119,7 +140,7 @@ inline BufferType get_zero(const std::string& dtype) {
  *
  * @return     The number of elements for a buffer of a given shape.
  */
-inline size_t get_size(const BufferShape& shape) {
+inline size_t get_size(const BufferShape &shape) {
   if (!shape.size()) {
     return 0;
   }
@@ -135,7 +156,7 @@ inline size_t get_size(const BufferShape& shape) {
  * @return     The number of elements in data.
  */
 inline size_t get_size(BufferData data) {
-  return std::visit([](auto&& arg) { return arg.size(); }, data);
+  return std::visit([](auto &&arg) { return arg.size(); }, data);
 }
 
 /**
@@ -174,14 +195,11 @@ struct BufferDescription {
    * @param[in]  high         The high
    * @param[in]  categorical  The categorical
    */
-  BufferDescription(const BufferShape& shape, const std::string& type = "",
+  BufferDescription(const BufferShape &shape, const std::string &type = "",
                     double low = std::numeric_limits<double>::min(),
                     double high = std::numeric_limits<double>::max(),
                     bool categorical = false)
-      : shape(shape),
-        type(type),
-        low(low),
-        high(high),
+      : shape(shape), type(type), low(low), high(high),
         categorical(categorical) {}
 
   /**
@@ -197,11 +215,28 @@ struct BufferDescription {
    * @return     The buffer description.
    */
   template <typename T>
-  static BufferDescription make(
-      const BufferShape& shape, double low = std::numeric_limits<double>::min(),
-      double high = std::numeric_limits<double>::max(),
-      bool categorical = false) {
+  static BufferDescription
+  make(const BufferShape &shape,
+       double low = std::numeric_limits<double>::min(),
+       double high = std::numeric_limits<double>::max(),
+       bool categorical = false) {
     return BufferDescription(shape, get_type<T>(), low, high, categorical);
+  }
+
+  /**
+   * @brief      Gets the strides.
+   *
+   * @return     The strides.
+   */
+  std::vector<size_t> get_strides() const {
+    std::vector<size_t> strides(shape.size());
+    size_t size = get_scalar_size(type);
+    const size_t e = shape.size() - 1;
+    for (int i = 0; i <= e; ++i) {
+      strides[e - i] = size;
+      size *= shape[i];
+    }
+    return strides;
   }
 };
 
@@ -212,7 +247,7 @@ struct BufferDescription {
  *
  * @return     The description.
  */
-inline BufferDescription get_description(const BufferData& data) {
+inline BufferDescription get_description(const BufferData &data) {
   return BufferDescription({static_cast<ssize_t>(get_size(data))},
                            get_type(data));
 }
@@ -222,16 +257,16 @@ inline BufferDescription get_description(const BufferData& data) {
  * arrays.
  */
 class Buffer {
- public:
+public:
   /**
    * @brief      Constructs a new instance with data set to a uniform value.
    *
    * @param[in]  desc   The description
    * @param[in]  value  The value to assign to all of the buffer.
    */
-  Buffer(const BufferDescription& desc, BufferType value) : description(desc) {
+  Buffer(const BufferDescription &desc, BufferType value) : description(desc) {
     std::visit(
-        [this, value](auto&& arg) {
+        [this, value](auto &&arg) {
           using T = std::decay_t<decltype(arg)>;
           data = std::valarray<T>(arg, get_described_size());
         },
@@ -244,7 +279,7 @@ class Buffer {
    *
    * @param[in]  desc  The description
    */
-  Buffer(const BufferDescription& desc) : Buffer(desc, get_zero(desc.type)) {}
+  Buffer(const BufferDescription &desc) : Buffer(desc, get_zero(desc.type)) {}
 
   /**
    * @brief      Constructs a new instance with data
@@ -252,7 +287,7 @@ class Buffer {
    * @param[in]  desc   The description
    * @param[in]  value  The data
    */
-  Buffer(const BufferDescription& desc, const BufferData& value)
+  Buffer(const BufferDescription &desc, const BufferData &value)
       : Buffer(desc) {
     set_data(value, true);
   }
@@ -262,7 +297,7 @@ class Buffer {
    *
    * @param[in]  value  The data
    */
-  Buffer(const BufferData& value)
+  Buffer(const BufferData &value)
       : Buffer(::navground::core::get_description(value)) {
     data = value;
   }
@@ -289,8 +324,7 @@ class Buffer {
    *
    * @return     The data or an null pointer if the type is different.
    */
-  template <typename T>
-  const std::valarray<T>* get_data() const {
+  template <typename T> const std::valarray<T> *get_data() const {
     return std::get_if<std::valarray<T>>(&data);
   }
 
@@ -299,7 +333,7 @@ class Buffer {
    *
    * @return     The data container.
    */
-  const BufferData& get_data_container() const { return data; }
+  const BufferData &get_data_container() const { return data; }
 
   /**
    * @brief      Determines if the data has a given type
@@ -308,8 +342,7 @@ class Buffer {
    *
    * @return     True if the data has the given type, False otherwise.
    */
-  template <typename T>
-  bool has_type() const {
+  template <typename T> bool has_type() const {
     return get_data<T>() != nullptr;
   }
 
@@ -355,10 +388,10 @@ class Buffer {
    *
    * @return     A pointer to the first element of the buffer.
    */
-  const void* get_ptr() const {
+  const void *get_ptr() const {
     return std::visit(
-        [](auto&& arg) -> const void* {
-          return static_cast<const void*>(&arg[0]);
+        [](auto &&arg) -> const void * {
+          return static_cast<const void *>(&arg[0]);
         },
         data);
   }
@@ -379,7 +412,7 @@ class Buffer {
    *
    * @return     Whether the data was set or not.
    */
-  bool set_ptr(void* ptr, const BufferShape& shape, const std::string& _type,
+  bool set_ptr(void *ptr, const BufferShape &shape, const std::string &_type,
                bool force = false) {
     if (!set_type(_type, force)) {
       return false;
@@ -388,9 +421,9 @@ class Buffer {
       return false;
     }
     std::visit(
-        [this, ptr](auto&& arg) {
+        [this, ptr](auto &&arg) {
           using T = std::remove_reference_t<decltype(arg[0])>;
-          data = std::valarray<T>(static_cast<T*>(ptr), arg.size());
+          data = std::valarray<T>(static_cast<T *>(ptr), arg.size());
         },
         data);
     return true;
@@ -401,7 +434,7 @@ class Buffer {
    *
    * @return     The description.
    */
-  const BufferDescription& get_description() const { return description; }
+  const BufferDescription &get_description() const { return description; }
 
   /**
    * @brief      Sets the description.
@@ -450,7 +483,7 @@ class Buffer {
    *
    * @return     The shape.
    */
-  const BufferShape& get_shape() const { return description.shape; }
+  const BufferShape &get_shape() const { return description.shape; }
 
   /**
    * @brief      Sets the lower bound.
@@ -488,7 +521,7 @@ class Buffer {
   bool set_shape(BufferShape value, bool force = true) {
     if (size() != get_size(value)) {
       if (force) {
-        std::visit([n = get_size(value)](auto&& arg) { arg.resize(n); }, data);
+        std::visit([n = get_size(value)](auto &&arg) { arg.resize(n); }, data);
       } else {
         std::cerr << "wrong size " << get_size(value) << ", expected " << size()
                   << std::endl;
@@ -512,8 +545,7 @@ class Buffer {
    *
    * @return     Whether the shape was set or not.
    */
-  template <typename T>
-  bool set_type(bool force = true) {
+  template <typename T> bool set_type(bool force = true) {
     if (!has_type<T>()) {
       if (force) {
         data = std::valarray<T>(T(), get_described_size());
@@ -538,7 +570,7 @@ class Buffer {
    *
    * @return     Whether the shape was set or not.
    */
-  bool set_type(const std::string& value, bool force = true) {
+  bool set_type(const std::string &value, bool force = true) {
     if (value.empty()) {
       return true;
     }
@@ -546,7 +578,7 @@ class Buffer {
       auto zero = get_zero(value);
       if (force) {
         std::visit(
-            [this](auto&& arg) {
+            [this](auto &&arg) {
               using T = std::decay_t<decltype(arg)>;
               data = std::valarray<T>(arg, get_described_size());
             },
@@ -561,13 +593,13 @@ class Buffer {
     return true;
   }
 
- private:
+private:
   BufferDescription description;
   BufferData data;
 
   size_t get_described_size() const { return get_size(description.shape); }
 };
 
-}  // namespace navground::core
+} // namespace navground::core
 
-#endif  // NAVGROUND_CORE_BUFFER_HPP
+#endif // NAVGROUND_CORE_BUFFER_HPP

@@ -12,6 +12,8 @@
 
 - Exposed additional `core/common.h` functions to Python
 
+- `Buffer` exposes the stride of their multi-dimensional arrays.
+
 ### Fixed
 
 - Resetting a sampler with `once=true` now correctly sets its index to 0.

@@ -26,6 +26,8 @@
 
 - `TwoWheelsDifferentialDriveKinematics` now supports additional (control) limitation in angular, forward and backward speed. It also supports moving backwards, although it is disabled by default for back compatibility.
 
+- Removed const-ness from `Task::prepare` 
+
 ### Removed
 
 ## [0.1.0] - 2024-27-9

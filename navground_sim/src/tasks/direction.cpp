@@ -10,7 +10,7 @@
 
 namespace navground::sim {
 
-void DirectionTask::prepare(Agent *agent, World *world) const {
+void DirectionTask::prepare(Agent *agent, World *world) {
   if (_direction.norm()) {
     agent->get_controller()->follow_direction(_direction);
   }

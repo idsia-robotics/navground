@@ -88,7 +88,7 @@ struct NAVGROUND_SIM_EXPORT Task : public virtual HasProperties,
    * @param      agent  The agent owning the task
    * @param[in]  world  The world the agent is part of
    */
-  virtual void prepare(Agent *agent, World *world) const {};
+  virtual void prepare(Agent *agent, World *world) {};
 
   std::vector<TaskCallback> callbacks;
 };

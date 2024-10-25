@@ -78,7 +78,7 @@ struct NAVGROUND_SIM_EXPORT DirectionTask : Task {
   /**
    * @private
    */
-  void prepare(Agent *agent, World *world) const override;
+  void prepare(Agent *agent, World *world) override;
 
  private:
   Vector2 _direction;

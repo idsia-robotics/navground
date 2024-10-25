@@ -20,6 +20,11 @@
 #include "navground/core/plugins.h"
 #include "navground/core/types.h"
 #include "navground/core/yaml/yaml.h"
+#include "navground/core_py/behavior_modulation.h"
+#include "navground/core_py/collection.h"
+#include "navground/core_py/pickle.h"
+#include "navground/core_py/register.h"
+#include "navground/core_py/yaml.h"
 #include "navground/sim/dataset.h"
 #include "navground/sim/experiment.h"
 #include "navground/sim/experimental_run.h"
@@ -38,17 +43,12 @@
 #include "navground/sim/state_estimations/sensor_discs.h"
 #include "navground/sim/state_estimations/sensor_lidar.h"
 #include "navground/sim/task.h"
-#include "navground/sim/tasks/waypoints.h"
 #include "navground/sim/tasks/direction.h"
+#include "navground/sim/tasks/waypoints.h"
 #include "navground/sim/world.h"
 #include "navground/sim/yaml/experiment.h"
 #include "navground/sim/yaml/scenario.h"
 #include "navground/sim/yaml/world.h"
-#include "navground/core_py/behavior_modulation.h"
-#include "navground/core_py/collection.h"
-#include "navground/core_py/pickle.h"
-#include "navground/core_py/register.h"
-#include "navground/core_py/yaml.h"
 
 using namespace navground::core;
 using namespace navground::sim;
@@ -62,15 +62,13 @@ void set_dataset_data_py(Dataset &dataset, const py::array &obj,
                          bool append = false,
                          std::optional<py::dtype> = std::nullopt);
 
-template <typename T>
-struct get<T, py::object> {
+template <typename T> struct get<T, py::object> {
   static typename T::Native *ptr(const py::object &c) {
     return c.cast<typename T::Native *>();
   }
 };
 
-template <>
-struct navground::sim::add_modulation<py::object, py::object> {
+template <> struct navground::sim::add_modulation<py::object, py::object> {
   static void call(py::object &behavior, py::object modulation) {
     return add_modulation_py(behavior, modulation);
   }
@@ -155,7 +153,7 @@ struct PyTask : Task, virtual PyHasRegister<Task> {
     PYBIND11_OVERRIDE(void, Task, update, agent, world, time);
   }
 
-  void prepare(Agent *agent, World *world) const override {
+  void prepare(Agent *agent, World *world) override {
     PYBIND11_OVERRIDE(void, Task, prepare, agent, world);
   }
 
@@ -215,7 +213,7 @@ struct PySensor : Sensor, virtual PyStateEstimation {
 };
 
 class PyAgent : public Agent {
- public:
+public:
   using B = PyBehavior;
   using M = PyBehaviorModulation;
   using K = PyKinematics;
@@ -286,7 +284,7 @@ class PyAgent : public Agent {
   //   }
   // }
 
- private:
+private:
   py::object py_kinematics;
   py::object py_behavior;
   py::object py_state_estimation;
@@ -548,7 +546,8 @@ struct PyExperiment : public Experiment {
           sim_run = &(init_run(i));
         }
         mutex.unlock();
-        if (!sim_run) continue;
+        if (!sim_run)
+          continue;
         // Run is parallelized!!
         // Only works if there are no Python classes used
         // as Behavior, Kinematics, StateEstimation, or Task
@@ -586,7 +585,7 @@ struct PyExperiment : public Experiment {
     stop();
   }
 
- private:
+private:
   void instantiate_probe(const py::object cls, ExperimentalRun &run) {
     auto obj = cls.attr("__call__")();
     auto probe = obj.cast<std::shared_ptr<Probe>>();
@@ -625,8 +624,7 @@ struct PyExperiment : public Experiment {
 
 namespace YAML {
 
-template <>
-struct convert<PyAgent> {
+template <> struct convert<PyAgent> {
   static Node encode(const PyAgent &rhs) {
     return convert<Agent>::encode(static_cast<const Agent &>(rhs));
   }
@@ -654,8 +652,7 @@ struct convert<PyAgent> {
   }
 };
 
-template <>
-struct convert<std::shared_ptr<PyAgent>> {
+template <> struct convert<std::shared_ptr<PyAgent>> {
   static Node encode(const std::shared_ptr<PyAgent> &rhs) {
     if (rhs) {
       return convert<PyAgent>::encode(*rhs);
@@ -672,8 +669,7 @@ struct convert<std::shared_ptr<PyAgent>> {
   }
 };
 
-template <>
-py::object load_node_py<PyAgent>(const Node &node) {
+template <> py::object load_node_py<PyAgent>(const Node &node) {
   return py::cast(node.as<PyAgent>());
 };
 
@@ -683,15 +679,13 @@ py::object load_node_py<PyAgent>(const Node &node) {
 //   return world;
 // }
 
-template <>
-py::object load_node_py<PyWorld>(const Node &node) {
+template <> py::object load_node_py<PyWorld>(const Node &node) {
   auto world = std::make_shared<PyWorld>();
   convert_world<PyAgent>::decode(node, *world);
   return py::cast(world);
 };
 
-template <>
-py::object load_node_py<PyScenario>(const Node &node) {
+template <> py::object load_node_py<PyScenario>(const Node &node) {
   auto obj = make_type_from_yaml_py<PyScenario>(node);
   if (obj.is_none()) {
     auto ws = std::make_shared<Scenario>();
@@ -705,9 +699,9 @@ void update_scenario(Scenario &scenario, const Node &node) {
   convert_scenario<PyWorld>::decode(node, scenario);
 };
 
-template <>
-std::string dump(const Scenario *sampler) {
-  if (!sampler) return "";
+template <> std::string dump(const Scenario *sampler) {
+  if (!sampler)
+    return "";
   auto node = convert_scenario<PyWorld>::encode(*sampler);
   Emitter out;
   out << node;
@@ -735,8 +729,7 @@ std::string dump(const Scenario *sampler) {
 //   return std::string(out.c_str());
 // };
 
-template <>
-struct convert<PyExperiment> {
+template <> struct convert<PyExperiment> {
   static Node encode(const PyExperiment &rhs) {
     Node node = convert_experiment::encode(rhs);
     if (rhs.scenario) {
@@ -755,8 +748,7 @@ struct convert<PyExperiment> {
   }
 };
 
-template <>
-py::object load_node_py<PyExperiment>(const Node &node) {
+template <> py::object load_node_py<PyExperiment>(const Node &node) {
   return py::cast(node.as<PyExperiment>());
 }
 
@@ -773,7 +765,7 @@ py::object load_node_py<PyExperiment>(const Node &node) {
 //   return std::string(out.c_str());
 // };
 
-}  // namespace YAML
+} // namespace YAML
 
 #if 0
 static py::memoryview empty_unsigned_view() {
@@ -830,8 +822,7 @@ static std::map<std::string, py::array> as_dict_array(
 }
 #endif
 
-template <typename T>
-static py::array make_empty_array() {
+template <typename T> static py::array make_empty_array() {
   return py::array(0, static_cast<const T *>(nullptr));
 }
 
@@ -1493,7 +1484,7 @@ Creates a rectangular region
           [](const RecordNeighborsConfig &value) {
             return py::make_tuple(value.enabled, value.number, value.relative);
           },
-          [](py::tuple v) {  // __setstate__
+          [](py::tuple v) { // __setstate__
             return RecordNeighborsConfig{py::cast<bool>(v[0]),
                                          py::cast<int>(v[1]),
                                          py::cast<bool>(v[2])};
@@ -1527,7 +1518,7 @@ Creates a rectangular region
             return py::make_tuple(value.name, value.sensor,
                                   value.agent_indices);
           },
-          [](py::tuple v) {  // __setstate__
+          [](py::tuple v) { // __setstate__
             return RecordSensingConfig{py::cast<std::string>(v[0]),
                                        py::cast<std::shared_ptr<Sensor>>(v[1]),
                                        py::cast<std::vector<unsigned>>(v[2])};
@@ -1637,7 +1628,7 @@ Creates a rectangular region
                                   value.efficacy, value.world, value.neighbors,
                                   value.use_agent_uid_as_key, value.sensing);
           },
-          [](py::tuple v) {  // __setstate__
+          [](py::tuple v) { // __setstate__
             return RecordConfig{
                 py::cast<bool>(v[0]),
                 py::cast<bool>(v[1]),
@@ -1740,13 +1731,14 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
           // HACK(Jerome):
           // For some reason I need to pass a dtype, because the arr.dtype()
           // returns a different type.
-          [](const Dataset &ds) {  // __getstate__
+          [](const Dataset &ds) { // __getstate__
             /* Return a tuple that fully encodes the state of the object */
             return py::make_tuple(as_array(ds),
                                   get_dataset_type_py(ds).attr("str"));
           },
-          [](py::tuple t) {  // __setstate__
-            if (t.size() != 2) throw std::runtime_error("Invalid state!");
+          [](py::tuple t) { // __setstate__
+            if (t.size() != 2)
+              throw std::runtime_error("Invalid state!");
             Dataset ds;
             auto arr = py::cast<py::array>(t[0]);
             auto dt = py::dtype(py::cast<std::string>(t[1]));
@@ -1958,7 +1950,8 @@ Gets recorded data.
           "times",
           [](const ExperimentalRun *run) {
             auto record = run->get_times();
-            if (record) return as_array(*record);
+            if (record)
+              return as_array(*record);
             return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
@@ -1973,7 +1966,8 @@ The array is empty if times have not been recorded in the run.
           "poses",
           [](const ExperimentalRun *run) {
             auto record = run->get_poses();
-            if (record) return as_array(*record);
+            if (record)
+              return as_array(*record);
             return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
@@ -1991,7 +1985,8 @@ The array is empty if poses have not been recorded in the run.
           "twists",
           [](const ExperimentalRun *run) {
             auto record = run->get_twists();
-            if (record) return as_array(*record);
+            if (record)
+              return as_array(*record);
             return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
@@ -2009,7 +2004,8 @@ The array is empty if twist have not been recorded in the run.
           "targets",
           [](const ExperimentalRun *run) {
             auto record = run->get_targets();
-            if (record) return as_array(*record);
+            if (record)
+              return as_array(*record);
             return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
@@ -2027,7 +2023,8 @@ The array is empty if targets have not been recorded in the run.
           "commands",
           [](const ExperimentalRun *run) {
             auto record = run->get_cmds();
-            if (record) return as_array(*record);
+            if (record)
+              return as_array(*record);
             return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
@@ -2045,7 +2042,8 @@ The array is empty if commands have not been recorded in the run.
           "actuated_commands",
           [](const ExperimentalRun *run) {
             auto record = run->get_actuated_cmds();
-            if (record) return as_array(*record);
+            if (record)
+              return as_array(*record);
             return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
@@ -2063,7 +2061,8 @@ The array is empty if actuated commands have not been recorded in the run.
           "safety_violations",
           [](const ExperimentalRun *run) {
             auto record = run->get_safety_violations();
-            if (record) return as_array(*record);
+            if (record)
+              return as_array(*record);
             return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
@@ -2081,7 +2080,8 @@ The array is empty if safety violations have not been recorded in the run.
           "collisions",
           [](const ExperimentalRun *run) {
             auto record = run->get_collisions();
-            if (record) return as_array(*record);
+            if (record)
+              return as_array(*record);
             return make_empty_array<unsigned>();
           },
           nullptr, R"doc(
@@ -2194,7 +2194,8 @@ The array is empty if the agent's task has not been recorded in the run.
           "deadlocks",
           [](const ExperimentalRun *run) {
             auto record = run->get_deadlocks();
-            if (record) return as_array(*record);
+            if (record)
+              return as_array(*record);
             return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
@@ -2213,7 +2214,8 @@ The array is empty if deadlocks have not been recorded in the run.
           "efficacy",
           [](const ExperimentalRun *run) {
             auto record = run->get_efficacy();
-            if (record) return as_array(*record);
+            if (record)
+              return as_array(*record);
             return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
@@ -2229,7 +2231,8 @@ The array is empty if efficacy has not been recorded in the run.
           "neighbors",
           [](const ExperimentalRun *run) {
             auto record = run->get_neighbors();
-            if (record) return as_array(*record);
+            if (record)
+              return as_array(*record);
             return make_empty_array<ng_float_t>();
           },
           nullptr, R"doc(
@@ -2301,8 +2304,9 @@ The array is empty if efficacy has not been recorded in the run.
                 run.get_begin(), run.get_end(), run.get_world_yaml(),
                 run.get_records());
           },
-          [](py::tuple t) {  // __setstate__
-            if (t.size() != 11) throw std::runtime_error("Invalid state!");
+          [](py::tuple t) { // __setstate__
+            if (t.size() != 11)
+              throw std::runtime_error("Invalid state!");
             // auto world = py::cast<std::shared_ptr<World>>(t[0]);
             auto time_step = py::cast<ng_float_t>(t[0]);
             auto max_steps = py::cast<unsigned>(t[1]);
@@ -2500,16 +2504,16 @@ Register a probe to record a group of data to during all runs.
   py::class_<AntipodalScenario, Scenario, std::shared_ptr<AntipodalScenario>>
       antipodal(m, "AntipodalScenario", DOC(navground, sim, AntipodalScenario));
   antipodal
-      .def(
-          py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, bool>(),
-          py::arg("radius") = AntipodalScenario::default_radius,
-          py::arg("tolerance") = AntipodalScenario::default_tolerance,
-          py::arg("position_noise") = AntipodalScenario::default_position_noise,
-          py::arg("orientation_noise") =
-              AntipodalScenario::default_orientation_noise,
-          py::arg("shuffle") = false,
-          // AntipodalScenario::default_shuffle,
-          DOC(navground, sim, AntipodalScenario, AntipodalScenario))
+      .def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, bool>(),
+           py::arg("radius") = AntipodalScenario::default_radius,
+           py::arg("tolerance") = AntipodalScenario::default_tolerance,
+           py::arg("position_noise") =
+               AntipodalScenario::default_position_noise,
+           py::arg("orientation_noise") =
+               AntipodalScenario::default_orientation_noise,
+           py::arg("shuffle") = false,
+           // AntipodalScenario::default_shuffle,
+           DOC(navground, sim, AntipodalScenario, AntipodalScenario))
       .def_property("radius", &AntipodalScenario::get_radius,
                     &AntipodalScenario::set_radius,
                     DOC(navground, sim, AntipodalScenario, property_radius))

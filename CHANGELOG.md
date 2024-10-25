@@ -6,6 +6,8 @@
 
 ### Fixed
 
+- Resetting a sampler with `once=true` now correctly sets its index to 0.
+
 ### Changed
 
 ### Removed

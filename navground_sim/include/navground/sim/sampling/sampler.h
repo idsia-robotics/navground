@@ -137,7 +137,9 @@ struct Sampler {
     // if (!once) {
     //   _index = index;
     // }
-    if (index) {
+    if (!once) {
+      _index = 0;
+    } else if (index) {
       _index = *index;
     }
     first_sample = std::nullopt;

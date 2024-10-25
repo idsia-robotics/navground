@@ -18,6 +18,8 @@
 
 - Added `name` to prefix all fields of the data updated by a `Sensor`
 
+- Added wheels for Python 3.13
+
 ### Fixed
 
 - Resetting a sampler with `once=true` now correctly sets its index to 0.

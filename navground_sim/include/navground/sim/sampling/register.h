@@ -199,6 +199,12 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
     if (horizon) {
       behavior->set_horizon(horizon->sample(rg));
     }
+    if (path_look_ahead) {
+      behavior->set_path_look_ahead(path_look_ahead->sample(rg));
+    }
+    if (path_tau) {
+      behavior->set_path_tau(path_tau->sample(rg));
+    }
     if (rotation_tau) {
       behavior->set_rotation_tau(rotation_tau->sample(rg));
     }
@@ -230,6 +236,8 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
     if (safety_margin) safety_margin->reset(index);
     if (horizon) horizon->reset(index);
     if (heading) heading->reset(index);
+    if (path_tau) path_tau->reset(index);
+    if (path_look_ahead) path_look_ahead->reset(index);
   }
 
   std::shared_ptr<Sampler<ng_float_t>> optimal_speed;
@@ -237,6 +245,8 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
   std::shared_ptr<Sampler<ng_float_t>> rotation_tau;
   std::shared_ptr<Sampler<ng_float_t>> safety_margin;
   std::shared_ptr<Sampler<ng_float_t>> horizon;
+  std::shared_ptr<Sampler<ng_float_t>> path_tau;
+  std::shared_ptr<Sampler<ng_float_t>> path_look_ahead;
   std::shared_ptr<Sampler<std::string>> heading;
   std::vector<BehaviorModulationSampler<M>> modulations;
 };

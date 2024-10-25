@@ -449,6 +449,12 @@ struct convert<BehaviorSampler<T, M>> {
     if (rhs.horizon) {
       node["horizon"] = rhs.horizon;
     }
+    if (rhs.path_look_ahead) {
+      node["path_look_ahead"] = rhs.path_look_ahead;
+    }
+    if (rhs.path_tau) {
+      node["path_tau"] = rhs.path_tau;
+    }
     if (rhs.heading) {
       node["heading"] = rhs.heading;
     }
@@ -475,6 +481,12 @@ struct convert<BehaviorSampler<T, M>> {
     }
     if (node["horizon"]) {
       rhs.horizon = read_sampler<ng_float_t>(node["horizon"]);
+    }
+    if (node["path_look_ahead"]) {
+      rhs.path_look_ahead = read_sampler<ng_float_t>(node["path_look_ahead"]);
+    }
+    if (node["path_tau"]) {
+      rhs.path_tau = read_sampler<ng_float_t>(node["path_tau"]);
     }
     if (node["heading"]) {
       rhs.heading = read_sampler<std::string>(node["heading"]);

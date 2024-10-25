@@ -1021,8 +1021,11 @@ protected:
    *             The base implementation checks for a valid target
    *
    *              1. position      => returns \ref cmd_twist_towards_point
+   *
    *              2. orientation   => returns \ref cmd_twist_towards_orientation
+   *
    *              3. velocity      => returns \ref cmd_twist_towards_velocity
+   *
    *              4. angular speed => returns \ref
    * cmd_twist_towards_angular_speed
    *

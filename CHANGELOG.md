@@ -20,6 +20,8 @@
 
 - Added wheels for Python 3.13
 
+- Added `no-plugins` option to the CLI commands to disable loading plugins.
+
 ### Fixed
 
 - Resetting a sampler with `once=true` now correctly sets its index to 0.

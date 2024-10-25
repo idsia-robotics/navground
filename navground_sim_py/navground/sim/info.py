@@ -19,7 +19,6 @@ def parser() -> argparse.ArgumentParser:
 
 
 def _main(arg: argparse.Namespace) -> None:
-    sim.load_plugins()
     info(arg, registers)
 
 

@@ -5,9 +5,11 @@ import os
 import pathlib
 import random
 import sys
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
-from . import _Scenario, Experiment, World, load_experiment, load_plugins
+from navground.core import command
+
+from . import Experiment, World, _Scenario, load_experiment, load_plugins
 from .real_time import RealTimeSimulation
 
 if TYPE_CHECKING:
@@ -80,6 +82,7 @@ def description() -> str:
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
+    command.init_parser(parser)
     parser.description = description()
     parser.add_argument(
         'YAML',
@@ -141,8 +144,8 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
 
 def _main(arg: argparse.Namespace,
           decorate: Optional['Decorate'] = None) -> None:
+    command._main(arg)
     logging.basicConfig(level=logging.INFO)
-    load_plugins()
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
         with open(arg.YAML, 'r') as f:
             yaml = f.read()

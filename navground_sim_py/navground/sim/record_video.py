@@ -5,8 +5,10 @@ import random
 import sys
 from typing import TYPE_CHECKING, Any, Optional
 
+from navground.core import command
+
 from . import (Agent, Experiment, ExperimentalRun, RecordedExperiment,
-               RecordedExperimentalRun, load_experiment, load_plugins)
+               RecordedExperimentalRun, load_experiment)
 
 if TYPE_CHECKING:
     from .ui import Decorate
@@ -51,6 +53,7 @@ def description() -> str:
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
+    command.init_parser(parser)
     parser.description = description()
     parser.add_argument(
         'input',
@@ -147,8 +150,8 @@ def main(decorate: Optional['Decorate'] = None) -> None:
 
 def _main(arg: argparse.Namespace,
           decorate: Optional['Decorate'] = None) -> None:
+    command._main(arg)
     logging.basicConfig(level=logging.INFO)
-    load_plugins()
     experiment = _load_recorded_experiment(arg.input) or _load_experiment(
         arg.input)
     if not experiment:

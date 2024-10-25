@@ -4,6 +4,7 @@ import os
 import sys
 
 from navground import sim
+from navground.core import command
 
 
 def description() -> str:
@@ -11,6 +12,7 @@ def description() -> str:
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
+    command.init_parser(parser)
     parser.description = description()
     parser.add_argument(
         'YAML',
@@ -19,8 +21,8 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
 
 
 def _main(arg: argparse.Namespace) -> None:
+    command._main(arg)
     logging.basicConfig(level=logging.INFO)
-    sim.load_plugins()
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
         with open(arg.YAML, 'r') as f:
             yaml = f.read()

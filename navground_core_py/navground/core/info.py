@@ -2,6 +2,7 @@ import argparse
 from typing import Any, List, Optional, Tuple, Type
 
 from navground import core
+from navground.core import command
 
 Component = Tuple[Type, str, Optional[str]]
 Registers = List[Tuple[Type, str]]
@@ -37,6 +38,7 @@ def init_parser_with_registers(parser: argparse.ArgumentParser,
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
+    command.init_parser(parser)
     init_parser_with_registers(parser, registers)
 
 
@@ -80,7 +82,7 @@ def info(arg: argparse.Namespace, registers: Registers) -> None:
 
 
 def _main(arg: argparse.Namespace) -> None:
-    core.load_plugins()
+    command._main(arg)
     info(arg, registers)
 
 

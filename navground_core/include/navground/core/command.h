@@ -12,8 +12,11 @@ public:
   explicit Command(const std::string &name = "") : name(name) {}
 
   int run(int argc, char *argv[]) {
-    navground::core::load_plugins();
     argparse::ArgumentParser parser(name);
+    parser.add_argument("--no-plugins")
+        .help("Do not load plugins")
+        .default_value(false)
+        .implicit_value(true);
     static_cast<T *>(this)->setup(parser);
     try {
       parser.parse_args(argc, argv);
@@ -22,7 +25,9 @@ public:
       std::cerr << parser;
       std::exit(1);
     }
-    
+    if (!parser.get<bool>("--no-plugins")) {
+      navground::core::load_plugins();
+    }
     return static_cast<T *>(this)->execute(parser);
   }
   std::string name;

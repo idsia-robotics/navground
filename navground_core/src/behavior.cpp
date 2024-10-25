@@ -84,7 +84,7 @@ Twist2 Behavior::twist_towards_velocity(const Vector2 &absolute_velocity,
   }
   const ng_float_t max_w = get_target_angular_speed();
   twist.angular_speed =
-      std::clamp(normalize(delta_angle) / rotation_tau, -max_w, max_w);
+      std::clamp(normalize_angle(delta_angle) / rotation_tau, -max_w, max_w);
   return twist;
 }
 
@@ -125,7 +125,8 @@ Twist2 Behavior::cmd_twist_towards_orientation(Radians orientation,
                                                Radians angular_speed,
                                                ng_float_t dt, Frame frame) {
   const ng_float_t max_w = std::max<ng_float_t>(0, angular_speed);
-  const ng_float_t w = normalize(orientation - pose.orientation) / rotation_tau;
+  const ng_float_t w =
+      normalize_angle(orientation - pose.orientation) / rotation_tau;
   return cmd_twist_towards_angular_speed(std::clamp(w, -max_w, max_w), dt,
                                          frame);
 }
@@ -268,7 +269,7 @@ std::optional<Vector2> Behavior::get_target_position(Frame frame) const {
 std::optional<ng_float_t> Behavior::get_target_orientation(Frame frame) const {
   if (target.orientation && !target.satisfied(pose.orientation)) {
     if (frame == Frame::relative) {
-      return normalize(*(target.orientation) - pose.orientation);
+      return normalize_angle(*(target.orientation) - pose.orientation);
     }
     return *(target.orientation);
   }

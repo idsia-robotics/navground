@@ -71,7 +71,7 @@ constexpr Radians TWO_PI = static_cast<Radians>(2 * M_PI);
  * @return     The equivalent angle in \f$[-\pi, \pi]\f$
  */
 
-inline Radians normalize(Radians value) {
+inline Radians normalize_angle(Radians value) {
   value = std::fmod(value, TWO_PI);
   if (value < -M_PI) {
     value += TWO_PI;
@@ -401,6 +401,30 @@ inline Vector2 to_absolute(const Vector2& value, const Pose2& reference) {
  */
 inline Vector2 to_relative(const Vector2& value, const Pose2& reference) {
   return rotate(value, -reference.orientation);
+}
+
+/**
+ * @brief      Transform a relative to an absolute point.
+ *
+ * @param[in]  value  The relative point
+ * @param[in]  reference  The reference pose
+ *
+ * @return     The relative point
+ */
+inline Vector2 to_absolute_point(const Vector2& value, const Pose2& reference) {
+  return reference.position + rotate(value, reference.orientation);
+}
+
+/**
+ * @brief      Transform an absolute to a relative vector.
+ *
+ * @param[in]  value  The absolute vector
+ * @param[in]  reference  The reference pose
+ *
+ * @return     The absolute point
+ */
+inline Vector2 to_relative_point(const Vector2& value, const Pose2& reference) {
+  return rotate(value - reference.position, -reference.orientation);
 }
 
 /**

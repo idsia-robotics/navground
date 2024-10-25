@@ -14,10 +14,13 @@ from ._navground import (Buffer, BufferDescription, BufferMap,
                          GeometricState)
 from ._navground import Kinematics as _Kinematics
 from ._navground import (LineSegment, Neighbor, Path, Pose2, SensingState,
-                         SocialMargin, Target, Twist2, dump, load_behavior,
-                         load_behavior_modulation, load_kinematics)
+                         SocialMargin, Target, Twist2, clamp_norm, dump,
+                         load_behavior, load_behavior_modulation,
+                         load_kinematics)
 from ._navground import load_plugins as load_cpp_plugins
-from ._navground import to_absolute, to_relative, uses_doubles
+from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
+                         to_absolute_point, to_relative, to_relative_point,
+                         unit, uses_doubles)
 
 # TODO(Jerome): Add vector shape = (2, )
 # numpy.ndarray[numpy.float32[2, 1]]
@@ -185,11 +188,12 @@ def load_plugins() -> None:
 __all__ = [
     'Behavior', 'Path', 'BehaviorModulation', 'Pose2', 'Twist2', 'Target',
     'Disc', 'Neighbor', 'LineSegment', 'Kinematics', 'Action', 'Controller',
-    'CollisionComputation'
-    'CachedCollisionComputation', 'Frame', 'GeometricState', 'SensingState',
-    'dump', 'load_behavior', 'load_behavior_modulation', 'load_kinematics',
-    'load_plugins', 'to_absolute', 'to_relative', 'Buffer', 'BufferMap',
-    'BufferDescription', 'SocialMargin', 'CachedCollisionComputation',
-    'EnvironmentState', 'CollisionComputation', 'behaviors',
-    'behavior_modulations', 'kinematics', 'uses_doubles'
+    'CollisionComputation', 'CachedCollisionComputation', 'Frame',
+    'GeometricState', 'SensingState', 'dump', 'load_behavior',
+    'load_behavior_modulation', 'load_kinematics', 'load_plugins', 'Buffer',
+    'BufferMap', 'BufferDescription', 'SocialMargin',
+    'CachedCollisionComputation', 'EnvironmentState', 'CollisionComputation',
+    'behaviors', 'behavior_modulations', 'kinematics', 'clamp_norm', 'rotate',
+    'unit', 'orientation_of', 'normalize_angle', 'to_absolute_point',
+    'to_relative_point', 'to_absolute', 'to_relative', 'uses_doubles'
 ]

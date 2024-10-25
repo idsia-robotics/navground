@@ -410,11 +410,6 @@ PYBIND11_MODULE(_navground, m) {
            py::arg("max_angular_acceleration"))
       .def("__repr__", &to_string<Twist2>);
 
-  m.def("to_absolute", &to_absolute, py::arg("value"), py::arg("reference"),
-        DOC(navground, core, to_absolute));
-  m.def("to_relative", &to_relative, py::arg("value"), py::arg("reference"),
-        DOC(navground, core, to_relative));
-
   py::class_<Path>(m, "Path", DOC(navground, core, Path))
       .def(py::init<const Path::Projection &, const Path::Curve &, ng_float_t,
                     bool>(),
@@ -1500,6 +1495,24 @@ Load a behavior modulation from a YAML string.
   pickle_via_yaml<PyBehaviorModulation>(limit_acceleration);
   pickle_via_yaml<PyBehaviorModulation>(motor_pid);
   pickle_via_yaml_native<SocialMargin>(social_margin);
+
+  m.def("to_absolute", &to_absolute, py::arg("value"), py::arg("reference"),
+        DOC(navground, core, to_absolute));
+  m.def("to_relative", &to_relative, py::arg("value"), py::arg("reference"),
+        DOC(navground, core, to_relative));
+  m.def("to_absolute_point", &to_absolute_point, py::arg("value"),
+        py::arg("reference"), DOC(navground, core, to_absolute_point));
+  m.def("to_relative_point", &to_relative_point, py::arg("value"),
+        py::arg("reference"), DOC(navground, core, to_relative_point));
+  m.def("normalize_angle", &normalize_angle, py::arg("angle"),
+        DOC(navground, core, normalize_angle));
+  m.def("orientation_of", &orientation_of, py::arg("vector"),
+        DOC(navground, core, orientation_of));
+  m.def("unit", &unit, py::arg("angle"), DOC(navground, core, unit));
+  m.def("rotate", &rotate, py::arg("vector"), py::arg("angle"),
+        DOC(navground, core, rotate));
+  m.def("clamp_norm", &clamp_norm, py::arg("vector"), py::arg("max_length"),
+        DOC(navground, core, clamp_norm));
 
   m.def(
       "uses_doubles",

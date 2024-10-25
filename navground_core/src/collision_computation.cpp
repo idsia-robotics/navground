@@ -168,7 +168,7 @@ ng_float_t CollisionComputation::static_free_distance_to(const DiscCache &disc,
                                                          Radians alpha,
                                                          const Vector2 &e) {
   if (disc.C < 0) {
-    if (std::abs(normalize(alpha - disc.gamma)) < disc.visible_angle) return 0;
+    if (std::abs(normalize_angle(alpha - disc.gamma)) < disc.visible_angle) return 0;
     return no_collision;
   }
   const ng_float_t B = disc.delta.dot(e);

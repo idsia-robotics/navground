@@ -24,7 +24,7 @@ HRVOBehavior::~HRVOBehavior() = default;
 void HRVOBehavior::prepare(const Vector2 &target_velocity) {
   _HRVOAgent->radius_ = radius;
   _HRVOAgent->velocity_ = HRVO::Vector2(twist.velocity.x(), twist.velocity.y());
-  _HRVOAgent->orientation_ = normalize(pose.orientation);
+  _HRVOAgent->orientation_ = normalize_angle(pose.orientation);
   _HRVOAgent->position_ = HRVO::Vector2(pose.position.x(), pose.position.y());
   _HRVOAgent->neighborDist_ = 2 * horizon;
   _HRVOAgent->isColliding_ = false;

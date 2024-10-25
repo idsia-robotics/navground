@@ -18,7 +18,7 @@ void CachedCollisionComputation::set_resolution(size_t value) {
 }
 
 void CachedCollisionComputation::set_min_angle(Radians value) {
-  value = normalize(value);
+  value = normalize_angle(value);
   if (value != from_relative_angle) {
     from_relative_angle = value;
     reset();
@@ -91,7 +91,7 @@ int CachedCollisionComputation::index_of(Radians delta_relative_angle) {
 
 ng_float_t CachedCollisionComputation::static_free_distance(
     Radians angle, bool include_neighbors) {
-  int k = index_of(normalize(angle - pose.orientation));
+  int k = index_of(normalize_angle(angle - pose.orientation));
   const bool can_be_cached = (k >= 0 && k < static_cast<int>(resolution));
   ng_float_t value =
       can_be_cached ? static_cache[include_neighbors][k] : uncomputed;
@@ -114,7 +114,7 @@ ng_float_t CachedCollisionComputation::static_free_distance(
 }
 
 ng_float_t CachedCollisionComputation::dynamic_free_distance(Radians angle) {
-  int k = index_of(normalize(angle - pose.orientation));
+  int k = index_of(normalize_angle(angle - pose.orientation));
   const bool can_be_cached = (k >= 0 && k < static_cast<int>(resolution));
   ng_float_t value = can_be_cached ? dynamic_cache[k] : uncomputed;
   if (value == uncomputed) {

@@ -127,7 +127,7 @@ Vector2 HLBehavior::desired_velocity_towards_point(
     for (int i = 0; i < 2; ++i) {
       const ng_float_t s_angle = i == 0 ? angle : -angle;
       const bool inside =
-          std::abs(normalize(relative_start_angle + s_angle)) < aperture;
+          std::abs(normalize_angle(relative_start_angle + s_angle)) < aperture;
       if (out[i] == 1 && !inside) out[i] = 2;
       if (out[i] == 0 && inside) out[i] = 1;
       if (inside) {

@@ -8,11 +8,17 @@
 
 - Behaviors can now overwrite a new virtual method `cmd_twist_towards_pose` to implement more specific control strategies to reach a pose. The default implementation moves straight to the pose and then rotates in place.
 
+- Added functions `to_{relative|absolute}_point` to `core/common.h` to convert the frame of reference of points (not just vectors).
+
+- Exposed additional `core/common.h` functions to Python
+
 ### Fixed
 
 - Resetting a sampler with `once=true` now correctly sets its index to 0.
 
 ### Changed
+
+- Renamed `normalize` to `normalize_angle`
 
 ### Removed
 

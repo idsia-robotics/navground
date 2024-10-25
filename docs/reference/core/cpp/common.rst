@@ -18,7 +18,15 @@ Two dimensional
 
 .. doxygenfunction:: navground::core::orientation_of
 
-.. doxygenfunction:: navground::core::normalize
+.. doxygenfunction:: navground::core::normalize_angle
+
+.. doxygenfunction:: navground::core::to_relative
+
+.. doxygenfunction:: navground::core::to_absolute
+
+.. doxygenfunction:: navground::core::to_relative_point
+
+.. doxygenfunction:: navground::core::to_absolute_point
 
 .. doxygenfunction:: navground::core::unit
 

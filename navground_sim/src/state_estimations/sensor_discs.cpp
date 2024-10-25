@@ -9,14 +9,15 @@
 namespace navground::sim {
 
 void DiscsStateEstimation::update(Agent *agent, World *world,
-                                  EnvironmentState *state) const {
+                                  EnvironmentState *state) {
   if (core::SensingState *_state = dynamic_cast<core::SensingState *>(state)) {
-    if (!number) return;
+    if (!_number)
+      return;
     const auto &p = agent->pose;
     const auto &xy = p.position;
     const auto r = agent->radius;
-    const auto neighbors = world->get_neighbors(agent, range);
-    const auto obstacles = world->get_discs_in_region(envelop(xy, range));
+    const auto neighbors = world->get_neighbors(agent, _range);
+    const auto obstacles = world->get_discs_in_region(envelop(xy, _range));
 
     std::vector<std::tuple<ng_float_t, size_t>> distance(neighbors.size() +
                                                          obstacles.size());
@@ -33,13 +34,13 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
 
     std::sort(distance.begin(), distance.end());
 
-    std::valarray<unsigned> id(static_cast<unsigned>(0), number);
-    std::valarray<ng_float_t> radius(0.0, number);
-    std::valarray<ng_float_t> position(0.0, 2 * number);
-    std::valarray<ng_float_t> velocity(0.0, 2 * number);
-    std::valarray<uint8_t> valid((uint8_t)0, number);
+    std::valarray<unsigned> id(static_cast<unsigned>(0), _number);
+    std::valarray<ng_float_t> radius(0.0, _number);
+    std::valarray<ng_float_t> position(0.0, 2 * _number);
+    std::valarray<ng_float_t> velocity(0.0, 2 * _number);
+    std::valarray<uint8_t> valid((uint8_t)0, _number);
 
-    for (size_t i = 0; i < std::min<size_t>(number, distance.size()); ++i) {
+    for (size_t i = 0; i < std::min<size_t>(_number, distance.size()); ++i) {
       valid[i] = 1;
       const auto index = std::get<1>(distance[i]);
       Vector2 pn;
@@ -47,20 +48,20 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
       if (index < num_neighbors) {
         const auto &n = neighbors[index];
         // radius[i] = n.radius;
-        radius[i] = std::min(n.radius, max_radius);
-        id[i] = std::min(n.id, max_id);
+        radius[i] = std::min(n.radius, _max_radius);
+        id[i] = std::min(n.id, _max_id);
         pn = to_relative(n.position - p.position, p);
-        if (use_nearest_point) {
+        if (_use_nearest_point) {
           pn -= pn.normalized() * n.radius;
         }
         const auto vn = to_relative(n.velocity, p);
-        velocity[2 * i] = std::min(vn[0], max_speed);
-        velocity[2 * i + 1] = std::min(vn[1], max_speed);
+        velocity[2 * i] = std::min(vn[0], _max_speed);
+        velocity[2 * i + 1] = std::min(vn[1], _max_speed);
       } else {
         const auto &n = obstacles[index - num_neighbors];
-        radius[i] = std::min(n.radius, max_radius);
+        radius[i] = std::min(n.radius, _max_radius);
         pn = to_relative(n.position - p.position, p);
-        if (use_nearest_point) {
+        if (_use_nearest_point) {
           pn -= pn.normalized() * n.radius;
         }
       }
@@ -68,41 +69,29 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
       position[2 * i + 1] = pn[1];
     }
     if (include_radius()) {
-      auto buffer = _state->get_buffer("radius");
-      if (!buffer) {
-        buffer = _state->init_buffer("radius", get_description().at("radius"));
-      }
-      if (buffer) buffer->set_data(radius);
+      auto buffer = get_or_init_buffer(*_state, "radius");
+      if (buffer)
+        buffer->set_data(radius);
     }
     if (include_position()) {
-      auto buffer = _state->get_buffer("position");
-      if (!buffer) {
-        buffer =
-            _state->init_buffer("position", get_description().at("position"));
-      }
-      if (buffer) buffer->set_data(position);
+      auto buffer = get_or_init_buffer(*_state, "position");
+      if (buffer)
+        buffer->set_data(position);
     }
     if (include_velocity()) {
-      auto buffer = _state->get_buffer("velocity");
-      if (!buffer) {
-        buffer =
-            _state->init_buffer("velocity", get_description().at("velocity"));
-      }
-      if (buffer) buffer->set_data(velocity);
+      auto buffer = get_or_init_buffer(*_state, "velocity");
+      if (buffer)
+        buffer->set_data(velocity);
     }
     if (get_include_valid()) {
-      auto buffer = _state->get_buffer("valid");
-      if (!buffer) {
-        buffer = _state->init_buffer("valid", get_description().at("valid"));
-      }
-      if (buffer) buffer->set_data(valid);
+      auto buffer = get_or_init_buffer(*_state, "valid");
+      if (buffer)
+        buffer->set_data(valid);
     }
     if (include_id()) {
-      auto buffer = _state->get_buffer("id");
-      if (!buffer) {
-        buffer = _state->init_buffer("id", get_description().at("id"));
-      }
-      if (buffer) buffer->set_data(id);
+      auto buffer = get_or_init_buffer(*_state, "id");
+      if (buffer)
+        buffer->set_data(id);
     }
   }
 }
@@ -140,9 +129,9 @@ const std::map<std::string, Property> DiscsStateEstimation::properties =
                        &DiscsStateEstimation::set_max_id, default_max_id,
                        "The maximal possible id")},
     } +
-    StateEstimation::properties;
+    Sensor::properties;
 
 const std::string DiscsStateEstimation::type =
     register_type<DiscsStateEstimation>("Discs");
 
-}  // namespace navground::sim
+} // namespace navground::sim

@@ -9,7 +9,7 @@
 namespace navground::sim {
 
 void BoundarySensor::update(Agent *agent, World *world,
-                            EnvironmentState *state) const {
+                            EnvironmentState *state) {
   if (core::SensingState *_state = dynamic_cast<core::SensingState *>(state)) {
     std::valarray<ng_float_t> distances(_range, 4);
     const auto p = agent->pose.position;
@@ -26,12 +26,9 @@ void BoundarySensor::update(Agent *agent, World *world,
     if (std::isfinite(_max_y)) {
       distances[i++] = std::clamp<ng_float_t>(_max_y - p[1], 0, _range);
     }
-    auto buffer = _state->get_buffer("boundary_distance");
-    if (!buffer) {
-      buffer = _state->init_buffer("boundary_distance",
-                                   get_description().at("boundary_distance"));
-    }
-    if (buffer) buffer->set_data(distances[std::slice(0, i, 1)]);
+    auto buffer = get_or_init_buffer(*_state, "boundary_distance");
+    if (buffer)
+      buffer->set_data(distances[std::slice(0, i, 1)]);
   }
 }
 
@@ -53,9 +50,9 @@ const std::map<std::string, Property> BoundarySensor::properties =
                       &BoundarySensor::get_max_y, &BoundarySensor::set_max_y,
                       high, "Boundary max y")},
     } +
-    StateEstimation::properties;
+    Sensor::properties;
 
 const std::string BoundarySensor::type =
     register_type<BoundarySensor>("Boundary");
 
-}  // namespace navground::sim
+} // namespace navground::sim

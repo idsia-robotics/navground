@@ -55,7 +55,7 @@ struct NAVGROUND_SIM_EXPORT StateEstimation
    * @param      state  The environment state to be updated
    */
   virtual void update(Agent *agent, World *world,
-                      EnvironmentState *state) const {};
+                      EnvironmentState *state) {};
 
  protected:
   /**
@@ -64,7 +64,7 @@ struct NAVGROUND_SIM_EXPORT StateEstimation
    * @param      agent  The agent owning the state estimation
    * @param[in]  world    The that the agent is part of
    */
-  void update(Agent *agent, World *world) const;
+  void update(Agent *agent, World *world);
 
   /**
    * @brief      Setup the state estimation.
@@ -72,7 +72,7 @@ struct NAVGROUND_SIM_EXPORT StateEstimation
    * @param      agent  The agent owning the state estimation
    * @param[in]  world    The world the agent is part of
    */
-  virtual void prepare(Agent *agent, World *world) const {};
+  virtual void prepare(Agent *agent, World *world) {};
 };
 
 }  // namespace navground::sim

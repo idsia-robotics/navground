@@ -181,12 +181,11 @@ struct PyStateEstimation : StateEstimation,
   // using PyHasRegister<StateEstimation>::encode;
   using Native = StateEstimation;
 
-  void update(Agent *agent, World *world,
-              EnvironmentState *state) const override {
+  void update(Agent *agent, World *world, EnvironmentState *state) override {
     PYBIND11_OVERRIDE(void, StateEstimation, update, agent, world, state);
   }
 
-  void prepare(Agent *agent, World *world) const override {
+  void prepare(Agent *agent, World *world) override {
     PYBIND11_OVERRIDE(void, StateEstimation, prepare, agent, world);
   }
 
@@ -1283,7 +1282,7 @@ Creates a rectangular region
   se.def(py::init<>(), DOC(navground, sim, StateEstimation, StateEstimation))
       .def("update",
            py::overload_cast<Agent *, World *, EnvironmentState *>(
-               &StateEstimation::update, py::const_),
+               &StateEstimation::update),
            py::arg("agent"), py::arg("world"), py::arg("state"),
            DOC(navground, sim, StateEstimation, update))
       .def_property(
@@ -1325,9 +1324,12 @@ Creates a rectangular region
   py::class_<LidarStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<LidarStateEstimation>>
       lse(m, "LidarStateEstimation", DOC(navground, sim, LidarStateEstimation));
-  lse.def(py::init<ng_float_t, ng_float_t, ng_float_t, unsigned>(),
+  lse.def(py::init<ng_float_t, ng_float_t, ng_float_t, unsigned,
+                   const Vector2 &, ng_float_t, ng_float_t>(),
           py::arg("range") = 0.0, py::arg("start_angle") = -M_PI,
           py::arg("field_of_view") = 2 * M_PI, py::arg("resolution") = 100,
+          py::arg("position") = Vector2::Zero(), py::arg("error_bias") = 0,
+          py::arg("error_std_dev") = 0,
           DOC(navground, sim, LidarStateEstimation, LidarStateEstimation))
       .def_property("range", &LidarStateEstimation::get_range,
                     &LidarStateEstimation::set_range,
@@ -1343,7 +1345,25 @@ Creates a rectangular region
       .def_property(
           "resolution", &LidarStateEstimation::get_resolution,
           &LidarStateEstimation::set_resolution,
-          DOC(navground, sim, LidarStateEstimation, property_resolution));
+          DOC(navground, sim, LidarStateEstimation, property_resolution))
+      .def_property(
+          "position", &LidarStateEstimation::get_position,
+          &LidarStateEstimation::set_position,
+          DOC(navground, sim, LidarStateEstimation, property_position))
+      .def_property(
+          "error_bias", &LidarStateEstimation::get_error_bias,
+          &LidarStateEstimation::set_error_bias,
+          DOC(navground, sim, LidarStateEstimation, property_error_bias))
+      .def_property(
+          "error_std_dev", &LidarStateEstimation::get_error_std_dev,
+          &LidarStateEstimation::set_error_std_dev,
+          DOC(navground, sim, LidarStateEstimation, property_error_std_dev))
+      .def_property(
+          "angular_increment", &LidarStateEstimation::get_angular_increment,
+          nullptr,
+          DOC(navground, sim, LidarStateEstimation, property_angular_increment))
+      .def_property("angles", &LidarStateEstimation::get_angles, nullptr,
+                    DOC(navground, sim, LidarStateEstimation, property_angles));
 
   py::class_<DiscsStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<DiscsStateEstimation>>
@@ -1492,12 +1512,14 @@ Creates a rectangular region
 
   py::class_<RecordSensingConfig>(m, "RecordSensingConfig",
                                   DOC(navground, sim, RecordSensingConfig))
-      .def(py::init([](std::string name, std::shared_ptr<Sensor> sensor,
-                       std::vector<unsigned> agent_indices) {
-             return new RecordSensingConfig{name, sensor, agent_indices};
-           }),
-           py::arg("name") = "", py::arg("sensor") = nullptr,
-           py::arg("agent_indices") = std::vector<unsigned>{})
+      .def(
+          py::init([](std::string name, std::shared_ptr<StateEstimation> sensor,
+                      std::vector<unsigned> agent_indices) {
+            return new RecordSensingConfig{
+                name, std::dynamic_pointer_cast<Sensor>(sensor), agent_indices};
+          }),
+          py::arg("name") = "", py::arg("sensor") = nullptr,
+          py::arg("agent_indices") = std::vector<unsigned>{})
       .def_readwrite("name", &RecordSensingConfig::name,
                      DOC(navground, sim, RecordSensingConfig, name))
       .def_readwrite("sensor", &RecordSensingConfig::sensor,
@@ -1615,6 +1637,7 @@ Creates a rectangular region
              r += py::str(", efficacy=") + py::str(py::cast(value.efficacy));
              r += py::str(", world=") + py::str(py::cast(value.world));
              r += py::str(", neighbors=") + py::str(py::cast(value.neighbors));
+             r += py::str(", sensing=") + py::str(py::cast(value.sensing));
              r += py::str(", use_agent_uid_as_key=") +
                   py::str(py::cast(value.use_agent_uid_as_key)) + py::str(")");
              return r;

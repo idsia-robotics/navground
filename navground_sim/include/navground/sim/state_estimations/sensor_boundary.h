@@ -10,9 +10,9 @@
 #include <limits>
 
 #include "navground/core/types.h"
+#include "navground/sim/export.h"
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/world.h"
-#include "navground/sim/export.h"
 
 using navground::core::BufferDescription;
 using navground::core::make_property;
@@ -38,26 +38,26 @@ struct NAVGROUND_SIM_EXPORT BoundarySensor : public Sensor {
    * The default range
    */
   inline static const ng_float_t default_range = 1;
-  inline static const ng_float_t low = -std::numeric_limits<ng_float_t>::infinity();
-  inline static const ng_float_t high = std::numeric_limits<ng_float_t>::infinity();
+  inline static const ng_float_t low =
+      -std::numeric_limits<ng_float_t>::infinity();
+  inline static const ng_float_t high =
+      std::numeric_limits<ng_float_t>::infinity();
   /**
    * @brief      Constructs a new instance.
    *
-   * @param[in]  range_   The range of view
-   * @param[in]  min_x
-   * @param[in]  max_x
-   * @param[in]  min_y
-   * @param[in]  max_y
+   * @param[in]  range    The range of view
+   * @param[in]  min_x    The minimal x coordinate
+   * @param[in]  max_x    The maximal x coordinate 
+   * @param[in]  min_y    The minimal y coordinate
+   * @param[in]  max_y    The maximal y coordinate
+   * @param[in]  name     The name to use as a prefix
    */
   explicit BoundarySensor(ng_float_t range = default_range,
                           ng_float_t min_x = low, ng_float_t max_x = high,
-                          ng_float_t min_y = low, ng_float_t max_y = high)
-      : Sensor(),
-        _range(range),
-        _min_x(min_x),
-        _max_x(max_x),
-        _min_y(min_y),
-        _max_y(max_y) {}
+                          ng_float_t min_y = low, ng_float_t max_y = high,
+                          const std::string &name = "")
+      : Sensor(name), _range(range), _min_x(min_x), _max_x(max_x),
+        _min_y(min_y), _max_y(max_y) {}
 
   virtual ~BoundarySensor() = default;
 
@@ -104,27 +104,31 @@ struct NAVGROUND_SIM_EXPORT BoundarySensor : public Sensor {
    * @private
    */
   virtual void update(Agent *agent, World *world,
-                      EnvironmentState *state) const override;
+                      EnvironmentState *state) override;
 
   Description get_description() const override {
     Description desc;
     unsigned n = 0;
-    if (std::isfinite(_min_x)) n++;
-    if (std::isfinite(_max_x)) n++;
-    if (std::isfinite(_min_y)) n++;
-    if (std::isfinite(_max_y)) n++;
-    desc.emplace("boundary_distance",
+    if (std::isfinite(_min_x))
+      n++;
+    if (std::isfinite(_max_x))
+      n++;
+    if (std::isfinite(_min_y))
+      n++;
+    if (std::isfinite(_max_y))
+      n++;
+    desc.emplace(get_field_name("boundary_distance"),
                  BufferDescription::make<ng_float_t>({n}, 0.0, _range));
     return desc;
   }
 
- private:
+private:
   ng_float_t _range;
   ng_float_t _min_x, _max_x, _min_y, _max_y;
   const static std::string type;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
-#endif /* end of include guard: \
+#endif /* end of include guard:                                                \
           NAVGROUND_SIM_STATE_ESTIMATIONS_SENSOR_BOUNDARY_H_ */

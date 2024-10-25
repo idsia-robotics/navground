@@ -19,7 +19,7 @@ Sensor::Description SensorCombination::get_description() const {
 }
 
 void SensorCombination::update(Agent *agent, World *world,
-                               EnvironmentState *state) const {
+                               EnvironmentState *state) {
   for (const auto &sensor : _sensors) {
     sensor->update(agent, world, state);
   }

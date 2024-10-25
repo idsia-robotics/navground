@@ -16,6 +16,8 @@
 
 - `Buffer` exposes the stride of their multi-dimensional arrays.
 
+- Added `name` to prefix all fields of the data updated by a `Sensor`
+
 ### Fixed
 
 - Resetting a sampler with `once=true` now correctly sets its index to 0.
@@ -29,6 +31,10 @@
 - `TwoWheelsDifferentialDriveKinematics` now supports additional (control) limitation in angular, forward and backward speed. It also supports moving backwards, although it is disabled by default for back compatibility.
 
 - Removed const-ness from `Task::prepare` 
+
+- Removed const-ness from `StateEstimation::prepare` and `StateEstimation::update`.
+
+- `LidarStateEstimation` is now more realistic, supporting offset positions and (normal) rangings errors.
 
 ### Removed
 

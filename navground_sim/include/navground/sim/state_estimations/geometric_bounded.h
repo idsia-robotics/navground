@@ -113,7 +113,7 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
    * @private
    */
   virtual void update(Agent *agent, World *world,
-                      EnvironmentState *state) const override;
+                      EnvironmentState *state) override;
 
  protected:
 #if 0
@@ -128,7 +128,7 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
   /**
    * @private
    */
-  void prepare(Agent *agent, World *world) const override;
+  void prepare(Agent *agent, World *world) override;
 
   /**
    * @brief      Gets the geometric state of an agent.

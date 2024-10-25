@@ -10,7 +10,7 @@
 namespace navground::sim {
 
 void BoundedStateEstimation::update(Agent *agent, World *world,
-                                    EnvironmentState *state) const {
+                                    EnvironmentState *state) {
   if (GeometricState *geo_state = dynamic_cast<GeometricState *>(state)) {
     geo_state->set_neighbors(neighbors_of_agent(agent, world));
     if (update_static_obstacles) {
@@ -20,7 +20,7 @@ void BoundedStateEstimation::update(Agent *agent, World *world,
   }
 }
 
-void BoundedStateEstimation::prepare(Agent *agent, World *world) const {
+void BoundedStateEstimation::prepare(Agent *agent, World *world) {
   if (GeometricState *state = get_geometric_state(agent)) {
     if (!update_static_obstacles) {
       state->set_static_obstacles(world->get_discs());

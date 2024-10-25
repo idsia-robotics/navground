@@ -9,9 +9,9 @@
 
 #include "navground/core/buffer.h"
 #include "navground/core/states/sensing.h"
+#include "navground/sim/export.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/world.h"
-#include "navground/sim/export.h"
 
 namespace navground::sim {
 
@@ -25,14 +25,15 @@ struct NAVGROUND_SIM_EXPORT Sensor : public StateEstimation {
   /**
    * @brief      Constructs a new instance.
    */
-  Sensor() : StateEstimation() {}
+  Sensor(const std::string &name = "") : StateEstimation(), _name(name) {}
 
   /**
    * @private
    */
-  virtual void prepare(Agent *agent, World *world) const {
+  virtual void prepare(Agent *agent, World *world) {
     auto state = get_state(agent);
-    if (!state) return;
+    if (!state)
+      return;
     prepare(*state);
   }
 
@@ -72,9 +73,55 @@ struct NAVGROUND_SIM_EXPORT Sensor : public StateEstimation {
    * @return     The description.
    */
   virtual Description get_description() const = 0;
+
+  /**
+   * @brief      Sets the sensor name.
+   *
+   * @param[in]  value     The new value
+   */
+  void set_name(const std::string &value) { _name = value; }
+
+  /**
+   * @brief      Gets the sensor name.
+   *
+   * @return     The name.
+   */
+  const std::string &get_name() const { return _name; }
+
+  /**
+   * @brief      Returns the field prefixed by the sensor name if set.
+   *
+   * @param[in]  field  The field
+   *
+   * @return     The name.
+   */
+  std::string get_field_name(const std::string &field) const {
+    if (_name.empty()) {
+      return field;
+    }
+    return _name + "/" + field;
+  }
+
+  core::Buffer * get_or_init_buffer(core::SensingState &state,
+                                                   const std::string &field) const {
+    const std::string name = get_field_name(field);
+    auto buffer = state.get_buffer(name);
+    if (!buffer) {
+      buffer = state.init_buffer(name, get_description().at(name));
+    }
+    return buffer;
+  }
+
+  /**
+   * @private
+   */
+  static const std::map<std::string, core::Property> properties;
+
+private:
+  std::string _name;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
-#endif /* end of include guard: \
+#endif /* end of include guard:                                                \
           NAVGROUND_SIM_SENSOR_H_ */

@@ -5,14 +5,15 @@
 #ifndef NAVGROUND_SIM_STATE_ESTIMATIONS_SENSOR_LIDAR_H_
 #define NAVGROUND_SIM_STATE_ESTIMATIONS_SENSOR_LIDAR_H_
 
+#include <random>
 #include <vector>
 
-#include "navground/core/common.h"
 #include "navground/core/collision_computation.h"
+#include "navground/core/common.h"
 #include "navground/core/types.h"
+#include "navground/sim/export.h"
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/world.h"
-#include "navground/sim/export.h"
 
 using navground::core::BufferDescription;
 using navground::core::CollisionComputation;
@@ -34,8 +35,17 @@ namespace navground::sim {
  *   - `field_of_view` (float, \ref get_field_of_view)
  *
  *   - `resolution` (float, \ref get_resolution)
+ *
+ *   - `position` (Vector2, \ref get_position)
+ *
+ *   - `error_bias` (float, \ref get_error_bias)
+ *
+ *   - `error_std_dev` (float, \ref get_error_std_dev)
+ *
  */
 struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
+  
+  using Error = std::normal_distribution<ng_float_t>;
   /**
    * The default range
    */
@@ -43,7 +53,8 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
   /**
    * The default start angle [radians]
    */
-  inline static const ng_float_t default_start_angle = -static_cast<ng_float_t>(M_PI);
+  inline static const ng_float_t default_start_angle =
+      -static_cast<ng_float_t>(M_PI);
   /**
    * The default field of view [radians]
    */
@@ -53,6 +64,14 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
    */
   inline static const int default_resolution = 100;
   /**
+   * The default error bias
+   */
+  inline static const ng_float_t default_error_bias = 0;
+  /**
+   * The default error standard deviation
+   */
+  inline static const ng_float_t default_error_std_dev = 0;
+  /**
    * The name of the buffer set by the sensor
    */
   inline static const std::string field_name = "range";
@@ -60,22 +79,28 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
   /**
    * @brief      Constructs a new instance.
    *
-   * @param[in]  range_  The maximal range of the sensor
-   * @param[in]  start_angle_  The starting angle
-   * @param[in]  field_of_view_  The field of view
-   * @param[in]  resolution_  The number of ranging measurements per scan
+   * @param[in]  range  The maximal range of the sensor
+   * @param[in]  start_angle  The starting angle
+   * @param[in]  field_of_view  The field of view
+   * @param[in]  resolution  The number of ranging measurements per scan
+   * @param[in]  position  The position of the sensor with respect
+   *                       to the agent origin.
+   * @param[in]  error_bias  The systematic error for all rangings.
+   * @param[in]  error_std_dev  The rangings error standard deviation.
+   * @param[in]  name  The name to use as a prefix
    */
   explicit LidarStateEstimation(
-      ng_float_t range_ = default_range,
-      ng_float_t start_angle_ = default_start_angle,
-      ng_float_t field_of_view_ = default_field_of_view,
-      unsigned resolution_ = default_resolution)
-      : Sensor(),
-        range(range_),
-        start_angle(start_angle_),
-        field_of_view(field_of_view_),
-        resolution(resolution_),
-        cc() {}
+      ng_float_t range = default_range,
+      ng_float_t start_angle = default_start_angle,
+      ng_float_t field_of_view = default_field_of_view,
+      unsigned resolution = default_resolution,
+      const Vector2 &position = Vector2::Zero(),
+      ng_float_t error_bias = default_error_bias,
+      ng_float_t error_std_dev = default_error_std_dev,
+      const std::string &name = "")
+      : Sensor(name), _range(range), _start_angle(start_angle),
+        _field_of_view(field_of_view), _resolution(resolution),
+        _position(position), _error{error_bias, error_std_dev}, _cc() {}
 
   virtual ~LidarStateEstimation() = default;
 
@@ -84,56 +109,103 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
    *
    * @param[in]  value     The new value
    */
-  void set_range(ng_float_t value) { range = value; }
+  void set_range(ng_float_t value) { _range = value; }
 
   /**
    * @brief      Gets the range of view.
    *
    * @return     The range of view.
    */
-  ng_float_t get_range() const { return range; }
+  ng_float_t get_range() const { return _range; }
 
   /**
    * @brief      Sets the range of view.
    *
    * @param[in]  value     The new value
    */
-  void set_start_angle(ng_float_t value) { start_angle = value; }
+  void set_start_angle(ng_float_t value) { _start_angle = value; }
 
   /**
    * @brief      Gets the range of view.
    *
    * @return     The range of view.
    */
-  ng_float_t get_start_angle() const { return start_angle; }
+  ng_float_t get_start_angle() const { return _start_angle; }
 
   /**
    * @brief      Sets the range of view.
    *
    * @param[in]  value     The new value
    */
-  void set_field_of_view(ng_float_t value) { field_of_view = value; }
+  void set_field_of_view(ng_float_t value) { _field_of_view = value; }
 
   /**
    * @brief      Gets the range of view.
    *
    * @return     The range of view.
    */
-  ng_float_t get_field_of_view() const { return field_of_view; }
+  ng_float_t get_field_of_view() const { return _field_of_view; }
+
+  /**
+   * @brief      Sets the error bias, i.e., the systematic error for all
+   * rangings.
+   *
+   * @param[in]  value     The new value
+   */
+  void set_error_bias(ng_float_t value) {
+    _error.param(Error::param_type{value, _error.stddev()});
+  }
+  /**
+   * @brief      Gets the error bias, i.e., the systematic error for all
+   * rangings.
+   *
+   * @return     The error.
+   */
+  ng_float_t get_error_bias() const { return _error.mean(); }
+  /**
+   * @brief      Sets the rangings error standard deviation.
+   *
+   * @param[in]  value     The positive value
+   */
+  void set_error_std_dev(ng_float_t value) {
+    _error.param(Error::param_type{_error.mean(), std::max<ng_float_t>(0, value)});
+  }
+  /**
+   * @brief      Gets the rangings error standard deviation.
+   *
+   * @return     The error.
+   */
+  ng_float_t get_error_std_dev() const { return _error.stddev(); }
 
   /**
    * @brief      Sets the range of view.
    *
    * @param[in]  value     The new value
    */
-  void set_resolution(int value) { resolution = value; }
+  void set_resolution(int value) { _resolution = value; }
 
   /**
    * @brief      Gets the range of view.
    *
    * @return     The range of view.
    */
-  int get_resolution() const { return resolution; }
+  int get_resolution() const { return _resolution; }
+
+  /**
+   * @brief      Sets the position of the sensor with respect
+   *             to the agent origin.
+   *
+   * @param[in]  value     The new value
+   */
+  void set_position(const core::Vector2 &value) { _position = value; }
+
+  /**
+   * @brief      Gets the position of the sensor with respect
+   *             to the agent origin.
+   *
+   * @return     The position.
+   */
+  core::Vector2 get_position() const { return _position; }
 
   /**
    * @private
@@ -156,23 +228,57 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
    * @private
    */
   virtual void update(Agent *agent, World *world,
-                      EnvironmentState *state) const override;
+                      EnvironmentState *state) override;
 
+  /**
+   * @private
+   */
   Description get_description() const override {
-    return {{field_name,
-             BufferDescription::make<ng_float_t>({resolution}, 0.0, range)}};
+    return {{get_field_name(field_name),
+             BufferDescription::make<ng_float_t>({_resolution}, 0.0, _range)}};
   }
 
- private:
-  ng_float_t range;
-  ng_float_t start_angle;
-  ng_float_t field_of_view;
-  int resolution;
-  CollisionComputation cc;
+  /**
+   * @brief      Gets the angular increment between rays.
+   *
+   * @return     The angular increment.
+   */
+  ng_float_t get_angular_increment() const;
+
+  /**
+   * @brief      Gets the ray angles.
+   *
+   * @return     The angles.
+   */
+  std::valarray<ng_float_t> get_angles() const;
+
+  /**
+   * @brief      Reads the ranges stored in a sensing state
+   *
+   * @param      state  The state
+   *
+   * @return     The array of ranges
+   */
+  const std::valarray<ng_float_t> &read_ranges(core::SensingState &state) const;
+
+  bool has_error() const {
+    return get_error_bias() != 0 || get_error_std_dev() != 0;
+  }
+
+private:
+  // std::valarray<ng_float_t> sample_error(World * world);
+
+  ng_float_t _range;
+  ng_float_t _start_angle;
+  ng_float_t _field_of_view;
+  int _resolution;
+  core::Vector2 _position;
+  Error _error;
+  CollisionComputation _cc;
   const static std::string type;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
-#endif /* end of include guard: \
+#endif /* end of include guard:                                                \
           NAVGROUND_SIM_STATE_ESTIMATIONS_SENSOR_LIDAR_H_ */

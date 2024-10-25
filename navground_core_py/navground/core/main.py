@@ -1,6 +1,7 @@
 import argparse
 
 from . import info
+from . import echo
 
 
 def config_parser(parsers, name, module):
@@ -12,6 +13,7 @@ def config_parser(parsers, name, module):
 def init_parser(parser: argparse.ArgumentParser) -> None:
     parsers = parser.add_subparsers(dest='cmd', title='Subcommands')
     config_parser(parsers, 'info', info)
+    config_parser(parsers, 'echo', echo)
 
 
 def parser() -> argparse.ArgumentParser:

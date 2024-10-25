@@ -63,29 +63,33 @@ The following table summarizes all the available commands and how you can launch
    +===================+=====================+=============================================+
    | navground_core    | :ref:`info`         | ``install/lib/navground_core/<command>``    |
    |                   |                     |                                             |
-   |                   |                     | ``ros2 run navground_core <command>``       |
+   |                   | :ref:`echo`         | ``ros2 run navground_core <command>``       |
    +-------------------+---------------------+---------------------------------------------+
    | navground_core_py | :ref:`info_py`      | ``install/lib/navground_core_py/<command>`` |
    |                   |                     |                                             |
-   |                   |                     | ``ros2 run navground_core_py <command>``    |
+   |                   | :ref:`echo_py`      | ``ros2 run navground_core_py <command>``    |
    |                   |                     |                                             |
    |                   |                     | ``python -m navground.core <command>``      |
    +-------------------+---------------------+---------------------------------------------+
    | navground_sim     | :ref:`info_sim`     | ``install/lib/navground_sim_py/<command>``  |
    |                   |                     |                                             |
-   |                   | :ref:`sample`       | ``ros2 run navground_sim <command>``        |
+   |                   | :ref:`echo_sim`     | ``ros2 run navground_sim <command>``        |
    |                   |                     |                                             |
-   |                   | :ref:`run`          | ``navground <command>``                     |
+   |                   | :ref:`sample`       | ``navground <command>``                     |
+   |                   |                     |                                             |
+   |                   | :ref:`run`          |                                             |
    +-------------------+---------------------+---------------------------------------------+
    | navground_sim_py  | :ref:`info_sim_py`  | ``install/lib/navground_sim_py/<command>``  |
    |                   |                     |                                             |
-   |                   | :ref:`sample_py`    | ``ros2 run navground_sim_py <command>``     |
+   |                   | :ref:`echo_sim_py`  | ``ros2 run navground_sim_py <command>``     |
    |                   |                     |                                             |
-   |                   | :ref:`run_py`       | ``navground_py <command>``                  |
+   |                   | :ref:`sample_py`    | ``navground_py <command>``                  |
    |                   |                     |                                             |
-   |                   | :ref:`run_rt`       | ``python -m navground.sim  <command>``      |
+   |                   | :ref:`run_py`       | ``python -m navground.sim  <command>``      |
    |                   |                     |                                             |
-   |                   | :ref:`record_video` |                                             | 
+   |                   | :ref:`run_rt`       |                                             | 
+   |                   |                     |                                             |
+   |                   | :ref:`record_video` |                                             |
    |                   |                     |                                             |
    |                   | :ref:`replay`       |                                             |
    +-------------------+---------------------+---------------------------------------------+

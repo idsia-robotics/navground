@@ -170,6 +170,39 @@ Example
         waypoints: [] (std::vector<Vector2>)
 
 
+.. _echo_sim:
+
+echo
+----
+
+Load and then print a YAML representation of an object (behavior, kinematic, behavior modulation, state estimation, task, scenarios, agent, world, experiment).
+
+
+.. argparse::
+   :module: navground.sim.echo
+   :func: parser
+   :prog: echo
+   :nodescription:
+   :nodefault:
+
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ echo scenario "{type: Corridor, agent_margin: 0.25, width: 2}"
+
+   type: Corridor
+   add_safety_to_agent_margin: true
+   agent_margin: 0.25
+   length: 10
+   width: 2
+   obstacles:
+     []
+   walls:
+     []
+
 .. _sample:
 
 sample
@@ -313,7 +346,3 @@ Example
      --runs         Will overwrite the experiment own runs if positive. [   nargs=0..1] [default: -1]
      --threads      Number of threads [nargs=0..1] [default: 1]
      --processes    Number of processes [only supported by run_py] [   nargs=0..1] [default: 1]   
-
-
-
-

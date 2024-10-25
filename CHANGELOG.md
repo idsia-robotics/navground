@@ -22,6 +22,8 @@
 
 - Added `no-plugins` option to the CLI commands to disable loading plugins.
 
+- Added `echo` command to load from YAML and then print the YAML representation of an object.
+
 ### Fixed
 
 - Resetting a sampler with `once=true` now correctly sets its index to 0.

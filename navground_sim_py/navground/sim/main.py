@@ -1,6 +1,6 @@
 import argparse
 
-from . import info, record_video, replay, run, run_rt, sample
+from . import echo, info, record_video, replay, run, run_rt, sample
 
 
 def config_parser(parsers, name, module):
@@ -14,6 +14,7 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
                                     title='Subcommands',
                                     metavar="{info,run,...}")
     config_parser(parsers, 'info', info)
+    config_parser(parsers, 'echo', echo)
     config_parser(parsers, 'run', run)
     config_parser(parsers, 'run_rt', run_rt)
     config_parser(parsers, 'sample', sample)
@@ -35,4 +36,3 @@ def main():
     else:
         print("Welcome to navground!\n")
         ps.print_help()
-

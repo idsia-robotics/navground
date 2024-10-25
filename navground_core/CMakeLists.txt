@@ -78,6 +78,7 @@ add_library(navground_core SHARED
   src/kinematics.cpp
   src/common.cpp
   src/plugins.cpp
+  src/states/gridmap.cpp
 )
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/register_plugins.cmake)
@@ -111,8 +112,12 @@ add_executable(info src/info.cpp)
 target_link_libraries(info navground_core argparse::argparse)
 add_dependencies(info navground_core)
 
+add_executable(echo src/echo.cpp)
+target_link_libraries(echo navground_core argparse::argparse)
+add_dependencies(echo navground_core)
+
 install(TARGETS
-  info
+  info echo
   DESTINATION lib/${PROJECT_NAME}
 )
 

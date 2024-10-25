@@ -122,15 +122,15 @@ add_dependencies(navground navground_sim)
 target_include_directories(navground PRIVATE ${cpptqdm_SOURCE_DIR})
 set_target_properties(navground PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
-# add_executable(echo src/echo.cpp)
-# target_link_libraries(echo navground_sim)
-# add_dependencies(echo navground_sim)
+add_executable(echo src/echo.cpp)
+target_link_libraries(echo navground_sim)
+add_dependencies(echo navground_sim)
 
 install(TARGETS
   info
   run
   sample
-  # echo
+  echo
   DESTINATION
   lib/${PROJECT_NAME}
 )

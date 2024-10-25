@@ -544,8 +544,9 @@ PYBIND11_MODULE(_navground, m) {
              std::shared_ptr<Kinematics>>
       kinematics(m, "Kinematics", DOC(navground, core, Kinematics));
   kinematics
-      .def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
-           py::arg("max_angular_speed") = 0,
+      .def(py::init<ng_float_t, ng_float_t>(),
+           py::arg("max_speed") = Kinematics::inf,
+           py::arg("max_angular_speed") = Kinematics::inf,
            DOC(navground, core, Kinematics, Kinematics))
       .def_property("max_speed", &Kinematics::get_max_speed,
                     &Kinematics::set_max_speed,
@@ -576,15 +577,17 @@ PYBIND11_MODULE(_navground, m) {
              std::shared_ptr<OmnidirectionalKinematics>>
       omni(m, "OmnidirectionalKinematics",
            DOC(navground, core, OmnidirectionalKinematics));
-  omni.def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
-           py::arg("max_angular_speed"),
+  omni.def(py::init<ng_float_t, ng_float_t>(),
+           py::arg("max_speed") = Kinematics::inf,
+           py::arg("max_angular_speed") = Kinematics::inf,
            DOC(navground, core, OmnidirectionalKinematics,
                OmnidirectionalKinematics));
 
   py::class_<AheadKinematics, Kinematics, std::shared_ptr<AheadKinematics>>
       ahead(m, "AheadKinematics", DOC(navground, core, AheadKinematics));
-  ahead.def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
-            py::arg("max_angular_speed"),
+  ahead.def(py::init<ng_float_t, ng_float_t>(),
+            py::arg("max_speed") = Kinematics::inf,
+            py::arg("max_angular_speed") = Kinematics::inf,
             DOC(navground, core, AheadKinematics, AheadKinematics));
 
   py::class_<WheeledKinematics, Kinematics, std::shared_ptr<WheeledKinematics>>
@@ -603,10 +606,36 @@ PYBIND11_MODULE(_navground, m) {
              std::shared_ptr<TwoWheelsDifferentialDriveKinematics>>
       wk2(m, "TwoWheelsDifferentialDriveKinematics",
           DOC(navground, core, TwoWheelsDifferentialDriveKinematics));
-  wk2.def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
-          py::arg("axis"),
+  wk2.def(
+         py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, ng_float_t>(),
+         py::arg("max_speed") = Kinematics::inf, py::arg("axis") = 0,
+         py::arg("max_angular_speed") = Kinematics::inf,
+         py::arg("max_forward_speed") = Kinematics::inf,
+         py::arg("max_backward_speed") = 0,
+         DOC(navground, core, TwoWheelsDifferentialDriveKinematics,
+             TwoWheelsDifferentialDriveKinematics))
+      .def_property(
+          "max_forward_speed",
+          &TwoWheelsDifferentialDriveKinematics::get_max_forward_speed,
+          &TwoWheelsDifferentialDriveKinematics::set_max_forward_speed,
           DOC(navground, core, TwoWheelsDifferentialDriveKinematics,
-              TwoWheelsDifferentialDriveKinematics));
+              property_max_forward_speed))
+      .def_property(
+          "max_backward_speed",
+          &TwoWheelsDifferentialDriveKinematics::get_max_backward_speed,
+          &TwoWheelsDifferentialDriveKinematics::set_max_backward_speed,
+          DOC(navground, core, TwoWheelsDifferentialDriveKinematics,
+              property_max_backward_speed))
+      .def_property("can_move_forwards",
+                    &TwoWheelsDifferentialDriveKinematics::can_move_forwards,
+                    nullptr,
+                    DOC(navground, core, TwoWheelsDifferentialDriveKinematics,
+                        property_can_move_forwards))
+      .def_property("can_move_backwards",
+                    &TwoWheelsDifferentialDriveKinematics::can_move_backwards,
+                    nullptr,
+                    DOC(navground, core, TwoWheelsDifferentialDriveKinematics,
+                        property_can_move_backwards));
 
   py::class_<FourWheelsOmniDriveKinematics, WheeledKinematics,
              std::shared_ptr<FourWheelsOmniDriveKinematics>>
@@ -622,9 +651,13 @@ PYBIND11_MODULE(_navground, m) {
              std::shared_ptr<DynamicTwoWheelsDifferentialDriveKinematics>>
       dwk2(m, "DynamicTwoWheelsDifferentialDriveKinematics",
            DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics));
-  dwk2.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t>(),
-           py::arg("max_speed"), py::arg("axis"), py::arg("max_acceleration"),
-           py::arg("moi") = 1,
+  dwk2.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, ng_float_t,
+                    ng_float_t, ng_float_t>(),
+           py::arg("max_speed") = Kinematics::inf, py::arg("axis") = 0,
+           py::arg("max_angular_speed") = Kinematics::inf,
+           py::arg("max_forward_speed") = Kinematics::inf,
+           py::arg("max_backward_speed") = 0,
+           py::arg("max_acceleration") = Kinematics::inf, py::arg("moi") = 1,
            DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
                DynamicTwoWheelsDifferentialDriveKinematics))
       .def_property(

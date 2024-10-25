@@ -20,6 +20,10 @@
 
 - Renamed `normalize` to `normalize_angle`
 
+- All kinematics now have default values in their constructors and uses infinite to represent unconstrained values, like, e.g., maximal angular speed. Negative values are also interpreted as unconstrained.
+
+- `TwoWheelsDifferentialDriveKinematics` now supports additional (control) limitation in angular, forward and backward speed. It also supports moving backwards, although it is disabled by default for back compatibility.
+
 ### Removed
 
 ## [0.1.0] - 2024-27-9

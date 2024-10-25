@@ -7,9 +7,8 @@ import random
 import sys
 from typing import Optional, TYPE_CHECKING
 
-from . import _Scenario, World, load_experiment, load_plugins
+from . import _Scenario, Experiment, World, load_experiment, load_plugins
 from .real_time import RealTimeSimulation
-
 
 if TYPE_CHECKING:
     from .ui import Decorate
@@ -117,12 +116,13 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
                         help='View background color',
                         type=str,
                         default="lightgray")
-    parser.add_argument('--area',
-                        help='Minimal area rendered in the view',
-                        type=float,
-                        # default=(0.0, 0.0, 0.0, 0.0),
-                        nargs=4,
-                        metavar=("MIN_X", "MIN_Y", "MAX_X", "MAX_Y"))
+    parser.add_argument(
+        '--area',
+        help='Minimal area rendered in the view',
+        type=float,
+        # default=(0.0, 0.0, 0.0, 0.0),
+        nargs=4,
+        metavar=("MIN_X", "MIN_Y", "MAX_X", "MAX_Y"))
     parser.add_argument('--display-shape',
                         help='Display effective agent shape',
                         action='store_true')
@@ -139,7 +139,8 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
         default='')
 
 
-def _main(arg: argparse.Namespace, decorate: Optional['Decorate'] = None) -> None:
+def _main(arg: argparse.Namespace,
+          decorate: Optional['Decorate'] = None) -> None:
     logging.basicConfig(level=logging.INFO)
     load_plugins()
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
@@ -161,10 +162,13 @@ def _main(arg: argparse.Namespace, decorate: Optional['Decorate'] = None) -> Non
                   port=arg.port,
                   display_shape=arg.display_shape,
                   path=path)
+    experiment: Experiment | None = None
     try:
         experiment = load_experiment(yaml)
     except RuntimeError as e:
-        logging.error(f"Could not load the experiment: {e}")
+        logging.error(f"Error while parsing: {e}")
+    if not experiment:
+        logging.error(f"Could not load the experiment")
         sys.exit(1)
     loop = asyncio.get_event_loop()
     if arg.area is not None:

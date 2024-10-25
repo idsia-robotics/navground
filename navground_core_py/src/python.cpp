@@ -331,10 +331,6 @@ PYBIND11_MODULE(_navground, m) {
   options.disable_enum_members_docstring();
 #endif
 
-  declare_register<Behavior>(m, "Behavior");
-  declare_register<Kinematics>(m, "Kinematics");
-  declare_register<BehaviorModulation>(m, "BehaviorModulation");
-
   py::class_<Property>(m, "Property", DOC(navground, core, Property))
       .def_readonly("description", &Property::description,
                     DOC(navground, core, Property, description))
@@ -355,6 +351,10 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, HasProperties, set))
       .def_property("properties", &HasProperties::get_properties, nullptr,
                     DOC(navground, core, HasProperties, property_properties));
+
+  declare_register<Behavior>(m, "Behavior");
+  declare_register<Kinematics>(m, "Kinematics");
+  declare_register<BehaviorModulation>(m, "BehaviorModulation");
 
   py::enum_<Frame>(m, "Frame", DOC(navground, core, Frame))
       .value("relative", Frame::relative, DOC(navground, core, Frame, relative))
@@ -383,7 +383,8 @@ PYBIND11_MODULE(_navground, m) {
   twist
       .def(py::init<Vector2, ng_float_t, Frame>(), py::arg("velocity"),
            py::arg("angular_speed") = 0,
-           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
+           py::arg_v("frame", Frame::absolute,
+                     "navground.core._navground.Frame.absolute"),
            DOC(navground, core, Twist2, Twist2))
       .def(py::self == py::self)
       .def(py::self != py::self)
@@ -502,7 +503,7 @@ PYBIND11_MODULE(_navground, m) {
 
   py::class_<Neighbor, Disc>(m, "Neighbor", DOC(navground, core, Neighbor))
       .def(py::init<Vector2, ng_float_t, Vector2, int>(), py::arg("position"),
-           py::arg("radius"), py::arg("velocity") = Vector2(0, 0),
+           py::arg("radius"), py::arg_v("velocity", Vector2::Zero(), "(0, 0)"),
            py::arg("id") = 0, DOC(navground, core, Neighbor, Neighbor))
       .def_readwrite("velocity", &Neighbor::velocity,
                      DOC(navground, core, Neighbor, velocity))
@@ -545,9 +546,8 @@ PYBIND11_MODULE(_navground, m) {
       kinematics(m, "Kinematics", DOC(navground, core, Kinematics));
   kinematics
       .def(py::init<ng_float_t, ng_float_t>(),
-           py::arg("max_speed") = Kinematics::inf,
-           py::arg("max_angular_speed") = Kinematics::inf,
-           DOC(navground, core, Kinematics, Kinematics))
+           py::arg_v("max_speed", Kinematics::inf, "float('inf')"),
+           py::arg_v("max_angular_speed", Kinematics::inf, "float('inf')"))
       .def_property("max_speed", &Kinematics::get_max_speed,
                     &Kinematics::set_max_speed,
                     DOC(navground, core, Kinematics, property_max_speed))
@@ -578,16 +578,16 @@ PYBIND11_MODULE(_navground, m) {
       omni(m, "OmnidirectionalKinematics",
            DOC(navground, core, OmnidirectionalKinematics));
   omni.def(py::init<ng_float_t, ng_float_t>(),
-           py::arg("max_speed") = Kinematics::inf,
-           py::arg("max_angular_speed") = Kinematics::inf,
+           py::arg_v("max_speed", Kinematics::inf, "float('inf')"),
+           py::arg_v("max_angular_speed", Kinematics::inf, "float('inf')"),
            DOC(navground, core, OmnidirectionalKinematics,
                OmnidirectionalKinematics));
 
   py::class_<AheadKinematics, Kinematics, std::shared_ptr<AheadKinematics>>
       ahead(m, "AheadKinematics", DOC(navground, core, AheadKinematics));
   ahead.def(py::init<ng_float_t, ng_float_t>(),
-            py::arg("max_speed") = Kinematics::inf,
-            py::arg("max_angular_speed") = Kinematics::inf,
+            py::arg_v("max_speed", Kinematics::inf, "float('inf')"),
+            py::arg_v("max_angular_speed", Kinematics::inf, "float('inf')"),
             DOC(navground, core, AheadKinematics, AheadKinematics));
 
   py::class_<WheeledKinematics, Kinematics, std::shared_ptr<WheeledKinematics>>
@@ -608,9 +608,10 @@ PYBIND11_MODULE(_navground, m) {
           DOC(navground, core, TwoWheelsDifferentialDriveKinematics));
   wk2.def(
          py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, ng_float_t>(),
-         py::arg("max_speed") = Kinematics::inf, py::arg("axis") = 0,
-         py::arg("max_angular_speed") = Kinematics::inf,
-         py::arg("max_forward_speed") = Kinematics::inf,
+         py::arg_v("max_speed", Kinematics::inf, "float('inf')"),
+         py::arg("axis") = 0,
+         py::arg_v("max_angular_speed", Kinematics::inf, "float('inf')"),
+         py::arg_v("max_forward_speed", Kinematics::inf, "float('inf')"),
          py::arg("max_backward_speed") = 0,
          DOC(navground, core, TwoWheelsDifferentialDriveKinematics,
              TwoWheelsDifferentialDriveKinematics))
@@ -641,8 +642,9 @@ PYBIND11_MODULE(_navground, m) {
              std::shared_ptr<FourWheelsOmniDriveKinematics>>
       wk4(m, "FourWheelsOmniDriveKinematics",
           DOC(navground, core, FourWheelsOmniDriveKinematics));
-  wk4.def(py::init<ng_float_t, ng_float_t>(), py::arg("max_speed"),
-          py::arg("axis"),
+  wk4.def(py::init<ng_float_t, ng_float_t>(),
+          py::arg_v("max_speed", Kinematics::inf, "float('inf')"),
+          py::arg("axis") = 0,
           DOC(navground, core, FourWheelsOmniDriveKinematics,
               FourWheelsOmniDriveKinematics));
 
@@ -653,11 +655,13 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics));
   dwk2.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, ng_float_t,
                     ng_float_t, ng_float_t>(),
-           py::arg("max_speed") = Kinematics::inf, py::arg("axis") = 0,
-           py::arg("max_angular_speed") = Kinematics::inf,
-           py::arg("max_forward_speed") = Kinematics::inf,
+           py::arg_v("max_speed", Kinematics::inf, "float('inf')"),
+           py::arg("axis") = 0,
+           py::arg_v("max_angular_speed", Kinematics::inf, "float('inf')"),
+           py::arg_v("max_forward_speed", Kinematics::inf, "float('inf')"),
            py::arg("max_backward_speed") = 0,
-           py::arg("max_acceleration") = Kinematics::inf, py::arg("moi") = 1,
+           py::arg_v("max_acceleration", Kinematics::inf, "float('inf')"),
+           py::arg("moi") = 1,
            DOC(navground, core, DynamicTwoWheelsDifferentialDriveKinematics,
                DynamicTwoWheelsDifferentialDriveKinematics))
       .def_property(
@@ -793,6 +797,11 @@ PYBIND11_MODULE(_navground, m) {
       behavior_modulation(m, "BehaviorModulation",
                           DOC(navground, core, BehaviorModulation));
 
+  py::class_<Behavior, PyBehavior, HasRegister<Behavior>, HasProperties,
+             std::shared_ptr<Behavior>>
+      behavior(m, "Behavior", py::dynamic_attr(),
+               DOC(navground, core, Behavior));
+
   behavior_modulation
       .def(py::init<>(),
            DOC(navground, core, BehaviorModulation, BehaviorModulation))
@@ -862,11 +871,6 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("k_d", &MotorPIDModulation::get_k_d,
                     &MotorPIDModulation::set_k_d,
                     DOC(navground, core, MotorPIDModulation, property_k_d));
-
-  py::class_<Behavior, PyBehavior, HasRegister<Behavior>, HasProperties,
-             std::shared_ptr<Behavior>>
-      behavior(m, "Behavior", py::dynamic_attr(),
-               DOC(navground, core, Behavior));
 
   py::enum_<Behavior::Heading>(behavior, "Heading",
                                DOC(navground, core, Behavior_Heading))
@@ -949,17 +953,20 @@ PYBIND11_MODULE(_navground, m) {
           "twist", [](const Behavior &self) { return self.get_twist(); },
           &Behavior::set_twist, DOC(navground, core, Behavior, property_twist))
       .def("get_twist", &Behavior::get_twist,
-           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
+           py::arg_v("frame", Frame::absolute,
+                     "navground.core._navground.Frame.absolute"),
            DOC(navground, core, Behavior, get_twist))
       .def_property(
           "velocity", [](const Behavior &self) { return self.get_velocity(); },
           [](Behavior &self, const Vector2 v) { return self.set_velocity(v); },
           DOC(navground, core, Behavior, property_velocity))
       .def("get_velocity", &Behavior::get_velocity,
-           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
+           py::arg_v("frame", Frame::absolute,
+                     "navground.core._navground.Frame.absolute"),
            DOC(navground, core, Behavior, get_velocity))
       .def("set_velocity", &Behavior::set_velocity, py::arg("velocity"),
-           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
+           py::arg_v("frame", Frame::absolute,
+                     "navground.core._navground.Frame.absolute"),
            DOC(navground, core, Behavior, set_velocity))
       .def_property("angular_speed", &Behavior::get_angular_speed,
                     &Behavior::set_angular_speed,
@@ -973,7 +980,8 @@ PYBIND11_MODULE(_navground, m) {
           &Behavior::set_actuated_twist,
           DOC(navground, core, Behavior, property_actuated_twist))
       .def("get_actuated_twist", &Behavior::get_actuated_twist,
-           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
+           py::arg_v("frame", Frame::absolute,
+                     "navground.core._navground.Frame.absolute"),
            DOC(navground, core, Behavior, get_actuated_twist))
       .def_property(
           "actuated_wheel_speeds", &Behavior::get_actuated_wheel_speeds,
@@ -1001,7 +1009,7 @@ PYBIND11_MODULE(_navground, m) {
             return behavior.compute_cmd_internal(time_step, frame);
           },
           py::arg("time_step"), py::arg("frame"),
-          DOC(navground, core, Behavior, compute_cmd))
+          DOC(navground, core, Behavior, compute_cmd_internal))
       .def_property("desired_velocity", &Behavior::get_desired_velocity,
                     nullptr,
                     DOC(navground, core, Behavior, property_desired_velocity))
@@ -1047,18 +1055,21 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("is_stuck", &Behavior::is_stuck, nullptr,
                     DOC(navground, core, Behavior, property_is_stuck))
       .def("get_target_position", &Behavior::get_target_position,
-           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
+           py::arg_v("frame", Frame::absolute,
+                     "navground.core._navground.Frame.absolute"),
            DOC(navground, core, Behavior, get_target_position))
       .def("get_target_orientation", &Behavior::get_target_orientation,
            DOC(navground, core, Behavior, get_target_orientation))
       .def("get_target_direction", &Behavior::get_target_direction,
-           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
+           py::arg_v("frame", Frame::absolute,
+                     "navground.core._navground.Frame.absolute"),
            DOC(navground, core, Behavior, get_target_direction))
       .def("get_target_distance", &Behavior::get_target_distance,
            py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_distance))
       .def("get_target_velocity", &Behavior::get_target_velocity,
-           py::arg_v("frame", Frame::absolute, "Frame.absolute"),
+           py::arg_v("frame", Frame::absolute,
+                     "navground.core._navground.Frame.absolute"),
            DOC(navground, core, Behavior, get_target_velocity))
       .def("get_target_speed", &Behavior::get_target_speed,
            DOC(navground, core, Behavior, get_target_speed))
@@ -1419,7 +1430,9 @@ PYBIND11_MODULE(_navground, m) {
                             const std::vector<Disc> &,
                             const std::vector<Neighbor> &>(
               &CollisionComputation::setup),
-          py::arg("pose") = Pose2(), py::arg("margin") = 0,
+          py::arg_v("pose", Pose2(),
+                    "navground.core._navground.Pose2((0, 0), 0)"),
+          py::arg("margin") = 0,
           py::arg("line_segments") = std::vector<LineSegment>(),
           py::arg("static_discs") = std::vector<Disc>(),
           py::arg("dynamic_discs") = std::vector<Neighbor>(),

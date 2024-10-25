@@ -2,7 +2,7 @@ import math
 import os
 from collections import ChainMap
 from typing import (Any, Callable, Dict, List, MutableMapping, Optional, Tuple,
-                    cast)
+                    Union, cast)
 
 import jinja2
 import numpy as np
@@ -11,7 +11,7 @@ from navground import core
 from .. import Agent, Entity, Obstacle, Wall, World, BoundingBox
 
 Point = np.ndarray
-Rect = Tuple[Point, Point]
+Rect = Union[Tuple[Point, Point], np.ndarray]
 Attributes = MutableMapping[str, str]
 Decorate = Callable[[Entity], Attributes]
 
@@ -149,19 +149,19 @@ def svg_for_obstacle(
     precision: int = 2,
     prefix: str = '',
     attributes: Attributes = {},
-    delta: core.Vector2 = np.zeros(2)
-    ) -> str:
+    delta: core.Vector2 = np.zeros(2)) -> str:
     attributes = entity_attributes(obstacle, 'obstacle', prefix, attributes)
     return svg_circle(obstacle.disc.position + delta, obstacle.disc.radius,
                       precision, attributes)
 
 
-def svg_for_agent(agent: Agent,
-                  precision: int = 2,
-                  prefix: str = '',
-                  attributes: Attributes = {},
-                  shape: bool = False,
-                  delta: core.Vector2 = np.zeros(2)) -> str:
+def svg_for_agent(
+    agent: Agent,
+    precision: int = 2,
+    prefix: str = '',
+    attributes: Attributes = {},
+    shape: bool = False,
+    delta: core.Vector2 = np.zeros(2)) -> str:
     proto = agent.type or 'agent'
     if agent.color:
         kwargs = {'fill': agent.color}
@@ -178,19 +178,20 @@ def svg_for_agent(agent: Agent,
                      delta=delta)
 
 
-def svg_for_world(world: Optional[World] = None,
-                  precision: int = 3,
-                  decorate: Optional[Decorate] = None,
-                  bounds: Optional[Rect] = None,
-                  width: int = 600,
-                  min_height: int = 100,
-                  relative_margin: float = 0.05,
-                  background_color: str = 'snow',
-                  display_shape: bool = False,
-                  grid: float = 0,
-                  grid_color: str = 'grey',
-                  grid_thickness: float = 0.01,
-                  rotation: Tuple[core.Vector2, float] | float | None = None) -> str:
+def svg_for_world(
+        world: Optional[World] = None,
+        precision: int = 3,
+        decorate: Optional[Decorate] = None,
+        bounds: Optional[Rect] = None,
+        width: int = 600,
+        min_height: int = 100,
+        relative_margin: float = 0.05,
+        background_color: str = 'snow',
+        display_shape: bool = False,
+        grid: float = 0,
+        grid_color: str = 'grey',
+        grid_thickness: float = 0.01,
+        rotation: Tuple[core.Vector2, float] | float | None = None) -> str:
     """
     Draw the world as a SVG.
 
@@ -227,24 +228,26 @@ def svg_for_world(world: Optional[World] = None,
                           rotation=rotation)[0]
 
 
-def _svg_for_world(world: Optional[World] = None,
-                   prefix: str = '',
-                   precision: int = 2,
-                   decorate: Optional[Decorate] = None,
-                   standalone: bool = True,
-                   bounds: Optional[Rect] = None,
-                   width: int = 600,
-                   min_height: int = 100,
-                   relative_margin: float = 0.05,
-                   include_default_style: bool = True,
-                   external_style_path: str = '',
-                   style: str = '',
-                   background_color: str = 'snow',
-                   display_shape: bool = False,
-                   grid: float = 0,
-                   grid_color: str = 'grey',
-                   grid_thickness: float = 0.01,
-                   rotation: Tuple[core.Vector2, float] | float | None = None) -> Tuple[str, Dict[str, str]]:
+def _svg_for_world(
+    world: Optional[World] = None,
+    prefix: str = '',
+    precision: int = 2,
+    decorate: Optional[Decorate] = None,
+    standalone: bool = True,
+    bounds: Optional[Rect] = None,
+    width: int = 600,
+    min_height: int = 100,
+    relative_margin: float = 0.05,
+    include_default_style: bool = True,
+    external_style_path: str = '',
+    style: str = '',
+    background_color: str = 'snow',
+    display_shape: bool = False,
+    grid: float = 0,
+    grid_color: str = 'grey',
+    grid_thickness: float = 0.01,
+    rotation: Tuple[core.Vector2, float] | float | None = None
+) -> Tuple[str, Dict[str, str]]:
     g = ""
     if world:
         if bounds is None:

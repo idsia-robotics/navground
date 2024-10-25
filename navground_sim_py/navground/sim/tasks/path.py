@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Union, cast
 from navground import core, sim
 import numpy as np
 
@@ -28,13 +28,13 @@ def get_path(points: List[core.Vector2]) -> core.Path:
 
     def project(point: core.Vector2, a: float, b: float) -> float:
         if a > 0:
-            i = np.searchsorted(cs, a, side="left")
+            i: Union[int, np.int_] = np.searchsorted(cs, a, side="left")
             pa = [line.interpolate(a)]
         else:
             i = 0
             pa = []
         if b < line.length:
-            j = np.searchsorted(cs, b, side="right")
+            j: Union[int, np.int_] = np.searchsorted(cs, b, side="right")
             pb = [line.interpolate(b)]
         else:
             j = len(points)
@@ -42,7 +42,7 @@ def get_path(points: List[core.Vector2]) -> core.Path:
         sline = g.LineString(pa + points[i:j] + pb)
         return sline.project(g.Point(point)) + a
 
-    loop = np.linalg.norm(points[-1] - points[0]) < 1e-2
+    loop = cast(bool, np.linalg.norm(points[-1] - points[0]) < 1e-2)
 
     return core.Path(project, curve, cs[-1], loop)
 

@@ -419,8 +419,10 @@ struct PyGroupRecordProbe : public GroupRecordProbe {
     PYBIND11_OVERRIDE(void, GroupRecordProbe, finalize, run);
   }
 
-  ShapeMap get_shapes(const World &world, bool use_agent_uid_as_key) const override {
-    PYBIND11_OVERRIDE(ShapeMap, GroupRecordProbe, get_shapes, world, use_agent_uid_as_key);
+  ShapeMap get_shapes(const World &world,
+                      bool use_agent_uid_as_key) const override {
+    PYBIND11_OVERRIDE(ShapeMap, GroupRecordProbe, get_shapes, world,
+                      use_agent_uid_as_key);
   }
 };
 
@@ -1779,6 +1781,10 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
       .def("__iter__",
            [](Dataset &ds) { return as_array(ds).attr("__iter__")(); });
 
+  py::class_<ExperimentalRun, std::shared_ptr<ExperimentalRun>>
+      experimental_run(m, "ExperimentalRun", py::dynamic_attr(),
+                       DOC(navground, sim, ExperimentalRun));
+
   py::class_<Probe, PyProbe, std::shared_ptr<Probe>>(m, "Probe",
                                                      DOC(navground, sim, Probe))
       .def(py::init<>(), DOC(navground, sim, Probe, Probe))
@@ -1818,9 +1824,7 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
            // )doc"
            DOC(navground, sim, SensingProbe, get_data));
 
-  py::class_<ExperimentalRun, std::shared_ptr<ExperimentalRun>>(
-      m, "ExperimentalRun", py::dynamic_attr(),
-      DOC(navground, sim, ExperimentalRun))
+  experimental_run
       .def(py::init<std::shared_ptr<World>, ng_float_t, int, bool,
                     const RecordConfig &, int>(),
            py::arg("world"), py::arg("time_step") = 0.1,
@@ -2685,10 +2689,8 @@ Load an experiment from a YAML string.
         "Dump a behavior to a YAML-string");
   m.def("dump", &YAML::dump<Kinematics>, py::arg("kinematics"),
         "Dump a kinematics to a YAML-string");
-
-  m.def("dump", &YAML::dump<Kinematics>, py::arg("kinematics"),
-        "Dump a kinematics to a YAML-string");
-
+  m.def("dump", &YAML::dump<BehaviorModulation>, py::arg("modulation"),
+        "Dump a modulation to a YAML-string");
   m.def("use_compact_samplers", &YAML::set_use_compact_samplers,
         py::arg("value"),
         "Whether to represent sampler compactly in YAML when possible");

@@ -19,9 +19,10 @@ def _timedelta_from_ns(ns: int):
 
 def _get_all_datasets(group: 'h5py.Group',
                       ns: str) -> Dict[str, 'h5py.Dataset']:
-    rs: Dict[str, 'h5py.Dataset'] = {}
+    import h5py
+    rs: Dict[str, h5py.Dataset] = {}
     for k, v in group.items():
-        if isinstance(v, 'h5py.Group'):
+        if isinstance(v, h5py.Group):
             cs = _get_all_datasets(v, ns)
             rs.update(**cs)
         else:
@@ -113,15 +114,19 @@ class RecordedExperimentalRun:
         """
         seed = self._group.attrs['seed']
         if 'world' in self._group.attrs:
-            self.world = load_world(self._group.attrs['world'])
-            self.world.seed = seed
+            world = load_world(self._group.attrs['world'])
+            if world:
+                self.world = world
+                self.world.seed = seed
+            else:
+                raise RuntimeError("Could not load world")
         elif self._scenario:
             warnings.warn('HDF5 group does store a world ... sampling from '
                           'the scenario may not be correct')
             self.world = World()
             self._scenario.init_world(self.world, seed=seed)
         else:
-            raise ValueError("World not stored and no scenario")
+            raise RuntimeError("World not stored and no scenario")
         self._step = -1
 
     @property
@@ -161,8 +166,10 @@ class RecordedExperimentalRun:
         :return: recorded dataset or None if no data
                  has been recorded for the given key
         """
+        import h5py
+
         value = self._group.get(key)
-        if isinstance(value, 'h5py.Dataset'):
+        if isinstance(value, h5py.Dataset):
             return value
         return None
 
@@ -363,7 +370,11 @@ class RecordedExperiment:
         """Set to ``False``: the experiment is no more running"""
         self.path = pathlib.Path(path)
         """The path of the HDF5 file"""
-        self._experiment = load_experiment(self._file.attrs['experiment'])
+
+        experiment = load_experiment(self._file.attrs['experiment'])
+        if not experiment:
+            raise RuntimeError("Could not load world")
+        self._experiment = experiment
 
         self.runs: Dict[int, RecordedExperimentalRun] = {
             int(re.match(r"run_(\d+)", k).groups()[0]):  # type: ignore

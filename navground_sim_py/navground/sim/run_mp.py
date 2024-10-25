@@ -37,6 +37,8 @@ def _load_and_run_experiment(
 ) -> Dict[int, sim.ExperimentalRun]:
 
     experiment = sim.load_experiment(yaml)
+    if not experiment:
+        return {}
     experiment.save_directory = ''  # type: ignore
     experiment._probes, experiment._record_probes, experiment._group_record_probes = probes
     experiment.scenario_init_callback = scenario_init_callback

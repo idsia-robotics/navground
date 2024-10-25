@@ -419,8 +419,8 @@ struct PyGroupRecordProbe : public GroupRecordProbe {
     PYBIND11_OVERRIDE(void, GroupRecordProbe, finalize, run);
   }
 
-  ShapeMap get_shapes(const World &world) const override {
-    PYBIND11_OVERRIDE(ShapeMap, GroupRecordProbe, get_shapes, world);
+  ShapeMap get_shapes(const World &world, bool use_agent_uid_as_key) const override {
+    PYBIND11_OVERRIDE(ShapeMap, GroupRecordProbe, get_shapes, world, use_agent_uid_as_key);
   }
 };
 

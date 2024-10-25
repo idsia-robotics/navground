@@ -36,5 +36,9 @@ class IsMovingSparseProbe(sim.GroupRecordProbe):
                 ds = self.get_data(str(agent._uid))
                 ds.push(run.world.time)
 
-    def get_shapes(self, world: sim.World) -> Dict[str, Tuple[int, ...]]:
-        return {str(a._uid): tuple() for a in world.agents}
+    def get_shapes(self, world: sim.World,
+                   use_uid: bool) -> Dict[str, Tuple[int, ...]]:
+        return {
+            str(a._uid if use_uid else i): tuple()
+            for i, a in enumerate(world.agents)
+        }

@@ -10,9 +10,9 @@
 
 #include "navground/core/types.h"
 #include "navground/sim/dataset.h"
+#include "navground/sim/export.h"
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/world.h"
-#include "navground/sim/export.h"
 
 namespace navground::sim {
 
@@ -28,7 +28,7 @@ class ExperimentalRun;
  * finalize as the base class does nothing.
  */
 class NAVGROUND_SIM_EXPORT Probe {
- public:
+public:
   Probe() {}
   virtual ~Probe() = default;
   /**
@@ -61,7 +61,7 @@ class NAVGROUND_SIM_EXPORT Probe {
  *
  */
 class NAVGROUND_SIM_EXPORT RecordProbe : public Probe {
- public:
+public:
   /**
    * The type of data to record. Subclasses must define their own type for
    * \ref ExperimentalRun::add_record_probe<T> to work with them.
@@ -108,7 +108,7 @@ class NAVGROUND_SIM_EXPORT RecordProbe : public Probe {
  * and to redefine \ref Type.
  */
 class NAVGROUND_SIM_EXPORT GroupRecordProbe : public Probe {
- public:
+public:
   /**
    * The type of data to record. Subclasses must define their own type for
    * \ref ExperimentalRun::add_group_record_probe<T> to work with them.
@@ -132,10 +132,16 @@ class NAVGROUND_SIM_EXPORT GroupRecordProbe : public Probe {
    * Subclasses should overwrite it to configure their records.
    *
    * @param[in]  world  The world being simulated
+   * @param[in]  use_agent_uid_as_key  Whether to use the agent uid a key.
+   *                                   If not set, it will use the the agent
+   * index instead.
    *
    * @return     The shapes
    */
-  virtual ShapeMap get_shapes(const World &world) const { return {}; }
+  virtual ShapeMap get_shapes(const World &world,
+                              bool use_agent_uid_as_key) const {
+    return {};
+  }
 
   /**
    * @private
@@ -183,7 +189,7 @@ class NAVGROUND_SIM_EXPORT GroupRecordProbe : public Probe {
    */
   void set_factory(Factory factory) { _factory = factory; }
 
- private:
+private:
   Factory _factory;
   /**
    * The recorded data
@@ -196,19 +202,15 @@ class NAVGROUND_SIM_EXPORT GroupRecordProbe : public Probe {
  *
  */
 class NAVGROUND_SIM_EXPORT SensingProbe : public Probe {
- public:
-
-  using Data = std::map<unsigned, std::map<std::string, std::shared_ptr<Dataset>>>;
+public:
+  using Data =
+      std::map<unsigned, std::map<std::string, std::shared_ptr<Dataset>>>;
 
   explicit SensingProbe(const std::string name = "sensing",
                         const std::shared_ptr<Sensor> &sensor = nullptr,
                         const std::vector<unsigned> &agent_indices = {})
-      : Probe(),
-        _data(),
-        _sensor(sensor),
-        _states(),
-        _agent_indices(agent_indices),
-        _name(name) {}
+      : Probe(), _data(), _sensor(sensor), _states(),
+        _agent_indices(agent_indices), _name(name) {}
 
   /**
    * @private
@@ -225,11 +227,9 @@ class NAVGROUND_SIM_EXPORT SensingProbe : public Probe {
    *
    * @return     The data.
    */
-  const Data & get_data() const {
-    return _data;
-  }
+  const Data &get_data() const { return _data; }
 
- private:
+private:
   Data _data;
   std::shared_ptr<Sensor> _sensor;
   std::map<unsigned, core::SensingState> _states;
@@ -237,6 +237,6 @@ class NAVGROUND_SIM_EXPORT SensingProbe : public Probe {
   std::string _name;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_PROBE_H_ */

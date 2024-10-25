@@ -267,13 +267,12 @@ public:
   }
 
   std::map<std::string, Dataset::Shape>
-  get_shapes(const World &world) const override {
+  get_shapes(const World &world, bool use_agent_uid_as_key) const override {
     std::map<std::string, Dataset::Shape> shapes;
-    const bool use_uid = run->get_record_config().use_agent_uid_as_key;
     unsigned i = 0;
     for (const auto &agent : world.get_agents()) {
       if (Task *task = agent->get_task()) {
-        const std::string key = std::to_string(use_uid ? agent->uid : i);
+        const std::string key = std::to_string(use_agent_uid_as_key ? agent->uid : i);
         shapes[key] = {task->get_log_size()};
       }
       i++;

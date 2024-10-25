@@ -61,10 +61,13 @@ class IsMovingSparseProbe : public navground::sim::GroupRecordProbe {
     }
   }
 
-  ShapeMap get_shapes(const World &world) const override {
+  ShapeMap get_shapes(const World &world, bool use_uid) const override {
     ShapeMap shapes;
+    unsigned i = 0;
     for (const auto &agent : world.get_agents()) {
-      shapes[std::to_string(agent->uid)] = {};
+      const std::string key = std::to_string(use_uid ? agent->uid : i);
+      shapes[key] = {};
+      i++;
     }
     return shapes;
   }

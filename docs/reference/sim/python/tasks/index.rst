@@ -8,3 +8,4 @@ Tasks
    task
    direction
    waypoints
+   path

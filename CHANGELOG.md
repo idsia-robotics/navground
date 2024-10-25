@@ -6,6 +6,8 @@
 
 - Targets now have an optional path to follow to reach a pose or position. Behaviors support this path be defining a new virtual method `cmd_twist_along_path` whose default implementation is a form of carrot planner that uses two new parameters `path_tau` (over which time length to converge to the path), and `path_look_ahead` (how far ahead to look when following the path). The equivalent controller actions now have an additional parameter `along_path`.
 
+- Added `PathTask` Python class to follow a path composed by a list of points.
+
 - Behaviors can now overwrite a new virtual method `cmd_twist_towards_pose` to implement more specific control strategies to reach a pose. The default implementation moves straight to the pose and then rotates in place.
 
 - Added functions `to_{relative|absolute}_point` to `core/common.h` to convert the frame of reference of points (not just vectors).

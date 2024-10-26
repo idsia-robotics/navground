@@ -1525,6 +1525,9 @@ Load a behavior modulation from a YAML string.
         py::arg("directories") = py::dict(), py::arg("include_default") = true,
         DOC(navground, core, load_plugins));
 
+  m.def("get_loaded_plugins", &get_loaded_plugins,
+        DOC(navground, core, get_loaded_plugins));
+
   // add [partial] pickle support
   pickle_via_yaml<PyBehaviorModulation>(behavior_modulation);
   pickle_via_yaml<PyBehavior>(behavior);

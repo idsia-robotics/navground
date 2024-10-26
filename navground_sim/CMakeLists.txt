@@ -31,7 +31,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(cpptqdm)
 
-message("cpptqdm_SOURCE_DIR ${cpptqdm_SOURCE_DIR}")
+# message("cpptqdm_SOURCE_DIR ${cpptqdm_SOURCE_DIR}")
 
 # add_subdirectory(HighFive)
 # add_subdirectory(Crow)
@@ -80,6 +80,7 @@ add_library(navground_sim SHARED
   src/scenarios/simple.cpp
   src/sampling.cpp
   src/yaml.cpp
+  src/plugins.cpp
 )
 
 generate_export_header(navground_sim EXPORT_FILE_NAME navground/sim/export.h)
@@ -126,11 +127,16 @@ add_executable(echo src/echo.cpp)
 target_link_libraries(echo navground_sim)
 add_dependencies(echo navground_sim)
 
+add_executable(plugins src/list_plugins.cpp)
+target_link_libraries(plugins navground_sim)
+add_dependencies(plugins navground_sim)
+
 install(TARGETS
   info
   run
   sample
   echo
+  plugins
   DESTINATION
   lib/${PROJECT_NAME}
 )

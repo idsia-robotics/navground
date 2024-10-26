@@ -5,14 +5,14 @@
 #include <memory>
 #include <vector>
 
+#include "navground/core/export.h"
 #include "navground/core/property.h"
 #include "navground/core/utilities.h"
-#include "navground/core/export.h"
 #include "yaml-cpp/yaml.h"
 
 namespace navground::core {
 
-  using PropertyRegister = std::map<std::string, Properties>; 
+using PropertyRegister = std::map<std::string, Properties>;
 
 /**
  * @brief      Contains a register of sub-classes of ``T``, registered by name
@@ -29,7 +29,7 @@ struct
     NAVGROUND_CORE_NO_EXPORT
 #else
     NAVGROUND_CORE_EXPORT
-#endif  // _MSC_VER
+#endif // _MSC_VER
         HasRegister {
   /**
    * A shared pointer to an object of type ``T``.
@@ -39,6 +39,8 @@ struct
    * Factory function to construct objects of type ``T``.
    */
   using Factory = std::function<C()>;
+
+
 
   /**
    * @brief      The registered factories
@@ -156,6 +158,6 @@ struct
   virtual void decode([[maybe_unused]] const YAML::Node &node) {};
 };
 
-}  // namespace navground::core
+} // namespace navground::core
 
-#endif  // NAVGROUND_CORE_REGISTER_H
+#endif // NAVGROUND_CORE_REGISTER_H

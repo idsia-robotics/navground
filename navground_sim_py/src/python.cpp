@@ -17,7 +17,6 @@
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/kinematics.h"
-#include "navground/core/plugins.h"
 #include "navground/core/types.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground/core_py/behavior_modulation.h"
@@ -2720,6 +2719,7 @@ Load an experiment from a YAML string.
       "uses_doubles",
       []() { return std::is_same<ng_float_t, float>::value == false; },
       "Returns whether navground has been compiled to use floats or doubles");
+
 
   // m.def("load_plugins", &load_plugins, py::arg("plugins") = "",
   //       py::arg("env") = "", py::arg("directory") = py::none());

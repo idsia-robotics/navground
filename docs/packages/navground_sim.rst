@@ -203,6 +203,37 @@ Example
    walls:
      []
 
+.. _plugins_sim:
+
+plugins
+-------
+
+Load and list plugins.
+
+.. argparse::
+   :module: navground.sim.list_plugins
+   :func: parser
+   :prog: plugins
+   :nodescription:
+   :nodefault:
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ plugins
+
+   navground_demos
+   ---------------
+   Scenarios: ThymioDemo
+   
+   navground_examples
+   ------------------
+   Behaviors: Idle
+   Scenarios: Empty
+
+
 .. _sample:
 
 sample

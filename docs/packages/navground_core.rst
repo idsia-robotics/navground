@@ -135,3 +135,29 @@ Example
    wheel_axis: 0
    max_speed: .inf
    max_angular_speed: .inf
+
+
+.. _plugins:
+
+plugins
+-------
+
+Load and list plugins.
+
+.. argparse::
+   :module: navground.core.list_plugins
+   :func: parser
+   :prog: plugins
+   :nodescription:
+   :nodefault:
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ plugins
+
+   navground_examples
+   ------------------
+   Behaviors: Idle

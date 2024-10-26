@@ -165,6 +165,32 @@ Example
      default: 0
 
 
+.. _plugins_py:
+
+plugins
+-------
+
+Load and list plugins.
+
+.. argparse::
+   :module: navground.core.list_plugins
+   :func: parser
+   :prog: plugins
+   :nodescription:
+   :nodefault:
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ plugins
+   
+   navground_examples
+   ------------------
+   Behaviors: Idle [C++]
+
+
 navground.core
 --------------
 

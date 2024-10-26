@@ -9,7 +9,7 @@
 
 namespace core = navground::core;
 namespace sim = navground::sim;
-using core::EchoåCommand;
+using core::EchoCommand;
 
 int main(int argc, char *argv[]) {
   return core::EchoCommand(

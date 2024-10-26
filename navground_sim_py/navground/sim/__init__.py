@@ -1,5 +1,5 @@
 import functools
-from typing import TYPE_CHECKING, Callable, List, Optional
+from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Tuple
 
 if TYPE_CHECKING:
     import tqdm
@@ -8,6 +8,8 @@ import navground.core
 import importlib.metadata
 from navground.core import _register, load_cpp_plugins
 from navground.core import load_py_plugins as _load_py_core_plugins
+from navground.core import get_loaded_plugins as _get_loaded_core_plugins
+from navground.core import get_loaded_py_plugins as _get_loaded_py_core_plugins
 from navground.core import register
 
 from ._navground_sim import (Agent, BoundingBox, Dataset, Entity, Experiment,
@@ -126,6 +128,38 @@ def load_plugins() -> None:
     load_py_plugins()
 
 
+def get_loaded_py_plugins(
+    kinds: List[str] = [
+        'behaviors', 'kinematics', 'modulations', 'state_estimations', 'tasks',
+        'scenarios'
+    ]
+) -> Dict[str, Dict[str, List[str]]]:
+    """
+    Returns all plugins implemented in Python
+
+    :param      kinds:  The kinds of components
+
+    :returns:   A dictionary {pkg name: {kind: [registered types]}}
+    """
+    return _get_loaded_py_core_plugins(kinds)
+
+
+def get_loaded_plugins(
+    kinds: List[str] = [
+        'behaviors', 'kinematics', 'modulations', 'state_estimations', 'tasks',
+        'scenarios'
+    ]
+) -> Dict[str, Dict[str, List[Tuple[str, str]]]]:
+    """
+    Returns all plugins
+
+    :param      kinds:  The kinds of components
+
+    :returns:   A dictionary {pkg name: {kind: [(registered type, language)]}}
+    """
+    return _get_loaded_core_plugins(kinds)
+
+
 def setup_tqdm(self,
                bar: 'tqdm.tqdm',
                number_of_runs: Optional[int] = None) -> None:
@@ -191,5 +225,5 @@ __all__ = [
     'ExperimentalRun', 'RecordSensingConfig', 'RecordConfig', 'RecordProbe',
     'GroupRecordProbe', 'Probe', 'Dataset', 'RecordedExperiment',
     'RecordedExperimentalRun', 'SensingProbe', 'use_compact_samplers',
-    'uses_doubles'
+    'uses_doubles', 'get_loaded_plugins'
 ]

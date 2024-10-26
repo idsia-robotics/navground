@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import importlib.metadata
-from typing import Any, Callable, List, Type, TypeAlias, TypeVar, Union
+from typing import (Any, Callable, Dict, List, Tuple, Type, TypeAlias, TypeVar,
+                    Union)
 
 import numpy
 
@@ -14,8 +15,9 @@ from ._navground import (Buffer, BufferDescription, BufferMap,
                          GeometricState)
 from ._navground import Kinematics as _Kinematics
 from ._navground import (LineSegment, Neighbor, Path, Pose2, SensingState,
-                         SocialMargin, Target, Twist2, clamp_norm, dump,
-                         load_behavior, load_behavior_modulation,
+                         SocialMargin, Target, Twist2, clamp_norm, dump)
+from ._navground import get_loaded_plugins as get_loaded_cpp_plugins
+from ._navground import (load_behavior, load_behavior_modulation,
                          load_kinematics)
 from ._navground import load_plugins as load_cpp_plugins
 from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
@@ -185,6 +187,63 @@ def load_plugins() -> None:
     load_py_plugins()
 
 
+def get_loaded_py_plugins(
+    kinds: List[str] = ['behaviors', 'kinematics', 'modulations']
+) -> Dict[str, Dict[str, List[str]]]:
+    """
+    Returns all plugins implemented in Python
+
+    :param      kinds:  The kinds of components
+
+    :returns:   A dictionary {pkg name: {kind: [registered types]}}
+    """
+    rs: Dict[str, Dict[str, List[str]]] = {}
+    for kind in kinds:
+        eps = importlib.metadata.entry_points(group=f'navground_{kind}')
+        for e in eps:
+            pkg = e.module.split('.')[0]
+            if pkg not in rs:
+                rs[pkg] = {k: [] for k in kinds}
+            cls = e.load()
+            try:
+                rs[pkg][kind].append(cls._type)
+            except AttributeError:
+                print(f'{cls} has not been registered')
+    return rs
+
+
+def get_loaded_plugins(
+    kinds: List[str] = ['behaviors', 'kinematics', 'modulations']
+) -> Dict[str, Dict[str, List[Tuple[str, str]]]]:
+    """
+    Returns all plugins
+
+    :param      kinds:  The kinds of components
+
+    :returns:   A dictionary {pkg name: {kind: [(registered type, language)]}}
+    """
+    py_rs = get_loaded_py_plugins(kinds)
+    cpp_rs = get_loaded_cpp_plugins()
+    rs = {
+        pkg: {
+            kind: [(name, 'Python') for name in names]
+            for kind, names in vs.items()
+        }
+        for pkg, vs in py_rs.items()
+    }
+    for pkg, vs in cpp_rs.items():
+        if pkg not in rs:
+            rs[pkg] = {
+                kind: [(name, 'C++') for name in names]
+                for kind, names in vs.items() if kind in kinds
+            }
+        else:
+            for kind, names in vs.items():
+                if kind in kinds:
+                    rs[pkg][kind].extend([(name, 'C++') for name in names])
+    return rs
+
+
 __all__ = [
     'Behavior', 'Path', 'BehaviorModulation', 'Pose2', 'Twist2', 'Target',
     'Disc', 'Neighbor', 'LineSegment', 'Kinematics', 'Action', 'Controller',
@@ -195,5 +254,6 @@ __all__ = [
     'CachedCollisionComputation', 'EnvironmentState', 'CollisionComputation',
     'behaviors', 'behavior_modulations', 'kinematics', 'clamp_norm', 'rotate',
     'unit', 'orientation_of', 'normalize_angle', 'to_absolute_point',
-    'to_relative_point', 'to_absolute', 'to_relative', 'uses_doubles'
+    'to_relative_point', 'to_absolute', 'to_relative', 'uses_doubles',
+    'get_loaded_plugins'
 ]

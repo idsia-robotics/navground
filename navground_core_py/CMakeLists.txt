@@ -48,6 +48,12 @@ generate_docstrings(
   ${EIGEN3_INCLUDE_DIR}
 )
 
+# include(generate_stubs)
+# generate_stubs(
+#   _navground
+#   ${CMAKE_BINARY_DIR}/navground/core
+# )
+
 # target_compile_options(_navground PRIVATE -fvisibility=hidden)
 target_compile_definitions(_navground PRIVATE PYBIND11_DETAILED_ERROR_MESSAGES=1)
 target_link_libraries(_navground PRIVATE navground_core_py navground_core::navground_core)
@@ -108,6 +114,10 @@ else()
   )
   
 endif()
+
+# install(
+#   FILES ${CMAKE_CURRENT_BINARY_DIR}/navground/core/_navground.pyi 
+#   DESTINATION ${PYTHON_INSTALL_DIR}/navground/core/)
 
 if (ament_cmake_FOUND)
   ament_export_targets(${PROJECT_NAME}Targets HAS_LIBRARY_TARGET)

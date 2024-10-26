@@ -1,7 +1,11 @@
 #include "navground/core/plugins.h"
+#include "navground/core/behavior.h"
+#include "navground/core/behavior_modulation.h"
+#include "navground/core/kinematics.h"
 
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <optional>
 #include <set>
@@ -28,13 +32,27 @@ namespace fs = std::filesystem;
 
 namespace navground::core {
 
+static const bool _r = []() {
+  add_register<BehaviorModulation>("modulations");
+  add_register<Behavior>("behaviors");
+  add_register<Kinematics>("kinematics");
+  return true;
+}();
+
+RegisterMap &get_registers() {
+  static RegisterMap _registers;
+  return _registers;
+}
+
+static Plugins loaded_plugins{};
+
 static void load_library(const fs::path &path) {
 #if defined(WIN32) || defined(_WIN32) ||                                       \
     defined(__WIN32) && !defined(__CYGWIN__)
-  // const auto lib = 
+  // const auto lib =
   LoadLibraryA(path.string().c_str());
 #else
-  // const void *lib = 
+  // const void *lib =
   dlopen(path.c_str(), RTLD_LAZY);
 #endif
   // if (lib) {
@@ -112,15 +130,18 @@ read_plugins_in_file(const fs::path &path,
   return {};
 }
 
-static std::set<fs::path> read_plugins_in_directory(const fs::path &directory,
-                                                    const fs::path &root) {
-  std::set<fs::path> plugins;
+// (pkg -> {shared lib path})
+using PkgPaths = std::map<std::string, std::set<fs::path>>;
+
+static PkgPaths read_plugins_in_directory(const fs::path &directory,
+                                          const fs::path &root) {
+  PkgPaths ps;
   if (fs::exists(directory) && fs::is_directory(directory)) {
     for (const auto &entry : fs::directory_iterator(directory)) {
-      plugins.merge(read_plugins_in_file(entry.path(), root));
+      ps[entry.path().stem()] = read_plugins_in_file(entry.path(), root);
     }
   }
-  return plugins;
+  return ps;
 }
 
 static bool has_ament_index() {
@@ -132,8 +153,8 @@ static bool has_ament_index() {
 }
 
 #if NAVGROUND_PLUGINS_IN_AMENT_INDEX
-static std::set<fs::path> read_plugins_from_ament_index() {
-  std::set<fs::path> ps;
+static PkgPaths read_plugins_from_ament_index() {
+  PkgPaths ps;
   const char *value = std::getenv("AMENT_PREFIX_PATH");
   if (!value) {
     std::cerr << "Navground plugins are loaded from the ament resource index";
@@ -147,19 +168,18 @@ static std::set<fs::path> read_plugins_from_ament_index() {
       ament_index_cpp::get_resource("navground_plugins", name, content);
       // printf("%s\n", content.c_str());
       if (!content.empty()) {
-        ps.merge(read_plugins(content, install));
+        ps[name] = read_plugins(content, install);
       }
     }
   }
   return ps;
 }
+
 #endif
 
-void load_plugins(const std::set<std::filesystem::path> &plugins,
-                  const std::map<std::filesystem::path,
-                                 std::set<std::filesystem::path>> &directories,
+void load_plugins(const PathSet &plugins, const PathSetMap &directories,
                   bool include_default) {
-  std::set<fs::path> ps = plugins;
+  PkgPaths ps{{"", plugins}};
   for (const auto &[root, paths] : directories) {
     for (const auto &path : paths) {
       ps.merge(read_plugins_in_directory(path, root));
@@ -185,11 +205,28 @@ void load_plugins(const std::set<std::filesystem::path> &plugins,
       }
     }
   }
-  for (const auto &path : ps) {
-    if (fs::exists(fs::path(path))) {
-      load_library(path);
+  for (const auto &[pkg_name, paths] : ps) {
+    for (const auto &path : paths) {
+      if (fs::exists(fs::path(path))) {
+        std::map<std::string, std::vector<std::string>> old_types;
+        for (const auto &[name, getter] : get_registers()) {
+          old_types[name] = getter();
+        }
+        load_library(path);
+        for (const auto &[name, getter] : get_registers()) {
+          const auto new_types = getter();
+          auto &added_types = loaded_plugins[pkg_name][name];
+          std::set_difference(new_types.begin(), new_types.end(),
+                              old_types[name].begin(), old_types[name].end(),
+                              std::back_inserter(added_types));
+        }
+      }
     }
   }
+}
+
+const Plugins &NAVGROUND_CORE_EXPORT get_loaded_plugins() {
+  return loaded_plugins;
 }
 
 } // namespace navground::core

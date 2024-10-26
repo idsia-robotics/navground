@@ -24,6 +24,8 @@
 
 - Added `echo` command to load from YAML and then print the YAML representation of an object.
 
+- Added `plugins` command to list loaded plugins.
+
 ### Fixed
 
 - Resetting a sampler with `once=true` now correctly sets its index to 0.

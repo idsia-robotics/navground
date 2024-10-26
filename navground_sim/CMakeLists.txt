@@ -71,6 +71,7 @@ add_library(navground_sim SHARED
   src/state_estimations/sensor_discs.cpp
   src/state_estimations/sensor_boundary.cpp
   src/state_estimations/sensor_combination.cpp
+  src/state_estimations/sensor_odometry.cpp
   src/tasks/waypoints.cpp
   src/tasks/direction.cpp
   src/scenarios/antipodal.cpp 

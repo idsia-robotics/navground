@@ -41,6 +41,7 @@
 #include "navground/sim/state_estimations/sensor_combination.h"
 #include "navground/sim/state_estimations/sensor_discs.h"
 #include "navground/sim/state_estimations/sensor_lidar.h"
+#include "navground/sim/state_estimations/sensor_odometry.h"
 #include "navground/sim/task.h"
 #include "navground/sim/tasks/direction.h"
 #include "navground/sim/tasks/waypoints.h"
@@ -204,6 +205,8 @@ struct PySensor : Sensor, virtual PyStateEstimation {
   // using PyStateEstimation::get_type;
   // using PyStateEstimation::decode;
   // using PyStateEstimation::encode;
+
+  using Sensor::Sensor;
 
   Sensor::Description get_description() const override {
     PYBIND11_OVERRIDE_PURE(Sensor::Description, Sensor, get_description);
@@ -1315,9 +1318,12 @@ Creates a rectangular region
 
   py::class_<Sensor, PySensor, StateEstimation, std::shared_ptr<Sensor>> sse(
       m, "Sensor", DOC(navground, sim, Sensor));
-  sse.def(py::init<>(), DOC(navground, sim, Sensor, Sensor))
+  sse.def(py::init<const std::string &>(), py::arg("name") = "",
+          DOC(navground, sim, Sensor, Sensor))
       .def_property("description", &Sensor::get_description, nullptr,
                     DOC(navground, sim, Sensor, property_description))
+      .def_property("name", &Sensor::get_name, &Sensor::set_name,
+                    DOC(navground, sim, Sensor, property_name))
       .def("prepare",
            py::overload_cast<SensingState &>(&Sensor::prepare, py::const_),
            DOC(navground, sim, Sensor, prepare));
@@ -1325,13 +1331,14 @@ Creates a rectangular region
   py::class_<LidarStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<LidarStateEstimation>>
       lse(m, "LidarStateEstimation", DOC(navground, sim, LidarStateEstimation));
-  lse.def(py::init<ng_float_t, ng_float_t, ng_float_t, unsigned,
-                   const Vector2 &, ng_float_t, ng_float_t>(),
-          py::arg("range") = 0.0, py::arg("start_angle") = -M_PI,
-          py::arg("field_of_view") = 2 * M_PI, py::arg("resolution") = 100,
-          py::arg("position") = Vector2::Zero(), py::arg("error_bias") = 0,
-          py::arg("error_std_dev") = 0,
-          DOC(navground, sim, LidarStateEstimation, LidarStateEstimation))
+  lse.def(
+         py::init<ng_float_t, ng_float_t, ng_float_t, unsigned, const Vector2 &,
+                  ng_float_t, ng_float_t, const std::string &>(),
+         py::arg("range") = 0.0, py::arg("start_angle") = -M_PI,
+         py::arg("field_of_view") = 2 * M_PI, py::arg("resolution") = 100,
+         py::arg("position") = Vector2::Zero(), py::arg("error_bias") = 0,
+         py::arg("error_std_dev") = 0, py::arg("name") = "",
+         DOC(navground, sim, LidarStateEstimation, LidarStateEstimation))
       .def_property("range", &LidarStateEstimation::get_range,
                     &LidarStateEstimation::set_range,
                     DOC(navground, sim, LidarStateEstimation, property_range))
@@ -1366,15 +1373,40 @@ Creates a rectangular region
       .def_property("angles", &LidarStateEstimation::get_angles, nullptr,
                     DOC(navground, sim, LidarStateEstimation, property_angles));
 
+  py::class_<OdometryStateEstimation, Sensor, StateEstimation,
+             std::shared_ptr<OdometryStateEstimation>>
+      ose(m, "OdometryStateEstimation",
+          DOC(navground, sim, OdometryStateEstimation));
+  ose.def(py::init<ng_float_t, ng_float_t, ng_float_t, const std::string &>(),
+          py::arg("longitudinal_speed_error") = 0,
+          py::arg("transversal_speed_error") = 0,
+          py::arg("angular_speed_error") = 0, py::arg("name") = "",
+          DOC(navground, sim, OdometryStateEstimation, OdometryStateEstimation))
+      .def_property("longitudinal_speed_error",
+                    &OdometryStateEstimation::get_longitudinal_speed_error,
+                    &OdometryStateEstimation::set_longitudinal_speed_error,
+                    DOC(navground, sim, OdometryStateEstimation,
+                        property_longitudinal_speed_error))
+      .def_property("transversal_speed_error",
+                    &OdometryStateEstimation::get_transversal_speed_error,
+                    &OdometryStateEstimation::set_transversal_speed_error,
+                    DOC(navground, sim, OdometryStateEstimation,
+                        property_transversal_speed_error))
+      .def_property("angular_speed_error",
+                    &OdometryStateEstimation::get_angular_speed_error,
+                    &OdometryStateEstimation::set_angular_speed_error,
+                    DOC(navground, sim, OdometryStateEstimation,
+                        property_angular_speed_error));
+
   py::class_<DiscsStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<DiscsStateEstimation>>
       dse(m, "DiscsStateEstimation", DOC(navground, sim, DiscsStateEstimation));
   dse.def(py::init<ng_float_t, unsigned, ng_float_t, ng_float_t, bool, bool,
-                   unsigned>(),
+                   unsigned, const std::string &>(),
           py::arg("range") = 1.0, py::arg("number") = 1,
           py::arg("max_radius") = 0, py::arg("max_speed") = 0,
           py::arg("include_valid") = true, py::arg("use_nearest_point") = true,
-          py::arg("max_id") = 0,
+          py::arg("max_id") = 0, py::arg("name") = "",
           DOC(navground, sim, DiscsStateEstimation, DiscsStateEstimation))
       .def_property("range", &DiscsStateEstimation::get_range,
                     &DiscsStateEstimation::set_range,
@@ -1407,12 +1439,12 @@ Creates a rectangular region
              std::shared_ptr<BoundarySensor>>
       boundary_sensor(m, "BoundarySensor", DOC(navground, sim, BoundarySensor));
   boundary_sensor
-      .def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t,
-                    ng_float_t>(),
+      .def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, ng_float_t,
+                    const std::string &>(),
            py::arg("range") = 1.0, py::arg("min_x") = BoundarySensor::low,
            py::arg("max_x") = BoundarySensor::high,
            py::arg("min_y") = BoundarySensor::low,
-           py::arg("max_y") = BoundarySensor::high,
+           py::arg("max_y") = BoundarySensor::high, py::arg("name") = "",
            DOC(navground, sim, BoundarySensor, BoundarySensor))
       .def_property("range", &BoundarySensor::get_range,
                     &BoundarySensor::set_range,
@@ -2698,6 +2730,7 @@ Load an experiment from a YAML string.
   pickle_via_yaml<PyStateEstimation>(se);
   pickle_via_yaml<PyStateEstimation>(bse);
   pickle_via_yaml<PyStateEstimation>(lse);
+  pickle_via_yaml<PyStateEstimation>(ose);
   pickle_via_yaml<PyStateEstimation>(dse);
   pickle_via_yaml<PyStateEstimation>(cse);
   pickle_via_yaml<PyStateEstimation>(sse);
@@ -2719,7 +2752,6 @@ Load an experiment from a YAML string.
       "uses_doubles",
       []() { return std::is_same<ng_float_t, float>::value == false; },
       "Returns whether navground has been compiled to use floats or doubles");
-
 
   // m.def("load_plugins", &load_plugins, py::arg("plugins") = "",
   //       py::arg("env") = "", py::arg("directory") = py::none());

@@ -14,4 +14,5 @@ State estimations
    sensor_boundary
    sensor_combination
    sensor_pylidar
+   sensor_odometry
 

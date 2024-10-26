@@ -26,6 +26,8 @@
 
 - Added `plugins` command to list loaded plugins.
 
+- Added `OdometryStateEstimation` sensor.
+
 ### Fixed
 
 - Resetting a sampler with `once=true` now correctly sets its index to 0.

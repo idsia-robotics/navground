@@ -28,6 +28,8 @@
 
 - Added `OdometryStateEstimation` sensor.
 
+- Added simple `LimitTwistModulation` modulation to clip the twist command.
+
 ### Fixed
 
 - Resetting a sampler with `once=true` now correctly sets its index to 0.

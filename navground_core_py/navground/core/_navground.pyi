@@ -375,6 +375,14 @@ class LimitAccelerationModulation(BehaviorModulation):
     max_angular_acceleration: float
     def __init__(self, max_acceleration: float = ..., max_angular_acceleration: float = ...) -> None: ...
 
+class LimitTwistModulation(BehaviorModulation):
+    max_angular_speed: float
+    max_backward_speed: float
+    max_forward_speed: float
+    max_leftward_speed: float
+    max_rightward_speed: float
+    def __init__(self, forward: float = ..., backward: float = ..., leftward: float = ..., rightward: float = ..., angular: float = ...) -> None: ...
+
 class LineSegment:
     def __init__(self, p1: Vector2, p2: Vector2) -> None: ...
     def distance_along(self, point: Vector2, direction: Vector2, orientation: int = ...) -> float: ...

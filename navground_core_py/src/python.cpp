@@ -12,6 +12,7 @@
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/behavior_modulations/limit_acceleration.h"
+#include "navground/core/behavior_modulations/limit_twist.h"
 #include "navground/core/behavior_modulations/motor_pid.h"
 #include "navground/core/behavior_modulations/relaxation.h"
 #include "navground/core/behaviors/HL.h"
@@ -836,10 +837,12 @@ PYBIND11_MODULE(_navground, m) {
 
   limit_acceleration
       .def(py::init<ng_float_t, ng_float_t>(),
-           py::arg("max_acceleration") =
-               std::numeric_limits<ng_float_t>::infinity(),
-           py::arg("max_angular_acceleration") =
-               std::numeric_limits<ng_float_t>::infinity(),
+           py::arg_v("max_acceleration",
+                     std::numeric_limits<ng_float_t>::infinity(),
+                     "float('inf')"),
+           py::arg_v("max_angular_acceleration",
+                     std::numeric_limits<ng_float_t>::infinity(),
+                     "float('inf')"),
            DOC(navground, core, LimitAccelerationModulation,
                LimitAccelerationModulation))
       .def_property("max_acceleration",
@@ -852,6 +855,51 @@ PYBIND11_MODULE(_navground, m) {
                     &LimitAccelerationModulation::set_max_angular_acceleration,
                     DOC(navground, core, LimitAccelerationModulation,
                         property_max_angular_acceleration));
+
+  py::class_<LimitTwistModulation, BehaviorModulation,
+             std::shared_ptr<LimitTwistModulation>>
+      limit_twist(m, "LimitTwistModulation",
+                  DOC(navground, core, LimitTwistModulation));
+
+  limit_twist
+      .def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t,
+                    ng_float_t>(),
+           py::arg_v("forward", std::numeric_limits<ng_float_t>::infinity(),
+                     "float('inf')"),
+           py::arg_v("backward", std::numeric_limits<ng_float_t>::infinity(),
+                     "float('inf')"),
+           py::arg_v("leftward", std::numeric_limits<ng_float_t>::infinity(),
+                     "float('inf')"),
+           py::arg_v("rightward", std::numeric_limits<ng_float_t>::infinity(),
+                     "float('inf')"),
+           py::arg_v("angular", std::numeric_limits<ng_float_t>::infinity(),
+                     "float('inf')"),
+           DOC(navground, core, LimitTwistModulation, LimitTwistModulation))
+      .def_property("max_forward_speed",
+                    &LimitTwistModulation::get_max_forward_speed,
+                    &LimitTwistModulation::set_max_forward_speed,
+                    DOC(navground, core, LimitTwistModulation,
+                        property_max_forward_speed))
+      .def_property("max_backward_speed",
+                    &LimitTwistModulation::get_max_backward_speed,
+                    &LimitTwistModulation::set_max_backward_speed,
+                    DOC(navground, core, LimitTwistModulation,
+                        property_max_backward_speed))
+      .def_property("max_leftward_speed",
+                    &LimitTwistModulation::get_max_leftward_speed,
+                    &LimitTwistModulation::set_max_leftward_speed,
+                    DOC(navground, core, LimitTwistModulation,
+                        property_max_leftward_speed))
+      .def_property("max_rightward_speed",
+                    &LimitTwistModulation::get_max_rightward_speed,
+                    &LimitTwistModulation::set_max_rightward_speed,
+                    DOC(navground, core, LimitTwistModulation,
+                        property_max_rightward_speed))
+      .def_property("max_angular_speed",
+                    &LimitTwistModulation::get_max_angular_speed,
+                    &LimitTwistModulation::set_max_angular_speed,
+                    DOC(navground, core, LimitTwistModulation,
+                        property_max_angular_speed));
 
   py::class_<MotorPIDModulation, BehaviorModulation,
              std::shared_ptr<MotorPIDModulation>>
@@ -1544,6 +1592,7 @@ Load a behavior modulation from a YAML string.
   pickle_via_yaml<PyKinematics>(dwk2);
   pickle_via_yaml<PyBehaviorModulation>(relaxation);
   pickle_via_yaml<PyBehaviorModulation>(limit_acceleration);
+  pickle_via_yaml<PyBehaviorModulation>(limit_twist);
   pickle_via_yaml<PyBehaviorModulation>(motor_pid);
   pickle_via_yaml_native<SocialMargin>(social_margin);
 

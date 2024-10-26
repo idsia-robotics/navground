@@ -28,7 +28,8 @@ class NAVGROUND_CORE_EXPORT LimitAccelerationModulation
   /**
    * @brief      Construct a new instance
    *
-   * @param[in]  tau      The relaxation time
+   * @param[in]  max_acceleration          The maximal acceleration
+   * @param[in]  max_angular_acceleration  The maximal angular acceleration
    */
   explicit LimitAccelerationModulation(
       ng_float_t max_acceleration = std::numeric_limits<ng_float_t>::infinity(),

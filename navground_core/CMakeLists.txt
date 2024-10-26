@@ -72,6 +72,7 @@ add_library(navground_core SHARED
   ${HRVO}
   src/behavior_modulations/relaxation.cpp
   src/behavior_modulations/limit_acceleration.cpp
+  src/behavior_modulations/limit_twist.cpp
   src/behavior_modulations/motor_pid.cpp
   src/controller.cpp
   src/controller_3d.cpp

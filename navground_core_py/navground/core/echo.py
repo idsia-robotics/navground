@@ -2,13 +2,13 @@ import argparse
 import logging
 import pathlib
 import sys
-from typing import Callable, Dict
+from typing import Any, Callable, Dict
 
 from navground import core
 from navground.core import command
 
-Echos = Dict[str, Callable[[str], object]]
-echos = {
+Echos = Dict[str, Callable[[str], Any]]
+echos: Echos = {
     "behavior": core.load_behavior,
     "modulation": core.load_behavior_modulation,
     "kinematics": core.load_kinematics
@@ -39,7 +39,7 @@ def parser() -> argparse.ArgumentParser:
 
 def echo(arg: argparse.Namespace,
          echos: Echos,
-         dump: Callable[[object], str] = core.dump) -> None:
+         dump: Callable[[Any], str] = core.dump) -> None:
     if arg.kind not in echos:
         logging.error(f"Unknown kind of object to load: {arg.kind}")
         sys.exit(1)

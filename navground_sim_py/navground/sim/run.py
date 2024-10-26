@@ -49,7 +49,7 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
 
 
 def _main(arg: argparse.Namespace) -> None:
-    command._main(parser)
+    command._main(arg)
     logging.basicConfig(level=logging.INFO)
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
         with open(arg.YAML, 'r') as f:

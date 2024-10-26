@@ -3,7 +3,7 @@ import argparse
 from navground import sim
 from navground.core import echo
 
-echos = echo.echos | {
+echos: echo.Echos = echo.echos | {
     "state_estimation": sim.load_state_estimation,
     "task": sim.load_task,
     "scenario": sim.load_scenario,

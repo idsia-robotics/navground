@@ -144,6 +144,15 @@ struct NAVGROUND_SIM_EXPORT OdometryStateEstimation : public Sensor {
                       EnvironmentState *state) override;
 
   /**
+   * @brief      Gets the current pose.
+   *
+   * @return     The pose.
+   */
+  Pose2 get_pose() const {
+    return _pose;
+  }
+
+  /**
    * @private
    */
   Description get_description() const override {

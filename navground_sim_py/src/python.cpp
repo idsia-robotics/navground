@@ -1396,7 +1396,10 @@ Creates a rectangular region
                     &OdometryStateEstimation::get_angular_speed_error,
                     &OdometryStateEstimation::set_angular_speed_error,
                     DOC(navground, sim, OdometryStateEstimation,
-                        property_angular_speed_error));
+                        property_angular_speed_error))
+      .def_property(
+          "pose", &OdometryStateEstimation::get_pose, nullptr,
+          DOC(navground, sim, OdometryStateEstimation, property_pose));
 
   py::class_<DiscsStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<DiscsStateEstimation>>

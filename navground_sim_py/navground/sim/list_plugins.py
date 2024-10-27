@@ -1,7 +1,8 @@
 import argparse
 
 from navground import sim
-from navground.core.list_plugins import list_plugins, parser
+from navground.core.list_plugins import (description, init_parser,
+                                         list_plugins, parser)
 
 
 def _main(arg: argparse.Namespace) -> None:

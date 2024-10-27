@@ -138,7 +138,8 @@ static PkgPaths read_plugins_in_directory(const fs::path &directory,
   PkgPaths ps;
   if (fs::exists(directory) && fs::is_directory(directory)) {
     for (const auto &entry : fs::directory_iterator(directory)) {
-      ps[entry.path().stem()] = read_plugins_in_file(entry.path(), root);
+      const auto pkg = entry.path().stem().string();
+      ps[pkg] = read_plugins_in_file(entry.path(), root);
     }
   }
   return ps;
@@ -225,8 +226,6 @@ void load_plugins(const PathSet &plugins, const PathSetMap &directories,
   }
 }
 
-const Plugins &NAVGROUND_CORE_EXPORT get_loaded_plugins() {
-  return loaded_plugins;
-}
+const Plugins &get_loaded_plugins() { return loaded_plugins; }
 
 } // namespace navground::core

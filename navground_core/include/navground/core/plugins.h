@@ -2,6 +2,7 @@
 #define NAVGROUND_CORE_PLUGINS_H
 
 #include <filesystem>
+#include <functional>
 #include <map>
 #include <set>
 #include <vector>
@@ -41,7 +42,7 @@ template <typename T> void add_register(const std::string &name) {
  *                             "NAVGROUND_PLUGINS_INDEX_PATH" env
  *                             (a list of directories separated by ":")
  */
-void NAVGROUND_CORE_EXPORT load_plugins(const PathSet &plugins = {},
+NAVGROUND_CORE_EXPORT void load_plugins(const PathSet &plugins = {},
                                         const PathSetMap &directories = {},
                                         bool include_default = true);
 
@@ -49,7 +50,7 @@ void NAVGROUND_CORE_EXPORT load_plugins(const PathSet &plugins = {},
  * @brief      Returns all plugins implemented in C++
  *
  */
-const Plugins &NAVGROUND_CORE_EXPORT get_loaded_plugins();
+NAVGROUND_CORE_EXPORT const Plugins & get_loaded_plugins();
 
 } // namespace navground::core
 

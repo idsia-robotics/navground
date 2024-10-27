@@ -32,15 +32,10 @@ namespace fs = std::filesystem;
 
 namespace navground::core {
 
-static const bool _r = []() {
-  add_register<BehaviorModulation>("modulations");
-  add_register<Behavior>("behaviors");
-  add_register<Kinematics>("kinematics");
-  return true;
-}();
-
 RegisterMap &get_registers() {
-  static RegisterMap _registers;
+  static RegisterMap _registers{{"behaviors", &Behavior::types},
+                                {"modulations", &BehaviorModulation::types},
+                                {"kinematics", &Kinematics::types}};
   return _registers;
 }
 

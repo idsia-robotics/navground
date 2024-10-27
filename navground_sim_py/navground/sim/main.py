@@ -1,6 +1,6 @@
 import argparse
 
-from . import echo, info, record_video, replay, run, run_rt, sample
+from . import echo, info, record_video, replay, run, run_rt, sample, list_plugins
 
 
 def config_parser(parsers, name, module):
@@ -15,6 +15,7 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
                                     metavar="{info,run,...}")
     config_parser(parsers, 'info', info)
     config_parser(parsers, 'echo', echo)
+    config_parser(parsers, 'plugins', list_plugins)
     config_parser(parsers, 'run', run)
     config_parser(parsers, 'run_rt', run_rt)
     config_parser(parsers, 'sample', sample)

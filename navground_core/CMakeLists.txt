@@ -79,7 +79,6 @@ add_library(navground_core SHARED
   src/kinematics.cpp
   src/common.cpp
   src/plugins.cpp
-  src/states/gridmap.cpp
 )
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/register_plugins.cmake)

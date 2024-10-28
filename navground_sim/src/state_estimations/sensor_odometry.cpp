@@ -19,7 +19,7 @@ void OdometryStateEstimation::update(Agent *agent, World *world,
     twist.angular_speed += _angular_speed_error(rg);
     ng_float_t dt = std::max<ng_float_t>(0, world->get_time() - _time);
     _time = world->get_time();
-    _pose.integrate(twist, dt);
+    _pose = _pose.integrate(twist, dt);
     auto buffer = get_or_init_buffer(*_state, "pose");
     if (buffer) {
       buffer->set_data(std::valarray<ng_float_t>{

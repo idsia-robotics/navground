@@ -83,6 +83,12 @@ class PathTask(sim.Task, name="Path"):  # type: ignore[call-arg]
     def done(self) -> bool:
         return False
 
+    @property
+    def path(self) -> core.Path | None:
+        if len(self.points) > 1:
+            return get_path(self.points)
+        return None
+
     def prepare(self, agent: sim.Agent, world: sim.World) -> None:
         if len(self.points) > 1:
             agent.controller.follow_path(get_path(self.points), self.tolerance)

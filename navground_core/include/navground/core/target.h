@@ -45,7 +45,7 @@ struct Path {
    */
   Curve curve;
   /**
-   * The current coordinate during tracking. 
+   * The current coordinate during tracking.
    * A negative value means undefined.
    */
   ng_float_t coordinate;
@@ -88,8 +88,21 @@ struct Path {
     if (coordinate < 0) {
       coordinate = project(position, 0, length);
     } else {
-      coordinate = project(position, coordinate,
-                           coordinate + std::max<ng_float_t>(1, look_ahead));
+      const ng_float_t end = coordinate + std::max<ng_float_t>(1, look_ahead);
+      if (loop && end > length) {
+        const ng_float_t s1 = project(position, coordinate, length);
+        const ng_float_t s2 = project(position, 0, end - length);
+        const ng_float_t d1 = (std::get<0>(curve(s1)) - position).norm();
+        const ng_float_t d2 = (std::get<0>(curve(s2)) - position).norm();
+        if (d1 < d2) {
+          coordinate = s1;
+        } else {
+          coordinate = s2;
+        }
+      } else {
+        coordinate = project(position, coordinate,
+                             coordinate + std::max<ng_float_t>(1, look_ahead));
+      }
     }
     if (loop) {
       return std::fmod(coordinate + look_ahead, length);
@@ -209,7 +222,7 @@ struct Target {
    * @return     True if the target is satisfied.
    */
   bool satisfied(Radians value) const {
-    if (angular_speed || *angular_speed > 0) {
+    if (angular_speed && *angular_speed > 0) {
       return false;
     }
     return !orientation || std::abs(normalize_angle(*orientation - value)) <
@@ -227,7 +240,7 @@ struct Target {
    * @return     True if the target is satisfied.
    */
   bool satisfied(const Vector2 &value) const {
-    if (speed || *speed > 0) {
+    if (speed && *speed > 0) {
       return false;
     }
     return !position || (*position - value).norm() < position_tolerance;

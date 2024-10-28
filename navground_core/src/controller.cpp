@@ -63,8 +63,8 @@ std::shared_ptr<Action> Controller::go_to_pose(const Pose2 &pose,
     action->abort();
   }
   if (behavior) {
-    behavior->set_target(
-        Target::Pose(pose, position_tolerance, orientation_tolerance, along_path));
+    behavior->set_target(Target::Pose(pose, position_tolerance,
+                                      orientation_tolerance, along_path));
   }
   action = std::make_shared<MoveAction>();
   action->state = Action::State::running;
@@ -87,8 +87,9 @@ std::shared_ptr<Action> Controller::follow_point(const Vector2 &point) {
   return action;
 }
 
-std::shared_ptr<Action> Controller::follow_path(const Path &path, ng_float_t tolerance) {
-  const auto & p = path.curve(path.length);
+std::shared_ptr<Action> Controller::follow_path(const Path &path,
+                                                ng_float_t tolerance) {
+  const auto &p = path.curve(path.length);
   return go_to_position(std::get<0>(p), tolerance, path);
 }
 
@@ -152,12 +153,33 @@ std::shared_ptr<Action> Controller::follow_twist(const Twist2 &twist) {
   return action;
 }
 
+std::shared_ptr<Action> Controller::follow_manual_cmd(const Twist2 &cmd) {
+  auto f_action = std::dynamic_pointer_cast<FollowManualCommandAction>(action);
+  if (!f_action) {
+    if (action) {
+      action->abort();
+    }
+    action = std::make_shared<FollowManualCommandAction>();
+    action->state = Action::State::running;
+    action->update(this, 0.0);
+    f_action = std::dynamic_pointer_cast<FollowManualCommandAction>(action);
+  }
+  f_action->manual_cmd = cmd;
+  return action;
+}
+
 Twist2 Controller::update(ng_float_t time_step) {
   if (action) {
     action->update(this, time_step);
     if (action && action->done()) {
       action = nullptr;
     }
+  }
+  if (auto f_action = std::dynamic_pointer_cast<FollowManualCommandAction>(action)) {
+    if (cmd_cb) {
+      (*cmd_cb)(f_action->manual_cmd);
+    }
+    return f_action->manual_cmd;
   }
   if (action && behavior) {
     Twist2 cmd = behavior->compute_cmd(time_step, cmd_frame);

@@ -1442,6 +1442,8 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("cmd_frame", &Controller::get_cmd_frame,
                     &Controller::set_cmd_frame,
                     DOC(navground, core, Controller, property_cmd_frame))
+      .def("follow_manual_cmd", &Controller::follow_manual_cmd, py::arg("cmd"),
+           DOC(navground, core, Controller, follow_manual_cmd))
       .def("follow_path", &Controller::follow_path, py::arg("path"),
            py::arg("tolerance"), DOC(navground, core, Controller, follow_path))
       .def("go_to_position", &Controller::go_to_position, py::arg("position"),

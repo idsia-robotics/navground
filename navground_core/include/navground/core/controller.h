@@ -104,6 +104,14 @@ struct NAVGROUND_CORE_EXPORT FollowTwistAction : public Action {
   using Action::Action;
 };
 
+struct NAVGROUND_CORE_EXPORT FollowManualCommandAction : public Action {
+  using Action::Action;
+
+  Twist2 manual_cmd;
+  explicit FollowManualCommandAction(const Twist2 &manual_cmd)
+      : Action(), manual_cmd(manual_cmd) {}
+};
+
 struct NAVGROUND_CORE_EXPORT FollowAction : Action {
   using Action::Action;
 };
@@ -370,6 +378,8 @@ public:
    * @param[in]  value  A callback that takes the command twist as argument.
    */
   void set_cmd_cb(std::function<void(const Twist2 &)> value) { cmd_cb = value; }
+
+  std::shared_ptr<Action> follow_manual_cmd(const Twist2 &cmd);
 
 protected:
   std::shared_ptr<Action> action;

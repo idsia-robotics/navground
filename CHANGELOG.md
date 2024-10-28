@@ -30,6 +30,7 @@
 
 - Added simple `LimitTwistModulation` modulation to clip the twist command.
 
+- Added manual control mode using `follow_manual_command`: the controller will ignore the actual behavior and return the manual command.
 ### Fixed
 
 - Resetting a sampler with `once=true` now correctly sets its index to 0.

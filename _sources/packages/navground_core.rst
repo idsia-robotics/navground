@@ -46,29 +46,15 @@ Executables
 info
 ----
 
-Lists registered components (behaviors, kinematics, and behavior modulations).
+Lists registered components (behaviors, kinematics, and behavior modulations) implemented in C++.
 
-.. code-block::
-	
-   usage: info [--help] [--version] [--behaviors [BEHAVIOR]] [--kinematics [KINEMATICS]] [--modulations [MODULATION]] 
 
-Named Arguments
-~~~~~~~~~~~~~~~
-
--h, --help
-   shows help message and exits 
-
--v, --version
-   prints version information and exits 
-
---behavior
-   selects behaviors
-
---kinematics
-   selects kinematics
-
---kinematics
-   selects behavior modulations
+.. argparse::
+   :module: navground.core.info
+   :func: parser
+   :prog: info
+   :nodescription:
+   :nodefault:
 
 Example
 ~~~~~~~
@@ -121,3 +107,57 @@ Example
         k_p: 1 (double)
    Relaxation
         tau: 0.125 (double)
+
+.. _echo:
+
+echo
+----
+
+Load and then print a YAML representation of an object (behavior, kinematic, or behavior modulation).
+
+.. argparse::
+   :module: navground.core.echo
+   :func: parser
+   :prog: echo
+   :nodescription:
+   :nodefault:
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ echo kinematics "{type: 2WDiff}"
+
+   type: 2WDiff
+   max_backward_speed: 0
+   max_forward_speed: .inf
+   wheel_axis: 0
+   max_speed: .inf
+   max_angular_speed: .inf
+
+
+.. _plugins:
+
+plugins
+-------
+
+Load and list plugins.
+
+.. argparse::
+   :module: navground.core.list_plugins
+   :func: parser
+   :prog: plugins
+   :nodescription:
+   :nodefault:
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ plugins
+
+   navground_examples
+   ------------------
+   Behaviors: Idle

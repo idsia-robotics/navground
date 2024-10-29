@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Behavior Modulation &#8212; navground 0.1.0 documentation</title>
+    <title>Behavior Modulation &#8212; navground 0.2.0 documentation</title>
   
   
   
@@ -16,33 +16,35 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=a1637f0b"></script>
-    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
@@ -58,6 +60,7 @@
     <link rel="prev" title="Modulations" href="modulations.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -73,19 +76,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -93,7 +85,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -101,8 +92,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -118,7 +109,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -143,20 +135,16 @@
   
   
   
-    <p class="title logo__title">navground 0.1.0 documentation</p>
+    <p class="title logo__title">navground 0.2.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
@@ -405,24 +393,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -459,6 +439,23 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20RelaxationModulation7get_tauEv"><code class="docutils literal notranslate"><span class="pre">RelaxationModulation::get_tau()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20RelaxationModulation7set_tauE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">RelaxationModulation::set_tau()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20RelaxationModulation11default_tauE"><code class="docutils literal notranslate"><span class="pre">RelaxationModulation::default_tau</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limit-twist">Limit Twist</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulationE"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulation20LimitTwistModulationE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::LimitTwistModulation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20LimitTwistModulation21get_max_forward_speedEv"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::get_max_forward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulation21set_max_forward_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::set_max_forward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20LimitTwistModulation22get_max_backward_speedEv"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::get_max_backward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulation22set_max_backward_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::set_max_backward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20LimitTwistModulation22get_max_leftward_speedEv"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::get_max_leftward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulation22set_max_leftward_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::set_max_leftward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20LimitTwistModulation23get_max_rightward_speedEv"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::get_max_rightward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulation23set_max_rightward_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::set_max_rightward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20LimitTwistModulation21get_max_angular_speedEv"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::get_max_angular_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulation21set_max_angular_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::set_max_angular_speed()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -507,7 +504,7 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core18BehaviorModulationE">
 <span class="target" id="classnavground_1_1core_1_1_behavior_modulation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BehaviorModulation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="property.html#_CPPv4N9navground4core13HasPropertiesE" title="navground::core::HasProperties"><span class="n"><span class="pre">HasProperties</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="register.html#_CPPv4I0EN9navground4core11HasRegisterE" title="navground::core::HasRegister"><span class="n"><span class="pre">HasRegister</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core18BehaviorModulationE" title="navground::core::BehaviorModulation"><span class="n"><span class="pre">BehaviorModulation</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground4core18BehaviorModulationE" title="Link to this definition">#</a><br /></dt>
 <dd><p>This class describes a generic behavior modulation that happens right before (<a class="reference internal" href="#classnavground_1_1core_1_1_behavior_modulation_1ad76ad26d4d5e357289cb5b4fd7a873c7"><span class="std std-ref">pre</span></a>) and right after (<a class="reference internal" href="#classnavground_1_1core_1_1_behavior_modulation_1ad3aba855078f4df17456f82c1107e2f8"><span class="std std-ref">post</span></a>) computing a command. </p>
-<p>Subclassed by <a class="reference internal" href="#classnavground_1_1core_1_1_limit_acceleration_modulation"><span class="std std-ref">navground::core::LimitAccelerationModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_motor_p_i_d_modulation"><span class="std std-ref">navground::core::MotorPIDModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_relaxation_modulation"><span class="std std-ref">navground::core::RelaxationModulation</span></a></p>
+<p>Subclassed by <a class="reference internal" href="#classnavground_1_1core_1_1_limit_acceleration_modulation"><span class="std std-ref">navground::core::LimitAccelerationModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_limit_twist_modulation"><span class="std std-ref">navground::core::LimitTwistModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_motor_p_i_d_modulation"><span class="std std-ref">navground::core::MotorPIDModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_relaxation_modulation"><span class="std std-ref">navground::core::RelaxationModulation</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -626,6 +623,151 @@ document.write(`
 </dd></dl>
 
 </section>
+<section id="limit-twist">
+<h2>Limit Twist<a class="headerlink" href="#limit-twist" title="Link to this heading">#</a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/core/behavior_modulations/limit_twist.h&quot;</span>
+</pre></div>
+</div>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20LimitTwistModulationE">
+<span class="target" id="classnavground_1_1core_1_1_limit_twist_modulation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LimitTwistModulation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core18BehaviorModulationE" title="navground::core::BehaviorModulation"><span class="n"><span class="pre">BehaviorModulation</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core20LimitTwistModulationE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A simple modulation that clip the twist command. </p>
+<p><em>Registered properties</em>:</p>
+<p><ul class="simple">
+<li><p>forward (see <a class="reference internal" href="#classnavground_1_1core_1_1_limit_twist_modulation_1af409869bb50e57d543dd007a79445bc7"><span class="std std-ref">get_max_forward_speed</span></a>)</p></li>
+<li><p>backward (see <a class="reference internal" href="#classnavground_1_1core_1_1_limit_twist_modulation_1a7ce5ea835b7b0c3c41283a3e429b1b92"><span class="std std-ref">get_max_backward_speed</span></a>)</p></li>
+<li><p>leftward (see <a class="reference internal" href="#classnavground_1_1core_1_1_limit_twist_modulation_1a6403711e2eb97fb332979b640e078e26"><span class="std std-ref">get_max_leftward_speed</span></a>)</p></li>
+<li><p>rightward (see <a class="reference internal" href="#classnavground_1_1core_1_1_limit_twist_modulation_1a7432d19f4955bfcfc44ff9b6eaf22001"><span class="std std-ref">get_max_rightward_speed</span></a>)</p></li>
+<li><p>angular (see <a class="reference internal" href="#classnavground_1_1core_1_1_limit_twist_modulation_1aa09e89588b617883cb09233795a06401"><span class="std std-ref">get_max_angular_speed</span></a>) </p></li>
+</ul>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20LimitTwistModulation20LimitTwistModulationE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_limit_twist_modulation_1ab3059251c34cbfe1a62f52ae21fba595"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LimitTwistModulation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">forward</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">backward</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">leftward</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">rightward</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">angular</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20LimitTwistModulation20LimitTwistModulationE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tau</strong> – <strong>[in]</strong> The relaxation time </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core20LimitTwistModulation21get_max_forward_speedEv">
+<span class="target" id="classnavground_1_1core_1_1_limit_twist_modulation_1af409869bb50e57d543dd007a79445bc7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_max_forward_speed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core20LimitTwistModulation21get_max_forward_speedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the maximal forward speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A positive number </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20LimitTwistModulation21set_max_forward_speedE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_limit_twist_modulation_1a36f26d3d8e4965cc4ef61c7c648c89a3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_max_forward_speed</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20LimitTwistModulation21set_max_forward_speedE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the maximal forward speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> If lower than zero or infinite, clipping is effectively disabled. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core20LimitTwistModulation22get_max_backward_speedEv">
+<span class="target" id="classnavground_1_1core_1_1_limit_twist_modulation_1a7ce5ea835b7b0c3c41283a3e429b1b92"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_max_backward_speed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core20LimitTwistModulation22get_max_backward_speedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the maximal backward speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A positive number </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20LimitTwistModulation22set_max_backward_speedE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_limit_twist_modulation_1a4731897b4302db82b252ab16cd5c80e9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_max_backward_speed</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20LimitTwistModulation22set_max_backward_speedE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the maximal backward speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> If lower than zero or infinite, clipping is effectively disabled. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core20LimitTwistModulation22get_max_leftward_speedEv">
+<span class="target" id="classnavground_1_1core_1_1_limit_twist_modulation_1a6403711e2eb97fb332979b640e078e26"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_max_leftward_speed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core20LimitTwistModulation22get_max_leftward_speedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the maximal leftward speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A positive number </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20LimitTwistModulation22set_max_leftward_speedE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_limit_twist_modulation_1aebb363f294c7f51922318b7756411071"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_max_leftward_speed</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20LimitTwistModulation22set_max_leftward_speedE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the maximal leftward speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> If lower than zero or infinite, clipping is effectively disabled. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core20LimitTwistModulation23get_max_rightward_speedEv">
+<span class="target" id="classnavground_1_1core_1_1_limit_twist_modulation_1a7432d19f4955bfcfc44ff9b6eaf22001"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_max_rightward_speed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core20LimitTwistModulation23get_max_rightward_speedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the maximal rightward speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A positive number </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20LimitTwistModulation23set_max_rightward_speedE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_limit_twist_modulation_1ab15709a3135a1852682c744362af42d5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_max_rightward_speed</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20LimitTwistModulation23set_max_rightward_speedE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the maximal rightward speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> If lower than zero or infinite, clipping is effectively disabled. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core20LimitTwistModulation21get_max_angular_speedEv">
+<span class="target" id="classnavground_1_1core_1_1_limit_twist_modulation_1aa09e89588b617883cb09233795a06401"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_max_angular_speed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core20LimitTwistModulation21get_max_angular_speedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the maximal angular speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A positive number </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20LimitTwistModulation21set_max_angular_speedE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_limit_twist_modulation_1a78032d05c9efe44fc0c4e62b8cc5c0c9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_max_angular_speed</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20LimitTwistModulation21set_max_angular_speedE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the maximal angular speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> If lower than zero or infinite, clipping is effectively disabled. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
 <section id="limit-acceleration">
 <h2>Limit Acceleration<a class="headerlink" href="#limit-acceleration" title="Link to this heading">#</a></h2>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/core/behavior_modulations/limit_acceleration.h&quot;</span>
@@ -649,7 +791,10 @@ document.write(`
 <dd><p>Construct a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>tau</strong> – <strong>[in]</strong> The relaxation time </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_acceleration</strong> – <strong>[in]</strong> The maximal acceleration </p></li>
+<li><p><strong>max_angular_acceleration</strong> – <strong>[in]</strong> The maximal angular acceleration </p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -847,7 +992,8 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -869,6 +1015,23 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20RelaxationModulation7get_tauEv"><code class="docutils literal notranslate"><span class="pre">RelaxationModulation::get_tau()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20RelaxationModulation7set_tauE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">RelaxationModulation::set_tau()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20RelaxationModulation11default_tauE"><code class="docutils literal notranslate"><span class="pre">RelaxationModulation::default_tau</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limit-twist">Limit Twist</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulationE"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulation20LimitTwistModulationE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::LimitTwistModulation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20LimitTwistModulation21get_max_forward_speedEv"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::get_max_forward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulation21set_max_forward_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::set_max_forward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20LimitTwistModulation22get_max_backward_speedEv"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::get_max_backward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulation22set_max_backward_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::set_max_backward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20LimitTwistModulation22get_max_leftward_speedEv"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::get_max_leftward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulation22set_max_leftward_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::set_max_leftward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20LimitTwistModulation23get_max_rightward_speedEv"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::get_max_rightward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulation23set_max_rightward_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::set_max_rightward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20LimitTwistModulation21get_max_angular_speedEv"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::get_max_angular_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20LimitTwistModulation21set_max_angular_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LimitTwistModulation::set_max_angular_speed()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -945,8 +1108,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
   </footer>

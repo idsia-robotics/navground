@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Base class &#8212; navground 0.1.0 documentation</title>
+    <title>Base class &#8212; navground 0.2.0 documentation</title>
   
   
   
@@ -16,33 +16,35 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=a1637f0b"></script>
-    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../../_static/copybutton.js?v=f281be69"></script>
@@ -58,6 +60,7 @@
     <link rel="prev" title="Behaviors" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -73,19 +76,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../../search.html"
       method="get">
@@ -93,7 +85,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -101,8 +92,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -118,7 +109,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -143,20 +135,16 @@
   
   
   
-    <p class="title logo__title">navground 0.1.0 documentation</p>
+    <p class="title logo__title">navground 0.2.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
@@ -405,24 +393,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -508,6 +488,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.optimal_angular_speed"><code class="docutils literal notranslate"><span class="pre">Behavior.optimal_angular_speed</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.optimal_speed"><code class="docutils literal notranslate"><span class="pre">Behavior.optimal_speed</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.orientation"><code class="docutils literal notranslate"><span class="pre">Behavior.orientation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.path_look_ahead"><code class="docutils literal notranslate"><span class="pre">Behavior.path_look_ahead</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.path_tau"><code class="docutils literal notranslate"><span class="pre">Behavior.path_tau</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.pose"><code class="docutils literal notranslate"><span class="pre">Behavior.pose</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.position"><code class="docutils literal notranslate"><span class="pre">Behavior.position</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.properties"><code class="docutils literal notranslate"><span class="pre">Behavior.properties</span></code></a></li>
@@ -703,7 +685,7 @@ other convenience methods)</p></li>
 does not change.</p>
 <p>Modulations are applied as wrappers/context modifiers: right before
 evaluating the behavior in <a class="reference internal" href="#navground.core.Behavior.compute_cmd_internal" title="navground.core.Behavior.compute_cmd_internal"><code class="xref py py-attr docutils literal notranslate"><span class="pre">compute_cmd_internal</span></code></a>, it will call
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">BehaviorModulation.pre()</span></code> for any modulation in <a class="reference internal" href="#navground.core.Behavior.modulations" title="navground.core.Behavior.modulations"><code class="xref py py-attr docutils literal notranslate"><span class="pre">modulations</span></code></a>, and right after <code class="xref py py-meth docutils literal notranslate"><span class="pre">BehaviorModulation.post()</span></code> but in
+<a class="reference internal" href="../behavior_modulation.html#navground.core.BehaviorModulation.pre" title="navground.core.BehaviorModulation.pre"><code class="xref py py-meth docutils literal notranslate"><span class="pre">BehaviorModulation.pre()</span></code></a> for any modulation in <a class="reference internal" href="#navground.core.Behavior.modulations" title="navground.core.Behavior.modulations"><code class="xref py py-attr docutils literal notranslate"><span class="pre">modulations</span></code></a>, and right after <a class="reference internal" href="../behavior_modulation.html#navground.core.BehaviorModulation.post" title="navground.core.BehaviorModulation.post"><code class="xref py py-meth docutils literal notranslate"><span class="pre">BehaviorModulation.post()</span></code></a> but in
 reverse order.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -723,26 +705,37 @@ use the default frame depending on the kinematics (see <a class="reference inter
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.compute_cmd_internal">
 <span class="sig-name descname"><span class="pre">compute_cmd_internal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.compute_cmd_internal" title="Link to this definition">#</a></dt>
-<dd><p>Query the behavior to get a control command</p>
-<p>Before calling this method, update the state using methods such as
-<a class="reference internal" href="#navground.core.Behavior.pose" title="navground.core.Behavior.pose"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pose</span></code></a>, and <a class="reference internal" href="#navground.core.Behavior.twist" title="navground.core.Behavior.twist"><code class="xref py py-attr docutils literal notranslate"><span class="pre">twist</span></code></a> and set the target <a class="reference internal" href="#navground.core.Behavior.target" title="navground.core.Behavior.target"><code class="xref py py-attr docutils literal notranslate"><span class="pre">target</span></code></a>.</p>
-<p>Behaviors may use caching to speed up the next queries if the state
-does not change.</p>
-<p>Modulations are applied as wrappers/context modifiers: right before
-evaluating the behavior in <a class="reference internal" href="#navground.core.Behavior.compute_cmd_internal" title="navground.core.Behavior.compute_cmd_internal"><code class="xref py py-attr docutils literal notranslate"><span class="pre">compute_cmd_internal</span></code></a>, it will call
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">BehaviorModulation.pre()</span></code> for any modulation in <a class="reference internal" href="#navground.core.Behavior.modulations" title="navground.core.Behavior.modulations"><code class="xref py py-attr docutils literal notranslate"><span class="pre">modulations</span></code></a>, and right after <code class="xref py py-meth docutils literal notranslate"><span class="pre">BehaviorModulation.post()</span></code> but in
-reverse order.</p>
+<dd><p>Calculates the control command.</p>
+<p>This is the internal class that sub-classes may override (and call) to
+define a behavior and not part of the public API. Users should call
+<a class="reference internal" href="#navground.core.Behavior.compute_cmd" title="navground.core.Behavior.compute_cmd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compute_cmd()</span></code></a> instead.</p>
+<p>The base implementation checks for a valid target</p>
+<ol class="arabic simple">
+<li><p>position =&gt; returns <code class="xref py py-attr docutils literal notranslate"><span class="pre">cmd_twist_towards_point</span></code></p></li>
+<li><p>orientation =&gt; returns <code class="xref py py-attr docutils literal notranslate"><span class="pre">cmd_twist_towards_orientation</span></code></p></li>
+<li><p>velocity =&gt; returns <code class="xref py py-attr docutils literal notranslate"><span class="pre">cmd_twist_towards_velocity</span></code></p></li>
+<li><p>angular speed =&gt; returns <code class="xref py py-attr docutils literal notranslate"><span class="pre">cmd_twist_towards_angular_speed</span></code></p></li>
+</ol>
+<p>else returns zero.</p>
+<p>Sub-classes may specialize any of these methods above instead of this
+one. They may also specialize</p>
+<ul class="simple">
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">cmd_twist_towards_pose</span></code>, whose default implementation just call
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">cmd_twist_towards_point</span></code>, to implement a different strategy to
+reach a pose than “move towards the position and then rotate in
+place towards the orientation.”</p></li>
+<li><p>ref cmd_twist_along_path, whose default implementation is a type
+of carrot planner that computes a target velocity and then call <code class="xref py py-attr docutils literal notranslate"><span class="pre">cmd_twist_towards_velocity</span></code>, to follow a target path.</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>time_step</strong> – The control time step. Not all behavior use it but some may use
-it, for example, to limit accelerations.</p></li>
-<li><p><strong>frame</strong> – The desired frame of reference for the twist. Leave undefined to
-use the default frame depending on the kinematics (see <a class="reference internal" href="#navground.core.Behavior.default_cmd_frame" title="navground.core.Behavior.default_cmd_frame"><code class="xref py py-attr docutils literal notranslate"><span class="pre">default_cmd_frame</span></code></a>)</p></li>
+<li><p><strong>time_step</strong> – The time step</p></li>
+<li><p><strong>frame</strong> – The desired frame</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The control command as a twist in the specified frame.</p>
+<dd class="field-even"><p>The command in the desired frame.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -845,7 +838,7 @@ current twist over a time step</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.get_actuated_twist">
-<span class="sig-name descname"><span class="pre">get_actuated_twist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_actuated_twist" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_actuated_twist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_actuated_twist" title="Link to this definition">#</a></dt>
 <dd><p>Gets the last actuated twist.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -882,7 +875,7 @@ if defined, else to the behavior own optimal angular speed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.get_target_direction">
-<span class="sig-name descname"><span class="pre">get_target_direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_direction" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_target_direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_direction" title="Link to this definition">#</a></dt>
 <dd><p>Returns the direction towards the target’s position if not satisfied,
 or the target’s direction if defined, else null.</p>
 <dl class="field-list simple">
@@ -925,7 +918,7 @@ or the target’s direction if defined, else null.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.get_target_position">
-<span class="sig-name descname"><span class="pre">get_target_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_position" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_target_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_position" title="Link to this definition">#</a></dt>
 <dd><p>Returns the target’s position if not satisfied, else null.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -951,7 +944,7 @@ to the behavior own optimal speed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.get_target_velocity">
-<span class="sig-name descname"><span class="pre">get_target_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_velocity" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_target_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_velocity" title="Link to this definition">#</a></dt>
 <dd><p>Gets the current target velocity.</p>
 <p>Multiplication of <a class="reference internal" href="#navground.core.Behavior.get_target_direction" title="navground.core.Behavior.get_target_direction"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_direction()</span></code></a> by <a class="reference internal" href="#navground.core.Behavior.get_target_speed" title="navground.core.Behavior.get_target_speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_speed()</span></code></a>.
 Returns a zero vector if the target direction is undefined.</p>
@@ -967,7 +960,7 @@ Returns a zero vector if the target direction is undefined.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.get_twist">
-<span class="sig-name descname"><span class="pre">get_twist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_twist" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_twist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_twist" title="Link to this definition">#</a></dt>
 <dd><p>Gets the current twist.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -981,7 +974,7 @@ Returns a zero vector if the target direction is undefined.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.get_velocity">
-<span class="sig-name descname"><span class="pre">get_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.core.Behavior.get_velocity" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.core.Behavior.get_velocity" title="Link to this definition">#</a></dt>
 <dd><p>Convenience method to get the current velocity. See <a class="reference internal" href="#navground.core.Behavior.get_twist" title="navground.core.Behavior.get_twist"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_twist()</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1060,7 +1053,7 @@ be found or if the value has a non-compatible type.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.set_velocity">
-<span class="sig-name descname"><span class="pre">set_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Behavior.set_velocity" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.core.Behavior.set_velocity" title="Link to this definition">#</a></dt>
 <dd><p>Convenience method to set the current velocity. See <a class="reference internal" href="#navground.core.Behavior.twist" title="navground.core.Behavior.twist"><code class="xref py py-attr docutils literal notranslate"><span class="pre">twist</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1346,6 +1339,28 @@ but fewer deadlocks and less jamming.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Behavior.path_look_ahead">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path_look_ahead</span></span><a class="headerlink" href="#navground.core.Behavior.path_look_ahead" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The path look-ahead distance</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Behavior.path_tau">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path_tau</span></span><a class="headerlink" href="#navground.core.Behavior.path_tau" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The path relaxation time</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="navground.core.Behavior.pose">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pose</span></span><a class="headerlink" href="#navground.core.Behavior.pose" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
@@ -1530,7 +1545,8 @@ frame. See <a class="reference internal" href="#navground.core.Behavior.pose" ti
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1601,6 +1617,8 @@ frame. See <a class="reference internal" href="#navground.core.Behavior.pose" ti
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.optimal_angular_speed"><code class="docutils literal notranslate"><span class="pre">Behavior.optimal_angular_speed</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.optimal_speed"><code class="docutils literal notranslate"><span class="pre">Behavior.optimal_speed</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.orientation"><code class="docutils literal notranslate"><span class="pre">Behavior.orientation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.path_look_ahead"><code class="docutils literal notranslate"><span class="pre">Behavior.path_look_ahead</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.path_tau"><code class="docutils literal notranslate"><span class="pre">Behavior.path_tau</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.pose"><code class="docutils literal notranslate"><span class="pre">Behavior.pose</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.position"><code class="docutils literal notranslate"><span class="pre">Behavior.position</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.properties"><code class="docutils literal notranslate"><span class="pre">Behavior.properties</span></code></a></li>
@@ -1663,8 +1681,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
   </footer>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Kinematics &#8212; navground 0.1.0 documentation</title>
+    <title>Kinematics &#8212; navground 0.2.0 documentation</title>
   
   
   
@@ -16,33 +16,35 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=a1637f0b"></script>
-    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
@@ -56,6 +58,7 @@
     <link rel="prev" title="YAML" href="yaml.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -71,19 +74,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -91,7 +83,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -99,8 +90,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -116,7 +107,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -141,20 +133,16 @@
   
   
   
-    <p class="title logo__title">navground 0.1.0 documentation</p>
+    <p class="title logo__title">navground 0.2.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
@@ -403,24 +391,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -495,8 +475,14 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-wheels-differential-drive">Two wheels differential drive</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematicsE"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics36TwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::TwoWheelsDifferentialDriveKinematics()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics36TwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::TwoWheelsDifferentialDriveKinematics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics3dofEv"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::dof()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics18can_move_backwardsEv"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::can_move_backwards()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics17can_move_forwardsEv"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::can_move_forwards()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics21get_max_forward_speedEv"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::get_max_forward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics21set_max_forward_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::set_max_forward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics22get_max_backward_speedEv"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::get_max_backward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics22set_max_backward_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::set_max_backward_speed()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics5twistERK11WheelSpeeds"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::twist()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics12wheel_speedsERK6Twist2"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::wheel_speeds()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics21feasible_wheel_speedsERK6Twist2"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::feasible_wheel_speeds()</span></code></a></li>
@@ -506,7 +492,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-wheels-differential-drive-with-dynamic-constraints">Two wheels differential drive with dynamic constraints</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematicsE"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics43DynamicTwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics::DynamicTwoWheelsDifferentialDriveKinematics()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics43DynamicTwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics::DynamicTwoWheelsDifferentialDriveKinematics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core43DynamicTwoWheelsDifferentialDriveKinematics7get_moiEv"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics::get_moi()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics7set_moiE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics::set_moi()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core43DynamicTwoWheelsDifferentialDriveKinematics20get_max_accelerationEv"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics::get_max_acceleration()</span></code></a></li>
@@ -559,10 +545,11 @@ document.write(`
 <p><ul class="simple">
 <li><p>validated twist in the agent’s frame as feasible</p></li>
 <li><p>convert between wheel speeds and body twist</p></li>
-<li><p>store maximal linear and angular speed</p></li>
-<li><p>store the number of degrees of freedom </p></li>
+<li><p>returns maximal linear and angular speed</p></li>
+<li><p>returns the number of degrees of freedom</p></li>
 </ul>
 </p>
+<p>Negative speed means unconstrained. </p>
 <p>Subclassed by <a class="reference internal" href="#classnavground_1_1core_1_1_ahead_kinematics"><span class="std std-ref">navground::core::AheadKinematics</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_omnidirectional_kinematics"><span class="std std-ref">navground::core::OmnidirectionalKinematics</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_wheeled_kinematics"><span class="std std-ref">navground::core::WheeledKinematics</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
@@ -648,7 +635,7 @@ document.write(`
 <dd><p>Sets the maximum speed. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A positive value. </p>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired value. A negative number is interpreted as +infinite. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -670,7 +657,7 @@ document.write(`
 <dd><p>Sets the maximum angular speed. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A positive value. </p>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired value. A negative number is interpreted as +infinite. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -789,7 +776,7 @@ document.write(`
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core25OmnidirectionalKinematics25OmnidirectionalKinematicsE10ng_float_t10ng_float_t">
-<span class="target" id="classnavground_1_1core_1_1_omnidirectional_kinematics_1af2da350f806b25bd7b2b235294bb4a4b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">OmnidirectionalKinematics</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_angular_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core25OmnidirectionalKinematics25OmnidirectionalKinematicsE10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1core_1_1_omnidirectional_kinematics_1a056debdd531d142284a38b1508ab5d64"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">OmnidirectionalKinematics</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">inf</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_angular_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">inf</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core25OmnidirectionalKinematics25OmnidirectionalKinematicsE10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -837,7 +824,7 @@ document.write(`
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core15AheadKinematics15AheadKinematicsE10ng_float_t10ng_float_t">
-<span class="target" id="classnavground_1_1core_1_1_ahead_kinematics_1a97067ebce7bbb5e0f35b70a2f6030e8b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AheadKinematics</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_angular_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core15AheadKinematics15AheadKinematicsE10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1core_1_1_ahead_kinematics_1a7784f2f2ef48b4dd8205b1e8f21337c6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AheadKinematics</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">inf</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_angular_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">inf</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core15AheadKinematics15AheadKinematicsE10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -880,19 +867,34 @@ document.write(`
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematicsE">
 <span class="target" id="classnavground_1_1core_1_1_two_wheels_differential_drive_kinematics"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TwoWheelsDifferentialDriveKinematics</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core17WheeledKinematicsE" title="navground::core::WheeledKinematics"><span class="n"><span class="pre">WheeledKinematics</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematicsE" title="Link to this definition">#</a><br /></dt>
-<dd><p>Two differential drive wheels (left, right) (e.g., a wheelchair) </p>
+<dd><p>Two differential drive wheels (left, right) (e.g., a wheelchair) with software-limited speeds. </p>
+<p>It implements two types of kinematics constrains:</p>
+<p><ul class="simple">
+<li><p>a maximal wheel speed that adds a linear coupling between linear and angular speed (e.g., the robot can move at maximal linear speed only straights) (same as <a class="reference internal" href="#classnavground_1_1core_1_1_two_wheels_differential_drive_kinematics"><span class="std std-ref">TwoWheelsDifferentialDriveKinematics</span></a>)</p></li>
+<li><p>a controller that clamps linear and angular speed inside a box: these constrains when the related bounds are set to negative values.</p></li>
+</ul>
+</p>
+<p><em>Registered properties</em>:</p>
+<p><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">max_forward_speed</span></code> (float, <a class="reference internal" href="#classnavground_1_1core_1_1_two_wheels_differential_drive_kinematics_1ae4c43313184bbbe2e049bad6c416541e"><span class="std std-ref">get_max_forward_speed</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_backward_speed</span></code> (float, <a class="reference internal" href="#classnavground_1_1core_1_1_two_wheels_differential_drive_kinematics_1adfbd1d2dd0e88ce49deac2735cc82638"><span class="std std-ref">get_max_backward_speed</span></a>) </p></li>
+</ul>
+</p>
 <p>Subclassed by <a class="reference internal" href="#classnavground_1_1core_1_1_dynamic_two_wheels_differential_drive_kinematics"><span class="std std-ref">navground::core::DynamicTwoWheelsDifferentialDriveKinematics</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics36TwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t">
-<span class="target" id="classnavground_1_1core_1_1_two_wheels_differential_drive_kinematics_1a2775b539421f09690f702c3590f4ca6d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TwoWheelsDifferentialDriveKinematics</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">axis</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics36TwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics36TwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_two_wheels_differential_drive_kinematics_1ab99087272f5251e7c0abb2164b51542b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TwoWheelsDifferentialDriveKinematics</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">inf</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">axis</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_angular_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">inf</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_forward_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">inf</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_backward_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics36TwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>max_speed</strong> – <strong>[in]</strong> The maximal wheel speed </p></li>
 <li><p><strong>axis</strong> – <strong>[in]</strong> The wheel axis (i.e., the distance between the wheels) </p></li>
+<li><p><strong>max_angular_speed</strong> – <strong>[in]</strong> The maximal angular speed, that is also limited by the 2 * max_speed / axis, if the axis is positive. </p></li>
+<li><p><strong>max_forward_speed</strong> – <strong>[in]</strong> The maximal linear speed when moving forwards (set to negative or infinite to leave unconstrained) </p></li>
+<li><p><strong>max_backward_speed</strong> – <strong>[in]</strong> The maximal linear speed when moving backwards (set to negative or infinite to leave unconstrained) </p></li>
 </ul>
 </dd>
 </dl>
@@ -905,6 +907,72 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>2 </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics18can_move_backwardsEv">
+<span class="target" id="classnavground_1_1core_1_1_two_wheels_differential_drive_kinematics_1accdf8844a1279bcbb629ed559e6db206"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">can_move_backwards</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics18can_move_backwardsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether the agent can move backwards. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if moving backwards is possible. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics17can_move_forwardsEv">
+<span class="target" id="classnavground_1_1core_1_1_two_wheels_differential_drive_kinematics_1ad8a597f4a86a5a95c04fcca54872f1e1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">can_move_forwards</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics17can_move_forwardsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether the agent can move forwards. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>True</strong> – <strong>[in]</strong> if moving forwards is possible. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics21get_max_forward_speedEv">
+<span class="target" id="classnavground_1_1core_1_1_two_wheels_differential_drive_kinematics_1ae4c43313184bbbe2e049bad6c416541e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_max_forward_speed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics21get_max_forward_speedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the maximal linear speed when moving forwards. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The maximal speed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics21set_max_forward_speedE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_two_wheels_differential_drive_kinematics_1a22aa23e9d8c389274d58e5c2e0c5ca8a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_max_forward_speed</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics21set_max_forward_speedE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the maximal speed when moving forwards. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired value. A negative number is interpreted as +infinite. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics22get_max_backward_speedEv">
+<span class="target" id="classnavground_1_1core_1_1_two_wheels_differential_drive_kinematics_1adfbd1d2dd0e88ce49deac2735cc82638"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_max_backward_speed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics22get_max_backward_speedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the maximal linear speed when moving backwards. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The maximal speed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics22set_max_backward_speedE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_two_wheels_differential_drive_kinematics_1a2686862e0ae94de727fde246829cee3c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_max_backward_speed</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics22set_max_backward_speedE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the maximal speed when moving backwards. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired value. A negative number is interpreted as +infinite. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -972,14 +1040,17 @@ document.write(`
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics43DynamicTwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t">
-<span class="target" id="classnavground_1_1core_1_1_dynamic_two_wheels_differential_drive_kinematics_1a6eda4d826bed9557c9c85420f5fcb885"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">axis</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_acceleration</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">moi</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics43DynamicTwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics43DynamicTwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_dynamic_two_wheels_differential_drive_kinematics_1a7ca07f0667a2af19b67b7a0d774308a8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">inf</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">axis</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_angular_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">inf</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_forward_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">inf</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_backward_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_acceleration</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">inf</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">moi</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics43DynamicTwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>max_speed</strong> – <strong>[in]</strong> The maximal wheel speed </p></li>
 <li><p><strong>axis</strong> – <strong>[in]</strong> The wheel axis (i.e., the distance between the wheels) </p></li>
+<li><p><strong>max_angular_speed</strong> – <strong>[in]</strong> The maximal angular speed, that is also limited by the 2 * max_speed / axis, if the axis is positive. </p></li>
+<li><p><strong>max_forward_speed</strong> – <strong>[in]</strong> The maximal linear speed when moving forwards (set to negative or infinite to leave unconstrained) </p></li>
+<li><p><strong>max_backward_speed</strong> – <strong>[in]</strong> The maximal linear speed when moving backwards (set to negative or infinite to leave unconstrained) </p></li>
 <li><p><strong>max_acceleration</strong> – <strong>[in]</strong> The maximal linear body acceleration </p></li>
 <li><p><strong>moi</strong> – <strong>[in]</strong> The scaled moment of inertial (<code class="docutils literal notranslate"><span class="pre">moi</span> <span class="pre">=</span> <span class="pre">I</span> <span class="pre">/</span> <span class="pre">(mass</span> <span class="pre">*</span> <span class="pre">axis^2</span> <span class="pre">/</span> <span class="pre">8)</span></code>) Equal to one for an homogeneous disc of diameter <code class="docutils literal notranslate"><span class="pre">axis</span></code>. </p></li>
 </ul>
@@ -1133,7 +1204,7 @@ Gets the maximal (body) acceleration.</p>
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core29FourWheelsOmniDriveKinematics29FourWheelsOmniDriveKinematicsE10ng_float_t10ng_float_t">
-<span class="target" id="classnavground_1_1core_1_1_four_wheels_omni_drive_kinematics_1a08eb67099c0e417434edb3c889aeeaf9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FourWheelsOmniDriveKinematics</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">axis</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core29FourWheelsOmniDriveKinematics29FourWheelsOmniDriveKinematicsE10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1core_1_1_four_wheels_omni_drive_kinematics_1a05b8fef7101d54057dacaec50016956f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FourWheelsOmniDriveKinematics</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">inf</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">axis</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core29FourWheelsOmniDriveKinematics29FourWheelsOmniDriveKinematicsE10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1240,7 +1311,8 @@ Gets the maximal (body) acceleration.</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1300,8 +1372,14 @@ Gets the maximal (body) acceleration.</p>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-wheels-differential-drive">Two wheels differential drive</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematicsE"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics36TwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::TwoWheelsDifferentialDriveKinematics()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics36TwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::TwoWheelsDifferentialDriveKinematics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics3dofEv"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::dof()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics18can_move_backwardsEv"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::can_move_backwards()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics17can_move_forwardsEv"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::can_move_forwards()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics21get_max_forward_speedEv"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::get_max_forward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics21set_max_forward_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::set_max_forward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics22get_max_backward_speedEv"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::get_max_backward_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics22set_max_backward_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::set_max_backward_speed()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics5twistERK11WheelSpeeds"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::twist()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics12wheel_speedsERK6Twist2"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::wheel_speeds()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics21feasible_wheel_speedsERK6Twist2"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics::feasible_wheel_speeds()</span></code></a></li>
@@ -1311,7 +1389,7 @@ Gets the maximal (body) acceleration.</p>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-wheels-differential-drive-with-dynamic-constraints">Two wheels differential drive with dynamic constraints</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematicsE"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics43DynamicTwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics::DynamicTwoWheelsDifferentialDriveKinematics()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics43DynamicTwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics::DynamicTwoWheelsDifferentialDriveKinematics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core43DynamicTwoWheelsDifferentialDriveKinematics7get_moiEv"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics::get_moi()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics7set_moiE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics::set_moi()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core43DynamicTwoWheelsDifferentialDriveKinematics20get_max_accelerationEv"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics::get_max_acceleration()</span></code></a></li>
@@ -1384,8 +1462,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
   </footer>

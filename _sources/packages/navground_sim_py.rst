@@ -120,6 +120,67 @@ Example
    Omni
 
 
+.. _echo_sim_py:
+
+echo
+----
+
+Load and then print a YAML representation of an object (behavior, kinematic, behavior modulation, state estimation, task, scenarios, agent, world, experiment).
+It is equivalent to the :ref:`C++ version <echo_sim>` but with additional components implemented in Python.
+
+
+.. argparse::
+   :module: navground.sim.echo
+   :func: parser
+   :prog: echo
+   :nodescription:
+   :nodefault:
+
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ echo task "{type: Path, points: [[1, 2], [3, 4]]}" 
+
+   type: Path
+   points:
+     -
+       - 1
+       - 2
+     -
+       - 3
+       - 4
+   tolerance: 1
+
+.. _plugins_sim_py:
+
+plugins
+-------
+
+Load and list plugins.
+
+.. argparse::
+   :module: navground.sim.list_plugins
+   :func: parser
+   :prog: plugins
+   :nodescription:
+   :nodefault:
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ plugins
+   
+
+   navground_demos
+   ---------------
+   Scenarios: PyThymioDemo [Python]
+   
+
 .. _sample_py:
 
 sample

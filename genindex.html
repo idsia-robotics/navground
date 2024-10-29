@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; navground 0.1.0 documentation</title>
+    <title>Index &#8212; navground 0.2.0 documentation</title>
   
   
   
@@ -15,37 +15,38 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
     <script src="_static/jquery.js?v=5d32c60e"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="_static/documentation_options.js?v=a1637f0b"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/tabs.js?v=3030b3cb"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -54,6 +55,7 @@
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -69,19 +71,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -89,7 +80,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -97,8 +87,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -116,7 +106,8 @@
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -141,20 +132,16 @@
   
   
   
-    <p class="title logo__title">navground 0.1.0 documentation</p>
+    <p class="title logo__title">navground 0.2.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
@@ -355,24 +342,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 
 </div></div>
       
@@ -505,9 +484,15 @@ document.write(`
 </li>
         <li><a href="reference/sim/python/world.html#navground.sim.Obstacle.__init__">(Obstacle method)</a>
 </li>
+        <li><a href="reference/sim/python/state_estimations/sensor_odometry.html#navground.sim.state_estimations.OdometryStateEstimation.__init__">(OdometryStateEstimation method)</a>
+</li>
         <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.OmnidirectionalKinematics.__init__">(OmnidirectionalKinematics method)</a>
 </li>
         <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior.__init__">(ORCABehavior method)</a>
+</li>
+        <li><a href="reference/core/python/target.html#navground.core.Path.__init__">(Path method)</a>
+</li>
+        <li><a href="reference/sim/python/tasks/path.html#navground.sim.tasks.PathTask.__init__">(PathTask method)</a>
 </li>
         <li><a href="reference/core/python/common.html#navground.core.Pose2.__init__">(Pose2 method)</a>
 </li>
@@ -640,10 +625,10 @@ document.write(`
         <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.add_record_probe">(ExperimentalRun method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.add_run">add_run() (Experiment method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.add_run_callback">add_run_callback() (Experiment method)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.add_safety_to_agent_margin">add_safety_to_agent_margin (CorridorScenario property)</a>
@@ -678,6 +663,10 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.all">all() (RecordConfig static method)</a>
 </li>
+      <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.angles">angles (LidarStateEstimation property)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.angular_increment">angular_increment (LidarStateEstimation property)</a>
+</li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.angular_resolution">angular_resolution (HLBehavior property)</a>
 </li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.angular_speed">angular_speed (Agent property)</a>
@@ -690,6 +679,8 @@ document.write(`
         <li><a href="reference/core/python/common.html#navground.core.Twist2.angular_speed">(Twist2 property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/state_estimations/sensor_odometry.html#navground.sim.state_estimations.OdometryStateEstimation.angular_speed_error">angular_speed_error (OdometryStateEstimation property)</a>
+</li>
       <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario">AntipodalScenario (class in navground.sim.scenarios)</a>
 </li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.aperture">aperture (HLBehavior property)</a>
@@ -777,6 +768,10 @@ document.write(`
 </li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation">CachedCollisionComputation (class in navground.core)</a>
 </li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics.can_move_backwards">can_move_backwards (TwoWheelsDifferentialDriveKinematics property)</a>
+</li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics.can_move_forwards">can_move_forwards (TwoWheelsDifferentialDriveKinematics property)</a>
+</li>
       <li><a href="reference/core/python/state.html#navground.core.Buffer.categorical">categorical (Buffer property)</a>
 
       <ul>
@@ -784,6 +779,8 @@ document.write(`
 </li>
       </ul></li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.check_if_target_satisfied">check_if_target_satisfied() (Behavior method)</a>
+</li>
+      <li><a href="reference/core/python/common.html#navground.core.clamp_norm">clamp_norm() (in module navground.core)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.clear_collisions">clear_collisions() (World method)</a>
 </li>
@@ -831,6 +828,8 @@ document.write(`
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller">Controller (class in navground.core)</a>
 </li>
+      <li><a href="reference/core/python/target.html#navground.core.Path.coordinate">coordinate (Path property)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.copy_random_generator">copy_random_generator() (World method)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario">CorridorScenario (class in navground.sim.scenarios)</a>
@@ -838,6 +837,8 @@ document.write(`
       <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario">CrossScenario (class in navground.sim.scenarios)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario">CrossTorusScenario (class in navground.sim.scenarios)</a>
+</li>
+      <li><a href="reference/core/python/target.html#navground.core.Path.curve">curve (Path property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -903,10 +904,10 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.Obstacle.disc">disc (Obstacle property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/world.html#navground.sim.World.discs">discs (World property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation">DiscsStateEstimation (class in navground.sim.state_estimations)</a>
 </li>
       <li><a href="reference/sim/python/visualization.html#navground.sim.ui.video.display_video">display_video() (in module navground.sim.ui.video)</a>
@@ -927,8 +928,12 @@ document.write(`
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Action.done">done (Action property)</a>
 </li>
-      <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.done">done() (Task method)</a>
+      <li><a href="reference/sim/python/tasks/path.html#navground.sim.tasks.PathTask.done">done() (PathTask method)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.done">(Task method)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/controller.html#navground.core.Action.done_cb">done_cb (Action property)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Dataset.dtype">dtype (Dataset property)</a>
@@ -978,16 +983,24 @@ document.write(`
 </li>
       </ul></li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.enabled">enabled (Agent property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.BehaviorModulation.enabled">(BehaviorModulation property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/world.html#navground.sim.Entity">Entity (class in navground.sim)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/sim/python/world.html#navground.sim.Entity">Entity (class in navground.sim)</a>
-</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.environment_state">environment_state (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/state.html#navground.core.EnvironmentState">EnvironmentState (class in navground.core)</a>
 </li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.epsilon">epsilon (HLBehavior property)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.error_bias">error_bias (LidarStateEstimation property)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.error_std_dev">error_std_dev (LidarStateEstimation property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.estimate_time_until_target_satisfied">estimate_time_until_target_satisfied() (Behavior method)</a>
 </li>
@@ -1021,11 +1034,15 @@ document.write(`
         <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.field_of_view">(PyLidarStateEstimation property)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.final_sim_time">final_sim_time (ExperimentalRun property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_direction">follow_direction() (Controller method)</a>
+</li>
+      <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_manual_cmd">follow_manual_cmd() (Controller method)</a>
+</li>
+      <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_path">follow_path() (Controller method)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_point">follow_point() (Controller method)</a>
 </li>
@@ -1052,6 +1069,8 @@ document.write(`
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.get">get() (Behavior method)</a>
 
       <ul>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.BehaviorModulation.get">(BehaviorModulation method)</a>
+</li>
         <li><a href="reference/core/python/property.html#navground.core._navground.HasProperties.get">(HasProperties method)</a>
 </li>
         <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.get">(Kinematics method)</a>
@@ -1105,17 +1124,25 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.get_last_cmd">get_last_cmd() (Agent method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_lattice">get_lattice() (World method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_lattice_grid">get_lattice_grid() (World method)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_line_obstacles_in_region">get_line_obstacles_in_region() (World method)</a>
 </li>
+      <li><a href="reference/core/python/plugins.html#navground.core.get_loaded_plugins">get_loaded_plugins() (in module navground.core)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/plugins.html#navground.sim.get_loaded_plugins">(in module navground.sim)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_neighbors">get_neighbors() (World method)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_obstacles_in_region">get_obstacles_in_region() (World method)</a>
+</li>
+      <li><a href="reference/core/python/target.html#navground.core.Path.get_point">get_point() (Path method)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.ExperimentalRun.get_record">get_record() (ExperimentalRun method)</a>
 
@@ -1202,6 +1229,8 @@ document.write(`
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.has_type">has_type() (Behavior static method)</a>
 
       <ul>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.BehaviorModulation.has_type">(BehaviorModulation static method)</a>
+</li>
         <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.has_type">(Kinematics static method)</a>
 </li>
         <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.has_type">(Scenario static method)</a>
@@ -1348,6 +1377,8 @@ document.write(`
 </li>
         <li><a href="reference/core/python/state.html#navground.core.LineSegment.length">(LineSegment property)</a>
 </li>
+        <li><a href="reference/core/python/target.html#navground.core.Path.length">(Path property)</a>
+</li>
       </ul></li>
       <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation">LidarStateEstimation (class in navground.sim.state_estimations)</a>
 </li>
@@ -1435,8 +1466,14 @@ document.write(`
         <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.log_size">(WaypointsTask property)</a>
 </li>
       </ul></li>
-      <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.loop">loop (WaypointsTask property)</a>
+      <li><a href="reference/sim/python/state_estimations/sensor_odometry.html#navground.sim.state_estimations.OdometryStateEstimation.longitudinal_speed_error">longitudinal_speed_error (OdometryStateEstimation property)</a>
 </li>
+      <li><a href="reference/core/python/target.html#navground.core.Path.loop">loop (Path property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.loop">(WaypointsTask property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/state.html#navground.core.Buffer.low">low (Buffer property)</a>
 
       <ul>
@@ -1452,6 +1489,8 @@ document.write(`
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.make_type">make_type() (Behavior static method)</a>
 
       <ul>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.BehaviorModulation.make_type">(BehaviorModulation static method)</a>
+</li>
         <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.make_type">(Kinematics static method)</a>
 </li>
         <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.make_type">(Scenario static method)</a>
@@ -1479,18 +1518,22 @@ document.write(`
         <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.max_angular_speed">(Kinematics property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics.max_backward_speed">max_backward_speed (TwoWheelsDifferentialDriveKinematics property)</a>
+</li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation.max_distance">max_distance (CachedCollisionComputation property)</a>
+</li>
+      <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics.max_forward_speed">max_forward_speed (TwoWheelsDifferentialDriveKinematics property)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.max_id">max_id (DiscsStateEstimation property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/HRVO.html#navground.core.behaviors.HRVOBehavior.max_number_of_neighbors">max_number_of_neighbors (HRVOBehavior property)</a>
 
       <ul>
         <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior.max_number_of_neighbors">(ORCABehavior property)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.max_radius">max_radius (DiscsStateEstimation property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.max_speed">max_speed (Behavior property)</a>
@@ -1537,6 +1580,8 @@ document.write(`
         <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.name">(Heading property)</a>
 </li>
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.name">(RecordedExperiment attribute)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/sensor.html#navground.sim.state_estimations.Sensor.name">(Sensor property)</a>
 </li>
         <li><a href="reference/core/python/controller.html#navground.core.Action.State.name">(State property)</a>
 </li>
@@ -1595,6 +1640,10 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior15default_horizonE">navground::core::Behavior::default_horizon (C++ member)</a>
 </li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior23default_path_look_aheadE">navground::core::Behavior::default_path_look_ahead (C++ member)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior16default_path_tauE">navground::core::Behavior::default_path_tau (C++ member)</a>
+</li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior20default_rotation_tauE">navground::core::Behavior::default_rotation_tau (C++ member)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior21default_safety_marginE">navground::core::Behavior::default_safety_margin (C++ member)</a>
@@ -1638,6 +1687,10 @@ document.write(`
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior17get_optimal_speedEv">navground::core::Behavior::get_optimal_speed (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior15get_orientationEv">navground::core::Behavior::get_orientation (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior19get_path_look_aheadEv">navground::core::Behavior::get_path_look_ahead (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior12get_path_tauEv">navground::core::Behavior::get_path_tau (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior8get_poseEv">navground::core::Behavior::get_pose (C++ function)</a>
 </li>
@@ -1712,6 +1765,10 @@ document.write(`
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior17set_optimal_speedE10ng_float_t">navground::core::Behavior::set_optimal_speed (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior15set_orientationE7Radians">navground::core::Behavior::set_orientation (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior19set_path_look_aheadE10ng_float_t">navground::core::Behavior::set_path_look_ahead (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior12set_path_tauE10ng_float_t">navground::core::Behavior::set_path_tau (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior8set_poseERK5Pose2">navground::core::Behavior::set_pose (C++ function)</a>
 </li>
@@ -1804,6 +1861,8 @@ document.write(`
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core17BufferDescription17BufferDescriptionERK11BufferShapeRKNSt6stringEddb">navground::core::BufferDescription::BufferDescription (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core17BufferDescription11categoricalE">navground::core::BufferDescription::categorical (C++ member)</a>
+</li>
+      <li><a href="reference/core/cpp/state.html#_CPPv4NK9navground4core17BufferDescription11get_stridesEv">navground::core::BufferDescription::get_strides (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core17BufferDescription4highE">navground::core::BufferDescription::high (C++ member)</a>
 </li>
@@ -1927,6 +1986,8 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/controller.html#_CPPv4N9navground4core10Controller16follow_directionERK7Vector2">navground::core::Controller::follow_direction (C++ function)</a>
 </li>
+      <li><a href="reference/core/cpp/controller.html#_CPPv4N9navground4core10Controller11follow_pathERK4Path10ng_float_t">navground::core::Controller::follow_path (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/controller.html#_CPPv4N9navground4core10Controller12follow_pointERK7Vector2">navground::core::Controller::follow_point (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/controller.html#_CPPv4N9navground4core10Controller11follow_poseERK5Pose2">navground::core::Controller::follow_pose (C++ function)</a>
@@ -1943,9 +2004,9 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/controller.html#_CPPv4NK9navground4core10Controller9get_stateEv">navground::core::Controller::get_state (C++ function)</a>
 </li>
-      <li><a href="reference/core/cpp/controller.html#_CPPv4N9navground4core10Controller10go_to_poseERK5Pose210ng_float_t10ng_float_t">navground::core::Controller::go_to_pose (C++ function)</a>
+      <li><a href="reference/core/cpp/controller.html#_CPPv4N9navground4core10Controller10go_to_poseERK5Pose210ng_float_t10ng_float_tNSt8optionalI4PathEE">navground::core::Controller::go_to_pose (C++ function)</a>
 </li>
-      <li><a href="reference/core/cpp/controller.html#_CPPv4N9navground4core10Controller14go_to_positionERK7Vector210ng_float_t">navground::core::Controller::go_to_position (C++ function)</a>
+      <li><a href="reference/core/cpp/controller.html#_CPPv4N9navground4core10Controller14go_to_positionERK7Vector210ng_float_tNSt8optionalI4PathEE">navground::core::Controller::go_to_position (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/controller.html#_CPPv4NK9navground4core10Controller4idleEv">navground::core::Controller::idle (C++ function)</a>
 </li>
@@ -2011,7 +2072,7 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematicsE">navground::core::DynamicTwoWheelsDifferentialDriveKinematics (C++ class)</a>
 </li>
-      <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics43DynamicTwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::DynamicTwoWheelsDifferentialDriveKinematics (C++ function)</a>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics43DynamicTwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::DynamicTwoWheelsDifferentialDriveKinematics (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core43DynamicTwoWheelsDifferentialDriveKinematics20get_max_accelerationEv">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::get_max_acceleration (C++ function)</a>
 </li>
@@ -2064,6 +2125,8 @@ document.write(`
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core14GeometricState13set_neighborsERKNSt6vectorI8NeighborEE">navground::core::GeometricState::set_neighbors (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core14GeometricState20set_static_obstaclesERKNSt6vectorI4DiscEE">navground::core::GeometricState::set_static_obstacles (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/plugins.html#_CPPv4N9navground4core18get_loaded_pluginsEv">navground::core::get_loaded_plugins (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/property.html#_CPPv4N9navground4core13HasPropertiesE">navground::core::HasProperties (C++ struct)</a>
 </li>
@@ -2193,6 +2256,30 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core27LimitAccelerationModulation28set_max_angular_accelerationE10ng_float_t">navground::core::LimitAccelerationModulation::set_max_angular_acceleration (C++ function)</a>
 </li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core20LimitTwistModulationE">navground::core::LimitTwistModulation (C++ class)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4NK9navground4core20LimitTwistModulation21get_max_angular_speedEv">navground::core::LimitTwistModulation::get_max_angular_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4NK9navground4core20LimitTwistModulation22get_max_backward_speedEv">navground::core::LimitTwistModulation::get_max_backward_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4NK9navground4core20LimitTwistModulation21get_max_forward_speedEv">navground::core::LimitTwistModulation::get_max_forward_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4NK9navground4core20LimitTwistModulation22get_max_leftward_speedEv">navground::core::LimitTwistModulation::get_max_leftward_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4NK9navground4core20LimitTwistModulation23get_max_rightward_speedEv">navground::core::LimitTwistModulation::get_max_rightward_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core20LimitTwistModulation20LimitTwistModulationE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t">navground::core::LimitTwistModulation::LimitTwistModulation (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core20LimitTwistModulation21set_max_angular_speedE10ng_float_t">navground::core::LimitTwistModulation::set_max_angular_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core20LimitTwistModulation22set_max_backward_speedE10ng_float_t">navground::core::LimitTwistModulation::set_max_backward_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core20LimitTwistModulation21set_max_forward_speedE10ng_float_t">navground::core::LimitTwistModulation::set_max_forward_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core20LimitTwistModulation22set_max_leftward_speedE10ng_float_t">navground::core::LimitTwistModulation::set_max_leftward_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behavior_modulation.html#_CPPv4N9navground4core20LimitTwistModulation23set_max_rightward_speedE10ng_float_t">navground::core::LimitTwistModulation::set_max_rightward_speed (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core11LineSegmentE">navground::core::LineSegment (C++ struct)</a>
 </li>
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core11LineSegment14distance_alongERK7Vector2RK7Vector2i">navground::core::LineSegment::distance_along (C++ function)</a>
@@ -2209,7 +2296,7 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core11LineSegment2p2E">navground::core::LineSegment::p2 (C++ member)</a>
 </li>
-      <li><a href="reference/core/cpp/plugins.html#_CPPv4N9navground4core12load_pluginsERKNSt3setINSt10filesystem4pathEEERKNSt3mapINSt10filesystem4pathENSt3setINSt10filesystem4pathEEEEEb">navground::core::load_plugins (C++ function)</a>
+      <li><a href="reference/core/cpp/plugins.html#_CPPv4N9navground4core12load_pluginsERK7PathSetRK10PathSetMapb">navground::core::load_plugins (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/property.html#_CPPv4I00EN9navground4core13make_propertyE8PropertyRK11TypedGetterI1T1CERK11TypedSetterI1T1CERK1TRKNSt6stringERKNSt6vectorINSt6stringEEE">navground::core::make_property (C++ function)</a>
 </li>
@@ -2251,7 +2338,7 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/state.html#_CPPv4N9navground4core8Neighbor8velocityE">navground::core::Neighbor::velocity (C++ member)</a>
 </li>
-      <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core9normalizeE7Radians">navground::core::normalize (C++ function)</a>
+      <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core15normalize_angleE7Radians">navground::core::normalize_angle (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core25OmnidirectionalKinematicsE">navground::core::OmnidirectionalKinematics (C++ class)</a>
 </li>
@@ -2290,6 +2377,38 @@ document.write(`
       <li><a href="reference/core/cpp/behaviors/ORCA.html#_CPPv4N9navground4core12ORCABehavior27should_use_effective_centerEb">navground::core::ORCABehavior::should_use_effective_center (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core14orientation_ofERK7Vector2">navground::core::orientation_of (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core4PathE">navground::core::Path (C++ struct)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core4Path10coordinateE">navground::core::Path::coordinate (C++ member)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core4Path5curveE">navground::core::Path::curve (C++ member)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core4Path5CurveE">navground::core::Path::Curve (C++ type)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core4Path9get_pointERK7Vector210ng_float_t">navground::core::Path::get_point (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core4Path6lengthE">navground::core::Path::length (C++ member)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core4Path4loopE">navground::core::Path::loop (C++ member)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core4Path4PathERK10ProjectionRK5Curve10ng_float_tb">navground::core::Path::Path (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core4Path5PointE">navground::core::Path::Point (C++ type)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core4Path7projectE">navground::core::Path::project (C++ member)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core4Path10ProjectionE">navground::core::Path::Projection (C++ type)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core4Path5trackERK7Vector210ng_float_t">navground::core::Path::track (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/plugins.html#_CPPv4N9navground4core7PathSetE">navground::core::PathSet (C++ type)</a>
+</li>
+      <li><a href="reference/core/cpp/plugins.html#_CPPv4N9navground4core10PathSetMapE">navground::core::PathSetMap (C++ type)</a>
+</li>
+      <li><a href="reference/core/cpp/plugins.html#_CPPv4N9navground4core10PkgPluginsE">navground::core::PkgPlugins (C++ type)</a>
+</li>
+      <li><a href="reference/core/cpp/plugins.html#_CPPv4N9navground4core7PluginsE">navground::core::Plugins (C++ type)</a>
 </li>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core5Pose2E">navground::core::Pose2 (C++ struct)</a>
 </li>
@@ -2417,9 +2536,11 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target21orientation_toleranceE">navground::core::Target::orientation_tolerance (C++ member)</a>
 </li>
-      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target5PointERK7Vector210ng_float_t">navground::core::Target::Point (C++ function)</a>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target4pathE">navground::core::Target::path (C++ member)</a>
 </li>
-      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target4PoseERK5Pose210ng_float_t10ng_float_t">navground::core::Target::Pose (C++ function)</a>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target5PointERK7Vector210ng_float_tNSt8optionalI4PathEE">navground::core::Target::Point (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target4PoseERK5Pose210ng_float_t10ng_float_tNSt8optionalI4PathEE">navground::core::Target::Pose (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target8positionE">navground::core::Target::position (C++ member)</a>
 </li>
@@ -2431,13 +2552,21 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target4StopEv">navground::core::Target::Stop (C++ function)</a>
 </li>
-      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target6TargetERKNSt8optionalI7Vector2EERKNSt8optionalI7RadiansEERKNSt8optionalI10ng_float_tEERKNSt8optionalI7Vector2EERKNSt8optionalI10ng_float_tEE10ng_float_t10ng_float_t">navground::core::Target::Target (C++ function)</a>
+      <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target6TargetERKNSt8optionalI7Vector2EERKNSt8optionalI7RadiansEERKNSt8optionalI10ng_float_tEERKNSt8optionalI7Vector2EERKNSt8optionalI10ng_float_tEERKNSt8optionalI4PathEE10ng_float_t10ng_float_t">navground::core::Target::Target (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target5TwistERK6Twist2">navground::core::Target::Twist (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/target.html#_CPPv4NK9navground4core6Target5validEv">navground::core::Target::valid (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/target.html#_CPPv4N9navground4core6Target8VelocityERK7Vector2">navground::core::Target::Velocity (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core11to_absoluteERK7Vector2RK5Pose2">navground::core::to_absolute (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core17to_absolute_pointERK7Vector2RK5Pose2">navground::core::to_absolute_point (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core11to_relativeERK7Vector2RK5Pose2">navground::core::to_relative (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core17to_relative_pointERK7Vector2RK5Pose2">navground::core::to_relative_point (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/helper.html#_CPPv4N9navground4core12TrackChangesE">navground::core::TrackChanges (C++ class)</a>
 </li>
@@ -2487,13 +2616,25 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematicsE">navground::core::TwoWheelsDifferentialDriveKinematics (C++ class)</a>
 </li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics18can_move_backwardsEv">navground::core::TwoWheelsDifferentialDriveKinematics::can_move_backwards (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics17can_move_forwardsEv">navground::core::TwoWheelsDifferentialDriveKinematics::can_move_forwards (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics3dofEv">navground::core::TwoWheelsDifferentialDriveKinematics::dof (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics21feasible_wheel_speedsERK6Twist2">navground::core::TwoWheelsDifferentialDriveKinematics::feasible_wheel_speeds (C++ function)</a>
 </li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics22get_max_backward_speedEv">navground::core::TwoWheelsDifferentialDriveKinematics::get_max_backward_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics21get_max_forward_speedEv">navground::core::TwoWheelsDifferentialDriveKinematics::get_max_forward_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics22set_max_backward_speedE10ng_float_t">navground::core::TwoWheelsDifferentialDriveKinematics::set_max_backward_speed (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics21set_max_forward_speedE10ng_float_t">navground::core::TwoWheelsDifferentialDriveKinematics::set_max_forward_speed (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics5twistERK11WheelSpeeds">navground::core::TwoWheelsDifferentialDriveKinematics::twist (C++ function)</a>
 </li>
-      <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics36TwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t">navground::core::TwoWheelsDifferentialDriveKinematics::TwoWheelsDifferentialDriveKinematics (C++ function)</a>
+      <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core36TwoWheelsDifferentialDriveKinematics36TwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t">navground::core::TwoWheelsDifferentialDriveKinematics::TwoWheelsDifferentialDriveKinematics (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics12wheel_speedsERK6Twist2">navground::core::TwoWheelsDifferentialDriveKinematics::wheel_speeds (C++ function)</a>
 </li>
@@ -2505,6 +2646,8 @@ document.write(`
 </li>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core7Vector2E">navground::core::Vector2 (C++ type)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core7Vector3E">navground::core::Vector3 (C++ type)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics.html#_CPPv4N9navground4core17WheeledKinematicsE">navground::core::WheeledKinematics (C++ class)</a>
@@ -2527,8 +2670,6 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5AgentE">navground::sim::Agent (C++ class)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent7actuateERK6Twist210ng_float_t">navground::sim::Agent::actuate (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent7add_tagERKNSt6stringE">navground::sim::Agent::add_tag (C++ function)</a>
@@ -2685,13 +2826,17 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler13optimal_speedE">navground::sim::BehaviorSampler::optimal_speed (C++ member)</a>
 </li>
+      <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler15path_look_aheadE">navground::sim::BehaviorSampler::path_look_ahead (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler8path_tauE">navground::sim::BehaviorSampler::path_tau (C++ member)</a>
+</li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler12rotation_tauE">navground::sim::BehaviorSampler::rotation_tau (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim15BehaviorSampler13safety_marginE">navground::sim::BehaviorSampler::safety_margin (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_boundary.html#_CPPv4N9navground3sim14BoundarySensorE">navground::sim::BoundarySensor (C++ struct)</a>
 </li>
-      <li><a href="reference/sim/cpp/state_estimations/sensor_boundary.html#_CPPv4N9navground3sim14BoundarySensor14BoundarySensorE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t">navground::sim::BoundarySensor::BoundarySensor (C++ function)</a>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_boundary.html#_CPPv4N9navground3sim14BoundarySensor14BoundarySensorE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_tRKNSt6stringE">navground::sim::BoundarySensor::BoundarySensor (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_boundary.html#_CPPv4N9navground3sim14BoundarySensor13default_rangeE">navground::sim::BoundarySensor::default_range (C++ member)</a>
 </li>
@@ -2843,9 +2988,7 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation25default_use_nearest_pointE">navground::sim::DiscsStateEstimation::default_use_nearest_point (C++ member)</a>
 </li>
-      <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation20DiscsStateEstimationE10ng_float_tj10ng_float_t10ng_float_tbbj">navground::sim::DiscsStateEstimation::DiscsStateEstimation (C++ function)</a>
-</li>
-      <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4NK9navground3sim20DiscsStateEstimation15get_descriptionEv">navground::sim::DiscsStateEstimation::get_description (C++ function)</a>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4N9navground3sim20DiscsStateEstimation20DiscsStateEstimationE10ng_float_tj10ng_float_t10ng_float_tbbjRKNSt6stringE">navground::sim::DiscsStateEstimation::DiscsStateEstimation (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_discs.html#_CPPv4NK9navground3sim20DiscsStateEstimation17get_include_validEv">navground::sim::DiscsStateEstimation::get_include_valid (C++ function)</a>
 </li>
@@ -3093,7 +3236,7 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim16GroupRecordProbe8get_dataERKNSt6stringE">navground::sim::GroupRecordProbe::get_data (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim16GroupRecordProbe10get_shapesERK5World">navground::sim::GroupRecordProbe::get_shapes (C++ function)</a>
+      <li><a href="reference/sim/cpp/experiment.html#_CPPv4NK9navground3sim16GroupRecordProbe10get_shapesERK5Worldb">navground::sim::GroupRecordProbe::get_shapes (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim16GroupRecordProbe8ShapeMapE">navground::sim::GroupRecordProbe::ShapeMap (C++ type)</a>
 </li>
@@ -3107,6 +3250,10 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimationE">navground::sim::LidarStateEstimation (C++ struct)</a>
 </li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation18default_error_biasE">navground::sim::LidarStateEstimation::default_error_bias (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation21default_error_std_devE">navground::sim::LidarStateEstimation::default_error_std_dev (C++ member)</a>
+</li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE">navground::sim::LidarStateEstimation::default_field_of_view (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation13default_rangeE">navground::sim::LidarStateEstimation::default_range (C++ member)</a>
@@ -3117,9 +3264,17 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation10field_nameE">navground::sim::LidarStateEstimation::field_name (C++ member)</a>
 </li>
-      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4NK9navground3sim20LidarStateEstimation15get_descriptionEv">navground::sim::LidarStateEstimation::get_description (C++ function)</a>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4NK9navground3sim20LidarStateEstimation10get_anglesEv">navground::sim::LidarStateEstimation::get_angles (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4NK9navground3sim20LidarStateEstimation21get_angular_incrementEv">navground::sim::LidarStateEstimation::get_angular_increment (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4NK9navground3sim20LidarStateEstimation14get_error_biasEv">navground::sim::LidarStateEstimation::get_error_bias (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4NK9navground3sim20LidarStateEstimation17get_error_std_devEv">navground::sim::LidarStateEstimation::get_error_std_dev (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4NK9navground3sim20LidarStateEstimation17get_field_of_viewEv">navground::sim::LidarStateEstimation::get_field_of_view (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4NK9navground3sim20LidarStateEstimation12get_positionEv">navground::sim::LidarStateEstimation::get_position (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4NK9navground3sim20LidarStateEstimation9get_rangeEv">navground::sim::LidarStateEstimation::get_range (C++ function)</a>
 </li>
@@ -3127,9 +3282,17 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4NK9navground3sim20LidarStateEstimation15get_start_angleEv">navground::sim::LidarStateEstimation::get_start_angle (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tj">navground::sim::LidarStateEstimation::LidarStateEstimation (C++ function)</a>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tjRK7Vector210ng_float_t10ng_float_tRKNSt6stringE">navground::sim::LidarStateEstimation::LidarStateEstimation (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4NK9navground3sim20LidarStateEstimation11read_rangesERN4core12SensingStateE">navground::sim::LidarStateEstimation::read_ranges (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation14set_error_biasE10ng_float_t">navground::sim::LidarStateEstimation::set_error_bias (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation17set_error_std_devE10ng_float_t">navground::sim::LidarStateEstimation::set_error_std_dev (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation17set_field_of_viewE10ng_float_t">navground::sim::LidarStateEstimation::set_field_of_view (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation12set_positionERKN4core7Vector2E">navground::sim::LidarStateEstimation::set_position (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_lidar.html#_CPPv4N9navground3sim20LidarStateEstimation9set_rangeE10ng_float_t">navground::sim::LidarStateEstimation::set_range (C++ function)</a>
 </li>
@@ -3148,6 +3311,30 @@ document.write(`
       <li><a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim8Obstacle8ObstacleERK4Disc">navground::sim::Obstacle::Obstacle (C++ function)</a>, <a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim8Obstacle8ObstacleERK7Vector210ng_float_t">[1]</a>, <a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim8Obstacle8ObstacleEv">[2]</a>
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4NK9navground3sim8Obstaclecv4DiscEv">navground::sim::Obstacle::operator Disc (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_odometry.html#_CPPv4N9navground3sim23OdometryStateEstimationE">navground::sim::OdometryStateEstimation (C++ struct)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_odometry.html#_CPPv4N9navground3sim23OdometryStateEstimation27default_angular_speed_errorE">navground::sim::OdometryStateEstimation::default_angular_speed_error (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_odometry.html#_CPPv4N9navground3sim23OdometryStateEstimation32default_longitudinal_speed_errorE">navground::sim::OdometryStateEstimation::default_longitudinal_speed_error (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_odometry.html#_CPPv4N9navground3sim23OdometryStateEstimation31default_transversal_speed_errorE">navground::sim::OdometryStateEstimation::default_transversal_speed_error (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_odometry.html#_CPPv4NK9navground3sim23OdometryStateEstimation23get_angular_speed_errorEv">navground::sim::OdometryStateEstimation::get_angular_speed_error (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_odometry.html#_CPPv4NK9navground3sim23OdometryStateEstimation28get_longitudinal_speed_errorEv">navground::sim::OdometryStateEstimation::get_longitudinal_speed_error (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_odometry.html#_CPPv4NK9navground3sim23OdometryStateEstimation8get_poseEv">navground::sim::OdometryStateEstimation::get_pose (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_odometry.html#_CPPv4NK9navground3sim23OdometryStateEstimation27get_transversal_speed_errorEv">navground::sim::OdometryStateEstimation::get_transversal_speed_error (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_odometry.html#_CPPv4N9navground3sim23OdometryStateEstimation23OdometryStateEstimationE10ng_float_t10ng_float_t10ng_float_tRKNSt6stringE">navground::sim::OdometryStateEstimation::OdometryStateEstimation (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_odometry.html#_CPPv4N9navground3sim23OdometryStateEstimation23set_angular_speed_errorE10ng_float_t">navground::sim::OdometryStateEstimation::set_angular_speed_error (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_odometry.html#_CPPv4N9navground3sim23OdometryStateEstimation28set_longitudinal_speed_errorE10ng_float_t">navground::sim::OdometryStateEstimation::set_longitudinal_speed_error (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor_odometry.html#_CPPv4N9navground3sim23OdometryStateEstimation27set_transversal_speed_errorE10ng_float_t">navground::sim::OdometryStateEstimation::set_transversal_speed_error (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment.html#_CPPv4N9navground3sim5ProbeE">navground::sim::Probe (C++ class)</a>
 </li>
@@ -3283,9 +3470,15 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor.html#_CPPv4NK9navground3sim6Sensor15get_descriptionEv">navground::sim::Sensor::get_description (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor.html#_CPPv4NK9navground3sim6Sensor14get_field_nameERKNSt6stringE">navground::sim::Sensor::get_field_name (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor.html#_CPPv4NK9navground3sim6Sensor8get_nameEv">navground::sim::Sensor::get_name (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/state_estimations/sensor.html#_CPPv4NK9navground3sim6Sensor7prepareERN4core12SensingStateE">navground::sim::Sensor::prepare (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/state_estimations/sensor.html#_CPPv4N9navground3sim6Sensor6SensorEv">navground::sim::Sensor::Sensor (C++ function)</a>
+      <li><a href="reference/sim/cpp/state_estimations/sensor.html#_CPPv4N9navground3sim6Sensor6SensorERKNSt6stringE">navground::sim::Sensor::Sensor (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/state_estimations/sensor.html#_CPPv4N9navground3sim6Sensor8set_nameERKNSt6stringE">navground::sim::Sensor::set_name (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/sensor_combination.html#_CPPv4N9navground3sim17SensorCombinationE">navground::sim::SensorCombination (C++ struct)</a>
 </li>
@@ -3309,7 +3502,7 @@ document.write(`
 </li>
       <li><a href="reference/sim/cpp/state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimationE">navground::sim::StateEstimation (C++ struct)</a>
 </li>
-      <li><a href="reference/sim/cpp/state_estimations/state_estimation.html#_CPPv4NK9navground3sim15StateEstimation6updateEP5AgentP5WorldP16EnvironmentState">navground::sim::StateEstimation::update (C++ function)</a>
+      <li><a href="reference/sim/cpp/state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimation6updateEP5AgentP5WorldP16EnvironmentState">navground::sim::StateEstimation::update (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4I0EN9navground3sim22StateEstimationSamplerE">navground::sim::StateEstimationSampler (C++ type)</a>
 </li>
@@ -3515,6 +3708,8 @@ document.write(`
       </ul></li>
       <li><a href="reference/core/cpp/types.html#_CPPv410ng_float_t">ng_float_t (C++ type)</a>
 </li>
+      <li><a href="reference/core/python/common.html#navground.core.normalize_angle">normalize_angle() (in module navground.core)</a>
+</li>
       <li><a href="reference/sim/python/visualization.html#navground.sim.notebook.notebook_view">notebook_view() (in module navground.sim.notebook)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.number">number (DiscsStateEstimation property)</a>
@@ -3547,6 +3742,8 @@ document.write(`
         <li><a href="reference/sim/python/world.html#navground.sim.World.obstacles">(World property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/state_estimations/sensor_odometry.html#navground.sim.state_estimations.OdometryStateEstimation">OdometryStateEstimation (class in navground.sim.state_estimations)</a>
+</li>
       <li><a href="reference/core/python/kinematics.html#navground.core.kinematics.OmnidirectionalKinematics">OmnidirectionalKinematics (class in navground.core.kinematics)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.optimal_angular_speed">optimal_angular_speed (Behavior property)</a>
@@ -3571,6 +3768,8 @@ document.write(`
 </li>
       <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario.orientation_noise">orientation_noise (AntipodalScenario property)</a>
 </li>
+      <li><a href="reference/core/python/common.html#navground.core.orientation_of">orientation_of() (in module navground.core)</a>
+</li>
       <li><a href="reference/core/python/target.html#navground.core.Target.orientation_tolerance">orientation_tolerance (Target property)</a>
 </li>
       <li><a href="reference/core/python/property.html#navground.core._navground.Property.owner_type_name">owner_type_name (Property property)</a>
@@ -3585,12 +3784,22 @@ document.write(`
 </li>
       <li><a href="reference/core/python/state.html#navground.core.LineSegment.p2">p2 (LineSegment property)</a>
 </li>
+      <li><a href="reference/core/python/target.html#navground.core.Path">Path (class in navground.core)</a>
+</li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.path">path (Experiment property)</a>
 
       <ul>
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperiment.path">(RecordedExperiment attribute)</a>
 </li>
+        <li><a href="reference/core/python/target.html#navground.core.Target.path">(Target property)</a>
+</li>
       </ul></li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.path_look_ahead">path_look_ahead (Behavior property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.path_tau">path_tau (Behavior property)</a>
+</li>
+      <li><a href="reference/sim/python/tasks/path.html#navground.sim.tasks.PathTask">PathTask (class in navground.sim.tasks)</a>
+</li>
       <li><a href="reference/sim/python/visualization.html#navground.sim.ui.render.pdf_for_world">pdf_for_world() (in module navground.sim.ui.render)</a>
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.phi">phi (SocialForceBehavior property)</a>
@@ -3603,6 +3812,8 @@ document.write(`
 
       <ul>
         <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.pose">(Behavior property)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/sensor_odometry.html#navground.sim.state_estimations.OdometryStateEstimation.pose">(OdometryStateEstimation property)</a>
 </li>
         <li><a href="reference/sim/python/experiment.html#navground.sim.RecordConfig.pose">(RecordConfig property)</a>
 </li>
@@ -3624,6 +3835,8 @@ document.write(`
 </li>
         <li><a href="reference/core/python/state.html#navground.core.Disc.position">(Disc property)</a>
 </li>
+        <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.position">(LidarStateEstimation property)</a>
+</li>
         <li><a href="reference/core/python/common.html#navground.core.Pose2.position">(Pose2 property)</a>
 </li>
         <li><a href="reference/core/python/target.html#navground.core.Target.position">(Target property)</a>
@@ -3635,7 +3848,11 @@ document.write(`
 </li>
       <li><a href="reference/core/python/target.html#navground.core.Target.position_tolerance">position_tolerance (Target property)</a>
 </li>
+      <li><a href="reference/core/python/behavior_modulation.html#navground.core.BehaviorModulation.post">post() (BehaviorModulation method)</a>
+</li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.potential">potential() (SocialForceBehavior method)</a>
+</li>
+      <li><a href="reference/core/python/behavior_modulation.html#navground.core.BehaviorModulation.pre">pre() (BehaviorModulation method)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor.html#navground.sim.state_estimations.Sensor.prepare">prepare() (Sensor method)</a>
 
@@ -3645,9 +3862,13 @@ document.write(`
       </ul></li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Probe">Probe (class in navground.sim)</a>
 </li>
+      <li><a href="reference/core/python/target.html#navground.core.Path.project">project (Path property)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.properties">properties (Behavior property)</a>
 
       <ul>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.BehaviorModulation.properties">(BehaviorModulation property)</a>
+</li>
         <li><a href="reference/core/python/property.html#navground.core._navground.HasProperties.properties">(HasProperties property)</a>
 </li>
         <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.properties">(Kinematics property)</a>
@@ -3755,10 +3976,10 @@ document.write(`
         <li><a href="reference/core/python/common.html#navground.core.Twist2.relative">(Twist2 method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/state.html#navground.core.Neighbor.relative_to">relative_to() (Neighbor method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behavior_modulation.html#navground.core.behavior_modulations.RelaxationModulation">RelaxationModulation (class in navground.core.behavior_modulations)</a>
 </li>
       <li><a href="reference/sim/python/experiment.html#navground.sim.Experiment.remove_all_runs">remove_all_runs() (Experiment method)</a>
@@ -3791,9 +4012,11 @@ document.write(`
       </ul></li>
       <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.root">root (RecordedExperimentalRun property)</a>
 </li>
-      <li><a href="reference/core/python/common.html#navground.core.Pose2.rotate">rotate() (Pose2 method)</a>
+      <li><a href="reference/core/python/common.html#navground.core.rotate">rotate() (in module navground.core)</a>
 
       <ul>
+        <li><a href="reference/core/python/common.html#navground.core.Pose2.rotate">(Pose2 method)</a>
+</li>
         <li><a href="reference/core/python/common.html#navground.core.Twist2.rotate">(Twist2 method)</a>
 </li>
       </ul></li>
@@ -3902,6 +4125,8 @@ document.write(`
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.set">set() (Behavior method)</a>
 
       <ul>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.BehaviorModulation.set">(BehaviorModulation method)</a>
+</li>
         <li><a href="reference/core/python/property.html#navground.core._navground.HasProperties.set">(HasProperties method)</a>
 </li>
         <li><a href="reference/core/python/kinematics.html#navground.core.Kinematics.set">(Kinematics method)</a>
@@ -4217,11 +4442,19 @@ document.write(`
         <li><a href="reference/sim/python/recorded_experiment.html#navground.sim.RecordedExperimentalRun.times">(RecordedExperimentalRun attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/py_dummy.html#navground.core.behaviors.PyDummyBehavior.tired">tired (PyDummyBehavior property)</a>
 </li>
+      <li><a href="reference/core/python/common.html#navground.core.to_absolute">to_absolute() (in module navground.core)</a>
+</li>
+      <li><a href="reference/core/python/common.html#navground.core.to_absolute_point">to_absolute_point() (in module navground.core)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.to_frame">to_frame() (Behavior method)</a>
+</li>
+      <li><a href="reference/core/python/common.html#navground.core.to_relative">to_relative() (in module navground.core)</a>
+</li>
+      <li><a href="reference/core/python/common.html#navground.core.to_relative_point">to_relative_point() (in module navground.core)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario.tolerance">tolerance (AntipodalScenario property)</a>
 
@@ -4231,6 +4464,10 @@ document.write(`
         <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.tolerance">(WaypointsTask property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/core/python/target.html#navground.core.Path.track">track() (Path method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_odometry.html#navground.sim.state_estimations.OdometryStateEstimation.transversal_speed_error">transversal_speed_error (OdometryStateEstimation property)</a>
+</li>
       <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior.treat_obstacles_as_agents">treat_obstacles_as_agents (ORCABehavior property)</a>
 </li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.twist">twist (Agent property)</a>
@@ -4263,6 +4500,8 @@ document.write(`
 
       <ul>
         <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.type">(Behavior property)</a>
+</li>
+        <li><a href="reference/core/python/behavior_modulation.html#navground.core.BehaviorModulation.type">(BehaviorModulation property)</a>
 </li>
         <li><a href="reference/core/python/state.html#navground.core.Buffer.type">(Buffer property)</a>
 </li>
@@ -4300,6 +4539,8 @@ document.write(`
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.u_r">u_r (SocialForceBehavior property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/HRVO.html#navground.core.behaviors.HRVOBehavior.uncertainty_offset">uncertainty_offset (HRVOBehavior property)</a>
+</li>
+      <li><a href="reference/core/python/common.html#navground.core.unit">unit() (in module navground.core)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.update">update() (Controller method)</a>
 
@@ -4498,8 +4739,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
   </footer>

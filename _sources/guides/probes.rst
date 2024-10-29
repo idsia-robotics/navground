@@ -178,14 +178,14 @@ In this case, you can use ``GroupRecordProbe`` to setup and manage a dictionary 
    
          .. code-block:: c++
       
-            sim::Dataset::Shape get_shapes(const World &world) const override {
+            sim::Dataset::Shape get_shapes(const World &world, bool use_uid) const override {
                 // return ...;
             }
       .. tab:: Python
       
          .. code-block:: Python
             
-            def get_shapes(self, world: sim.World) -> Dict[str, Tuple[int, ...]]:
+            def get_shapes(self, world: sim.World, use_uid: bool) -> Dict[str, Tuple[int, ...]]:
                 # return ...
 
 #. Overwrite the method that fill the datasets

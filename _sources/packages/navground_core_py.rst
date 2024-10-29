@@ -47,7 +47,7 @@ Executables
 info
 ----
 
-Lists registered components (behaviors and kinematics).
+Lists registered components (behaviors, kinematics, and behavior modulations).
 It is equivalent to the :ref:`C++ version <info>` but with additional components implemented in Python.
 
 
@@ -124,8 +124,75 @@ Example
         tau: 0.125 [double]
 
 
-navground.sim
--------------
+.. _echo_py:
+
+echo
+----
+
+Load and then print a YAML representation of an object (behavior, kinematic, or behavior modulation). It is equivalent to the :ref:`C++ version <echo>` but with additional components implemented in Python.
+
+
+.. argparse::
+   :module: navground.core.echo
+   :func: parser
+   :prog: echo
+   :nodefault:
+   :nodescription:
+
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ echo behavior "{type: PyDummy}"
+
+   type: PyDummy
+   dummy: true
+   tired: false
+   optimal_speed: 0
+   optimal_angular_speed: 0
+   rotation_tau: 0.5
+   safety_margin: 0
+   horizon: 5
+   path_look_ahead: 1
+   path_tau: 0.5
+   radius: 0
+   heading: velocity
+   social_margin:
+     modulation:
+       type: constant
+     default: 0
+
+
+.. _plugins_py:
+
+plugins
+-------
+
+Load and list plugins.
+
+.. argparse::
+   :module: navground.core.list_plugins
+   :func: parser
+   :prog: plugins
+   :nodescription:
+   :nodefault:
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ plugins
+   
+   navground_examples
+   ------------------
+   Behaviors: Idle [C++]
+
+
+navground.core
+--------------
 
 Instead of 
 

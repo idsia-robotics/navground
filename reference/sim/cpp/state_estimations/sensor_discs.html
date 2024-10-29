@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Discs &#8212; navground 0.1.0 documentation</title>
+    <title>Discs &#8212; navground 0.2.0 documentation</title>
   
   
   
@@ -16,33 +16,35 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=a1637f0b"></script>
-    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../../_static/copybutton.js?v=f281be69"></script>
@@ -56,6 +58,7 @@
     <link rel="prev" title="Lidar" href="sensor_lidar.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -71,19 +74,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../../search.html"
       method="get">
@@ -91,7 +83,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -99,8 +90,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -116,7 +107,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -141,20 +133,16 @@
   
   
   
-    <p class="title logo__title">navground 0.1.0 documentation</p>
+    <p class="title logo__title">navground 0.2.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
@@ -403,24 +391,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -445,7 +425,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimationE"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation20DiscsStateEstimationE10ng_float_tj10ng_float_t10ng_float_tbbj"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::DiscsStateEstimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation20DiscsStateEstimationE10ng_float_tj10ng_float_t10ng_float_tbbjRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::DiscsStateEstimation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation9set_rangeE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::set_range()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20DiscsStateEstimation9get_rangeEv"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::get_range()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation10set_numberEi"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::set_number()</span></code></a></li>
@@ -460,7 +440,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20DiscsStateEstimation21get_use_nearest_pointEv"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::get_use_nearest_point()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation10set_max_idEi"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::set_max_id()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20DiscsStateEstimation10get_max_idEv"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::get_max_id()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20DiscsStateEstimation15get_descriptionEv"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::get_description()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation13default_rangeE"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::default_range</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation14default_numberE"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::default_number</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation18default_max_radiusE"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::default_max_radius</span></code></a></li>
@@ -495,23 +474,30 @@ document.write(`
 <p><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">range</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_discs_state_estimation_1a49efa04fedb90d83e7c917ba6da3fc00"><span class="std std-ref">get_range</span></a>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">number</span></code> (int, <a class="reference internal" href="#structnavground_1_1sim_1_1_discs_state_estimation_1ad5e1513e91395f3029e3d43ffc7ad20e"><span class="std std-ref">get_number</span></a>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">max_radius</span></code> (int, <a class="reference internal" href="#structnavground_1_1sim_1_1_discs_state_estimation_1ad5e1513e91395f3029e3d43ffc7ad20e"><span class="std std-ref">get_number</span></a>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">max_speed</span></code> (int, <a class="reference internal" href="#structnavground_1_1sim_1_1_discs_state_estimation_1ad5e1513e91395f3029e3d43ffc7ad20e"><span class="std std-ref">get_number</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_radius</span></code> (int, <a class="reference internal" href="#structnavground_1_1sim_1_1_discs_state_estimation_1ad967d504be10dd327a635121cc0999ab"><span class="std std-ref">get_max_radius</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_speed</span></code> (int, <a class="reference internal" href="#structnavground_1_1sim_1_1_discs_state_estimation_1ac1a2bfeb32f8fba47f37837b42df006c"><span class="std std-ref">get_max_speed</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include_valid</span></code> (bool, <a class="reference internal" href="#structnavground_1_1sim_1_1_discs_state_estimation_1aced297f16f524bace0fdcac0dc5af432"><span class="std std-ref">get_include_valid</span></a>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">use_nearest_point</span></code> (bool, <a class="reference internal" href="#structnavground_1_1sim_1_1_discs_state_estimation_1ae1ba70aa881c5adf51f2323634f0499a"><span class="std std-ref">get_use_nearest_point</span></a>)</p></li>
-<li><p>`max_ </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_id</span></code> (int, <a class="reference internal" href="#structnavground_1_1sim_1_1_discs_state_estimation_1abb6fd616226f7d5e499904e2f6966115"><span class="std std-ref">get_max_id</span></a>) </p></li>
 </ul>
 </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20DiscsStateEstimation20DiscsStateEstimationE10ng_float_tj10ng_float_t10ng_float_tbbj">
-<span class="target" id="structnavground_1_1sim_1_1_discs_state_estimation_1ab98a6d6fd61d8c917b4f7ae070b56db7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DiscsStateEstimation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">range_</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation13default_rangeE" title="navground::sim::DiscsStateEstimation::default_range"><span class="n"><span class="pre">default_range</span></span></a>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">number_</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation14default_numberE" title="navground::sim::DiscsStateEstimation::default_number"><span class="n"><span class="pre">default_number</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_radius_</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation18default_max_radiusE" title="navground::sim::DiscsStateEstimation::default_max_radius"><span class="n"><span class="pre">default_max_radius</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_speed_</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation17default_max_speedE" title="navground::sim::DiscsStateEstimation::default_max_speed"><span class="n"><span class="pre">default_max_speed</span></span></a>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">include_valid_</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation21default_include_validE" title="navground::sim::DiscsStateEstimation::default_include_valid"><span class="n"><span class="pre">default_include_valid</span></span></a>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">use_nearest_point_</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation25default_use_nearest_pointE" title="navground::sim::DiscsStateEstimation::default_use_nearest_point"><span class="n"><span class="pre">default_use_nearest_point</span></span></a>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_id_</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation14default_max_idE" title="navground::sim::DiscsStateEstimation::default_max_id"><span class="n"><span class="pre">default_max_id</span></span></a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim20DiscsStateEstimation20DiscsStateEstimationE10ng_float_tj10ng_float_t10ng_float_tbbj" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20DiscsStateEstimation20DiscsStateEstimationE10ng_float_tj10ng_float_t10ng_float_tbbjRKNSt6stringE">
+<span class="target" id="structnavground_1_1sim_1_1_discs_state_estimation_1a745886ebfa9a1cec8268dbcf1bc6677f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DiscsStateEstimation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">range</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation13default_rangeE" title="navground::sim::DiscsStateEstimation::default_range"><span class="n"><span class="pre">default_range</span></span></a>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">number</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation14default_numberE" title="navground::sim::DiscsStateEstimation::default_number"><span class="n"><span class="pre">default_number</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_radius</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation18default_max_radiusE" title="navground::sim::DiscsStateEstimation::default_max_radius"><span class="n"><span class="pre">default_max_radius</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation17default_max_speedE" title="navground::sim::DiscsStateEstimation::default_max_speed"><span class="n"><span class="pre">default_max_speed</span></span></a>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">include_valid</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation21default_include_validE" title="navground::sim::DiscsStateEstimation::default_include_valid"><span class="n"><span class="pre">default_include_valid</span></span></a>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">use_nearest_point</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation25default_use_nearest_pointE" title="navground::sim::DiscsStateEstimation::default_use_nearest_point"><span class="n"><span class="pre">default_use_nearest_point</span></span></a>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_id</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20DiscsStateEstimation14default_max_idE" title="navground::sim::DiscsStateEstimation::default_max_id"><span class="n"><span class="pre">default_max_id</span></span></a>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim20DiscsStateEstimation20DiscsStateEstimationE10ng_float_tj10ng_float_t10ng_float_tbbjRKNSt6stringE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>range_</strong> – <strong>[in]</strong> The range of view </p></li>
-<li><p><strong>number_</strong> – <strong>[in]</strong> Number of discs </p></li>
+<li><p><strong>range</strong> – <strong>[in]</strong> The range of view </p></li>
+<li><p><strong>number</strong> – <strong>[in]</strong> Number of discs </p></li>
+<li><p><strong>max_radius</strong> – <strong>[in]</strong> Maximal neighbor radius </p></li>
+<li><p><strong>max_speed</strong> – <strong>[in]</strong> Maximal neighbor speed </p></li>
+<li><p><strong>include_valid</strong> – <strong>[in]</strong> Whether to include validity </p></li>
+<li><p><strong>use_nearest_point</strong> – <strong>[in]</strong> Whether to use nearest point as position </p></li>
+<li><p><strong>max_id</strong> – <strong>[in]</strong> Maximal neighbor id </p></li>
+<li><p><strong>name</strong> – <strong>[in]</strong> The name to use as a prefix </p></li>
 </ul>
 </dd>
 </dl>
@@ -674,17 +660,6 @@ document.write(`
 </dl>
 </dd></dl>
 
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim20DiscsStateEstimation15get_descriptionEv">
-<span class="target" id="structnavground_1_1sim_1_1_discs_state_estimation_1a3f052509d6d391120db3fe62f75cd498"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">Description</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_description</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim20DiscsStateEstimation15get_descriptionEv" title="Link to this definition">#</a><br /></dt>
-<dd><p>Gets the description of the buffers set by the sensors. </p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The description. </p>
-</dd>
-</dl>
-</dd></dl>
-
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
@@ -703,13 +678,13 @@ document.write(`
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20DiscsStateEstimation18default_max_radiusE">
 <span class="target" id="structnavground_1_1sim_1_1_discs_state_estimation_1a06eb9c074568288bb30ad1cd5c8c3f6c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_max_radius</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N9navground3sim20DiscsStateEstimation18default_max_radiusE" title="Link to this definition">#</a><br /></dt>
-<dd><p>The default maximal neighbor radius (for which it will not include radii) </p>
+<dd><p>The default maximal neighbor radius (zero means that it will include radii) </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20DiscsStateEstimation17default_max_speedE">
 <span class="target" id="structnavground_1_1sim_1_1_discs_state_estimation_1a2fbbdae5e8d8b90bd74356f07b08c65d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_max_speed</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N9navground3sim20DiscsStateEstimation17default_max_speedE" title="Link to this definition">#</a><br /></dt>
-<dd><p>The default maximal neighbor speed (for which it will not include velocities) </p>
+<dd><p>The default maximal neighbor speed (zero means that it will not include velocities) </p>
 </dd></dl>
 
 <dl class="cpp var">
@@ -727,7 +702,7 @@ document.write(`
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20DiscsStateEstimation14default_max_idE">
 <span class="target" id="structnavground_1_1sim_1_1_discs_state_estimation_1abcab65ba82e202427a04fe989c319a15"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_max_id</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N9navground3sim20DiscsStateEstimation14default_max_idE" title="Link to this definition">#</a><br /></dt>
-<dd><p>The default maximal id (for which it will not include ids) </p>
+<dd><p>The default maximal id (zero means that it will not include ids) </p>
 </dd></dl>
 
 </div>
@@ -771,7 +746,8 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -781,7 +757,7 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimationE"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation20DiscsStateEstimationE10ng_float_tj10ng_float_t10ng_float_tbbj"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::DiscsStateEstimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation20DiscsStateEstimationE10ng_float_tj10ng_float_t10ng_float_tbbjRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::DiscsStateEstimation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation9set_rangeE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::set_range()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20DiscsStateEstimation9get_rangeEv"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::get_range()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation10set_numberEi"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::set_number()</span></code></a></li>
@@ -796,7 +772,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20DiscsStateEstimation21get_use_nearest_pointEv"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::get_use_nearest_point()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation10set_max_idEi"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::set_max_id()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20DiscsStateEstimation10get_max_idEv"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::get_max_id()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20DiscsStateEstimation15get_descriptionEv"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::get_description()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation13default_rangeE"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::default_range</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation14default_numberE"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::default_number</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20DiscsStateEstimation18default_max_radiusE"><code class="docutils literal notranslate"><span class="pre">DiscsStateEstimation::default_max_radius</span></code></a></li>
@@ -854,8 +829,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
   </footer>

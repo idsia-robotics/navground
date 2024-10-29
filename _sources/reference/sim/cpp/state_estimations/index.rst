@@ -13,3 +13,4 @@ State estimations
    sensor_discs
    sensor_boundary
    sensor_combination
+   sensor_odometry

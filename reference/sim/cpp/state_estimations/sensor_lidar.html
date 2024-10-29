@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Lidar &#8212; navground 0.1.0 documentation</title>
+    <title>Lidar &#8212; navground 0.2.0 documentation</title>
   
   
   
@@ -16,33 +16,35 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=a1637f0b"></script>
-    <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../../_static/copybutton.js?v=f281be69"></script>
@@ -56,6 +58,7 @@
     <link rel="prev" title="Sensor" href="sensor.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -71,19 +74,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../../search.html"
       method="get">
@@ -91,7 +83,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -99,8 +90,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -116,7 +107,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -141,20 +133,16 @@
   
   
   
-    <p class="title logo__title">navground 0.1.0 documentation</p>
+    <p class="title logo__title">navground 0.2.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
@@ -403,24 +391,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -445,20 +425,30 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimationE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tj"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::LidarStateEstimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tjRK7Vector210ng_float_t10ng_float_tRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::LidarStateEstimation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation9set_rangeE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_range()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation9get_rangeEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_range()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation15set_start_angleE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_start_angle()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation15get_start_angleEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_start_angle()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_field_of_viewE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_field_of_view()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_field_of_viewEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_field_of_view()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_error_biasE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_error_bias()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_error_biasEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_error_bias()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_error_std_devE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_error_std_dev()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_error_std_devEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_error_std_dev()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_resolutionEi"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_resolution()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_resolution()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation15get_descriptionEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_description()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation12set_positionERKN4core7Vector2E"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_position()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation12get_positionEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_position()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation21get_angular_incrementEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_angular_increment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation10get_anglesEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_angles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation11read_rangesERN4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::read_ranges()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation13default_rangeE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_range</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_start_angle</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_field_of_view</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_resolutionE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_resolution</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_error_biasE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_error_bias</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_error_std_devE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_error_std_dev</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation10field_nameE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::field_name</span></code></a></li>
 </ul>
 </li>
@@ -487,22 +477,29 @@ document.write(`
 <li><p><code class="docutils literal notranslate"><span class="pre">range</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_lidar_state_estimation_1adb8363fa4c45d42624ebdf67f7e678c0"><span class="std std-ref">get_range</span></a>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">start_angle</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_lidar_state_estimation_1ae74231caaa62f1af1181924381c2df40"><span class="std std-ref">get_start_angle</span></a>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">field_of_view</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_lidar_state_estimation_1a9c256a0179cbd72569bd074a0973cbbf"><span class="std std-ref">get_field_of_view</span></a>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">resolution</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_lidar_state_estimation_1a717fcaf30a4c77421bb1b54b9d50a880"><span class="std std-ref">get_resolution</span></a>) </p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resolution</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_lidar_state_estimation_1a717fcaf30a4c77421bb1b54b9d50a880"><span class="std std-ref">get_resolution</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (Vector2, <a class="reference internal" href="#structnavground_1_1sim_1_1_lidar_state_estimation_1a302ce2d11377b4f6dfbb98ce009b4364"><span class="std std-ref">get_position</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">error_bias</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_lidar_state_estimation_1a8dcb138b35ca6d386e1234edf4f85461"><span class="std std-ref">get_error_bias</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">error_std_dev</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_lidar_state_estimation_1a982d76c6b03c83477c22806111d7c237"><span class="std std-ref">get_error_std_dev</span></a>) </p></li>
 </ul>
 </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tj">
-<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1ac93724f57db98709f86166fdf006a297"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LidarStateEstimation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">range_</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation13default_rangeE" title="navground::sim::LidarStateEstimation::default_range"><span class="n"><span class="pre">default_range</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">start_angle_</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE" title="navground::sim::LidarStateEstimation::default_start_angle"><span class="n"><span class="pre">default_start_angle</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">field_of_view_</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE" title="navground::sim::LidarStateEstimation::default_field_of_view"><span class="n"><span class="pre">default_field_of_view</span></span></a>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">resolution_</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_resolutionE" title="navground::sim::LidarStateEstimation::default_resolution"><span class="n"><span class="pre">default_resolution</span></span></a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tj" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tjRK7Vector210ng_float_t10ng_float_tRKNSt6stringE">
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a382b57204f794f746dadd040539bb449"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LidarStateEstimation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">range</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation13default_rangeE" title="navground::sim::LidarStateEstimation::default_range"><span class="n"><span class="pre">default_range</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">start_angle</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE" title="navground::sim::LidarStateEstimation::default_start_angle"><span class="n"><span class="pre">default_start_angle</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">field_of_view</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE" title="navground::sim::LidarStateEstimation::default_field_of_view"><span class="n"><span class="pre">default_field_of_view</span></span></a>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">resolution</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_resolutionE" title="navground::sim::LidarStateEstimation::default_resolution"><span class="n"><span class="pre">default_resolution</span></span></a>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Zero</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">error_bias</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_error_biasE" title="navground::sim::LidarStateEstimation::default_error_bias"><span class="n"><span class="pre">default_error_bias</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">error_std_dev</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_error_std_devE" title="navground::sim::LidarStateEstimation::default_error_std_dev"><span class="n"><span class="pre">default_error_std_dev</span></span></a>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tjRK7Vector210ng_float_t10ng_float_tRKNSt6stringE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>range_</strong> – <strong>[in]</strong> The maximal range of the sensor </p></li>
-<li><p><strong>start_angle_</strong> – <strong>[in]</strong> The starting angle </p></li>
-<li><p><strong>field_of_view_</strong> – <strong>[in]</strong> The field of view </p></li>
-<li><p><strong>resolution_</strong> – <strong>[in]</strong> The number of ranging measurements per scan </p></li>
+<li><p><strong>range</strong> – <strong>[in]</strong> The maximal range of the sensor </p></li>
+<li><p><strong>start_angle</strong> – <strong>[in]</strong> The starting angle </p></li>
+<li><p><strong>field_of_view</strong> – <strong>[in]</strong> The field of view </p></li>
+<li><p><strong>resolution</strong> – <strong>[in]</strong> The number of ranging measurements per scan </p></li>
+<li><p><strong>position</strong> – <strong>[in]</strong> The position of the sensor with respect to the agent origin. </p></li>
+<li><p><strong>error_bias</strong> – <strong>[in]</strong> The systematic error for all rangings. </p></li>
+<li><p><strong>error_std_dev</strong> – <strong>[in]</strong> The rangings error standard deviation. </p></li>
+<li><p><strong>name</strong> – <strong>[in]</strong> The name to use as a prefix </p></li>
 </ul>
 </dd>
 </dl>
@@ -575,6 +572,50 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimation14set_error_biasE10ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a6359be5d16b5e1cc1798c09f88e14cc6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_error_bias</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_error_biasE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the error bias, i.e., the systematic error for all rangings. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The new value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim20LidarStateEstimation14get_error_biasEv">
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a8dcb138b35ca6d386e1234edf4f85461"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_error_bias</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_error_biasEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the error bias, i.e., the systematic error for all rangings. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The error. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimation17set_error_std_devE10ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1ad5a9d90bd9ab3b3439495505a621406e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_error_std_dev</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_error_std_devE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the rangings error standard deviation. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The positive value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim20LidarStateEstimation17get_error_std_devEv">
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a982d76c6b03c83477c22806111d7c237"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_error_std_dev</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_error_std_devEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the rangings error standard deviation. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The error. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimation14set_resolutionEi">
 <span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1aef845bf298c0d3497d77a8a748fef126"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_resolution</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_resolutionEi" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the range of view. </p>
@@ -597,12 +638,59 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim20LidarStateEstimation15get_descriptionEv">
-<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a74a55794597d553b7f42f3adaec2e220"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">Description</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_description</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim20LidarStateEstimation15get_descriptionEv" title="Link to this definition">#</a><br /></dt>
-<dd><p>Gets the description of the buffers set by the sensors. </p>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimation12set_positionERKN4core7Vector2E">
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a640d6e669267612d9ef24c67fea7824d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_position</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation12set_positionERKN4core7Vector2E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the position of the sensor with respect to the agent origin. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The new value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim20LidarStateEstimation12get_positionEv">
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a302ce2d11377b4f6dfbb98ce009b4364"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_position</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim20LidarStateEstimation12get_positionEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the position of the sensor with respect to the agent origin. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The description. </p>
+<dd class="field-odd"><p>The position. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim20LidarStateEstimation21get_angular_incrementEv">
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1aeaca742bc45e526af83e191500702d85"></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_angular_increment</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim20LidarStateEstimation21get_angular_incrementEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the angular increment between rays. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The angular increment. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim20LidarStateEstimation10get_anglesEv">
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a2aa4c859d56c0a6a9fdb81c6878f4e4f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_angles</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim20LidarStateEstimation10get_anglesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the ray angles. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The angles. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim20LidarStateEstimation11read_rangesERN4core12SensingStateE">
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1aba2cbfb435b9009ab18b14d36ff2e5c4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">read_ranges</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/state.html#_CPPv4N9navground4core12SensingStateE" title="navground::core::SensingState"><span class="n"><span class="pre">SensingState</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">state</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim20LidarStateEstimation11read_rangesERN4core12SensingStateE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Reads the ranges stored in a sensing state. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state</strong> – The state</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The array of ranges </p>
 </dd>
 </dl>
 </dd></dl>
@@ -632,6 +720,18 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimation18default_resolutionE">
 <span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1ae3b01a104abbc50f9f86049d2810a64a"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_resolution</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">100</span></span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_resolutionE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The default resolution </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimation18default_error_biasE">
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1aca57abe226c898f65154eb9724b0d14a"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_error_bias</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_error_biasE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The default error bias </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimation21default_error_std_devE">
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a660cdc7efde64091175ba38cf81d5047"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_error_std_dev</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_error_std_devE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The default error standard deviation </p>
 </dd></dl>
 
 <dl class="cpp var">
@@ -681,7 +781,8 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -691,20 +792,30 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimationE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tj"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::LidarStateEstimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tjRK7Vector210ng_float_t10ng_float_tRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::LidarStateEstimation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation9set_rangeE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_range()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation9get_rangeEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_range()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation15set_start_angleE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_start_angle()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation15get_start_angleEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_start_angle()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_field_of_viewE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_field_of_view()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_field_of_viewEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_field_of_view()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_error_biasE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_error_bias()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_error_biasEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_error_bias()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_error_std_devE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_error_std_dev()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_error_std_devEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_error_std_dev()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_resolutionEi"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_resolution()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_resolution()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation15get_descriptionEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_description()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation12set_positionERKN4core7Vector2E"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_position()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation12get_positionEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_position()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation21get_angular_incrementEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_angular_increment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation10get_anglesEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_angles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation11read_rangesERN4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::read_ranges()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation13default_rangeE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_range</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_start_angle</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_field_of_view</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_resolutionE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_resolution</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_error_biasE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_error_bias</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_error_std_devE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_error_std_dev</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation10field_nameE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::field_name</span></code></a></li>
 </ul>
 </li>
@@ -756,8 +867,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
   </footer>

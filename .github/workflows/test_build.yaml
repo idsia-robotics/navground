@@ -1,0 +1,143 @@
+name: Test Build
+on:
+  workflow_dispatch:
+env:
+  COLCON_DEFAULTS_FILE: src/navground/colcon/defaults.yaml
+jobs:
+  build_cpp:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    name: Build C++ 📦
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: 'pip'
+      - name: install colcon
+        run: pip install colcon-common-extensions
+      - name: load deps
+        uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: install
+          key: ${{ matrix.os }}-${{ hashFiles('src/navground/installation/deps.repos', 'src/navground/installation/ament.repos') }}
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: download deps
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install vcstool
+          vcs import --shallow --input src/navground/installation/deps.repos
+          vcs import --shallow --input src/navground/installation/ament.repos
+      - name: build deps (win)
+        if: ${{runner.os == 'Windows' && steps.cache.outputs.cache-hit != 'true' }}
+        run: |
+          set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
+          colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11 ament_cmake ament_package ament_index_cpp      
+      - name: build deps (unix)
+        if: ${{runner.os != 'Windows' && steps.cache.outputs.cache-hit != 'true' }}
+        run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11 ament_cmake ament_package ament_index_cpp
+      - name: save deps
+        uses: actions/cache/save@v4
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: install
+          key: ${{ matrix.os }}-${{ hashFiles('src/navground/installation/deps.repos', 'src/navground/installation/ament.repos') }}   
+      - name: build navground (unix)
+        if: runner.os != 'Windows'
+        run: |
+          source install/setup.bash
+          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim # navground_examples
+      - name: build navground (win)
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
+          colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
+      - name: archive install
+        uses: actions/upload-artifact@v4
+        with:
+          name: install-${{ matrix.os }}
+          path: install
+          if-no-files-found: error
+  build_py:
+    needs: build_cpp
+    name: Build Python 📦
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+        python-version:
+          - "3.12"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+          fetch-depth: 0
+      - name: download install
+        uses: actions/download-artifact@v4
+        with:
+          name: install-${{ matrix.os }}
+          path: install
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      - name: install build deps
+        run: pip install colcon-common-extensions wheel setuptools build setuptools_git_versioning libclang repairwheel
+      - name: install pybind11_mkdoc
+        run: |
+          git clone --depth=1 https://github.com/jeguzzi/pybind11_mkdoc.git --branch rst src/pybind11_mkdoc
+          cd src/pybind11_mkdoc
+          pip install .
+          cd -
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: build navground (unix)
+        if: runner.os != 'Windows'
+        run: |
+          source install/setup.bash
+          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
+      - name: build navground (win)
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
+          colcon build --event-handlers console_direct+ --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
+      - name: archive logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-${{ matrix.os }}-py${{matrix.python-version}}
+          path: log
+          if-no-files-found: error
+      - name: archive install
+        uses: actions/upload-artifact@v4
+        with:
+          name: install-${{ matrix.os }}-py${{matrix.python-version}}
+          path: install
+          if-no-files-found: error
+      - name: build wheel (win)
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          cd src\navground\navground_py
+          python setup.py bdist_wheel
+          $fileNames = Get-ChildItem -Path dist -Recurse -Include *.whl
+          repairwheel -o ..\..\..\dist $fileNames[0]
+      - name: build wheel (unix)
+        if: runner.os != 'Windows'
+        run: |
+          source install/setup.bash
+          cd src/navground/navground_py
+          python setup.py bdist_wheel
+          repairwheel -o ../../../dist dist/*.whl

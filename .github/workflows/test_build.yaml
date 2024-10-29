@@ -11,7 +11,7 @@ jobs:
           - ubuntu-latest
           - windows-latest
           - macos-latest
-    name: Build C++ 📦
+    name: Build Navground
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -50,12 +50,12 @@ jobs:
         with:
           path: install
           key: ${{ matrix.os }}-${{ hashFiles('src/navground/installation/deps.repos', 'src/navground/installation/ament.repos') }}   
-      - name: build navground (unix)
+      - name: build navground c++ (unix)
         if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim navground_examples
-      - name: build navground (win)
+      - name: build navground c++ (win)
         if: runner.os == 'Windows'
         run: |
           install\setup.ps1
@@ -70,12 +70,12 @@ jobs:
           pip install .
           cd -
       - uses: ilammy/msvc-dev-cmd@v1
-      - name: build navground (unix)
+      - name: build navground Python (unix)
         if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core_py navground_sim_py navground_examples_py
-      - name: build navground (win)
+      - name: build navground Python (win)
         if: runner.os == 'Windows'
         run: |
           install\setup.ps1

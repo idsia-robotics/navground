@@ -109,7 +109,7 @@ else()
   python_install_namespace_package(
     navground.core
     NAMESPACE navground
-    VERSION "0.1.0"
+    VERSION "0.2.0"
     TARGET _navground
   )
   

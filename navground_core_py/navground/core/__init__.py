@@ -135,8 +135,8 @@ class Kinematics(_Kinematics):
         super().__init_subclass__(**kwargs)
         _register(_Kinematics, cls, name)
 
-    def __init__(self, max_speed=0.0, max_angular_speeed=0.0):
-        _Kinematics.__init__(self, max_speed, max_angular_speeed)
+    def __init__(self, max_speed=0.0, max_angular_speed=0.0):
+        _Kinematics.__init__(self, max_speed, max_angular_speed)
 
     def __getstate__(self):
         return (self.__dict__, _Kinematics.__getstate__(self))

@@ -90,6 +90,7 @@ else()
     NAMESPACE navground
     VERSION "0.2.0"
     TARGET _navground_sim
+    DATA ui/templates/*
   )
 
 endif()

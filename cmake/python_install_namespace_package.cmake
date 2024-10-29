@@ -25,7 +25,7 @@
 
 function(python_install_namespace_package package_name)
   cmake_parse_arguments(
-    ARG "SKIP_COMPILE" "TARGET;PACKAGE_DIR;VERSION;NAMESPACE" "" ${ARGN})
+    ARG "SKIP_COMPILE" "TARGET;PACKAGE_DIR;VERSION;NAMESPACE" "DATA" ${ARGN})
   if(ARG_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "python_install_namespace_package() called with unused "
       "arguments: ${ARG_UNPARSED_ARGUMENTS}")
@@ -53,6 +53,11 @@ function(python_install_namespace_package package_name)
 
   set(build_dir "${CMAKE_CURRENT_BINARY_DIR}")
 
+  
+  list(TRANSFORM ARG_DATA APPEND "'")
+  list(TRANSFORM ARG_DATA PREPEND "'")
+  list(JOIN ARG_DATA ", " DATA)
+
   string(CONFIGURE "\
 from setuptools import find_namespace_packages
 from setuptools import setup
@@ -62,7 +67,7 @@ setup(
     version='${ARG_VERSION}',
     packages=find_namespace_packages(),
     include_package_data=True,
-    package_data={'${package_name}': ['${ARG_TARGET}.*']}
+    package_data={'${package_name}': ['${ARG_TARGET}.*', ${DATA}]}
 )
 " setup_py_content)
 

@@ -54,45 +54,13 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           source install/setup.bash
-          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim # navground_examples
+          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim navground_examples
       - name: build navground (win)
         if: runner.os == 'Windows'
         run: |
           install\setup.ps1
           set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
           colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
-      - name: archive install
-        uses: actions/upload-artifact@v4
-        with:
-          name: install-${{ matrix.os }}
-          path: install
-          if-no-files-found: error
-  build_py:
-    needs: build_cpp
-    name: Build Python 📦
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
-          - macos-latest
-        python-version:
-          - "3.12"
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          path: src/navground
-          fetch-depth: 0
-      - name: download install
-        uses: actions/download-artifact@v4
-        with:
-          name: install-${{ matrix.os }}
-          path: install
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: 'pip'
       - name: install build deps
         run: pip install colcon-common-extensions wheel setuptools build setuptools_git_versioning libclang repairwheel
       - name: install pybind11_mkdoc
@@ -106,7 +74,7 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           source install/setup.bash
-          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
+          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core_py navground_sim_py navground_examples_py
       - name: build navground (win)
         if: runner.os == 'Windows'
         run: |
@@ -114,30 +82,8 @@ jobs:
           set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
           colcon build --event-handlers console_direct+ --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
       - name: archive logs
-        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: log-${{ matrix.os }}-py${{matrix.python-version}}
+          name: log-${{ matrix.os }}
           path: log
           if-no-files-found: error
-      - name: archive install
-        uses: actions/upload-artifact@v4
-        with:
-          name: install-${{ matrix.os }}-py${{matrix.python-version}}
-          path: install
-          if-no-files-found: error
-      - name: build wheel (win)
-        if: runner.os == 'Windows'
-        run: |
-          install\setup.ps1
-          cd src\navground\navground_py
-          python setup.py bdist_wheel
-          $fileNames = Get-ChildItem -Path dist -Recurse -Include *.whl
-          repairwheel -o ..\..\..\dist $fileNames[0]
-      - name: build wheel (unix)
-        if: runner.os != 'Windows'
-        run: |
-          source install/setup.bash
-          cd src/navground/navground_py
-          python setup.py bdist_wheel
-          repairwheel -o ../../../dist dist/*.whl

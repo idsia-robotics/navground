@@ -9,6 +9,7 @@
 #include <random>
 #include <type_traits>
 #include <vector>
+#include <utility>
 
 #include "navground/core/common.h"
 #include "navground/core/property.h"
@@ -584,7 +585,7 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
    */
   template <typename S, typename = std::enable_if_t<allowed<ST<S>>::value>>
   PropertySampler(S&& value)
-      : sampler(static_cast<US<ST<S>>>(std::make_unique<S>(std::move(value)))) {
+      : sampler(static_cast<US<ST<S>>>(std::make_unique<S>(std::forward(value)))) {
   }
 
   /**

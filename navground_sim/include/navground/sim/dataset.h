@@ -275,7 +275,7 @@ class NAVGROUND_SIM_EXPORT Dataset {
    * @return     An eigen tensor with the same shape and type as the dataset
    */
   template <typename T, int N>
-  Eigen::Tensor<T, N> const as_tensor() const {
+  Eigen::TensorMap<Eigen::Tensor<T, N>> const as_tensor() const {
     auto data = get_typed_data<T>();
     T* ptr = const_cast<T*>(data->data());
     std::array<size_t, N> shape;

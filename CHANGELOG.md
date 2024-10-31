@@ -6,6 +6,9 @@
 
 ### Fixed
 
+- The scenario YAML encoding now uses the walls schema like the decoder, and not the line schema.
+- Installing `navground_{core|sim}_py` without `ament` now include packages files. 
+
 ### Changed
 
 ### Removed

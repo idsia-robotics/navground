@@ -1,6 +1,7 @@
 #include "navground/sim/experimental_run.h"
 
 #include <highfive/H5DataSpace.hpp>
+#include <limits>
 #include <string>
 
 #include "navground/core/yaml/yaml.h"
@@ -40,22 +41,65 @@ extract_collision_events(const std::shared_ptr<Dataset> &collisions,
     std::cerr << "Collisions dataset has unexpected type" << std::endl;
     return nullptr;
   }
-  std::shared_ptr<Dataset> collision_events = Dataset::make<unsigned>({3});
+  std::shared_ptr<Dataset> collision_events = Dataset::make<unsigned>({4});
   collision_events->set_dtype<unsigned>();
   const std::vector<unsigned> values = *ptr;
-  std::map<std::tuple<unsigned, unsigned>, unsigned> ts;
+  // (e1, e2) -> (begin, end)
+  std::map<std::tuple<unsigned, unsigned>, std::tuple<unsigned, unsigned>> ts;
   for (size_t i = 0; i < shape[0]; ++i) {
     const unsigned t = values[3 * i];
     const std::tuple<unsigned, unsigned> es{values[3 * i + 1],
                                             values[3 * i + 2]};
-    if (!ts.count(es) || t >= ts[es]) {
-      collision_events->push<unsigned>(t);
-      collision_events->push<unsigned>(values[3 * i + 1]);
-      collision_events->push<unsigned>(values[3 * i + 2]);
+    if (!ts.count(es)) {
+      ts[es] = {t, t};
+    } else {
+      auto &vs = ts[es];
+      if (t > std::get<1>(vs) + min_interval) {
+        collision_events->push<unsigned>(std::get<0>(vs));
+        collision_events->push<unsigned>(std::get<1>(vs));
+        collision_events->push<unsigned>(std::get<0>(es));
+        collision_events->push<unsigned>(std::get<1>(es));
+        ts[es] = {t, t};
+      } else {
+        std::get<1>(vs) = t;
+      }
     }
-    ts[es] = t + min_interval + 1;
+  }
+  for (const auto &[es, vs] : ts) {
+    collision_events->push<unsigned>(std::get<0>(vs));
+    collision_events->push<unsigned>(std::get<1>(vs));
+    collision_events->push<unsigned>(std::get<0>(es));
+    collision_events->push<unsigned>(std::get<1>(es));
   }
   return collision_events;
+}
+
+std::shared_ptr<Dataset> extract_steps_to_collision(
+    unsigned first_agent_id, unsigned last_agent_id, unsigned steps,
+    const std::shared_ptr<Dataset> &collisions, unsigned min_interval) {
+  const size_t n = last_agent_id - first_agent_id + 1;
+  const unsigned m = std::numeric_limits<unsigned>::max();
+  std::vector<unsigned> data(n * steps, m);
+  std::shared_ptr<Dataset> ds = Dataset::make<unsigned>({n});
+  ds->set_data(data);
+  const auto collision_events_ds =
+      extract_collision_events(collisions, min_interval);
+  auto vs = ds->as_tensor<unsigned, 2>();
+  const auto events = collision_events_ds->as_tensor<unsigned, 2>();
+  for (int j = 0; j < events.dimension(1); j++) {
+    for (size_t i = events(0, j); i <= events(1, j); i++) {
+      vs(events(2, j) - first_agent_id, i) = 0;
+      vs(events(3, j) - first_agent_id, i) = 0;
+    }
+  }
+  for (int i = vs.dimension(1) - 2; i >= 0; i--) {
+    for (int j = 0; j < vs.dimension(0); j++) {
+      if (vs(j, i) > 0 && vs(j, i + 1) < m) {
+        vs(j, i) = vs(j, i + 1) + 1;
+      }
+    }
+  }
+  return ds;
 }
 
 class TimeProbe : public RecordProbe {
@@ -272,7 +316,8 @@ public:
     unsigned i = 0;
     for (const auto &agent : world.get_agents()) {
       if (Task *task = agent->get_task()) {
-        const std::string key = std::to_string(use_agent_uid_as_key ? agent->uid : i);
+        const std::string key =
+            std::to_string(use_agent_uid_as_key ? agent->uid : i);
         shapes[key] = {task->get_log_size()};
       }
       i++;

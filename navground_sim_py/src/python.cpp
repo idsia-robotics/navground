@@ -2175,6 +2175,21 @@ Only collision among the same pair separated by at least
 The array is empty if collisions have not been recorded in the run.
 
 )doc")
+      .def(
+          "get_steps_to_collision",
+          [](const ExperimentalRun *run, unsigned min_interval) {
+            auto record = run->get_steps_to_collision(min_interval);
+            return record;
+          },
+          py::arg("min_interval") = 1, R"doc(
+The number of steps to the next recorded collision for each agent as
+as a Dataset of shape ``(number of steps, number of agents)``
+and dtype ``np.uint32``::
+
+  [[agent_0_steps, agent_1_steps, ...], 
+   ...]
+
+)doc")
       .def_property(
           "task_events",
           [](const ExperimentalRun *run) {

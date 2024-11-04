@@ -1,13 +1,15 @@
 import datetime
 import pathlib
 import re
+import sys
 import warnings
-from typing import TYPE_CHECKING, Dict, Optional, Set, Tuple, Union
+from typing import TYPE_CHECKING, Dict, List, Optional, Set, Tuple, Union
 
 import numpy as np
 from navground import core
 
-from . import Agent, BoundingBox, World, _Scenario, load_experiment, load_world
+from . import (Agent, BoundingBox, RecordConfig, World, _Scenario,
+               load_experiment, load_world)
 
 if TYPE_CHECKING:
     import h5py  # type: ignore
@@ -52,13 +54,16 @@ class RecordedExperimentalRun:
     world: World
     """The world that has been simulated"""
 
-    def __init__(self, group: 'h5py.Group', scenario: _Scenario | None = None):
+    def __init__(self,
+                 group: 'h5py.Group',
+                 scenario: _Scenario | None = None,
+                 record_config: RecordConfig | None = None):
         """
         Constructs a new instance.
 
         :param      group:  The HDF5 group recorded by a :py:class:`navground.sim.ExperimentalRun`
         """
-
+        self.record_config = record_config
         self._group = group
         self._scenario = scenario
         self.reset()
@@ -121,8 +126,9 @@ class RecordedExperimentalRun:
             else:
                 raise RuntimeError("Could not load world")
         elif self._scenario:
-            warnings.warn('HDF5 group does store a world ... sampling from '
-                          'the scenario may not be correct')
+            warnings.warn(
+                'HDF5 group does not store a world ... sampling from '
+                'the scenario may not be correct')
             self.world = World()
             self._scenario.init_world(self.world, seed=seed)
         else:
@@ -330,6 +336,69 @@ class RecordedExperimentalRun:
                                max(bb.max_y, max_over_agents[1]))
         return bb
 
+    def get_collision_events(self, min_interval: int = 0) -> np.ndarray:
+        """
+        Gets the recorded collisions events, i.e.
+        collisions separated by more than min_interval steps
+
+        :param      min_interval:  The minimal interval between collision among
+                                   the same pair to be considered a new event
+
+        :returns:   A dataset of shape {`#events`, 4} of events `<begin, end, e1, e2>`
+        """
+        if self.collisions is None:
+            print("Collisions not recorded", file=sys.error)
+            return np.array([], dtype=int)
+        collision_events: List[Tuple[int, int, int, int]] = []
+        # (e1, e2) -> (begin, end)
+        ts: Dict[Tuple[int, int], tuple[int, int]] = {}
+        for t, *es in self.collisions:
+            es = tuple(es)
+            if es not in ts:
+                ts[es] = (t, t)
+            else:
+                a, b = ts[es]
+                if t > b + min_interval:
+                    collision_events.append((a, b, *es))
+                    ts[es] = (t, t)
+                else:
+                    ts[es] = (a, t)
+        for es, (a, b) in ts.items():
+            collision_events.append((a, b, *es))
+        return np.asarray(collision_events)
+
+    def get_steps_to_collision(self, min_interval: int = 0) -> np.ndarray:
+        """
+        Gets the steps to the next recorded collision
+        for each agent at each simulation step.
+
+        :param      min_interval:  The minimal interval between collision among
+                                   the same pair to be considered a new event
+
+        :returns:   An array of shape `{#steps, #agents}`
+        """
+        agents = self.world.agents
+        use_uid = self.record_config.use_agent_uid_as_key
+        first_agent_id = 0
+        if agents and use_uid:
+            first_agent_id = agents[0]._uid
+
+        n = len(agents)
+        m = np.iinfo(np.uint32).max
+        events = self.get_collision_events(min_interval=min_interval)
+        vs = np.full((self.recorded_steps, n), m)
+        for (a, b, e1, e2) in events:
+            for i in range(a, b + 1):
+                vs[i, e1 - first_agent_id] = 0
+                vs[i, e2 - first_agent_id] = 0
+
+        for i in range(vs.shape[0] - 2, -1, -1):
+            for j in range(vs.shape[1]):
+                if vs[i, j] > 0 and vs[i + 1, j] < m:
+                    vs[i, j] = vs[i + 1, j] + 1
+
+        return vs
+
 
 class RecordedExperiment:
     """
@@ -375,10 +444,13 @@ class RecordedExperiment:
         if not experiment:
             raise RuntimeError("Could not load world")
         self._experiment = experiment
+        self.record_config = self._experiment.record_config
+        """The record config used by the experiment"""
 
         self.runs: Dict[int, RecordedExperimentalRun] = {
             int(re.match(r"run_(\d+)", k).groups()[0]):  # type: ignore
-            RecordedExperimentalRun(v, self._experiment.scenario)
+            RecordedExperimentalRun(v, self._experiment.scenario,
+                                    record_config=self.record_config)
             for k, v in self._file.items()
         }
         """The recorded runs, indexed by their seed"""
@@ -387,8 +459,6 @@ class RecordedExperiment:
         """The experiment name"""
         self.number_of_runs = self._experiment.number_of_runs
         """The number of runs that the experiment should have performed"""
-        self.record_config = self._experiment.record_config
-        """The record config used by the experiment"""
         self.run_index = self._experiment.run_index
         """The first seed/index"""
         self.save_directory = self._experiment.save_directory

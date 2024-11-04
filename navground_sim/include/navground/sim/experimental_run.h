@@ -12,9 +12,9 @@
 
 #include "navground/core/types.h"
 #include "navground/sim/dataset.h"
+#include "navground/sim/export.h"
 #include "navground/sim/probe.h"
 #include "navground/sim/world.h"
-#include "navground/sim/export.h"
 
 namespace navground::sim {
 
@@ -219,13 +219,17 @@ inline std::set<std::string> _keys(const std::map<std::string, T> &m) {
 std::shared_ptr<Dataset> NAVGROUND_SIM_EXPORT extract_collision_events(
     const std::shared_ptr<Dataset> &collisions, unsigned min_interval = 1);
 
+std::shared_ptr<Dataset> NAVGROUND_SIM_EXPORT extract_steps_to_collision(
+    unsigned first_agent_id, unsigned last_agent_id, unsigned steps,
+    const std::shared_ptr<Dataset> &collisions, unsigned min_interval = 1);
+
 /**
  * @brief      Simulates a world and collects data.
  */
 class NAVGROUND_SIM_EXPORT ExperimentalRun {
   friend struct Experiment;
 
- public:
+public:
   /**
    * @brief      The state of the run
    *
@@ -243,19 +247,11 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
       const RecordConfig &record_config, unsigned seed, State state,
       unsigned steps, tp begin, tp end, const std::string &world_yaml,
       const std::map<std::string, std::shared_ptr<Dataset>> &records)
-      : _state(state),
-        _record_config(record_config),
-        _run_config(run_config),
-        _seed(seed),
-        _world(world),
-        _steps(steps),
+      : _state(state), _record_config(record_config), _run_config(run_config),
+        _seed(seed), _world(world), _steps(steps),
         // _indices(),
-        _begin(begin),
-        _end(end),
-        _world_yaml(world_yaml),
-        _records(records),
-        _record_names(_keys(records)),
-        _probes() {}
+        _begin(begin), _end(end), _world_yaml(world_yaml), _records(records),
+        _record_names(_keys(records)), _probes() {}
 
   /**
    * @brief      Construct an \ref ExperimentalRun
@@ -267,17 +263,10 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   ExperimentalRun(std::shared_ptr<World> world, const RunConfig &run_config,
                   const RecordConfig &record_config, unsigned seed = 0)
-      : _state(State::init),
-        _record_config(record_config),
-        _run_config(run_config),
-        _seed(seed),
-        _world(world),
-        _steps(0),
+      : _state(State::init), _record_config(record_config),
+        _run_config(run_config), _seed(seed), _world(world), _steps(0),
         // _indices(),
-        _world_yaml(),
-        _records(),
-        _record_names(),
-        _probes() {}
+        _world_yaml(), _records(), _record_names(), _probes() {}
 
   /**
    * @brief     Construct an \ref ExperimentalRun
@@ -408,8 +397,8 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The records
    */
-  const std::map<std::string, std::shared_ptr<Dataset>> get_records(
-      const std::string &group = "") const {
+  const std::map<std::string, std::shared_ptr<Dataset>>
+  get_records(const std::string &group = "") const {
     if (group.empty()) {
       return _records;
     }
@@ -455,7 +444,9 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The record or none if not recorded.
    */
-  const std::shared_ptr<Dataset> get_actuated_cmds() const { return get_record("actuated_cmds"); }
+  const std::shared_ptr<Dataset> get_actuated_cmds() const {
+    return get_record("actuated_cmds");
+  }
   /**
    * @brief      Gets the recorded targets.
    *
@@ -489,10 +480,38 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @return     The record or none if not recorded.
    */
-  std::shared_ptr<Dataset> get_collision_events(
-      unsigned min_interval = 1) const {
+  std::shared_ptr<Dataset>
+  get_collision_events(unsigned min_interval = 1) const {
     return extract_collision_events(get_collisions(), min_interval);
   }
+
+  /**
+   * @brief      Gets the steps to the next recorded collision 
+   *             for each agent at each simulation step.
+   *
+   * @param[in]  min_interval  The minimal interval between collision among
+   *                           the same pair to be considered a new event
+   *
+   * @return     A dataset of shape `{#steps, #agents}`.
+   */
+  std::shared_ptr<Dataset>
+  get_steps_to_collision(unsigned min_interval = 1) const {
+    const auto agents = get_world()->get_agents();
+    const bool use_uid = get_record_config().use_agent_uid_as_key;
+    unsigned i = 0;
+    unsigned j = 0;
+    if (agents.size()) {
+      if (use_uid) {
+        i = agents[0]->uid;
+        j = agents.back()->uid;
+      } else {
+        j = agents.size() - 1;
+      }
+    }
+    return extract_steps_to_collision(i, j, get_recorded_steps(),
+                                      get_collisions(), min_interval);
+  }
+
   /**
    * @brief      Gets the recorded task logs.
    *
@@ -501,7 +520,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   const std::map<unsigned, std::shared_ptr<Dataset>> get_task_events() const {
     std::map<unsigned, std::shared_ptr<Dataset>> records;
     for (auto &[key, full] : get_group("task_events")) {
-      records[std::stoul(key)] = get_record(full);
+      records[static_cast<unsigned>(std::stoul(key))] = get_record(full);
     }
     return records;
   }
@@ -740,8 +759,7 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    *
    * @tparam     T     The probe class.
    */
-  template <typename T>
-  void add_group_record_probe(const std::string &key) {
+  template <typename T> void add_group_record_probe(const std::string &key) {
     add_probe(std::dynamic_pointer_cast<Probe>(
         std::make_shared<T>([key, this](const std::string &sub_key) {
           auto ds = add_record(sub_key, key);
@@ -807,7 +825,6 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
    */
   void reset();
 
-
   /**
    * @brief      Gets recorded collisions at a given step.
    *
@@ -826,13 +843,14 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   ng_float_t get_final_sim_time() const;
 
   /**
-   * @brief      Gets the rectangle that contains the world during the whole run.
+   * @brief      Gets the rectangle that contains the world during the whole
+   * run.
    *
    * @return     The bounding box.
    */
   BoundingBox get_bounding_box() const;
 
- private:
+private:
   State _state;
   /**
    * Which data to record
@@ -885,6 +903,6 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
   void save(HighFive::Group &group) const;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_EXPERIMENTAL_RUN_H_ */

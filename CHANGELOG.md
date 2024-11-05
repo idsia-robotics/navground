@@ -4,12 +4,19 @@
 
 ### Added
 
+- `get_step_to_collision` method to `ExperimentalRun` and `RecordedExperimentalRun`
+
 ### Fixed
 
 - The scenario YAML encoding now uses the walls schema like the decoder, and not the line schema.
+
 - Installing `navground_{core|sim}_py` without `ament` now include packages files. 
 
+- `Dataset::as_tensor` now returns a tensor view and no more a copy.
+
 ### Changed
+
+- It is now possible to set the stroke color of the Agents' SVG via a decorator.
 
 ### Removed
 

@@ -12,7 +12,7 @@ import re
 project = 'navground'
 copyright = '2023, Jérôme Guzzi, IDSIA'
 author = 'Jérôme Guzzi, IDSIA'
-release = '0.2.0'
+release = '0.2.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

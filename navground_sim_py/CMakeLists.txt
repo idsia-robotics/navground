@@ -88,7 +88,7 @@ else()
   python_install_namespace_package(
     navground.sim
     NAMESPACE navground
-    VERSION "0.2.0"
+    VERSION "0.2.1"
     TARGET _navground_sim
     DATA ui/templates/*
   )

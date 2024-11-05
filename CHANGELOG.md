@@ -4,6 +4,17 @@
 
 ### Added
 
+### Fixed
+
+### Changed
+
+### Removed
+
+
+## [0.2.1] - 2024-05-11
+
+### Added
+
 - `get_step_to_collision` method to `ExperimentalRun` and `RecordedExperimentalRun`
 
 ### Fixed
@@ -20,9 +31,8 @@
 
 ### Removed
 
-# Changelog
 
-## [0.2.0] - 2024-29-10
+## [0.2.1] - 2024-29-10
 
 ### Added
 

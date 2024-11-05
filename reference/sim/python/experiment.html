@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Experiments &#8212; navground 0.2.0 documentation</title>
+    <title>Experiments &#8212; navground 0.2.1 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../../../_static/documentation_options.js?v=c480a563"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.2.0 documentation</p>
+    <p class="title logo__title">navground 0.2.1 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -481,6 +481,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.get_record"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.get_record()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.get_record_names"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.get_record_names()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.get_records"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.get_records()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.get_steps_to_collision"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.get_steps_to_collision()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.get_task_events"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.get_task_events()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.go_to_step"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.go_to_step()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.index_of_agent"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.index_of_agent()</span></code></a></li>
@@ -1098,6 +1099,18 @@ to keys <code class="docutils literal notranslate"><span class="pre">&lt;group&g
 <dd class="field-even"><p>The records</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.ExperimentalRun.get_steps_to_collision">
+<span class="sig-name descname"><span class="pre">get_steps_to_collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#navground.sim.Dataset" title="navground.sim.Dataset"><span class="pre">navground.sim.Dataset</span></a></span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.get_steps_to_collision" title="Link to this definition">#</a></dt>
+<dd><p>The number of steps to the next recorded collision for each agent as
+as a Dataset of shape <code class="docutils literal notranslate"><span class="pre">(number</span> <span class="pre">of</span> <span class="pre">steps,</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">agents)</span></code>
+and dtype <code class="docutils literal notranslate"><span class="pre">np.uint32</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">agent_0_steps</span><span class="p">,</span> <span class="n">agent_1_steps</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> 
+ <span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -2245,6 +2258,7 @@ of the world, typically after each simulation step.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.get_record"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.get_record()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.get_record_names"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.get_record_names()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.get_records"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.get_records()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.get_steps_to_collision"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.get_steps_to_collision()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.get_task_events"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.get_task_events()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.go_to_step"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.go_to_step()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.ExperimentalRun.index_of_agent"><code class="docutils literal notranslate"><span class="pre">ExperimentalRun.index_of_agent()</span></code></a></li>

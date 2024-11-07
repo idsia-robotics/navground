@@ -15,8 +15,8 @@
 #include <cmath>
 #include <ostream>
 
-#include "navground/core/types.h"
 #include "navground/core/export.h"
+#include "navground/core/types.h"
 
 typedef unsigned int uint;
 
@@ -56,7 +56,7 @@ using WheelSpeeds = std::vector<ng_float_t>;
  *
  * @return     The orientation of the vector
  */
-inline Radians orientation_of(const Vector2& vector) {
+inline Radians orientation_of(const Vector2 &vector) {
   return std::atan2(vector.y(), vector.x());
 }
 
@@ -126,7 +126,7 @@ inline Vector2 rotate(const Vector2 vector, ng_float_t angle) {
  * @return     A vector with the original orientation but norm clamped to
  * ``max_length``.
  */
-inline Vector2 clamp_norm(const Vector2& vector, ng_float_t max_length) {
+inline Vector2 clamp_norm(const Vector2 &vector, ng_float_t max_length) {
   ng_float_t n = vector.norm();
   if (n > 0 && n > max_length) {
     return vector / n * max_length;
@@ -156,7 +156,7 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    */
   Frame frame;
 
-  Twist2(const Vector2& velocity, Radians angular_speed = 0,
+  Twist2(const Vector2 &velocity, Radians angular_speed = 0,
          Frame frame = Frame::absolute)
       : velocity(velocity), angular_speed(angular_speed), frame(frame) {}
   Twist2() : Twist2({0, 0}) {}
@@ -178,7 +178,7 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    *
    * @return     The result of the equality
    */
-  bool operator==(const Twist2& other) const {
+  bool operator==(const Twist2 &other) const {
     return velocity == other.velocity && angular_speed == other.angular_speed &&
            frame == other.frame;
   }
@@ -190,37 +190,37 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    *
    * @return     The result of the inequality
    */
-  bool operator!=(const Twist2& other) const { return !(operator==(other)); }
+  bool operator!=(const Twist2 &other) const { return !(operator==(other)); }
 
   /**
    * @brief      Transform a twist to \ref Frame::absolute.
    *
-   * @param[in]  value  The original twist
+   * @param[in]  reference  The pose of reference of this relative twist
    *
    * @return     The same twist in \ref Frame::absolute
    *             (unchanged if already in \ref Frame::absolute)
    */
-  Twist2 absolute(const Pose2& reference) const;
+  Twist2 absolute(const Pose2 &reference) const;
 
   /**
-   * @brief      Transform a twist to \ref Frame::relative.
+   * @brief      Transform a twist to \ref Frame::relative relative to a pose.
    *
-   * @param[in]  frame  The reference pose
+   * @param[in]  reference  The desired pose of reference
    *
    * @return     The same twist in \ref Frame::relative
    *             (unchanged if already in \ref Frame::relative)
    */
-  Twist2 relative(const Pose2& reference) const;
+  Twist2 relative(const Pose2 &reference) const;
 
   /**
    * @brief      Convert a twist to a reference frame.
    *
    * @param[in]  frame  The desired frame of reference
-   * @param[in]  frame  The reference pose
+   * @param[in]  reference  The pose of reference
    *
    * @return     The twist in the desired frame of reference.
    */
-  Twist2 to_frame(Frame frame, const Pose2& reference) const;
+  Twist2 to_frame(Frame frame, const Pose2 &reference) const;
 
   /**
    * @brief      Determines if almost zero.
@@ -266,7 +266,7 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    *
    * @return     The interpolate twist
    */
-  Twist2 interpolate(const Twist2& target, ng_float_t time_step,
+  Twist2 interpolate(const Twist2 &target, ng_float_t time_step,
                      ng_float_t max_acceleration,
                      ng_float_t max_angular_acceleration) const {
     assert(target.frame == frame);
@@ -289,7 +289,13 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
 
 /**
  * @brief      Two-dimensional pose composed of planar position and
- * orientation. Poses are assumed to be the world-fixed frame.
+ * orientation. When not specified, poses are assumed to be in the world-fixed
+ * frame.
+ *
+ * Poses are also associated to rigid transformations in SE(2)
+ * ``translation(pose.position) . rotation(pose.orientation)``.
+ * We define the group operations as a multiplication and add methods like
+ * \ref transform_pose for a pose to operate as a rigid transformation.
  */
 struct Pose2 {
   /**
@@ -301,7 +307,7 @@ struct Pose2 {
    */
   Radians orientation;
 
-  Pose2(const Vector2& position, Radians orientation = 0)
+  Pose2(const Vector2 &position, Radians orientation = 0)
       : position(position), orientation(orientation) {}
   Pose2() : Pose2({0, 0}) {}
   /**
@@ -323,7 +329,7 @@ struct Pose2 {
    *
    * @return     The result of ``pose + dt * twist`` (in world frame)
    */
-  Pose2 integrate(const Twist2& twist, ng_float_t dt) {
+  Pose2 integrate(const Twist2 &twist, ng_float_t dt) {
     const auto new_orientation = orientation + dt * twist.angular_speed;
     return {position + dt * (twist.frame == Frame::relative
                                  ? ::navground::core::rotate(twist.velocity,
@@ -339,7 +345,7 @@ struct Pose2 {
    *
    * @return     The result of the equality
    */
-  bool operator==(const Pose2& other) const {
+  bool operator==(const Pose2 &other) const {
     return position == other.position && orientation == other.orientation;
   }
 
@@ -350,16 +356,18 @@ struct Pose2 {
    *
    * @return     The result of the inequality
    */
-  bool operator!=(const Pose2& other) const { return !(operator==(other)); }
+  bool operator!=(const Pose2 &other) const { return !(operator==(other)); }
 
   /**
    * @brief      Transform a relative pose to an absolute pose.
+   *
+   * Equivalent to ``reference.transform_pose(self) = reference * self``
    *
    * @param[in]  reference  The reference pose
    *
    * @return     The absolute pose
    */
-  Pose2 absolute(const Pose2& reference) const {
+  Pose2 absolute(const Pose2 &reference) const {
     return Pose2(::navground::core::rotate(position, reference.orientation) +
                      reference.position,
                  orientation + reference.orientation);
@@ -368,62 +376,166 @@ struct Pose2 {
   /**
    * @brief      Transform an absolute pose to a relative pose.
    *
-   * @param[in]  pose  The reference pose
+   * Equivalent to ``reference.inverse().transform_pose(self) =
+   * reference.inverse() * self``
+   *
+   * @param[in]  reference  The reference pose
    *
    * @return     The relative pose
    */
-  Pose2 relative(const Pose2& reference) const {
+  Pose2 relative(const Pose2 &reference) const {
     return Pose2(::navground::core::rotate(position - reference.position,
                                            -reference.orientation),
                  orientation - reference.orientation);
+  }
+
+  /**
+   * @brief      Concatenate two transformations, i.e. the SE(2) operation.
+   *
+   * @param[in]  other  The other pose
+   *
+   * @return     The composite transformation resulting from applying
+   *             first the other transformation and then this transformation.
+   */
+  Pose2 operator*(const Pose2 &other) const {
+    return Pose2(position +
+                     ::navground::core::rotate(other.position, orientation),
+                 orientation + other.orientation);
+  }
+
+  /**
+   * @brief      SE(2) division of two transformations.
+   *
+   * @param[in]  other  The other pose
+   *
+   * @return     ``self * other.inverse()``
+   */
+  Pose2 operator/(const Pose2 &other) const {
+    return (*this) * other.inverse();
+  }
+
+  /**
+   * @brief      Invert a transformation, i.e., SE(2) inversion
+   *
+   * @return     The inverse transformation
+   */
+  Pose2 inverse() const {
+    return Pose2(::navground::core::rotate(-position, -orientation),
+                 -orientation);
+  }
+
+  /**
+   * @brief      Applies this rigid transformation to another pose
+   *
+   * Equivalent to ``pose.absolute(self)``
+   *
+   * @param[in]  pose  The pose to transform
+   *
+   * @return     ``self * pose``
+   */
+  Pose2 transform_pose(const Pose2 &pose) const { return (*this) * pose; }
+
+  /**
+   * @brief      Applies this rigid transformation to a point
+   *
+   * Equivalent to ``to_absolute_point(point, self)``
+   *
+   * @param[in]  point  The point to transform
+   *
+   * @return     The roto-translated point
+   */
+  Vector2 transform_point(const Vector2 &point) const {
+    return position + ::navground::core::rotate(point, orientation);
+  }
+
+  /**
+   * @brief      Applies the rigid transformation to a vector
+   *
+   * Equivalent to ``to_absolute(vector, self)``
+   *
+   * @param[in]  vector  The vector to transform
+   *
+   * @return     The rotated vector
+   */
+  Vector2 transform_vector(const Vector2 &vector) const {
+    return ::navground::core::rotate(vector, orientation);
+  }
+
+  /**
+   * @brief      Returns this transformation in the desired frame of reference.
+   *
+   * The returned transformation is defined as
+   * ``frame.inverse() * self * frame``, so that, for any frame ``f``,
+   * the following expressions are equivalent:
+   *
+   * - ``pose.transform(other).relative(f)``
+   *
+   * - ``pose.get_transformation_in_frame(frame).transform(other.relative(f))``
+   *
+   * @param[in]  frame  A posed defining the desired frame of reference
+   *                    for the transformation.
+   *
+   * @return     The transformation with respect to ``frame``
+   */
+  Pose2 get_transformation_in_frame(const Pose2 &frame) const {
+    return frame.inverse() * (*this) * frame;
   }
 };
 
 /**
  * @brief      Transform a relative to an absolute vector.
  *
+ * Equivalent to ``reference.transform_vector(value)``
+ *
  * @param[in]  value  The relative vector
  * @param[in]  reference  The reference pose
  *
+ *
  * @return     The relative vector
  */
-inline Vector2 to_absolute(const Vector2& value, const Pose2& reference) {
+inline Vector2 to_absolute(const Vector2 &value, const Pose2 &reference) {
   return rotate(value, reference.orientation);
 }
 
 /**
  * @brief      Transform an absolute to a relative vector.
  *
+ * Equivalent to ``reference.inverse().transform_vector(value)``
+ *
  * @param[in]  value  The absolute vector
  * @param[in]  reference  The reference pose
  *
  * @return     The absolute vector
  */
-inline Vector2 to_relative(const Vector2& value, const Pose2& reference) {
+inline Vector2 to_relative(const Vector2 &value, const Pose2 &reference) {
   return rotate(value, -reference.orientation);
 }
 
 /**
  * @brief      Transform a relative to an absolute point.
  *
+ * Equivalent to ``reference.transform_point(value)``
+ *
  * @param[in]  value  The relative point
  * @param[in]  reference  The reference pose
  *
  * @return     The relative point
  */
-inline Vector2 to_absolute_point(const Vector2& value, const Pose2& reference) {
+inline Vector2 to_absolute_point(const Vector2 &value, const Pose2 &reference) {
   return reference.position + rotate(value, reference.orientation);
 }
 
 /**
  * @brief      Transform an absolute to a relative vector.
  *
+ * Equivalent to ``reference.inverse().transform_point(value)``
+ *
  * @param[in]  value  The absolute vector
  * @param[in]  reference  The reference pose
  *
  * @return     The absolute point
  */
-inline Vector2 to_relative_point(const Vector2& value, const Pose2& reference) {
+inline Vector2 to_relative_point(const Vector2 &value, const Pose2 &reference) {
   return rotate(value - reference.position, -reference.orientation);
 }
 
@@ -436,7 +548,7 @@ inline Vector2 to_relative_point(const Vector2& value, const Pose2& reference) {
  * state has not changed.
  */
 class NAVGROUND_CORE_EXPORT TrackChanges {
- public:
+public:
   /**
    * @brief      Constructs a new instance.
    */
@@ -461,11 +573,11 @@ class NAVGROUND_CORE_EXPORT TrackChanges {
    */
   void change(unsigned mask) { changes |= mask; }
 
- private:
+private:
   unsigned changes;
 };
 
-inline std::ostream& operator<<(std::ostream& os, const Frame& frame) {
+inline std::ostream &operator<<(std::ostream &os, const Frame &frame) {
   os << "Frame::"
      << (frame == navground::core::Frame::relative ? "relative" : "absolute");
   return os;
@@ -476,17 +588,17 @@ inline std::ostream& operator<<(std::ostream& os, const Frame& frame) {
 //   return os;
 // }
 
-inline std::ostream& operator<<(std::ostream& os, const Twist2& twist) {
+inline std::ostream &operator<<(std::ostream &os, const Twist2 &twist) {
   os << "Twist2(" << twist.velocity << ", " << twist.angular_speed << ", "
      << twist.frame << ")";
   return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os, const Pose2& pose) {
+inline std::ostream &operator<<(std::ostream &os, const Pose2 &pose) {
   os << "Pose2(" << pose.position << ", " << pose.orientation << ")";
   return os;
 }
 
-}  // namespace navground::core
+} // namespace navground::core
 
-#endif  // NAVGROUND_CORE_COMMON_H_
+#endif // NAVGROUND_CORE_COMMON_H_

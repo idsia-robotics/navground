@@ -9,7 +9,7 @@ Geometry
 .. py:class:: Vector2
    :module: navground
 
-   A type alias to ``numpy.ndarray[numpy.float32[2, 1]]``
+   A two dimensional numpy array of type :cpp:type:`ng_float_t`.
 
 .. autoclass:: navground.core.Pose2
    :members:
@@ -18,8 +18,6 @@ Geometry
 .. autoclass:: navground.core.Twist2
    :members:
    :undoc-members:
-
-
 
 .. autofunction:: navground.core.orientation_of
 

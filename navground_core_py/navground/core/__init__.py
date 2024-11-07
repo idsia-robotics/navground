@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import importlib.metadata
-from typing import (Any, Callable, Dict, List, Tuple, Type, TypeAlias, TypeVar,
+from typing import (Any, Callable, Dict, Literal, List, Tuple, Type, TypeAlias, TypeVar,
                     Union)
 
 import numpy
@@ -29,7 +29,9 @@ from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
 
 # TODO(Jerome): how to define an alias that depends on `uses_doubles`?
 # Vector2: TypeAlias = "numpy.ndarray[numpy.float64, Any]"
-Vector2: TypeAlias = numpy.ndarray
+Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]], numpy.dtype[numpy.float64]]
+Vector2Like: TypeAlias = Vector2 | tuple[float, float] | list[float]
+
 PropertyField = Union[bool, int, float, str, Vector2, List[bool], List[int],
                       List[float], List[str], List[Vector2]]
 

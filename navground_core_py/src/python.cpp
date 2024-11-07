@@ -365,8 +365,9 @@ PYBIND11_MODULE(_navground, m) {
   auto twist = py::class_<Twist2>(m, "Twist2", DOC(navground, core, Twist2));
 
   py::class_<Pose2>(m, "Pose2", DOC(navground, core, Pose2))
-      .def(py::init<Vector2, ng_float_t>(), py::arg("position"),
-           py::arg("orientation") = 0, DOC(navground, core, Pose2, Pose2))
+      .def(py::init<Vector2, ng_float_t>(),
+           py::arg("position") = Vector2::Zero(), py::arg("orientation") = 0,
+           DOC(navground, core, Pose2, Pose2))
       .def_readwrite("position", &Pose2::position,
                      DOC(navground, core, Pose2, position))
       .def_readwrite("orientation", &Pose2::orientation,
@@ -379,11 +380,25 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Pose2, absolute))
       .def("relative", &Pose2::relative, py::arg("reference"),
            DOC(navground, core, Pose2, relative))
+      .def(py::self * py::self)
+      .def(py::self / py::self)
+      .def(py::self == py::self)
+      .def(py::self != py::self)
+      .def("inverse", &Pose2::inverse, DOC(navground, core, Pose2, inverse))
+      .def("transform_pose", &Pose2::transform_pose, py::arg("pose"),
+           DOC(navground, core, Pose2, transform_pose))
+      .def("transform_point", &Pose2::transform_point, py::arg("point"),
+           DOC(navground, core, Pose2, transform_point))
+      .def("transform_vector", &Pose2::transform_vector, py::arg("vector"),
+           DOC(navground, core, Pose2, transform_vector))
+      .def("get_transformation_in_frame", &Pose2::get_transformation_in_frame,
+           py::arg("frame"),
+           DOC(navground, core, Pose2, get_transformation_in_frame))
       .def("__repr__", &to_string<Pose2>);
 
   twist
-      .def(py::init<Vector2, ng_float_t, Frame>(), py::arg("velocity"),
-           py::arg("angular_speed") = 0,
+      .def(py::init<Vector2, ng_float_t, Frame>(),
+           py::arg("velocity") = Vector2::Zero(), py::arg("angular_speed") = 0,
            py::arg_v("frame", Frame::absolute,
                      "navground.core._navground.Frame.absolute"),
            DOC(navground, core, Twist2, Twist2))
@@ -485,7 +500,7 @@ PYBIND11_MODULE(_navground, m) {
                   DOC(navground, core, Target, Direction))
       .def_static("Twist", &Target::Twist, py::arg("twist"),
                   DOC(navground, core, Target, Twist))
-      .def_static("Stop", &Target::Point, DOC(navground, core, Target, Stop))
+      .def_static("Stop", &Target::Stop, DOC(navground, core, Target, Stop))
       .def("__repr__", &to_string<Target>);
 
   py::class_<EnvironmentState, std::shared_ptr<EnvironmentState>>(
@@ -1168,7 +1183,7 @@ PYBIND11_MODULE(_navground, m) {
           [](const BufferDescription &value) { return py::dtype(value.type); },
           nullptr, DOC(navground, core, BufferDescription, type))
       .def_property("strides", &BufferDescription::get_strides, nullptr,
-                    DOC(navground, core, BufferDescription, property_stripes))
+                    DOC(navground, core, BufferDescription, property_strides))
       .def_readonly("low", &BufferDescription::low,
                     DOC(navground, core, BufferDescription, low))
       .def_readonly("high", &BufferDescription::high,
@@ -1221,7 +1236,6 @@ PYBIND11_MODULE(_navground, m) {
             buffer.set_type(type_from_dtype(dtype), true);
           },
           "The buffer type")
-      // DOC(navground, core, Buffer, property_type))
       .def_property(
           "data",
           [](const Buffer &buffer) { return get_array_from_buffer(buffer); },

@@ -15,11 +15,15 @@
 
 ### Added
 
+- Rigid transform methods related to `core::Pose2`
+
 ### Fixed
 
 - Python plugins are now correctly loaded in the CLI.
 
 ### Changed
+
+- Separated Vector2Like and Vector2 in stubs
 
 ### Removed
 

@@ -1,11 +1,13 @@
 import datetime
 import pathlib
-from typing import Callable, ClassVar, Literal, TypeAlias, overload
+from typing import (Callable, ClassVar, List, Literal, Tuple, TypeAlias, Union,
+                    overload)
 
 import navground.core._navground
 import numpy
 
 Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]], numpy.dtype[numpy.float64]]
+Vector2Like: TypeAlias = Union[Vector2, Tuple[float, float], List[float]]
 
 class Agent(NativeAgent):
     behavior: navground.core._navground.Behavior
@@ -41,7 +43,7 @@ class BoundingBox:
     @overload
     def __init__(self, min_x: float, max_x: float, min_y: float, max_y: float) -> None: ...
     @overload
-    def __init__(self, p1: Vector2, p2: Vector2) -> None: ...
+    def __init__(self, p1: Vector2Like, p2: Vector2Like) -> None: ...
     @property
     def max_x(self) -> float: ...
     @property
@@ -102,7 +104,7 @@ class Dataset:
 
 class DirectionTask(Task):
     direction: Vector2
-    def __init__(self, direction: Vector2 = ...) -> None: ...
+    def __init__(self, direction: Vector2Like = ...) -> None: ...
 
 class DiscsStateEstimation(Sensor):
     include_valid: bool
@@ -254,7 +256,7 @@ class LidarStateEstimation(Sensor):
     range: float
     resolution: int
     start_angle: float
-    def __init__(self, range: float = ..., start_angle: float = ..., field_of_view: float = ..., resolution: int = ..., position: Vector2 = ..., error_bias: float = ..., error_std_dev: float = ..., name: str = ...) -> None: ...
+    def __init__(self, range: float = ..., start_angle: float = ..., field_of_view: float = ..., resolution: int = ..., position: Vector2Like = ..., error_bias: float = ..., error_std_dev: float = ..., name: str = ...) -> None: ...
     @property
     def angles(self) -> list[float]: ...
     @property
@@ -361,7 +363,7 @@ class NativeWorld:
 class Obstacle(Entity):
     disc: navground.core._navground.Disc
     @overload
-    def __init__(self, position: Vector2, radius: float) -> None: ...
+    def __init__(self, position: Vector2Like, radius: float) -> None: ...
     @overload
     def __init__(self, disc: navground.core._navground.Disc) -> None: ...
 
@@ -508,7 +510,7 @@ class TaskRegister:
 class Wall(Entity):
     line: navground.core._navground.LineSegment
     @overload
-    def __init__(self, p1: Vector2, p2: Vector2) -> None: ...
+    def __init__(self, p1: Vector2Like, p2: Vector2Like) -> None: ...
     @overload
     def __init__(self, line: navground.core._navground.LineSegment) -> None: ...
 
@@ -516,7 +518,7 @@ class WaypointsTask(Task):
     loop: float
     tolerance: float
     waypoints: list[Vector2]
-    def __init__(self, waypoints: list[Vector2] = ..., loop: bool = ..., tolerance: float = ...) -> None: ...
+    def __init__(self, waypoints: list[Vector2Like] = ..., loop: bool = ..., tolerance: float = ...) -> None: ...
     @property
     def log_size(self) -> int: ...
 

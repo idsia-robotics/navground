@@ -26,7 +26,7 @@ def get_path(points: List[core.Vector2]) -> core.Path:
         i = np.searchsorted(cs, s, side="right")
         return np.asarray(line.interpolate(s).coords[0]), os[i - 1], ws[i - 1]
 
-    def project(point: core.Vector2, a: float, b: float) -> float:
+    def project(point: core.Vector2Like, a: float, b: float) -> float:
         if a > 0:
             i: Union[int, np.int_] = np.searchsorted(cs, a, side="left")
             pa = [line.interpolate(a)]

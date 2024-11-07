@@ -46,6 +46,8 @@ struct NAVGROUND_CORE_EXPORT DiscCache {
    * absolute frame
    * @param[in]  margin    The margin (sum of the radii and safety margin)
    * @param[in]  velocity  The disc velocity
+   * @param[in]  visible_angle When colliding, directions outside the sector defined by
+   * ``[-visible_angle, visible_angle]`` are considered safe.
    */
   DiscCache(Vector2 delta, ng_float_t margin,
             Vector2 velocity = Vector2::Zero(),

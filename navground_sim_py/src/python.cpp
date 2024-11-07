@@ -1830,8 +1830,8 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
       m, "RecordProbe", DOC(navground, sim, RecordProbe))
       .def(py::init<std::shared_ptr<Dataset>>(), py::arg("record") = nullptr,
            DOC(navground, sim, RecordProbe, RecordProbe))
-      .def_readonly("data", &RecordProbe::data,
-                    DOC(navground, sim, RecordProbe, data));
+      .def_property("data", &RecordProbe::get_data, nullptr,
+                    DOC(navground, sim, RecordProbe, property_data));
 
   py::class_<GroupRecordProbe, Probe, PyGroupRecordProbe,
              std::shared_ptr<GroupRecordProbe>>(

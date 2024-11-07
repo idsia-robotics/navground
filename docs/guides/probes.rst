@@ -89,7 +89,7 @@ This is the case for instance, when you want to record the same number of items 
          .. code-block:: c++
       
             void update(sim::ExperimentalRun *run) override {
-              // call data->push(...) or data->append(...)
+              // call get_data()->push(...) or get_data()->append(...)
             }
    
       .. tab:: Python
@@ -199,7 +199,7 @@ In this case, you can use ``GroupRecordProbe`` to setup and manage a dictionary 
             void update(sim::ExperimentalRun *run) override {
                 // get the datasets using 
                 // data = get_data(key)
-                // call data->push(...) or data->append(...)
+                // call get_data()->push(...) or get_data()->append(...)
             }
    
       .. tab:: Python
@@ -276,13 +276,13 @@ This is the case for instance when the datasets should belong to a hierarchy of 
                 // create one or more datasets
                 auto data = run->add_record("group/subgroup/key");
                 // set their type and shape
-                data->set_type<float>();
-                data->set_item_shape({3, 4});
+                get_data()->set_type<float>();
+                get_data()->set_item_shape({3, 4});
             }
 
             void update(sim::ExperimentalRun *run) override {
                auto data = run->get_record("group/subgroup/key");
-               // call data->push(...) or data->append(...);
+               // call get_data()->push(...) or get_data()->append(...);
             }
 
             void finalize(sim::ExperimentalRun *run) override {

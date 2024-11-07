@@ -306,6 +306,7 @@ Example
 
 
 .. _record_video:
+
 record video
 ------------
 
@@ -326,6 +327,7 @@ Example
    $ record_video experiment.yaml video.mp4 --factor 5.0
 
 .. _replay:
+
 replay
 ------
 

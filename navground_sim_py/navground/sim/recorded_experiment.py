@@ -184,9 +184,9 @@ class RecordedExperimentalRun:
         Gets recorded data map.
 
         :param group: if specified, limits to records in a given group.
-        :type group: str
+
         :return: recorded datasets indexed by their key
-        (relative to the group if specified).
+                 (relative to the group if specified).
         """
         if group:
             g = self._group.get(group)

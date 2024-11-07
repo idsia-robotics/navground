@@ -16,7 +16,7 @@
 namespace navground::sim {
 
 /**
- * @brief      Base class for agents using a \ref SensingState.
+ * @brief      Base class for agents using a \ref core::SensingState.
  *
  */
 struct NAVGROUND_SIM_EXPORT Sensor : public StateEstimation {

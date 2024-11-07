@@ -33,7 +33,11 @@ public:
   /**
    * @brief      Construct a new instance
    *
-   * @param[in]  tau      The relaxation time
+   * @param[in]  forward      The maximal forward speed
+   * @param[in]  backward     The maximal backward speed
+   * @param[in]  leftward     The maximal leftward speed
+   * @param[in]  rightward    The maximal rightward speed
+   * @param[in]  angular      The maximal angular speed
    */
   explicit LimitTwistModulation(
       ng_float_t forward = std::numeric_limits<ng_float_t>::infinity(),

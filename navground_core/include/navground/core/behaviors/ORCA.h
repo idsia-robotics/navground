@@ -70,7 +70,7 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
   /**
    * @brief      Sets the maximal number of neighbors
    *
-   * @param[in]  the desired value
+   * @param[in]  value The desired value
    */
   void set_max_number_of_neighbors(unsigned value);
 
@@ -85,7 +85,7 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
    * @brief      Sets whether to treat obstacles as static, disc-shaped, [RVO]
    * agents. Else will treat them as squared obstacles.
    *
-   * @param[in]  the desired value
+   * @param[in]  value The desired value
    */
   void set_treat_obstacles_as_agents(bool value);
 

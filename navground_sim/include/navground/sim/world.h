@@ -68,7 +68,7 @@ struct NAVGROUND_SIM_EXPORT Wall : Entity {
   /**
    * @brief      The line segment
    */
-  LineSegment line; 
+  LineSegment line;
 
   /**
    * @brief      Constructs a new instance.
@@ -172,7 +172,7 @@ struct NAVGROUND_SIM_EXPORT Obstacle : Entity {
  * attract them together.
  */
 class NAVGROUND_SIM_EXPORT World {
- public:
+public:
   friend struct Experiment;
 
   using Lattice = std::optional<std::tuple<ng_float_t, ng_float_t>>;
@@ -187,22 +187,10 @@ class NAVGROUND_SIM_EXPORT World {
    * @brief      Constructs a new instance.
    */
   explicit World()
-      : agents_strtree_is_updated(false),
-        static_strtree_is_updated(false),
-        agents(),
-        obstacles(),
-        walls(),
-        agent_index(nullptr),
-        collisions(),
-        entities(),
-        ready(false),
-        step(0),
-        time(0),
-        _has_lattice(false),
-        callbacks(),
-        termination_condition(),
-        _seed(0),
-        _generator(_seed) {}
+      : agents_strtree_is_updated(false), static_strtree_is_updated(false),
+        agents(), obstacles(), walls(), agent_index(nullptr), collisions(),
+        entities(), ready(false), step(0), time(0), _has_lattice(false),
+        callbacks(), termination_condition(), _seed(0), _generator(_seed) {}
 
   /**
    * @brief      Updates world for a single time step.
@@ -259,7 +247,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * For play-back
    *
-   * @param[in]     The simulation time.
+   * @param[in] value The simulation time.
    */
   void set_time(ng_float_t value) { time = std::max<ng_float_t>(0, value); }
 
@@ -270,7 +258,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * For play-back
    *
-   * @param[in]    The simulation step.
+   * @param[in]  value  The simulation step.
    */
   void set_step(unsigned value) { step = value; }
 
@@ -365,8 +353,9 @@ class NAVGROUND_SIM_EXPORT World {
    * @return     A vector of pairs of translation (along the lattice)
    *             and subset of the bounding box that fit in that lattice cell.
    */
-  std::vector<std::tuple<Vector2, BoundingBox>> subdivide_bounding_box(
-      const BoundingBox &bounding_box, bool ignore_lattice = false) const;
+  std::vector<std::tuple<Vector2, BoundingBox>>
+  subdivide_bounding_box(const BoundingBox &bounding_box,
+                         bool ignore_lattice = false) const;
 
   /**
    * @brief      Gets all agents in a bounding box.
@@ -432,8 +421,8 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     All walls that lie in a bounding box
    */
-  std::vector<LineSegment *> get_line_obstacles_in_region(
-      const BoundingBox &bb) const;
+  std::vector<LineSegment *>
+  get_line_obstacles_in_region(const BoundingBox &bb) const;
   /**
    * @brief      Replaces all obstacles.
    *
@@ -452,8 +441,8 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     The colliding pair of entities.
    */
-  const std::set<std::tuple<const Entity *, const Entity *>> &get_collisions()
-      const {
+  const std::set<std::tuple<const Entity *, const Entity *>> &
+  get_collisions() const {
     return collisions;
   }
 
@@ -465,7 +454,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @private
    *
-   * @param[in]     The colliding pair of entities.
+   * @param[in]  value   The colliding pair of entities.
    */
   void set_collisions(const std::set<std::tuple<Entity *, Entity *>> &value) {
     collisions.clear();
@@ -479,15 +468,16 @@ class NAVGROUND_SIM_EXPORT World {
    * i.e. the maximal penetration of a neighbor or obstacle in the safety margin
    * of the agent.
    *
-   * @param[in]  agent  The agent
-   * @param[in]  agent  The safety margin.
-   *                    If not set, it will default to the agent's behavior
-   * safety margin.
+   * @param[in]  agent          The agent
+   * @param[in]  safety_margin  The safety margin.
+   *                            If not set, it will default to the agent's
+   * behavior safety margin.
    *
    * @return     The safety violation or 0 if no violation.
    */
-  ng_float_t compute_safety_violation(
-      const Agent *agent, std::optional<float> safety_margin = std::nullopt);
+  ng_float_t
+  compute_safety_violation(const Agent *agent,
+                           std::optional<float> safety_margin = std::nullopt);
 
   /**
    * @brief      The random generator shared by all distribution
@@ -566,9 +556,7 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     True if it uses a lattice, False otherwise.
    */
-  bool has_lattice() const {
-    return _has_lattice;
-  }
+  bool has_lattice() const { return _has_lattice; }
 
   /**
    * @brief      Gets the periodic lattice.
@@ -595,8 +583,9 @@ class NAVGROUND_SIM_EXPORT World {
    *             lattice, e.g., ``{delta_x, -delta_x}``
    *             if only the axis=0 lattice is set.
    *
-   * @param[in]  Whether to include the zero vector
-   * @param[in]  Whether to use 8-connectivity instead of 4-connectivity
+   * @param[in]  include_zero Whether to include the zero vector
+   * @param[in]  c8           Whether to use 8-connectivity instead of
+   * 4-connectivity
    *
    * @return     A vector of 2D vectors
    */
@@ -661,8 +650,8 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @param[in]  value  The desired condition.
    */
-  void set_termination_condition(
-      const std::optional<TerminationCondition> &value) {
+  void
+  set_termination_condition(const std::optional<TerminationCondition> &value) {
     termination_condition = value;
   }
 
@@ -763,18 +752,14 @@ class NAVGROUND_SIM_EXPORT World {
    *
    * @return     True if bounding box is set, False otherwise.
    */
-  bool has_bounding_box() const {
-    return bb.has_value();
-  }
+  bool has_bounding_box() const { return bb.has_value(); }
 
   /**
-   * @brief    Notify that some agents have moved, 
+   * @brief    Notify that some agents have moved,
    *           therefore the str tree need to be updated
-   *   
+   *
    */
-  void agents_moved() {
-    agents_strtree_is_updated = false;
-  }
+  void agents_moved() { agents_strtree_is_updated = false; }
 
   /**
    * @brief      Record the collision between two entities
@@ -787,20 +772,16 @@ class NAVGROUND_SIM_EXPORT World {
   /**
    * @brief      Clear collisions
    */
-  void clear_collisions() {
-    collisions.clear();
-  }
+  void clear_collisions() { collisions.clear(); }
 
   /**
    * @brief      Resets the world.
-   * 
+   *
    * @private
    */
   void reset();
 
- private:
-  
-
+private:
   bool resolve_collision(Agent *a1, Agent *a2, Vector2 delta = Vector2::Zero(),
                          ng_float_t margin = 0);
 
@@ -863,6 +844,6 @@ class NAVGROUND_SIM_EXPORT World {
   std::optional<BoundingBox> bb;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_WORLD_H_ */

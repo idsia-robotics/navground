@@ -67,7 +67,7 @@ class NAVGROUND_CORE_EXPORT HRVOBehavior : public Behavior {
   /**
    * @brief      Sets the maximal number of neighbors
    *
-   * @param[in]  the desired value
+   * @param[in]  value The desired value
    */
   void set_max_number_of_neighbors(unsigned value);
 

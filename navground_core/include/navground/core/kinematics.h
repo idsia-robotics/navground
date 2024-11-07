@@ -391,7 +391,7 @@ public:
   /**
    * @brief      Whether the agent can move forwards.
    *
-   * @param[in]  True if moving forwards is possible.
+   * @return     True if moving forwards is possible.
    */
   bool can_move_forwards() const {
     return get_max_speed() > 0 && _max_forward_speed > 0;
@@ -642,20 +642,22 @@ public:
       moi = value;
   }
 
+#if 0
   /**
    * @brief      Returns whether to reduce the torques proportionally
    *             instead of clipping them independently.
    *
    * @return     True if will reduce torques proportionally
    */
-  // bool get_reduce_torques() const { return reduce_torques; }
+  bool get_reduce_torques() const { return reduce_torques; }
   /**
    * @brief      Sets whether to reduce the torques proportionally
    *             instead of clipping them independently.
    *
    * @param[in]  value  The desired value
    */
-  // void set_reduce_torques(bool value) { reduce_torques = value; }
+  void set_reduce_torques(bool value) { reduce_torques = value; }
+#endif
 
   /**
    * @brief      Gets the maximal (body) acceleration.

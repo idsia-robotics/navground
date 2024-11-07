@@ -742,12 +742,14 @@ public:
    * @brief      Adds a record probe.
    *
    * @param[in]  key   The key of the record to be created
+   * @param[in]  force If specified, it will replace the record associated
+   *                   with the key, if already present.
    *
    * @tparam     T     The probe class.
    */
   template <typename T>
   void add_record_probe(const std::string &key, bool force = false) {
-    auto ds = add_record(key);
+    auto ds = add_record(key, "", force);
     ds->set_dtype<typename T::Type>();
     add_probe(std::dynamic_pointer_cast<Probe>(std::make_shared<T>(ds)));
   }

@@ -35,7 +35,7 @@ class IsMovingProbe : public navground::sim::RecordProbe {
 
   void update(navground::sim::ExperimentalRun *run) override {
     for (const auto &agent : run->get_world()->get_agents()) {
-      data->push(!agent->twist.is_almost_zero());
+      get_data()->push(!agent->twist.is_almost_zero());
     }
   }
 

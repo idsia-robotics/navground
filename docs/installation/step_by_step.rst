@@ -2,7 +2,7 @@
 Step-by-step Instructions
 =========================
 
-Here we describe the instructions to build dependecies and packages one-by-one.
+Here we describe the instructions to build dependencies and packages one-by-one.
 
 Build tools
 ===========
@@ -44,8 +44,8 @@ If you need to build the ament packages, clone them and build them with ``colcon
 
 .. note::
    
-   The ROS build tools are not required to build or run navgroud.
-   Have a look at :doc:`guides/install` to learn what they do and how to install navground without them. 
+   The ROS build tools are not required to build or run navground.
+   Have a look at :doc:`../guides/install` to learn what they do and how to install navground without them. 
 
 .. _Core C++:
 

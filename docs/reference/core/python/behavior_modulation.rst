@@ -16,7 +16,7 @@ Relaxation
 Limit Twist
 ===========
 
-.. autoclass:: navground.core.behavior_modulations.LimitTwist   Modulation
+.. autoclass:: navground.core.behavior_modulations.LimitTwistModulation
     :members:
 
 Limit Acceleration

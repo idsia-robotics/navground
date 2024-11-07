@@ -233,7 +233,7 @@ class NAVGROUND_SIM_EXPORT Dataset {
    * The items will be implicitly converted to
    * the current data type, see \ref set_dtype.
    *
-   * @param[in]  values  The values to add
+   * @param[in]  buffer  The buffer with the values to add
    *
    */
   void append(const core::Buffer& buffer);

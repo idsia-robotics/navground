@@ -10,8 +10,8 @@
 
 #include "./common.h"
 #include "./utilities.h"
-#include "navground/core/types.h"
 #include "navground/core/export.h"
+#include "navground/core/types.h"
 
 namespace navground::core {
 
@@ -40,12 +40,12 @@ struct Property {
    * The type of the property value getter, i.e., a function that gets the
    * property value from the owner.
    */
-  using Getter = std::function<Field(const HasProperties*)>;
+  using Getter = std::function<Field(const HasProperties *)>;
   /**
    * The type of the property value setter, i.e., a function that sets the
    * property value of the owner.
    */
-  using Setter = std::function<void(HasProperties*, const Field&)>;
+  using Setter = std::function<void(HasProperties *, const Field &)>;
 
   /**
    * The property value getter.
@@ -84,9 +84,9 @@ struct Property {
  */
 using Properties = std::map<std::string, Property>;
 
-inline Properties operator+(const Properties& p1, const Properties& p2) {
+inline Properties operator+(const Properties &p1, const Properties &p2) {
   std::map<std::string, Property> r = p1;
-  for (const auto& [k, v] : p2) {
+  for (const auto &[k, v] : p2) {
     r[k] = v;
     // r.emplace(std::make_tuple(k, v));
   }
@@ -96,14 +96,13 @@ inline Properties operator+(const Properties& p1, const Properties& p2) {
 /**
  * A function that gets a value of type ``T`` from an object of type ``C``.
  */
-template <typename T, class C>
-using TypedGetter = std::function<T(const C*)>;
+template <typename T, class C> using TypedGetter = std::function<T(const C *)>;
 
 /**
  * A function that sets a value of type ``T`` of an object of type ``C``.
  */
 template <typename T, class C>
-using TypedSetter = std::function<void(C*, const T&)>;
+using TypedSetter = std::function<void(C *, const T &)>;
 
 /**
  * @brief      Makes a property from a pair of typed setters and getters.
@@ -117,6 +116,8 @@ using TypedSetter = std::function<void(C*, const T&)>;
  * @param[in]  setter         A typed setter
  * @param[in]  default_value  The property default value
  * @param[in]  description    The property description
+ * @param[in]  deprecated_names A list of deprecated alias names
+ *                              for this property.
  *
  * @tparam     T              The type of the property
  * @tparam     C              The type of the property owner
@@ -124,26 +125,28 @@ using TypedSetter = std::function<void(C*, const T&)>;
  * @return     A property
  */
 template <typename T, class C>
-inline Property make_property(
-    const TypedGetter<T, C>& getter, const TypedSetter<T, C>& setter,
-    const T& default_value, const std::string& description = "",
-    const std::vector<std::string>& deprecated_names = {}) {
+inline Property
+make_property(const TypedGetter<T, C> &getter, const TypedSetter<T, C> &setter,
+              const T &default_value, const std::string &description = "",
+              const std::vector<std::string> &deprecated_names = {}) {
   Property property;
   property.description = description;
   property.default_value = default_value;
   property.type_name = std::string(get_type_name<T>());
   property.deprecated_names = deprecated_names;
   property.owner_type_name = std::string(get_type_name<C>());
-  property.getter = [getter](const HasProperties* obj) {
-    const auto C_obj = dynamic_cast<const C*>(obj);
-    if (!C_obj) throw std::bad_cast();
+  property.getter = [getter](const HasProperties *obj) {
+    const auto C_obj = dynamic_cast<const C *>(obj);
+    if (!C_obj)
+      throw std::bad_cast();
     return getter(C_obj);
   };
-  property.setter = [setter](HasProperties* obj, const Property::Field& value) {
-    auto C_obj = dynamic_cast<C*>(obj);
-    if (!C_obj) return;
+  property.setter = [setter](HasProperties *obj, const Property::Field &value) {
+    auto C_obj = dynamic_cast<C *>(obj);
+    if (!C_obj)
+      return;
     std::visit(
-        [&setter, &C_obj](auto&& arg) {
+        [&setter, &C_obj](auto &&arg) {
           using V = std::decay_t<decltype(arg)>;
           if constexpr (std::is_convertible<V, T>::value) {
             setter(C_obj, static_cast<T>(arg));
@@ -171,7 +174,7 @@ struct NAVGROUND_CORE_EXPORT HasProperties {
    *
    * @return     The properties.
    */
-  virtual const Properties& get_properties() const { return properties; };
+  virtual const Properties &get_properties() const { return properties; };
 
   /**
    * @brief      Set the value of a named property.
@@ -181,10 +184,10 @@ struct NAVGROUND_CORE_EXPORT HasProperties {
    * @param[in]  name   The name of the property
    * @param[in]  value  The desired value for the property
    */
-  void set(const std::string& name, const Property::Field& value) {
-    const auto& properties = get_properties();
+  void set(const std::string &name, const Property::Field &value) {
+    const auto &properties = get_properties();
     if (properties.count(name)) {
-      const Property& property = properties.at(name);
+      const Property &property = properties.at(name);
       if (property.setter) {
         property.setter(this, value);
       }
@@ -201,13 +204,14 @@ struct NAVGROUND_CORE_EXPORT HasProperties {
    * @tparam     V      The type of the desired value
    */
   template <typename V>
-  void set_value(const std::string& name, const V& value) {
-    const auto& properties = get_properties();
+  void set_value(const std::string &name, const V &value) {
+    const auto &properties = get_properties();
     if (properties.count(name)) {
-      const Property& property = properties.at(name);
-      if (!property.setter) return;
+      const Property &property = properties.at(name);
+      if (!property.setter)
+        return;
       std::visit(
-          [&property, this, &value](auto&& arg) {
+          [&property, this, &value](auto &&arg) {
             using T = std::decay_t<decltype(arg)>;
             if constexpr (std::is_convertible<V, T>::value) {
               std::cout << get_type_name<V>() << "=>" << get_type_name<T>()
@@ -228,10 +232,10 @@ struct NAVGROUND_CORE_EXPORT HasProperties {
    *
    * @return     The value of the property
    */
-  Property::Field get(const std::string& name) const {
-    const auto& properties = get_properties();
+  Property::Field get(const std::string &name) const {
+    const auto &properties = get_properties();
     if (properties.count(name)) {
-      const Property& property = properties.at(name);
+      const Property &property = properties.at(name);
       if (property.getter) {
         return property.getter(this);
       }
@@ -241,12 +245,13 @@ struct NAVGROUND_CORE_EXPORT HasProperties {
 };
 
 template <typename T>
-inline std::ostream& operator<<(std::ostream& os,
-                                const std::vector<T>& values) {
+inline std::ostream &operator<<(std::ostream &os,
+                                const std::vector<T> &values) {
   os << "[";
   bool f = true;
-  for (const auto& value : values) {
-    if (!f) os << ", ";
+  for (const auto &value : values) {
+    if (!f)
+      os << ", ";
     f = false;
     os << value;
   }
@@ -254,18 +259,18 @@ inline std::ostream& operator<<(std::ostream& os,
   return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os,
-                                const navground::core::Vector2& value) {
+inline std::ostream &operator<<(std::ostream &os,
+                                const navground::core::Vector2 &value) {
   os << "[" << value[0] << ", " << value[1] << "]";
   return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os,
-                                const navground::core::Property::Field& value) {
-  std::visit([&os](auto&& arg) { os << arg; }, value);
+inline std::ostream &operator<<(std::ostream &os,
+                                const navground::core::Property::Field &value) {
+  std::visit([&os](auto &&arg) { os << arg; }, value);
   return os;
 }
 
-}  // namespace navground::core
+} // namespace navground::core
 
-#endif  // NAVGROUND_CORE_PROPERTY_H
+#endif // NAVGROUND_CORE_PROPERTY_H

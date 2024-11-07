@@ -152,7 +152,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * attributes:
    *
    * - ``duration_ns`` [``unsigned``], total duration in nanoseconds, see
-   *   \ref get_run_duration_ns;
+   *   \ref get_duration_ns;
    *
    * - ``seed`` [``unsigned``];
    *
@@ -321,19 +321,21 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    */
   void stop_run(ExperimentalRun& run);
 
+#if 0
   /**
    * @brief      Adds a callback to be executed after each simulation step.
    *
    * @param[in]  value  The callback
    */
-  // void add_callback(const Callback& value) { callbacks.push_back(value); }
+  void add_callback(const Callback& value) { callbacks.push_back(value); }
+#endif
 
   /**
    * @brief      Adds a callback to be executed before/after each run.
    *
    * @param[in]  value  The callback
    *
-   * @param[in]  value  Whether the callback should be called when initializing
+   * @param[in]  at_init  Whether the callback should be called when initializing
    * the run. If not set, it will be called at the completion of a run.
    */
   void add_run_callback(const RunCallback& value, bool at_init = false) {
@@ -361,8 +363,6 @@ struct NAVGROUND_SIM_EXPORT Experiment {
 
   /**
    * @brief      Remove all run callbacks
-   *
-   * @param[in]  value  The callback
    */
   void clear_run_callbacks() { run_callbacks.clear(); }
 

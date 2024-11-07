@@ -81,7 +81,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
   /**
    * @brief      Adds a world initializer.
    *
-   * @param[in]  f     The initializer
+   * @param[in]  initializer  The initializer
    */
   void add_init(const std::function<void(World*)>& initializer) {
     initializers.push_back(initializer);

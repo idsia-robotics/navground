@@ -108,7 +108,7 @@ public:
   using Type = ng_float_t;
 
   void update(ExperimentalRun *run) override {
-    data->push(run->get_world()->get_time());
+    get_data()->push(run->get_world()->get_time());
   }
 
   Dataset::Shape get_shape(const World &world) const override { return {}; }
@@ -122,9 +122,9 @@ public:
   void update(ExperimentalRun *run) override {
     for (const auto &agent : run->get_world()->get_agents()) {
       const auto pose = agent->pose;
-      data->push(pose.position[0]);
-      data->push(pose.position[1]);
-      data->push(pose.orientation);
+      get_data()->push(pose.position[0]);
+      get_data()->push(pose.position[1]);
+      get_data()->push(pose.orientation);
     }
   }
 
@@ -141,9 +141,9 @@ public:
   void update(ExperimentalRun *run) override {
     for (const auto &agent : run->get_world()->get_agents()) {
       const auto twist = agent->twist;
-      data->push(twist.velocity[0]);
-      data->push(twist.velocity[1]);
-      data->push(twist.angular_speed);
+      get_data()->push(twist.velocity[0]);
+      get_data()->push(twist.velocity[1]);
+      get_data()->push(twist.angular_speed);
     }
   }
 
@@ -160,9 +160,9 @@ public:
   void update(ExperimentalRun *run) override {
     for (const auto &agent : run->get_world()->get_agents()) {
       const auto twist = agent->last_cmd;
-      data->push(twist.velocity[0]);
-      data->push(twist.velocity[1]);
-      data->push(twist.angular_speed);
+      get_data()->push(twist.velocity[0]);
+      get_data()->push(twist.velocity[1]);
+      get_data()->push(twist.angular_speed);
     }
   }
 
@@ -179,9 +179,9 @@ public:
   void update(ExperimentalRun *run) override {
     for (const auto &agent : run->get_world()->get_agents()) {
       const auto twist = agent->get_actuated_cmd();
-      data->push(twist.velocity[0]);
-      data->push(twist.velocity[1]);
-      data->push(twist.angular_speed);
+      get_data()->push(twist.velocity[0]);
+      get_data()->push(twist.velocity[1]);
+      get_data()->push(twist.angular_speed);
     }
   }
 
@@ -200,13 +200,13 @@ public:
       if (auto b = agent->get_behavior()) {
         const auto target = b->get_target();
         const auto position = target.position.value_or(Vector2::Zero());
-        data->push(position[0]);
-        data->push(position[1]);
-        data->push(target.orientation.value_or(0.0));
+        get_data()->push(position[0]);
+        get_data()->push(position[1]);
+        get_data()->push(target.orientation.value_or(0.0));
       } else {
-        data->push(0);
-        data->push(0);
-        data->push(0);
+        get_data()->push(0);
+        get_data()->push(0);
+        get_data()->push(0);
       }
     }
   }
@@ -224,7 +224,7 @@ public:
   void update(ExperimentalRun *run) override {
     const auto world = run->get_world();
     for (const auto &agent : world->get_agents()) {
-      data->push(world->compute_safety_violation(agent.get()));
+      get_data()->push(world->compute_safety_violation(agent.get()));
     }
   }
 
@@ -241,9 +241,9 @@ public:
   void update(ExperimentalRun *run) override {
     const auto world = run->get_world();
     for (const auto &[e1, e2] : world->get_collisions()) {
-      data->push(world->get_step());
-      data->push(e1->uid);
-      data->push(e2->uid);
+      get_data()->push(world->get_step());
+      get_data()->push(e1->uid);
+      get_data()->push(e2->uid);
     }
   }
 
@@ -257,7 +257,7 @@ public:
 
   void finalize(ExperimentalRun *run) override {
     for (const auto &agent : run->get_world()->get_agents()) {
-      data->push(agent->get_time_since_stuck());
+      get_data()->push(agent->get_time_since_stuck());
     }
   }
 
@@ -272,7 +272,7 @@ public:
   void update(ExperimentalRun *run) override {
     for (const auto &agent : run->get_world()->get_agents()) {
       const auto b = agent->get_behavior();
-      data->push(b ? b->get_efficacy() : 1);
+      get_data()->push(b ? b->get_efficacy() : 1);
     }
   }
 
@@ -364,16 +364,16 @@ public:
           if (relative) {
             n = n.relative_to(b->get_pose());
           }
-          data->push(n.radius);
-          data->push(n.position[0]);
-          data->push(n.position[1]);
-          data->push(n.velocity[0]);
-          data->push(n.velocity[1]);
+          get_data()->push(n.radius);
+          get_data()->push(n.position[0]);
+          get_data()->push(n.position[1]);
+          get_data()->push(n.velocity[0]);
+          get_data()->push(n.velocity[1]);
           i++;
         }
       }
       for (; i < number; ++i) {
-        data->append(std::vector<ng_float_t>{0, 0, 0, 0, 0});
+        get_data()->append(std::vector<ng_float_t>{0, 0, 0, 0, 0});
       }
     }
   }

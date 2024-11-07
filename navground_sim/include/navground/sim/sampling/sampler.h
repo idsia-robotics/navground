@@ -8,8 +8,8 @@
 #include <memory>
 #include <random>
 #include <type_traits>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "navground/core/common.h"
 #include "navground/core/property.h"
@@ -40,7 +40,7 @@ enum class Wrap {
   terminate
 };
 
-inline unsigned wrap_index(const Wrap& wrap, unsigned i, unsigned size) {
+inline unsigned wrap_index(const Wrap &wrap, unsigned i, unsigned size) {
   if (wrap == Wrap::repeat) {
     i = std::min(i, size - 1);
   } else if (wrap == Wrap::loop) {
@@ -49,11 +49,11 @@ inline unsigned wrap_index(const Wrap& wrap, unsigned i, unsigned size) {
   return i;
 }
 
-inline bool wrap_done(const Wrap& wrap, unsigned i, unsigned size) {
+inline bool wrap_done(const Wrap &wrap, unsigned i, unsigned size) {
   return wrap == Wrap::terminate && i >= size;
 }
 
-inline Wrap wrap_from_string(const std::string& value) {
+inline Wrap wrap_from_string(const std::string &value) {
   if (value == "terminate") {
     return Wrap::terminate;
   }
@@ -63,14 +63,14 @@ inline Wrap wrap_from_string(const std::string& value) {
   return Wrap::loop;
 }
 
-inline std::string wrap_to_string(const Wrap& value) {
+inline std::string wrap_to_string(const Wrap &value) {
   switch (value) {
-    case Wrap::terminate:
-      return "terminate";
-    case Wrap::repeat:
-      return "repeat";
-    default:
-      return "loop";
+  case Wrap::terminate:
+    return "terminate";
+  case Wrap::repeat:
+    return "repeat";
+  default:
+    return "loop";
   }
 }
 
@@ -79,13 +79,13 @@ inline std::string wrap_to_string(const Wrap& value) {
  * that allows to sample values of type T using \ref sample.
  *
  * @tparam     T     The sampled type
+ * @param[in]  once     Whether to repeat the first sample (until reset)
  */
-template <typename T>
-struct Sampler {
+template <typename T> struct Sampler {
   friend struct PropertySampler;
 
-  Sampler(bool _once = false)
-      : once(_once), _index{0}, first_sample(std::nullopt) {}
+  Sampler(bool once = false)
+      : once(once), _index{0}, first_sample(std::nullopt) {}
   virtual ~Sampler() = default;
   /**
    * @brief      Sample values of type T.
@@ -93,11 +93,11 @@ struct Sampler {
    * @throw std::runtime_error If the generator is exhausted (i.e., \ref done
    * returns true)
    *
-   * @param[in]  A random generator
+   * @param[in]  rg A random generator
    *
    * @return     The sampled value.
    */
-  T sample(RandomGenerator& rg) {
+  T sample(RandomGenerator &rg) {
     if (done()) {
       throw std::runtime_error("Generator is exhausted");
     }
@@ -156,8 +156,8 @@ struct Sampler {
    */
   bool once;
 
- protected:
-  virtual T s(RandomGenerator& rg) = 0;
+protected:
+  virtual T s(RandomGenerator &rg) = 0;
   unsigned _index;
   std::optional<T> first_sample;
 };
@@ -167,20 +167,20 @@ struct Sampler {
  *
  * @tparam     T   The sampled type
  */
-template <typename T>
-struct ConstantSampler final : public Sampler<T> {
+template <typename T> struct ConstantSampler final : public Sampler<T> {
   /**
    * @brief      Construct an instance
    *
    * @param[in]  value  The constant value
+   * @param[in]  once   Whether to repeat the first sample (until reset)
    */
-  explicit ConstantSampler(T value, bool _once = false)
-      : Sampler<T>(_once), value{value} {}
+  explicit ConstantSampler(T value, bool once = false)
+      : Sampler<T>(once), value{value} {}
 
   T value;
 
- protected:
-  T s(RandomGenerator& rg) override { return value; }
+protected:
+  T s(RandomGenerator &rg) override { return value; }
   // std::ostream& output(std::ostream& os) const override {
   //   return os << "ConstantSampler(" << value << ")";
   // }
@@ -194,30 +194,33 @@ struct ConstantSampler final : public Sampler<T> {
  *
  * @tparam     T   The sampled type
  */
-template <typename T>
-struct SequenceSampler final : public Sampler<T> {
+template <typename T> struct SequenceSampler final : public Sampler<T> {
   using Sampler<T>::_index;
   /**
    * @brief      Construct an instance
    *
    * @param[in]  values  The values to be sampled in sequence
    * @param[in]  wrap    How it should wrap at the end of the sequence
+   * @param[in]  once   Whether to repeat the first sample (until reset)
    */
-  explicit SequenceSampler(const std::vector<T>& values, Wrap wrap = Wrap::loop,
-                           bool _once = false)
-      : Sampler<T>(_once), values{values}, wrap{wrap} {}
+  explicit SequenceSampler(const std::vector<T> &values, Wrap wrap = Wrap::loop,
+                           bool once = false)
+      : Sampler<T>(once), values{values}, wrap{wrap} {}
 
   /**
    * @private
    */
-  bool done() const override { return wrap_done(wrap, _index, static_cast<unsigned>(values.size())); }
+  bool done() const override {
+    return wrap_done(wrap, _index, static_cast<unsigned>(values.size()));
+  }
 
   std::vector<T> values;
   Wrap wrap;
 
- protected:
-  T s(RandomGenerator& rg) override {
-    return values[wrap_index(wrap, _index, static_cast<unsigned>(values.size()))];
+protected:
+  T s(RandomGenerator &rg) override {
+    return values[wrap_index(wrap, _index,
+                             static_cast<unsigned>(values.size()))];
   }
 
   // std::ostream& output(std::ostream& os) const override {
@@ -250,8 +253,7 @@ inline constexpr bool is_algebra = is_number<T> || std::is_same_v<T, Vector2>;
  *
  * @tparam     T   The sampled type
  */
-template <typename T>
-struct RegularSampler final : public Sampler<T> {
+template <typename T> struct RegularSampler final : public Sampler<T> {
   using Sampler<T>::_index;
 
   /**
@@ -261,10 +263,11 @@ struct RegularSampler final : public Sampler<T> {
    * @param[in]  from    The initial value
    * @param[in]  number  The number of samples to draw (``from`` included)
    * @param[in]  wrap    How it should wrap at the end of the interval
+   * @param[in]  once   Whether to repeat the first sample (until reset)
    */
-  RegularSampler(const T& from, std::optional<unsigned> number,
-                 Wrap wrap = Wrap::loop, bool _once = false)
-      : Sampler<T>(_once), from{from}, number{number}, wrap{wrap} {}
+  RegularSampler(const T &from, std::optional<unsigned> number,
+                 Wrap wrap = Wrap::loop, bool once = false)
+      : Sampler<T>(once), from{from}, number{number}, wrap{wrap} {}
 
   /**
    * @brief      Construct a sampler that will samples ``number`` points between
@@ -280,14 +283,15 @@ struct RegularSampler final : public Sampler<T> {
    * @param[in]  number  The number of samples to draw.
    * @param[in]  wrap    How it should wrap at the end of the interval
    * (i.e., after ``number`` samples have been drawn)
+   * @param[in]  once   Whether to repeat the first sample (until reset)
    *
    * @return     The sampler.
    */
-  static RegularSampler make_with_interval(const T& from, const T& to,
+  static RegularSampler make_with_interval(const T &from, const T &to,
                                            unsigned number,
                                            Wrap wrap = Wrap::loop,
-                                           bool _once = false) {
-    RegularSampler r(from, number, wrap, _once);
+                                           bool once = false) {
+    RegularSampler r(from, number, wrap, once);
     r.to = to;
     if (number > 1) {
       r.step = (to - from) / (number - 1);
@@ -307,12 +311,13 @@ struct RegularSampler final : public Sampler<T> {
    * @param[in]  number  The number of samples to draw
    * @param[in]  wrap    How it should wrap at the end of the interval
    * (i.e., after ``number`` samples have been drawn)
+   * @param[in]  once   Whether to repeat the first sample (until reset)
    */
-  static RegularSampler make_with_step(
-      const T& from, const T& step,
-      std::optional<unsigned> number = std::nullopt, Wrap wrap = Wrap::loop,
-      bool _once = false) {
-    RegularSampler r(from, number, wrap, _once);
+  static RegularSampler
+  make_with_step(const T &from, const T &step,
+                 std::optional<unsigned> number = std::nullopt,
+                 Wrap wrap = Wrap::loop, bool once = false) {
+    RegularSampler r(from, number, wrap, once);
     r.step = step;
     if (number && *number > 0) {
       r.to = from + step * (*number - 1);
@@ -333,8 +338,8 @@ struct RegularSampler final : public Sampler<T> {
   std::optional<unsigned> number;
   Wrap wrap;
 
- protected:
-  T s(RandomGenerator& rg) override {
+protected:
+  T s(RandomGenerator &rg) override {
     unsigned i = _index;
     if (number) {
       i = wrap_index(wrap, i, *number);
@@ -364,17 +369,14 @@ struct GridSampler final : public Sampler<Vector2> {
    * @param[in]  numbers  The size of the grid, i.e.,
    * the number of points along the x- and y-axis.
    * @param[in]  wrap     How it should wrap at end of the covered area
+   * @param[in]  once   Whether to repeat the first sample (until reset)
    *
    */
-  explicit GridSampler(const Vector2& from, const Vector2& to,
+  explicit GridSampler(const Vector2 &from, const Vector2 &to,
                        std::array<unsigned, 2> numbers, Wrap wrap = Wrap::loop,
-                       bool _once = false)
-      : Sampler<Vector2>{_once},
-        from(from),
-        to(to),
-        numbers(numbers),
-        wrap(wrap),
-        step() {
+                       bool once = false)
+      : Sampler<Vector2>{once}, from(from), to(to), numbers(numbers),
+        wrap(wrap), step() {
     const auto delta = from - to;
     for (int i = 0; i < 2; ++i) {
       if (numbers[i] > 1) {
@@ -395,14 +397,14 @@ struct GridSampler final : public Sampler<Vector2> {
   std::array<unsigned, 2> numbers;
   Wrap wrap;
 
- protected:
-  Vector2 s(RandomGenerator& rg) override {
+protected:
+  Vector2 s(RandomGenerator &rg) override {
     unsigned i = wrap_index(wrap, _index, numbers[0] * numbers[1]);
     return {from[0] + (i % numbers[0]) * step[0],
             from[1] + (i / numbers[0]) * step[1]};
   }
 
- private:
+private:
   Vector2 step;
 };
 
@@ -419,19 +421,19 @@ using uniform_distribution = typename std::conditional<
  * Only defined if T is a number.
  *
  * @tparam     T     The sampled type
+ * @param[in]  once   Whether to repeat the first sample (until reset)
  */
-template <typename T>
-struct UniformSampler final : public Sampler<T> {
+template <typename T> struct UniformSampler final : public Sampler<T> {
   using Sampler<T>::_index;
 
-  UniformSampler(T min, T max, bool _once = false)
-      : Sampler<T>(_once), min{min}, max{max}, dist{min, max} {}
+  UniformSampler(T min, T max, bool once = false)
+      : Sampler<T>(once), min{min}, max{max}, dist{min, max} {}
 
   T min;
   T max;
 
- protected:
-  T s(RandomGenerator& rg) override { return dist(rg); }
+protected:
+  T s(RandomGenerator &rg) override { return dist(rg); }
 
   uniform_distribution<T> dist;
 };
@@ -445,8 +447,7 @@ struct UniformSampler final : public Sampler<T> {
  *
  * @tparam     T     The sampled type
  */
-template <typename T>
-struct NormalSampler final : public Sampler<T> {
+template <typename T> struct NormalSampler final : public Sampler<T> {
   /**
    * @brief      Construct an instance
    *
@@ -454,18 +455,15 @@ struct NormalSampler final : public Sampler<T> {
    * @param[in]  std_dev  The standard deviation
    * @param[in]  min      The minimum value
    * @param[in]  max      The maximum value
+   * @param[in]  once     Whether to repeat the first sample (until reset)
+   * @param[in]  clamp    Whether to clamp the values in ``[min, max]``
    */
   NormalSampler(ng_float_t mean, ng_float_t std_dev,
                 std::optional<T> min = std::nullopt,
-                std::optional<T> max = std::nullopt, bool _once = false,
+                std::optional<T> max = std::nullopt, bool once = false,
                 bool clamp = true)
-      : Sampler<T>(_once),
-        min(min),
-        max(max),
-        mean(mean),
-        std_dev(std_dev),
-        clamp(clamp),
-        dist{mean, std_dev} {}
+      : Sampler<T>(once), min(min), max(max), mean(mean), std_dev(std_dev),
+        clamp(clamp), dist{mean, std_dev} {}
 
   std::optional<T> min;
   std::optional<T> max;
@@ -473,8 +471,8 @@ struct NormalSampler final : public Sampler<T> {
   ng_float_t std_dev;
   bool clamp;
 
- protected:
-  T s(RandomGenerator& rg) override {
+protected:
+  T s(RandomGenerator &rg) override {
     T value = static_cast<T>(dist(rg));
     if (min) {
       if (value < *min) {
@@ -497,7 +495,7 @@ struct NormalSampler final : public Sampler<T> {
     return value;
   }
 
- private:
+private:
   std::normal_distribution<ng_float_t> dist;
 };
 
@@ -508,17 +506,15 @@ struct NormalSampler final : public Sampler<T> {
  *
  * @tparam     T   The sampled type
  */
-template <typename T>
-struct ChoiceSampler final : public Sampler<T> {
+template <typename T> struct ChoiceSampler final : public Sampler<T> {
   /**
    * @brief      Construct an instance
    *
-   * @param[in]  values  The values to be sampled randomly
-   * sequence
+   * @param[in]  values  The values to be sampled randomly sequence
+   * @param[in]  once     Whether to repeat the first sample (until reset)
    */
-  explicit ChoiceSampler(const std::vector<T>& values, bool _once = false)
-      : Sampler<T>(_once),
-        values{values},
+  explicit ChoiceSampler(const std::vector<T> &values, bool once = false)
+      : Sampler<T>(once), values{values},
         dist{0, static_cast<int>(values.size() - 1)} {}
 
   /**
@@ -528,15 +524,14 @@ struct ChoiceSampler final : public Sampler<T> {
 
   std::vector<T> values;
 
- protected:
-  T s(RandomGenerator& rg) override { return values[dist(rg)]; }
+protected:
+  T s(RandomGenerator &rg) override { return values[dist(rg)]; }
 
- private:
+private:
   std::uniform_int_distribution<int> dist;
 };
 
-template <class T, class U>
-struct is_one_of;
+template <class T, class U> struct is_one_of;
 
 template <class T, class... Ts>
 struct is_one_of<T, std::variant<Ts...>>
@@ -550,8 +545,7 @@ using allowed = is_one_of<T, navground::core::Property::Field>;
  * values of type \ref navground::core::Property::Field.
  */
 struct PropertySampler : Sampler<navground::core::Property::Field> {
-  template <typename T>
-  using US = std::unique_ptr<Sampler<T>>;
+  template <typename T> using US = std::unique_ptr<Sampler<T>>;
 
   template <typename S>
   using ST = std::decay_t<decltype(std::declval<S>().sample())>;
@@ -584,9 +578,9 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
    * with T as one of the types of \ref navground::core::Property::Field
    */
   template <typename S, typename = std::enable_if_t<allowed<ST<S>>::value>>
-  PropertySampler(S&& value)
-      : sampler(static_cast<US<ST<S>>>(std::make_unique<S>(std::forward(value)))) {
-  }
+  PropertySampler(S &&value)
+      : sampler(
+            static_cast<US<ST<S>>>(std::make_unique<S>(std::forward(value)))) {}
 
   /**
    * @brief      Create a new sampler
@@ -609,7 +603,7 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
    */
   unsigned count() const override {
     return std::visit(
-        [](auto&& arg) -> unsigned {
+        [](auto &&arg) -> unsigned {
           if (arg) {
             return arg->count();
           }
@@ -623,7 +617,7 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
    */
   bool done() const override {
     return std::visit(
-        [](auto&& arg) -> bool {
+        [](auto &&arg) -> bool {
           if (arg) {
             return arg->done();
           }
@@ -638,7 +632,7 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
   void reset(std::optional<unsigned> index = std::nullopt) override {
     Sampler<navground::core::Property::Field>::reset(index);
     std::visit(
-        [index](auto&& arg) -> void {
+        [index](auto &&arg) -> void {
           if (arg) {
             arg->reset(index);
           }
@@ -646,16 +640,16 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
         sampler);
   }
 
- protected:
-  navground::core::Property::Field s(RandomGenerator& rg) override {
+protected:
+  navground::core::Property::Field s(RandomGenerator &rg) override {
     return std::visit(
-        [&rg](auto&& arg) -> navground::core::Property::Field {
+        [&rg](auto &&arg) -> navground::core::Property::Field {
           return arg->sample(rg);
         },
         sampler);
   }
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
-#endif  // NAVGROUND_SIM_SAMPLING_SAMPLER_H
+#endif // NAVGROUND_SIM_SAMPLING_SAMPLER_H

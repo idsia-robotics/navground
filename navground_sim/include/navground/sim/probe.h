@@ -36,19 +36,19 @@ public:
    *
    * @param[in]  run The run
    */
-  virtual void prepare(ExperimentalRun *) {}
+  virtual void prepare([[maybe_unused]] ExperimentalRun * run) {}
   /**
    * @brief      Called at each simulation step
    *
    * @param[in]  run The run
    */
-  virtual void update(ExperimentalRun *) {}
+  virtual void update([[maybe_unused]] ExperimentalRun * run) {}
   /**
    * @brief      Called at end of a simulation run
    *
    * @param[in]  run The run
    */
-  virtual void finalize(ExperimentalRun *) {}
+  virtual void finalize([[maybe_unused]] ExperimentalRun * run) {}
 };
 
 /**
@@ -57,7 +57,7 @@ public:
  *             in HDF5.
  *
  * Subclasses are expected to overwrite \ref Probe::update, \ref get_shape
- * and to redefine \ref Type.
+ * and to redefine \ref RecordProbe::Type.
  *
  */
 class NAVGROUND_SIM_EXPORT RecordProbe : public Probe {
@@ -75,7 +75,7 @@ public:
    *
    * @param[in]  data  The data
    */
-  explicit RecordProbe(std::shared_ptr<Dataset> _data) : Probe(), data(_data) {}
+  explicit RecordProbe(std::shared_ptr<Dataset> data) : Probe(), _data(data) {}
 
   /**
    * @brief      Gets the item shape that the record should use,
@@ -95,9 +95,30 @@ public:
   void prepare(ExperimentalRun *) override;
 
   /**
+   * @brief      Gets the data.
+   *
+   * @return     The data.
+   */
+  std::shared_ptr<Dataset> get_data() {
+    return _data;
+  }
+
+#if 0
+  /**
+   * @brief      Sets the data.
+   *
+   * @return     The data.
+   */
+  void set_data(const std::shared_ptr<Dataset> & data) {
+    _data = data;
+  }
+#endif
+
+ private:
+  /**
    * The recorded data
    */
-  std::shared_ptr<Dataset> data;
+  std::shared_ptr<Dataset> _data;
 };
 
 /**
@@ -113,6 +134,8 @@ public:
    * The type of data to record. Subclasses must define their own type for
    * \ref ExperimentalRun::add_group_record_probe<T> to work with them.
    */
+  using Type = ng_float_t;
+
 
   /**
    * Generates dataset for a given key
@@ -145,8 +168,9 @@ public:
 
   /**
    * @private
+   * 
    */
-  void prepare(ExperimentalRun *) override;
+  void prepare(ExperimentalRun * run) override;
 
   /**
    * @brief      Gets the recorded data,

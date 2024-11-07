@@ -88,6 +88,7 @@ _replace = {
     "_navground.": "",
     "_navground_sim.": "",
     "numpy.ndarray[numpy.float32[2, 1]]": "Vector2",
+    "numpy.ndarray[numpy.float64[2, 1]]": "Vector2",
     "Union[bool, int, float, str, Vector2, List[bool], List[int], List[float], List[str], List[Vector2]]": "PropertyField",
     "Callable[[List[float]], None]": "TaskCallback",
 }

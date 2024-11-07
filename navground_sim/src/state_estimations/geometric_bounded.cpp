@@ -13,16 +13,16 @@ void BoundedStateEstimation::update(Agent *agent, World *world,
                                     EnvironmentState *state) {
   if (GeometricState *geo_state = dynamic_cast<GeometricState *>(state)) {
     geo_state->set_neighbors(neighbors_of_agent(agent, world));
-    if (update_static_obstacles) {
+    if (_update_static_obstacles) {
       geo_state->set_static_obstacles(
-          world->get_discs_in_region(envelop(agent->pose.position, range)));
+          world->get_discs_in_region(envelop(agent->pose.position, _range)));
     }
   }
 }
 
 void BoundedStateEstimation::prepare(Agent *agent, World *world) {
   if (GeometricState *state = get_geometric_state(agent)) {
-    if (!update_static_obstacles) {
+    if (!_update_static_obstacles) {
       state->set_static_obstacles(world->get_discs());
     }
     state->set_line_obstacles(world->get_line_obstacles());
@@ -33,9 +33,10 @@ void BoundedStateEstimation::prepare(Agent *agent, World *world) {
   }
 }
 
-std::vector<Neighbor> BoundedStateEstimation::neighbors_of_agent(
-    const Agent *agent, World *world) const {
-  return world->get_neighbors(agent, range);
+std::vector<Neighbor>
+BoundedStateEstimation::neighbors_of_agent(const Agent *agent,
+                                           World *world) const {
+  return world->get_neighbors(agent, _range);
 }
 
 const std::map<std::string, Property> BoundedStateEstimation::properties =
@@ -95,4 +96,4 @@ BoundingBox BoundedStateEstimation::bounding_box(const Agent *agent) const {
 
 #endif
 
-}  // namespace navground::sim
+} // namespace navground::sim

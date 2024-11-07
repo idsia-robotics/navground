@@ -8,9 +8,9 @@
 #include <vector>
 
 #include "navground/core/types.h"
+#include "navground/sim/export.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/world.h"
-#include "navground/sim/export.h"
 
 using navground::core::make_property;
 using navground::core::Properties;
@@ -24,6 +24,7 @@ namespace navground::sim {
  * *Registered properties*:
  *
  *   - `range` (float, \ref get_range), deprecated synonym `range_of_view`
+ *   - `update_static_obstacles` (bool, \ref get_update_static_obstacles)
  */
 struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
   inline static const ng_float_t default_range = 1.0;
@@ -31,16 +32,17 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
   /**
    * @brief      Constructs a new instance.
    *
-   * @param[in]  range_  The range of view
+   * @param[in]  range  The range of view
+   * @param[in]  update_static_obstacles Whether to update the static obstacles
+   * in \ref StateEstimation::update
    */
-  BoundedStateEstimation(
-      ng_float_t range_ = default_range,
-      bool update_static_obstacles_ = default_update_static_obstacles)
+  explicit BoundedStateEstimation(
+      ng_float_t range = default_range,
+      bool update_static_obstacles = default_update_static_obstacles)
       // float field_of_view_ = 0.0f,
       : StateEstimation(),
         // field_of_view(field_of_view_),
-        range(range_),
-        update_static_obstacles(update_static_obstacles_) {}
+        _range(range), _update_static_obstacles(update_static_obstacles) {}
 
   virtual ~BoundedStateEstimation() = default;
 
@@ -49,32 +51,36 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
    *
    * @param[in]  value     The new value
    */
-  void set_range(ng_float_t value) { range = value; }
+  void set_range(ng_float_t value) { _range = value; }
 
   /**
    * @brief      Gets the maximal range of view.
    *
    * @return     The range of view.
    */
-  ng_float_t get_range() const { return range; }
+  ng_float_t get_range() const { return _range; }
 
   /**
    * @brief      Sets whether to set the static obstacles
-   * in ``prepare`` (ignoring the range) or in \ref update.
+   * in \ref StateEstimation::prepare (ignoring the range) or
+   * in \ref StateEstimation::update.
    *
-   * @param[in]  value   True if static obstacles are set in \ref update
+   * @param[in]  value   True if static obstacles are set in \ref
+   * StateEstimation::update.
    */
   void set_update_static_obstacles(bool value) {
-    update_static_obstacles = value;
+    _update_static_obstacles = value;
   }
 
   /**
    * @brief      Gets whether to set the static obstacles
-   * in ``prepare`` (ignoring the range) or in ``update``.
+   * in \ref StateEstimation::prepare (ignoring the range) or
+   * in \ref StateEstimation::update.
    *
-   * @return     True if static obstacles are set in \ref update.
+   * @return     True if static obstacles are set in \ref
+   * StateEstimation::update.
    */
-  bool get_update_static_obstacles() const { return update_static_obstacles; }
+  bool get_update_static_obstacles() const { return _update_static_obstacles; }
 
   // void set_field_of_view(float v) { field_of_view = v; }
 
@@ -115,7 +121,7 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
   virtual void update(Agent *agent, World *world,
                       EnvironmentState *state) override;
 
- protected:
+protected:
 #if 0
   BoundingBox bounding_box(const Agent *agent) const;
 
@@ -149,14 +155,14 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
     return nullptr;
   }
 
- private:
+private:
   // float field_of_view;
-  ng_float_t range;
-  bool update_static_obstacles;
+  ng_float_t _range;
+  bool _update_static_obstacles;
   const static std::string type;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
-#endif /* end of include guard: \
+#endif /* end of include guard:                                                \
           NAVGROUND_SIM_STATE_ESTIMATIONS_GEOMETRIC_BOUNDED_H_ */

@@ -82,7 +82,7 @@ struct Path {
    * @param[in]  position    The position
    * @param[in]  look_ahead  The look ahead distance
    *
-   * @return     The ng float.
+   * @return     The coordinate.
    */
   ng_float_t track(const Vector2 &position, ng_float_t look_ahead = 0) {
     if (coordinate < 0) {
@@ -132,14 +132,21 @@ struct Path {
 
 /**
  * @brief      Represents the union of all targets supported
- *             by a generic \ref Behavior:
- *             - poses
- *             - positions
- *             - orientations
- *             - directions
- *             - velocities
- *             - twists
- *             - paths to be followed to reach a position
+ * by a generic \ref Behavior
+ *             
+ * - poses
+ * 
+ * - positions
+ * 
+ * - orientations
+ * 
+ * - directions
+ * 
+ * - velocities
+ * 
+ * - twists
+ * 
+ * - paths to be followed to reach a position
  *
  */
 struct Target {
@@ -251,7 +258,7 @@ struct Target {
    *
    * The target is satisfied if the position and orientation are both satisfied.
    *
-   * @param[in]  value  The value
+   * @param[in]  pose  The pose
    *
    * @return     True if the target is satisfied.
    */

@@ -16,14 +16,16 @@
 ### Added
 
 - Rigid transform methods related to `core::Pose2`
+- Exported `NAVGROUND_USES_DOUBLE` cmake option.
 
 ### Fixed
 
 - Python plugins are now correctly loaded in the CLI.
+- Several errors in the documentation.
 
 ### Changed
 
-- Separated Vector2Like and Vector2 in stubs
+- Separated `Vector2Like` and `Vector2` in the Python stubs
 
 ### Removed
 

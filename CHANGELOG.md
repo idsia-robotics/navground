@@ -11,6 +11,19 @@
 ### Removed
 
 
+## [0.2.2]
+
+### Added
+
+### Fixed
+
+- Python plugins are now correctly loaded in the CLI.
+
+### Changed
+
+### Removed
+
+
 ## [0.2.1] - 2024-05-11
 
 ### Added

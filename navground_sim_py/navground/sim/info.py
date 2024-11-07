@@ -1,6 +1,7 @@
 import argparse
 
 from navground import sim
+from navground.core import command
 from navground.core.info import description, info, init_parser_with_registers
 from navground.core.info import registers as core_registers
 
@@ -19,6 +20,7 @@ def parser() -> argparse.ArgumentParser:
 
 
 def _main(arg: argparse.Namespace) -> None:
+    command._main(arg, sim.load_plugins)
     info(arg, registers)
 
 

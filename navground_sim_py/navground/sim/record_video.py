@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, Optional
 from navground.core import command
 
 from . import (Agent, Experiment, ExperimentalRun, RecordedExperiment,
-               RecordedExperimentalRun, load_experiment)
+               RecordedExperimentalRun, load_experiment, load_plugins)
 
 if TYPE_CHECKING:
     from .ui import Decorate
@@ -150,7 +150,7 @@ def main(decorate: Optional['Decorate'] = None) -> None:
 
 def _main(arg: argparse.Namespace,
           decorate: Optional['Decorate'] = None) -> None:
-    command._main(arg)
+    command._main(arg, load_plugins)
     logging.basicConfig(level=logging.INFO)
     experiment = _load_recorded_experiment(arg.input) or _load_experiment(
         arg.input)

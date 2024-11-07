@@ -29,6 +29,7 @@ def add_arg_for_register(parser: argparse.ArgumentParser, title: str) -> None:
 
 def init_parser_with_registers(parser: argparse.ArgumentParser,
                                registers: Registers) -> None:
+    command.init_parser(parser)
     parser.description = description()
     parser.add_argument('--properties',
                         help="Include properties",
@@ -38,7 +39,6 @@ def init_parser_with_registers(parser: argparse.ArgumentParser,
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    command.init_parser(parser)
     init_parser_with_registers(parser, registers)
 
 

@@ -19,7 +19,7 @@ def description() -> str:
     return "Load an object from YAML and print its YAML representation."
 
 
-def init_parser(parser: argparse.ArgumentParser, echos: Echos = echos) -> None:
+def init_parser_with_echos(parser: argparse.ArgumentParser, echos: Echos) -> None:
     command.init_parser(parser)
     kinds = ", ".join(echos.keys())
     parser.add_argument("kind",
@@ -29,6 +29,10 @@ def init_parser(parser: argparse.ArgumentParser, echos: Echos = echos) -> None:
         "YAML",
         type=str,
         help="YAML string, or path to a YAML file, describing an experiment")
+
+
+def init_parser(parser: argparse.ArgumentParser) -> None:
+    init_parser_with_echos(parser, echos)
 
 
 def parser() -> argparse.ArgumentParser:

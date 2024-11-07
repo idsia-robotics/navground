@@ -21,7 +21,7 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
 
 
 def _main(arg: argparse.Namespace) -> None:
-    command._main(arg)
+    command._main(arg, sim.load_plugins)
     logging.basicConfig(level=logging.INFO)
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
         with open(arg.YAML, 'r') as f:

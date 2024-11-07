@@ -1,7 +1,7 @@
 import argparse
 
 from navground import sim
-from navground.core import echo
+from navground.core import command, echo
 
 echos: echo.Echos = echo.echos | {
     "state_estimation": sim.load_state_estimation,
@@ -16,7 +16,7 @@ description = echo.description
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    echo.init_parser(parser, echos)
+    echo.init_parser_with_echos(parser, echos)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -26,6 +26,7 @@ def parser() -> argparse.ArgumentParser:
 
 
 def _main(arg: argparse.Namespace) -> None:
+    command._main(arg, sim.load_plugins)
     echo.echo(arg, echos, sim.dump)
 
 

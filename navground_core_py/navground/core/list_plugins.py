@@ -38,6 +38,7 @@ def list_plugins(arg: argparse.Namespace,
 
 
 def _main(arg: argparse.Namespace) -> None:
+    core.load_plugins()
     list_plugins(arg, core.get_loaded_plugins())
 
 

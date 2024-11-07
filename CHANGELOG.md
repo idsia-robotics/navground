@@ -11,17 +11,17 @@
 ### Removed
 
 
-## [0.2.2]
+## [0.2.2] - 2024-07-11
 
 ### Added
 
-- Rigid transform methods related to `core::Pose2`
+- Added to `core::Pose2` methods related to rigid transform.
 - Exported `NAVGROUND_USES_DOUBLE` cmake option.
 
 ### Fixed
 
 - Python plugins are now correctly loaded in the CLI.
-- Several errors in the documentation.
+- Fixed errors in the documentation.
 
 ### Changed
 
@@ -51,7 +51,7 @@
 ### Removed
 
 
-## [0.2.1] - 2024-29-10
+## [0.2.0] - 2024-29-10
 
 ### Added
 

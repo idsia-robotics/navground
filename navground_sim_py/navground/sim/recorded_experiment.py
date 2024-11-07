@@ -347,7 +347,7 @@ class RecordedExperimentalRun:
         :returns:   A dataset of shape {`#events`, 4} of events `<begin, end, e1, e2>`
         """
         if self.collisions is None:
-            print("Collisions not recorded", file=sys.error)
+            print("Collisions not recorded", file=sys.stderr)
             return np.array([], dtype=int)
         collision_events: List[Tuple[int, int, int, int]] = []
         # (e1, e2) -> (begin, end)
@@ -377,6 +377,8 @@ class RecordedExperimentalRun:
 
         :returns:   An array of shape `{#steps, #agents}`
         """
+        if not self.record_config:
+            return np.array([])
         agents = self.world.agents
         use_uid = self.record_config.use_agent_uid_as_key
         first_agent_id = 0

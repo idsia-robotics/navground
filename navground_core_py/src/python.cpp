@@ -571,10 +571,11 @@ PYBIND11_MODULE(_navground, m) {
           "max_angular_speed", &Kinematics::get_max_angular_speed,
           &Kinematics::set_max_angular_speed,
           DOC(navground, core, Kinematics, property_max_angular_speed))
-      .def_property("is_wheeled", &Kinematics::is_wheeled, nullptr,
-                    DOC(navground, core, Kinematics, property_is_wheeled))
-      .def_property("dof", &Kinematics::dof, nullptr,
-                    DOC(navground, core, Kinematics, property_dof))
+      .def("get_max_angular_speed", &Kinematics::get_max_angular_speed,
+           DOC(navground, core, Kinematics, get_max_angular_speed))
+      .def("is_wheeled", &Kinematics::is_wheeled,
+           DOC(navground, core, Kinematics, is_wheeled))
+      .def("dof", &Kinematics::dof, DOC(navground, core, Kinematics, dof))
       .def_property(
           "type", [](Kinematics *obj) { return obj->get_type(); }, nullptr,
           DOC(navground, core, HasRegister, property_type))
@@ -914,7 +915,7 @@ PYBIND11_MODULE(_navground, m) {
                     &LimitTwistModulation::get_max_angular_speed,
                     &LimitTwistModulation::set_max_angular_speed,
                     DOC(navground, core, LimitTwistModulation,
-                        property_max_angular_speed));
+                        property, max_angular_speed));
 
   py::class_<MotorPIDModulation, BehaviorModulation,
              std::shared_ptr<MotorPIDModulation>>
@@ -1073,6 +1074,95 @@ PYBIND11_MODULE(_navground, m) {
           },
           py::arg("time_step"), py::arg("frame"),
           DOC(navground, core, Behavior, compute_cmd_internal))
+      .def(
+          "desired_velocity_towards_point",
+          [](PyBehavior &behavior, const Vector2 &point, ng_float_t speed,
+             ng_float_t time_step) {
+            return behavior.desired_velocity_towards_point(point, speed,
+                                                           time_step);
+          },
+          py::arg("point"), py::arg("speed"), py::arg("time_step"),
+          DOC(navground, core, Behavior, desired_velocity_towards_point))
+      .def(
+          "desired_velocity_towards_velocity",
+          [](PyBehavior &behavior, const Vector2 &velocity,
+             ng_float_t time_step) {
+            return behavior.desired_velocity_towards_velocity(velocity,
+                                                              time_step);
+          },
+          py::arg("velocity"), py::arg("time_step"),
+          DOC(navground, core, Behavior, desired_velocity_towards_velocity))
+      .def(
+          "twist_towards_velocity",
+          [](PyBehavior &behavior, const Vector2 &velocity, Frame frame) {
+            return behavior.twist_towards_velocity(velocity, frame);
+          },
+          py::arg("velocity"), py::arg("frame"),
+          DOC(navground, core, Behavior, twist_towards_velocity))
+      .def(
+          "cmd_twist_along_path",
+          [](PyBehavior &behavior, Path &path, ng_float_t speed,
+             ng_float_t time_step, Frame frame) {
+            return behavior.cmd_twist_along_path(path, speed, time_step, frame);
+          },
+          py::arg("path"), py::arg("speed"), py::arg("time_step"),
+          py::arg("frame"),
+          DOC(navground, core, Behavior, cmd_twist_along_path))
+      .def(
+          "cmd_twist_towards_pose",
+          [](PyBehavior &behavior, const Pose2 &pose, ng_float_t speed,
+             ng_float_t angular_speed, ng_float_t time_step, Frame frame) {
+            return behavior.cmd_twist_towards_pose(pose, speed, angular_speed,
+                                                   time_step, frame);
+          },
+          py::arg("pose"), py::arg("speed"), py::arg("angular_speed"),
+          py::arg("time_step"), py::arg("frame"),
+          DOC(navground, core, Behavior, cmd_twist_towards_pose))
+      .def(
+          "cmd_twist_towards_point",
+          [](PyBehavior &behavior, const Vector2 &point, ng_float_t speed,
+             ng_float_t time_step, Frame frame) {
+            return behavior.cmd_twist_towards_point(point, speed, time_step,
+                                                    frame);
+          },
+          py::arg("point"), py::arg("speed"), py::arg("time_step"),
+          py::arg("frame"),
+          DOC(navground, core, Behavior, cmd_twist_towards_point))
+      .def(
+          "cmd_twist_towards_velocity",
+          [](PyBehavior &behavior, const Vector2 &velocity,
+             ng_float_t time_step, Frame frame) {
+            return behavior.cmd_twist_towards_velocity(velocity, time_step,
+                                                       frame);
+          },
+          py::arg("velocity"), py::arg("time_step"), py::arg("frame"),
+          DOC(navground, core, Behavior, cmd_twist_towards_velocity))
+      .def(
+          "cmd_twist_towards_orientation",
+          [](PyBehavior &behavior, ng_float_t orientation,
+             ng_float_t angular_speed, ng_float_t time_step, Frame frame) {
+            return behavior.cmd_twist_towards_orientation(
+                orientation, angular_speed, time_step, frame);
+          },
+          py::arg("orientation"), py::arg("angular_speed"),
+          py::arg("time_step"), py::arg("frame"),
+          DOC(navground, core, Behavior, cmd_twist_towards_orientation))
+      .def(
+          "cmd_twist_towards_angular_speed",
+          [](PyBehavior &behavior, ng_float_t angular_speed,
+             ng_float_t time_step, Frame frame) {
+            return behavior.cmd_twist_towards_angular_speed(angular_speed,
+                                                            time_step, frame);
+          },
+          py::arg("angular_speed"), py::arg("time_step"), py::arg("frame"),
+          DOC(navground, core, Behavior, cmd_twist_towards_angular_speed))
+      .def(
+          "cmd_twist_towards_stopping",
+          [](PyBehavior &behavior, ng_float_t time_step, Frame frame) {
+            return behavior.cmd_twist_towards_stopping(time_step, frame);
+          },
+          py::arg("time_step"), py::arg("frame"),
+          DOC(navground, core, Behavior, cmd_twist_towards_stopping))
       .def_property("desired_velocity", &Behavior::get_desired_velocity,
                     nullptr,
                     DOC(navground, core, Behavior, property_desired_velocity))
@@ -1363,8 +1453,10 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, HLBehavior, get_collision_distance));
 
   py::class_<ORCABehavior::Line>(m, "ORCALine")
-      .def_readonly("point", &ORCABehavior::Line::point)
-      .def_readonly("direction", &ORCABehavior::Line::direction);
+      .def_readonly("point", &ORCABehavior::Line::point,
+                    DOC(navground, core, ORCABehavior, Line, point))
+      .def_readonly("direction", &ORCABehavior::Line::direction,
+                    DOC(navground, core, ORCABehavior, Line, direction));
 
   py::class_<ORCABehavior, Behavior, std::shared_ptr<ORCABehavior>> orca(
       m, "ORCABehavior", DOC(navground, core, ORCABehavior));

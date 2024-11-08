@@ -13,7 +13,7 @@ void AntipodalScenario::init_world(World *world,
   Scenario::init_world(world, seed);
   auto agents = world->get_agents();
   const unsigned n = static_cast<unsigned>(agents.size());
-  const ng_float_t da = (n < 1) ? 0 : 2 * M_PI / n;
+  const ng_float_t da = (n < 1) ? 0 : 2 * core::PI / n;
   ng_float_t a = 0;
   NormalSampler<ng_float_t> x(0.0, position_noise);
   NormalSampler<ng_float_t> o(0.0, orientation_noise);
@@ -23,7 +23,7 @@ void AntipodalScenario::init_world(World *world,
   }
   for (auto &agent : agents) {
     const Vector2 p = radius * core::unit(a);
-    agent->pose = Pose2(p, a + M_PI);
+    agent->pose = Pose2(p, a + core::PI);
     if (position_noise) {
       agent->pose.position += Vector2{x.sample(rg), x.sample(rg)};
     }

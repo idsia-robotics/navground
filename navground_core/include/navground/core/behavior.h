@@ -27,11 +27,14 @@ namespace navground::core {
 
 /**
  * @brief      This class describes a generic behavior to reach a target
- * position avoiding collision. Users
- * should not instantiate this class (it's behavior just keeps the agent in
- * place) but one of it's concrete sub-classes.
+ * position avoiding collision.
  *
- * The following lists the typical usage of a behavior.
+ * Users should not instantiate this class, which will not make the agent move,
+ * but one of its concrete sub-classes equipped with the desired navigation
+ * algorithms, which are implemented by overriding any of the (virtual) methods 
+ * listed in \ref compute_cmd_internal.
+ *
+ * The following describes the typical usage of a behavior.
  *
  * *At initialization*
  *
@@ -244,8 +247,8 @@ public:
   /**
    * @brief      Gets the desired optimal speed.
    *
-   * Unless configured with \ref set_optimal_speed,
-   * it is set to \ref get_max_speed.
+   * If not configured through \ref set_optimal_speed,
+   * it return \ref get_max_speed.
    *
    * @return     The desired optimal speed.
    */
@@ -312,8 +315,8 @@ public:
   /**
    * @brief      Gets the desired optimal angular speed.
    *
-   * Unless configured with \ref set_optimal_angular_speed,
-   * it is set to \ref get_max_angular_speed.
+   * If not configured through \ref set_optimal_angular_speed,
+   * it will return set to \ref get_max_angular_speed.
    *
    * @return     The desired optimal angular speed.
    */
@@ -1009,41 +1012,42 @@ protected:
                   ng_float_t epsilon_angular_speed = 1e-6) const;
 
   /**
-   * @brief      Calculates the control command.
+   * @brief      Computes the control command.
    *
    *
-   *             This is the internal class that
-   *             sub-classes may override (and call)
-   *             to define a behavior and not part of the public API.
-   *             Users should call \ref compute_cmd instead.
+   * This is a virtual protected that sub-classes may override
+   * to define a behavior and is not part of the public API.
+   * Users should call \ref compute_cmd instead.
    *
+   * The base implementation checks for a valid target:
    *
-   *             The base implementation checks for a valid target
+   * 1. position along a path => calls \ref cmd_twist_along_path
    *
-   *              1. position      => returns \ref cmd_twist_towards_point
+   * 2. pose          => calls \ref cmd_twist_towards_pose
    *
-   *              2. orientation   => returns \ref cmd_twist_towards_orientation
+   * 3. position      => calls \ref cmd_twist_towards_point
    *
-   *              3. velocity      => returns \ref cmd_twist_towards_velocity
+   * 4. orientation   => calls \ref cmd_twist_towards_orientation
    *
-   *              4. angular speed => returns \ref
-   * cmd_twist_towards_angular_speed
+   * 5. velocity      => calls \ref cmd_twist_towards_velocity
    *
-   *             else returns zero.
+   * 6. angular speed => calls \ref cmd_twist_towards_angular_speed
    *
-   *             Sub-classes may specialize any of these methods above instead
-   *             of this one. They may also specialize
+   * 7. else          => calls \ref cmd_twist_towards_stopping.
    *
-   *              - \ref cmd_twist_towards_pose, whose default implementation
-   *                just call \ref cmd_twist_towards_point, to implement
-   *                a different strategy to reach a pose than
-   *                "move towards the position and then rotate in place
-   *                towards the orientation."
+   * To specialize a \ref Behavior, users may override this or
+   * any of the methods listed above. They may also override the following
+   * internal methods:
    *
-   *              - \ref \cmd_twist_along_path, whose default implementation
-   *                is a type of carrot planner that computes a target velocity
-   *                and then call \ref cmd_twist_towards_velocity,
-   *                to follow a target path.
+   * - \ref desired_velocity_towards_point
+   *
+   * - \ref desired_velocity_towards_velocity
+   *
+   * - \ref twist_towards_velocity
+   *
+   * The command should be kinematically feasible.
+   * The base implementation does not guaranteed it,
+   * delegating the check to the methods listed above.
    *
    * @param[in]  time_step  The time step
    * @param[in]  frame      The desired frame
@@ -1052,31 +1056,187 @@ protected:
    */
   virtual Twist2 compute_cmd_internal(ng_float_t time_step, Frame frame);
 
+  /**
+   * @brief      Compute a command to follow a path
+   *
+   * Users may override it to specialize a \ref Behavior.
+   *
+   * The base implementation uses a carrot planner to computes a target
+   * velocity, and then calls \ref cmd_twist_towards_velocity.
+   *
+   * @param      path       The desired path in world-fixed frame
+   * @param[in]  speed      The desired speed
+   * @param[in]  time_step  The time step
+   * @param[in]  frame      The desired frame
+   *
+   * @return     The command twist in frame ``frame``.
+   */
+  virtual Twist2 cmd_twist_along_path(Path &path, ng_float_t speed,
+                                      ng_float_t time_step, Frame frame);
+
+  /**
+   * @brief      Computes a command to move towards a desired pose
+   *
+   * Users may override it to specialize a \ref Behavior.
+   *
+   * The base implementation ignores the orientation, calling
+   * call \ref cmd_twist_towards_point, to first reach the desired position
+   * and then rotate in place to reach the desired orientation.
+   *
+   * @param[in]  pose           The desired pose in world-fixed frame
+   * @param[in]  speed          The desired speed
+   * @param[in]  angular_speed  The desired angular speed
+   * @param[in]  time_step      The time step
+   * @param[in]  frame          The frame
+   *
+   * @return     The command twist in frame ``frame``.
+   */
+  virtual Twist2 cmd_twist_towards_pose(const Pose2 &pose, ng_float_t speed,
+                                        Radians angular_speed,
+                                        ng_float_t time_step, Frame frame);
+  /**
+   * @brief      Computes a command to move towards a desired position
+   *
+   * Users may override it to specialize a \ref Behavior.
+   *
+   * The base implementation:
+   *
+   * 1. calls \ref desired_velocity_towards_point to compute a desired velocity
+   *
+   * 2. calls \ref twist_towards_velocity to compute a desired twist
+   *
+   * 3. returns the nearest feasible twist.
+   *
+   * @param[in]  point      The desired position in world-fixed frame
+   * @param[in]  speed      The desired speed
+   * @param[in]  time_step  The time step
+   * @param[in]  frame      The desired frame
+   *
+   * @return     The command twist in frame ``frame``.
+   */
+  virtual Twist2 cmd_twist_towards_point(const Vector2 &point, ng_float_t speed,
+                                         ng_float_t time_step, Frame frame);
+  /**
+   * @brief      Computes a command to turn towards a desired orientation
+   *
+   * Users may override it to specialize a \ref Behavior.
+   *
+   * The base implementation:
+   *
+   * 1. calls \ref desired_velocity_towards_velocity to compute a desired
+   * velocity
+   *
+   * 2. calls \ref twist_towards_velocity to compute a desired twist
+   *
+   * 3. returns the nearest feasible twist.
+   *
+   * @param[in]  velocity   The velocity in world-fixed frame
+   * @param[in]  time_step  The time step
+   * @param[in]  frame      The desired frame
+   *
+   * @return     The command twist in frame ``frame``.
+   */
+  virtual Twist2 cmd_twist_towards_velocity(const Vector2 &velocity,
+                                            ng_float_t time_step, Frame frame);
+  /**
+   * @brief      Computes a command to turn towards a desired orientation
+   *
+   * Users may override it to specialize a \ref Behavior.
+   *
+   * The base implementation:
+   *
+   * 1. computes a desired angular speed to rotate in \ref get_rotation_tau time
+   *    towards the desired orientation
+   *
+   * 2. calls \ref cmd_twist_towards_angular_speed
+   *
+   * @param[in]  orientation    The desired orientation in world-fixed frame
+   * @param[in]  angular_speed  The desired angular speed
+   * @param[in]  time_step      The time step
+   * @param[in]  frame          The desired frame
+   *
+   * @return     The command twist in frame ``frame``.
+   */
+  virtual Twist2 cmd_twist_towards_orientation(Radians orientation,
+                                               ng_float_t angular_speed,
+                                               ng_float_t time_step,
+                                               Frame frame);
+  /**
+   * @brief      Computes a command to turn at a desired angular speed
+   *
+   * Users may override it to specialize a \ref Behavior.
+   *
+   * The base implementation returns the nearest feasible twist to a twist
+   * with null velocity and desired angular speed.
+   *
+   * @param[in]  angular_speed  The desired angular speed
+   * @param[in]  time_step      The time step
+   * @param[in]  frame          The desired frame
+   *
+   * @return     The command twist in frame ``frame``.
+   */
+  virtual Twist2 cmd_twist_towards_angular_speed(ng_float_t angular_speed,
+                                                 ng_float_t time_step,
+                                                 Frame frame);
+  /**
+   * @brief      Computes a command to stop
+   *
+   * Users may override it to specialize a \ref Behavior.
+   *
+   * The base implementation returns the null twist.
+   *
+   * @param[in]  time_step  The time step
+   * @param[in]  frame      The desired frame
+   *
+   * @return     The command twist in frame ``frame``.
+   */
+  virtual Twist2 cmd_twist_towards_stopping(ng_float_t time_step, Frame frame);
+
+  /**
+   * @brief      Computes a control velocity towards a desired position
+   *
+   * Users may override it to specialize a \ref Behavior.
+   *
+   * The base implementation returns a null vector.
+   *
+   * @param[in]  point      The desired point in world-fixed frame
+   * @param[in]  speed      The desired speed
+   * @param[in]  time_step  The time step
+   *
+   * @return     A velocity in world-fixed frame
+   */
   virtual Vector2 desired_velocity_towards_point(const Vector2 &point,
                                                  ng_float_t speed,
                                                  ng_float_t time_step);
+  /**
+   * @brief      Computes a control velocity towards a desired velocity
+   *
+   * Users may override it to specialize a \ref Behavior.
+   *
+   * The base implementation returns a null vector.
+   *
+   * @param[in]  velocity   The desired velocity in world-fixed frame
+   * @param[in]  time_step  The time step
+   *
+   * @return     A velocity in world-fixed frame
+   */
   virtual Vector2 desired_velocity_towards_velocity(const Vector2 &velocity,
                                                     ng_float_t time_step);
-  virtual Twist2 twist_towards_velocity(const Vector2 &absolute_velocity,
-                                        Frame frame);
-
-  virtual Twist2 cmd_twist_along_path(Path &path, ng_float_t speed,
-                                      ng_float_t dt, Frame frame);
-
-  virtual Twist2 cmd_twist_towards_pose(const Pose2 &pose, ng_float_t speed,
-                                        Radians angular_speed, ng_float_t dt,
-                                        Frame frame);
-
-  virtual Twist2 cmd_twist_towards_point(const Vector2 &point, ng_float_t speed,
-                                         ng_float_t dt, Frame frame);
-  virtual Twist2 cmd_twist_towards_velocity(const Vector2 &velocity,
-                                            ng_float_t dt, Frame frame);
-  virtual Twist2 cmd_twist_towards_orientation(Radians orientation,
-                                               ng_float_t angular_speed,
-                                               ng_float_t dt, Frame frame);
-  virtual Twist2 cmd_twist_towards_angular_speed(ng_float_t angular_speed,
-                                                 ng_float_t dt, Frame frame);
-  virtual Twist2 cmd_twist_towards_stopping(ng_float_t dt, Frame frame);
+  /**
+   * @brief      Computes a twist to reach a control velocity
+   *
+   * This method assumes that the control velocity is safe.
+   * Use it to convert a velocity to a twist once you have computed (using,
+   * e.g.,
+   * \ref desired_velocity_towards_point or \ref
+   * desired_velocity_towards_velocity) a safe control velocity.
+   *
+   * @param[in]  velocity  The control velocity in world-fixed frame
+   * @param[in]  frame     The desired frame
+   *
+   * @return     A command twist in frame ``frame``.
+   */
+  virtual Twist2 twist_towards_velocity(const Vector2 &velocity, Frame frame);
 
 private:
   const static std::string type;

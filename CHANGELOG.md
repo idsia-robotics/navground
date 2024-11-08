@@ -10,6 +10,29 @@
 
 ### Removed
 
+## [0.2.3] - TBD
+
+### Added
+
+- exposed and documented all virtual methods meant to be specialized in `Python` , in particular all the different branches of `Behavior::compute_cmd`
+- added `core::PI`, `core::HALF_PI` and `core::TWO_PI`
+
+### Fixed
+
+- resolved missing references in the docs, adding also `intersphinx_mapping`.
+- fixed no target case: behavior now calls `cmd_twist_towards_stopping` instead of returning zero
+
+### Changed
+
+- restructured the docs (all components have their own file now)
+- renamed `Sensor::prepare` to `Sensor::prepare_state`
+- renamed `Experimental::get_duration_ns` to `Experimental::get_duration`
+- renamed `ExperimentalRun::get_duration_ns` to `ExperimentalRun::get_duration`
+- refined `pyplot_helper` to reuse parts
+- added guards in `@register` when calling the type and allowed passing the type as a string
+
+### Removed
+
 
 ## [0.2.2] - 2024-07-11
 

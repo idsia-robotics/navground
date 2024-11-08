@@ -61,6 +61,9 @@ inline Radians orientation_of(const Vector2 &vector) {
 }
 
 constexpr Radians TWO_PI = static_cast<Radians>(2 * M_PI);
+constexpr Radians PI = static_cast<Radians>(M_PI);
+constexpr Radians HALF_PI = static_cast<Radians>(M_PI_2);
+
 
 /**
  * @brief      Normalize an angle to a value in \f$[-\pi, \pi]\f$.
@@ -73,9 +76,9 @@ constexpr Radians TWO_PI = static_cast<Radians>(2 * M_PI);
 
 inline Radians normalize_angle(Radians value) {
   value = std::fmod(value, TWO_PI);
-  if (value < -M_PI) {
+  if (value < -PI) {
     value += TWO_PI;
-  } else if (value > M_PI) {
+  } else if (value > PI) {
     value -= TWO_PI;
   }
   return value;

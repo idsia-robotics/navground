@@ -2,15 +2,17 @@
 Computing collisions
 ====================
 
+.. py:currentmodule:: navground.core
+
 CollisionComputation
 ====================
 
-.. autoclass:: navground.core.CollisionComputation
+.. autoclass:: CollisionComputation
     :members:
 
 CachedCollisionComputation
 ==========================
 
-.. autoclass:: navground.core.CachedCollisionComputation
+.. autoclass:: CachedCollisionComputation
     :members:
     :show-inheritance:

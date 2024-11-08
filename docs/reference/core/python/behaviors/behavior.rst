@@ -1,7 +1,9 @@
 ==========
 Base class
 ==========
-   
+
+.. py:currentmodule:: navground.core
+
 .. autoclass:: navground.core.Behavior.Heading
    :members: __init__, name, value
    :exclude-members: __new__

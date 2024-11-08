@@ -2,6 +2,9 @@
 C++ API
 =======
 
+navground::sim
+==============
+
 .. doxygennamespace:: navground::sim
    :desc-only:
 
@@ -10,10 +13,10 @@ C++ API
 
    world
    agent
-   tasks/index
    state_estimations/index
+   tasks/index
    sampling
    scenarios/index
-   experiment
+   experiment/index
    yaml
 

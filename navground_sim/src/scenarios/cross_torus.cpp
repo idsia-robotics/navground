@@ -33,7 +33,7 @@ void CrossTorusScenario::init_world(World *world,
   unsigned index = 0;
   // world->prepare();
   for (const auto &agent : world->get_agents()) {
-    agent->pose.orientation = M_PI_2 * (index % 4);
+    agent->pose.orientation = HALF_PI * (index % 4);
     // agent->get_controller()->follow_direction(unit(agent->pose.orientation));
     agent->set_task(std::make_shared<DirectionTask>(unit(agent->pose.orientation)));
     index++;

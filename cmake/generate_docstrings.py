@@ -5,7 +5,7 @@ import sys
 import pathlib
 
 
-def ref(_renamed_classes, _methods):
+def ref(_renamed_classes, _methods, _force_properties):
     def f(matchobj):
         namespace, name = matchobj.groups()
         owner = ''
@@ -14,7 +14,7 @@ def ref(_renamed_classes, _methods):
                 namespace = namespace.split("::")[-2]
                 owner = _renamed_classes.get(namespace, namespace)
             else:
-                print(f"Unexpected namespace {namespace}")
+                print(f"Unexpected namespace {namespace}", sys.stderr)
         if owner:
             owner += "."
 
@@ -22,6 +22,10 @@ def ref(_renamed_classes, _methods):
             # it's a class
             name = _renamed_classes.get(name, name)
             return f":py:class:`{name}`"
+        if 'set_' in name or 'get_' in name:
+            pname = name[4:]
+            if pname in _force_properties:
+                return f":py:attr:`{owner}{pname}`"
         if name in _methods:
             return f":py:meth:`{owner}{name}`"
         if 'set_' in name or 'get_' in name:
@@ -84,7 +88,7 @@ def main():
     _methods = re.findall(r".def\(\"(\w+)\",", python)
     _properties = re.findall(r".def_property\(\"(\w+)\",", python)
 
-    header = re.sub(r"\\ref\s+(\w*::)*(\w+)", ref(_renamed_classes, _methods), header)
+    header = re.sub(r"\\ref\s+(\w*::)*(\w+)", ref(_renamed_classes, _methods, {'max_angular_speed'}), header)
     extras = ''
     exposed_properties = set()
 

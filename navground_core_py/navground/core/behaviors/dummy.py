@@ -1,14 +1,14 @@
 from typing import Optional
 
 import numpy as np
-from navground.core import (Behavior, Kinematics, Vector2, register)
+from navground.core import Behavior, Kinematics, Vector2, register
 
 
 class PyDummyBehavior(Behavior, name="PyDummy"):
     """
     Dummy Behavior that ignore obstacles instead of avoiding them.
-    Equivalent to the C++ class navground::core::DummyBehavior.
-    Implemented to demonstrate that sub-classing Behavior works in Python
+    Equivalent to the C++ class :cpp:class:`navground::core::DummyBehavior`.
+    Implemented to demonstrate that sub-classing :py:class:`Behavior` works in Python
 
     *Registered properties*:
 

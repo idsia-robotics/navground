@@ -14,7 +14,7 @@
 namespace navground::core {
 
 /**
- * @brief      A simple modulation that clip the twist command.
+ * @brief      A simple modulation that clips the twist command.
  *
  * *Registered properties*:
  *
@@ -27,6 +27,7 @@ namespace navground::core {
  *   - rightward (see \ref get_max_rightward_speed)
  *
  *   - angular (see \ref get_max_angular_speed)
+ *
  */
 class NAVGROUND_CORE_EXPORT LimitTwistModulation : public BehaviorModulation {
 public:
@@ -145,8 +146,8 @@ public:
   /**
    * @brief      Sets the maximal angular speed.
    *
-   * @param[in]  value  If lower than zero or infinite,
-   * clipping is effectively disabled.
+   * @param[in]  value  If lower than zero or infinite, 
+   *                       clipping is effectively disabled.
    */
   void set_max_angular_speed(ng_float_t value) {
     if (value >= 0) {

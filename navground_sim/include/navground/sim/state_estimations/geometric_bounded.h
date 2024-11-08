@@ -24,10 +24,17 @@ namespace navground::sim {
  * *Registered properties*:
  *
  *   - `range` (float, \ref get_range), deprecated synonym `range_of_view`
+ *   
  *   - `update_static_obstacles` (bool, \ref get_update_static_obstacles)
  */
 struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
+  /**
+   * Default range value
+   */
   inline static const ng_float_t default_range = 1.0;
+  /**
+   * By default it does not update static obstacles
+   */
   inline static const bool default_update_static_obstacles = false;
   /**
    * @brief      Constructs a new instance.

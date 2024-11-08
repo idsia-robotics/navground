@@ -8,3 +8,4 @@ Geometric bounded
 
 .. doxygenstruct:: navground::sim::BoundedStateEstimation
    :members:
+

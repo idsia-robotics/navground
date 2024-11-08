@@ -125,7 +125,7 @@ public:
  * @brief      Base class for probes that record a group of datasets,
  *             possibly to be saved in HDF5. Records are keyed by strings.
  *
- * Subclasses are expected to overwrite \ref Probe::update, \ref get_shapes
+ * Sub-classes are expected to override \ref Probe::update, \ref get_shapes
  * and to redefine \ref Type.
  */
 class NAVGROUND_SIM_EXPORT GroupRecordProbe : public Probe {
@@ -227,6 +227,9 @@ private:
  */
 class NAVGROUND_SIM_EXPORT SensingProbe : public Probe {
 public:
+  /**
+   * ``{agent index -> {field name -> Dataset}}``
+   */
   using Data =
       std::map<unsigned, std::map<std::string, std::shared_ptr<Dataset>>>;
 

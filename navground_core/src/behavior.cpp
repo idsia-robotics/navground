@@ -193,7 +193,7 @@ Twist2 Behavior::compute_cmd_internal(ng_float_t dt, Frame frame) {
     return cmd_twist_towards_angular_speed(get_target_angular_speed(), dt,
                                            frame);
   }
-  return Twist2();
+  return cmd_twist_towards_stopping(dt, frame);
 }
 
 bool Behavior::check_if_target_satisfied() const {

@@ -501,7 +501,7 @@ void ExperimentalRun::save(HighFive::Group &group) const {
   store_attribute<unsigned>(_steps, "steps", group);
   store_attribute<unsigned>(get_seed(), "seed", group);
   store_attribute<ng_float_t>(_world->get_time(), "final_sim_time", group);
-  const unsigned long d = static_cast<unsigned long>(get_duration_ns().count());
+  const unsigned long d = static_cast<unsigned long>(get_duration().count());
   group
       .createAttribute<unsigned long>("duration_ns",
                                       HighFive::DataSpace::From(d))

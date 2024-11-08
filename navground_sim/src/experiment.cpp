@@ -99,7 +99,7 @@ void Experiment::store_yaml(const std::string &yaml) const {
 
 void Experiment::finalize_dataset() {
   if (file) {
-    unsigned long d = static_cast<unsigned long >(get_duration_ns().count());
+    unsigned long d = static_cast<unsigned long >(get_duration().count());
     file->createAttribute<unsigned long>("duration_ns",
                                          HighFive::DataSpace::From(d))
         .write(d);

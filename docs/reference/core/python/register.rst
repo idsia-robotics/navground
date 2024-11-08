@@ -15,10 +15,15 @@ Python sub-classes of ``T`` by adding ``name=<name>`` to the class, where the ``
 will register type ``SubClassOfT`` under the name ``"SubClassOfT"``.
 
 
+.. py:class:: T
+   :module: navground.core
+
+   A type alias to ``TypeVar('T', bound=Any)``
+
 .. autodecorator:: navground.core.register
 
 
-.. autoclass:: navground.core._navground.BehaviorRegister
+.. autoclass:: navground.core.BehaviorRegister
    :exclude-members: __new__, __init__
 
    This register holds any behavior registered in :cpp:class:`navground::core::HasRegister<Behavior>` as well
@@ -48,7 +53,7 @@ will register type ``SubClassOfT`` under the name ``"SubClassOfT"``.
       The dictionary of registered properties with registered names as keys
 
 
-.. autoclass:: navground.core._navground.KinematicsRegister
+.. autoclass:: navground.core.KinematicsRegister
    :exclude-members: __new__, __init__
 
    This register holds any kinematics registered in :cpp:class:`navground::core::HasRegister<Kinematics>` as well
@@ -69,6 +74,35 @@ will register type ``SubClassOfT`` under the name ``"SubClassOfT"``.
       :type: List[str]
 
       The names of all registered kinematics.
+
+   .. py:property:: type_properties
+      :classmethod:
+      :type: Dict[str, Dict[str, Property]]
+
+      The dictionary of registered properties with registered names as keys
+
+
+.. autoclass:: navground.core.BehaviorModulationRegister
+   :exclude-members: __new__, __init__
+
+   This register holds any modulation registered in :cpp:class:`navground::core::HasRegister<BehaviorModulation>` as well
+   as registered Python sub-classes of :py:class:`navground.core.BehaviorModulation`.
+
+   .. py::method:: make_type(name: str) -> BehaviorModulation
+
+      Create a modulation of a sub-class selected by name.
+
+      :param type:
+         The associated type name.
+
+      :return:
+         A modulation from a registered sub-class or ``None`` in case the desired name is not found.
+
+   .. py:property:: types
+      :classmethod:
+      :type: List[str]
+
+      The names of all registered modulations.
 
    .. py:property:: type_properties
       :classmethod:

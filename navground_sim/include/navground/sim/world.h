@@ -175,8 +175,18 @@ class NAVGROUND_SIM_EXPORT World {
 public:
   friend struct Experiment;
 
+  /**
+   * An (optional) one dimensional lattice defined by the initial point 
+   * and the size of the cell.
+   */
   using Lattice = std::optional<std::tuple<ng_float_t, ng_float_t>>;
+  /**
+   * A callback to be executed at each simulation step
+   */
   using Callback = std::function<void()>;
+  /**
+   * A condition for the simulation to terminate 
+   */
   using TerminationCondition = std::function<bool(const World *world)>;
 
   using A = Agent;

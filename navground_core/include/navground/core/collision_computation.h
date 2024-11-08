@@ -51,7 +51,7 @@ struct NAVGROUND_CORE_EXPORT DiscCache {
    */
   DiscCache(Vector2 delta, ng_float_t margin,
             Vector2 velocity = Vector2::Zero(),
-            ng_float_t visible_angle = M_PI_2);
+            ng_float_t visible_angle = HALF_PI);
 };
 
 /**

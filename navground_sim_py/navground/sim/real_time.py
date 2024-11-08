@@ -7,7 +7,7 @@ from typing import Optional, Callable, TYPE_CHECKING
 from . import World
 
 if TYPE_CHECKING:
-    from .ui.web_ui import Rect, WebUI
+    from .ui import Rect, WebUI
 
 
 Callback = Callable[[], bool]

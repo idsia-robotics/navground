@@ -8,3 +8,6 @@ Base class
 
 .. doxygenstruct:: navground::sim::StateEstimation
     :members:
+    :protected-members:
+
+

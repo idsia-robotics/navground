@@ -62,7 +62,7 @@ struct NAVGROUND_SIM_EXPORT StateEstimation
    * @brief      Updates the state of a given agent \ref
    * navground::core::Behavior
    * @param      agent  The agent owning the state estimation
-   * @param[in]  world    The that the agent is part of
+   * @param[in]  world  The world the agent is part of
    */
   void update(Agent *agent, World *world);
 

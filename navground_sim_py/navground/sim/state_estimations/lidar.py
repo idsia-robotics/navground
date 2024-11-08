@@ -7,7 +7,7 @@ from navground import core, sim
 
 class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):  # type: ignore
     """
-    Python implementation equivalent to the C++ Lidar implementation
+    Python equivalent to the C++ :cpp:class:`navground::sim::LidarStateEstimation` class.
 
     *Registered properties*:
 
@@ -16,7 +16,7 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):  # type: ignore
     - :py:attr:`resolution` (int)
     - :py:attr:`range` (float)
 
-    *State*: :py:class:`SensingState`
+    *State*: :py:class:`navground.core.SensingState`
     """
 
     def __init__(self,
@@ -24,6 +24,14 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):  # type: ignore
                  start_angle: float = -np.pi,
                  field_of_view: float = 2 * np.pi,
                  range_: float = 1.0):
+        """
+        Constructs a new instance.
+
+        :param      resolution:     The resolution
+        :param      start_angle:    The start angle
+        :param      field_of_view:  The field of view
+        :param      range_:         The range
+        """
         super().__init__()
         sim.StateEstimation.__init__(self)  # type: ignore
         self._cc = core.CollisionComputation()

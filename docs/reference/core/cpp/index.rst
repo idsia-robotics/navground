@@ -6,23 +6,28 @@ C++ API
 
 .. doxygennamespace:: navground
    :desc-only:
+   
+navground::core
+================
 
 .. doxygennamespace:: navground::core
    :desc-only:
 
+
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
    types
    common
    auto_registration
    yaml
-   kinematics
+   kinematics/index
    target
    behaviors/index
    state
    collision_computation
-   modulations
+   social_margin
+   behavior_modulations/index
    controller
    helper
 

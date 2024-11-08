@@ -4,18 +4,16 @@ from IPython.display import HTML, SVG, display_html
 
 from . import World
 from .real_time import RealTimeSimulation
-from .ui.to_html import html_for_world
-from .ui.to_svg import svg_for_world
-from .ui.web_ui import Rect, WebUI
+from .ui import Rect, WebUI, html_for_world, svg_for_world
 
 
 def notebook_view(width: int = 600, **kwargs: Any) -> HTML:
     """
     Display an empty world view in a jupyter notebook ready for a
-    a :py:func:`navground.sim.ui.web_ui.WebUI` to keep it up-to-date.
+    a :py:class:`navground.sim.ui.WebUI` to keep it up-to-date.
 
     :param      width:   The width in pixels
-    :param      kwargs:  Additional keywords passed to :py:func:`html_for_world`
+    :param      kwargs:  Additional keywords passed to :py:func:`navground.sim.ui.html_for_world`
 
     :returns:   A HTML view
     """

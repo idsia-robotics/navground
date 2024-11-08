@@ -35,6 +35,9 @@ class NAVGROUND_CORE_EXPORT Kinematics
 public:
   using HasRegister<Kinematics>::C;
 
+  /**
+   * We use infinite (or negative) to mark unconstrained values.
+   */
   static constexpr ng_float_t inf = std::numeric_limits<ng_float_t>::infinity();
 
   Kinematics(ng_float_t max_speed = Kinematics::inf,
@@ -335,6 +338,7 @@ protected:
  * *Registered properties*:
  *
  *   - `max_forward_speed` (float, \ref get_max_forward_speed)
+ *   
  *   - `max_backward_speed` (float, \ref get_max_backward_speed)
  *
  */
@@ -599,7 +603,7 @@ public:
    * backwards (set to negative or infinite to leave unconstrained)
    * @param[in]  max_acceleration The maximal linear body acceleration
    * @param[in]  moi The scaled moment of inertial (``moi = I / (mass * axis^2 /
-   * 8)``) Equal to one for an homogeneous disc of diameter ``axis``.
+   * 8)``) Equal to 1 for an homogeneous disc of diameter ``axis``.
    */
   DynamicTwoWheelsDifferentialDriveKinematics(
       ng_float_t max_speed = Kinematics::inf, ng_float_t axis = 0,
@@ -623,8 +627,9 @@ public:
   /**
    * @brief      Gets the scaled moment of inertial
    *
-   * Equal to 1.0 for an homogeneous of disc of diameter \ref
-   * get_axis. Lower for when weight is shifted towards the center.
+   * It is equal to 1 for an homogeneous of disc of diameter 
+   * \ref WheeledKinematics::get_axis. 
+   * Lower for when weight is shifted towards the center.
    *
    * @return     A positive value
    */
@@ -632,8 +637,9 @@ public:
   /**
    * @brief      Sets the scaled moment of inertial
    *
-   * Equal to 1.0 for an homogeneous of disc of diameter \ref
-   * get_axis. Lower for when weight is shifted towards the center.
+   * It is equal to for an homogeneous of disc of diameter 
+   * \ref WheeledKinematics::get_axis. 
+   * Lower for when weight is shifted towards the center.
    *
    * @param[in]  value  A positive value
    */

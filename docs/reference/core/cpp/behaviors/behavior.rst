@@ -9,3 +9,4 @@ Base class
 
 .. doxygenclass:: navground::core::Behavior
    :members:
+   :protected-members:

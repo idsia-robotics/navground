@@ -13,10 +13,10 @@
 
 #include "navground/core/types.h"
 #include "navground/sim/experimental_run.h"
+#include "navground/sim/export.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/world.h"
 #include "navground/sim/yaml/scenario.h"
-#include "navground/sim/export.h"
 
 namespace navground::sim {
 
@@ -51,14 +51,14 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   /**
    * The type of callbacks called during an experiment
    */
-  using RunCallback = std::function<void(ExperimentalRun*)>;
+  using RunCallback = std::function<void(ExperimentalRun *)>;
 
   /**
    * The type of callbacks called before initializing
    * a world with a scenario
    */
   using ScenarioInitCallback =
-      std::function<void(Scenario*, unsigned run_seed)>;
+      std::function<void(Scenario *, unsigned run_seed)>;
 
   /**
    * @brief      Constructs a new instance.
@@ -67,21 +67,11 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * @param[in]  steps      The default number of simulation steps
    */
   explicit Experiment(ng_float_t time_step = 0.1, unsigned steps = 1000)
-      : record_config(),
-        run_config({time_step, steps, true}),
-        number_of_runs(1),
-        save_directory(),
-        runs(),
-        name("experiment"),
-        scenario(nullptr),
-        run_index(0),
-        reset_uids(true),
-        state(State::init),
+      : record_config(), run_config({time_step, steps, true}),
+        number_of_runs(1), save_directory(), runs(), name("experiment"),
+        scenario(nullptr), run_index(0), reset_uids(true), state(State::init),
         // callbacks(),
-        run_callbacks(),
-        scenario_init_callback(),
-        file(),
-        file_path() {}
+        run_callbacks(), scenario_init_callback(), file(), file_path() {}
 
   /**
    * @brief      Gets the map of recorded runs.
@@ -90,9 +80,9 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @return     The recorded runs.
    */
-  const std::map<unsigned, ExperimentalRun>& get_runs() const { return runs; }
+  const std::map<unsigned, ExperimentalRun> &get_runs() const { return runs; }
 
-  void add_run(unsigned seed, ExperimentalRun& run) {
+  void add_run(unsigned seed, ExperimentalRun &run) {
     if (runs.count(seed) == 0) {
       runs.emplace(seed, run);
     }
@@ -125,7 +115,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @return     The recorded run.
    */
-  ExperimentalRun& run_once(unsigned seed);
+  ExperimentalRun &run_once(unsigned seed);
 
   /**
    * @brief      Perform several runs and optionally record the data in a HFD5
@@ -144,7 +134,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *   the experiment is run, see \ref get_begin_time;
    *
    * - ``duration_ns`` [``unsigned``], total duration in nanoseconds, see
-   *   \ref get_duration_ns.
+   *   \ref get_duration.
    *
    * - ``experiment`` [``string``], YAML serialization of the experiment;
    *
@@ -152,7 +142,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * attributes:
    *
    * - ``duration_ns`` [``unsigned``], total duration in nanoseconds, see
-   *   \ref get_duration_ns;
+   *   \ref get_duration;
    *
    * - ``seed`` [``unsigned``];
    *
@@ -175,6 +165,8 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * - ``twists`` [``float``] (if \ref RecordConfig::twist is set);
    *
    * - ``cmds`` [``float``] (if \ref RecordConfig::cmd is set);
+   * 
+   * - ``actuated_cmds`` [``float``] (if \ref RecordConfig::actuated_cmd is set);
    *
    * - ``targets`` [``float``] (if \ref RecordConfig::target is set);
    *
@@ -186,11 +178,14 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * - ``efficacy`` [``float``] (if \ref RecordConfig::efficacy is
    * set);
+   * 
+   * - ``safety_violations`` [``float``] (if \ref RecordConfig::safety_violation is
+   * set);
    *
    * and groups:
    *
    * - ``task_events`` (if \ref RecordConfig::task_events is set),
-   *   where each agents logs, in dataset ``<uid>`` [``float``], the
+   *   where each agents logs, in dataset ``task_events/<id>`` [``float``], the
    *   events emitted by their task.
    *
    * Apart from saving data to the HDF5 file, each run is performed similarly
@@ -203,9 +198,9 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * If unspecified, it will use the experiment's \ref run_index
    * @param[in]  number_of_runs  The number of runs.
    * If unspecified, it will use the experiment's \ref number_of_runs
-   * @param[in]  data_path  A path to set optionally as \ref file_path.
+   * @param[in]  data_path  A path to set optionally as \ref get_path.
    * If set, it will save an HDF5 file, but no YAML, to this path.
-   * If not set, \ref file_path will be automatically set to
+   * If not set, \ref get_path will be automatically set to
    * ``<save_directory>/data.h5`` if \ref save_directory is set.
    */
   void run(bool keep = true, unsigned number_of_threads = 1,
@@ -254,9 +249,9 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * Calling \ref start is only effective once per experiment.
    *
-   * @param[in]  path  A path to set optionally as \ref file_path.
+   * @param[in]  path  A path to set optionally as \ref get_path.
    * If set, it will save an HDF5 file, but no YAML, to this path.
-   * If not set, \ref file_path will be automatically set to
+   * If not set, \ref get_path will be automatically set to
    * ``<save_directory>/data.h5`` if \ref save_directory is set.
    *
    */
@@ -283,7 +278,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * \ref run_once (or \ref run for all runs) to initialize and run at once.
    *
    */
-  virtual ExperimentalRun& init_run(int seed,
+  virtual ExperimentalRun &init_run(int seed,
                                     std::shared_ptr<World> world = nullptr);
 
   /**
@@ -297,7 +292,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * @param      run   The run being recorded
    *
    */
-  void start_run(ExperimentalRun& run);
+  void start_run(ExperimentalRun &run);
 
   /**
    * @brief      { function_description }
@@ -310,7 +305,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @param      run   The run being recorded
    */
-  void update_run(ExperimentalRun& run);
+  void update_run(ExperimentalRun &run);
 
   /**
    * @brief      Stop the run recording
@@ -319,7 +314,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @param      run   The run being recorded
    */
-  void stop_run(ExperimentalRun& run);
+  void stop_run(ExperimentalRun &run);
 
 #if 0
   /**
@@ -335,10 +330,11 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @param[in]  value  The callback
    *
-   * @param[in]  at_init  Whether the callback should be called when initializing
-   * the run. If not set, it will be called at the completion of a run.
+   * @param[in]  at_init  Whether the callback should be called when
+   * initializing the run. If not set, it will be called at the completion of a
+   * run.
    */
-  void add_run_callback(const RunCallback& value, bool at_init = false) {
+  void add_run_callback(const RunCallback &value, bool at_init = false) {
     run_callbacks[at_init].push_back(value);
   }
 
@@ -347,7 +343,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @return     The callbacks
    */
-  const std::map<bool, std::vector<RunCallback>>& get_run_callbacks() const {
+  const std::map<bool, std::vector<RunCallback>> &get_run_callbacks() const {
     return run_callbacks;
   }
 
@@ -356,8 +352,8 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @param[in]  value  The desired callbacks
    */
-  void set_run_callbacks(
-      const std::map<bool, std::vector<RunCallback>>& value) {
+  void
+  set_run_callbacks(const std::map<bool, std::vector<RunCallback>> &value) {
     run_callbacks = value;
   }
 
@@ -381,8 +377,8 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @param[in]  value  The desired callbacks
    */
-  void set_scenario_init_callback(
-      const std::optional<ScenarioInitCallback>& value) {
+  void
+  set_scenario_init_callback(const std::optional<ScenarioInitCallback> &value) {
     scenario_init_callback = value;
   }
 
@@ -398,7 +394,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @return     The duration in ns or 0 if the experiment has not finished.
    */
-  std::chrono::nanoseconds get_duration_ns() const {
+  std::chrono::nanoseconds get_duration() const {
     if (state == State::finished) {
       return experiment_end - experiment_begin;
     }
@@ -477,9 +473,9 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    *
    * @param[in]  factory  A function that generate the probe.
    */
-  void add_probe(const std::function<std::shared_ptr<Probe>()>& factory) {
+  void add_probe(const std::function<std::shared_ptr<Probe>()> &factory) {
     add_run_callback(
-        [factory](ExperimentalRun* run) { run->add_probe(factory()); }, true);
+        [factory](ExperimentalRun *run) { run->add_probe(factory()); }, true);
   }
 
   /**
@@ -490,10 +486,9 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * @tparam     T     The class of the probe.
    *                   Must be subclass of \ref sim::RecordProbe
    */
-  template <typename T>
-  void add_record_probe(const std::string& key) {
+  template <typename T> void add_record_probe(const std::string &key) {
     add_run_callback(
-        [key](ExperimentalRun* run) { run->add_record_probe<T>(key); }, true);
+        [key](ExperimentalRun *run) { run->add_record_probe<T>(key); }, true);
   }
 
   /**
@@ -504,10 +499,9 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * @tparam     T     The class of the probe. Must be subclass of \ref
    * sim::GroupRecordProbe
    */
-  template <typename T>
-  void add_group_record_probe(const std::string& key) {
+  template <typename T> void add_group_record_probe(const std::string &key) {
     add_run_callback(
-        [key](ExperimentalRun* run) { run->add_group_record_probe<T>(key); },
+        [key](ExperimentalRun *run) { run->add_group_record_probe<T>(key); },
         true);
   }
 
@@ -561,15 +555,15 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * @param[in]  directory  A path to set optionally as \ref save_directory
    * where to save YAML and HDF5 file.
    *
-   * @param[in]  path  A path to set optionally as \ref file_path.
+   * @param[in]  path  A path to set optionally as \ref get_path.
    * If set, it will save an HDF5 file, but no YAML, to this path.
-   * If not set, \ref file_path will be automatically set to
+   * If not set, \ref get_path will be automatically set to
    * ``<save_directory>/data.h5`` if \ref save_directory is set.
    */
   void save(std::optional<std::filesystem::path> directory = std::nullopt,
             std::optional<std::filesystem::path> path = std::nullopt);
 
- protected:
+protected:
   State state;
 
   virtual std::shared_ptr<World> make_world() {
@@ -579,9 +573,9 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   void init_dataset(std::optional<std::filesystem::path> path = std::nullopt);
   void finalize_dataset();
   std::unique_ptr<HighFive::Group> init_dataset_run(unsigned index);
-  void store_yaml(const std::string& yaml) const;
-  void save_run(const ExperimentalRun& run);
-  ExperimentalRun& _run_once(unsigned index);
+  void store_yaml(const std::string &yaml) const;
+  void save_run(const ExperimentalRun &run);
+  ExperimentalRun &_run_once(unsigned index);
 
   // std::vector<Callback> callbacks;
   std::map<bool, std::vector<RunCallback>> run_callbacks;
@@ -609,6 +603,6 @@ struct NAVGROUND_SIM_EXPORT Experiment {
       std::optional<std::filesystem::path> data_path = std::nullopt);
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_EXPERIMENT_H_ */

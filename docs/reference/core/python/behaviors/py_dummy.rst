@@ -1,6 +1,8 @@
 PyDummy
 =======
 
+.. py:currentmodule:: navground.core.behaviors
+
 Another behavior that ignores collisions
 
 

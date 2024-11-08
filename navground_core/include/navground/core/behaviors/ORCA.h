@@ -44,8 +44,17 @@ namespace navground::core {
  */
 class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
  public:
+  /**
+   * @brief  A line 
+   */
   struct Line {
+    /**
+     * A point on the line
+     */
     Vector2 point;
+    /**
+     * The direction
+     */
     Vector2 direction;
   };
 

@@ -74,7 +74,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
 
   /**
    * @brief      The size of the data passed to callbacks when events occur,
-   *             see \ref TaskCallback and \ref add_callback.
+   *             see \ref TaskCallback and \ref Task::add_callback.
    *
    *             The data is composed of 4 numbers:
    *             ``[time, target_x, target_y, target_theta]``

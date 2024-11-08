@@ -23,8 +23,8 @@ Twist2 relax(Behavior& behavior, const Twist2& current_value,
              const Twist2& value, ng_float_t tau, ng_float_t dt);
 
 /**
- * @brief      A modulation to relax the command over time.
- *             used by \ref HLBehavior.
+ * @brief      A modulation to relax the command over time,
+ *             used by \ref HLBehavior
  *
  * *Registered properties*: 
  * 

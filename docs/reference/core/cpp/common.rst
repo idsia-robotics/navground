@@ -9,8 +9,11 @@ Two dimensional
    
    #include "navground/core/common.h"
 
+.. doxygentypedef:: Radians
 
-.. doxygentypedef:: navground::core::Radians
+.. doxygenvariable:: navground::core::PI
+.. doxygenvariable:: navground::core::TWO_PI
+.. doxygenvariable:: navground::core::HALF_PI
 
 .. doxygenenum:: navground::core::Frame
 

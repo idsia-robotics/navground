@@ -232,11 +232,25 @@ class NAVGROUND_SIM_EXPORT ExperimentalRun {
 public:
   /**
    * @brief      The state of the run
-   *
-   * @private
    */
-  enum class State { init, running, finished };
+  enum class State { 
+    /**
+     * The run is ready to be executed
+     */
+    init, 
+    /**
+     * The run is being executed
+     */
+    running, 
+    /**
+     * The run has finished executing
+     */
+    finished 
+  };
 
+  /**
+   * Time point
+   */
   using tp = std::chrono::time_point<std::chrono::steady_clock>;
 
   /**
@@ -296,7 +310,7 @@ public:
    *
    * @return     The duration in ns or 0 if the run is not yet finished.
    */
-  std::chrono::nanoseconds get_duration_ns() const {
+  std::chrono::nanoseconds get_duration() const {
     if (has_finished()) {
       return _end - _begin;
     }

@@ -61,6 +61,9 @@ struct NAVGROUND_SIM_EXPORT SensorCombination : public Sensor {
   virtual void update(Agent *agent, World *world,
                       EnvironmentState *state) override;
 
+  /**
+   * @private
+   */
   Description get_description() const override;
 
   /**

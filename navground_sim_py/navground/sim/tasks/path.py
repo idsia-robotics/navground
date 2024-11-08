@@ -53,18 +53,27 @@ class PathTask(sim.Task, name="Path"):  # type: ignore[call-arg]
 
        *Registered properties*:
 
-       - :py:attr:`points` (list[Vector2])
+       - :py:attr:`points` (list[:py:class:`navground.core.Vector2`])
        - :py:attr:`tolerance` (float)
     """
 
     def __init__(self, points: List[core.Vector2] = [], tolerance: float = 1):
+        """
+        Constructs a new instance.
+
+        :param      points:     The points defining the curve
+        :param      tolerance:  The goal tolerance
+        """
         super().__init__()
         self._points = points
         self._tolerance = tolerance
 
     @property
     @sim.register([np.zeros(2)], "points")
-    def points(self) -> List[core.Vector2]:
+    def points(self) -> 'List[core.Vector2]':
+        """
+        :returns:    The points defining the curve
+        """
         return self._points
 
     @points.setter
@@ -74,6 +83,9 @@ class PathTask(sim.Task, name="Path"):  # type: ignore[call-arg]
     @property
     @sim.register(1.0, "tolerance")
     def tolerance(self) -> float:
+        """
+        :returns:   The goal tolerance
+        """
         return self._tolerance
 
     @tolerance.setter
@@ -85,6 +97,9 @@ class PathTask(sim.Task, name="Path"):  # type: ignore[call-arg]
 
     @property
     def path(self) -> core.Path | None:
+        """
+        :returns:   The path or None if not enough points are provided
+        """
         if len(self.points) > 1:
             return get_path(self.points)
         return None

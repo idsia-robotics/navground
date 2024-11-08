@@ -2,6 +2,8 @@
 Recorded Experiments
 ====================
 
+.. py:currentmodule:: navground.sim
+
 Recorded Run
 ============
 

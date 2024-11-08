@@ -1,21 +1,26 @@
 from __future__ import annotations
 
 import importlib.metadata
-from typing import (Any, Callable, Dict, Literal, List, Tuple, Type, TypeAlias, TypeVar,
-                    Union)
+from typing import (Any, Callable, Dict, List, Literal, Tuple, Type, TypeAlias,
+                    TypeVar, Union)
 
 import numpy
 
 from ._navground import Action
 from ._navground import Behavior as _Behavior
 from ._navground import BehaviorModulation as _BehaviorModulation
-from ._navground import (Buffer, BufferDescription, BufferMap,
+from ._navground import (BehaviorModulationRegister, BehaviorRegister, Buffer,
+                         BufferDescription, BufferMap,
                          CachedCollisionComputation, CollisionComputation,
                          Controller, Disc, EnvironmentState, Frame,
-                         GeometricState)
+                         GeometricState, HasProperties)
 from ._navground import Kinematics as _Kinematics
-from ._navground import (LineSegment, Neighbor, Path, Pose2, SensingState,
-                         SocialMargin, Target, Twist2, clamp_norm, dump)
+from ._navground import (
+    KinematicsRegister, LineSegment, Neighbor, Path, Pose2, Property,
+    SensingState, SocialMargin, SocialMarginConstantModulation,
+    SocialMarginLinearModulation, SocialMarginLogisticModulation,
+    SocialMarginModulation, SocialMarginQuadraticModulation,
+    SocialMarginZeroModulation, Target, Twist2, clamp_norm, dump)
 from ._navground import get_loaded_plugins as get_loaded_cpp_plugins
 from ._navground import (load_behavior, load_behavior_modulation,
                          load_kinematics)
@@ -29,7 +34,8 @@ from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
 
 # TODO(Jerome): how to define an alias that depends on `uses_doubles`?
 # Vector2: TypeAlias = "numpy.ndarray[numpy.float64, Any]"
-Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]], numpy.dtype[numpy.float64]]
+Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]],
+                                   numpy.dtype[numpy.float64]]
 Vector2Like: TypeAlias = Vector2 | tuple[float, float] | list[float]
 
 PropertyField = Union[bool, int, float, str, Vector2, List[bool], List[int],
@@ -93,6 +99,11 @@ def _register(super_cls: Type, cls: Type, name: str):
         if isinstance(v, property) and v.fget and hasattr(
                 v.fget, "__default_value__"):
             return_type = v.fget.__annotations__['return']
+            if isinstance(return_type, str):
+                try:
+                    return_type = eval(return_type)
+                except Exception:
+                    return_type = None
             if return_type == Vector2:
                 return_type = numpy.array
             else:
@@ -101,7 +112,10 @@ def _register(super_cls: Type, cls: Type, name: str):
                         return_type = list
                 except AttributeError:
                     pass
-            default_value = return_type(v.fget.__default_value__)
+            if return_type:
+                default_value = return_type(v.fget.__default_value__)
+            else:
+                default_value = v.fget.__default_value__
             desc = v.fget.__desc__  # type: ignore
             deprecated_names = v.fget.__deprecated_names__  # type: ignore
             super_cls._add_property(name, k, v, default_value, desc,

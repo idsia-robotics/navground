@@ -9,7 +9,7 @@ from .real_time import RealTimeSimulation
 from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
 
 if TYPE_CHECKING:
-    from .ui.web_ui import Rect, WebUI
+    from .ui import Rect, WebUI
     import h5py  # type: ignore
 
 
@@ -36,9 +36,8 @@ class RealTimeReplay(RealTimeSimulation):
         :param      run:     The recorded run
         :param      factor:  The real time factor
         :param      web_ui:  An optional web user interface to sync with
-        :param      bounds:     The region to display in the web_ui.
-                                If not set, it will compute it from
-                                the recorded poses.
+        :param      bounds:  The region to display in the web_ui.
+                             If not set, it will compute it from the recorded poses.
 
         The run should contain at least recorded poses, else it would
         be useless to replay it.
@@ -63,6 +62,7 @@ def parser() -> argparse.ArgumentParser:
 
 def description() -> str:
     return 'Replay an experiment in real-time.'
+
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
     parser.description = description()

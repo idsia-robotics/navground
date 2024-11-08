@@ -2,39 +2,44 @@
 Geometry
 ========
 
-.. autoclass:: navground.core.Frame
+.. py:currentmodule:: navground.core
+
+Two dimensional
+===============
+
+.. autoclass:: Frame
    :members:
    :undoc-members:
 
 .. py:class:: Vector2
-   :module: navground
+   :module: navground.core
 
    A two dimensional numpy array of type :cpp:type:`ng_float_t`.
 
-.. autoclass:: navground.core.Pose2
+.. autoclass:: Pose2
    :members:
    :undoc-members:
 
-.. autoclass:: navground.core.Twist2
+.. autoclass:: Twist2
    :members:
    :undoc-members:
 
-.. autofunction:: navground.core.orientation_of
+.. autofunction:: orientation_of
 
-.. autofunction:: navground.core.normalize_angle
+.. autofunction:: normalize_angle
 
-.. autofunction:: navground.core.to_relative
+.. autofunction:: to_relative
 
-.. autofunction:: navground.core.to_absolute
+.. autofunction:: to_absolute
 
-.. autofunction:: navground.core.to_relative_point
+.. autofunction:: to_relative_point
 
-.. autofunction:: navground.core.to_absolute_point
+.. autofunction:: to_absolute_point
 
-.. autofunction:: navground.core.unit
+.. autofunction:: unit
 
-.. autofunction:: navground.core.rotate
+.. autofunction:: rotate
 
-.. autofunction:: navground.core.clamp_norm
+.. autofunction:: clamp_norm
 
 

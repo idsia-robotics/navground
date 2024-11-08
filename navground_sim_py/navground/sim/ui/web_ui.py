@@ -80,9 +80,6 @@ class WebUI:
     Displays the world on HTML client views.
     The state is synchronized through websockets.
 
-    :ivar decorate: A function to decorate entities, called at each update
-    :vartype decorate: :py:class:`typing.Mapping[str, str]`
-
     After creating an instance, you need to call :py:meth:`prepare`
     to finalize the initialization of the websocket server,
     else the HTML clients will not be able to connect.
@@ -102,8 +99,8 @@ class WebUI:
     >>> await ui.set_color(world.agents[0], "red")
 
     In general, users will not use this class directly but delegate updating the view
-    to :py:class:`navground.sim.RealTimeSimulation` or
-    :py:class:`navground.sim.RealTimeReplay`, like the following:
+    to :py:class:`navground.sim.real_time.RealTimeSimulation` or
+    :py:class:`navground.sim.replay.RealTimeReplay`, like the following:
 
     >>> ui = WebUI(host='127.0.0.1')
     >>> await ui.prepare()

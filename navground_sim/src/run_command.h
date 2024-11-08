@@ -76,7 +76,7 @@ struct RunCommand : Command<RunCommand> {
     }
 
     std::cout << "Experiment done" << std::endl;
-    std::cout << "Duration: " << experiment.get_duration_ns().count() / 1e9
+    std::cout << "Duration: " << experiment.get_duration().count() / 1e9
               << " s" << std::endl;
     if (experiment.has_file()) {
       std::cout << "Saved to: " << *(experiment.get_path()) << std::endl;

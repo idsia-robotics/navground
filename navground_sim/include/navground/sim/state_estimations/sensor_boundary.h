@@ -38,8 +38,14 @@ struct NAVGROUND_SIM_EXPORT BoundarySensor : public Sensor {
    * The default range
    */
   inline static const ng_float_t default_range = 1;
+  /**
+   * Default lower bound
+   */
   inline static const ng_float_t low =
       -std::numeric_limits<ng_float_t>::infinity();
+  /**
+   * Default upper bound
+   */
   inline static const ng_float_t high =
       std::numeric_limits<ng_float_t>::infinity();
   /**
@@ -75,13 +81,53 @@ struct NAVGROUND_SIM_EXPORT BoundarySensor : public Sensor {
    */
   ng_float_t get_range() const { return _range; }
 
+  /**
+   * @brief      Sets the minimum x.
+   *
+   * @param[in]  value  The value
+   */
   void set_min_x(ng_float_t value) { _min_x = value; }
+  /**
+   * @brief      Gets the minimum x.
+   *
+   * @return     The minimum x.
+   */
   ng_float_t get_min_x() const { return _min_x; }
+  /**
+   * @brief      Sets the maximum x.
+   *
+   * @param[in]  value  The value
+   */
   void set_max_x(ng_float_t value) { _max_x = value; }
+  /**
+   * @brief      Gets the maximum x.
+   *
+   * @return     The maximum x.
+   */
   ng_float_t get_max_x() const { return _max_x; }
+  /**
+   * @brief      Sets the minimum y.
+   *
+   * @param[in]  value  The value
+   */
   void set_min_y(ng_float_t value) { _min_y = value; }
+  /**
+   * @brief      Gets the minimum y.
+   *
+   * @return     The minimum y.
+   */
   ng_float_t get_min_y() const { return _min_y; }
+  /**
+   * @brief      Sets the maximum y.
+   *
+   * @param[in]  value  The value
+   */
   void set_max_y(ng_float_t value) { _max_y = value; }
+  /**
+   * @brief      Gets the maximum y.
+   *
+   * @return     The maximum y.
+   */
   ng_float_t get_max_y() const { return _max_y; }
   /**
    * @private
@@ -106,6 +152,9 @@ struct NAVGROUND_SIM_EXPORT BoundarySensor : public Sensor {
   virtual void update(Agent *agent, World *world,
                       EnvironmentState *state) override;
 
+  /**
+   * @private
+   */
   Description get_description() const override {
     Description desc;
     unsigned n = 0;

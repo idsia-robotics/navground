@@ -157,6 +157,10 @@ struct PyTask : Task, virtual PyHasRegister<Task> {
     PYBIND11_OVERRIDE(void, Task, prepare, agent, world);
   }
 
+  size_t get_log_size() const override {
+    PYBIND11_OVERRIDE(size_t, Task, get_log_size);
+  }
+
   OVERRIDE_DECODE
   OVERRIDE_ENCODE
 
@@ -982,7 +986,7 @@ Creates a rectangular region
 Creates a rectangular region
 
 :param p1: Bottom-left corner
-:param max_x: Top-right corner
+:param p2: Top-right corner
            )doc")
       .def("__repr__",
            [](const BoundingBox &bb) -> py::str {
@@ -1289,6 +1293,13 @@ Creates a rectangular region
                &StateEstimation::update),
            py::arg("agent"), py::arg("world"), py::arg("state"),
            DOC(navground, sim, StateEstimation, update))
+      .def(
+          "prepare",
+          [](PyStateEstimation *se, Agent *agent, World *world) {
+            se->prepare(agent, world);
+          },
+          py::arg("agent"), py::arg("world"),
+          DOC(navground, sim, StateEstimation, prepare))
       .def_property(
           "type", [](StateEstimation *obj) { return obj->get_type(); }, nullptr,
           "The name associated to the type of an object");
@@ -1320,13 +1331,14 @@ Creates a rectangular region
       m, "Sensor", DOC(navground, sim, Sensor));
   sse.def(py::init<const std::string &>(), py::arg("name") = "",
           DOC(navground, sim, Sensor, Sensor))
+      .def("get_description", &Sensor::get_description,
+           DOC(navground, sim, Sensor, get_description))
       .def_property("description", &Sensor::get_description, nullptr,
                     DOC(navground, sim, Sensor, property_description))
       .def_property("name", &Sensor::get_name, &Sensor::set_name,
                     DOC(navground, sim, Sensor, property_name))
-      .def("prepare",
-           py::overload_cast<SensingState &>(&Sensor::prepare, py::const_),
-           DOC(navground, sim, Sensor, prepare));
+      .def("prepare_state", &Sensor::prepare_state,
+           DOC(navground, sim, Sensor, prepare_state));
 
   py::class_<LidarStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<LidarStateEstimation>>
@@ -1334,8 +1346,8 @@ Creates a rectangular region
   lse.def(
          py::init<ng_float_t, ng_float_t, ng_float_t, unsigned, const Vector2 &,
                   ng_float_t, ng_float_t, const std::string &>(),
-         py::arg("range") = 0.0, py::arg("start_angle") = -M_PI,
-         py::arg("field_of_view") = 2 * M_PI, py::arg("resolution") = 100,
+         py::arg("range") = 0.0, py::arg("start_angle") = -PI,
+         py::arg("field_of_view") = TWO_PI, py::arg("resolution") = 100,
          py::arg("position") = Vector2::Zero(), py::arg("error_bias") = 0,
          py::arg("error_std_dev") = 0, py::arg("name") = "",
          DOC(navground, sim, LidarStateEstimation, LidarStateEstimation))
@@ -1477,10 +1489,26 @@ Creates a rectangular region
 
   task.def(py::init<>())
       // .def("update", &Task::update)
+      .def(
+          "prepare",
+          [](PyTask *task, Agent *agent, World *world) {
+            task->prepare(agent, world);
+          },
+          py::arg("world"), py::arg("agent"),
+          DOC(navground, sim, Task, prepare))
+      .def(
+          "update",
+          [](PyTask *task, Agent *agent, World *world, ng_float_t time) {
+            task->update(agent, world, time);
+          },
+          py::arg("world"), py::arg("agent"), py::arg("time"),
+          DOC(navground, sim, Task, update))
       .def_property(
           "type", [](Task *obj) { return obj->get_type(); }, nullptr,
           "The name associated to the type of an object")
       .def("done", &Task::done, DOC(navground, sim, Task, done))
+      .def("get_log_size", &Task::get_log_size,
+           DOC(navground, sim, Task, get_log_size))
       .def_property("log_size", &Task::get_log_size, nullptr,
                     DOC(navground, sim, Task, property, log_size))
       .def("add_callback", &Task::add_callback, py::arg("callback"),
@@ -1511,6 +1539,9 @@ Creates a rectangular region
       .def_property("tolerance", &WaypointsTask::get_tolerance,
                     &WaypointsTask::set_tolerance,
                     DOC(navground, sim, WaypointsTask, property_tolerance))
+      .def_property("random", &WaypointsTask::get_random,
+                    &WaypointsTask::set_random,
+                    DOC(navground, sim, WaypointsTask, property_random))
       .def_property("loop", &WaypointsTask::get_loop, &WaypointsTask::set_loop,
                     DOC(navground, sim, WaypointsTask, property_loop));
 
@@ -1822,14 +1853,16 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
   py::class_<Probe, PyProbe, std::shared_ptr<Probe>>(m, "Probe",
                                                      DOC(navground, sim, Probe))
       .def(py::init<>(), DOC(navground, sim, Probe, Probe))
-      .def("_prepare", &Probe::prepare, DOC(navground, sim, Probe, prepare))
-      .def("_update", &Probe::update, DOC(navground, sim, Probe, update))
-      .def("_finalize", &Probe::finalize, DOC(navground, sim, Probe, finalize));
+      .def("prepare", &Probe::prepare, DOC(navground, sim, Probe, prepare))
+      .def("update", &Probe::update, DOC(navground, sim, Probe, update))
+      .def("finalize", &Probe::finalize, DOC(navground, sim, Probe, finalize));
 
   py::class_<RecordProbe, Probe, PyRecordProbe, std::shared_ptr<RecordProbe>>(
       m, "RecordProbe", DOC(navground, sim, RecordProbe))
       .def(py::init<std::shared_ptr<Dataset>>(), py::arg("record") = nullptr,
            DOC(navground, sim, RecordProbe, RecordProbe))
+      .def("get_shape", &RecordProbe::get_shape, py::arg("world"),
+           DOC(navground, sim, RecordProbe, get_shape))
       .def_property("data", &RecordProbe::get_data, nullptr,
                     DOC(navground, sim, RecordProbe, property_data));
 
@@ -1839,6 +1872,9 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
       .def(py::init<std::optional<GroupRecordProbe::Factory>>(),
            py::arg("factory") = py::none(),
            DOC(navground, sim, GroupRecordProbe, GroupRecordProbe))
+      .def("get_shapes", &GroupRecordProbe::get_shapes, py::arg("world"),
+           py::arg("use_agent_uid_as_key"),
+           DOC(navground, sim, GroupRecordProbe, get_shapes))
       .def("get_data", &GroupRecordProbe::get_data, py::arg("key"),
            DOC(navground, sim, GroupRecordProbe, get_data));
 
@@ -2340,8 +2376,14 @@ The array is empty if efficacy has not been recorded in the run.
       //      DOC(navground, sim, ExperimentalRun, update))
       .def("run", &ExperimentalRun::run,
            DOC(navground, sim, ExperimentalRun, run))
-      .def_property("duration", &ExperimentalRun::get_duration_ns, nullptr,
-                    DOC(navground, sim, ExperimentalRun, property, duration_ns))
+      .def("start", &ExperimentalRun::start,
+           DOC(navground, sim, ExperimentalRun, start))
+      .def("update", &ExperimentalRun::update,
+           DOC(navground, sim, ExperimentalRun, update))
+      .def("stop", &ExperimentalRun::stop,
+           DOC(navground, sim, ExperimentalRun, stop))
+      .def_property("duration", &ExperimentalRun::get_duration, nullptr,
+                    DOC(navground, sim, ExperimentalRun, property, duration))
       .def_property("record_config", &ExperimentalRun::get_record_config,
                     nullptr,
                     DOC(navground, sim, ExperimentalRun, record_config))
@@ -2525,8 +2567,8 @@ Register a probe to record a group of data to during all runs.
 )doc")
       .def("save", &Experiment::save, py::arg("directory") = py::none(),
            py::arg("path") = py::none(), DOC(navground, sim, Experiment, save))
-      .def_property("duration", &Experiment::get_duration_ns, nullptr,
-                    DOC(navground, sim, Experiment, property_duration_ns))
+      .def_property("duration", &Experiment::get_duration, nullptr,
+                    DOC(navground, sim, Experiment, property_duration))
       .def_property("begin_time", &Experiment::get_begin_time, nullptr,
                     DOC(navground, sim, Experiment, property_begin_time));
 
@@ -2596,6 +2638,9 @@ Register a probe to record a group of data to during all runs.
       .def_property("tolerance", &AntipodalScenario::get_tolerance,
                     &AntipodalScenario::set_tolerance,
                     DOC(navground, sim, AntipodalScenario, property_tolerance))
+      .def_property("shuffle", &AntipodalScenario::get_shuffle,
+                    &AntipodalScenario::set_shuffle,
+                    DOC(navground, sim, AntipodalScenario, property_shuffle))
       .def_property(
           "position_noise", &AntipodalScenario::get_position_noise,
           &AntipodalScenario::set_position_noise,

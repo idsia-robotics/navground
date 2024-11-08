@@ -282,8 +282,9 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         _, p_grad = self.u(value)
         return -grad * p_grad
 
-    def in_sight(self, force: Vector2, e: Vector2) -> np.bool_:
-        return np.all(np.dot(e, force) > self.cos_phi * np.linalg.norm(force))
+    def in_sight(self, force: Vector2, e: Vector2) -> bool:
+        return bool(
+            np.all(np.dot(e, force) > self.cos_phi * np.linalg.norm(force)))
 
     def weight(self, force: Vector2, e: Vector2) -> float:
         return 1.0 if self.in_sight(force, e) else self.c

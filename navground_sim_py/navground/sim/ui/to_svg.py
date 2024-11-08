@@ -13,6 +13,7 @@ from .. import Agent, Entity, Obstacle, Wall, World, BoundingBox
 Point = np.ndarray
 Rect = Union[Tuple[Point, Point], np.ndarray]
 Attributes = MutableMapping[str, str]
+
 Decorate = Callable[[Entity], Attributes]
 
 folder = os.path.dirname(os.path.realpath(__file__))
@@ -21,11 +22,12 @@ jinjia_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(template_folder))
 
 
-def bounds_of_bounding_box(bb: BoundingBox) -> Rect:
+def bounds_of_bounding_box(
+        bb: BoundingBox) -> Tuple[core.Vector2, core.Vector2]:
     return bb.p1, bb.p2
 
 
-def bounds_for_world(world: World) -> Rect:
+def bounds_for_world(world: World) -> Tuple[core.Vector2, core.Vector2]:
     return bounds_of_bounding_box(world.bounding_box)
 
 
@@ -42,6 +44,15 @@ def rect_around(center: Point, width: float | None,
 
 
 def svg_color(r: float, g: float, b: float) -> str:
+    """
+    Returns the SVG representation of an RGB color
+
+    :param      r:    in [0, 1]
+    :param      g:    in [0, 1]
+    :param      b:    in [0, 1]
+
+    :returns:   The SVG representation of the color
+    """
     return f"#{int(r * 255):02x}{int(g * 255):02x}{int(b * 255):02x}"
 
 

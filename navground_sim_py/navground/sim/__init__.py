@@ -4,18 +4,20 @@ from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Tuple
 if TYPE_CHECKING:
     import tqdm
 
-import navground.core
 import importlib.metadata
-from navground.core import _register, load_cpp_plugins
-from navground.core import load_py_plugins as _load_py_core_plugins
+
+import navground.core
+from navground.core import _register
 from navground.core import get_loaded_plugins as _get_loaded_core_plugins
 from navground.core import get_loaded_py_plugins as _get_loaded_py_core_plugins
+from navground.core import load_cpp_plugins
+from navground.core import load_py_plugins as _load_py_core_plugins
 from navground.core import register
 
 from ._navground_sim import (Agent, BoundingBox, Dataset, Entity, Experiment,
                              ExperimentalRun, GroupRecordProbe, Obstacle,
-                             Probe, RecordConfig, RecordProbe,
-                             RecordSensingConfig)
+                             Probe, RecordConfig, RecordNeighborsConfig,
+                             RecordProbe, RecordSensingConfig)
 from ._navground_sim import Scenario as _Scenario
 from ._navground_sim import SensingProbe
 from ._navground_sim import Sensor as _Sensor
@@ -222,8 +224,8 @@ __all__ = [
     'StateEstimation', 'Task', 'BoundingBox', 'dump', 'TaskCallback',
     'load_agent', 'load_state_estimation', 'load_task', 'load_world',
     'load_scenario', 'load_experiment', 'load_plugins', 'register', 'Sensor',
-    'ExperimentalRun', 'RecordSensingConfig', 'RecordConfig', 'RecordProbe',
-    'GroupRecordProbe', 'Probe', 'Dataset', 'RecordedExperiment',
-    'RecordedExperimentalRun', 'SensingProbe', 'use_compact_samplers',
-    'uses_doubles', 'get_loaded_plugins'
+    'ExperimentalRun', 'RecordNeighborsConfig', 'RecordSensingConfig',
+    'RecordConfig', 'RecordProbe', 'GroupRecordProbe', 'Probe', 'Dataset',
+    'RecordedExperiment', 'RecordedExperimentalRun', 'SensingProbe',
+    'use_compact_samplers', 'uses_doubles', 'get_loaded_plugins'
 ]

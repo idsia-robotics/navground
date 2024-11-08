@@ -74,7 +74,7 @@ def run_mp(experiment: sim.Experiment,
     Run an experiment distributing its runs in parallel over multiple processes.
 
     Use this to parallelize experiments that contains Python classes, see :py:fun:``uses_python``,
-    :py:attr:`sim.Experiment.run` parallelizes over multiple threads instead and cannot
+    :py:attr:`Experiment.run` parallelizes over multiple threads instead and cannot
     be used to run such experiments because of the GIL.
 
     If ``keep=True``,  the experiment will query the runs from the different processes and hold them in memory.

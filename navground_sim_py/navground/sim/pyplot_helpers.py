@@ -1,6 +1,5 @@
-# import itertools
 import math
-from typing import Callable, Sequence, Optional
+from typing import Any, Callable, Sequence, Mapping
 
 import numpy as np
 from matplotlib import patches
@@ -11,119 +10,220 @@ Indices = list[int] | slice
 
 
 def plot_agent(ax: plt.Axes,
-               position: core.Vector2,
-               radius: float,
-               velocity: Optional[core.Vector2] = None,
-               color: str | None = None,
-               alpha: float = 0.5) -> None:
-    circle = patches.Circle(tuple(position), radius, color=color, alpha=alpha)
+               agent: sim.Agent,
+               pose: core.Pose2 | None = None,
+               velocity: core.Vector2 | None = None,
+               velocity_arrow_width: float = 0,
+               velocity_arrow_color: str = 'k',
+               color: str = "",
+               alpha: float = 1.0,
+               dot_color: str = "k",
+               dot_radius: float = 0.25,
+               with_safety_margin: bool = False) -> None:
+    """
+    Plots an agent as a disc together with:
+    - a smaller dot to indicate the direction
+    - an optional arrow for its velocity
+    - an optional circle for the safety margin
+
+    :param      ax:                   The pyplot axes
+    :param      agent:                The agent
+    :param      pose:                 A pose that override the agent own pose.
+    :param      velocity:             A velocity that override the agent own velocity.
+    :param      velocity_arrow_width: The width of the velocity arrow
+    :param      color:                The color
+    :param      alpha:                The opacity
+    :param      dot_color:            The color of the dot
+    :param      dot_radius:           The relative radius of the dot
+                                      as fraction of the radius
+    :param      with_safety_margin:   Whether to display the safety margin
+    """
+    if pose is None:
+        pose = agent.pose
+    position = pose.position
+    if velocity is None:
+        velocity = agent.velocity
+    if not color:
+        color = agent.color or 'b'
+    circle = patches.Circle(tuple(position),
+                            agent.radius,
+                            color=color,
+                            alpha=alpha)
     ax.add_patch(circle)
-    if velocity is not None:
+    dot_center = position + core.unit(
+        pose.orientation) * agent.radius * (1 - dot_radius)
+    dot = patches.Circle(tuple(dot_center),
+                         dot_radius * agent.radius,
+                         color=dot_color,
+                         alpha=alpha)
+    ax.add_patch(dot)
+
+    if velocity_arrow_width > 0 and np.any(velocity):
         vel = patches.Arrow(position[0],
                             position[1],
                             velocity[0],
                             velocity[1],
-                            width=0.1,
-                            color=color)
+                            width=velocity_arrow_width * agent.radius,
+                            color=color,
+                            edgecolor=velocity_arrow_color,
+                            alpha=0.5)
         ax.add_patch(vel)
+    if with_safety_margin and agent.behavior:
+        safety_margin = agent.behavior.safety_margin
+        if safety_margin > 0:
+            c = plt.Circle(tuple(position),
+                           agent.radius + safety_margin,
+                           color=color,
+                           alpha=alpha,
+                           fill=False,
+                           linestyle='--')
+            ax.add_patch(c)
 
 
 def plot_world(ax: plt.Axes,
                world: sim.World,
-               color: str = 'k',
-               with_box: bool = False,
+               obstacles_color: str = 'k',
+               in_box: bool = False,
+               no_ticks: bool = False,
                with_agents: bool = False,
-               agent_color: str = 'b') -> None:
+               **kwargs: Any) -> None:
+    """
+    Plots a world.
+
+    :param      ax:              The pyplot axes
+    :param      world:           The world
+    :param      obstacles_color: The color of obstacles and walls
+    :param      in_box:          Whether to restrict the plot within the world bounding box
+    :param      no_ticks:        Whether to remove the axis ticks
+    :param      with_agents:     Whether to plot agents
+    :param      kwargs:          Keywords passed to :py:func:`plot_agent`
+    """
     for obstacle in world.obstacles:
         disc = obstacle.disc
-        c = plt.Circle(tuple(disc.position), disc.radius, color=color)
+        c = plt.Circle(tuple(disc.position),
+                       disc.radius,
+                       color=obstacles_color)
         ax.add_patch(c)
     if with_agents:
         for agent in world.agents:
-            c = plt.Circle(tuple(agent.position), agent.radius, color=agent_color)
-            ax.add_patch(c)
+            plot_agent(ax, agent, **kwargs)
     for wall in world.walls:
         line = wall.line
         x, y = np.asarray((line.p1, line.p2)).T
-        ax.add_line(plt.Line2D(x, y, color=color))
+        ax.add_line(plt.Line2D(x, y, color=obstacles_color))
     bb = world.bounding_box
-    ax.set_ylim(bb.min_y, bb.max_y)
-    ax.set_xlim(bb.min_x, bb.max_x)
-    ax.tick_params(left=False, bottom=False)
-    ax.set_xticklabels([])
-    ax.set_yticklabels([])
     ax.set_aspect('equal')
-    if not with_box:
-        ax.axis('off')
+    if in_box:
+        ax.set_ylim(bb.min_y, bb.max_y)
+        ax.set_xlim(bb.min_x, bb.max_x)
+    if no_ticks:
+        ax.tick_params(left=False, bottom=False)
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
 
 
 def plot_trajectory(ax: plt.Axes,
-                    points: np.ndarray,
-                    radius: float,
+                    poses: np.ndarray,
                     color: str,
-                    safety_margin: float = 0,
-                    with_shape: bool = True,
-                    step: int = 1,
-                    label: str = '') -> None:
-    ax.plot(*points[::].T, '-', color=color, label=label)
+                    agent: sim.Agent | None = None,
+                    step: int = 0,
+                    label: str = '',
+                    **kwargs: Any) -> None:
+    """
+    Plots a trajectory composed by an array of poses ``(x, y, theta)``
+
+    :param      ax:       The pyplot axes
+    :param      poses:    The poses
+    :param      color:    The color
+    :param      agent:    The agent to display or none
+    :param      step:     The regular step at which to display the agent
+                          if provided or a dot
+    :param      label:    The label
+    :param      kwargs:   Keywords passed to :py:func:`plot_agent`
+    """
     if step > 0:
-        if with_shape:
-            for x, y in points[::step]:
-                c = plt.Circle((x, y), radius, color=color, alpha=0.5)
-                ax.add_patch(c)
-                if safety_margin > 0:
-                    c = plt.Circle((x, y),
-                                   radius + safety_margin,
-                                   color=color,
-                                   alpha=0.5,
-                                   fill=False,
-                                   linestyle='--')
-                    ax.add_patch(c)
+        if agent:
+            for x, y, theta in poses[::step]:
+                plot_agent(ax,
+                           agent,
+                           color=color,
+                           pose=core.Pose2((x, y), theta),
+                           velocity=np.zeros(2),
+                           **kwargs)
         else:
-            ax.plot(*points[::step].T, '.', color=color)
+            ax.plot(*poses[::step, :2].T, '.', color=color)
+    ax.plot(*poses[::, :2].T, '-', color=color, label=label)
 
 
-def plot_run(ax: plt.Axes,
-             run: sim.ExperimentalRun,
-             agent_indices: Indices = slice(None),
-             step: int = 30,
-             with_box: bool = False,
-             agent_color: Callable[[sim.Agent], str] | None = None,
-             with_shape: bool = True,
-             with_world: bool = True,
-             label: str = ''):
+def plot_run(
+    ax: plt.Axes,
+    run: sim.ExperimentalRun | sim.RecordedExperimentalRun,
+    agent_indices: Indices = slice(None),
+    step: int = 0,
+    label: str = '',
+    with_agent: bool = False,
+    color: Callable[[sim.Agent], str] | None = None,
+    agent_kwargs: Mapping[str, Any] = {},
+    with_world: bool = True,
+    world_kwargs: Mapping[str, Any] = {},
+) -> None:
+    """
+    Plots an experimental run
+
+    :param      ax:             The pyplot axes
+    :param      run:            The run
+    :param      agent_indices:  The indices of the agents whose trajectory
+                                should be plotted.
+    :param      step:           The regular step at which to display the agent
+                                if provided or a dot
+    :param      label:          The label
+    :param      with_agent:     Whether to display agents
+    :param      color:          A function to assign a color to an agent.
+                                If not provided, it will fallback to the agent's own color.
+    :param      agent_kwargs:   Keywords arguments passed to :py:func:`plot_agent`
+    :param      with_world:     Whether to display the world
+    :param      world_kwargs:   Keywords arguments passed to :py:func:`plot_world`
+    """
     if with_world:
-        plot_world(ax, world=run.world, with_box=with_box)
+        plot_world(ax, world=run.world, with_agents=False, **world_kwargs)
     lia = list(enumerate(run.world.agents))
     if isinstance(agent_indices, slice):
         lia = lia[agent_indices]
     else:
         lia = [lia[i] for i in agent_indices]
     for i, agent in lia:
-        points = run.poses[:, i, :2]
-        if agent.behavior:
-            safety_margin = agent.behavior.safety_margin
+        if run.poses is None:
+            continue
+        poses = np.asarray(run.poses)[:, i, :]
+        if color:
+            agent_color = color(agent)
         else:
-            safety_margin = 0
-        if agent_color:
-            color = agent_color(agent)
-        else:
-            color = agent.color
+            agent_color = agent.color
         plot_trajectory(ax,
-                        points=points,
-                        radius=agent.radius,
-                        safety_margin=safety_margin,
-                        color=color,
+                        poses=poses,
+                        color=agent_color,
                         step=step,
-                        with_shape=with_shape,
-                        label=label)
+                        agent=agent if with_agent else None,
+                        label=label,
+                        **agent_kwargs)
 
 
 def plot_runs(runs: Sequence[sim.ExperimentalRun],
               columns: int = 1,
               width: float = 10,
               fig: plt.Figure | None = None,
-              **kwargs) -> plt.Figure:
+              **kwargs: Any) -> plt.Figure:
+    """
+    Plots several runs using :py:func:`plot_run` as subplots.
+
+    :param      runs:     The runs
+    :param      columns:  The number of subplots columns
+    :param      width:    The width of a subplot
+    :param      fig:      An optional figuer
+    :param      kwargs:   Keywords arguments passed to :py:func:`plot_run`
+
+    :returns:   The figure
+    """
     rows = math.ceil(len(runs) / columns)
     if not fig:
         fig, axs = plt.subplots(rows, columns)

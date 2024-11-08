@@ -54,7 +54,7 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
    * The default start angle [radians]
    */
   inline static const ng_float_t default_start_angle =
-      -static_cast<ng_float_t>(M_PI);
+      -static_cast<ng_float_t>(core::PI);
   /**
    * The default field of view [radians]
    */

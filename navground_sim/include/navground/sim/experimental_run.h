@@ -597,7 +597,7 @@ public:
    */
   unsigned get_seed() const { return _seed; }
   /**
-   * @brief      Gets the record configuration.
+   * @brief      Gets a copy of the record configuration.
    *
    * @return     The record configuration.
    */
@@ -869,7 +869,7 @@ public:
 private:
   State _state;
   /**
-   * Which data to record
+   * The record config on which data to record
    */
   RecordConfig _record_config;
 

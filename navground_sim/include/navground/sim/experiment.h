@@ -506,7 +506,7 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   }
 
   /**
-   * Which data to record
+   * The record config on which data to record
    */
   RecordConfig record_config;
 

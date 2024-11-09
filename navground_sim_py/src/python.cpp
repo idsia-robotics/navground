@@ -2473,7 +2473,8 @@ The array is empty if efficacy has not been recorded in the run.
                     DOC(navground, sim, Experiment,
                         property_terminate_when_all_idle_or_stuck))
       .def_readwrite("record_config", &Experiment::record_config,
-                     DOC(navground, sim, Experiment, record_config))
+                     // DOC(navground, sim, Experiment, record_config)
+                     "A reference to the record config on which data to record")
       // .def_readwrite("run_config", &Experiment::run_config,
       //                DOC(navground, sim, Experiment, run_config))
       .def_property("runs", &Experiment::get_runs, nullptr,

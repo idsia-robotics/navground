@@ -450,12 +450,14 @@ public:
    * @return     The current pose.
    */
   Pose2 get_pose() const { return pose; }
+#if 0
   /**
    * @brief      Gets a reference to the pose in the world-fixed frame.
    *
    * @return     The pose.
    */
-  // Pose2 &get_pose_ref() { return pose; }
+  Pose2 &get_pose_ref() { return pose; }
+#endif
   /**
    * @brief      Sets the current pose in the world-fixed frame.
    *
@@ -509,12 +511,14 @@ public:
   Twist2 get_twist(Frame frame = Frame::absolute) const {
     return to_frame(twist, frame);
   }
+#if 0
   /**
    * @brief      Gets a reference to the twist.
    *
    * @return     The twist.
    */
-  // Twist2 &get_twist_ref() { return twist; }
+  Twist2 &get_twist_ref() { return twist; }
+#endif
   /**
    * @brief      Sets the current twist.
    *
@@ -595,12 +599,14 @@ public:
   Twist2 get_actuated_twist(Frame frame = Frame::absolute) const {
     return to_frame(actuated_twist, frame);
   }
+#if 0
   /**
    * @brief      Gets a reference to the actuated twist.
    *
    * @return     The actuated twist.
    */
-  // Twist2 &get_actuated_twist_ref() { return actuated_twist; }
+  Twist2 &get_actuated_twist_ref() { return actuated_twist; }
+#endif
   /**
    * @brief      Sets the last actuated twist.
    *

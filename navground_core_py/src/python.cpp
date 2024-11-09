@@ -1267,7 +1267,7 @@ PYBIND11_MODULE(_navground, m) {
              const std::string fmt = type_from_dtype(dtype);
              return new BufferDescription(shape, fmt, low, high, categorical);
            }),
-           py::arg("shape"), py::arg("dtype") = "float",
+           py::arg("shape") = BufferShape{}, py::arg("dtype") = "float",
            py::arg("low") = std::numeric_limits<double>::min(),
            py::arg("high") = std::numeric_limits<double>::max(),
            py::arg("categorical") = false,
@@ -1316,6 +1316,7 @@ PYBIND11_MODULE(_navground, m) {
           }));
 
   py::class_<Buffer>(m, "Buffer", DOC(navground, core, Buffer))
+#if 0
       .def(py::init<const BufferDescription &, BufferType>(),
            py::arg("description"), py::arg("value"),
            DOC(navground, core, Buffer, Buffer))
@@ -1333,6 +1334,24 @@ PYBIND11_MODULE(_navground, m) {
              return buffer;
            }),
            R"doc(Constructs an unbounded buffer with the provided data)doc")
+#endif
+      .def(py::init([](const std::optional<BufferDescription> &description =
+                           std::nullopt,
+                       const py::object &data = py::none()) {
+             return make_buffer(description, data);
+           }),
+           py::arg("description") = std::nullopt, py::arg("data") = py::none(),
+           R"doc(
+Constructs a new instance.
+
+:param description: The description
+:type description: :py:class:`navground.core.BufferDescription` | None
+:param data: Optional data to initialize the buffer. If provided, 
+             it will overwrite data initialized from the description.
+             Else the buffer will be initialized with zeros.
+             Accept any type supporting the buffer protocol.
+:type data: object
+           )doc")
       .def_property("size", &Buffer::size, nullptr,
                     DOC(navground, core, Buffer, property_size))
       .def_property(
@@ -1349,7 +1368,7 @@ PYBIND11_MODULE(_navground, m) {
           [](Buffer &buffer, const py::buffer &value) {
             set_buffer_from_buffer(buffer, value, true);
           },
-          DOC(navground, core, Buffer, property_data))
+          "The data stored in the buffer")
       .def_property(
           "description", &Buffer::get_description,
           [](Buffer &buffer, const BufferDescription &value) {
@@ -1372,7 +1391,8 @@ PYBIND11_MODULE(_navground, m) {
             buffer.set_shape(value, true);
           },
           DOC(navground, core, Buffer, property_shape))
-      .def("set_description", &Buffer::set_description,
+      .def("set_description", &Buffer::set_description, py::arg("value"),
+           py::arg("force") = false,
            DOC(navground, core, Buffer, set_description))
       .def("__repr__",
            [](const Buffer &value) -> py::str {
@@ -1400,6 +1420,7 @@ PYBIND11_MODULE(_navground, m) {
   py::class_<SensingState, EnvironmentState, std::shared_ptr<SensingState>>(
       m, "SensingState", DOC(navground, core, SensingState))
       .def(py::init<>(), DOC(navground, core, SensingState, SensingState))
+#if 0
       .def("init_buffer",
            py::overload_cast<const std::string &, const BufferDescription &,
                              BufferType>(&SensingState::init_buffer),
@@ -1418,6 +1439,37 @@ PYBIND11_MODULE(_navground, m) {
            py::arg("key"), py::arg("data"),
            py::return_value_policy::automatic_reference,
            DOC(navground, core, SensingState, init_buffer, 3))
+#endif
+      .def(
+          "init_buffer",
+          [](SensingState &state, const std::string &key,
+             const std::optional<BufferDescription> &description = std::nullopt,
+             const py::object &data = py::none()) -> Buffer * {
+            if (state.get_buffers().count(key)) {
+              return nullptr;
+            }
+            auto buffer = make_buffer(description, data);
+            state.set_buffer(key, std::move(buffer));
+            return state.get_buffer(key);
+          },
+          py::arg("key"), py::arg("description") = std::nullopt,
+          py::arg("data") = py::none(),
+          py::return_value_policy::automatic_reference,
+          R"doc(
+Initializes a buffer.
+
+:param key: The key
+:type key: str
+:param description: The description
+:type description: :py:class:`navground.core.BufferDescription` | None
+:param data: Optional data to initialize the buffer. If provided, 
+             it will overwrite data initialized from the description.
+             Else the buffer will be initialized with zeros.
+             Accept any type supporting the buffer protocol.
+:type data: object
+:return: The buffer if successfully initialized else a null pointer
+:rtype: :py:class:`navground.core.Buffer` | None
+           )doc")
       .def("get_buffer", &SensingState::get_buffer, py::arg("key"),
            py::return_value_policy::automatic_reference,
            DOC(navground, core, SensingState, get_buffer))

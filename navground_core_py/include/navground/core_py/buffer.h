@@ -25,8 +25,9 @@ inline py::dtype dtype_from_buffer(const Buffer &buffer) {
 
 inline py::array get_array_from_buffer(const Buffer &buffer) {
   const auto &shape = buffer.get_description().shape;
+  const auto &strides = buffer.get_description().get_strides();
   const py::dtype dtype(buffer.get_description().type);
-  return py::array(dtype, shape, buffer.get_ptr());
+  return py::array(dtype, shape, strides, buffer.get_ptr());
 }
 
 inline BufferShape shape_from_array(const py::array &value) {
@@ -51,4 +52,23 @@ inline bool set_buffer_from_buffer(Buffer &buffer, const py::buffer &value,
                         type_from_buffer(value), force);
 }
 
-#endif  // NAVGROUND_CORE_PY_BUFFER_H
+inline Buffer
+make_buffer(const std::optional<BufferDescription> &description = std::nullopt,
+            const py::object &data = py::none()) {
+  Buffer buffer;
+  if (description) {
+    buffer.set_description(*description, true);
+  }
+  if (!data.is_none()) {
+    try {
+      auto bdata = py::cast<py::buffer>(data);
+      set_buffer_from_buffer(buffer, bdata, true);
+    } catch (const std::exception &) {
+      throw pybind11::type_error(
+          "Data has invalid type that does not support the buffer protocol.");
+    }
+  }
+  return buffer;
+}
+
+#endif // NAVGROUND_CORE_PY_BUFFER_H

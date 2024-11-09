@@ -11,6 +11,8 @@
 #include <variant>
 #include <vector>
 
+#include "navground/core/types.h"
+
 #if defined(_MSC_VER)
 #include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
@@ -195,10 +197,11 @@ struct BufferDescription {
    * @param[in]  high         The high
    * @param[in]  categorical  The categorical
    */
-  BufferDescription(const BufferShape &shape, const std::string &type = "",
-                    double low = std::numeric_limits<double>::min(),
-                    double high = std::numeric_limits<double>::max(),
-                    bool categorical = false)
+  explicit BufferDescription(const BufferShape &shape = BufferShape{},
+                             const std::string &type = "",
+                             double low = std::numeric_limits<double>::min(),
+                             double high = std::numeric_limits<double>::max(),
+                             bool categorical = false)
       : shape(shape), type(type), low(low), high(high),
         categorical(categorical) {}
 

@@ -80,11 +80,10 @@ class SensingState : public EnvironmentState {
     }
     return nullptr;
   }
-
   /**
    * @brief      Assign a buffer to a key.
    *
-   * @param[in]  key    The new value
+   * @param[in]  key    The key
    * @param[in]  value  The value
    */
   void set_buffer(const std::string& key, const Buffer& value) {

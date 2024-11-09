@@ -229,7 +229,9 @@ or just a new orientation
 
    .. code-block:: python
 
-      buffer = core.Buffer([0, 0, 0])
+      from array import array
+
+      buffer = core.Buffer(array('i', [0, 0, 0]))
       # does not change the buffer
       buffer.data[0] = 1
       # does change the buffer

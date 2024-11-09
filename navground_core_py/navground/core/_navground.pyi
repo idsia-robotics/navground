@@ -55,6 +55,8 @@ class Behavior(BehaviorRegister, HasProperties):
         @property
         def value(self) -> int: ...
     actuated_twist: Twist2
+    # @property
+    # def actuated_twist_ref(self) -> Twist2: ...
     angular_speed: float
     assume_cmd_is_actuated: bool
     heading_behavior: Behavior.Heading
@@ -68,12 +70,18 @@ class Behavior(BehaviorRegister, HasProperties):
     path_look_ahead: float
     path_tau: float
     pose: Pose2
+    # @property
+    # def pose_ref(self) -> Pose2: ...
     position: Vector2
     radius: float
     rotation_tau: float
     safety_margin: float
     target: Target
+    @property
+    def target_ref(self) -> Target: ...
     twist: Twist2
+    # @property
+    # def twist_ref(self) -> Twist2: ...
     velocity: Vector2
     wheel_speeds: list[float]
     def __init__(self, kinematics: Kinematics | None | None = ..., radius: float = ...) -> None: ...

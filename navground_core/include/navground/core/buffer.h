@@ -297,7 +297,7 @@ public:
    *
    * @param[in]  value  The data
    */
-  Buffer(const BufferData &value)
+  Buffer(const BufferData &value = std::valarray<ng_float_t>(0))
       : Buffer(::navground::core::get_description(value)) {
     data = value;
   }

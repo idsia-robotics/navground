@@ -31,7 +31,7 @@ namespace navground::core {
  *
  * Users should not instantiate this class, which will not make the agent move,
  * but one of its concrete sub-classes equipped with the desired navigation
- * algorithms, which are implemented by overriding any of the (virtual) methods 
+ * algorithms, which are implemented by overriding any of the (virtual) methods
  * listed in \ref compute_cmd_internal.
  *
  * The following describes the typical usage of a behavior.
@@ -451,6 +451,12 @@ public:
    */
   Pose2 get_pose() const { return pose; }
   /**
+   * @brief      Gets a reference to the pose in the world-fixed frame.
+   *
+   * @return     The pose.
+   */
+  // Pose2 &get_pose_ref() { return pose; }
+  /**
    * @brief      Sets the current pose in the world-fixed frame.
    *
    * @param[in]  value The desired value
@@ -503,6 +509,12 @@ public:
   Twist2 get_twist(Frame frame = Frame::absolute) const {
     return to_frame(twist, frame);
   }
+  /**
+   * @brief      Gets a reference to the twist.
+   *
+   * @return     The twist.
+   */
+  // Twist2 &get_twist_ref() { return twist; }
   /**
    * @brief      Sets the current twist.
    *
@@ -583,6 +595,12 @@ public:
   Twist2 get_actuated_twist(Frame frame = Frame::absolute) const {
     return to_frame(actuated_twist, frame);
   }
+  /**
+   * @brief      Gets a reference to the actuated twist.
+   *
+   * @return     The actuated twist.
+   */
+  // Twist2 &get_actuated_twist_ref() { return actuated_twist; }
   /**
    * @brief      Sets the last actuated twist.
    *
@@ -675,6 +693,12 @@ public:
    * @return     The target.
    */
   Target get_target() const { return target; }
+  /**
+   * @brief      Gets a reference to the target.
+   *
+   * @return     The target.
+   */
+  Target &get_target_ref() { return target; }
   /**
    * @brief      Sets the target.
    *

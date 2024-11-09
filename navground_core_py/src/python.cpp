@@ -914,8 +914,8 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("max_angular_speed",
                     &LimitTwistModulation::get_max_angular_speed,
                     &LimitTwistModulation::set_max_angular_speed,
-                    DOC(navground, core, LimitTwistModulation,
-                        property, max_angular_speed));
+                    DOC(navground, core, LimitTwistModulation, property,
+                        max_angular_speed));
 
   py::class_<MotorPIDModulation, BehaviorModulation,
              std::shared_ptr<MotorPIDModulation>>
@@ -998,6 +998,8 @@ PYBIND11_MODULE(_navground, m) {
                     DOC(navground, core, Behavior, property_path_look_ahead))
       .def_property("pose", &Behavior::get_pose, &Behavior::set_pose,
                     DOC(navground, core, Behavior, property_pose))
+      // .def_property("pose_ref", &Behavior::get_pose_ref,
+      //               DOC(navground, core, Behavior, property_pose))
       .def_property("position", &Behavior::get_position,
                     &Behavior::set_position,
                     DOC(navground, core, Behavior, property_position))
@@ -1016,6 +1018,8 @@ PYBIND11_MODULE(_navground, m) {
       .def_property(
           "twist", [](const Behavior &self) { return self.get_twist(); },
           &Behavior::set_twist, DOC(navground, core, Behavior, property_twist))
+      // .def_property("twist_ref", &Behavior::get_twist_ref, nullptr,
+      //               DOC(navground, core, Behavior, property_twist_ref))
       .def("get_twist", &Behavior::get_twist,
            py::arg_v("frame", Frame::absolute,
                      "navground.core._navground.Frame.absolute"),
@@ -1043,6 +1047,10 @@ PYBIND11_MODULE(_navground, m) {
           [](const Behavior &self) { return self.get_actuated_twist(); },
           &Behavior::set_actuated_twist,
           DOC(navground, core, Behavior, property_actuated_twist))
+      // .def_property("actuated_twist_ref", &Behavior::get_actuated_twist_ref,
+      //               nullptr,
+      //               DOC(navground, core, Behavior,
+      //               property_actuated_twist_ref))
       .def("get_actuated_twist", &Behavior::get_actuated_twist,
            py::arg_v("frame", Frame::absolute,
                      "navground.core._navground.Frame.absolute"),
@@ -1062,6 +1070,8 @@ PYBIND11_MODULE(_navground, m) {
                     DOC(navground, core, Behavior, property_heading_behavior))
       .def_property("target", &Behavior::get_target, &Behavior::set_target,
                     DOC(navground, core, Behavior, property_target))
+      .def_property("e", &Behavior::get_target_ref, nullptr,
+                    DOC(navground, core, Behavior, property_target_ref))
       .def("check_if_target_satisfied", &Behavior::check_if_target_satisfied,
            DOC(navground, core, Behavior, check_if_target_satisfied))
       .def("compute_cmd", &Behavior::compute_cmd, py::arg("time_step"),
@@ -1314,8 +1324,15 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Buffer, Buffer, 2))
       .def(py::init<const BufferDescription &>(), py::arg("description"),
            DOC(navground, core, Buffer, Buffer, 3))
-      .def(py::init<const BufferData &>(), py::arg("data"),
+      .def(py::init<const BufferData &>(),
+           py::arg("data") = std::valarray<ng_float_t>(0),
            DOC(navground, core, Buffer, Buffer, 4))
+      .def(py::init([](const py::buffer &value) {
+             Buffer buffer;
+             set_buffer_from_buffer(buffer, value, true);
+             return buffer;
+           }),
+           R"doc(Constructs an unbounded buffer with the provided data)doc")
       .def_property("size", &Buffer::size, nullptr,
                     DOC(navground, core, Buffer, property_size))
       .def_property(

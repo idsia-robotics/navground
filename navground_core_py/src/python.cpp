@@ -474,13 +474,13 @@ PYBIND11_MODULE(_navground, m) {
       .def_readwrite("path", &Target::path, DOC(navground, core, Target, path))
       .def("satisfied",
            py::overload_cast<const Vector2 &>(&Target::satisfied, py::const_),
-           DOC(navground, core, Target, satisfied))
+           py::arg("point"), DOC(navground, core, Target, satisfied))
       .def("satisfied",
            py::overload_cast<ng_float_t>(&Target::satisfied, py::const_),
-           DOC(navground, core, Target, satisfied, 2))
+           py::arg("angle"), DOC(navground, core, Target, satisfied, 2))
       .def("satisfied",
            py::overload_cast<const Pose2 &>(&Target::satisfied, py::const_),
-           DOC(navground, core, Target, satisfied, 3))
+           py::arg("pose"), DOC(navground, core, Target, satisfied, 3))
       .def_property("valid", &Target::valid, nullptr,
                     DOC(navground, core, Target, valid))
       .def_static("Point", &Target::Point, py::arg("point"),
@@ -613,10 +613,12 @@ PYBIND11_MODULE(_navground, m) {
                   &WheeledKinematics::set_axis,
                   DOC(navground, core, WheeledKinematics, property_axis))
       .def("twist", &WheeledKinematics::twist,
+           py::arg("value"),
            DOC(navground, core, WheeledKinematics, twist))
-      .def("wheel_speeds", &WheeledKinematics::wheel_speeds,
+      .def("wheel_speeds", &WheeledKinematics::wheel_speeds, py::arg("value"),
            DOC(navground, core, WheeledKinematics, wheel_speeds))
       .def("feasible_wheel_speeds", &WheeledKinematics::feasible_wheel_speeds,
+           py::arg("value"),
            DOC(navground, core, WheeledKinematics, feasible_wheel_speeds));
 
   py::class_<TwoWheelsDifferentialDriveKinematics, WheeledKinematics,
@@ -1179,11 +1181,12 @@ PYBIND11_MODULE(_navground, m) {
       .def_property(
           "type", [](Behavior *obj) { return obj->get_type(); }, nullptr,
           DOC(navground, core, HasRegister, property_type))
-      .def("to_frame", &Behavior::to_frame,
+      .def("to_frame", &Behavior::to_frame, py::arg("value"), py::arg("frame"),
            DOC(navground, core, Behavior, to_frame))
-      .def("feasible_speed", &Behavior::feasible_speed,
+      .def("feasible_speed", &Behavior::feasible_speed, py::arg("value"),
            DOC(navground, core, Behavior, feasible_speed))
       .def("feasible_angular_speed", &Behavior::feasible_angular_speed,
+           py::arg("value"),
            DOC(navground, core, Behavior, feasible_angular_speed))
       .def("feasible_twist",
            py::overload_cast<const Twist2 &, std::optional<Frame>>(
@@ -1208,8 +1211,10 @@ PYBIND11_MODULE(_navground, m) {
            py::return_value_policy::reference,
            DOC(navground, core, Behavior, get_environment_state))
       .def("wheel_speeds_from_twist", &Behavior::wheel_speeds_from_twist,
+           py::arg("value"),
            DOC(navground, core, Behavior, wheel_speeds_from_twist))
       .def("twist_from_wheel_speeds", &Behavior::twist_from_wheel_speeds,
+           py::arg("value"),
            DOC(navground, core, Behavior, twist_from_wheel_speeds))
       .def("set_state_from", &Behavior::set_state_from, py::arg("other"),
            DOC(navground, core, Behavior, set_state_from))
@@ -1222,6 +1227,7 @@ PYBIND11_MODULE(_navground, m) {
                      "navground.core._navground.Frame.absolute"),
            DOC(navground, core, Behavior, get_target_position))
       .def("get_target_orientation", &Behavior::get_target_orientation,
+           py::arg("frame"),
            DOC(navground, core, Behavior, get_target_orientation))
       .def("get_target_direction", &Behavior::get_target_direction,
            py::arg_v("frame", Frame::absolute,
@@ -1242,7 +1248,7 @@ PYBIND11_MODULE(_navground, m) {
   m.def("behavior_has_geometric_state", [](Behavior *obj) {
     return (dynamic_cast<GeometricState *>(obj->get_environment_state())) !=
            nullptr;
-  });
+  }, py::arg("behavior"));
 
   py::class_<GeometricState, EnvironmentState, std::shared_ptr<GeometricState>>(
       m, "GeometricState", DOC(navground, core, GeometricState))
@@ -1519,6 +1525,7 @@ Initializes a buffer.
                     &HLBehavior::set_barrier_angle,
                     DOC(navground, core, HLBehavior, property_barrier_angle))
       .def("get_collision_distance", &HLBehavior::get_collision_distance,
+           py::arg("assuming_static") = false, py::arg("speed") = std::nullopt,
            DOC(navground, core, HLBehavior, get_collision_distance));
 
   py::class_<ORCABehavior::Line>(m, "ORCALine")

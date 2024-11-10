@@ -13,13 +13,13 @@ using navground::core::HasRegister;
 using navground::core::Properties;
 using navground::core::Property;
 
-#define OVERRIDE_DECODE                      \
-  py::function py_decode() const override {  \
-    return py::get_override(this, "decode"); \
+#define OVERRIDE_DECODE                                                        \
+  py::function py_decode() const override {                                    \
+    return py::get_override(this, "decode");                                   \
   }
-#define OVERRIDE_ENCODE                      \
-  py::function py_encode() const override {  \
-    return py::get_override(this, "encode"); \
+#define OVERRIDE_ENCODE                                                        \
+  py::function py_encode() const override {                                    \
+    return py::get_override(this, "encode");                                   \
   }
 
 template <typename T>
@@ -73,7 +73,8 @@ struct PyHasRegister : public virtual navground::core::HasRegister<T> {
 
   static std::vector<std::string> types() {
     std::vector rs = HasRegister<T>::types();
-    for (const auto &[k, v] : factory) rs.push_back(k);
+    for (const auto &[k, v] : factory)
+      rs.push_back(k);
     return rs;
   }
 
@@ -100,11 +101,12 @@ struct PyHasRegister : public virtual navground::core::HasRegister<T> {
     }
   }
 
-  static void add_property_py(
-      const std::string &type, const std::string &name,
-      const py::object &py_property, const Property::Field &default_value,
-      const std::string &description = "",
-      const std::vector<std::string> &deprecated_names = {}) {
+  static void
+  add_property_py(const std::string &type, const std::string &name,
+                  const py::object &py_property,
+                  const Property::Field &default_value,
+                  const std::string &description = "",
+                  const std::vector<std::string> &deprecated_names = {}) {
     std::string type_name = std::visit(
         [](auto &&arg) {
           using V = std::decay_t<decltype(arg)>;
@@ -154,7 +156,10 @@ void declare_register(py::module &m, const std::string &typestr) {
   std::string pyclass_name = typestr + std::string("Register");
   py::class_<Register, PyRegister, std::shared_ptr<Register>>(
       m, pyclass_name.c_str())
-      .def_static("_add_property", &PyRegister::add_property_py)
+      .def_static("_add_property", &PyRegister::add_property_py,
+                  py::arg("type"), py::arg("name"), py::arg("property"),
+                  py::arg("default_value"), py::arg("description") = "",
+                  py::arg("deprecated_names") = std::vector<std::string>())
       .def_property_readonly_static(
           "types", [](py::object /* self */) { return PyRegister::types(); })
       .def_property_readonly_static(
@@ -176,8 +181,10 @@ Check whether a type name has been registered.
 
 :return:
     True if the type name has been registered.)doc")
-      .def_static("_register_type", &PyRegister::register_type_py)
-      .def_static("_add_properties", &PyRegister::add_properties_py);
+      .def_static("_register_type", &PyRegister::register_type_py,
+                  py::arg("name"), py::arg("cls"))
+      .def_static("_add_properties", &PyRegister::add_properties_py,
+                  py::arg("type"), py::arg("properties"));
 }
 
-#endif  // NAVGROUND_CORE_PY_REGISTER_H
+#endif // NAVGROUND_CORE_PY_REGISTER_H

@@ -224,15 +224,15 @@ struct Target {
    * The target is satisfied if it does not have an angular speed and
    * if the given value is near to the target's orientation.
    *
-   * @param[in]  value  The value
+   * @param[in]  angle  The orientation
    *
    * @return     True if the target is satisfied.
    */
-  bool satisfied(Radians value) const {
+  bool satisfied(Radians angle) const {
     if (angular_speed && *angular_speed > 0) {
       return false;
     }
-    return !orientation || std::abs(normalize_angle(*orientation - value)) <
+    return !orientation || std::abs(normalize_angle(*orientation - angle)) <
                                orientation_tolerance;
   }
 
@@ -242,15 +242,15 @@ struct Target {
    * The target is satisfied if it does not have an linear speed and
    * if the given value is near to the target's position.
    *
-   * @param[in]  value  The value
+   * @param[in]  point  The position
    *
    * @return     True if the target is satisfied.
    */
-  bool satisfied(const Vector2 &value) const {
+  bool satisfied(const Vector2 &point) const {
     if (speed && *speed > 0) {
       return false;
     }
-    return !position || (*position - value).norm() < position_tolerance;
+    return !position || (*position - point).norm() < position_tolerance;
   }
 
   /**

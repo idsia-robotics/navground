@@ -1219,7 +1219,8 @@ Creates a rectangular region
           nullptr, DOC(navground, sim, World, property_discs))
       .def_property("line_obstacles", &World::get_line_obstacles, nullptr,
                     DOC(navground, sim, World, property_line_obstacles))
-      .def("subdivide_bounding_box", &World::subdivide_bounding_box)
+      .def("subdivide_bounding_box", &World::subdivide_bounding_box,
+           py::arg("bounding_box"), py::arg("ignore_lattice") = false)
       .def("get_agents_in_region", &World::get_agents_in_region,
            py::arg("bounding_box"), py::return_value_policy::reference_internal,
            DOC(navground, sim, World, get_agents_in_region))
@@ -1348,7 +1349,7 @@ Creates a rectangular region
                     DOC(navground, sim, Sensor, property_description))
       .def_property("name", &Sensor::get_name, &Sensor::set_name,
                     DOC(navground, sim, Sensor, property_name))
-      .def("prepare_state", &Sensor::prepare_state,
+      .def("prepare_state", &Sensor::prepare_state, py::arg("state"),
            DOC(navground, sim, Sensor, prepare_state));
 
   py::class_<LidarStateEstimation, Sensor, StateEstimation,
@@ -1922,9 +1923,12 @@ Can be set to any object that is convertible to :py:class:`numpy.dtype`.
   py::class_<Probe, PyProbe, std::shared_ptr<Probe>>(m, "Probe",
                                                      DOC(navground, sim, Probe))
       .def(py::init<>(), DOC(navground, sim, Probe, Probe))
-      .def("prepare", &Probe::prepare, DOC(navground, sim, Probe, prepare))
-      .def("update", &Probe::update, DOC(navground, sim, Probe, update))
-      .def("finalize", &Probe::finalize, DOC(navground, sim, Probe, finalize));
+      .def("prepare", &Probe::prepare, py::arg("run"),
+           DOC(navground, sim, Probe, prepare))
+      .def("update", &Probe::update, py::arg("run"),
+           DOC(navground, sim, Probe, update))
+      .def("finalize", &Probe::finalize, py::arg("run"),
+           DOC(navground, sim, Probe, finalize));
 
   py::class_<RecordProbe, Probe, PyRecordProbe, std::shared_ptr<RecordProbe>>(
       m, "RecordProbe", DOC(navground, sim, RecordProbe))
@@ -2584,8 +2588,12 @@ The array is empty if efficacy has not been recorded in the run.
       //                DOC(navground, sim, Experiment, run_config))
       .def_property("runs", &Experiment::get_runs, nullptr,
                     DOC(navground, sim, Experiment, property_runs))
-      .def("get_run", [](const PyExperiment &exp,
-                         unsigned index) { return exp.get_runs().at(index); })
+      .def(
+          "get_run",
+          [](const PyExperiment &exp, unsigned index) {
+            return exp.get_runs().at(index);
+          },
+          py::arg("index"))
       .def_property(
           "scenario", [](const PyExperiment *exp) { return exp->scenario; },
           &PyExperiment::set_scenario,
@@ -2716,10 +2724,13 @@ Register a probe to record a group of data to during all runs.
       // &Scenario::get_initializers, nullptr)
       .def("add_init", &Scenario::add_init, py::arg("initializer"),
            DOC(navground, sim, Scenario, add_init))
-      .def("set_yaml", [](Scenario &scenario, const std::string &value) {
-        YAML::Node node = YAML::Load(value);
-        YAML::update_scenario(scenario, node);
-      });
+      .def(
+          "set_yaml",
+          [](Scenario &scenario, const std::string &value) {
+            YAML::Node node = YAML::Load(value);
+            YAML::update_scenario(scenario, node);
+          },
+          py::arg("value"));
 
   py::class_<SimpleScenario, Scenario, std::shared_ptr<SimpleScenario>> simple(
       m, "SimpleScenario", DOC(navground, sim, SimpleScenario));

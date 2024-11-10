@@ -24,7 +24,7 @@ navground::core
    kinematics/index
    target
    behaviors/index
-   state
+   state/index
    collision_computation
    social_margin
    behavior_modulations/index

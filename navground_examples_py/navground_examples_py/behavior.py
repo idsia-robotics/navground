@@ -1,6 +1,7 @@
 import argparse  # noqa: D100
 import sys
 
+import numpy
 from navground import core
 
 
@@ -19,9 +20,12 @@ def main(behavior_name: str = 'HL') -> None:
     behavior.radius = 0.1
     dt = 0.1
     behavior.horizon = 5.0
-    behavior.position = (0.0, 0.05)
+    behavior.position = numpy.array((0, 0.05))
     behavior.target = core.Target(position=(10.0, 0.0))
-    behavior.environment_state.static_obstacles = [core.Disc(position=(1.5, 0.0), radius=0.5)]
+    if isinstance(behavior.environment_state, core.GeometricState):
+        behavior.environment_state.static_obstacles = [
+            core.Disc(position=(1.5, 0.0), radius=0.5)
+        ]
     for _ in range(30):
         cmd = behavior.compute_cmd(dt)
         behavior.actuate(cmd, dt)

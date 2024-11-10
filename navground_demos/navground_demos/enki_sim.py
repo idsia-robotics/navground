@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 
 import pyenki
 from navground import sim
@@ -12,7 +13,7 @@ class ThymioWithAgent(pyenki.Thymio2):
     def __init__(self, agent: sim.Agent):
         super().__init__(use_aseba_units=False)
         self.agent = agent
-        agent.enki_object = self
+        agent.enki_object = self  # type: ignore
 
     def controlStep(self, dt: float) -> None:
         self.motor_left_target, self.motor_right_target = world2enki(
@@ -50,7 +51,7 @@ class EnkiExperiment:
     def update(self, dt: float) -> bool:
         for agent in self.world.agents:
             if agent.type == "thymio":
-                thymio = agent.enki_object
+                thymio = agent.enki_object  # type: ignore
                 agent.position = enki2world(thymio.position)
                 agent.orientation = thymio.angle
                 agent.velocity = enki2world(thymio.velocity)
@@ -67,7 +68,7 @@ class EnkiExperiment:
         self.prepare_run(seed)
         self.experiment.start_run(self.exp_run)
         if self.factor > 0:
-            self.enki_world.run_in_viewer(cam_position=(100, 100),
+            self.enki_world.run_in_viewer(cam_position=(100, 100),  # type: ignore
                                           cam_altitude=300.0,
                                           cam_yaw=0.0,
                                           cam_pitch=-1,
@@ -76,7 +77,7 @@ class EnkiExperiment:
                                           realtime_factor=self.factor,
                                           callback=self.update)
         else:
-            self.enki_world.run(self.experiment.steps,
+            self.enki_world.run(self.experiment.steps,  # type: ignore
                                 self.experiment.time_step, self.update)
         self.experiment.stop_run(self.exp_run)
         print(self.exp_run.poses.shape)
@@ -115,6 +116,9 @@ def main() -> None:
             yaml = f.read()
     else:
         yaml = arg.YAML
-    experiment = EnkiExperiment(experiment=sim.load_experiment(yaml),
-                                factor=arg.factor)
+    nexp = sim.load_experiment(yaml)
+    if not nexp:
+        print("Could not load experiment", file=sys.stderr)
+        exit(1)
+    experiment = EnkiExperiment(experiment=nexp, factor=arg.factor)
     experiment.run()

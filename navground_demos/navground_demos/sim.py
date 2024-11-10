@@ -1,9 +1,9 @@
 import argparse
 import time
-from typing import Optional
+from typing import List, Optional
+import pathlib as pl
 
-from navground import core
-from navground import sim
+from navground import core, sim
 
 
 class ThymioDemo(sim.Scenario, name="PyThymioDemo"):  # type: ignore[call-arg]
@@ -13,11 +13,12 @@ class ThymioDemo(sim.Scenario, name="PyThymioDemo"):  # type: ignore[call-arg]
         self._behavior_type = behavior_type
 
     def init_world(self, world: sim.World, seed: Optional[int] = None) -> None:
-        targets = [(1.0, 0.0), (-1.0, 0.0)]
+        targets: List[core.Vector2Like] = [(1, 0), (-1, 0)]
         for i in range(2):
             task = sim.tasks.WaypointsTask(targets, True, 0.2)
             se = sim.state_estimations.BoundedStateEstimation(1.0)
-            kinematics = core.kinematics.TwoWheelsDifferentialDriveKinematics(0.166, 0.094)
+            kinematics = core.kinematics.TwoWheelsDifferentialDriveKinematics(
+                0.166, 0.094)
             behavior = core.Behavior.make_type(self.behavior_type)
             agent = sim.Agent(0.08, behavior, kinematics, task, se, 0.02)
             agent.behavior.optimal_speed = 0.12
@@ -45,9 +46,9 @@ def main() -> None:
     arg = parser.parse_args()
     demo = sim.Experiment(0.02, 50 * 60)
     demo.scenario = ThymioDemo(arg.behavior)
-    demo.save_directory = "."
+    demo.save_directory = pl.Path(".")
     demo.record_config.pose = True
-    demo.name = "PyThymioDemo";
+    demo.name = "PyThymioDemo"
     print("Start simulating 1 minute at 50 ticks per second")
     begin = time.time()
     demo.run()

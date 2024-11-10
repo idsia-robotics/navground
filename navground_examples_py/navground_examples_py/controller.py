@@ -1,6 +1,7 @@
 import argparse
 import sys
 
+import numpy
 from navground import core
 
 
@@ -23,11 +24,12 @@ def main(behavior_name: str = "HL") -> None:
         print(f'No behavior with name {behavior_name}')
         sys.exit(1)
     print(f'Use behavior {behavior_name}')
-    behavior.kinematics = core.kinematics.TwoWheelsDifferentialDriveKinematics(1.0, 0.1)
+    behavior.kinematics = core.kinematics.TwoWheelsDifferentialDriveKinematics(
+        1.0, 0.1)
     behavior.radius = 0.1
     dt = 0.1
     behavior.horizon = 1.0
-    behavior.position = (0.0, 0.00)
+    behavior.position = numpy.zeros(2)
     controller = core.Controller(behavior)
     controller.speed_tolerance = 0.05
     controller.set_cmd_cb(lambda cmd: behavior.actuate(cmd, dt))

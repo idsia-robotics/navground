@@ -1,8 +1,9 @@
 import argparse
 import time
+import sys
 
-from navground import core
 import numpy as np
+from navground import core
 
 
 def go_to(controller: core.Controller, target: np.ndarray) -> None:
@@ -11,6 +12,7 @@ def go_to(controller: core.Controller, target: np.ndarray) -> None:
     def done_cb(state):
         if state == core.Action.State.success:
             go_to(controller, -target)
+
     action.done_cb = done_cb
 
 
@@ -22,18 +24,21 @@ def run(behavior_name: str = "HL") -> None:
     obstacles = [core.Disc((0.0, 0.0), 0.1)]
     for p in ((0.5, 0.0), (-0.5, 0.5)):
         behavior = core.Behavior.make_type(behavior_name)
-        behavior.kinematics = core.kinematics.TwoWheelsDifferentialDriveKinematics(0.166, 0.094)
+        if not behavior:
+            print(f"Could not create behavior of type {behavior_name}",
+                  file=sys.stderr)
+            exit(1)
+        behavior.kinematics = core.kinematics.TwoWheelsDifferentialDriveKinematics(
+            0.166, 0.094)
         behavior.radius = 0.08
         behavior.horizon = 1.0
         behavior.safety_margin = 0.02
         behavior.optimal_speed = 0.12
-        try:
+        if isinstance(behavior.environment_state, core.GeometricState):
             behavior.environment_state.static_obstacles = obstacles
-        except AttributeError:
-            pass
         controller = core.Controller(behavior)
         controller.speed_tolerance = 0.01
-        behavior.position = p
+        behavior.position = np.asarray(p)
         controllers.append(controller)
         agents.append(behavior)
         go_to(controller, target)
@@ -42,13 +47,11 @@ def run(behavior_name: str = "HL") -> None:
     for _ in range(50 * 60):
         for controller in controllers:
             this = controller.behavior
-            try:
-                controller.behavior.environment_state.neighbors = [
-                    core.Neighbor(
-                            agent.position, agent.radius, agent.velocity, 0)
-                    for agent in agents if agent != this]
-            except AttributeError:
-                pass
+            if isinstance(this.environment_state, core.GeometricState):
+                this.environment_state.neighbors = [
+                    core.Neighbor(agent.position, agent.radius, agent.velocity,
+                                  0) for agent in agents if agent != this
+                ]
         for controller in controllers:
             cmd = controller.update(dt)
             controller.behavior.actuate(cmd, dt)
@@ -62,4 +65,4 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument('--behavior', help='', type=str, default="HL")
     arg = parser.parse_args()
-    run(arg.behavior)  
+    run(arg.behavior)

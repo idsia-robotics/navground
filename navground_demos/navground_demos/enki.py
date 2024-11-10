@@ -2,18 +2,19 @@ import argparse
 import itertools
 import sys
 import time
-from typing import Iterable, Iterator, List, Set, Tuple
+from typing import Iterator, List, Set, Tuple
 
-from navground import core
+import numpy
 import pyenki
+from navground import core
 
 
-def enki2world(cs: Iterable[float]) -> List[float]:
-    return [0.01 * c for c in cs]
+def enki2world(cs: Tuple[float, float]) -> core.Vector2:
+    return numpy.array([0.01 * c for c in cs])
 
 
-def world2enki(cs: Iterable[float]) -> List[float]:
-    return [100 * c for c in cs]
+def world2enki(cs: core.Vector2Like) -> Tuple[float, float]:
+    return (100 * cs[0], 100 * cs[1])
 
 
 class Thymio(pyenki.Thymio2):
@@ -25,10 +26,11 @@ class Thymio(pyenki.Thymio2):
                  behavior_name: str = "HL",
                  obstacles: List[pyenki.CircularObject] = []):
         super().__init__(use_aseba_units=False)
-        self.behavior = core.Behavior.make_type(behavior_name)
-        if not self.behavior:
-            print(f"No behavior with name {behavior_name}")
+        behavior = core.Behavior.make_type(behavior_name)
+        if not behavior:
+            print(f"No behavior with name {behavior_name}", file=sys.stderr)
             sys.exit(1)
+        self.behavior = behavior
         self.behavior.kinematics = core.kinematics.TwoWheelsDifferentialDriveKinematics(
             0.01 * self.max_wheel_speed, 0.01 * self.wheel_axis)
         self.behavior.radius = 0.08
@@ -37,28 +39,24 @@ class Thymio(pyenki.Thymio2):
         self.behavior.horizon = 1.0
         self.controller = core.Controller(self.behavior)
         self.controller.speed_tolerance = 0.01
-        try:
+        if isinstance(self.behavior.environment_state, core.GeometricState):
             self.behavior.environment_state.static_obstacles = [
                 core.Disc(position=enki2world(obstacle.position),
-                                   radius=0.01 * obstacle.radius)
+                          radius=0.01 * obstacle.radius)
                 for obstacle in obstacles
             ]
-        except AttributeError:
-            pass
 
     def controlStep(self, dt: float) -> None:
         self.behavior.orientation = self.angle
         self.behavior.position = enki2world(self.position)
         self.behavior.velocity = enki2world(self.velocity)
-        try:
+        if isinstance(self.behavior.environment_state, core.GeometricState):
             self.behavior.environment_state.neighbors = [
                 core.Neighbor(position=enki2world(thymio.position),
-                                       radius=0.08,
-                                       velocity=enki2world(thymio.velocity),
-                                       id=0) for thymio in self.thymios
+                              radius=0.08,
+                              velocity=enki2world(thymio.velocity),
+                              id=0) for thymio in self.thymios
             ]
-        except AttributeError:
-            pass
         _ = self.controller.update(dt)
         self.motor_left_target, self.motor_right_target = world2enki(
             self.behavior.actuated_wheel_speeds)
@@ -98,7 +96,7 @@ def main() -> None:
     for thymio in thymios:
         thymio.thymios = thymios - {thymio}
     if arg.factor > 0:
-        world.run_in_viewer(cam_position=(100, 100),
+        world.run_in_viewer(cam_position=(100, 100),  # type: ignore
                             cam_altitude=300.0,
                             cam_yaw=0.0,
                             cam_pitch=-1,

@@ -6,15 +6,16 @@ SVG and HTML rendering
 
 .. py:currentmodule:: navground.sim.ui
 
-.. autoclass:: Decorate
+.. py:type:: Decorate
+   :canonical: typing.Callable[[navground.sim.Entity], dict[str, str]]
 
    A function that returns a dictionary of SVG style attributes for an entity, like
    ``{"fill": "red"}``.
 
-.. py:class:: Rect
-   :module: navground.sim.ui
+.. py:type:: Rect
+   :canonical: tuple[numpy.ndarray, numpy.ndarray] | numpy.ndarray
 
-   A typealias to ``tuple[numpy.ndarray, numpy.ndarray] | numpy.ndarray``: a rectangle defined by two points, at the bottom-left and top-right vertices.
+   A rectangle defined by two points, at the bottom-left and top-right vertices.
 
 .. autofunction:: svg_color
 

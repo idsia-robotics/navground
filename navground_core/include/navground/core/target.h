@@ -22,17 +22,22 @@ struct Path {
 
   using Point = std::tuple<Vector2, float, float>;
   /**
-   * A function that finds the nearest point on the curve in a given interval.
-   *
-   * (point, interval_start, interval_end) -> curve coordinate
+   * @brief     The projection of a curve parametrized by length.
+   * 
+   * The function finds the coordinate in ``[begin, end]`` where 
+   * ``curve(coordinate)`` is nearest to the given point point:
+   * 
+   *   (point, begin, end) -> coordinate
    */
   using Projection =
       std::function<ng_float_t(const Vector2 &, ng_float_t, ng_float_t)>;
   /**
-   * A function that return the point, orientation of the tangential vector,
-   * and curvature at a given coordinate.
+   * @brief      The parametrization of a (G2) curve by length.
+   * 
+   * The function returns position, tangential orientation and curvature 
+   * at a coordinate:
    *
-   * (coordinate) -> (point, orientation, curvature)
+   *   (coordinate) -> (point, orientation, curvature)
    */
   using Curve = std::function<Point(ng_float_t)>;
 

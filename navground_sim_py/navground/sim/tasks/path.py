@@ -53,7 +53,7 @@ class PathTask(sim.Task, name="Path"):  # type: ignore[call-arg]
 
        *Registered properties*:
 
-       - :py:attr:`points` (list[:py:class:`navground.core.Vector2`])
+       - :py:attr:`points` (list[:py:type:`navground.core.Vector2`])
        - :py:attr:`tolerance` (float)
     """
 

@@ -185,7 +185,7 @@ Our solution (which follow the same logic as this document) is to
 - add, when it makes sense, an second accessor to *mutable* attributes, suffixed by ``_ref`` or by ``_copy``, depending on the case.
 
 For examples, the primary property :py:meth:`navground.core.Behavior.target` returns the target by copy, while the secondary
-:py:meth:`navground.sim.Behavior.target_ref` returns it by reference. Using them, setting the orientation of a behavior's target can be done by assigning a new target
+:py:meth:`navground.core.Behavior.target_ref` returns it by reference. Using them, setting the orientation of a behavior's target can be done by assigning a new target
 
 .. code-block:: python
 
@@ -212,7 +212,7 @@ or just a new orientation
 
 .. warning::
 
-   Because of the way Pybind11 binds Eigen objects, it is not possible to modify any :py:class:`navground.core.Vector2` in place, like
+   Because of the way Pybind11 binds Eigen objects, it is not possible to modify any :py:type:`navground.core.Vector2` in place, like
 
    .. code-block:: python
 

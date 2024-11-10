@@ -15,10 +15,10 @@ Python sub-classes of ``T`` by adding ``name=<name>`` to the class, where the ``
 will register type ``SubClassOfT`` under the name ``"SubClassOfT"``.
 
 
-.. py:class:: T
-   :module: navground.core
+.. py:currentmodule:: navground.core
 
-   A type alias to ``TypeVar('T', bound=Any)``
+.. py:type:: T
+   :canonical: typing.TypeVar('T', bound=Any)
 
 .. autodecorator:: navground.core.register
 

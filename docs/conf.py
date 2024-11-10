@@ -106,7 +106,7 @@ autodoc_type_aliases = {
     'core.Vector2': 'core.Vector2',
     'navground.core.Vector2': 'navground.core.Vector2',
     'T': 'T',
-    'Rect': 'Rect'
+    'Rect': 'Rect',
 }
 
 _replace = {
@@ -114,8 +114,11 @@ _replace = {
     "_navground_sim.": "",
     "numpy.ndarray[numpy.float32[2, 1]]": "Vector2",
     "numpy.ndarray[numpy.float64[2, 1]]": "Vector2",
+    "bool | int | float | str | Vector2 | list[bool] | list[int] | list[float] | list[str] | list[Vector2]": "PropertyField",
     "Union[bool, int, float, str, Vector2, List[bool], List[int], List[float], List[str], List[Vector2]]": "PropertyField",
     "Callable[[List[float]], None]": "TaskCallback",
+    "Callable[[Vector2, float, float], float]": "Projection",
+    "Callable[[float], tuple[Vector2, float, float]]": "Curve",
     "~numpy.ndarray[tuple[~typing.Literal[2]], ~numpy.dtype[~numpy.float64]]": "Vector2",
     "numpy.ndarray[tuple[typing.Literal[2]], numpy.dtype[numpy.float64]]": "Vector2",
 }
@@ -237,8 +240,19 @@ from docutils.nodes import Text, reference
 from sphinx.ext.intersphinx import missing_reference
 from sphinx.addnodes import pending_xref
 
+
+_types = ['navground.core.Vector2', 'core.Vector2', 'Vector2', 'Vector2Like', 'PropertyField',
+          'T', 'Curve',
+          'Projection', 'TaskCallback', 'Decorate', 'Rect']
+_attrs = ['numpy.float64', 'numpy.float32']
 def resolve_internal_aliases(app, doctree):
     pending_xrefs = doctree.traverse(condition=pending_xref)
+    for node in pending_xrefs:
+        if node['refdomain'] == "py":
+            if node['reftarget'] in _types:
+                node["reftype"] = "type"
+            elif node['reftarget'] in _attrs:
+                node["reftype"] = "attr"
     for node in pending_xrefs:
         alias = node.get('reftarget', None)
         d = node.get('refdomain', '')

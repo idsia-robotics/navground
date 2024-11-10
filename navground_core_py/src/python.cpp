@@ -286,7 +286,7 @@ public:
     PYBIND11_OVERRIDE_PURE(bool, Kinematics, is_wheeled);
   }
   unsigned dof() const override {
-    PYBIND11_OVERRIDE_PURE(bool, Kinematics, dof);
+    PYBIND11_OVERRIDE_PURE(unsigned, Kinematics, dof);
   }
 
   ng_float_t get_max_angular_speed() const override {
@@ -504,7 +504,9 @@ PYBIND11_MODULE(_navground, m) {
       .def("__repr__", &to_string<Target>);
 
   py::class_<EnvironmentState, std::shared_ptr<EnvironmentState>>(
-      m, "EnvironmentState", DOC(navground, core, EnvironmentState));
+      m, "EnvironmentState", DOC(navground, core, EnvironmentState))
+      .def(py::init<>(),
+           DOC(navground, core, EnvironmentState, EnvironmentState));
 
   py::class_<Disc>(m, "Disc", DOC(navground, core, Disc))
       .def(py::init<Vector2, ng_float_t>(), py::arg("position"),
@@ -612,8 +614,7 @@ PYBIND11_MODULE(_navground, m) {
   wk.def_property("axis", &WheeledKinematics::get_axis,
                   &WheeledKinematics::set_axis,
                   DOC(navground, core, WheeledKinematics, property_axis))
-      .def("twist", &WheeledKinematics::twist,
-           py::arg("value"),
+      .def("twist", &WheeledKinematics::twist, py::arg("value"),
            DOC(navground, core, WheeledKinematics, twist))
       .def("wheel_speeds", &WheeledKinematics::wheel_speeds, py::arg("value"),
            DOC(navground, core, WheeledKinematics, wheel_speeds))
@@ -1245,10 +1246,13 @@ PYBIND11_MODULE(_navground, m) {
       .def("get_target_angular_speed", &Behavior::get_target_angular_speed,
            DOC(navground, core, Behavior, get_target_angular_speed));
 
-  m.def("behavior_has_geometric_state", [](Behavior *obj) {
-    return (dynamic_cast<GeometricState *>(obj->get_environment_state())) !=
-           nullptr;
-  }, py::arg("behavior"));
+  m.def(
+      "behavior_has_geometric_state",
+      [](Behavior *obj) {
+        return (dynamic_cast<GeometricState *>(obj->get_environment_state())) !=
+               nullptr;
+      },
+      py::arg("behavior"));
 
   py::class_<GeometricState, EnvironmentState, std::shared_ptr<GeometricState>>(
       m, "GeometricState", DOC(navground, core, GeometricState))

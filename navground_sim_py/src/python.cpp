@@ -342,12 +342,9 @@ struct PyGroup : public virtual Scenario::Group {
   /* Inherit the constructors */
   PyGroup() {};
 
-  void add_to_world(World *world) override {
-    PYBIND11_OVERRIDE_PURE(void, Scenario::Group, add_to_world, world);
-  }
-
-  void reset(std::optional<unsigned> index = std::nullopt) override {
-    PYBIND11_OVERRIDE_PURE(void, Scenario::Group, reset, index);
+  void add_to_world(World *world,
+                    std::optional<unsigned> seed = std::nullopt) override {
+    PYBIND11_OVERRIDE_PURE(void, Scenario::Group, add_to_world, world, seed);
   }
 };
 
@@ -1150,17 +1147,22 @@ Creates a rectangular region
            py::arg("state_estimation") = nullptr,
            py::arg("control_period") = 0, py::arg("id") = 0)
 #endif
-      .def_property("task", &PyAgent::get_task, &PyAgent::set_task)
+      .def_property("task", &PyAgent::get_task, &PyAgent::set_task,
+                    DOC(navground, sim, Agent, property, task))
       .def_property("state_estimation", &PyAgent::get_state_estimation,
-                    &PyAgent::set_state_estimation)
-      .def_property("behavior", &PyAgent::get_behavior, &PyAgent::set_behavior)
+                    &PyAgent::set_state_estimation,
+                    DOC(navground, sim, Agent, property, state_estimation))
+      .def_property("behavior", &PyAgent::get_behavior, &PyAgent::set_behavior,
+                    DOC(navground, sim, Agent, property, behavior))
       .def_property("kinematics", &PyAgent::get_kinematics,
-                    &PyAgent::set_kinematics)
+                    &PyAgent::set_kinematics,
+                    DOC(navground, sim, Agent, property, kinematics))
       .def_property("controller", &PyAgent::get_controller, nullptr,
-                    py::return_value_policy::reference);
+                    py::return_value_policy::reference,
+                    DOC(navground, sim, Agent, property, controller));
 
   py::class_<World, std::shared_ptr<World>>(m, "NativeWorld",
-                                            DOC(navground, sim, World, 2))
+                                            DOC(navgrou, nd, sim, World, 2))
       .def(py::init<>(), DOC(navground, sim, World, World))
       .def("add_callback", &World::add_callback, py::arg("callback"),
            py::keep_alive<1, 2>(), DOC(navground, sim, World, add_callback))
@@ -1295,7 +1297,12 @@ Creates a rectangular region
       .def_property("seed", &PyWorld::get_seed, &PyWorld::set_seed,
                     DOC(navground, sim, World, property_seed))
       .def_property("random_generator", &PyWorld::get_random_generator,
-                    &PyWorld::set_random_generator, "TODO")
+                    &PyWorld::set_random_generator, R"doc(
+The random generator.
+
+:rtype: :py:class:`numpy.random.Generator`
+
+)doc")
       .def("copy_random_generator", &PyWorld::copy_random_generator,
            py::arg("world"), DOC(navground, sim, World, copy_random_generator));
 
@@ -2686,13 +2693,21 @@ Register a probe to record a group of data to during all runs.
       .def_property("begin_time", &Experiment::get_begin_time, nullptr,
                     DOC(navground, sim, Experiment, property_begin_time));
 
-  py::class_<Scenario::Group, PyGroup>(scenario, "Group",
-                                       DOC(navground, sim, Scenario_Group))
-      .def(py::init<>(), "");
+  py::class_<Scenario::Group, PyGroup, std::shared_ptr<Scenario::Group>>(
+      scenario, "Group", DOC(navground, sim, Scenario_Group))
+      .def(py::init<>(), "")
+      .def(
+          "add_to_world",
+          [](PyGroup &g, World *world,
+             std::optional<unsigned> seed = std::nullopt) {
+            g.add_to_world(world, seed);
+          },
+          py::arg("world"), py::arg("seed") = std::nullopt,
+          DOC(navground, sim, Scenario_Group, add_to_world));
 
   scenario.def(py::init<>())
       .def("init_world", &Scenario::init_world, py::arg("world"),
-           py::arg("seed") = py::none(),
+           py::arg("seed") = std::nullopt,
            DOC(navground, sim, Scenario, init_world))
 // .def("sample", &Scenario::sample)
 // .def("reset", &Scenario::reset)
@@ -2719,8 +2734,10 @@ Register a probe to record a group of data to during all runs.
                      DOC(navground, sim, Scenario, obstacles))
       .def_readwrite("walls", &Scenario::walls,
                      DOC(navground, sim, Scenario, walls))
-      // .def_readwrite("groups", &Scenario::groups,
-      // py::return_value_policy::reference) .def_property("initializers",
+      .def_readwrite("groups", &Scenario::groups,
+                     DOC(navground, sim, Scenario, groups))
+      // py::return_value_policy::reference)
+      // .def_property("initializers",
       // &Scenario::get_initializers, nullptr)
       .def("add_init", &Scenario::add_init, py::arg("initializer"),
            DOC(navground, sim, Scenario, add_init))

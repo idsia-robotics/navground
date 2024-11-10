@@ -12,9 +12,9 @@
 #include "navground/core/property.h"
 #include "navground/core/register.h"
 #include "navground/core/yaml/yaml.h"
+#include "navground/sim/export.h"
 #include "navground/sim/sampling/sampler.h"
 #include "navground/sim/world.h"
-#include "navground/sim/export.h"
 
 using navground::core::Disc;
 using navground::core::HasProperties;
@@ -34,22 +34,21 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
    */
   struct Group {
     /**
-     * @brief      Generate and add the agents to the world.
+     * @brief      Generate and add agents to the world.
      *
      * @param      world  The world
+     * @param      seed  An optional random seed
      */
-    virtual void add_to_world(World* world) = 0;
-    /**
-     * @brief      Resets the agent generator.
-     */
-    virtual void reset(std::optional<unsigned> index = std::nullopt) = 0;
+    virtual void add_to_world(World *world,
+                              std::optional<unsigned> seed = std::nullopt) = 0;
     virtual ~Group() = default;
   };
 
   /**
-   * A world initializer
+   * A world initializer: a function that takes as input world and optional seed
+   * and perform some initialization on the world.
    */
-  using Init = std::function<void(World*)>;
+  using Init = std::function<void(World *, std::optional<unsigned>)>;
   /**
    * A collection of world initializers
    */
@@ -60,11 +59,8 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
    *
    * @param[in]  inits  The collection of world initializers to use.
    */
-  explicit Scenario(const Inits& inits = {})
-      : groups(),
-        obstacles(),
-        walls(),
-        property_samplers(),
+  explicit Scenario(const Inits &inits = {})
+      : groups(), obstacles(), walls(), property_samplers(),
         initializers(inits) {}
 
   // !!!! This may break the auto-registration!
@@ -76,14 +72,14 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
    * @param      world The world
    * @param      seed  The random seed
    */
-  virtual void init_world(World* world, std::optional<int> seed = std::nullopt);
+  virtual void init_world(World *world, std::optional<int> seed = std::nullopt);
 
   /**
    * @brief      Adds a world initializer.
    *
    * @param[in]  initializer  The initializer
    */
-  void add_init(const std::function<void(World*)>& initializer) {
+  void add_init(const Init &initializer) {
     initializers.push_back(initializer);
   }
 
@@ -92,7 +88,16 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
    *
    * @return     The initializers.
    */
-  const Inits& get_initializers() const { return initializers; }
+  const Inits &get_initializers() const { return initializers; }
+
+  /**
+   * @brief      Adds a group.
+   *
+   * @param[in]  group  The group
+   */
+  void add_group(const std::shared_ptr<Group> &group) {
+    groups.push_back(group);
+  }
 
   /**
    * Groups
@@ -114,15 +119,16 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
   std::map<std::string, std::shared_ptr<PropertySampler>> property_samplers;
 
   void reset(std::optional<unsigned> index = std::nullopt) {
-    for (auto& [k, v] : property_samplers) {
-      if (v) v->reset(index);
+    for (auto &[k, v] : property_samplers) {
+      if (v)
+        v->reset(index);
     }
   }
 
- private:
+private:
   Inits initializers;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
-#endif  // NAVGROUND_SIM_SCENARIO_H
+#endif // NAVGROUND_SIM_SCENARIO_H

@@ -52,7 +52,8 @@ struct AgentSampler : public Sampler<typename W::A::C>,
   /**
    * @private
    */
-  void add_to_world(World* world) override {
+  void add_to_world(World* world, std::optional<unsigned> index = std::nullopt) override {
+    reset(index);
     RandomGenerator & rg = world->get_random_generator();
     unsigned num = number->sample(rg);
     if (W* w = dynamic_cast<W*>(world)) {

@@ -77,7 +77,7 @@ This is the case for instance, when you want to record the same number of items 
       
          .. code-block:: Python
             
-            def get_shape(self, world: sim.World) -> Tuple[int, ...]:
+            def get_shape(self, world: sim.World) -> list[int]:
                 return ...
 
 #. Overwrite the method that fill the dataset
@@ -185,7 +185,7 @@ In this case, you can use ``GroupRecordProbe`` to setup and manage a dictionary 
       
          .. code-block:: Python
             
-            def get_shapes(self, world: sim.World, use_uid: bool) -> Dict[str, Tuple[int, ...]]:
+            def get_shapes(self, world: sim.World, use_uid: bool) -> dict[str, list[int]]:
                 # return ...
 
 #. Overwrite the method that fill the datasets

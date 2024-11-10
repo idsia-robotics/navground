@@ -894,15 +894,20 @@ Dataset::Data data_of_type(py::dtype dtype, void *ptr, const size_t size) {
   } else if (dtype.is(py::dtype::of<double>())) {
     auto begin = reinterpret_cast<double *>(ptr);
     return std::vector<double>(begin, begin + size);
-  } else {
-    std::cerr << "Unknown type" << std::endl;
-    return std::vector<int8_t>();
   }
+  throw(py::type_error("Unsupported dtype " +
+                       py::cast<std::string>(py::str(dtype))));
+  // std::cerr << "Unknown type" << std::endl;
+  // return std::vector<int8_t>();
 }
 
 void set_dataset_data_py(Dataset &dataset, const py::array &value, bool append,
                          std::optional<py::dtype> dtype) {
-  const auto sshape = value.request().shape;
+  auto sshape = value.request().shape;
+  // So it supports scalars too
+  if (sshape.size() == 0) {
+    sshape.push_back(1);
+  }
   const Dataset::Shape shape(sshape.begin(), sshape.end());
   const Dataset::Shape item_shape(sshape.begin() + 1, sshape.end());
   void *ptr = value.request().ptr;
@@ -918,6 +923,12 @@ void set_dataset_data_py(Dataset &dataset, const py::array &value, bool append,
     dataset.set_data(data);
     dataset.set_item_shape(item_shape);
   }
+}
+
+void dataset_push_py(Dataset &dataset, const py::object &value) {
+  const auto arr = py::array::ensure(value);
+  const auto data = data_of_type(arr.dtype(), arr.request().ptr, 1);
+  dataset.append(data);
 }
 
 py::dtype get_dataset_type_py(const Dataset &dataset) {
@@ -1739,36 +1750,55 @@ Creates a rectangular region
 
   py::class_<Dataset, std::shared_ptr<Dataset>>(
       m, "Dataset", py::buffer_protocol(), DOC(navground, sim, Dataset))
-      .def(py::init([](py::array b) {
+      .def(py::init([](const py::object &data, const py::object &dtype,
+                       const std::vector<size_t> &item_shape) {
              Dataset ds;
-             set_dataset_data_py(ds, b);
+             if (!data.is_none()) {
+               auto arr = py::array::ensure(data);
+               set_dataset_data_py(ds, arr);
+             } else {
+               ds.set_item_shape(item_shape);
+               if (!dtype.is_none()) {
+                 set_dataset_type_py(ds, dtype);
+               }
+             }
              return ds;
            }),
-           py::arg("data"), R"doc(
-Instantiate a dataset.
+           py::arg("data") = py::none(), py::arg("dtype") = py::none(),
+           py::arg("item_shape") = std::vector<size_t>(),
+           R"doc(
+Instantiate a dataset with an object convertible to a numpy array 
+of one of the types of :cpp:type:`navground::sim::Dataset::Scalar`.
 
-:param data: Copies shape, data and dtype from this numpy array
-:type data: :py:class:`numpy.ndarray`
+:param data: Copies shape, data and dtype from this numpy array (if specified)
+:type data: :py:data:`numpy.typing.ArrayLike` | None
+:param dtype: The type of data to store (if specified and if ``data`` is None)
+:type dtype: :py:data:`numpy.typing.DTypeLike` | None.
+:param item_shape: Set the shape of all axis except the first (only if ``data`` is None ).
+                   Set to an empty list to instantiate a flat dataset.
+:type item_shape:  list[int]
 
 )doc")
+#if 0
       .def(
           py::init([](py::object dtype, const std::vector<size_t> &item_shape) {
             Dataset ds(item_shape);
             set_dataset_type_py(ds, dtype);
             return ds;
           }),
-          py::arg("dtype"), py::arg("item_shape") = std::vector<size_t>(),
+          ,
           R"doc(
-Instantiate a dataset.
+Instantiate a dataset with a type and the shape of an item.
 
 :param dtype: The type of data to store
-:type dtype: Any object that is convertible to a :py:class:`numpy.dtype`.
+:type dtype: Any object that is convertible to a :py:data:`numpy.typing.DTypeLike`.
 
 :param item_shape: The shape of all axis except the first.
                    Leave empty to instantiate a flat dataset.
 :type item_shape:  List[int]
 
 )doc")
+#endif
       .def("__repr__",
            [](const Dataset &ds) -> py::str {
              py::str r("<Dataset: shape ");
@@ -1780,26 +1810,65 @@ Instantiate a dataset.
       .def_buffer([](const Dataset &ds) { return as_array(ds).request(); })
       .def(
           "append",
-          [](Dataset &ds, py::array b, bool reset) {
-            set_dataset_data_py(ds, b, !reset);
+          [](Dataset &ds, const py::object b, bool reset) {
+            py::array arr = py::array::ensure(b);
+            set_dataset_data_py(ds, arr, !reset);
           },
           py::arg("values"), py::arg("reset") = false, R"doc(
-Append items from a numpy array.
+Append items from (objects convertible to) numpy arrays of 
+one of the types of :cpp:type:`navground::sim::Dataset::Scalar`.
 
 :param values: Append data and dtype from this numpy array
-:type values: :py:class:`numpy.ndarray`
+:type values: :py:data:`numpy.typing.ArrayLike`
 :param reset: Whether to replace the data instead of appending. 
 :type reset: bool
 
 )doc")
+#if 0
       .def(
           "append",
           [](Dataset &ds, const Dataset::Data &values) { ds.append(values); },
-          py::arg("values"), DOC(navground, sim, Dataset, append))
+          py::arg("values"),
+          // DOC(navground, sim, Dataset, append)
+          R"doc(
+Add items.
+
+The items will be implicitly converted to the current data type, see :py:meth:`dtype`.
+
+:param values: The values to add
+:type values: list[int] | list[float]
+)doc")
+#endif
+#if 0
       .def(
           "push",
           [](Dataset &ds, const Dataset::Scalar &value) { ds.push(value); },
-          py::arg("value"), DOC(navground, sim, Dataset, push))
+          py::arg("value"),
+          // DOC(navground, sim, Dataset, push)
+          R"doc(
+Add an item.
+
+The item will be implicitly converted to the current data type, see :py:meth:`dtype`.
+
+:param value: The values to add
+:type value: int | float
+)doc")
+#endif
+      .def(
+          "push",
+          [](Dataset &ds, const py::object &value) {
+            dataset_push_py(ds, value);
+          },
+          py::arg("value"),
+          // DOC(navground, sim, Dataset, push)
+          R"doc(
+Add an item of one of the types of :cpp:type:`navground::sim::Dataset::Scalar`.
+
+The item will be converted to the current data type, see :py:meth:`dtype`.
+
+:param value: The value to add
+:type value: :py:class:`numbers.Real`
+)doc")
       .def("reset", &Dataset::reset, DOC(navground, sim, Dataset, reset))
       .def_property("size", &Dataset::size, nullptr,
                     DOC(navground, sim, Dataset, property, size))
@@ -1814,7 +1883,7 @@ Append items from a numpy array.
                     R"doc(
 The type of the dataset.
 
-Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
+Can be set to any object that is convertible to :py:class:`numpy.dtype`.
 
 )doc")
       .def(py::pickle(
@@ -1906,6 +1975,41 @@ Can be set to any object that is convertible to a :py:class:`numpy.dtype`.
            DOC(navground, sim, ExperimentalRun, index_of_agent))
       .def(
           "add_record",
+          [](ExperimentalRun &run, const std::string &key,
+             const py::object &data, const py::object &dtype,
+             const std::vector<size_t> &item_shape) {
+            auto ds = run.add_record(key);
+            if (!data.is_none()) {
+              auto arr = py::array::ensure(data);
+              set_dataset_data_py(*ds, arr);
+            } else {
+              ds->set_item_shape(item_shape);
+              if (!dtype.is_none()) {
+                set_dataset_type_py(*ds, dtype);
+              }
+            }
+            return ds;
+          },
+          py::arg("key"), py::arg("data") = py::none(),
+          py::arg("dtype") = py::none(),
+          py::arg("item_shape") = std::vector<size_t>(), R"doc(
+Adds a record.
+
+:param key: the record key
+:type key: str
+
+:param data: Copies shape, data and dtype from this numpy array (if specified)
+:type data: :py:data:`numpy.typing.ArrayLike` | None
+:param dtype: The type of data to store (if specified and if ``data`` is None)
+:type dtype: :py:data:`numpy.typing.DTypeLike` | None.
+:param item_shape: Set the shape of all axis except the first (only if ``data`` is None ).
+                   Set to an empty list to instantiate a flat dataset.
+:type item_shape:  List[int]
+
+)doc")
+#if 0
+      .def(
+          "add_record",
           [](ExperimentalRun &run, const std::string &key, py::array data) {
             auto ds = run.add_record(key);
             set_dataset_data_py(*ds, data);
@@ -1918,7 +2022,7 @@ Adds a record.
 :type key: str
 
 :param data: Copies shape, data and dtype from this numpy array
-:type data: :py:class:`numpy.ndarray`
+:type data: :py:data:`numpy.typing.ArrayLike`
 
 )doc")
       .def(
@@ -1938,13 +2042,14 @@ Adds a record.
 :type key: str
 
 :param dtype: The type of data to store
-:type dtype: Any object that is convertible to a :py:class:`numpy.dtype`.
+:type dtype: :py:class:`numpy.typing.DTypeLike`.
 
 :param item_shape: The shape of all axis except the first.
                    Leave empty to instantiate a flat dataset.
 :type item_shape:  List[int]
 
 )doc")
+#endif
       .def("add_probe", &ExperimentalRun::add_probe, py::keep_alive<1, 2>(),
            py::arg("probe"), DOC(navground, sim, ExperimentalRun, add_probe))
       .def(

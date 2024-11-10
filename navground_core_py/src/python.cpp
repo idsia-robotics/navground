@@ -1072,7 +1072,7 @@ PYBIND11_MODULE(_navground, m) {
                     DOC(navground, core, Behavior, property_heading_behavior))
       .def_property("target", &Behavior::get_target, &Behavior::set_target,
                     DOC(navground, core, Behavior, property_target))
-      .def_property("e", &Behavior::get_target_ref, nullptr,
+      .def_property("target_ref", &Behavior::get_target_ref, nullptr,
                     DOC(navground, core, Behavior, property_target_ref))
       .def("check_if_target_satisfied", &Behavior::check_if_target_satisfied,
            DOC(navground, core, Behavior, check_if_target_satisfied))

@@ -36,18 +36,14 @@ Twist2 MotorPIDModulation::post(Behavior &behavior, ng_float_t time_step,
   return behavior.to_frame(t_cmd, cmd_twist.frame);
 }
 
-const std::map<std::string, Property> MotorPIDModulation::properties =
-    Properties{{"k_p", make_property<ng_float_t, MotorPIDModulation>(
-                           &MotorPIDModulation::get_k_p,
-                           &MotorPIDModulation::set_k_p, 1, "P")},
-               {"k_i", make_property<ng_float_t, MotorPIDModulation>(
-                           &MotorPIDModulation::get_k_i,
-                           &MotorPIDModulation::set_k_i, 0, "I")},
-               {"k_d", make_property<ng_float_t, MotorPIDModulation>(
-                           &MotorPIDModulation::get_k_d,
-                           &MotorPIDModulation::set_k_d, 0, "D")}};
-
-const std::string MotorPIDModulation::type =
-    register_type<MotorPIDModulation>("MotorPID");
+const std::string MotorPIDModulation::type = register_type<MotorPIDModulation>(
+    "MotorPID",
+    {{"k_p", Property::make<ng_float_t>(&MotorPIDModulation::get_k_p,
+                                        &MotorPIDModulation::set_k_p, 1, "P")},
+     {"k_i", Property::make<ng_float_t>(&MotorPIDModulation::get_k_i,
+                                        &MotorPIDModulation::set_k_i, 0, "I")},
+     {"k_d",
+      Property::make<ng_float_t>(&MotorPIDModulation::get_k_d,
+                                 &MotorPIDModulation::set_k_d, 0, "D")}});
 
 } // namespace navground::core

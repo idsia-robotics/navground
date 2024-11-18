@@ -9,6 +9,9 @@
 
 namespace navground::sim {
 
+using navground::core::Properties;
+using navground::core::Property;
+
 void BoundedStateEstimation::update(Agent *agent, World *world,
                                     EnvironmentState *state) {
   if (GeometricState *geo_state = dynamic_cast<GeometricState *>(state)) {
@@ -39,27 +42,23 @@ BoundedStateEstimation::neighbors_of_agent(const Agent *agent,
   return world->get_neighbors(agent, _range);
 }
 
-const std::map<std::string, Property> BoundedStateEstimation::properties =
-    Properties{
-        // {"field_of_view", make_property<float, BoundedStateEstimation>(
-        //                       &BoundedStateEstimation::get_field_of_view,
-        //                       &BoundedStateEstimation::set_field_of_view,
-        //                       0.0f, "Field of view (< 0 infinite)")},
-        {"range", make_property<ng_float_t, BoundedStateEstimation>(
-                      &BoundedStateEstimation::get_range,
-                      &BoundedStateEstimation::set_range, default_range,
-                      "Maximal range (< 0 =infinite)", {"range_of_view"})},
-        {"update_static_obstacles",
-         make_property<bool, BoundedStateEstimation>(
-             &BoundedStateEstimation::get_update_static_obstacles,
-             &BoundedStateEstimation::set_update_static_obstacles,
-             default_update_static_obstacles,
-             "Whether to update static obstacles")},
-    } +
-    StateEstimation::properties;
-
 const std::string BoundedStateEstimation::type =
-    register_type<BoundedStateEstimation>("Bounded");
+    register_type<BoundedStateEstimation>(
+        "Bounded",
+        {// {"field_of_view", Property::make(
+         //                       &BoundedStateEstimation::get_field_of_view,
+         //                       &BoundedStateEstimation::set_field_of_view,
+         //                       ng_float_t(0), "Field of view (< 0
+         //                       infinite)")},
+         {"range",
+          Property::make(&BoundedStateEstimation::get_range,
+                         &BoundedStateEstimation::set_range, default_range,
+                         "Maximal range (< 0 =infinite)", {"range_of_view"})},
+         {"update_static_obstacles",
+          Property::make(&BoundedStateEstimation::get_update_static_obstacles,
+                         &BoundedStateEstimation::set_update_static_obstacles,
+                         default_update_static_obstacles,
+                         "Whether to update static obstacles")}});
 
 #if 0
 std::vector<Neighbor> BoundedStateEstimation::neighbors_of_agent(

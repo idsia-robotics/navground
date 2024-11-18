@@ -13,11 +13,6 @@
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/world.h"
 
-using navground::core::BufferDescription;
-using navground::core::make_property;
-using navground::core::Properties;
-using navground::core::Property;
-
 namespace navground::sim {
 
 /**
@@ -43,8 +38,8 @@ namespace navground::sim {
  *
  */
 struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
-  DECLARE_TYPE_AND_PROPERTIES
-  
+  static const std::string type;
+
   /**
    * The default range
    */
@@ -221,25 +216,26 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
     if (include_radius()) {
       desc.emplace(
           get_field_name("radius"),
-          BufferDescription::make<ng_float_t>({_number}, 0, _max_radius));
+          core::BufferDescription::make<ng_float_t>({_number}, 0, _max_radius));
     }
     if (include_velocity()) {
       desc.emplace(get_field_name("velocity"),
-                   BufferDescription::make<ng_float_t>(
+                   core::BufferDescription::make<ng_float_t>(
                        {_number, 2}, -_max_speed, _max_speed));
     }
     if (include_position()) {
-      desc.emplace(
-          get_field_name("position"),
-          BufferDescription::make<ng_float_t>({_number, 2}, -_range, _range));
+      desc.emplace(get_field_name("position"),
+                   core::BufferDescription::make<ng_float_t>({_number, 2},
+                                                             -_range, _range));
     }
     if (get_include_valid()) {
       desc.emplace(get_field_name("valid"),
-                   BufferDescription::make<uint8_t>({_number}, 0, 1));
+                   core::BufferDescription::make<uint8_t>({_number}, 0, 1));
     }
     if (include_id()) {
-      desc.emplace(get_field_name("id"), BufferDescription::make<unsigned>(
-                                             {_number}, 0, _max_id, true));
+      desc.emplace(
+          get_field_name("id"),
+          core::BufferDescription::make<unsigned>({_number}, 0, _max_id, true));
     }
     return desc;
   }

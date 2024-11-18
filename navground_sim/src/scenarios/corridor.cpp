@@ -17,6 +17,7 @@
 namespace navground::sim {
 
 using namespace navground::core;
+using navground::core::Property;
 
 void CorridorScenario::init_world(World *world,
                                   [[maybe_unused]] std::optional<int> seed) {
@@ -50,24 +51,21 @@ void CorridorScenario::init_world(World *world,
   }
 }
 
-const std::map<std::string, Property> CorridorScenario::properties = {
-    {"width", make_property<ng_float_t, CorridorScenario>(
-                  &CorridorScenario::get_width, &CorridorScenario::set_width,
-                  default_width, "Corridor width")},
-    {"length", make_property<ng_float_t, CorridorScenario>(
-                   &CorridorScenario::get_length, &CorridorScenario::set_length,
-                   default_length, "Corridor length")},
-    {"agent_margin", make_property<ng_float_t, CorridorScenario>(
-                         &CorridorScenario::get_agent_margin,
-                         &CorridorScenario::set_agent_margin, 0.1f,
-                         "initial minimal distance between agents")},
-    {"add_safety_to_agent_margin",
-     make_property<bool, CorridorScenario>(
-         &CorridorScenario::get_add_safety_to_agent_margin,
-         &CorridorScenario::set_add_safety_to_agent_margin,
-         default_add_safety_to_agent_margin,
-         "Whether to add the safety margin to the agent margin")}};
-
-const std::string CorridorScenario::type =
-    register_type<CorridorScenario>("Corridor");
-}  // namespace navground::sim
+const std::string CorridorScenario::type = register_type<CorridorScenario>(
+    "Corridor",
+    {{"width",
+      Property::make(&CorridorScenario::get_width, &CorridorScenario::set_width,
+                     default_width, "Corridor width")},
+     {"length", Property::make(&CorridorScenario::get_length,
+                               &CorridorScenario::set_length, default_length,
+                               "Corridor length")},
+     {"agent_margin",
+      Property::make(&CorridorScenario::get_agent_margin,
+                     &CorridorScenario::set_agent_margin, ng_float_t(0.1),
+                     "initial minimal distance between agents")},
+     {"add_safety_to_agent_margin",
+      Property::make(&CorridorScenario::get_add_safety_to_agent_margin,
+                     &CorridorScenario::set_add_safety_to_agent_margin,
+                     default_add_safety_to_agent_margin,
+                     "Whether to add the safety margin to the agent margin")}});
+} // namespace navground::sim

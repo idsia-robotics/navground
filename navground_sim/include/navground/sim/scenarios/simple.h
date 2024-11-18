@@ -28,7 +28,7 @@ namespace navground::sim {
  * *Registered properties*: none
  */
 struct NAVGROUND_SIM_EXPORT SimpleScenario : public Scenario {
-  DECLARE_TYPE
+  static const std::string type;
   
   SimpleScenario() : Scenario() {}
 

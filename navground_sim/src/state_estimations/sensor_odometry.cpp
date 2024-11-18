@@ -9,6 +9,9 @@
 
 namespace navground::sim {
 
+using navground::core::Properties;
+using navground::core::Property;
+
 void OdometryStateEstimation::update(Agent *agent, World *world,
                                      EnvironmentState *state) {
   auto &rg = world->get_random_generator();
@@ -40,56 +43,46 @@ void OdometryStateEstimation::update(Agent *agent, World *world,
   }
 }
 
-const std::map<std::string, core::Property>
-    OdometryStateEstimation::properties =
-        core::Properties{
-            {"longitudinal_speed_bias",
-             core::make_property<ng_float_t, OdometryStateEstimation>(
-                 &OdometryStateEstimation::get_longitudinal_speed_bias,
-                 &OdometryStateEstimation::set_longitudinal_speed_bias, 0,
-                 "Longitudinal speed bias")},
-            {"longitudinal_speed_std_dev",
-             core::make_property<ng_float_t, OdometryStateEstimation>(
-                 &OdometryStateEstimation::get_longitudinal_speed_std_dev,
-                 &OdometryStateEstimation::set_longitudinal_speed_std_dev,
-                 default_longitudinal_speed_std_dev,
-                 "Longitudinal speed standard deviation")},
-            {"transversal_speed_bias",
-             core::make_property<ng_float_t, OdometryStateEstimation>(
-                 &OdometryStateEstimation::get_transversal_speed_bias,
-                 &OdometryStateEstimation::set_transversal_speed_bias, 0,
-                 "Transversal speed bias")},
-            {"transversal_speed_std_dev",
-             core::make_property<ng_float_t, OdometryStateEstimation>(
-                 &OdometryStateEstimation::get_transversal_speed_std_dev,
-                 &OdometryStateEstimation::set_transversal_speed_std_dev,
-                 default_longitudinal_speed_std_dev,
-                 "Transversal speed standard deviation")},
-            {"angular_speed_bias",
-             core::make_property<ng_float_t, OdometryStateEstimation>(
-                 &OdometryStateEstimation::get_angular_speed_bias,
-                 &OdometryStateEstimation::set_angular_speed_bias, 0,
-                 "Angular speed bias")},
-            {"angular_speed_std_dev",
-             core::make_property<ng_float_t, OdometryStateEstimation>(
-                 &OdometryStateEstimation::get_angular_speed_std_dev,
-                 &OdometryStateEstimation::set_angular_speed_std_dev,
-                 default_angular_speed_std_dev,
-                 "Angular speed standard deviation")},
-            {"update_ego_state",
-             core::make_property<bool, OdometryStateEstimation>(
-                 &OdometryStateEstimation::get_update_ego_state,
-                 &OdometryStateEstimation::set_update_ego_state, false,
-                 "Whether to update the behavior ego state")},
-            {"update_sensing_state",
-             core::make_property<bool, OdometryStateEstimation>(
-                 &OdometryStateEstimation::get_update_sensing_state,
-                 &OdometryStateEstimation::set_update_sensing_state, true,
-                 "Whether to update the behavior sensing state")},
-        } +
-        Sensor::properties;
-
-const std::string OdometryStateEstimation::type =
-    register_type<OdometryStateEstimation>("Odometry");
+const std::string OdometryStateEstimation::type = register_type<
+    OdometryStateEstimation>(
+    "Odometry",
+    Properties{
+        {"longitudinal_speed_bias",
+         Property::make(&OdometryStateEstimation::get_longitudinal_speed_bias,
+                        &OdometryStateEstimation::set_longitudinal_speed_bias,
+                        0, "Longitudinal speed bias")},
+        {"longitudinal_speed_std_dev",
+         Property::make(
+             &OdometryStateEstimation::get_longitudinal_speed_std_dev,
+             &OdometryStateEstimation::set_longitudinal_speed_std_dev,
+             default_longitudinal_speed_std_dev,
+             "Longitudinal speed standard deviation")},
+        {"transversal_speed_bias",
+         Property::make(&OdometryStateEstimation::get_transversal_speed_bias,
+                        &OdometryStateEstimation::set_transversal_speed_bias, 0,
+                        "Transversal speed bias")},
+        {"transversal_speed_std_dev",
+         Property::make(&OdometryStateEstimation::get_transversal_speed_std_dev,
+                        &OdometryStateEstimation::set_transversal_speed_std_dev,
+                        default_longitudinal_speed_std_dev,
+                        "Transversal speed standard deviation")},
+        {"angular_speed_bias",
+         Property::make(&OdometryStateEstimation::get_angular_speed_bias,
+                        &OdometryStateEstimation::set_angular_speed_bias, 0,
+                        "Angular speed bias")},
+        {"angular_speed_std_dev",
+         Property::make(&OdometryStateEstimation::get_angular_speed_std_dev,
+                        &OdometryStateEstimation::set_angular_speed_std_dev,
+                        default_angular_speed_std_dev,
+                        "Angular speed standard deviation")},
+        {"update_ego_state",
+         Property::make(&OdometryStateEstimation::get_update_ego_state,
+                        &OdometryStateEstimation::set_update_ego_state, false,
+                        "Whether to update the behavior ego state")},
+        {"update_sensing_state",
+         Property::make(&OdometryStateEstimation::get_update_sensing_state,
+                        &OdometryStateEstimation::set_update_sensing_state,
+                        true, "Whether to update the behavior sensing state")},
+    } + Sensor::properties);
 
 } // namespace navground::sim

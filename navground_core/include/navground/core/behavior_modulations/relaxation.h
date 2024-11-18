@@ -32,7 +32,7 @@ Twist2 relax(Behavior &behavior, const Twist2 &current_value,
  */
 class NAVGROUND_CORE_EXPORT RelaxationModulation : public BehaviorModulation {
 public:
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
 
   /**
    * Default \f$\tau\f$

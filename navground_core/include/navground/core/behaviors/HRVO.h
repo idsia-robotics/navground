@@ -38,7 +38,7 @@ namespace navground::core {
  */
 class NAVGROUND_CORE_EXPORT HRVOBehavior : public Behavior {
  public:
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
 
   /**
    * @brief      Contruct a new instance

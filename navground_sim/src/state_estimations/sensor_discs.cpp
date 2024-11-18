@@ -8,6 +8,9 @@
 
 namespace navground::sim {
 
+using navground::core::Properties;
+using navground::core::Property;
+
 void DiscsStateEstimation::update(Agent *agent, World *world,
                                   EnvironmentState *state) {
   if (core::SensingState *_state = dynamic_cast<core::SensingState *>(state)) {
@@ -96,42 +99,36 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
   }
 }
 
-const std::map<std::string, Property> DiscsStateEstimation::properties =
-    Properties{
-        {"range",
-         make_property<ng_float_t, DiscsStateEstimation>(
-             &DiscsStateEstimation::get_range, &DiscsStateEstimation::set_range,
-             default_range, "Maximal range")},
-        {"number",
-         make_property<int, DiscsStateEstimation>(
-             &DiscsStateEstimation::get_number,
-             &DiscsStateEstimation::set_number, default_number, "Number")},
-        {"max_radius", make_property<ng_float_t, DiscsStateEstimation>(
-                           &DiscsStateEstimation::get_max_radius,
-                           &DiscsStateEstimation::set_max_radius,
-                           default_max_radius, "Maximal radius")},
-        {"max_speed", make_property<ng_float_t, DiscsStateEstimation>(
-                          &DiscsStateEstimation::get_max_speed,
-                          &DiscsStateEstimation::set_max_speed,
-                          default_max_speed, "Maximal speed")},
-        {"include_valid", make_property<bool, DiscsStateEstimation>(
-                              &DiscsStateEstimation::get_include_valid,
-                              &DiscsStateEstimation::set_include_valid,
-                              default_include_valid, "Include validity field")},
-        {"use_nearest_point",
-         make_property<bool, DiscsStateEstimation>(
-             &DiscsStateEstimation::get_use_nearest_point,
-             &DiscsStateEstimation::set_use_nearest_point,
-             default_use_nearest_point,
-             "Whether to use the nearest point as position")},
-        {"max_id", make_property<int, DiscsStateEstimation>(
-                       &DiscsStateEstimation::get_max_id,
-                       &DiscsStateEstimation::set_max_id, default_max_id,
-                       "The maximal possible id")},
-    } +
-    Sensor::properties;
-
 const std::string DiscsStateEstimation::type =
-    register_type<DiscsStateEstimation>("Discs");
+    register_type<DiscsStateEstimation>(
+        "Discs",
+        Properties{
+            {"range", Property::make(&DiscsStateEstimation::get_range,
+                                     &DiscsStateEstimation::set_range,
+                                     default_range, "Maximal range")},
+            {"number", Property::make<int>(&DiscsStateEstimation::get_number,
+                                           &DiscsStateEstimation::set_number,
+                                           default_number, "Number")},
+            {"max_radius",
+             Property::make(&DiscsStateEstimation::get_max_radius,
+                            &DiscsStateEstimation::set_max_radius,
+                            default_max_radius, "Maximal radius")},
+            {"max_speed", Property::make(&DiscsStateEstimation::get_max_speed,
+                                         &DiscsStateEstimation::set_max_speed,
+                                         default_max_speed, "Maximal speed")},
+            {"include_valid",
+             Property::make(&DiscsStateEstimation::get_include_valid,
+                            &DiscsStateEstimation::set_include_valid,
+                            default_include_valid, "Include validity field")},
+            {"use_nearest_point",
+             Property::make(&DiscsStateEstimation::get_use_nearest_point,
+                            &DiscsStateEstimation::set_use_nearest_point,
+                            default_use_nearest_point,
+                            "Whether to use the nearest point as position")},
+            {"max_id",
+             Property::make<int>(&DiscsStateEstimation::get_max_id,
+                                 &DiscsStateEstimation::set_max_id,
+                                 default_max_id, "The maximal possible id")},
+        } + Sensor::properties);
 
 } // namespace navground::sim

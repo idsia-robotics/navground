@@ -12,10 +12,6 @@
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/world.h"
 
-using navground::core::make_property;
-using navground::core::Properties;
-using navground::core::Property;
-
 namespace navground::sim {
 
 /**
@@ -28,7 +24,7 @@ namespace navground::sim {
  *   - `update_static_obstacles` (bool, \ref get_update_static_obstacles)
  */
 struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
   
   /**
    * Default range value

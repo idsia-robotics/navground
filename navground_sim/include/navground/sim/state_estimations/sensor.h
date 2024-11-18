@@ -20,7 +20,7 @@ namespace navground::sim {
  *
  */
 struct NAVGROUND_SIM_EXPORT Sensor : public StateEstimation {
-  static const std::map<std::string, navground::core::Property> properties;
+  static const navground::core::Properties properties;
   
   /**
    * A map where keys are field names

@@ -17,15 +17,15 @@ void AntipodalScenario::init_world(World *world,
   ng_float_t a = 0;
   NormalSampler<ng_float_t> x(0.0, position_noise);
   NormalSampler<ng_float_t> o(0.0, orientation_noise);
-  RandomGenerator & rg = world->get_random_generator();
+  RandomGenerator &rg = world->get_random_generator();
   if (shuffle) {
     std::shuffle(std::begin(agents), std::end(agents), rg);
   }
   for (auto &agent : agents) {
-    const Vector2 p = radius * core::unit(a);
+    const core::Vector2 p = radius * core::unit(a);
     agent->pose = Pose2(p, a + core::PI);
     if (position_noise) {
-      agent->pose.position += Vector2{x.sample(rg), x.sample(rg)};
+      agent->pose.position += core::Vector2{x.sample(rg), x.sample(rg)};
     }
     if (orientation_noise) {
       agent->pose.orientation += o.sample(rg);
@@ -38,35 +38,28 @@ void AntipodalScenario::init_world(World *world,
   }
 }
 
-
-
-const std::map<std::string, Property> AntipodalScenario::properties = Properties{
-     {"radius",
-      make_property<ng_float_t, AntipodalScenario>(
-          &AntipodalScenario::get_radius, &AntipodalScenario::set_radius,
-          default_radius, "Radius of the circle")},
-     {"tolerance",
-      make_property<ng_float_t, AntipodalScenario>(
-          &AntipodalScenario::get_tolerance, &AntipodalScenario::set_tolerance,
-          default_tolerance, "Goal tolerance")},
+const std::string AntipodalScenario::type = register_type<AntipodalScenario>(
+    "Antipodal",
+    {{"radius", core::Property::make(&AntipodalScenario::get_radius,
+                                     &AntipodalScenario::set_radius,
+                                     default_radius, "Radius of the circle")},
+     {"tolerance", core::Property::make(&AntipodalScenario::get_tolerance,
+                                        &AntipodalScenario::set_tolerance,
+                                        default_tolerance, "Goal tolerance")},
      {"position_noise",
-      make_property<ng_float_t, AntipodalScenario>(
-          &AntipodalScenario::get_position_noise,
-          &AntipodalScenario::set_position_noise, default_position_noise,
-          "Noise added to the initial position")},
+      core::Property::make(&AntipodalScenario::get_position_noise,
+                           &AntipodalScenario::set_position_noise,
+                           default_position_noise,
+                           "Noise added to the initial position")},
      {"orientation_noise",
-      make_property<ng_float_t, AntipodalScenario>(
-          &AntipodalScenario::get_orientation_noise,
-          &AntipodalScenario::set_orientation_noise, default_orientation_noise,
-          "Noise added to the initial orientation")},
+      core::Property::make(&AntipodalScenario::get_orientation_noise,
+                           &AntipodalScenario::set_orientation_noise,
+                           default_orientation_noise,
+                           "Noise added to the initial orientation")},
      {"shuffle",
-      make_property<bool, AntipodalScenario>(
+      core::Property::make(
           &AntipodalScenario::get_shuffle, &AntipodalScenario::set_shuffle,
           default_shuffle,
-          "Whether to shuffle the agents before initializing them")} };
+          "Whether to shuffle the agents before initializing them")}});
 
-const std::string AntipodalScenario::type =
-register_type<AntipodalScenario>("Antipodal");
-
-
-}  // namespace navground::sim
+} // namespace navground::sim

@@ -50,7 +50,7 @@ namespace navground::core {
  */
 class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
  public:
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
 
   /**
    * Default \f$\eta\f$
@@ -75,7 +75,7 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   /**
    * Default epsilon.
    */
-  static constexpr unsigned default_epsilon = 0;
+  static constexpr ng_float_t default_epsilon = 0;
   /**
    * Default barrier angle.
    */

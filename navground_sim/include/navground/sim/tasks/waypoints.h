@@ -12,17 +12,12 @@
 #include "navground/sim/export.h"
 #include "navground/sim/task.h"
 
-using navground::core::make_property;
-using navground::core::Properties;
-using navground::core::Property;
-using navground::core::Vector2;
-
 namespace navground::sim {
 
 /**
  * A sequence of points to reach.
  */
-using Waypoints = std::vector<navground::core::Vector2>;
+using Waypoints = std::vector<core::Vector2>;
 
 /**
  * @brief      This class implement a task that makes the agent reach a sequence
@@ -42,7 +37,7 @@ using Waypoints = std::vector<navground::core::Vector2>;
  *   - `tolerance` (bool, \ref get_tolerance)
  */
 struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
   
   /**
    * Whether by default the task loops.
@@ -132,7 +127,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    *
    * @return     True if it should loop.
    */
-  ng_float_t get_loop() const { return _loop; }
+  bool get_loop() const { return _loop; }
   /**
    * @brief      Gets whether to pick the next waypoint randomly
    *
@@ -162,7 +157,7 @@ private:
   bool _first;
   int _index;
   bool _running;
-  std::optional<navground::core::Vector2> next_waypoint(World *world);
+  std::optional<core::Vector2> next_waypoint(World *world);
 };
 
 } // namespace navground::sim

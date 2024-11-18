@@ -158,7 +158,7 @@ private:
  */
 class NAVGROUND_CORE_EXPORT OmnidirectionalKinematics : public Kinematics {
 public:
-  DECLARE_TYPE
+  static const std::string type;
   /**
    * @brief      Constructs a new instance.
    *
@@ -188,7 +188,7 @@ public:
  */
 class NAVGROUND_CORE_EXPORT AheadKinematics : public Kinematics {
 public:
-  DECLARE_TYPE
+  static const std::string type;
   /**
    * @brief      Constructs a new instance.
    *
@@ -275,7 +275,7 @@ forward/backwards speeds.
 class NAVGROUND_CORE_EXPORT TwoWheelsDifferentialDriveKinematics
     : public virtual WheeledKinematics {
 public:
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
   /**
    * @brief      Constructs a new instance.
    *
@@ -450,7 +450,7 @@ private:
 class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
     : public TwoWheelsDifferentialDriveKinematics {
 public:
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
 
   /**
    * @brief      Constructs a new instance.
@@ -592,7 +592,7 @@ private:
 class NAVGROUND_CORE_EXPORT FourWheelsOmniDriveKinematics
     : public virtual WheeledKinematics {
 public:
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
   /**
    * @brief      Constructs a new instance.
    *

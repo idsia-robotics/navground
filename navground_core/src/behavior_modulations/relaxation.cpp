@@ -9,14 +9,16 @@
 namespace navground::core {
 
 ng_float_t relax(ng_float_t x0, ng_float_t x1, ng_float_t tau, ng_float_t dt) {
-  if (tau == 0) return x1;
+  if (tau == 0)
+    return x1;
   return exp(-dt / tau) * (x0 - x1) + x1;
 }
 
-std::vector<ng_float_t> relax(const std::vector<ng_float_t>& v0,
-                              const std::vector<ng_float_t>& v1, ng_float_t tau,
+std::vector<ng_float_t> relax(const std::vector<ng_float_t> &v0,
+                              const std::vector<ng_float_t> &v1, ng_float_t tau,
                               ng_float_t dt) {
-  if (tau == 0) return v1;
+  if (tau == 0)
+    return v1;
   auto v2 = std::vector<ng_float_t>(v0.size());
   for (size_t i = 0; i < v0.size(); i++) {
     v2[i] = relax(v0[i], v1[i], tau, dt);
@@ -24,7 +26,7 @@ std::vector<ng_float_t> relax(const std::vector<ng_float_t>& v0,
   return v2;
 }
 
-Twist2 relax(const Twist2& v0, const Twist2& v1, ng_float_t tau,
+Twist2 relax(const Twist2 &v0, const Twist2 &v1, ng_float_t tau,
              ng_float_t dt) {
   assert(v1.frame == v0.frame);
   if (tau == 0) {
@@ -36,8 +38,8 @@ Twist2 relax(const Twist2& v0, const Twist2& v1, ng_float_t tau,
           v1.frame};
 }
 
-Twist2 relax(Behavior& behavior, const Twist2& current_value,
-             const Twist2& value, ng_float_t tau, ng_float_t dt) {
+Twist2 relax(Behavior &behavior, const Twist2 &current_value,
+             const Twist2 &value, ng_float_t tau, ng_float_t dt) {
   if (behavior.get_kinematics()->is_wheeled()) {
     auto wheel_speeds = behavior.wheel_speeds_from_twist(value);
     auto current_wheel_speeds = behavior.wheel_speeds_from_twist(current_value);
@@ -54,13 +56,13 @@ Twist2 relax(Behavior& behavior, const Twist2& current_value,
   }
 }
 
-void RelaxationModulation::pre(Behavior& behavior,
+void RelaxationModulation::pre(Behavior &behavior,
                                [[maybe_unused]] ng_float_t time_step) {
   _actuated_twist = behavior.get_actuated_twist();
 }
 
-Twist2 RelaxationModulation::post(Behavior& behavior, ng_float_t time_step,
-                                  const Twist2& cmd_twist) {
+Twist2 RelaxationModulation::post(Behavior &behavior, ng_float_t time_step,
+                                  const Twist2 &cmd_twist) {
   if (_tau <= 0) {
     return cmd_twist;
   }
@@ -69,13 +71,10 @@ Twist2 RelaxationModulation::post(Behavior& behavior, ng_float_t time_step,
       cmd_twist.frame);
 }
 
-const std::map<std::string, Property> RelaxationModulation::properties =
-    Properties{
-        {"tau", make_property<ng_float_t, RelaxationModulation>(
-                    &RelaxationModulation::get_tau,
-                    &RelaxationModulation::set_tau, default_tau, "Tau")}};
-
 const std::string RelaxationModulation::type =
-    register_type<RelaxationModulation>("Relaxation");
+    register_type<RelaxationModulation>(
+        "Relaxation", {{"tau", Property::make(&RelaxationModulation::get_tau,
+                                              &RelaxationModulation::set_tau,
+                                              default_tau, "Tau")}});
 
-}  // namespace navground::core
+} // namespace navground::core

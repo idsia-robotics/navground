@@ -10,6 +10,8 @@
 
 namespace navground::sim {
 
+using navground::core::Property;
+
 void WaypointsTask::prepare(Agent *agent, World *world) { _running = true; }
 
 void WaypointsTask::update(Agent *agent, World *world, ng_float_t time) {
@@ -63,24 +65,18 @@ bool WaypointsTask::done() const {
   return !_running;
 }
 
-const std::map<std::string, Property> WaypointsTask::properties = Properties{
-    {"waypoints", make_property<Waypoints, WaypointsTask>(
-                      &WaypointsTask::get_waypoints,
-                      &WaypointsTask::set_waypoints, Waypoints{}, "waypoints")},
-    {"loop", make_property<bool, WaypointsTask>(&WaypointsTask::get_loop,
-                                                &WaypointsTask::set_loop,
-                                                default_loop, "loop")},
-    {"tolerance",
-     make_property<ng_float_t, WaypointsTask>(&WaypointsTask::get_tolerance,
-                                              &WaypointsTask::set_tolerance,
-                                              default_tolerance, "tolerance")},
-    {"random",
-     make_property<bool, WaypointsTask>(
-         &WaypointsTask::get_random, &WaypointsTask::set_random, default_random,
-         "Whether to pick the next waypoint randomly")},
-};
-
-const std::string WaypointsTask::type =
-    register_type<WaypointsTask>("Waypoints");
+const std::string WaypointsTask::type = register_type<WaypointsTask>(
+    "Waypoints",
+    {{"waypoints",
+      Property::make(&WaypointsTask::get_waypoints,
+                     &WaypointsTask::set_waypoints, Waypoints{}, "waypoints")},
+     {"loop", Property::make(&WaypointsTask::get_loop, &WaypointsTask::set_loop,
+                             default_loop, "loop")},
+     {"tolerance", Property::make(&WaypointsTask::get_tolerance,
+                                  &WaypointsTask::set_tolerance,
+                                  default_tolerance, "tolerance")},
+     {"random", Property::make(&WaypointsTask::get_random,
+                               &WaypointsTask::set_random, default_random,
+                               "Whether to pick the next waypoint randomly")}});
 
 } // namespace navground::sim

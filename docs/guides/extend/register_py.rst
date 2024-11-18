@@ -19,8 +19,8 @@ For example, you have developed a new navigation behavior called "MyBehavior" (n
 
 After
 
-- exposing as a property any parameter to be configure from YAML 
 - registering the type  
+- exposing as a property any parameter to be configure from YAML 
 - specialize the YAML encoding/decoding if the basics functionality is not sufficient
 - installing it as a plugin
 
@@ -46,14 +46,55 @@ Each step adds functionality, summarized in the table below, that is not needed 
 +---------------------+-------------------------------+----------------------------------------------+
 |         add         |               to              |                   example                    |
 +=====================+===============================+==============================================+
-| `Py Properties`_    | access parameters by name     | ``comp.set("value", 1)``                     |
+| `Py Register type`_ | instantiate by name           | ``comp = Component.make_type("MyName")``     |
 +---------------------+-------------------------------+----------------------------------------------+
-| `Py Register type`_ | instantiate by name           | ``comp = BaseComponent.make_type("MyName")`` |
+| `Py Properties`_    | access parameters by name     | ``comp.set("value", 1)``                     |
 +---------------------+-------------------------------+----------------------------------------------+
 | `Py YAML`_          | customize the YAML conversion | ``comp = YAML.load_<component>()``           |
 +---------------------+-------------------------------+----------------------------------------------+
 | `Py Plugin`_        | share the extension           | ``core.load_plugins()``                      |
 +---------------------+-------------------------------+----------------------------------------------+
+
+
+.. _Py Register type: 
+
+Register the type
+=================
+
+Register your component to the base class register by adding ``name="MyName"`` to the class definition, to be able to instantiate it by name
+
+.. code-block:: python
+   
+   class MyComponent(Component, name="MyName"):
+      ...
+
+
+Once a class has been registered, it can be instantiated using a generic factory method ``Component.make_type`` by providing its name:
+
+.. code-block:: python
+
+   c = Component.make_type("MyName")
+   # c.type returns "MyName"
+
+Moreover, the type will also appear in the YAML representation and 
+
+.. code-block:: python
+   
+   core.dump(c)
+   
+as field "type"
+
+.. code-block:: yaml
+
+   type: MyName
+   ...
+
+and it will be possible to load the component from yaml
+
+.. code-block:: python
+
+   c = core.load_<component>(c)
+
 
 .. _Py Properties: 
 
@@ -67,7 +108,7 @@ with the default value and an optional description
 
 .. code-block:: python
 
-   class MyComponent(BaseComponent):
+   class MyComponent(Component, name="MyName"):
       
       @property
       @core.register(True, "my description")
@@ -78,7 +119,7 @@ In the trivial example above, the property returns a constant value and has no s
 
 .. code-block:: python
 
-   class MyComponent(BaseComponent):
+   class MyComponent(Component):
       
       def __init__(self):
          self._value = True
@@ -117,52 +158,8 @@ as additional fields
 
 .. note::
 
-   The main advantages of exposing properties are realized only once the component 
-   gets fully registered. In fact, when working solely in Python, navground properties do not bring much, as you could directly inspect the Python class and use its accessors, or even generic accessors like :py:func:`getattr` and :py:func:`setattr`.
+   When working with components defined in Python, navground properties are not very useful, as you could directly inspect the Python class and use its accessors, or even generic accessors like :py:func:`getattr` and :py:func:`setattr`. Instead, when the component is loaded from YAML or C++, properties offer a generic way to access to instance attributes.
 
-.. _Py Register type: 
-
-Register the type
-=================
-
-Register your component to the base class register by adding ``name="MyName"`` to the class definition, to be able to instantiate it by name
-
-.. code-block:: python
-   
-   class MyComponent(BaseComponent, name="MyName"):
-      
-      # ... properties
-
-
-Once a class has been registered, it can be instantiated using a generic factory method ``BaseComponent.make_type`` by providing its name:
-
-.. code-block:: python
-
-   c = BaseComponent.make_type("MyName")
-
-
-Moreover, the type will also appear in the YAML representation and 
-
-.. code-block:: python
-   
-   core.dump(c)
-   
-as field "type"
-
-.. code-block:: yaml
-
-   type: MyName
-   ...
-
-and it will be possible to load the component from yaml
-
-.. code-block:: python
-
-   c = core.load_<component>(c)
-   
-.. note::
- 
-   Contrary to `C++ <Introspection>`_, Python does not require further steps to enable introspection. At this point, the class already has properties ``c.type`` and ``c.properties``.
 
 .. _Py YAML:
 
@@ -173,7 +170,7 @@ In case the conversion from/to YAML provided by navground is not sufficient, spe
 
 .. code-block:: python
 
-   class MyComponent(BaseComponent, name="MyName"):
+   class MyComponent(Component, name="MyName"):
       
       # ... properties
 
@@ -215,6 +212,31 @@ if you implement the custom logic in the decoder and the encoder, possibly getti
 
    Therefore, we suggest to restrict parameters exposed to YAML to properties, so to get
    the treatment as random variable for free. 
+
+
+
+Class skelethon
+================
+
+Using the appropriate macro, the class skeleton simplifies to
+
+
+.. code-block:: python
+
+   class MyComponent(Component, name="MyName"):
+      
+      @property
+      @core.register(default_value, "description")
+      def name(self) -> Type:
+          return ...
+      
+      @name.setter
+      def name(self, value: Type) -> None:
+          ...       
+
+      .. def encode(self) -> str: ...
+
+      .. def decode(self, yaml: str) -> None: ...
 
 
 .. _Py Plugin: 

@@ -8,10 +8,9 @@
 
 namespace navground::sim {
 
-const std::map<std::string, core::Property> Sensor::properties =
-    core::Properties{
-        {"name", core::make_property<std::string, Sensor>(
-                     &Sensor::get_name, &Sensor::set_name, "", "Name")},
-    } +
-    StateEstimation::properties;
+const std::map<std::string, core::Property> Sensor::properties = {
+    {"name", core::Property::make<std::string>(&Sensor::get_name,
+                                               &Sensor::set_name, "", "Name")},
+};
+
 } // namespace navground::sim

@@ -23,9 +23,8 @@ For example, you have developed a new navigation behavior called "MyBehavior" (n
 
 After
 
-- exposing as a property any parameter to be configure from YAML 
 - registering the type  
-- adding introspection
+- exposing as a property any parameter to be configure from YAML 
 - specialize the YAML encoding/decoding if the basics functionality is not sufficient
 - installing it as a plugin
 
@@ -46,93 +45,18 @@ you can use the behavior in an experiment, e.g., configured for like this
 
 Each step adds functionality, summarized in the table below, that is not needed to compile or use the component but that provides a more complete integration with navground.
 
-
-
 +------------------+-------------------------------+-------------------------------------------------+
 |       add        |               to              |                     example                     |
 +==================+===============================+=================================================+
-| `Properties`_    | access parameters by name     | ``comp.set("value", 1);``                       |
-+------------------+-------------------------------+-------------------------------------------------+
 | `Register type`_ | instantiate by name           | ``auto comp = Component::make_type("MyName");`` |
 +------------------+-------------------------------+-------------------------------------------------+
-| `Introspection`_ | inspect                       | ``comp.get_type();``                            |
+| `Properties`_    | access parameters by name     | ``comp.set("value", 1);``                       |
 +------------------+-------------------------------+-------------------------------------------------+
-| `YAML`_          | customize the YAML conversion | ``auto comp = YAML::load<Component>();          |
+| `YAML`_          | customize the YAML conversion | ``auto comp = YAML::load<Component>(node);``    |
 +------------------+-------------------------------+-------------------------------------------------+
 | `Plugin`_        | share the extension           | ``load_plugins();``                             |
 +------------------+-------------------------------+-------------------------------------------------+
 
-
-.. _Properties: 
-
-Define Properties
-=================
-
-Add to ``MyComponent::properties`` any parameter you want to expose.
-Configure the property with a type, a default value, and an optional description 
-and a pair of functions to get/set the value of the parameter.
-
-In practice, you should set the class variable :cpp:var:`navground::core::HasProperties::properties`
-to a map of named properties created with :cpp:func:`navground::core::make_property`, like:
-
-.. code-block:: c++
-
-   struct MyComponent : public Component {
-     // ... 
-     inline static const  core::Properties properties{
-         {"my_param", core::make_property<int, MyComponent>(
-                          [](const MyComponent *) { return 1; }, nullptr, 1,
-                          "my description")}};
-   };
-
-In the trivial example above, the property uses a lambda function for the getter that returns
-a constant value, and has no setter. In general, properties may use getters and setters to attributes of the class, like
-
-.. code-block:: c++
-
-   struct MyComponent : public Component {
-     // ...
-     bool get_value() const { return _value; }
-     void set_value(bool value) { _value = value; }
-     inline static const  core::Properties properties{
-         {"value", core::make_property<bool, MyComponent>(
-                       &MyComponent::get_value, &MyComponent::set_value, true,
-                       "my description")}};
-   
-   private:
-     bool _value;
-   };
-
-
-In a more realistic example, the class definition would be separated from the implementation where setting ``properties`` would go, like
-
-
-.. code-block:: c++
-
-   // declaration
-
-   struct MyComponent : public Component {
-     // ...
-     static const core::Properties properties;
-   };
-
-   // definition
-
-   const core::Properties properties = core::Properties{...};
-
-
-Once properties are registered, the class gains generic accessors :cpp:func:`navground::core::HasProperties::get`, :cpp:func:`navground::core::HasProperties::set`, and :cpp:func:`navground::core::HasProperties::set_value`, that uses names to identify properties.
-
-.. code-block:: c++
-
-   MyComponent c;
-   bool value = c.get("value").get<bool>();
-   c.set("value", !value);
-
-.. note::
-
-   The main advantages of exposing properties are realized only once the component 
-   is registered. In fact, if you have access to the class definition, being able to get/set properties by name does not bring much as you could directly use the class own accessors. Instead, when you don't have access to the class definition, like when loading from a shared library or using it from Python, properties allows a generic way to access to instance attributes (from C++, Python, and YAML).
 
 
 .. _Register type: 
@@ -142,25 +66,12 @@ Register the type
 
 Register your component to the base class register using :cpp:func:`navground::core::HasRegister::register_type` to be able to instantiate it by name.
 
-
-.. code-block:: c++
-   
-   struct MyComponent : public Component {
-     // ... 
-     // ... properties
-   
-     inline static const std::string type = register_type<MyComponent>("MyName");
-   };
-
-Similar to `Properties`_, in a more realistic example, you would register the class in the  implementation, like:
-
 .. code-block:: c++
 
    // declaration
 
    struct MyComponent : public Component {
      // ... 
-     // ... properties
      static const std::string type;
    };
 
@@ -168,59 +79,145 @@ Similar to `Properties`_, in a more realistic example, you would register the cl
 
    const std::string type = register_type<MyComponent>("MyName");
 
+The name of the static member (``type``, in this case) used to hold ``register_type`` can be anything.
 
-Once a class has been registered, it can be instantiated using a generic factory method :cpp:func:`navground::core::HasRegister::make_type` by providing its name:
+.. note::
+
+   You can also register the class inside the class declaration:
+
+   .. code-block:: c++
+      
+      struct MyComponent : public Component {
+        // ...       
+        inline static const std::string type = register_type<MyComponent>("MyName");
+      };
+
+
+Once a class has been registered, it can be instantiated using a generic factory method :cpp:func:`navground::core::HasRegister::make_type` by providing its name
 
 .. code-block:: c++
 
    std::shared_ptr<Component> c = Component::make_type("MyName");
+   const auto type = c->get_type(); 
+   // type is equal to "MyName"
+   // equivalently using types
+   // const auto type = Component::get_type<MyComponent>();
+
+and loaded from a YAML such
+
+.. code-block:: yaml
+
+   type: MyName
+
+using
+
+.. code-block:: c++
+
+   YAML::Node node(...);
+   std::shared_ptr<Component> c = YAML::load<Component>(node);
+   const auto type = c->get_type(); 
+   // type is equal to "MyName"
 
 
+.. _Properties: 
+
+Define Properties
+=================
+
+When registering the class, expose any configuration parameter as a *property*, providing a 
+getter, an optional setter, a default value, and an optional description. 
+
+Getters can be
+
+- functions/lambdas of type ``std::function<T(const MyComponent *)>``
+- methods of type ``T MyComponent::*()``
+- members of type ``T MyComponent::*``
+
+while setters can be
+
+- ``nullptr`` to define readonly properties
+- functions/lambdas of type ``std::function<void (const MyComponent *, const & T)>`` or ``std::function<void (const MyComponent *, T)>``
+- methods of type ``void MyComponent::*(const & T)`` or ``void MyComponent::*(T)``
 
 
-.. _Introspection:
+As (optional) second argument of :cpp:func:`navground::core::HasRegister::register_type`, pass a map of type :cpp:type:`navground::core::Properties` associating names to properties,  instantiated using a combination of :cpp:func:`navground::core::Property::make`, :cpp:func:`navground::core::Property::make_readwrite`, and :cpp:func:`navground::core::Property::make_readonly`:
 
-Introspection
-=============
+.. code-block:: c++
 
-Override the type and properties accessors to let instances be aware of their type and properties. This step is not required when you create a component in Python.
+   /// definition
 
+   const std::string type = register_type<MyComponent>(
+       "MyName", {{"my_param", core::Property::make(...)}});
+
+In practice, if the class defines accessors like
 
 .. code-block:: c++
 
    struct MyComponent : public Component {
      // ...
-     // ... properties
-     // ... type
-     std::string get_type() const override { return type; }
-     const navground::core::Properties &get_properties() const override {
-       return properties;  
-     }
+     Component() : _value(true) {}
+     bool get_value() const { return _value; }
+     void set_value(bool value) { _value = value; }
+   private:
+     bool _value;
    };
 
+you can define properties like
 
-Then, you can use them as expected:
+.. code-block:: c++
+
+   /// definition
+
+   const std::string type = register_type<MyComponent>(
+       "MyName", {{"my_param", core::Property::make(&MyComponent::get_value,
+                                                    &MyComponent::set_value, true,
+                                                    "my description")}});
+
+.. warning::
+
+   Not all compilers support defining the properties inline such as in
+
+   .. code-block:: c++
+      
+      struct MyComponent : public Component {
+        // ...
+        bool get_value() const { return _value; }
+        void set_value(bool value) { _value = value; }
+        inline static const std::string type = register_type<MyComponent>(
+            "MyName", {{"my_param", core::Property::make(&MyComponent::get_value,
+                                                         &MyComponent::set_value,
+                                                         true, "my description")}});
+      private:
+        bool _value;
+      };
+
+   because the initialization order in not guaranteed. To be safe, instantiate your properties outside of the class declaration.
+
+Once the class has been registered, it gains generic accessors :cpp:func:`navground::core::HasProperties::get`, :cpp:func:`navground::core::HasProperties::set`, and :cpp:func:`navground::core::HasProperties::set_value`, that uses names to identify properties.
 
 .. code-block:: c++
 
    MyComponent c;
-   // Same as MyComponent::type
-   c.get_type();
-   // Same as MyComponent::properties
-   c.get_properties();
+   bool value = c.get("value").get<bool>();
+   c.set("value", !value);
 
 .. note::
 
-   This is useful if you are working with components whose type we don't know at compile-time.
-   For instance, when the component are loaded from YAML:
+   When we have access to the class declaration, being able to get/set properties by name is not very useful, as we could directly use the class own accessors. 
 
-   .. code-block:: c++
+   Instead, this become very useful when we don't have access to the class definition, like when loading from a shared library, from YAML or when using it in Python. In this case, properties allows a generic way to access to instance attributes (from C++, Python, and YAML).
 
-      auto c = YAML::load<Component>("...");
-      // We loaded a component of type ...
-      c->get_type();
+We can also query for all properties
 
-Moreover, type and properties will also appear in the YAML representation
+.. code-block:: c++
+
+   MyComponent c;
+   core::Properties & properties = c.get_properties();
+   // equivalently using types
+   // core::Properties & properties = Component::get_properties<MyComponent>();
+
+
+Moreover, properties will also appear in the YAML representation
 
 .. code-block:: c++
    
@@ -231,14 +228,9 @@ as additional fields (one for each property)
 .. code-block:: yaml
 
    type: MyName
-   value: false
+   my_param: false
 
-and it is possible to load an instance from YAML
-
-.. code-block:: c++
-   
-   YAML::Node node(...);
-   auto c = YAML::load<Component>(node);
+and, similarly, will be loaded from YAML.
 
 .. _YAML:
 
@@ -253,9 +245,6 @@ There is no need to call the base implementation as it is empty.
 
    struct MyComponent : public Component {
      // ...
-     // ... properties
-     // ... type
-     // ... introspection
 
      void encode(YAML::Node &node) const override {
        // put additional information int the YAML node;
@@ -300,22 +289,6 @@ if you implement the custom logic in the decoder and the encoder.
    Therefore, we suggest to restrict parameters exposed to YAML to properties, so to get
    the treatment as random variable for free. 
 
-Macros
-======
-
-Following macros reduce boilerplate when *declaring* a component.
-
-When declaring ``type`` and/or ``properties`` without defining them, use:
-
-- :c:macro:`DECLARE_TYPE`
-- :c:macro:`DECLARE_PROPERTIES`
-- :c:macro:`DECLARE_TYPE_AND_PROPERTIES`
-
-When defining ``type`` and/or ``properties`` inline, use:
-
-- :c:macro:`OVERRIDE_TYPE`
-- :c:macro:`OVERRIDE_PROPERTIES`
-- :c:macro:`OVERRIDE_TYPE_AND_PROPERTIES` combines both to add
 
 Class skelethon
 ================
@@ -329,15 +302,19 @@ Using the appropriate macro, the class skeleton simplifies to
 
    struct MyComponent : public Component {
      // ...
-     DECLARE_TYPE_AND_PROPERTIES
+     static const std::string type;
      // void encode(YAML::Node &node) const override;
      // void decode(const YAML::Node &node) override;
    };
 
    // definition
 
-   static const core::Properties MyComponent::properties = core::Properties{...};
-   static const std::string type = register_type<MyComponent>("MyName");
+   const std::string type = register_type<MyComponent>(
+       "MyName", {
+                     {name, core::Property::make(&MyComponent::getter,
+                                                 &MyComponent::setter,
+                                                 default_value, "description")},
+                 });
 
 .. _Plugin: 
 

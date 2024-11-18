@@ -16,6 +16,7 @@
 namespace navground::sim {
 
 using namespace navground::core;
+using navground::core::Property;
 
 void CrossTorusScenario::init_world(World *world,
                                     [[maybe_unused]] std::optional<int> seed) {
@@ -25,7 +26,7 @@ void CrossTorusScenario::init_world(World *world,
   world->set_lattice(0, lattice);
   world->set_lattice(1, lattice);
   UniformSampler<ng_float_t> x(0.0, side);
-  RandomGenerator & rg = world->get_random_generator();
+  RandomGenerator &rg = world->get_random_generator();
   for (const auto &agent : world->get_agents()) {
     agent->pose.position = {x.sample(rg), x.sample(rg)};
   }
@@ -35,27 +36,25 @@ void CrossTorusScenario::init_world(World *world,
   for (const auto &agent : world->get_agents()) {
     agent->pose.orientation = HALF_PI * (index % 4);
     // agent->get_controller()->follow_direction(unit(agent->pose.orientation));
-    agent->set_task(std::make_shared<DirectionTask>(unit(agent->pose.orientation)));
+    agent->set_task(
+        std::make_shared<DirectionTask>(unit(agent->pose.orientation)));
     index++;
   }
 }
 
-const std::map<std::string, Property> CrossTorusScenario::properties = Properties{
-    {"side", make_property<float, CrossTorusScenario>(
-                 &CrossTorusScenario::get_side, &CrossTorusScenario::set_side,
-                 default_side, "Distance between targets")},
-    {"agent_margin",
-     make_property<float, CrossTorusScenario>(
-         &CrossTorusScenario::get_agent_margin, &CrossTorusScenario::set_agent_margin,
-         0.1f, "initial minimal distance between agents")},
-    {"add_safety_to_agent_margin",
-     make_property<bool, CrossTorusScenario>(
-         &CrossTorusScenario::get_add_safety_to_agent_margin,
-         &CrossTorusScenario::set_add_safety_to_agent_margin,
-         default_add_safety_to_agent_margin,
-         "Whether to add the safety margin to the agent margin")}};
+const std::string CrossTorusScenario::type = register_type<CrossTorusScenario>(
+    "CrossTorus",
+    {{"side", Property::make(&CrossTorusScenario::get_side,
+                             &CrossTorusScenario::set_side, default_side,
+                             "Distance between targets")},
+     {"agent_margin",
+      Property::make(&CrossTorusScenario::get_agent_margin,
+                     &CrossTorusScenario::set_agent_margin, 0.1f,
+                     "initial minimal distance between agents")},
+     {"add_safety_to_agent_margin",
+      Property::make(&CrossTorusScenario::get_add_safety_to_agent_margin,
+                     &CrossTorusScenario::set_add_safety_to_agent_margin,
+                     default_add_safety_to_agent_margin,
+                     "Whether to add the safety margin to the agent margin")}});
 
-const std::string CrossTorusScenario::type = register_type<CrossTorusScenario>("CrossTorus");
-
-
-}  // namespace navground::sim
+} // namespace navground::sim

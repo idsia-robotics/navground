@@ -20,7 +20,7 @@ namespace core = navground::core;
 namespace sim = navground::sim;
 
 struct ThymioDemo : public sim::Scenario {
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
   explicit ThymioDemo(const std::string &behavior_type = "HL")
       : sim::Scenario(), behavior_type(behavior_type) {}
 

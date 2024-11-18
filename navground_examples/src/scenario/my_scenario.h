@@ -19,7 +19,7 @@ namespace navground::sim {
 struct MY_SCENARIO_EXPORT EmptyScenario : Scenario {
 public:
   using Scenario::Scenario;
-  DECLARE_TYPE
+  static const std::string type;
 
   void
   init_world(World *world,

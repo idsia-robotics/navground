@@ -21,7 +21,7 @@ namespace navground::sim {
  *
  */
 struct NAVGROUND_SIM_EXPORT SensorCombination : public Sensor {
-  DECLARE_TYPE
+  static const std::string type;
   
   /**
    * @brief      Constructs a new instance.

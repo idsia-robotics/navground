@@ -9,6 +9,9 @@
 
 namespace navground::sim {
 
+using navground::core::Properties;
+using navground::core::Property;
+
 void LidarStateEstimation::update(Agent *agent, World *world,
                                   EnvironmentState *state) {
   if (core::SensingState *_state = dynamic_cast<core::SensingState *>(state)) {
@@ -77,41 +80,36 @@ std::valarray<ng_float_t> LidarStateEstimation::get_angles() const {
   return vs;
 }
 
-const std::map<std::string, Property> LidarStateEstimation::properties =
-    Properties{
-        {"range",
-         make_property<ng_float_t, LidarStateEstimation>(
-             &LidarStateEstimation::get_range, &LidarStateEstimation::set_range,
-             default_range, "Maximal range")},
-        {"start_angle", make_property<ng_float_t, LidarStateEstimation>(
-                            &LidarStateEstimation::get_start_angle,
+const std::string LidarStateEstimation::type =
+    register_type<LidarStateEstimation>(
+        "Lidar",
+        Properties{
+            {"range", Property::make(&LidarStateEstimation::get_range,
+                                     &LidarStateEstimation::set_range,
+                                     default_range, "Maximal range")},
+            {"start_angle",
+             Property::make(&LidarStateEstimation::get_start_angle,
                             &LidarStateEstimation::set_start_angle,
                             default_start_angle, "Start angle")},
-        {"field_of_view", make_property<ng_float_t, LidarStateEstimation>(
-                              &LidarStateEstimation::get_field_of_view,
-                              &LidarStateEstimation::set_field_of_view,
-                              default_field_of_view, "Total angle")},
-        {"resolution", make_property<int, LidarStateEstimation>(
-                           &LidarStateEstimation::get_resolution,
-                           &LidarStateEstimation::set_resolution,
-                           default_resolution, "Resolution")},
-        {"position", make_property<core::Vector2, LidarStateEstimation>(
-                         &LidarStateEstimation::get_position,
-                         &LidarStateEstimation::set_position,
-                         core::Vector2::Zero(), "Relative position")},
-        {"error_bias", make_property<ng_float_t, LidarStateEstimation>(
-                           &LidarStateEstimation::get_error_bias,
-                           &LidarStateEstimation::set_error_bias,
-                           default_error_bias, "Error bias")},
-        {"error_std_dev",
-         make_property<ng_float_t, LidarStateEstimation>(
-             &LidarStateEstimation::get_error_std_dev,
-             &LidarStateEstimation::set_error_std_dev, default_error_std_dev,
-             "Error standard deviation")},
-    } +
-    Sensor::properties;
-
-const std::string LidarStateEstimation::type =
-    register_type<LidarStateEstimation>("Lidar");
+            {"field_of_view",
+             Property::make(&LidarStateEstimation::get_field_of_view,
+                            &LidarStateEstimation::set_field_of_view,
+                            default_field_of_view, "Total angle")},
+            {"resolution",
+             Property::make<int>(&LidarStateEstimation::get_resolution,
+                                 &LidarStateEstimation::set_resolution,
+                                 default_resolution, "Resolution")},
+            {"position", Property::make<core::Vector2>(
+                             &LidarStateEstimation::get_position,
+                             &LidarStateEstimation::set_position,
+                             core::Vector2::Zero(), "Relative position")},
+            {"error_bias", Property::make(&LidarStateEstimation::get_error_bias,
+                                          &LidarStateEstimation::set_error_bias,
+                                          default_error_bias, "Error bias")},
+            {"error_std_dev",
+             Property::make(&LidarStateEstimation::get_error_std_dev,
+                            &LidarStateEstimation::set_error_std_dev,
+                            default_error_std_dev, "Error standard deviation")},
+        } + Sensor::properties);
 
 } // namespace navground::sim

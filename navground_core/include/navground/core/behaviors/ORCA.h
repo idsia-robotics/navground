@@ -44,7 +44,7 @@ namespace navground::core {
  */
 class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
  public:
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
 
   /**
    * @brief  A line 

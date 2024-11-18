@@ -12,17 +12,13 @@
 #include "navground/core/types.h"
 #include "navground/sim/scenario.h"
 
-using navground::core::make_property;
-using navground::core::Properties;
-using navground::core::Property;
-
 namespace navground::sim {
 
 struct CollisionsScenario : public Scenario {
-  DECLARE_TYPE_AND_PROPERTIES
-  
-  CollisionsScenario(const char *behavior_name = "HL",
-                     ng_float_t control_period = 0.1)
+  static const std::string type;
+
+  explicit CollisionsScenario(const char *behavior_name = "HL",
+                              ng_float_t control_period = 0.1)
       : Scenario(), behavior_name{behavior_name},
         control_period{control_period} {}
 

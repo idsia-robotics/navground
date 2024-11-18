@@ -40,7 +40,7 @@ namespace navground::sim {
  *
  */
 struct NAVGROUND_SIM_EXPORT OdometryStateEstimation : public Sensor {
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
 
   using Error = std::normal_distribution<ng_float_t>;
   /**

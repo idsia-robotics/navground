@@ -14,11 +14,6 @@
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/world.h"
 
-using navground::core::BufferDescription;
-using navground::core::make_property;
-using navground::core::Properties;
-using navground::core::Property;
-
 namespace navground::sim {
 
 /**
@@ -34,8 +29,8 @@ namespace navground::sim {
  *
  */
 struct NAVGROUND_SIM_EXPORT BoundarySensor : public Sensor {
-  DECLARE_TYPE_AND_PROPERTIES
-  
+  static const std::string type;
+
   /**
    * The default range
    */
@@ -152,7 +147,7 @@ struct NAVGROUND_SIM_EXPORT BoundarySensor : public Sensor {
     if (std::isfinite(_max_y))
       n++;
     desc.emplace(get_field_name("boundary_distance"),
-                 BufferDescription::make<ng_float_t>({n}, 0.0, _range));
+                 core::BufferDescription::make<ng_float_t>({n}, 0.0, _range));
     return desc;
   }
 

@@ -317,36 +317,31 @@ std::vector<ORCABehavior::Line> ORCABehavior::get_lines() const {
   return rs;
 }
 
-// const char *ORCABehavior::name = register_type<ORCABehavior>("ORCA");
-
-const std::map<std::string, Property> ORCABehavior::properties =
-    Properties{
+const std::string ORCABehavior::type = register_type<ORCABehavior>(
+    "ORCA",
+    {
         {"time_horizon",
-         make_property<ng_float_t, ORCABehavior>(
-             &ORCABehavior::get_time_horizon, &ORCABehavior::set_time_horizon,
-             10, "Time horizon")},
+         Property::make(&ORCABehavior::get_time_horizon,
+                        &ORCABehavior::set_time_horizon, 10, "Time horizon")},
         {"static_time_horizon",
-         make_property<ng_float_t, ORCABehavior>(
-             &ORCABehavior::get_static_time_horizon,
-             &ORCABehavior::set_static_time_horizon, 10,
-             "Time horizon applied to static linear obstacles")},
+         Property::make(&ORCABehavior::get_static_time_horizon,
+                        &ORCABehavior::set_static_time_horizon, 10,
+                        "Time horizon applied to static linear obstacles")},
         {"effective_center",
-         make_property<bool, ORCABehavior>(
+         Property::make(
              &ORCABehavior::is_using_effective_center,
              &ORCABehavior::should_use_effective_center, false,
              "Whenever to use an effective center to handle non-holonomic "
              "kinematics")},
         {"treat_obstacles_as_agents",
-         make_property<bool, ORCABehavior>(
+         Property::make(
              &ORCABehavior::get_treat_obstacles_as_agents,
              &ORCABehavior::set_treat_obstacles_as_agents, true,
              "Whenever to treat static obstacles as static [RVO] agents")},
-        {"max_neighbors", make_property<int, ORCABehavior>(
-                              &ORCABehavior::get_max_number_of_neighbors,
-                              &ORCABehavior::set_max_number_of_neighbors, 1000,
-                              "The maximal number of [RVO] neighbors")},
-    };
-
-const std::string ORCABehavior::type = register_type<ORCABehavior>("ORCA");
+        {"max_neighbors",
+         Property::make(&ORCABehavior::get_max_number_of_neighbors,
+                        &ORCABehavior::set_max_number_of_neighbors, 1000,
+                        "The maximal number of [RVO] neighbors")},
+    });
 
 } // namespace navground::core

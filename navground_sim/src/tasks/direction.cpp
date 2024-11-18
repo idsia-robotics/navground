@@ -10,6 +10,8 @@
 
 namespace navground::sim {
 
+using navground::core::Property;
+
 void DirectionTask::prepare(Agent *agent, World *world) {
   if (_direction.norm()) {
     agent->get_controller()->follow_direction(_direction);
@@ -18,13 +20,9 @@ void DirectionTask::prepare(Agent *agent, World *world) {
 
 bool DirectionTask::done() const { return _stop; }
 
-const std::map<std::string, Property> DirectionTask::properties =
-    Properties{{"direction", make_property<Vector2, DirectionTask>(
-                                 &DirectionTask::get_direction,
-                                 &DirectionTask::set_direction, Vector2{1, 0},
-                                 "direction")}};
+const std::string DirectionTask::type = register_type<DirectionTask>(
+    "Direction", {{"direction", Property::make(&DirectionTask::get_direction,
+                                               &DirectionTask::set_direction,
+                                               Vector2{1, 0}, "direction")}});
 
-const std::string DirectionTask::type =
-    register_type<DirectionTask>("Direction");
-
-}  // namespace navground::sim
+} // namespace navground::sim

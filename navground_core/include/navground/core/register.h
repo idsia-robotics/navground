@@ -20,10 +20,6 @@ using PropertyRegister = std::map<std::string, Properties>;
  * @brief      Contains a register of sub-classes of ``T``, registered by name
  * using \ref register_type.
  *
- * ``T`` must also be a sub-class of \ref navground::core::HasProperties or,
- * at least, expose the static field ``T::properties`` as properties
- * are also registered and can be queried using \ref type_properties.
- *
  * @tparam     T     The base class of all to be registered sub-classes.
  */
 template <typename T>
@@ -112,13 +108,15 @@ struct
    *
    * @param[in]  type  The user-defined name to be associated with the
    * sub-class.
+   * @param[in]  properties Registered properties
    *
    * @tparam     S     The type of the sub-class
    *
    * @return     The associated name.
    */
   template <typename S>
-  static std::string register_type(const std::string &type) {
+  static std::string register_type(const std::string &type,
+                                   const Properties &properties = {}) {
     // std::cout << "register_type " << get_type_name<S>() << " as " << type
     //           << std::endl;
     static_assert(std::is_base_of_v<T, S>);
@@ -128,7 +126,7 @@ struct
     // } else {
 
     factory()[type] = []() { return std::make_shared<S>(); };
-    type_properties()[type] = S::properties;
+    type_properties()[type] = properties;
     type_names()[std::type_index(typeid(S))] = type;
     // }
 
@@ -141,11 +139,10 @@ struct
   }
 
   /**
-   * @brief      Gets the name associated to the type of an object.
+   * @brief      Gets the name associated to the type of an object in the register.
    *
-   * @return     The associated name
+   * @return     The associated name or empty if not registered.
    */
-  // virtual std::string get_type() const { return type; }
   virtual std::string get_type() const {
     const auto &tn = type_names();
     const auto i = std::type_index(typeid(*this));
@@ -155,14 +152,30 @@ struct
     return "";
   }
 
+  /**
+   * @brief      Gets name associated to the type in the register.
+   *
+   * @tparam     S     The type
+   *
+   * @return     The associated name or empty if not registered.
+   */
+  template <typename S> static std::string get_type() {
+    const auto &tn = type_names();
+    const auto i = std::type_index(typeid(S));
+    if (tn.count(i)) {
+      return tn.at(i);
+    }
+    return "";
+  }
+
   inline static const Properties properties = {};
 
   /**
-   * @brief      Gets the registered properties. 
+   * @brief      Gets the registered properties.
    *
-   * @return     The properties.
+   * @return     The properties or empty if not registered.
    */
-  const Properties & get_properties() const override {
+  const Properties &get_properties() const override {
     const auto t = get_type();
     if (t.empty()) {
       return properties;
@@ -171,9 +184,19 @@ struct
   }
 
   /**
-   * The name associated to this type.
+   * @brief      Gets the registered properties for this type.
+   *
+   * @tparam     S     The type
+   *
+   * @return     The properties or empty if not registered.
    */
-  // static inline const std::string type = "";
+  template <typename S> static const Properties &get_properties() {
+    const auto t = get_type<S>();
+    if (t.empty()) {
+      return properties;
+    }
+    return type_properties().at(t);
+  }
 
   /**
    * @brief      Allows to customize YAML encoding
@@ -187,11 +210,9 @@ struct
    * @param      node  The YAML node
    */
   virtual void decode([[maybe_unused]] const YAML::Node &node) {};
-  
 };
 
 } // namespace navground::core
-
 
 /**
  * @brief      Adds type declaration
@@ -200,9 +221,9 @@ struct
  * static const std::string type;
  * \endcode
  */
-#define DECLARE_TYPE                                                           \
+#define DECLARE_TYPE                                                          \
   /** @private */                                                              \
-  static const std::string type;                                               \
+  static const std::string type;
 
 /**
  * @brief Adds properties declaration.
@@ -213,10 +234,10 @@ struct
  */
 #define DECLARE_PROPERTIES                                                     \
   /** @private */                                                              \
-  static const std::map<std::string, navground::core::Property> properties;    \
+  static const std::map<std::string, navground::core::Property> properties;
 
 /**
- * @brief Combine \ref DECLARE_TYPE and \ref DECLARE_PROPERTIES
+ * @brief Combine \ref static const std::string type; and \ref DECLARE_PROPERTIES
  *
  * \code{.cpp}
  * static const std::string type;
@@ -224,7 +245,7 @@ struct
  * \endcode
  */
 #define DECLARE_TYPE_AND_PROPERTIES                                            \
-  DECLARE_TYPE                                                                 \
+  static const std::string type;                                                                 \
   DECLARE_PROPERTIES
 
 #endif // NAVGROUND_CORE_REGISTER_H

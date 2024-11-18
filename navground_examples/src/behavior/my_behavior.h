@@ -19,7 +19,7 @@ namespace navground::core {
 class MY_BEHAVIOR_EXPORT IdleBehavior : public Behavior {
 public:
   using Behavior::Behavior;
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
 protected:
   Vector2 desired_velocity_towards_point(
       [[maybe_unused]] const Vector2 &point, [[maybe_unused]] ng_float_t speed,

@@ -18,6 +18,17 @@ namespace navground::core {
 struct HasProperties;
 
 /**
+ * A function that gets a value of type ``T`` from an object of type ``C``.
+ */
+template <typename T, class C> using TypedGetter = std::function<T(const C *)>;
+
+/**
+ * A function that sets a value of type ``T`` of an object of type ``C``.
+ */
+template <typename T, class C>
+using TypedSetter = std::function<void(C *, const T &)>;
+
+/**
  * @brief      This class defines a property (similar to Python built-in
  * properties), i.e., a pair of getter and setter. In addition, it holds (for
  * auto-documentation) a default value, a description, and the name of the
@@ -79,6 +90,264 @@ struct Property {
   std::vector<std::string> deprecated_names;
 
   bool readonly;
+
+  /**
+   * @brief      Makes a property from a pair of typed setters and getters.
+   * It erases the type of the property (``T``)
+   * and of the property owner (``C``) from the interface, replacing typed by
+   * generic getters and setters. The property type is effectively preserved
+   * inside the getter and setter.
+   *
+   *
+   * @param[in]  getter         A typed getter
+   * @param[in]  setter         A typed setter
+   * @param[in]  default_value  The property default value
+   * @param[in]  description    The property description
+   * @param[in]  deprecated_names A list of deprecated alias names
+   *                              for this property.
+   *
+   * @tparam     T              The type of the property
+   * @tparam     C              The type of the property owner
+   *
+   * @return     A property
+   */
+  template <typename T, class C>
+  static Property make(const TypedGetter<T, C> &getter,
+                       const TypedSetter<T, C> &setter, const T &default_value,
+                       const std::string &description = "",
+                       const std::vector<std::string> &deprecated_names = {}) {
+    Property property;
+    property.description = description;
+    property.default_value = default_value;
+    property.type_name = std::string(get_type_name<T>());
+    property.deprecated_names = deprecated_names;
+    property.owner_type_name = std::string(get_type_name<C>());
+    property.getter = [getter](const HasProperties *obj) {
+      // getters can not be null
+      const auto C_obj = dynamic_cast<const C *>(obj);
+      if (!C_obj)
+        throw std::bad_cast();
+      return getter(C_obj);
+    };
+    property.readonly = (setter == nullptr);
+    property.setter = [setter](HasProperties *obj,
+                               const Property::Field &value) {
+      // setters can be nil
+      if (!setter) {
+        std::cerr << "cannot set readonly property" << std::endl;
+        return;
+      }
+      auto C_obj = dynamic_cast<C *>(obj);
+      if (!C_obj)
+        return;
+      std::visit(
+          [&setter, &C_obj](auto &&arg) {
+            using V = std::decay_t<decltype(arg)>;
+            if constexpr (std::is_convertible<V, T>::value) {
+              setter(C_obj, static_cast<T>(arg));
+            }
+          },
+          value);
+    };
+    return property;
+  }
+
+  /**
+   * @brief      Makes a readonly property with a getter.
+   * It erases the type of the property (``T``)
+   * and of the property owner (``C``) from the interface, replacing typed by
+   * generic getter. The property type is effectively preserved
+   * inside the getter. The property default is set to ``T{}``.
+   *
+   *
+   * @param[in]  getter         A typed getter
+   * @param[in]  description    The property description
+   * @param[in]  deprecated_names A list of deprecated alias names
+   *                              for this property.
+   *
+   * @tparam     T              The type of the property
+   * @tparam     C              The type of the property owner
+   *
+   * @return     A property
+   */
+  template <typename T, class C>
+  static Property make(const TypedGetter<T, C> &getter,
+                       const std::string &description = "",
+                       const std::vector<std::string> &deprecated_names = {}) {
+    return make(getter, static_cast<const TypedSetter<T, C> &>(nullptr), T{},
+                description, deprecated_names);
+  }
+
+  /**
+   * @brief      Makes a readonly property from a class getter.
+   * It erases the type of the property (``T``)
+   * and of the property owner (``C``) from the interface, replacing typed by
+   * generic getter. The property type is effectively preserved
+   * inside the getter. The property default is set to ``T{}``.
+   *
+   *
+   * @param[in]  getter         The getter
+   * @param[in]  description    The property description
+   * @param[in]  deprecated_names A list of deprecated alias names
+   *                              for this property.
+   *
+   * @tparam     T              The type of the property
+   * @tparam     C              The type of the property owner
+   *
+   * @return     A property
+   */
+  template <typename T, class C>
+  static core::Property
+  make(T (C::*getter)() const, const std::string &description = "",
+       const std::vector<std::string> &deprecated_names = {}) {
+    return make(static_cast<const TypedGetter<T, C> &>(getter), description,
+                deprecated_names);
+  }
+
+  /**
+   * @brief      Makes a property from a pair of class setters and getters.
+   * It erases the type of the property (``T``)
+   * and of the property owner (``C``) from the interface, replacing typed by
+   * generic getters and setters. The property type is effectively preserved
+   * inside the getter and setter.
+   *
+   *
+   * @param[in]  getter         A getter
+   * @param[in]  setter         A setter
+   * @param[in]  default_value  The property default value
+   * @param[in]  description    The property description
+   * @param[in]  deprecated_names A list of deprecated alias names
+   *                              for this property.
+   *
+   * @tparam     T              The type of the property
+   * @tparam     C              The type of the property owner
+   * @tparam     U              The type manipulated by the getter and setter.
+   *
+   * @return     A property
+   */
+  template <typename T, class C, typename U>
+  static Property make(U (C::*getter)() const, void (C::*setter)(const U &),
+                       const T &default_value,
+                       const std::string &description = "",
+                       const std::vector<std::string> &deprecated_names = {}) {
+    return make(static_cast<const TypedGetter<T, C> &>(getter),
+                static_cast<const TypedSetter<T, C> &>(setter),
+                static_cast<T>(default_value), description, deprecated_names);
+  }
+
+  /**
+   * @brief      Makes a property from a pair of class setters and getters.
+   * It erases the type of the property (``T``)
+   * and of the property owner (``C``) from the interface, replacing typed by
+   * generic getters and setters. The property type is effectively preserved
+   * inside the getter and setter.
+   *
+   *
+   * @param[in]  getter         A getter
+   * @param[in]  setter         A setter
+   * @param[in]  default_value  The property default value
+   * @param[in]  description    The property description
+   * @param[in]  deprecated_names A list of deprecated alias names
+   *                              for this property.
+   *
+   * @tparam     T              The type of the property
+   * @tparam     C              The type of the property owner
+   * @tparam     U              The type manipulated by the getter and setter.
+   *
+   * @return     A property
+   */
+  template <typename T, class C, typename U>
+  static Property make(U (C::*getter)() const, void (C::*setter)(U),
+                       const T &default_value,
+                       const std::string &description = "",
+                       const std::vector<std::string> &deprecated_names = {}) {
+    return make(static_cast<const TypedGetter<T, C> &>(getter),
+                static_cast<const TypedSetter<T, C> &>(setter),
+                static_cast<T>(default_value), description, deprecated_names);
+  }
+
+  /**
+   * @brief      Makes a property that gets and sets a class member.
+   * It erases the type of the property (``T``)
+   * and of the property owner (``C``) from the interface, replacing typed by
+   * generic getters and setters. The property type is effectively preserved
+   * inside the getter and setter.
+   *
+   *
+   * @param[in]  param          A class member
+   * @param[in]  default_value  The property default value
+   * @param[in]  description    The property description
+   * @param[in]  deprecated_names A list of deprecated alias names
+   *                              for this property.
+   *
+   * @tparam     T              The type of the property
+   * @tparam     C              The type of the property owner
+   * @tparam     U              The type of param
+   *
+   * @return     A property
+   */
+  template <typename T, class C, typename U>
+  static Property
+  make_readwrite(U C::*param, const T &default_value,
+                 const std::string &description = "",
+                 const std::vector<std::string> &deprecated_names = {}) {
+    return make<T, C>(
+        [param](const C *c) -> T { return c->*param; },
+        [param](C *c, const T &value) -> void { c->*param = value; },
+        static_cast<T>(default_value), description, deprecated_names);
+  }
+
+  /**
+   * @brief      Makes a readonly property that gets a class member.
+   * It erases the type of the property (``T``)
+   * and of the property owner (``C``) from the interface, replacing typed by
+   * generic getter. The property type is effectively preserved
+   * inside the getter. The property default is set to ``T{}``.
+   *
+   *
+   * @param[in]  param          A class member
+   * @param[in]  description    The property description
+   * @param[in]  deprecated_names A list of deprecated alias names
+   *                              for this property.
+   *
+   * @tparam     T              The type of the property
+   * @tparam     C              The type of the property owner
+   * @tparam     U              The type of param
+   *
+   * @return     A property
+   */
+  template <typename T, class C, typename U>
+  static Property
+  make_readonly(U C::*param, const std::string &description = "",
+                const std::vector<std::string> &deprecated_names = {}) {
+    return make<T, C>([param](const C *c) -> T { return c->*param; },
+                      description, deprecated_names);
+  }
+
+  /**
+   * @brief      Makes a readonly property that gets a class member.
+   * It erases the type of the property (``T``)
+   * and of the property owner (``C``) from the interface, replacing typed by
+   * generic getter. The property type is effectively preserved
+   * inside the getter. The property default is set to ``T{}``.
+   *
+   *
+   * @param[in]  param          A class member
+   * @param[in]  description    The property description
+   * @param[in]  deprecated_names A list of deprecated alias names
+   *                              for this property.
+   *
+   * @tparam     C              The type of the property owner
+   * @tparam     U              The type of param and property
+   *
+   * @return     A property
+   */
+  template <class C, typename U>
+  static Property
+  make_readonly(U C::*param, const std::string &description = "",
+                const std::vector<std::string> &deprecated_names = {}) {
+    return make_readonly<U, C, U>(param, description, deprecated_names);
+  }
 };
 
 /**
@@ -93,77 +362,6 @@ inline Properties operator+(const Properties &p1, const Properties &p2) {
     // r.emplace(std::make_tuple(k, v));
   }
   return r;
-}
-
-/**
- * A function that gets a value of type ``T`` from an object of type ``C``.
- */
-template <typename T, class C> using TypedGetter = std::function<T(const C *)>;
-
-/**
- * A function that sets a value of type ``T`` of an object of type ``C``.
- */
-template <typename T, class C>
-using TypedSetter = std::function<void(C *, const T &)>;
-
-/**
- * @brief      Makes a property from a pair of typed setters and getters.
- * It erases the type of the property (``T``)
- * and of the property owner (``C``) from the interface, replacing typed by
- * generic getters and setters. The property type is effectively preserved
- * inside the getter and setter.
- *
- *
- * @param[in]  getter         A typed getter
- * @param[in]  setter         A typed setter
- * @param[in]  default_value  The property default value
- * @param[in]  description    The property description
- * @param[in]  deprecated_names A list of deprecated alias names
- *                              for this property.
- *
- * @tparam     T              The type of the property
- * @tparam     C              The type of the property owner
- *
- * @return     A property
- */
-template <typename T, class C>
-inline Property
-make_property(const TypedGetter<T, C> &getter, const TypedSetter<T, C> &setter,
-              const T &default_value, const std::string &description = "",
-              const std::vector<std::string> &deprecated_names = {}) {
-  Property property;
-  property.description = description;
-  property.default_value = default_value;
-  property.type_name = std::string(get_type_name<T>());
-  property.deprecated_names = deprecated_names;
-  property.owner_type_name = std::string(get_type_name<C>());
-  property.getter = [getter](const HasProperties *obj) {
-    // getters can not be null
-    const auto C_obj = dynamic_cast<const C *>(obj);
-    if (!C_obj)
-      throw std::bad_cast();
-    return getter(C_obj);
-  };
-  property.readonly = (setter == nullptr);
-  property.setter = [setter](HasProperties *obj, const Property::Field &value) {
-    // setters can be nil
-    if (!setter) {
-      std::cerr << "cannot set readonly property" << std::endl;
-      return;
-    }
-    auto C_obj = dynamic_cast<C *>(obj);
-    if (!C_obj)
-      return;
-    std::visit(
-        [&setter, &C_obj](auto &&arg) {
-          using V = std::decay_t<decltype(arg)>;
-          if constexpr (std::is_convertible<V, T>::value) {
-            setter(C_obj, static_cast<T>(arg));
-          }
-        },
-        value);
-  };
-  return property;
 }
 
 /**

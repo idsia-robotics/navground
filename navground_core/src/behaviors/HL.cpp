@@ -233,30 +233,26 @@ Twist2 HLBehavior::compute_cmd_internal(ng_float_t dt) {
   return cmd_twist;
 }
 
-const std::map<std::string, Property> HLBehavior::properties =
-    Properties{
-        {"tau", make_property<ng_float_t, HLBehavior>(&HLBehavior::get_tau,
-                                                      &HLBehavior::set_tau,
-                                                      default_tau, "Tau")},
-        {"eta", make_property<ng_float_t, HLBehavior>(&HLBehavior::get_eta,
-                                                      &HLBehavior::set_eta,
-                                                      default_eta, "Eta")},
-        {"aperture", make_property<ng_float_t, HLBehavior>(
-                         &HLBehavior::get_aperture, &HLBehavior::set_aperture,
-                         default_aperture, "Aperture angle")},
-        {"resolution",
-         make_property<int, HLBehavior>(&HLBehavior::get_resolution,
-                                        &HLBehavior::set_resolution,
-                                        default_resolution, "Resolution")},
-        {"epsilon", make_property<ng_float_t, HLBehavior>(
-                        &HLBehavior::get_epsilon, &HLBehavior::set_epsilon,
+const std::string HLBehavior::type = register_type<HLBehavior>(
+    "HL",
+    {
+        {"tau", Property::make(&HLBehavior::get_tau, &HLBehavior::set_tau,
+                               default_tau, "Tau")},
+        {"eta", Property::make(&HLBehavior::get_eta, &HLBehavior::set_eta,
+                               default_eta, "Eta")},
+        {"aperture",
+         Property::make(&HLBehavior::get_aperture, &HLBehavior::set_aperture,
+                        default_aperture, "Aperture angle")},
+        {"resolution", Property::make<int>(&HLBehavior::get_resolution,
+                                           &HLBehavior::set_resolution,
+                                           default_resolution, "Resolution")},
+        {"epsilon",
+         Property::make(&HLBehavior::get_epsilon, &HLBehavior::set_epsilon,
                         default_epsilon, "Epsilon")},
         {"barrier_angle",
-         make_property<ng_float_t, HLBehavior>(
-             &HLBehavior::get_barrier_angle, &HLBehavior::set_barrier_angle,
-             default_barrier_angle, "Barrier angle")},
-    };
-
-const std::string HLBehavior::type = register_type<HLBehavior>("HL");
+         Property::make(&HLBehavior::get_barrier_angle,
+                        &HLBehavior::set_barrier_angle, default_barrier_angle,
+                        "Barrier angle")},
+    });
 
 } // namespace navground::core

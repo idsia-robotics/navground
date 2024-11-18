@@ -14,10 +14,6 @@
 #include "navground/sim/export.h"
 #include "navground/sim/scenario.h"
 
-using navground::core::make_property;
-using navground::core::Properties;
-using navground::core::Property;
-
 namespace navground::sim {
 
 /**
@@ -38,8 +34,8 @@ namespace navground::sim {
  *   - `target_margin` (float,  \ref get_target_margin)
  */
 struct NAVGROUND_SIM_EXPORT CrossScenario : public Scenario {
-  DECLARE_TYPE_AND_PROPERTIES
-  
+  static const std::string type;
+
   // distance between targets
   ng_float_t side;
   inline static ng_float_t default_side = 2;
@@ -56,7 +52,7 @@ struct NAVGROUND_SIM_EXPORT CrossScenario : public Scenario {
   ng_float_t target_margin;
   inline static ng_float_t default_target_margin = static_cast<ng_float_t>(0.5);
 
-  CrossScenario(
+  explicit CrossScenario(
       ng_float_t side = default_side, ng_float_t tolerance = default_tolerance,
       ng_float_t agent_margin = default_agent_margin,
       bool add_safety_to_agent_margin = default_add_safety_to_agent_margin,

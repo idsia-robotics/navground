@@ -16,16 +16,18 @@
 namespace navground::sim {
 
 using namespace navground::core;
+using navground::core::Property;
 
 void CrossScenario::init_world(World *world,
                                [[maybe_unused]] std::optional<int> seed) {
   Scenario::init_world(world, seed);
-  world->set_bounding_box(BoundingBox{-side / 2, side / 2, -side / 2, side / 2});
+  world->set_bounding_box(
+      BoundingBox{-side / 2, side / 2, -side / 2, side / 2});
   const ng_float_t t = 0.5 * side;
   const ng_float_t p = std::max<ng_float_t>(0, 0.5 * side - target_margin);
   UniformSampler<ng_float_t> x(-p, p);
   const Waypoints targets{{t, 0}, {-t, 0}, {0, t}, {0, -t}};
-  RandomGenerator & rg = world->get_random_generator();
+  RandomGenerator &rg = world->get_random_generator();
   for (const auto &agent : world->get_agents()) {
     agent->pose.position = {x.sample(rg), x.sample(rg)};
   }
@@ -40,30 +42,25 @@ void CrossScenario::init_world(World *world,
   }
 }
 
-const std::map<std::string, Property> CrossScenario::properties = Properties{
-    {"side", make_property<float, CrossScenario>(
-                 &CrossScenario::get_side, &CrossScenario::set_side,
-                 default_side, "Distance between targets")},
-    {"tolerance",
-     make_property<float, CrossScenario>(&CrossScenario::get_tolerance,
-                                         &CrossScenario::set_tolerance,
-                                         default_tolerance, "Goal tolerance")},
-    {"agent_margin",
-     make_property<float, CrossScenario>(
-         &CrossScenario::get_agent_margin, &CrossScenario::set_agent_margin,
-         0.1f, "initial minimal distance between agents")},
-    {"add_safety_to_agent_margin",
-     make_property<bool, CrossScenario>(
-         &CrossScenario::get_add_safety_to_agent_margin,
-         &CrossScenario::set_add_safety_to_agent_margin,
-         default_add_safety_to_agent_margin,
-         "Whether to add the safety margin to the agent margin")},
-    {"target_margin",
-     make_property<float, CrossScenario>(
-         &CrossScenario::get_target_margin, &CrossScenario::set_target_margin,
-         default_target_margin,
-         "Initial minimal distance between agents and targets")}};
+const std::string CrossScenario::type = register_type<CrossScenario>(
+    "Cross",
+    {{"side", Property::make(&CrossScenario::get_side, &CrossScenario::set_side,
+                             default_side, "Distance between targets")},
+     {"tolerance", Property::make(&CrossScenario::get_tolerance,
+                                  &CrossScenario::set_tolerance,
+                                  default_tolerance, "Goal tolerance")},
+     {"agent_margin",
+      Property::make(&CrossScenario::get_agent_margin,
+                     &CrossScenario::set_agent_margin, ng_float_t(0.1),
+                     "initial minimal distance between agents")},
+     {"add_safety_to_agent_margin",
+      Property::make(&CrossScenario::get_add_safety_to_agent_margin,
+                     &CrossScenario::set_add_safety_to_agent_margin,
+                     default_add_safety_to_agent_margin,
+                     "Whether to add the safety margin to the agent margin")},
+     {"target_margin",
+      Property::make(&CrossScenario::get_target_margin,
+                     &CrossScenario::set_target_margin, default_target_margin,
+                     "Initial minimal distance between agents and targets")}});
 
-const std::string CrossScenario::type = register_type<CrossScenario>("Cross");
-
-}  // namespace navground::sim
+} // namespace navground::sim

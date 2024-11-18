@@ -25,7 +25,7 @@ namespace navground::core {
 class NAVGROUND_CORE_EXPORT LimitAccelerationModulation
     : public BehaviorModulation {
 public:
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
   
   /**
    * @brief      Construct a new instance

@@ -13,10 +13,6 @@
 #include "navground/sim/tasks/waypoints.h"
 #include "navground/sim/world.h"
 
-using navground::core::make_property;
-using navground::core::Properties;
-using navground::core::Property;
-
 namespace navground::sim {
 
 /**
@@ -36,8 +32,8 @@ namespace navground::sim {
  *   - `shuffle` (bool, \ref get_shuffle)
  */
 struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
-  DECLARE_TYPE_AND_PROPERTIES
-  
+  static const std::string type;
+
   /**
    * The default circle radius
    */
@@ -61,11 +57,12 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
   /**
    * @brief      Constructs a new instance.
    */
-  AntipodalScenario(ng_float_t radius = default_radius,
-                    ng_float_t tolerance = default_tolerance,
-                    ng_float_t position_noise = default_position_noise,
-                    ng_float_t orientation_noise = default_orientation_noise,
-                    bool shuffle = default_shuffle)
+  explicit AntipodalScenario(
+      ng_float_t radius = default_radius,
+      ng_float_t tolerance = default_tolerance,
+      ng_float_t position_noise = default_position_noise,
+      ng_float_t orientation_noise = default_orientation_noise,
+      bool shuffle = default_shuffle)
       : Scenario(), radius(radius), tolerance(tolerance),
         position_noise(default_position_noise),
         orientation_noise(default_orientation_noise),

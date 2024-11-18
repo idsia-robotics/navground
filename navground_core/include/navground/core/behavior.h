@@ -65,7 +65,7 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasRegister<Behavior>,
 public:
   using HasRegister<Behavior>::C;
 
-  DECLARE_TYPE
+  static const std::string type;
 
   /**
    * @brief      Different behavior variants for the angular
@@ -629,7 +629,7 @@ public:
    *
    * @param[in]  twist_cmd  The twist
    * @param[in]  time_step  The time step
-   * @param[in]  time_step  Whether to enforce that the command is
+   * @param[in]  enforce_feasibility  Whether to enforce that the command is
    * kinematically feasible
    */
   void actuate(const Twist2 &twist_cmd, ng_float_t time_step, bool enforce_feasibility = false);

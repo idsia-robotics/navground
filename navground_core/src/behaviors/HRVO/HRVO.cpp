@@ -12,9 +12,7 @@ namespace navground::core {
 
 HRVOBehavior::HRVOBehavior(std::shared_ptr<Kinematics> kinematics,
                            ng_float_t radius)
-    : Behavior(kinematics, radius),
-      state(),
-      agentIndex(0),
+    : Behavior(kinematics, radius), state(), agentIndex(0),
       // rangeSq(0),
       _HRVOAgent(std::make_unique<HRVO::Agent>()) {
   _HRVOAgent->maxNeighbors_ = 1000;
@@ -107,7 +105,8 @@ void HRVOBehavior::add_neighbor(const Neighbor &neighbor, float rangeSq,
   }
   a->position_ = HRVO::Vector2(static_cast<ng_float_t>(p.x()),
                                static_cast<ng_float_t>(p.y()));
-  a->radius_ = neighbor.radius + safety_margin + social_margin.get(neighbor.id, distance);
+  a->radius_ = neighbor.radius + safety_margin +
+               social_margin.get(neighbor.id, distance);
 
   // float distance;
   // [[maybe_unused]] Vector2 relative_position =
@@ -139,8 +138,8 @@ Vector2 HRVOBehavior::desired_velocity_towards_point(const Vector2 &point,
   Vector2 velocity;
   if (n) {
     velocity = delta / n *
-               std::max<ng_float_t>(
-                   0, dt ? std::min<ng_float_t>(speed, n / dt) : speed);
+               std::max<ng_float_t>(0, dt ? std::min<ng_float_t>(speed, n / dt)
+                                          : speed);
   }
   return desired_velocity_towards_velocity(velocity, dt);
 }
@@ -168,18 +167,17 @@ unsigned HRVOBehavior::get_max_number_of_neighbors() const {
   return _HRVOAgent->maxNeighbors_;
 }
 
-const std::map<std::string, Property> HRVOBehavior::properties =
-    Properties{
+const std::string HRVOBehavior::type = register_type<HRVOBehavior>(
+    "HRVO",
+    {
         {"uncertainty_offset",
-         make_property<ng_float_t, HRVOBehavior>(
-             &HRVOBehavior::get_uncertainty_offset,
-             &HRVOBehavior::set_uncertainty_offset, 0, "Uncertainty offset")},
-        {"max_neighbors", make_property<int, HRVOBehavior>(
-                              &HRVOBehavior::get_max_number_of_neighbors,
-                              &HRVOBehavior::set_max_number_of_neighbors, 1000,
-                              "The maximal number of [HRVO] neighbors")},
-    };
+         Property::make(&HRVOBehavior::get_uncertainty_offset,
+                        &HRVOBehavior::set_uncertainty_offset, 0,
+                        "Uncertainty offset")},
+        {"max_neighbors",
+         Property::make(&HRVOBehavior::get_max_number_of_neighbors,
+                        &HRVOBehavior::set_max_number_of_neighbors, 1000,
+                        "The maximal number of [HRVO] neighbors")},
+    });
 
-const std::string HRVOBehavior::type = register_type<HRVOBehavior>("HRVO");
-
-}  // namespace navground::core
+} // namespace navground::core

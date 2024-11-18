@@ -15,11 +15,6 @@
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/world.h"
 
-using navground::core::BufferDescription;
-using navground::core::CollisionComputation;
-using navground::core::make_property;
-using navground::core::Properties;
-using navground::core::Property;
 
 namespace navground::sim {
 
@@ -44,7 +39,7 @@ namespace navground::sim {
  *
  */
 struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
 
   using Error = std::normal_distribution<ng_float_t>;
   /**
@@ -221,11 +216,11 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
   Description get_description() const override {
     return {
         {get_field_name(field_name),
-         BufferDescription::make<ng_float_t>({_resolution}, 0.0, _range)},
+         core::BufferDescription::make<ng_float_t>({_resolution}, 0.0, _range)},
         {get_field_name("start_angle"),
-         BufferDescription::make<ng_float_t>({1}, -core::TWO_PI, core::TWO_PI)},
+         core::BufferDescription::make<ng_float_t>({1}, -core::TWO_PI, core::TWO_PI)},
         {get_field_name("fov"),
-         BufferDescription::make<ng_float_t>({1}, 0.0, core::TWO_PI)}};
+         core::BufferDescription::make<ng_float_t>({1}, 0.0, core::TWO_PI)}};
   }
 
   /**
@@ -264,7 +259,7 @@ private:
   int _resolution;
   core::Vector2 _position;
   Error _error;
-  CollisionComputation _cc;
+  core::CollisionComputation _cc;
 };
 
 } // namespace navground::sim

@@ -14,10 +14,6 @@
 #include "navground/sim/export.h"
 #include "navground/sim/scenario.h"
 
-using navground::core::make_property;
-using navground::core::Properties;
-using navground::core::Property;
-
 namespace navground::sim {
 
 /**
@@ -36,7 +32,7 @@ namespace navground::sim {
  *   - `add_safety_to_agent_margin` (bool, \ref get_add_safety_to_agent_margin)
  */
 struct NAVGROUND_SIM_EXPORT CorridorScenario : public Scenario {
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
   
   // corridor width
   ng_float_t width;
@@ -51,7 +47,7 @@ struct NAVGROUND_SIM_EXPORT CorridorScenario : public Scenario {
   bool add_safety_to_agent_margin;
   inline static bool default_add_safety_to_agent_margin = true;
 
-  CorridorScenario(
+  explicit CorridorScenario(
       ng_float_t width = default_width, ng_float_t length = default_length,
       ng_float_t agent_margin = default_agent_margin,
       bool add_safety_to_agent_margin = default_add_safety_to_agent_margin)

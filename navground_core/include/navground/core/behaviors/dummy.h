@@ -22,7 +22,7 @@ namespace navground::core {
  */
 class NAVGROUND_CORE_EXPORT DummyBehavior : public Behavior {
  public:
-  DECLARE_TYPE
+  static const std::string type;
 
   //   static constexpr char type[] = "Dummy";
 

@@ -12,11 +12,6 @@
 #include "navground/sim/export.h"
 #include "navground/sim/task.h"
 
-using navground::core::make_property;
-using navground::core::Properties;
-using navground::core::Property;
-using navground::core::Vector2;
-
 namespace navground::sim {
 
 /**
@@ -28,14 +23,14 @@ namespace navground::sim {
  *   - `direction` (\ref navground::core::Vector2, \ref get_direction)
  */
 struct NAVGROUND_SIM_EXPORT DirectionTask : Task {
-  DECLARE_TYPE_AND_PROPERTIES
+  static const std::string type;
   
   /**
    * @brief      Constructs a new instance.
    *
    * @param[in]  direction   The direction
    */
-  explicit DirectionTask(Vector2 direction = Vector2(1, 0))
+  explicit DirectionTask(core::Vector2 direction = core::Vector2(1, 0))
       : Task(), _direction(direction), _stop(direction.norm() == 0) {}
 
   virtual ~DirectionTask() = default;
@@ -50,7 +45,7 @@ struct NAVGROUND_SIM_EXPORT DirectionTask : Task {
    *
    * @param[in]  value  The desired direction
    */
-  void set_direction(const Vector2 &value) {
+  void set_direction(const core::Vector2 &value) {
     _direction = value;
     _stop = _direction.norm();
   }
@@ -60,7 +55,7 @@ struct NAVGROUND_SIM_EXPORT DirectionTask : Task {
    *
    * @return     The direction.
    */
-  Vector2 get_direction() const { return _direction; }
+  core::Vector2 get_direction() const { return _direction; }
 
 protected:
   /**
@@ -69,7 +64,7 @@ protected:
   void prepare(Agent *agent, World *world) override;
 
 private:
-  Vector2 _direction;
+  core::Vector2 _direction;
   bool _stop;
 };
 

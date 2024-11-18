@@ -8,8 +8,8 @@ from typing import TYPE_CHECKING, Dict, List, Optional, Set, Tuple, Union
 import numpy as np
 from navground import core
 
-from . import (Agent, BoundingBox, RecordConfig, World, _Scenario,
-               load_experiment, load_world)
+from . import (Agent, BoundingBox, ExperimentalRun, RecordConfig, World,
+               _Scenario, load_experiment, load_world)
 
 if TYPE_CHECKING:
     import h5py  # type: ignore
@@ -86,6 +86,11 @@ class RecordedExperimentalRun:
         self.task_events: Dict[int, 'h5py.Dataset'] = {
             int(k): v
             for k, v in group.get('task_events', {}).items()
+        }
+        """The sensing state"""
+        self.sensing: Dict[int, 'h5py.Group'] = {
+            int(k): v
+            for k, v in group.get('sensing', {}).items()
         }
         """The recorded task events"""
         self.safety_violations: Optional['h5py.Dataset'] = group.get(
@@ -258,13 +263,28 @@ class RecordedExperimentalRun:
                 for ps, agent in zip(self.commands[self._step],
                                      self.world.agents):
                     agent.last_cmd = core.Twist2(ps[:2], ps[2])
-            # if self.targets:
-            #     for ps, agent in zip(self.targets[self._step],
-            #                          self.world.agents):
-            #         if agent.behavior:
-            #             # TODO(Jerome): we are ignoring that values may be optional
-            #             agent.behavior.task.position = ps[:2]
-            #             agent.behavior.task.orientation = ps[2]
+            if self.sensing and self.record_config:
+                use_uid = self.record_config.use_agent_uid_as_key
+                for i, ds in self.sensing.items():
+                    if use_uid:
+                        if i not in self._indices:
+                            continue
+                        i = self._indices[i]
+                    agent = self.world.agents[i]
+                    if agent and agent.behavior:
+                        state = agent.behavior.environment_state
+                        if isinstance(state, core.SensingState):
+                            for key, data in ds.items():
+                                state.set_buffer(
+                                    key=key,
+                                    buffer=core.Buffer(data=np.asarray(data)))
+
+            if self.targets:
+                for ps, agent in zip(self.targets[self._step],
+                                     self.world.agents):
+                    if agent.behavior:
+                        agent.behavior.target = ExperimentalRun.target_from_data(
+                            ps)
 
             if self.times:
                 self.world.time = self.times[self._step]

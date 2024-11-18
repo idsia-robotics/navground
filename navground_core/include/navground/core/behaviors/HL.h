@@ -50,6 +50,8 @@ namespace navground::core {
  */
 class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
  public:
+  DECLARE_TYPE_AND_PROPERTIES
+
   /**
    * Default \f$\eta\f$
    */
@@ -233,22 +235,6 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
 
   /** @private
    */
-  virtual const Properties &get_properties() const override {
-    return properties;
-  };
-
-  /**
-   * Properties: tau, eta, aperture, and resolution
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
-  /** @private
-   */
-  virtual std::string get_type() const override { return type; }
-
-  /** @private
-   */
   EnvironmentState *get_environment_state() override { return &state; }
 
  protected:
@@ -274,12 +260,16 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    *
    * If \f$\tau=0\f$, no relaxation is performed and the desired target velocity
    * is returned.
+   * 
+   * @param[in] time_step The time step
    *
    */
-  Twist2 compute_cmd_internal(ng_float_t time_step, Frame frame) override;
+  Twist2 compute_cmd_internal(ng_float_t time_step) override;
 
+  /** @private */
   Vector2 desired_velocity_towards_point(const Vector2 &value, ng_float_t speed,
                                          ng_float_t time_step) override;
+  /** @private */
   Vector2 desired_velocity_towards_velocity(const Vector2 &value,
                                             ng_float_t time_step) override;
 
@@ -299,9 +289,6 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
 
   DiscCache make_neighbor_cache(const Neighbor &neighbor);
   DiscCache make_obstacle_cache(const Disc &obstacle);
-
- private:
-  const static std::string type;
 };
 
 }  // namespace navground::core

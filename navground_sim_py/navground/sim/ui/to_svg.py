@@ -1,14 +1,14 @@
 import math
 import os
 from collections import ChainMap
-from typing import (Any, Callable, Dict, List, MutableMapping, Optional, Tuple,
-                    Union, cast)
+from typing import (Any, Callable, Collection, Dict, List, MutableMapping,
+                    Optional, Tuple, Union, cast)
 
 import jinja2
 import numpy as np
 from navground import core
 
-from .. import Agent, Entity, Obstacle, Wall, World, BoundingBox
+from .. import Agent, BoundingBox, Entity, Obstacle, Wall, World
 
 Point = np.ndarray
 Rect = Union[Tuple[Point, Point], np.ndarray]
@@ -202,7 +202,8 @@ def svg_for_world(
         grid: float = 0,
         grid_color: str = 'grey',
         grid_thickness: float = 0.01,
-        rotation: Tuple[core.Vector2, float] | float | None = None) -> str:
+        rotation: Tuple[core.Vector2, float] | float | None = None,
+        extras: Collection[Callable[[World], str]] = []) -> str:
     """
     Draw the world as a SVG.
 
@@ -221,6 +222,7 @@ def svg_for_world(
     :param      grid_color:             The color of the grid
     :param      grid_thickness:         The thickness of the grid
     :param      rotation:               A planar rotation applied before drawing [rad]
+    :param      extras:                 Provides extras rendering added at the end of to the svg
 
     :returns:   An SVG string
     """
@@ -236,7 +238,8 @@ def svg_for_world(
                           grid=grid,
                           grid_color=grid_color,
                           grid_thickness=grid_thickness,
-                          rotation=rotation)[0]
+                          rotation=rotation,
+                          extras=extras)[0]
 
 
 def _svg_for_world(
@@ -257,7 +260,8 @@ def _svg_for_world(
     grid: float = 0,
     grid_color: str = 'grey',
     grid_thickness: float = 0.01,
-    rotation: Tuple[core.Vector2, float] | float | None = None
+    rotation: Tuple[core.Vector2, float] | float | None = None,
+    extras: Collection[Callable[[World], str]] = [],
 ) -> Tuple[str, Dict[str, str]]:
     g = ""
     if world:
@@ -345,6 +349,10 @@ def _svg_for_world(
         r = f'rotate({theta / math.pi * 180: .4f}, {x: .4f}, {y: .4f})'
     else:
         r = ''
+    if world:
+        epilog = '\n'.join([e(world) for e in extras])
+    else:
+        epilog = ''
     return jinjia_env.get_template('world.svg').render(
         svg_world=g,
         prefix=prefix,
@@ -355,6 +363,7 @@ def _svg_for_world(
         display_shape=display_shape,
         grid=grid,
         rotation=r,
+        epilog=epilog,
         **grid_kwargs,
         **dims), dims
 

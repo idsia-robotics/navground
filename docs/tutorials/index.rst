@@ -12,5 +12,6 @@ Tutorials
    playback
    deadlocks_and_collisions
    modulations
+   sensors
 
 

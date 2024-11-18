@@ -10,4 +10,25 @@ Register
 
 .. doxygenstruct:: navground::core::HasRegister
    :members:
-   
+
+Macros
+======
+
+.. doxygendefine:: OVERRIDE_TYPE
+   :project: navground
+
+.. doxygendefine:: OVERRIDE_PROPERTIES
+   :project: navground
+
+.. doxygendefine:: OVERRIDE_TYPE_AND_PROPERTIES
+   :project: navground
+
+.. doxygendefine:: DECLARE_TYPE
+   :project: navground
+
+.. doxygendefine:: DECLARE_PROPERTIES
+   :project: navground
+
+.. doxygendefine:: DECLARE_TYPE_AND_PROPERTIES
+   :project: navground
+

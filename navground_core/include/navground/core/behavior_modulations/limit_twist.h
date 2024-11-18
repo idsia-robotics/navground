@@ -31,6 +31,8 @@ namespace navground::core {
  */
 class NAVGROUND_CORE_EXPORT LimitTwistModulation : public BehaviorModulation {
 public:
+  DECLARE_TYPE_AND_PROPERTIES
+
   /**
    * @brief      Construct a new instance
    *
@@ -49,11 +51,6 @@ public:
       : BehaviorModulation(), _max_forward_speed(forward),
         _max_backward_speed(backward), _max_leftward_speed(leftward),
         _max_rightward_speed(rightward), _max_angular_speed(angular) {}
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
 
   /**
    * @private
@@ -146,7 +143,7 @@ public:
   /**
    * @brief      Sets the maximal angular speed.
    *
-   * @param[in]  value  If lower than zero or infinite, 
+   * @param[in]  value  If lower than zero or infinite,
    *                       clipping is effectively disabled.
    */
   void set_max_angular_speed(ng_float_t value) {
@@ -157,20 +154,7 @@ public:
     }
   }
 
-  /** @private
-   */
-  virtual const Properties &get_properties() const override {
-    return properties;
-  };
-
-  /**
-   * Properties: forward, backward, leftward, rightward, angular
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
 private:
-  static const std::string type;
   ng_float_t _max_forward_speed;
   ng_float_t _max_backward_speed;
   ng_float_t _max_leftward_speed;

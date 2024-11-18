@@ -12,8 +12,8 @@
 
 #include "navground/core/buffer.h"
 #include "navground/core/types.h"
-#include "navground/sim/world.h"
 #include "navground/sim/export.h"
+#include "navground/sim/world.h"
 
 namespace navground::sim {
 
@@ -23,7 +23,7 @@ namespace navground::sim {
  *             collected during an \ref ExperimentalRun.
  */
 class NAVGROUND_SIM_EXPORT Dataset {
- public:
+public:
   /**
    * The data type
    */
@@ -56,7 +56,7 @@ class NAVGROUND_SIM_EXPORT Dataset {
    * @param[in]  item_shape  The shape of all axis except the first.
    *             Leave empty to instantiate a flat dataset.
    */
-  explicit Dataset(const Shape& item_shape = {})
+  explicit Dataset(const Shape &item_shape = {})
       : _data(), _item_shape(), _item_size(1) {
     set_item_shape(item_shape);
   }
@@ -74,7 +74,7 @@ class NAVGROUND_SIM_EXPORT Dataset {
    * @return     A shared pointer to the dataset
    */
   template <typename T>
-  static std::shared_ptr<Dataset> make(const Shape& item_shape = {}) {
+  static std::shared_ptr<Dataset> make(const Shape &item_shape = {}) {
     auto ds = std::make_shared<Dataset>(item_shape);
     ds->set_dtype<T>();
     return ds;
@@ -85,7 +85,7 @@ class NAVGROUND_SIM_EXPORT Dataset {
    *
    * @param[in]  buffer  The buffer
    */
-  void config_to_hold_buffer(const navground::core::Buffer& buffer);
+  void config_to_hold_buffer(const navground::core::Buffer &buffer);
 
   // static std::shared_ptr<Dataset> make(const core::Buffer& buffer);
 
@@ -114,7 +114,7 @@ class NAVGROUND_SIM_EXPORT Dataset {
    *
    * @param[in]  item_shape  The desired shape
    */
-  void set_item_shape(const Shape& item_shape);
+  void set_item_shape(const Shape &item_shape);
 
   /**
    * @brief      Determines if valid.
@@ -136,8 +136,7 @@ class NAVGROUND_SIM_EXPORT Dataset {
    *
    * @tparam     T     The desired numerical type.
    */
-  template <typename T>
-  void set_dtype() {
+  template <typename T> void set_dtype() {
     if (!std::holds_alternative<std::vector<T>>(_data)) {
       _data = std::vector<T>();
     }
@@ -146,7 +145,7 @@ class NAVGROUND_SIM_EXPORT Dataset {
   /**
    * @private
    */
-  void save(const std::string& key, HighFive::Group& group) const;
+  void save(const std::string &key, HighFive::Group &group) const;
 
   /**
    * @brief      Add an item.
@@ -159,9 +158,8 @@ class NAVGROUND_SIM_EXPORT Dataset {
    * @tparam     T      The type of the item.
    *                    Must be convertible to the current data type.
    */
-  template <typename T>
-  void push(const T& value) {
-    std::visit([value](auto&& arg) { arg.push_back(value); }, _data);
+  template <typename T> void push(const T &value) {
+    std::visit([value](auto &&arg) { arg.push_back(value); }, _data);
   }
 
   /**
@@ -173,7 +171,7 @@ class NAVGROUND_SIM_EXPORT Dataset {
    * @param[in]  value  The value to add
    *
    */
-  void push(const Scalar& value);
+  void push(const Scalar &value);
 
   /**
    * @brief      Add items.
@@ -186,10 +184,9 @@ class NAVGROUND_SIM_EXPORT Dataset {
    * @tparam     T       The type of the items.
    *                     Must be convertible to the current data type.
    */
-  template <typename T>
-  void append(const std::vector<T>& values) {
+  template <typename T> void append(const std::vector<T> &values) {
     std::visit(
-        [&values](auto&& arg) {
+        [&values](auto &&arg) {
           std::copy(values.begin(), values.end(), std::back_inserter(arg));
         },
         _data);
@@ -206,10 +203,9 @@ class NAVGROUND_SIM_EXPORT Dataset {
    * @tparam     T       The type of the items.
    *                     Must be convertible to the current data type.
    */
-  template <typename T>
-  void append(const std::valarray<T>& values) {
+  template <typename T> void append(const std::valarray<T> &values) {
     std::visit(
-        [&values](auto&& arg) {
+        [&values](auto &&arg) {
           std::copy(std::begin(values), std::end(values),
                     std::back_inserter(arg));
         },
@@ -225,7 +221,7 @@ class NAVGROUND_SIM_EXPORT Dataset {
    * @param[in]  values  The values to add
    *
    */
-  void append(const Data& values);
+  void append(const Data &values);
 
   /**
    * @brief      Add items.
@@ -236,21 +232,21 @@ class NAVGROUND_SIM_EXPORT Dataset {
    * @param[in]  buffer  The buffer with the values to add
    *
    */
-  void append(const core::Buffer& buffer);
+  void append(const core::Buffer &buffer);
 
   /**
    * @brief      Gets the stored data.
    *
    * @return     The data.
    */
-  const Data& get_data() const { return _data; }
+  const Data &get_data() const { return _data; }
 
   /**
    * @brief      Sets the stored data.
    *
    * @param[in]  data  The data.
    */
-  void set_data(const Data& data) { _data = data; }
+  void set_data(const Data &data) { _data = data; }
 
   /**
    * @brief      Gets the stored data.
@@ -261,8 +257,7 @@ class NAVGROUND_SIM_EXPORT Dataset {
    * @return     A pointer to the stored data or null if data has a different
    * type than ``T``.
    */
-  template <typename T>
-  const std::vector<T>* get_typed_data() const {
+  template <typename T> const std::vector<T> *get_typed_data() const {
     return std::get_if<std::vector<T>>(&_data);
   }
 
@@ -277,22 +272,48 @@ class NAVGROUND_SIM_EXPORT Dataset {
   template <typename T, int N>
   Eigen::TensorMap<Eigen::Tensor<T, N>> const as_tensor() const {
     auto data = get_typed_data<T>();
-    T* ptr = const_cast<T*>(data->data());
+    T *ptr = const_cast<T *>(data->data());
     std::array<size_t, N> shape;
     auto _shape = get_shape();
     std::copy_n(_shape.rbegin(), N, shape.begin());
     return Eigen::TensorMap<Eigen::Tensor<T, N>>(ptr, shape);
   }
 
- private:
+  /**
+   * @brief      Writes a buffer with the content one dataset entry.
+   *
+   * @param      buffer  The buffer
+   * @param[in]  index   The index of the entry
+   *
+   * @return     True if writing was successful.
+   */
+  bool write_buffer(core::Buffer *buffer, unsigned index) const {
+    if (!buffer || buffer->size() != _item_size) {
+      return false;
+    }
+    if ((index + 1) * _item_size > size()) {
+      return false;
+    }
+    std::visit(
+        [this, index, buffer](auto &&arg) {
+          using T = std::remove_reference_t<decltype(arg[0])>;
+          using U = std::remove_const_t<T>;
+          std::valarray<U> bdata(arg.data() + _item_size * index, _item_size);
+          buffer->set_data(bdata);
+        },
+        _data);
+    return true;
+  }
+
+private:
   Data _data;
   Shape _item_shape;
   unsigned _item_size;
 
-  static size_t get_size(const Data& data);
-  static size_t get_shape_size(const Shape& data);
+  static size_t get_size(const Data &data);
+  static size_t get_shape_size(const Shape &data);
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_DATASET_H_ */

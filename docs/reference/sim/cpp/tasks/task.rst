@@ -8,4 +8,5 @@ Base class
 
 .. doxygenstruct:: navground::sim::Task
    :members:
+   :protected-members:
 

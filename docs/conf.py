@@ -32,7 +32,8 @@ extensions = [
     'sphinxcontrib.video',
     'sphinx_copybutton',
     'sphinxcontrib.tikz',
-    'sphinx.ext.intersphinx'
+    'sphinx.ext.intersphinx',
+    'sphinx-prompt'
     # 'sphinx_autodoc_defaultargs'
 ]
 

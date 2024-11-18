@@ -22,6 +22,10 @@ namespace navground::core {
  */
 class NAVGROUND_CORE_EXPORT DummyBehavior : public Behavior {
  public:
+  DECLARE_TYPE
+
+  //   static constexpr char type[] = "Dummy";
+
   /**
    * @brief      Contruct a new instance
    *
@@ -32,19 +36,11 @@ class NAVGROUND_CORE_EXPORT DummyBehavior : public Behavior {
                 ng_float_t radius = 0)
       : Behavior(kinematics, radius) {}
 
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
  protected:
   Vector2 desired_velocity_towards_point(const Vector2& point, ng_float_t speed,
                                          ng_float_t time_step) override;
   Vector2 desired_velocity_towards_velocity(const Vector2& velocity,
                                             ng_float_t time_step) override;
-
- private:
-     static const std::string type;
 };
 
 }  // namespace navground::core

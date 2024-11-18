@@ -190,6 +190,50 @@ public:
   }
 };
 
+core::Target
+ExperimentalRun::target_from_data(const std::vector<ng_float_t> &data) {
+  core::Target target;
+  if (data[0]) {
+    target.position = Vector2(data[1], data[2]);
+  }
+  if (data[3]) {
+    target.orientation = data[4];
+  }
+  if (data[5]) {
+    target.speed = data[6];
+  }
+  if (data[7]) {
+    target.direction = Vector2(data[8], data[9]);
+  }
+  if (data[10]) {
+    target.angular_speed = data[11];
+  }
+  target.position_tolerance = data[12];
+  target.orientation_tolerance = data[13];
+  return target;
+}
+
+std::vector<ng_float_t>
+ExperimentalRun::data_from_target(const core::Target &target) {
+  const auto position = target.position.value_or(Vector2::Zero());
+  const auto direction = target.direction.value_or(Vector2::Zero());
+  return std::vector<ng_float_t>{
+      static_cast<ng_float_t>(bool(target.position)),
+      position[0],
+      position[1],
+      static_cast<ng_float_t>(bool(target.orientation)),
+      target.orientation.value_or(0),
+      static_cast<ng_float_t>(bool(target.speed)),
+      target.speed.value_or(0),
+      static_cast<ng_float_t>(bool(target.direction)),
+      direction[0],
+      direction[1],
+      static_cast<ng_float_t>(bool(target.angular_speed)),
+      target.angular_speed.value_or(0),
+      target.position_tolerance,
+      target.orientation_tolerance};
+}
+
 class TargetProbe : public RecordProbe {
 public:
   using RecordProbe::RecordProbe;
@@ -198,21 +242,15 @@ public:
   void update(ExperimentalRun *run) override {
     for (const auto &agent : run->get_world()->get_agents()) {
       if (auto b = agent->get_behavior()) {
-        const auto target = b->get_target();
-        const auto position = target.position.value_or(Vector2::Zero());
-        get_data()->push(position[0]);
-        get_data()->push(position[1]);
-        get_data()->push(target.orientation.value_or(0.0));
+        get_data()->append(ExperimentalRun::data_from_target(b->get_target()));
       } else {
-        get_data()->push(0);
-        get_data()->push(0);
-        get_data()->push(0);
+        get_data()->append(std::vector<Type>(0, 14));
       }
     }
   }
 
   Dataset::Shape get_shape(const World &world) const override {
-    return {world.get_agents().size(), 3};
+    return {world.get_agents().size(), 14};
   }
 };
 
@@ -373,7 +411,7 @@ public:
         }
       }
       for (; i < number; ++i) {
-        get_data()->append(std::vector<ng_float_t>{0, 0, 0, 0, 0});
+        get_data()->append(std::vector<ng_float_t>(0, 5));
       }
     }
   }
@@ -554,6 +592,15 @@ find_full_names(const std::set<std::string> &all) {
   return rs;
 }
 
+std::tuple<std::string, std::string>
+ExperimentalRun::split_key(const std::string &key) {
+  const auto found = key.find('/');
+  if (found != std::string::npos) {
+    return {key.substr(0, found), key.substr(found + 1)};
+  }
+  return {key, ""};
+}
+
 std::set<std::string>
 ExperimentalRun::get_record_names(const std::string &group) const {
   if (group.empty()) {
@@ -641,7 +688,8 @@ void ExperimentalRun::reset() {
 }
 
 bool ExperimentalRun::go_to_step(int step, bool ignore_collisions,
-                                 bool ignore_twists, bool ignore_cmds) {
+                                 bool ignore_twists, bool ignore_cmds,
+                                 bool ignore_targets, bool ignore_sensing) {
   if (step < 0) {
     step += get_recorded_steps();
   }
@@ -653,6 +701,8 @@ bool ExperimentalRun::go_to_step(int step, bool ignore_collisions,
   auto times = get_times();
   auto twists = get_twists();
   auto cmds = get_cmds();
+  auto sensing = get_sensing();
+  auto targets = get_targets();
   if (poses) {
     auto data = poses->as_tensor<ng_float_t, 3>();
     size_t i = 0;
@@ -678,6 +728,34 @@ bool ExperimentalRun::go_to_step(int step, bool ignore_collisions,
     for (auto &agent : _world->get_agents()) {
       agent->last_cmd =
           Twist2({data(0, i, step), data(1, i, step)}, data(2, i, step));
+      i++;
+    }
+  }
+  if (targets && !ignore_targets) {
+    size_t i = 0;
+    auto data = targets->as_tensor<ng_float_t, 3>();
+    for (auto &agent : _world->get_agents()) {
+      auto behavior = agent->get_behavior();
+      if (behavior) {
+        behavior->set_target(target_from_data(
+            std::vector<ng_float_t>(&data(0, i, step), &data(14, i, step))));
+      }
+      i++;
+    }
+  }
+  if (sensing.size() && !ignore_sensing) {
+    size_t i = 0;
+    for (auto &agent : _world->get_agents()) {
+      core::SensingState *state = dynamic_cast<core::SensingState *>(
+          agent->get_behavior()->get_environment_state());
+      if (state && sensing.count(i)) {
+        for (auto const &[key, ds] : sensing[i]) {
+          auto buffer = state->get_buffer(key);
+          if (buffer) {
+            ds->write_buffer(buffer, step);
+          }
+        }
+      }
       i++;
     }
   }

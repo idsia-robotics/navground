@@ -24,10 +24,12 @@ namespace navground::sim {
  * *Registered properties*:
  *
  *   - `range` (float, \ref get_range), deprecated synonym `range_of_view`
- *   
+ *
  *   - `update_static_obstacles` (bool, \ref get_update_static_obstacles)
  */
 struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
+  DECLARE_TYPE_AND_PROPERTIES
+  
   /**
    * Default range value
    */
@@ -94,23 +96,6 @@ struct NAVGROUND_SIM_EXPORT BoundedStateEstimation : public StateEstimation {
   // float get_field_of_view() const { return field_of_view; }
 
   /**
-   * @private
-   */
-  virtual const Properties &get_properties() const override {
-    return properties;
-  };
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
-  /**
    * @brief      Gets the neighbors that lie within \ref get_range from the
    * agent.
    *
@@ -166,7 +151,6 @@ private:
   // float field_of_view;
   ng_float_t _range;
   bool _update_static_obstacles;
-  const static std::string type;
 };
 
 } // namespace navground::sim

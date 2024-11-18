@@ -36,19 +36,19 @@ public:
    *
    * @param[in]  run The run
    */
-  virtual void prepare([[maybe_unused]] ExperimentalRun * run) {}
+  virtual void prepare([[maybe_unused]] ExperimentalRun *run) {}
   /**
    * @brief      Called at each simulation step
    *
    * @param[in]  run The run
    */
-  virtual void update([[maybe_unused]] ExperimentalRun * run) {}
+  virtual void update([[maybe_unused]] ExperimentalRun *run) {}
   /**
    * @brief      Called at end of a simulation run
    *
    * @param[in]  run The run
    */
-  virtual void finalize([[maybe_unused]] ExperimentalRun * run) {}
+  virtual void finalize([[maybe_unused]] ExperimentalRun *run) {}
 };
 
 /**
@@ -99,9 +99,7 @@ public:
    *
    * @return     The data.
    */
-  std::shared_ptr<Dataset> get_data() {
-    return _data;
-  }
+  std::shared_ptr<Dataset> get_data() { return _data; }
 
 #if 0
   /**
@@ -114,7 +112,7 @@ public:
   }
 #endif
 
- private:
+private:
   /**
    * The recorded data
    */
@@ -135,7 +133,6 @@ public:
    * \ref ExperimentalRun::add_group_record_probe<T> to work with them.
    */
   using Type = ng_float_t;
-
 
   /**
    * Generates dataset for a given key
@@ -168,9 +165,9 @@ public:
 
   /**
    * @private
-   * 
+   *
    */
-  void prepare(ExperimentalRun * run) override;
+  void prepare(ExperimentalRun *run) override;
 
   /**
    * @brief      Gets the recorded data,
@@ -237,7 +234,11 @@ public:
                         const std::shared_ptr<Sensor> &sensor = nullptr,
                         const std::vector<unsigned> &agent_indices = {})
       : Probe(), _data(), _sensor(sensor), _states(),
-        _agent_indices(agent_indices), _name(name) {}
+        _agent_indices(agent_indices), _name(name) {
+    if (_name.empty() && _sensor == nullptr) {
+      _name = "sensing";
+    }
+  }
 
   /**
    * @private
@@ -262,6 +263,7 @@ private:
   std::map<unsigned, core::SensingState> _states;
   std::vector<unsigned> _agent_indices;
   std::string _name;
+  core::SensingState *get_state(const Agent *agent);
 };
 
 } // namespace navground::sim

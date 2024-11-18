@@ -23,12 +23,22 @@ void LidarStateEstimation::update(Agent *agent, World *world,
     auto buffer = get_or_init_buffer(*_state, field_name);
     if (buffer) {
       if (has_error()) {
-        auto & rg = world->get_random_generator();
+        auto &rg = world->get_random_generator();
         for (size_t i = 0; i < ranges.size(); ++i) {
           ranges[i] = std::clamp<ng_float_t>(ranges[i] + _error(rg), 0, _range);
         }
       }
       buffer->set_data(ranges);
+    }
+
+    buffer = get_or_init_buffer(*_state, "start_angle");
+    if (buffer) {
+      buffer->set_data(std::valarray<ng_float_t>{_start_angle});
+    }
+
+    buffer = get_or_init_buffer(*_state, "fov");
+    if (buffer) {
+      buffer->set_data(std::valarray<ng_float_t>{_field_of_view});
     }
   }
 }

@@ -64,9 +64,9 @@ struct PyHasRegister : public virtual navground::core::HasRegister<T> {
   inline static std::map<std::string, Factory> factory = {};
 
   static void register_type_py(const std::string &name, const py::object &cls) {
-    if (factory.count(name)) {
-      std::cerr << "Type " << name << " already registered" << std::endl;
-    }
+    // if (factory.count(name)) {
+    //   std::cerr << "Type " << name << " already registered" << std::endl;
+    // }
     factory[name] = cls;
     type_properties()[name] = Properties{};
   }
@@ -131,6 +131,7 @@ struct PyHasRegister : public virtual navground::core::HasRegister<T> {
     } else {
       p.setter = nullptr;
     }
+    p.readonly = py_setter.is_none();
     p.default_value = default_value;
     p.type_name = type_name;
     p.description = description;

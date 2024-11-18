@@ -33,15 +33,31 @@ void SensingProbe::prepare(ExperimentalRun *run) {
   }
   for (auto i : _agent_indices) {
     const auto agent = agents[i];
-    auto &state = _states[agent->uid];
-    _sensor->prepare_state(state);
-    const unsigned agent_key = use_uid ? agent->uid : i;
-    for (const auto &[key, buffer] : state.get_buffers()) {
-      auto ds = run->add_record(key, std::to_string(agent_key) + "/" + _name);
-      ds->config_to_hold_buffer(buffer);
-      _data[agent_key][key] = ds;
+    auto state = get_state(agent.get());
+    if (state) {
+      if (_sensor) {
+        _sensor->prepare_state(*state);
+      }
+      const unsigned agent_key = use_uid ? agent->uid : i;
+      for (const auto &[key, buffer] : state->get_buffers()) {
+        auto ds = run->add_record(key, _name + "/" + std::to_string(agent_key));
+        ds->config_to_hold_buffer(buffer);
+        _data[agent_key][key] = ds;
+      }
     }
   }
+}
+
+core::SensingState *SensingProbe::get_state(const Agent *agent) {
+  if (_sensor) {
+    return &(_states[agent->uid]);
+  }
+  auto behavior = agent->get_behavior();
+  if (behavior) {
+    return dynamic_cast<core::SensingState *>(
+        behavior->get_environment_state());
+  }
+  return nullptr;
 }
 
 void SensingProbe::update(ExperimentalRun *run) {
@@ -50,15 +66,15 @@ void SensingProbe::update(ExperimentalRun *run) {
   const bool use_uid = run->get_record_config().use_agent_uid_as_key;
   for (auto i : _agent_indices) {
     const auto agent = agents[i];
-    if (_states.count(agent->uid) == 0)
-      continue;
-    auto &state = _states[agent->uid];
-    if (_sensor) {
-      _sensor->update(agent.get(), world.get(), &state);
-    }
-    const unsigned agent_key = use_uid ? agent->uid : i;
-    for (const auto &[key, buffer] : state.get_buffers()) {
-      _data[agent_key][key]->append(buffer);
+    auto state = get_state(agent.get());
+    if (state) {
+      if (_sensor) {
+        _sensor->update(agent.get(), world.get(), state);
+      }
+      const unsigned agent_key = use_uid ? agent->uid : i;
+      for (const auto &[key, buffer] : state->get_buffers()) {
+        _data[agent_key][key]->append(buffer);
+      }
     }
   }
 }

@@ -148,6 +148,7 @@ struct PyTask : Task, virtual PyHasRegister<Task> {
   // using PyHasRegister<Task>::decode;
   // using PyHasRegister<Task>::encode;
   using Native = Task;
+  using Task::log_event; 
 
   void update(Agent *agent, World *world, ng_float_t time) override {
     PYBIND11_OVERRIDE(void, Task, update, agent, world, time);
@@ -356,6 +357,12 @@ struct PyScenario : public Scenario, virtual PyHasRegister<Scenario> {
   void init_world(World *world,
                   std::optional<int> seed = std::nullopt) override {
     PYBIND11_OVERRIDE(void, Scenario, init_world, world, seed);
+  }
+
+  std::shared_ptr<World> make_world(std::optional<int> seed = std::nullopt) {
+    auto world = std::make_shared<PyWorld>();
+    init_world(world.get(), seed);
+    return world;
   }
 
   OVERRIDE_DECODE
@@ -1086,8 +1093,8 @@ Creates a rectangular region
             agent->twist.angular_speed = value;
           },
           "Angular speed")
-      .def_property("controller", &Agent::get_controller, nullptr,
-                    py::return_value_policy::reference,
+      .def_property("controller", py::overload_cast<>(&Agent::get_controller),
+                    nullptr, py::return_value_policy::reference,
                     DOC(navground, sim, Agent, property_controller))
       // .def_readwrite("task", &Agent::task)
       .def_property("task",
@@ -1156,10 +1163,12 @@ Creates a rectangular region
                     DOC(navground, sim, Agent, property, behavior))
       .def_property("kinematics", &PyAgent::get_kinematics,
                     &PyAgent::set_kinematics,
-                    DOC(navground, sim, Agent, property, kinematics))
+                    DOC(navground, sim, Agent, property, kinematics));
+#if 0 // TODO(Jerome): why?
       .def_property("controller", &PyAgent::get_controller, nullptr,
                     py::return_value_policy::reference,
                     DOC(navground, sim, Agent, property, controller));
+#endif
 
   py::class_<World, std::shared_ptr<World>>(m, "NativeWorld",
                                             DOC(navgrou, nd, sim, World, 2))
@@ -1408,29 +1417,62 @@ The random generator.
              std::shared_ptr<OdometryStateEstimation>>
       ose(m, "OdometryStateEstimation",
           DOC(navground, sim, OdometryStateEstimation));
-  ose.def(py::init<ng_float_t, ng_float_t, ng_float_t, const std::string &>(),
-          py::arg("longitudinal_speed_error") = 0,
-          py::arg("transversal_speed_error") = 0,
-          py::arg("angular_speed_error") = 0, py::arg("name") = "",
+  ose.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, ng_float_t,
+                   ng_float_t, bool, bool, const std::string &>(),
+          py::arg("longitudinal_speed_bias") = 0,
+          py::arg("longitudinal_speed_std_dev") = 0,
+          py::arg("transversal_speed_bias") = 0,
+          py::arg("transversal_speed_std_dev") = 0,
+          py::arg("angular_speed_bias") = 0,
+          py::arg("angular_speed_std_dev") = 0,
+          py::arg("update_sensing_state") = true,
+          py::arg("update_ego_state") = false, py::arg("name") = "",
           DOC(navground, sim, OdometryStateEstimation, OdometryStateEstimation))
-      .def_property("longitudinal_speed_error",
-                    &OdometryStateEstimation::get_longitudinal_speed_error,
-                    &OdometryStateEstimation::set_longitudinal_speed_error,
+      .def_property("longitudinal_speed_bias",
+                    &OdometryStateEstimation::get_longitudinal_speed_bias,
+                    &OdometryStateEstimation::set_longitudinal_speed_bias,
                     DOC(navground, sim, OdometryStateEstimation,
-                        property_longitudinal_speed_error))
-      .def_property("transversal_speed_error",
-                    &OdometryStateEstimation::get_transversal_speed_error,
-                    &OdometryStateEstimation::set_transversal_speed_error,
+                        property_longitudinal_speed_bias))
+      .def_property("longitudinal_speed_std_dev",
+                    &OdometryStateEstimation::get_longitudinal_speed_std_dev,
+                    &OdometryStateEstimation::set_longitudinal_speed_std_dev,
                     DOC(navground, sim, OdometryStateEstimation,
-                        property_transversal_speed_error))
-      .def_property("angular_speed_error",
-                    &OdometryStateEstimation::get_angular_speed_error,
-                    &OdometryStateEstimation::set_angular_speed_error,
+                        property_longitudinal_speed_std_dev))
+      .def_property("transversal_speed_bias",
+                    &OdometryStateEstimation::get_transversal_speed_bias,
+                    &OdometryStateEstimation::set_transversal_speed_bias,
                     DOC(navground, sim, OdometryStateEstimation,
-                        property_angular_speed_error))
+                        property_transversal_speed_bias))
+      .def_property("transversal_speed_std_dev",
+                    &OdometryStateEstimation::get_transversal_speed_std_dev,
+                    &OdometryStateEstimation::set_transversal_speed_std_dev,
+                    DOC(navground, sim, OdometryStateEstimation,
+                        property_transversal_speed_std_dev))
+      .def_property("angular_speed_bias",
+                    &OdometryStateEstimation::get_angular_speed_bias,
+                    &OdometryStateEstimation::set_angular_speed_bias,
+                    DOC(navground, sim, OdometryStateEstimation,
+                        property_angular_speed_bias))
+      .def_property("angular_speed_std_dev",
+                    &OdometryStateEstimation::get_angular_speed_std_dev,
+                    &OdometryStateEstimation::set_angular_speed_std_dev,
+                    DOC(navground, sim, OdometryStateEstimation,
+                        property_angular_speed_std_dev))
+      .def_property("update_sensing_state",
+                    &OdometryStateEstimation::get_update_sensing_state,
+                    &OdometryStateEstimation::set_update_sensing_state,
+                    DOC(navground, sim, OdometryStateEstimation,
+                        property_update_sensing_state))
+      .def_property("update_ego_state",
+                    &OdometryStateEstimation::get_update_ego_state,
+                    &OdometryStateEstimation::set_update_ego_state,
+                    DOC(navground, sim, OdometryStateEstimation,
+                        property_update_ego_state))
+      .def_property("pose", &OdometryStateEstimation::get_pose, nullptr,
+                    DOC(navground, sim, OdometryStateEstimation, property_pose))
       .def_property(
-          "pose", &OdometryStateEstimation::get_pose, nullptr,
-          DOC(navground, sim, OdometryStateEstimation, property_pose));
+          "twist", &OdometryStateEstimation::get_twist, nullptr,
+          DOC(navground, sim, OdometryStateEstimation, property_twist));
 
   py::class_<DiscsStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<DiscsStateEstimation>>
@@ -1530,6 +1572,12 @@ The random generator.
            DOC(navground, sim, Task, get_log_size))
       .def_property("log_size", &Task::get_log_size, nullptr,
                     DOC(navground, sim, Task, property, log_size))
+      .def(
+          "log_event",
+          [](const PyTask &task, const std::vector<ng_float_t> &data) {
+            task.log_event(data);
+          },
+          py::arg("log"), DOC(navground, sim, Task, log_event))
       .def("add_callback", &Task::add_callback, py::arg("callback"),
            DOC(navground, sim, Task, add_callback));
 
@@ -1912,6 +1960,8 @@ Can be set to any object that is convertible to :py:class:`numpy.dtype`.
             set_dataset_data_py(ds, arr, false, dt);
             return ds;
           }))
+      .def("write_buffer", &Dataset::write_buffer, py::arg("buffer"),
+           py::arg("index"), DOC(navground, sim, Dataset, write_buffer))
       .def("__len__",
            [](Dataset &ds) -> size_t {
              const auto shape = ds.get_shape();
@@ -2223,12 +2273,16 @@ The array is empty if twist have not been recorded in the run.
           },
           nullptr, R"doc(
 The recorded targets of the agents as a numpy array of shape 
-``(simulation steps, number of agents, 3)`` and dtype ``float``::
+``(simulation steps, number of agents, 14)`` and dtype ``float``::
 
-  [[[x_0, y_0, theta_0], 
-    [x_1, y_1, theta_1], 
-    ...], 
+  [[[position?, position[0], position[1], orientation?, orientation, 
+     speed?, speed, direction?, direction[0], direction[1],
+     angular_speed?, angular_speed, position_tol, orientation_tol], 
+     ...] 
    ...]
+
+where <x>? is 1.0 if the field is defined with value  <x>,
+else <x>? is 0.0 and value <x> is set to zero.
   
 The array is empty if targets have not been recorded in the run.
 )doc")
@@ -2342,6 +2396,10 @@ and dtype ``np.uint32``::
    ...]
 
 )doc")
+      .def_property("sensing", &ExperimentalRun::get_sensing, nullptr,
+                    DOC(navgroud, sim, ExperimentalRun, property, sensing))
+      .def("get_sensing_for", &ExperimentalRun::get_sensing_for, py::arg("id"),
+           DOC(navgroud, sim, ExperimentalRun, get_sensing_for))
       .def_property(
           "task_events",
           [](const ExperimentalRun *run) {
@@ -2520,9 +2578,16 @@ The array is empty if efficacy has not been recorded in the run.
       .def("get_collisions_at_step", &ExperimentalRun::get_collisions_at_step,
            py::arg("step"),
            DOC(navground, sim, ExperimentalRun, get_collisions_at_step))
+      .def_static("target_from_data", &ExperimentalRun::target_from_data,
+                  py::arg("data"),
+                  DOC(navground, sim, ExperimentalRun, target_from_data))
+      .def_static("data_from_target", &ExperimentalRun::data_from_target,
+                  py::arg("target"),
+                  DOC(navground, sim, ExperimentalRun, data_from_target))
       .def("go_to_step", &ExperimentalRun::go_to_step, py::arg("step"),
            py::arg("ignore_collisions") = false,
            py::arg("ignore_twists") = false, py::arg("ignore_cmds") = false,
+           py::arg("ignore_targets") = false, py::arg("ignore_sensing") = false,
            DOC(navground, sim, ExperimentalRun, go_to_step))
       .def("reset", &ExperimentalRun::reset,
            DOC(navground, sim, ExperimentalRun, reset))
@@ -2709,6 +2774,13 @@ Register a probe to record a group of data to during all runs.
       .def("init_world", &Scenario::init_world, py::arg("world"),
            py::arg("seed") = std::nullopt,
            DOC(navground, sim, Scenario, init_world))
+      .def(
+          "make_world",
+          [](PyScenario &scenario, std::optional<int> seed = std::nullopt) {
+            return scenario.make_world(seed);
+          },
+          py::arg("seed") = std::nullopt,
+          DOC(navground, sim, Scenario, make_world))
 // .def("sample", &Scenario::sample)
 // .def("reset", &Scenario::reset)
 #if 0
@@ -2736,6 +2808,8 @@ Register a probe to record a group of data to during all runs.
                      DOC(navground, sim, Scenario, walls))
       .def_readwrite("groups", &Scenario::groups,
                      DOC(navground, sim, Scenario, groups))
+      .def_readwrite("bounding_box", &Scenario::bounding_box,
+                     DOC(navground, sim, World, bounding_box))
       // py::return_value_policy::reference)
       // .def_property("initializers",
       // &Scenario::get_initializers, nullptr)
@@ -2747,7 +2821,7 @@ Register a probe to record a group of data to during all runs.
             YAML::Node node = YAML::Load(value);
             YAML::update_scenario(scenario, node);
           },
-          py::arg("value"));
+          py::arg("value"), "Sets the yaml representation");
 
   py::class_<SimpleScenario, Scenario, std::shared_ptr<SimpleScenario>> simple(
       m, "SimpleScenario", DOC(navground, sim, SimpleScenario));

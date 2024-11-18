@@ -154,7 +154,7 @@ static PkgPaths read_plugins_from_ament_index() {
   const char *value = std::getenv("AMENT_PREFIX_PATH");
   if (!value) {
     std::cerr << "Navground plugins are loaded from the ament resource index";
-    std::cerr << "but the enviroment variabled AMENT_PREFIX_PATH is not set";
+    std::cerr << "but the environment variabled AMENT_PREFIX_PATH is not set";
     std::cerr << std::endl;
   } else {
     for (const auto &[name, install] :

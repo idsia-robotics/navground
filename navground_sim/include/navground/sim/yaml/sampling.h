@@ -589,6 +589,9 @@ struct convert<AgentSampler<W>> {
     if (rhs.control_period) {
       node["control_period"] = rhs.control_period;
     }
+    if (rhs.speed_tolerance) {
+      node["speed_tolerance"] = rhs.speed_tolerance;
+    }
     if (rhs.number) {
       node["number"] = rhs.number;
     }
@@ -637,6 +640,9 @@ struct convert<AgentSampler<W>> {
     }
     if (node["control_period"]) {
       rhs.control_period = read_sampler<ng_float_t>(node["control_period"]);
+    }
+    if (node["speed_tolerance"]) {
+      rhs.speed_tolerance = read_sampler<ng_float_t>(node["speed_tolerance"]);
     }
     if (node["number"]) {
       rhs.number = read_sampler<unsigned>(node["number"]);

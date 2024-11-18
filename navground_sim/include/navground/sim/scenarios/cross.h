@@ -11,8 +11,8 @@
 #include <vector>
 
 #include "navground/core/types.h"
-#include "navground/sim/scenario.h"
 #include "navground/sim/export.h"
+#include "navground/sim/scenario.h"
 
 using navground::core::make_property;
 using navground::core::Properties;
@@ -38,7 +38,8 @@ namespace navground::sim {
  *   - `target_margin` (float,  \ref get_target_margin)
  */
 struct NAVGROUND_SIM_EXPORT CrossScenario : public Scenario {
- public:
+  DECLARE_TYPE_AND_PROPERTIES
+  
   // distance between targets
   ng_float_t side;
   inline static ng_float_t default_side = 2;
@@ -60,9 +61,7 @@ struct NAVGROUND_SIM_EXPORT CrossScenario : public Scenario {
       ng_float_t agent_margin = default_agent_margin,
       bool add_safety_to_agent_margin = default_add_safety_to_agent_margin,
       ng_float_t target_margin = default_target_margin)
-      : Scenario(),
-        side(side),
-        tolerance(tolerance),
+      : Scenario(), side(side), tolerance(tolerance),
         agent_margin(agent_margin),
         add_safety_to_agent_margin(add_safety_to_agent_margin),
         target_margin(target_margin) {}
@@ -158,28 +157,8 @@ struct NAVGROUND_SIM_EXPORT CrossScenario : public Scenario {
    */
   void init_world(World *world,
                   std::optional<int> seed = std::nullopt) override;
-
-  /**
-   * @private
-   */
-  virtual const Properties &get_properties() const override {
-    return properties;
-  };
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
- private:
-  static const std::string type;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_SCENARIOS_CROSS_H */

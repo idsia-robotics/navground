@@ -9,8 +9,8 @@
 
 #include "navground/core/common.h"
 #include "navground/core/types.h"
-#include "navground/sim/task.h"
 #include "navground/sim/export.h"
+#include "navground/sim/task.h"
 
 using navground::core::make_property;
 using navground::core::Properties;
@@ -28,6 +28,8 @@ namespace navground::sim {
  *   - `direction` (\ref navground::core::Vector2, \ref get_direction)
  */
 struct NAVGROUND_SIM_EXPORT DirectionTask : Task {
+  DECLARE_TYPE_AND_PROPERTIES
+  
   /**
    * @brief      Constructs a new instance.
    *
@@ -60,32 +62,17 @@ struct NAVGROUND_SIM_EXPORT DirectionTask : Task {
    */
   Vector2 get_direction() const { return _direction; }
 
-  virtual const Properties &get_properties() const override {
-    return properties;
-  };
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
- protected:
+protected:
   /**
    * @private
    */
   void prepare(Agent *agent, World *world) override;
 
- private:
+private:
   Vector2 _direction;
   bool _stop;
-  const static std::string type;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_TASKS_DIRECTION_H_ */

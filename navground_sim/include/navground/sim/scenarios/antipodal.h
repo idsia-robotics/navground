@@ -8,10 +8,10 @@
 #include <memory>
 
 #include "navground/core/types.h"
+#include "navground/sim/export.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/tasks/waypoints.h"
 #include "navground/sim/world.h"
-#include "navground/sim/export.h"
 
 using navground::core::make_property;
 using navground::core::Properties;
@@ -36,6 +36,8 @@ namespace navground::sim {
  *   - `shuffle` (bool, \ref get_shuffle)
  */
 struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
+  DECLARE_TYPE_AND_PROPERTIES
+  
   /**
    * The default circle radius
    */
@@ -64,13 +66,10 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
                     ng_float_t position_noise = default_position_noise,
                     ng_float_t orientation_noise = default_orientation_noise,
                     bool shuffle = default_shuffle)
-      : Scenario(),
-        radius(radius),
-        tolerance(tolerance),
+      : Scenario(), radius(radius), tolerance(tolerance),
         position_noise(default_position_noise),
         orientation_noise(default_orientation_noise),
-        shuffle(default_shuffle){};
-
+        shuffle(default_shuffle) {};
   /**
    * @brief      Gets the circle radius.
    *
@@ -147,32 +146,13 @@ struct NAVGROUND_SIM_EXPORT AntipodalScenario : public Scenario {
    */
   void init_world(World *world,
                   std::optional<int> seed = std::nullopt) override;
-
-  /**
-   * @private
-   */
-  const Properties &get_properties() const override { return properties; };
-
-  /**
-   * @private
-   */
-  const static std::map<std::string, Property> properties;
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
   ng_float_t radius;
   ng_float_t tolerance;
   ng_float_t position_noise;
   ng_float_t orientation_noise;
   bool shuffle;
-
- private:
-  const static std::string type;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_SCENARIOS_ANTIPODAL_H */

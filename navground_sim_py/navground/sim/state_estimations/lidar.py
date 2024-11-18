@@ -78,6 +78,8 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):  # type: ignore
 
     def update(self, agent: sim.Agent, world: sim.World,
                state: core.EnvironmentState) -> None:
+        if not isinstance(state, core.SensingState):
+            return
         self._cc.setup(pose=agent.pose,
                        margin=0.0,
                        static_discs=world.discs,
@@ -90,7 +92,7 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):  # type: ignore
                 max_distance=self.range,
                 dynamic=False))
         try:
-            state.set("range", ranges, True)  # type: ignore
+            state.set_buffer("range", ranges)
         except (AttributeError, KeyError):
             warnings.warn(f"Cannot set field sensing of {state}")
 

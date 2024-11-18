@@ -14,5 +14,4 @@ const std::map<std::string, core::Property> Sensor::properties =
                      &Sensor::get_name, &Sensor::set_name, "", "Name")},
     } +
     StateEstimation::properties;
-
 } // namespace navground::sim

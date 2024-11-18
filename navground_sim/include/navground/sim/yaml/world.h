@@ -232,6 +232,7 @@ struct convert<Agent> {
     node["angular_speed"] = rhs.twist.angular_speed;
     node["radius"] = rhs.radius;
     node["control_period"] = rhs.control_period;
+    node["speed_tolerance"] = rhs.get_controller()->get_speed_tolerance();
     node["type"] = rhs.type;
     node["color"] = rhs.color;
     node["id"] = rhs.id;
@@ -280,6 +281,9 @@ struct convert<Agent> {
     }
     if (node["control_period"]) {
       rhs.control_period = node["control_period"].as<ng_float_t>();
+    }
+    if (node["speed_tolerance"]) {
+      rhs.get_controller()->set_speed_tolerance(node["speed_tolerance"].as<ng_float_t>());
     }
     if (node["type"]) {
       rhs.type = node["type"].as<std::string>();

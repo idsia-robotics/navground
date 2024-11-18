@@ -228,6 +228,13 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   Controller *get_controller() { return &controller; }
 
   /**
+   * @brief      Gets the navigation controller.
+   *
+   * @return     The controller.
+   */
+  const Controller *get_controller() const { return &controller; }
+
+  /**
    * @brief      Returns whether the task is done and the control is idle.
    *
    * @return     False if it has an active task or if the control is running

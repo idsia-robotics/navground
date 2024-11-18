@@ -64,7 +64,6 @@ constexpr Radians TWO_PI = static_cast<Radians>(2 * M_PI);
 constexpr Radians PI = static_cast<Radians>(M_PI);
 constexpr Radians HALF_PI = static_cast<Radians>(M_PI_2);
 
-
 /**
  * @brief      Normalize an angle to a value in \f$[-\pi, \pi]\f$.
  * Apply it when computing angular differences.
@@ -245,17 +244,7 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    *
    * @param[in]  epsilon  The tolerance
    */
-  void snap_to_zero(ng_float_t epsilon = 1e-6) {
-    if (std::abs(velocity[0]) < epsilon) {
-      velocity[0] = 0;
-    }
-    if (std::abs(velocity[1]) < epsilon) {
-      velocity[1] = 0;
-    }
-    if (std::abs(angular_speed) < epsilon) {
-      angular_speed = 0;
-    }
-  }
+  void snap_to_zero(ng_float_t epsilon = 1e-6);
 
   /**
    * @brief      Interpolates a twist towards a target
@@ -271,23 +260,7 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
    */
   Twist2 interpolate(const Twist2 &target, ng_float_t time_step,
                      ng_float_t max_acceleration,
-                     ng_float_t max_angular_acceleration) const {
-    assert(target.frame == frame);
-    if (time_step <= 0) {
-      return Twist2(velocity, angular_speed);
-    }
-    Vector2 acc = (target.velocity - velocity) / time_step;
-    auto ang_acc = (target.angular_speed - angular_speed) / time_step;
-    if (acc.norm() > max_acceleration) {
-      acc = acc.normalized() * max_acceleration;
-    }
-    if (std::abs(ang_acc) > max_angular_acceleration) {
-      ang_acc = std::clamp(ang_acc, -max_angular_acceleration,
-                           max_angular_acceleration);
-    }
-    return Twist2(velocity + acc * time_step,
-                  angular_speed + ang_acc * time_step, frame);
-  }
+                     ng_float_t max_angular_acceleration) const;
 };
 
 /**
@@ -300,7 +273,7 @@ struct NAVGROUND_CORE_EXPORT Twist2 {
  * We define the group operations as a multiplication and add methods like
  * \ref transform_pose for a pose to operate as a rigid transformation.
  */
-struct Pose2 {
+struct NAVGROUND_CORE_EXPORT Pose2 {
   /**
    * Position in world frame
    */
@@ -332,14 +305,7 @@ struct Pose2 {
    *
    * @return     The result of ``pose + dt * twist`` (in world frame)
    */
-  Pose2 integrate(const Twist2 &twist, ng_float_t dt) {
-    const auto new_orientation = orientation + dt * twist.angular_speed;
-    return {position + dt * (twist.frame == Frame::relative
-                                 ? ::navground::core::rotate(twist.velocity,
-                                                             new_orientation)
-                                 : twist.velocity),
-            new_orientation};
-  }
+  Pose2 integrate(const Twist2 &twist, ng_float_t dt);
 
   /**
    * @brief      Equality operator.

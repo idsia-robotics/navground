@@ -24,8 +24,7 @@ namespace navground::sim {
  * to generalize from C++ to Python.
  */
 template <typename W = World>
-struct AgentSampler : public Sampler<typename W::A::C>,
-                      public Scenario::Group {
+struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
   /** @private */
   using A = typename W::A;
   /** @private */
@@ -46,17 +45,18 @@ struct AgentSampler : public Sampler<typename W::A::C>,
   /**
    * @brief      Constructs a new instance.
    */
-  explicit AgentSampler(const std::string& name = "")
+  explicit AgentSampler(const std::string &name = "")
       : Sampler<C>(), name(name), number{0} {}
 
   /**
    * @private
    */
-  void add_to_world(World* world, std::optional<unsigned> index = std::nullopt) override {
+  void add_to_world(World *world,
+                    std::optional<unsigned> index = std::nullopt) override {
     reset(index);
-    RandomGenerator & rg = world->get_random_generator();
+    RandomGenerator &rg = world->get_random_generator();
     unsigned num = number->sample(rg);
-    if (W* w = dynamic_cast<W*>(world)) {
+    if (W *w = dynamic_cast<W *>(world)) {
       for (unsigned i = 0; i < num; ++i) {
         w->add_agent(sample(rg));
       }
@@ -75,15 +75,26 @@ struct AgentSampler : public Sampler<typename W::A::C>,
     kinematics.reset(index);
     task.reset(index);
     state_estimation.reset(index);
-    if (position) position->reset(index);
-    if (orientation) orientation->reset(index);
-    if (radius) radius->reset(index);
-    if (control_period) control_period->reset(index);
-    if (id) id->reset(index);
-    if (type) type->reset(index);
-    if (color) color->reset(index);
-    if (number) number->reset(index);
-    if (tags) tags->reset(index);
+    if (position)
+      position->reset(index);
+    if (orientation)
+      orientation->reset(index);
+    if (radius)
+      radius->reset(index);
+    if (control_period)
+      control_period->reset(index);
+    if (speed_tolerance)
+      speed_tolerance->reset(index);
+    if (id)
+      id->reset(index);
+    if (type)
+      type->reset(index);
+    if (color)
+      color->reset(index);
+    if (number)
+      number->reset(index);
+    if (tags)
+      tags->reset(index);
   }
 
   std::string name;
@@ -95,19 +106,20 @@ struct AgentSampler : public Sampler<typename W::A::C>,
   std::shared_ptr<Sampler<ng_float_t>> orientation;
   std::shared_ptr<Sampler<ng_float_t>> radius;
   std::shared_ptr<Sampler<ng_float_t>> control_period;
+  std::shared_ptr<Sampler<ng_float_t>> speed_tolerance;
   std::shared_ptr<Sampler<int>> id;
   std::shared_ptr<Sampler<std::string>> type;
   std::shared_ptr<Sampler<std::string>> color;
   std::shared_ptr<Sampler<unsigned>> number;
   std::shared_ptr<Sampler<std::vector<std::string>>> tags;
 
- protected:
-  C s(RandomGenerator& rg) override {
+protected:
+  C s(RandomGenerator &rg) override {
     C c = A::make(radius ? radius->sample(rg) : 0, behavior.sample(rg),
                   kinematics.sample(rg), task.sample(rg),
                   state_estimation.sample(rg),
                   control_period ? control_period->sample(rg) : 0);
-    A* agent = get<A, C>::ptr(c);
+    A *agent = get<A, C>::ptr(c);
     if (position) {
       agent->pose.position = position->sample(rg);
     }
@@ -121,7 +133,7 @@ struct AgentSampler : public Sampler<typename W::A::C>,
       agent->color = color->sample(rg);
     }
     if (tags) {
-      const auto & values = tags->sample(rg);
+      const auto &values = tags->sample(rg);
       agent->tags = std::set<std::string>(values.begin(), values.end());
     }
     if (id) {
@@ -130,10 +142,13 @@ struct AgentSampler : public Sampler<typename W::A::C>,
     if (!name.empty()) {
       agent->tags.insert(name);
     }
+    if (speed_tolerance) {
+      agent->get_controller()->set_speed_tolerance(speed_tolerance->sample(rg));
+    }
     return c;
   }
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
-#endif  // NAVGROUND_SIM_SAMPLER_H
+#endif // NAVGROUND_SIM_SAMPLER_H

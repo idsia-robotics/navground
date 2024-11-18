@@ -3,6 +3,8 @@
 
 #include <functional>
 #include <memory>
+#include <string_view>
+#include <typeindex>
 #include <vector>
 
 #include "navground/core/export.h"
@@ -16,10 +18,11 @@ using PropertyRegister = std::map<std::string, Properties>;
 
 /**
  * @brief      Contains a register of sub-classes of ``T``, registered by name
- * using \ref register_type. ``T`` must also be a sub-class of \ref
- * navground::core::HasProperties or, at least, expose the static field
- * ``T::properties`` as properties are also registered and can be queried using
- * \ref type_properties.
+ * using \ref register_type.
+ *
+ * ``T`` must also be a sub-class of \ref navground::core::HasProperties or,
+ * at least, expose the static field ``T::properties`` as properties
+ * are also registered and can be queried using \ref type_properties.
  *
  * @tparam     T     The base class of all to be registered sub-classes.
  */
@@ -39,8 +42,6 @@ struct
    * Factory function to construct objects of type ``T``.
    */
   using Factory = std::function<C()>;
-
-
 
   /**
    * @brief      The registered factories
@@ -118,18 +119,25 @@ struct
    */
   template <typename S>
   static std::string register_type(const std::string &type) {
-    // std::cout << "register_type " << get_type_name<S>() << " as " << type <<
-    // std::endl;
+    // std::cout << "register_type " << get_type_name<S>() << " as " << type
+    //           << std::endl;
     static_assert(std::is_base_of_v<T, S>);
-    if (factory().count(type)) {
-      // std::cerr << "Type " << type << " already registered for "
-      //           << get_type_name<S>() << std::endl;
-    } else {
-      factory()[type] = []() { return std::make_shared<S>(); };
-      type_properties()[type] = S::properties;
-    }
+    // if (factory().count(type)) {
+    // std::cerr << "Type " << type << " already registered for "
+    //           << get_type_name<S>() << std::endl;
+    // } else {
+
+    factory()[type] = []() { return std::make_shared<S>(); };
+    type_properties()[type] = S::properties;
+    type_names()[std::type_index(typeid(S))] = type;
+    // }
 
     return type;
+  }
+
+  static std::map<std::type_index, std::string> &type_names() {
+    static std::map<std::type_index, std::string> _r;
+    return _r;
   }
 
   /**
@@ -159,5 +167,90 @@ struct
 };
 
 } // namespace navground::core
+
+/**
+ * @brief      Overrides \ref navground::core::HasRegister::get_type.
+ *
+ * \code{.cpp}
+ * std::string get_type() const override { return type; }
+ * \endcode
+ */
+#define OVERRIDE_TYPE                                                          \
+  /** @private */                                                              \
+  std::string get_type() const override { return type; };
+
+/**
+ * @brief Overrides \ref navground::core::HasProperties::get_properties
+ *
+ * \code{.cpp}
+ * const navground::core::Properties &get_properties() const override {
+ *   return properties;
+ * }
+ * \endcode
+ */
+#define OVERRIDE_PROPERTIES                                                    \
+  /** @private */                                                              \
+  const navground::core::Properties &get_properties() const override {         \
+    return properties;                                                         \
+  };
+
+/**
+ * @brief Combine \ref OVERRIDE_TYPE and \ref OVERRIDE_PROPERTIES
+ * \code{.cpp}
+ * std::string get_type() const override { return type; }
+ * const navground::core::Properties &get_properties() const override {
+ *   return properties;
+ * }
+ * \endcode
+ */
+#define OVERRIDE_TYPE_AND_PROPERTIES                                           \
+  OVERRIDE_TYPE                                                                \
+  OVERRIDE_PROPERTIES
+
+/**
+ * @brief      Adds type declaration and overrides
+ * \ref navground::core::HasRegister::get_type.
+ *
+ * \code{.cpp}
+ * static const std::string type;
+ * std::string get_type() const override { return type; }
+ * \endcode
+ */
+#define DECLARE_TYPE                                                           \
+  /** @private */                                                              \
+  static const std::string type;                                               \
+  OVERRIDE_TYPE
+
+/**
+ * @brief Adds properties declaration and overrides
+ * \ref navground::core::HasProperties::get_properties.
+ *
+ * \code{.cpp}
+ * static const std::map<std::string, navground::core::Property> properties;
+ * const navground::core::Properties &get_properties() const override {
+ *   return properties;
+ * }
+ * \endcode
+ */
+#define DECLARE_PROPERTIES                                                     \
+  /** @private */                                                              \
+  static const std::map<std::string, navground::core::Property> properties;    \
+  OVERRIDE_PROPERTIES
+
+/**
+ * @brief Combine \ref DECLARE_TYPE and \ref DECLARE_PROPERTIES
+ *
+ * \code{.cpp}
+ * static const std::string type;
+ * std::string get_type() const override { return type; }
+ * static const std::map<std::string, navground::core::Property> properties;
+ * const navground::core::Properties &get_properties() const override {
+ *   return properties;
+ * }
+ * \endcode
+ */
+#define DECLARE_TYPE_AND_PROPERTIES                                            \
+  DECLARE_TYPE                                                                 \
+  DECLARE_PROPERTIES
 
 #endif // NAVGROUND_CORE_REGISTER_H

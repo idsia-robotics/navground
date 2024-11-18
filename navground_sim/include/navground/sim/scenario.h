@@ -6,6 +6,7 @@
 #define NAVGROUND_SIM_SCENARIO_H
 
 #include <functional>
+#include <memory>
 #include <optional>
 #include <vector>
 
@@ -63,9 +64,6 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
       : groups(), obstacles(), walls(), property_samplers(),
         initializers(inits) {}
 
-  // !!!! This may break the auto-registration!
-  // std::string get_type() const override { return name; }
-
   /**
    * @brief      Initializes the world.
    *
@@ -73,6 +71,13 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
    * @param      seed  The random seed
    */
   virtual void init_world(World *world, std::optional<int> seed = std::nullopt);
+
+  /**
+   * @brief      Creates and initialize a world.
+   *
+   * @param      seed  The random seed
+   */
+  std::shared_ptr<World> make_world(std::optional<int> seed = std::nullopt);
 
   /**
    * @brief      Adds a world initializer.
@@ -108,7 +113,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
    */
   std::vector<Disc> obstacles;
   /**
-   * Walls
+   * Walls to add
    */
   std::vector<LineSegment> walls;
 
@@ -124,6 +129,11 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
         v->reset(index);
     }
   }
+
+  /**
+   * An optional bounding box
+   */
+  std::optional<sim::BoundingBox> bounding_box;
 
 private:
   Inits initializers;

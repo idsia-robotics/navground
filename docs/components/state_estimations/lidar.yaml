@@ -1,0 +1,37 @@
+steps: 200
+time_step: 0.0333
+record_pose: true
+record_sensing:
+  - agent_indices: [0]
+scenario:
+  walls:
+   - line: [[-2, -1], [6, -1]]
+   - line: [[-2, 1], [6, 1]]
+   - line: [[1, -1], [1, 0.25]]
+   - line: [[2, 0.0], [2, 1]]
+   - line: [[3, -0.75], [4, 0.25]]
+  groups:
+    - type: quadrotor
+      color: darkorange
+      number: 1
+      radius: 0.15
+      orientation: 0
+      kinematics:
+        type: Omni
+        max_speed: 1
+        max_angular_speed: 10.0
+      behavior:
+        type: UsingLidar
+        horizon: 5
+        safety_margin: 0.1
+        heading: velocity
+        rotation_tau: 0.25
+      task:
+        type: Direction
+        direction: [1, 0]
+      state_estimation:
+        type: Lidar
+        range: 3.5
+        start_angle: -3.14
+        field_of_view: 6.28
+        resolution: 360

@@ -18,7 +18,7 @@ Welcome to navground's documentation!
    packages/index
    tutorials/index
    guides/index
-   scenarios/index
+   components/index
    background/index
    reference/index
 

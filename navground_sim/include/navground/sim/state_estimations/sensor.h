@@ -20,6 +20,8 @@ namespace navground::sim {
  *
  */
 struct NAVGROUND_SIM_EXPORT Sensor : public StateEstimation {
+  static const std::map<std::string, navground::core::Property> properties;
+  
   /**
    * A map where keys are field names
    */
@@ -33,7 +35,7 @@ struct NAVGROUND_SIM_EXPORT Sensor : public StateEstimation {
   /**
    * @private
    */
-  virtual void prepare(Agent *agent, World *world) {
+  void prepare(Agent *agent, World *world) override {
     auto state = get_state(agent);
     if (!state)
       return;
@@ -105,8 +107,8 @@ struct NAVGROUND_SIM_EXPORT Sensor : public StateEstimation {
     return _name + "/" + field;
   }
 
-  core::Buffer * get_or_init_buffer(core::SensingState &state,
-                                                   const std::string &field) const {
+  core::Buffer *get_or_init_buffer(core::SensingState &state,
+                                   const std::string &field) const {
     const std::string name = get_field_name(field);
     auto buffer = state.get_buffer(name);
     if (!buffer) {
@@ -114,11 +116,6 @@ struct NAVGROUND_SIM_EXPORT Sensor : public StateEstimation {
     }
     return buffer;
   }
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, core::Property> properties;
 
 private:
   std::string _name;

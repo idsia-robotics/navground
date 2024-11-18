@@ -22,120 +22,210 @@ namespace navground::sim {
  *
  * *Registered properties*:
  *
- *   - `longitudinal_speed_error` (float, \ref get_longitudinal_speed_error)
+ *   - `longitudinal_speed_std_dev` (float, \ref get_longitudinal_speed_std_dev)
  *
- *   - `transversal_speed_error` (float, \ref get_transversal_speed_error)
+ *   - `longitudinal_speed_bias` (float, \ref get_longitudinal_speed_bias)
  *
- *   - `angular_speed_error` (float, \ref get_angular_speed_error)
+ *   - `transversal_speed_std_dev` (float, \ref get_transversal_speed_std_dev)
+ *
+ *   - `transversal_speed_bias` (float, \ref get_transversal_speed_bias)
+ *
+ *   - `angular_speed_std_dev` (float, \ref get_angular_speed_std_dev)
+ *
+ *   - `angular_speed_bias` (float, \ref get_angular_speed_bias)
+ *
+ *   - `update_ego_state` (bool, \ref get_update_ego_state)
+ *
+ *   - `update_sensig_state` (bool, \ref get_update_sensing_state)
  *
  */
 struct NAVGROUND_SIM_EXPORT OdometryStateEstimation : public Sensor {
+  DECLARE_TYPE_AND_PROPERTIES
 
   using Error = std::normal_distribution<ng_float_t>;
   /**
    * The default longitudinal speed standard deviation.
    */
-  inline static const ng_float_t default_longitudinal_speed_error = 0;
+  inline static const ng_float_t default_longitudinal_speed_std_dev = 0;
   /**
    * The default transversal speed standard deviation.
    */
-  inline static const ng_float_t default_transversal_speed_error = 0;
+  inline static const ng_float_t default_transversal_speed_std_dev = 0;
   /**
    * The default angular speed standard deviation.
    */
-  inline static const ng_float_t default_angular_speed_error = 0;
+  inline static const ng_float_t default_angular_speed_std_dev = 0;
   /**
    * @brief      Constructs a new instance.
    *
-   * @param[in]  longitudinal_speed_error  The longitudinal speed standard
+   * @param[in]  longitudinal_speed_bias  The longitudinal speed bias
+   * @param[in]  longitudinal_speed_std_dev  The longitudinal speed standard
    * deviation
-   * @param[in]  transversal_speed_error  The transversal speed standard
+   * @param[in]  transversal_speed_bias  The longitudinal speed bias
+   * @param[in]  transversal_speed_std_dev  The transversal speed standard
    * deviation
-   * @param[in]  angular_speed_error  The angular speed standard deviation
+   * @param[in]  angular_speed_bias  The longitudinal speed bias
+   * @param[in]  angular_speed_std_dev  The angular speed standard deviation
+   * @param[in]  update_sensing_state  Whether to update the behavior
+   * environment state
+   * @param[in]  update_ego_state  Whether to update the behavior ego state
    * @param[in]  name  The name to use as a prefix
    */
   explicit OdometryStateEstimation(
-      ng_float_t longitudinal_speed_error = default_longitudinal_speed_error,
-      ng_float_t transversal_speed_error = default_transversal_speed_error,
-      ng_float_t angular_speed_error = default_angular_speed_error,
+      ng_float_t longitudinal_speed_bias = 0,
+      ng_float_t longitudinal_speed_std_dev =
+          default_longitudinal_speed_std_dev,
+      ng_float_t transversal_speed_bias = 0,
+      ng_float_t transversal_speed_std_dev = default_transversal_speed_std_dev,
+      ng_float_t angular_speed_bias = 0,
+      ng_float_t angular_speed_std_dev = default_angular_speed_std_dev,
+      bool update_sensing_state = true, bool update_ego_state = false,
       const std::string &name = "")
-      : Sensor(name), _pose(), _time(0),
-        _longitudinal_speed_error{0, longitudinal_speed_error},
-        _transversal_speed_error{0, transversal_speed_error},
-        _angular_speed_error{0, angular_speed_error} {}
+      : Sensor(name), _pose(), _twist(), _time(0),
+        _update_sensing_state(update_sensing_state),
+        _update_ego_state(update_ego_state),
+        _longitudinal_speed_error{longitudinal_speed_bias,
+                                  longitudinal_speed_std_dev},
+        _transversal_speed_error{transversal_speed_bias,
+                                 transversal_speed_std_dev},
+        _angular_speed_error{angular_speed_bias, angular_speed_std_dev} {}
 
   virtual ~OdometryStateEstimation() = default;
 
   /**
-   * @brief      Sets the longitudinal speed standard deviation.
+   * @brief      Sets the longitudinal speed relative bias.
    *
    * @param[in]  value     The desired value
    */
-  void set_longitudinal_speed_error(ng_float_t value) {
+  void set_longitudinal_speed_bias(ng_float_t value) {
     _longitudinal_speed_error.param(
-        Error::param_type{0, std::max<ng_float_t>(0, value)});
+        Error::param_type{value, get_longitudinal_speed_std_dev()});
   }
   /**
-   * @brief      Gets the longitudinal speed standard deviation.
+   * @brief      Sets the longitudinal speed relative standard deviation.
+   *
+   * @param[in]  value     The desired (positive) value
+   */
+  void set_longitudinal_speed_std_dev(ng_float_t value) {
+    _longitudinal_speed_error.param(Error::param_type{
+        get_longitudinal_speed_bias(), std::max<ng_float_t>(0, value)});
+  }
+  /**
+   * @brief      Gets the longitudinal speed relative bias.
+   * rangings.
+   *
+   * @return     The bias.
+   */
+  ng_float_t get_longitudinal_speed_bias() const {
+    return _longitudinal_speed_error.mean();
+  }
+  /**
+   * @brief      Gets the longitudinal speed relative standard deviation.
    * rangings.
    *
    * @return     The standard deviation.
    */
-  ng_float_t get_longitudinal_speed_error() const {
+  ng_float_t get_longitudinal_speed_std_dev() const {
     return _longitudinal_speed_error.stddev();
   }
   /**
-   * @brief      Gets the transversal speed standard deviation.
+   * @brief      Sets the transversal speed relative bias.
+   *
+   * @param[in]  value     The desired value
+   */
+  void set_transversal_speed_bias(ng_float_t value) {
+    _transversal_speed_error.param(
+        Error::param_type{value, get_transversal_speed_std_dev()});
+  }
+  /**
+   * @brief      Sets the transversal speed relative standard deviation.
+   *
+   * @param[in]  value     The desired (positive) value
+   */
+  void set_transversal_speed_std_dev(ng_float_t value) {
+    _transversal_speed_error.param(Error::param_type{
+        get_transversal_speed_bias(), std::max<ng_float_t>(0, value)});
+  }
+  /**
+   * @brief      Gets the transversal speed relative bias.
+   * rangings.
+   *
+   * @return     The bias.
+   */
+  ng_float_t get_transversal_speed_bias() const {
+    return _transversal_speed_error.mean();
+  }
+  /**
+   * @brief      Gets the transversal speed relative standard deviation.
    * rangings.
    *
    * @return     The standard deviation.
    */
-  ng_float_t get_transversal_speed_error() const {
+  ng_float_t get_transversal_speed_std_dev() const {
     return _transversal_speed_error.stddev();
   }
   /**
-   * @brief      Sets the transversal speed standard deviation.
+   * @brief      Sets the angular speed relative bias.
    *
    * @param[in]  value     The desired value
    */
-  void set_transversal_speed_error(ng_float_t value) {
-    _transversal_speed_error.param(
-        Error::param_type{0, std::max<ng_float_t>(0, value)});
+  void set_angular_speed_bias(ng_float_t value) {
+    _angular_speed_error.param(
+        Error::param_type{value, get_angular_speed_std_dev()});
   }
   /**
-   * @brief      Gets the longitudinal speed standard deviation.
+   * @brief      Sets the angular speed relative standard deviation.
+   *
+   * @param[in]  value     The desired (positive) value
+   */
+  void set_angular_speed_std_dev(ng_float_t value) {
+    _angular_speed_error.param(Error::param_type{
+        get_angular_speed_bias(), std::max<ng_float_t>(0, value)});
+  }
+  /**
+   * @brief      Gets the angular speed relative bias.
+   * rangings.
+   *
+   * @return     The bias.
+   */
+  ng_float_t get_angular_speed_bias() const {
+    return _angular_speed_error.mean();
+  }
+  /**
+   * @brief      Gets the angular speed relative standard deviation.
    * rangings.
    *
    * @return     The standard deviation.
    */
-  ng_float_t get_angular_speed_error() const {
+  ng_float_t get_angular_speed_std_dev() const {
     return _angular_speed_error.stddev();
   }
+
   /**
-   * @brief      Sets the angular speed standard deviation.
+   * @brief      Gets whether to update the behavior environment state.
+   *
+   * @return     True if it updates the behavior environment state.
+   */
+  bool get_update_sensing_state() const { return _update_sensing_state; }
+  /**
+   * @brief      Sets whether to update the behavior environment state
    *
    * @param[in]  value     The desired value
    */
-  void set_angular_speed_error(ng_float_t value) {
-    _angular_speed_error.param(
-        Error::param_type{0, std::max<ng_float_t>(0, value)});
-  }
-  /**
-   * @private
-   */
-  virtual const core::Properties &get_properties() const override {
-    return properties;
-  };
+  void set_update_sensing_state(bool value) { _update_sensing_state = value; }
 
   /**
-   * @private
+   * @brief      Gets whether to update the behavior ego state.
+   *
+   * @return     True if it updates the behavior ego state.
    */
-  static const std::map<std::string, core::Property> properties;
-
+  bool get_update_ego_state() const { return _update_ego_state; }
   /**
-   * @private
+   * @brief      Sets whether to update the behavior ego state.
+   *
+   * @param[in]  value     The desired value
    */
-  std::string get_type() const override { return type; }
+  void set_update_ego_state(bool value) { _update_ego_state = value; }
 
   /**
    * @private
@@ -148,14 +238,22 @@ struct NAVGROUND_SIM_EXPORT OdometryStateEstimation : public Sensor {
    *
    * @return     The pose.
    */
-  Pose2 get_pose() const {
-    return _pose;
-  }
+  Pose2 get_pose() const { return _pose; }
+
+  /**
+   * @brief      Gets the current twist.
+   *
+   * @return     The twist.
+   */
+  Twist2 get_twist() const { return _twist; }
 
   /**
    * @private
    */
   Description get_description() const override {
+    if (!get_update_sensing_state()) {
+      return {};
+    }
     return {{get_field_name("pose"),
              core::BufferDescription::make<ng_float_t>(
                  {3}, std::numeric_limits<ng_float_t>::lowest(),
@@ -168,11 +266,13 @@ struct NAVGROUND_SIM_EXPORT OdometryStateEstimation : public Sensor {
 
 private:
   core::Pose2 _pose;
+  core::Twist2 _twist;
   ng_float_t _time;
+  bool _update_sensing_state;
+  bool _update_ego_state;
   Error _longitudinal_speed_error;
   Error _transversal_speed_error;
   Error _angular_speed_error;
-  const static std::string type;
 };
 
 } // namespace navground::sim

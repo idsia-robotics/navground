@@ -34,6 +34,8 @@ namespace navground::sim {
  *
  */
 struct NAVGROUND_SIM_EXPORT BoundarySensor : public Sensor {
+  DECLARE_TYPE_AND_PROPERTIES
+  
   /**
    * The default range
    */
@@ -53,7 +55,7 @@ struct NAVGROUND_SIM_EXPORT BoundarySensor : public Sensor {
    *
    * @param[in]  range    The range of view
    * @param[in]  min_x    The minimal x coordinate
-   * @param[in]  max_x    The maximal x coordinate 
+   * @param[in]  max_x    The maximal x coordinate
    * @param[in]  min_y    The minimal y coordinate
    * @param[in]  max_y    The maximal y coordinate
    * @param[in]  name     The name to use as a prefix
@@ -132,23 +134,6 @@ struct NAVGROUND_SIM_EXPORT BoundarySensor : public Sensor {
   /**
    * @private
    */
-  virtual const Properties &get_properties() const override {
-    return properties;
-  };
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
-  /**
-   * @private
-   */
   virtual void update(Agent *agent, World *world,
                       EnvironmentState *state) override;
 
@@ -174,7 +159,6 @@ struct NAVGROUND_SIM_EXPORT BoundarySensor : public Sensor {
 private:
   ng_float_t _range;
   ng_float_t _min_x, _max_x, _min_y, _max_y;
-  const static std::string type;
 };
 
 } // namespace navground::sim

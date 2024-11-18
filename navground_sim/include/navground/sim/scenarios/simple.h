@@ -9,10 +9,10 @@
 
 #include "navground/core/behaviors/dummy.h"
 #include "navground/core/kinematics.h"
+#include "navground/sim/export.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/tasks/waypoints.h"
 #include "navground/sim/world.h"
-#include "navground/sim/export.h"
 
 using navground::core::DummyBehavior;
 using navground::core::OmnidirectionalKinematics;
@@ -28,6 +28,8 @@ namespace navground::sim {
  * *Registered properties*: none
  */
 struct NAVGROUND_SIM_EXPORT SimpleScenario : public Scenario {
+  DECLARE_TYPE
+  
   SimpleScenario() : Scenario() {}
 
   void init_world(World *world,
@@ -42,11 +44,8 @@ struct NAVGROUND_SIM_EXPORT SimpleScenario : public Scenario {
     agent->get_behavior()->set_optimal_speed(1.0);
     world->add_agent(agent);
   }
-
-  std::string get_type() const override { return type; }
-  const static std::string type;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_SCENARIOS_SIMPLE_H */

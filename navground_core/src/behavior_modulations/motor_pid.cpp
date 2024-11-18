@@ -9,13 +9,17 @@
 
 namespace navground::core {
 
-Twist2 MotorPIDModulation::post(Behavior& behavior, ng_float_t time_step,
-                                const Twist2& cmd_twist) {
+Twist2 MotorPIDModulation::post(Behavior &behavior, ng_float_t time_step,
+                                const Twist2 &cmd_twist) {
   const auto kinematics =
-      dynamic_cast<DynamicTwoWheelsDifferentialDriveKinematics*>(
+      dynamic_cast<DynamicTwoWheelsDifferentialDriveKinematics *>(
           behavior.get_kinematics().get());
+  if (!kinematics) {
+    return cmd_twist;
+  }
   const auto current = behavior.get_twist(Frame::relative);
-  const auto feasible_cmd = kinematics->feasible(cmd_twist, current, time_step);
+  const auto feasible_cmd =
+      kinematics->feasible_from_current(cmd_twist, current, time_step);
   const auto target_torques =
       kinematics->wheel_torques(feasible_cmd, current, time_step);
   const auto max_torque = kinematics->get_max_wheel_torque();
@@ -27,7 +31,9 @@ Twist2 MotorPIDModulation::post(Behavior& behavior, ng_float_t time_step,
     _e[i] = e;
     _torques[i] = std::clamp(_torques[i], -max_torque, max_torque);
   }
-  return kinematics->twist_from_wheel_torques(_torques, current, time_step);
+  const auto t_cmd =
+      kinematics->twist_from_wheel_torques(_torques, current, time_step);
+  return behavior.to_frame(t_cmd, cmd_twist.frame);
 }
 
 const std::map<std::string, Property> MotorPIDModulation::properties =
@@ -44,4 +50,4 @@ const std::map<std::string, Property> MotorPIDModulation::properties =
 const std::string MotorPIDModulation::type =
     register_type<MotorPIDModulation>("MotorPID");
 
-}  // namespace navground::core
+} // namespace navground::core

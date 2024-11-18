@@ -9,6 +9,8 @@
 #include "navground/core/register.h"
 #include "navground/core/types.h"
 #include "navground/sim/export.h"
+#include <stdexcept>
+#include <string>
 
 using navground::core::HasProperties;
 using navground::core::HasRegister;
@@ -71,7 +73,7 @@ struct NAVGROUND_SIM_EXPORT Task : public virtual HasProperties,
    */
   virtual bool done() const { return false; }
 
- protected:
+protected:
   /**
    * @brief      Tick the task, possibly updating the navigation goal of the
    * agent.
@@ -91,7 +93,25 @@ struct NAVGROUND_SIM_EXPORT Task : public virtual HasProperties,
   virtual void prepare(Agent *agent, World *world) {};
 
   std::vector<TaskCallback> callbacks;
+
+  /**
+   * @brief      Log an event, forwarding data to registered callbacks
+   *
+   * @param[in]  log   The logged data
+   */
+  void log_event(const std::vector<ng_float_t> log) const {
+    const unsigned u = get_log_size();
+    if (u == log.size()) {
+      for (const auto &cb : callbacks) {
+        cb(log);
+      }
+    } else {
+      throw std::runtime_error("Wrong log size: got " +
+                               std::to_string(log.size()) + ", expected " +
+                               std::to_string(u));
+    }
+  }
 };
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_TASK_H_ */

@@ -43,6 +43,8 @@ namespace navground::sim {
  *
  */
 struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
+  DECLARE_TYPE_AND_PROPERTIES
+  
   /**
    * The default range
    */
@@ -203,23 +205,6 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   /**
    * @private
    */
-  virtual const Properties &get_properties() const override {
-    return properties;
-  };
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
-  /**
-   * @private
-   */
   virtual void update(Agent *agent, World *world,
                       EnvironmentState *state) override;
 
@@ -267,7 +252,6 @@ private:
   bool _include_valid;
   bool _use_nearest_point;
   unsigned _max_id;
-  const static std::string type;
 
   bool include_velocity() const { return _max_speed > 0; }
   bool include_radius() const { return _max_radius > 0; }

@@ -234,9 +234,6 @@ public:
   /**
    * @brief      Sets the frame of reference for the command.
    *
-   * Leave empty to use the default frame of the kinematics, see \ref
-   * Behavior::default_cmd_frame.
-   *
    * @param[in]  frame  The desired value
    */
   void set_cmd_frame(const std::optional<Frame> &frame) { cmd_frame = frame; }

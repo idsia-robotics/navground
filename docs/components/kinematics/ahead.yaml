@@ -1,0 +1,22 @@
+steps: 300
+time_step: 0.0333
+scenario:
+  groups:
+    - type: human
+      color: darkcyan
+      number: 1
+      radius: 0.25
+      control_period: 0.1
+      orientation: 1
+      kinematics:
+        type: Ahead
+        max_speed: 1
+        max_angular_speed: 3.14
+      behavior:
+        type: Dummy
+        heading: target_point
+      task:
+        type: Waypoints
+        waypoints: [[2, 0], [-2, 0]]
+        loop: true
+        tolerance: 0.5

@@ -44,7 +44,8 @@ namespace navground::sim {
  *
  */
 struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
-  
+  DECLARE_TYPE_AND_PROPERTIES
+
   using Error = std::normal_distribution<ng_float_t>;
   /**
    * The default range
@@ -168,7 +169,8 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
    * @param[in]  value     The positive value
    */
   void set_error_std_dev(ng_float_t value) {
-    _error.param(Error::param_type{_error.mean(), std::max<ng_float_t>(0, value)});
+    _error.param(
+        Error::param_type{_error.mean(), std::max<ng_float_t>(0, value)});
   }
   /**
    * @brief      Gets the rangings error standard deviation.
@@ -210,23 +212,6 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
   /**
    * @private
    */
-  virtual const Properties &get_properties() const override {
-    return properties;
-  };
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
-  /**
-   * @private
-   */
   virtual void update(Agent *agent, World *world,
                       EnvironmentState *state) override;
 
@@ -234,8 +219,13 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
    * @private
    */
   Description get_description() const override {
-    return {{get_field_name(field_name),
-             BufferDescription::make<ng_float_t>({_resolution}, 0.0, _range)}};
+    return {
+        {get_field_name(field_name),
+         BufferDescription::make<ng_float_t>({_resolution}, 0.0, _range)},
+        {get_field_name("start_angle"),
+         BufferDescription::make<ng_float_t>({1}, -core::TWO_PI, core::TWO_PI)},
+        {get_field_name("fov"),
+         BufferDescription::make<ng_float_t>({1}, 0.0, core::TWO_PI)}};
   }
 
   /**
@@ -275,7 +265,6 @@ private:
   core::Vector2 _position;
   Error _error;
   CollisionComputation _cc;
-  const static std::string type;
 };
 
 } // namespace navground::sim

@@ -33,7 +33,8 @@ struct RecordSensingConfig {
    */
   std::string name;
   /**
-   * The sensor to record
+   * The sensor to record, if none, it will the record the behavior sensing
+   * state
    */
   std::shared_ptr<Sensor> sensor;
   /**
@@ -233,19 +234,19 @@ public:
   /**
    * @brief      The state of the run
    */
-  enum class State { 
+  enum class State {
     /**
      * The run is ready to be executed
      */
-    init, 
+    init,
     /**
      * The run is being executed
      */
-    running, 
+    running,
     /**
      * The run has finished executing
      */
-    finished 
+    finished
   };
 
   /**
@@ -304,6 +305,24 @@ public:
             record_config, seed) {}
 
   // ExperimentalRun(const ExperimentalRun&) = delete;
+
+
+  /**
+   * @brief      Decode a target from data stored by a run.
+   *
+   * @param[in]  data  The data
+   *
+   * @return     The target
+   */
+  static core::Target target_from_data(const std::vector<ng_float_t> &data);
+  /**
+   * @brief      Encode a target to be stored by a run.
+   *
+   * @param[in]  target  The target
+   *
+   * @return     The data
+   */
+  static std::vector<ng_float_t> data_from_target(const core::Target &target);
 
   /**
    * @brief      Gets the real-time duration of the run.
@@ -500,7 +519,7 @@ public:
   }
 
   /**
-   * @brief      Gets the steps to the next recorded collision 
+   * @brief      Gets the steps to the next recorded collision
    *             for each agent at each simulation step.
    *
    * @param[in]  min_interval  The minimal interval between collision among
@@ -553,6 +572,35 @@ public:
       return get_record(g.at(key));
     }
     return nullptr;
+  }
+
+  /**
+   * @brief      Gets the recorded sensing.
+   *
+   * @return     The dictionary {id -> {key: sensing data}.
+   */
+  const std::map<unsigned, std::map<std::string, std::shared_ptr<Dataset>>>
+  get_sensing() const {
+    std::map<unsigned, std::map<std::string, std::shared_ptr<Dataset>>> records;
+    for (const auto &[key, ds] : get_records("sensing")) {
+      const auto [id, s_key] = split_key(key);
+      if (!s_key.empty()) {
+        records[static_cast<unsigned>(std::stoul(id))][s_key] = ds;
+      }
+    }
+    return records;
+  }
+  /**
+   * @brief      Gets the recorded sensing.
+   *
+   * @param[in]  id   The agent uid or index
+   *                  (if \ref RecordConfig::use_agent_uid_as_key is not set)
+   *
+   * @return     The dictionary {key: sensing data}
+   */
+  const std::map<std::string, std::shared_ptr<Dataset>>
+  get_sensing_for(unsigned id) const {
+    return get_records(std::to_string(id) + "/sensing");
   }
   /**
    * @brief      Gets the recorded deadlocks.
@@ -818,22 +866,34 @@ public:
    * Depending if the data has been recorded, it will update:
    *
    * - poses
+   * 
    * - twists
+   * 
    * - cmds
+   * 
+   * - targets
+   * 
+   * - sensing
+   * 
    * - time
+   * 
    * - collisions
    *
    * @param[in]  step  The step. Negative steps are interpreted as relative to
    * the last registered step, i.e., -1 is the last step.
    *
+   * @param[in]  ignore_collisions Whether to skip setting collisions
    * @param[in]  ignore_twists Whether to skip setting twists
    * @param[in]  ignore_cmds Whether to skip setting [last] commands
-   * @param[in]  ignore_collisions Whether to skip setting collisions
+   * @param[in]  ignore_targets Whether to skip setting targets
+   * @param[in]  ignore_sensing Whether to skip setting sensing
+
    *
    * @return     True if the operation was possible and false otherwise.
    */
   bool go_to_step(int step, bool ignore_collisions = false,
-                  bool ignore_twists = false, bool ignore_cmds = false);
+                  bool ignore_twists = false, bool ignore_cmds = false,
+                  bool ignore_targets = false, bool ignore_sensing = false);
 
   /**
    * @brief      Resets the run.
@@ -917,6 +977,8 @@ private:
    * @param      group  The dataset group where to store data
    */
   void save(HighFive::Group &group) const;
+
+  static std::tuple<std::string, std::string> split_key(const std::string &key);
 };
 
 } // namespace navground::sim

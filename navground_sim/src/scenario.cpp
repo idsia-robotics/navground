@@ -17,6 +17,9 @@ void Scenario::init_world(World *world, std::optional<int> seed) {
   }
   world->set_obstacles(obstacles);
   world->set_walls(walls);
+  if (bounding_box) {
+    world->set_bounding_box(*bounding_box);
+  }
   RandomGenerator &rg = world->get_random_generator();
   reset(seed);
   for (const auto &[name, property] : property_samplers) {
@@ -29,5 +32,12 @@ void Scenario::init_world(World *world, std::optional<int> seed) {
     init(world, seed);
   }
 }
+
+std::shared_ptr<World> Scenario::make_world(std::optional<int> seed) {
+  auto world = std::make_shared<World>();
+  init_world(world.get(), seed);
+  return world;
+}
+
 
 } // namespace navground::sim

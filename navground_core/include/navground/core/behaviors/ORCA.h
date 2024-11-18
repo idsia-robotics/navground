@@ -44,6 +44,8 @@ namespace navground::core {
  */
 class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
  public:
+  DECLARE_TYPE_AND_PROPERTIES
+
   /**
    * @brief  A line 
    */
@@ -166,23 +168,6 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
   /**
    * @private
    */
-  virtual const Properties& get_properties() const override {
-    return properties;
-  };
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
-  /**
-   * @private
-   */
   EnvironmentState* get_environment_state() override { return &state; }
 
   /**
@@ -193,8 +178,7 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
   std::vector<Line> get_lines() const;
 
  protected:
-  Twist2 twist_towards_velocity(const Vector2& absolute_velocity,
-                                Frame frame) override;
+  Twist2 twist_towards_velocity(const Vector2& absolute_velocity) override;
   Vector2 desired_velocity_towards_point(const Vector2& point, ng_float_t speed,
                                          ng_float_t time_step) override;
   Vector2 desired_velocity_towards_velocity(const Vector2& velocity,
@@ -222,9 +206,6 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
   void prepare(const Vector2& target_velocity);
 
   Vector2 effective_position() const;
-
- private:
-  const static std::string type;
 };
 
 }  // namespace navground::core

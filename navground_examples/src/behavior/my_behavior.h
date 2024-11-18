@@ -17,28 +17,35 @@ namespace navground::core {
  * library.
  */
 class MY_BEHAVIOR_EXPORT IdleBehavior : public Behavior {
- public:
+public:
   using Behavior::Behavior;
-
-  std::string get_type() const override { return type; }
-
- protected:
+  DECLARE_TYPE_AND_PROPERTIES
+protected:
   Vector2 desired_velocity_towards_point(
-      [[maybe_unused]] const Vector2& point, [[maybe_unused]] ng_float_t speed,
+      [[maybe_unused]] const Vector2 &point, [[maybe_unused]] ng_float_t speed,
       [[maybe_unused]] ng_float_t time_step) override {
+    if (get_ignore_obstacles()) {
+      return clamp_norm(point - get_position(), speed);
+    }    
     return Vector2::Zero();
   }
 
   Vector2 desired_velocity_towards_velocity(
-      [[maybe_unused]] const Vector2& velocity,
+      [[maybe_unused]] const Vector2 &velocity,
       [[maybe_unused]] ng_float_t time_step) override {
+    if (get_ignore_obstacles()) {
+      return velocity;
+    }
     return Vector2::Zero();
   }
 
- private:
-  static const std::string type;
+  bool get_ignore_obstacles() const { return _ignore_obstacles; }
+  void set_ignore_obstacles(bool value) { _ignore_obstacles = value; }
+
+private:
+  bool _ignore_obstacles;
 };
 
-}  // namespace navground::core
+} // namespace navground::core
 
-#endif  // NAVGROUND_CORE_EXAMPLES_MY_BEHAVIOR_H_
+#endif // NAVGROUND_CORE_EXAMPLES_MY_BEHAVIOR_H_

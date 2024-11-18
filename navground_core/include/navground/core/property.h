@@ -77,6 +77,8 @@ struct Property {
    * Alternative deprecated names for the property
    */
   std::vector<std::string> deprecated_names;
+
+  bool readonly;
 };
 
 /**
@@ -136,12 +138,19 @@ make_property(const TypedGetter<T, C> &getter, const TypedSetter<T, C> &setter,
   property.deprecated_names = deprecated_names;
   property.owner_type_name = std::string(get_type_name<C>());
   property.getter = [getter](const HasProperties *obj) {
+    // getters can not be null
     const auto C_obj = dynamic_cast<const C *>(obj);
     if (!C_obj)
       throw std::bad_cast();
     return getter(C_obj);
   };
+  property.readonly = (setter == nullptr);
   property.setter = [setter](HasProperties *obj, const Property::Field &value) {
+    // setters can be nil
+    if (!setter) {
+      std::cerr << "cannot set readonly property" << std::endl;
+      return;
+    }
     auto C_obj = dynamic_cast<C *>(obj);
     if (!C_obj)
       return;
@@ -214,8 +223,8 @@ struct NAVGROUND_CORE_EXPORT HasProperties {
           [&property, this, &value](auto &&arg) {
             using T = std::decay_t<decltype(arg)>;
             if constexpr (std::is_convertible<V, T>::value) {
-              std::cout << get_type_name<V>() << "=>" << get_type_name<T>()
-                        << std::endl;
+              // std::cout << get_type_name<V>() << "=>" << get_type_name<T>()
+              //           << std::endl;
               property.setter(this, static_cast<T>(value));
             }
           },

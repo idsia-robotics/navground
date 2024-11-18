@@ -181,9 +181,9 @@ Twist2 Controller::update(ng_float_t time_step) {
     }
     return f_action->manual_cmd;
   }
-  if (action && behavior) {
+  if (behavior) {
     Twist2 cmd = behavior->compute_cmd(time_step, cmd_frame);
-    if (cmd_cb) {
+    if (action && cmd_cb) {
       (*cmd_cb)(cmd);
     }
     return cmd;

@@ -177,8 +177,8 @@ struct convert<Kinematics> {
   static Node encode(const Kinematics& rhs) {
     Node node;
     encode_type_and_properties<Kinematics>(node, rhs);
-    node["max_speed"] = rhs.get_max_speed();
-    node["max_angular_speed"] = rhs.get_max_angular_speed();
+    node["max_speed"] = rhs.Kinematics::get_max_speed();
+    node["max_angular_speed"] = rhs.Kinematics::get_max_angular_speed();
     return node;
   }
   static bool decode(const Node& node, Kinematics& rhs) {

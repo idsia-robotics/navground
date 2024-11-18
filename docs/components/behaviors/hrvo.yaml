@@ -1,0 +1,27 @@
+steps: 1000
+time_step: 0.1
+scenario:
+  type: Cross
+  agent_margin: 0.1
+  side: 4
+  target_margin: 0.1
+  tolerance: 0.5
+  groups:
+    -
+      type: thymio
+      number: 20
+      radius: 0.08
+      control_period: 0.1
+      speed_tolerance: 0.02
+      kinematics:
+        type: 2WDiff
+        wheel_axis: 0.094
+        max_speed: 0.166
+      state_estimation:
+        type: Bounded
+        range: 5.0
+      behavior:
+        type: HRVO
+        optimal_speed: 0.12
+        horizon: 5.0
+        safety_margin: 0.02

@@ -21,6 +21,8 @@ namespace navground::sim {
  *
  */
 struct NAVGROUND_SIM_EXPORT SensorCombination : public Sensor {
+  DECLARE_TYPE
+  
   /**
    * @brief      Constructs a new instance.
    *
@@ -53,11 +55,6 @@ struct NAVGROUND_SIM_EXPORT SensorCombination : public Sensor {
   /**
    * @private
    */
-  std::string get_type() const override { return type; }
-
-  /**
-   * @private
-   */
   virtual void update(Agent *agent, World *world,
                       EnvironmentState *state) override;
 
@@ -77,7 +74,6 @@ struct NAVGROUND_SIM_EXPORT SensorCombination : public Sensor {
 
  private:
   std::vector<std::shared_ptr<Sensor>> _sensors;
-  const static std::string type;
 };
 
 }  // namespace navground::sim

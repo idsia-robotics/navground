@@ -38,6 +38,8 @@ namespace navground::core {
  */
 class NAVGROUND_CORE_EXPORT HRVOBehavior : public Behavior {
  public:
+  DECLARE_TYPE_AND_PROPERTIES
+
   /**
    * @brief      Contruct a new instance
    *
@@ -47,11 +49,6 @@ class NAVGROUND_CORE_EXPORT HRVOBehavior : public Behavior {
   HRVOBehavior(std::shared_ptr<Kinematics> kinematics = nullptr,
                ng_float_t radius = 0);
   ~HRVOBehavior();
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
 
   /**
    * @private
@@ -84,18 +81,6 @@ class NAVGROUND_CORE_EXPORT HRVOBehavior : public Behavior {
    */
   void set_uncertainty_offset(ng_float_t value);
 
-  /**
-   * @private
-   */
-  virtual const Properties& get_properties() const override {
-    return properties;
-  };
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
  protected:
   Vector2 desired_velocity_towards_point(const Vector2& point, ng_float_t speed,
                                          ng_float_t time_step) override;
@@ -112,9 +97,6 @@ class NAVGROUND_CORE_EXPORT HRVOBehavior : public Behavior {
   void add_obstacle(const Disc& disc, float rangeSq, bool push_away = false,
                     ng_float_t epsilon = 2e-3);
   void prepare(const Vector2& target_velocity);
-
- private:
-  const static std::string type;
 };
 
 }  // namespace navground::core

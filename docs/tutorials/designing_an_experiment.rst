@@ -10,7 +10,7 @@ Scenario
 ========
 
 First, we need to decide in which kind of navigation scenario we are going to experiment.
-:ref:`Some scenarios <benchmark scenarios>` are already predefined. We can pick one of them, let's say :ref:`Corridor <corridor>`, or we can define our own scenario, which will be the subject of a different guide or tutorial.
+:ref:`Some scenarios <scenarios>` are already predefined. We can pick one of them, let's say :ref:`Corridor <corridor>`, or we can define our own scenario, which will be the subject of a different guide or tutorial.
 
 .. code-block:: YAML
 

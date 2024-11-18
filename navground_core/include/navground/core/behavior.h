@@ -66,6 +66,8 @@ class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
 public:
   using HasRegister<Behavior>::C;
 
+  const static std::string type;
+
   /**
    * @brief      Different behavior variants for the angular
    * motion when it is no constrained by the kinematics or already specified by
@@ -292,12 +294,10 @@ public:
    * kinematics.
    *
    * @param[in]  value  The desired value
-   * @param[in]  frame  The desired frame
    *
    * @return the nearest feasible value
    */
-  Twist2 feasible_twist(const Twist2 &value,
-                        std::optional<Frame> frame = std::nullopt) const;
+  Twist2 feasible_twist(const Twist2 &value) const;
 
   /**
    * @brief      Computes the nearest feasible twist given the
@@ -305,12 +305,11 @@ public:
    *
    * @param[in]  value  The desired value
    * @param[in]  time_step  The time step
-   * @param[in]  frame  The desired frame
    *
    * @return the nearest feasible value
    */
-  Twist2 feasible_twist(const Twist2 &value, ng_float_t time_step,
-                        std::optional<Frame> frame = std::nullopt) const;
+  Twist2 feasible_twist_from_current(const Twist2 &value,
+                                     ng_float_t time_step) const;
 
   /**
    * @brief      Gets the desired optimal angular speed.
@@ -631,17 +630,10 @@ public:
    *
    * @param[in]  twist_cmd  The twist
    * @param[in]  time_step  The time step
+   * @param[in]  time_step  Whether to enforce that the command is
+   * kinematically feasible
    */
-  void actuate(const Twist2 &twist_cmd, ng_float_t time_step) {
-    actuated_twist = twist_cmd;
-    if (twist_cmd.frame == Frame::relative) {
-      twist = to_absolute(twist_cmd);
-    } else {
-      twist = actuated_twist;
-    }
-    pose = pose.integrate(twist, time_step);
-    change(POSITION | ORIENTATION | VELOCITY | ANGULAR_SPEED);
-  }
+  void actuate(const Twist2 &twist_cmd, ng_float_t time_step, bool enforce_feasibility = false);
   /**
    * @brief      Convenience method to actuate the stored actuated twist
    * command,
@@ -655,21 +647,7 @@ public:
    *
    * @param[in]  other  The other behavior
    */
-  void set_state_from(const Behavior &other) {
-    set_kinematics(other.get_kinematics());
-    set_radius(other.get_radius());
-    set_optimal_speed(other.get_optimal_speed());
-    set_optimal_angular_speed(other.get_optimal_angular_speed());
-    set_rotation_tau(other.get_rotation_tau());
-    set_safety_margin(other.get_safety_margin());
-    set_horizon(other.get_horizon());
-    set_assume_cmd_is_actuated(other.get_assume_cmd_is_actuated());
-    set_heading_behavior(other.get_heading_behavior());
-    set_target(other.get_target());
-    set_pose(other.get_pose());
-    set_twist(other.get_twist());
-    set_actuated_twist(other.get_actuated_twist());
-  }
+  void set_state_from(const Behavior &other);
 
   //----------- CONTROL
 
@@ -731,17 +709,18 @@ public:
    *
    * @param[in]  time_step   The control time step. Not all behavior use it
    * but some may use it, for example, to limit accelerations.
+   * @param[in]  frame  An optional desired frame of reference for the command.
+   * @param[in]  enforce_feasibility  Whether to enforce that the command is
+   * kinematically feasible
    *
-   * @param[in]  frame       The desired frame of reference for the twist.
-   * Leave undefined to use the default frame depending on the kinematics
-   * (see \ref default_cmd_frame)
-   *
-   * @return     The control command as a twist in the specified frame.
+   * @return  The control command as a twist in the specified frame.
    */
 
   Twist2 compute_cmd(ng_float_t time_step,
-                     std::optional<Frame> frame = std::nullopt);
+                     std::optional<Frame> frame = std::nullopt,
+                     bool enforce_feasibility = false);
 
+#if 0
   /**
    * @brief      The most natural frame for the current kinematics:
    * \ref Frame::relative in case the agent is wheeled, else \ref
@@ -752,6 +731,7 @@ public:
   Frame default_cmd_frame() {
     return kinematics ? kinematics->cmd_frame() : Frame::absolute;
   }
+#endif
 
   /**
    * @brief      Gets the last computed desired velocity.
@@ -1080,11 +1060,10 @@ protected:
    * delegating the check to the methods listed above.
    *
    * @param[in]  time_step  The time step
-   * @param[in]  frame      The desired frame
    *
    * @return     The command in the desired frame.
    */
-  virtual Twist2 compute_cmd_internal(ng_float_t time_step, Frame frame);
+  virtual Twist2 compute_cmd_internal(ng_float_t time_step);
 
   /**
    * @brief      Compute a command to follow a path
@@ -1097,12 +1076,11 @@ protected:
    * @param      path       The desired path in world-fixed frame
    * @param[in]  speed      The desired speed
    * @param[in]  time_step  The time step
-   * @param[in]  frame      The desired frame
    *
-   * @return     The command twist in frame ``frame``.
+   * @return     The command twist.
    */
   virtual Twist2 cmd_twist_along_path(Path &path, ng_float_t speed,
-                                      ng_float_t time_step, Frame frame);
+                                      ng_float_t time_step);
 
   /**
    * @brief      Computes a command to move towards a desired pose
@@ -1117,13 +1095,12 @@ protected:
    * @param[in]  speed          The desired speed
    * @param[in]  angular_speed  The desired angular speed
    * @param[in]  time_step      The time step
-   * @param[in]  frame          The frame
    *
-   * @return     The command twist in frame ``frame``.
+   * @return     The command twist.
    */
   virtual Twist2 cmd_twist_towards_pose(const Pose2 &pose, ng_float_t speed,
                                         Radians angular_speed,
-                                        ng_float_t time_step, Frame frame);
+                                        ng_float_t time_step);
   /**
    * @brief      Computes a command to move towards a desired position
    *
@@ -1140,12 +1117,11 @@ protected:
    * @param[in]  point      The desired position in world-fixed frame
    * @param[in]  speed      The desired speed
    * @param[in]  time_step  The time step
-   * @param[in]  frame      The desired frame
    *
-   * @return     The command twist in frame ``frame``.
+   * @return     The command twist.
    */
   virtual Twist2 cmd_twist_towards_point(const Vector2 &point, ng_float_t speed,
-                                         ng_float_t time_step, Frame frame);
+                                         ng_float_t time_step);
   /**
    * @brief      Computes a command to turn towards a desired orientation
    *
@@ -1162,12 +1138,11 @@ protected:
    *
    * @param[in]  velocity   The velocity in world-fixed frame
    * @param[in]  time_step  The time step
-   * @param[in]  frame      The desired frame
    *
-   * @return     The command twist in frame ``frame``.
+   * @return     The command twist.
    */
   virtual Twist2 cmd_twist_towards_velocity(const Vector2 &velocity,
-                                            ng_float_t time_step, Frame frame);
+                                            ng_float_t time_step);
   /**
    * @brief      Computes a command to turn towards a desired orientation
    *
@@ -1183,14 +1158,12 @@ protected:
    * @param[in]  orientation    The desired orientation in world-fixed frame
    * @param[in]  angular_speed  The desired angular speed
    * @param[in]  time_step      The time step
-   * @param[in]  frame          The desired frame
    *
-   * @return     The command twist in frame ``frame``.
+   * @return     The command twist.
    */
   virtual Twist2 cmd_twist_towards_orientation(Radians orientation,
                                                ng_float_t angular_speed,
-                                               ng_float_t time_step,
-                                               Frame frame);
+                                               ng_float_t time_step);
   /**
    * @brief      Computes a command to turn at a desired angular speed
    *
@@ -1201,13 +1174,11 @@ protected:
    *
    * @param[in]  angular_speed  The desired angular speed
    * @param[in]  time_step      The time step
-   * @param[in]  frame          The desired frame
    *
-   * @return     The command twist in frame ``frame``.
+   * @return     The command twist.
    */
   virtual Twist2 cmd_twist_towards_angular_speed(ng_float_t angular_speed,
-                                                 ng_float_t time_step,
-                                                 Frame frame);
+                                                 ng_float_t time_step);
   /**
    * @brief      Computes a command to stop
    *
@@ -1216,11 +1187,10 @@ protected:
    * The base implementation returns the null twist.
    *
    * @param[in]  time_step  The time step
-   * @param[in]  frame      The desired frame
    *
-   * @return     The command twist in frame ``frame``.
+   * @return     The command twist.
    */
-  virtual Twist2 cmd_twist_towards_stopping(ng_float_t time_step, Frame frame);
+  virtual Twist2 cmd_twist_towards_stopping(ng_float_t time_step);
 
   /**
    * @brief      Computes a control velocity towards a desired position
@@ -1262,14 +1232,10 @@ protected:
    * desired_velocity_towards_velocity) a safe control velocity.
    *
    * @param[in]  velocity  The control velocity in world-fixed frame
-   * @param[in]  frame     The desired frame
    *
-   * @return     A command twist in frame ``frame``.
+   * @return     A command twist.
    */
-  virtual Twist2 twist_towards_velocity(const Vector2 &velocity, Frame frame);
-
-private:
-  const static std::string type;
+  virtual Twist2 twist_towards_velocity(const Vector2 &velocity);
 };
 
 } // namespace navground::core

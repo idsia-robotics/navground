@@ -1,0 +1,23 @@
+steps: 300
+time_step: 0.0333
+scenario:
+  groups:
+    - type: wheelchair
+      color: darkcyan
+      number: 1
+      radius: 0.25
+      control_period: 0.1
+      kinematics:
+        type: 2WDiffDyn
+        max_speed: 1
+        max_angular_speed: 3.14
+        moi: 1.0
+        max_acceleration: 1.0
+        wheel_axis: 0.5
+      behavior:
+        type: Dummy
+      task:
+        type: Waypoints
+        waypoints: [[2, 0], [-2, 0]]
+        loop: true
+        tolerance: 0.5

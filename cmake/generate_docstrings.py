@@ -88,7 +88,7 @@ def main():
     _methods = re.findall(r".def\(\"(\w+)\",", python)
     _properties = re.findall(r".def_property\(\"(\w+)\",", python)
 
-    header = re.sub(r"\\ref\s+(\w*::)*(\w+)", ref(_renamed_classes, _methods, {'max_angular_speed'}), header)
+    header = re.sub(r"\\ref\s+(\w*::)*(\w+)", ref(_renamed_classes, _methods, {'max_angular_speed', 'max_speed'}), header)
     extras = ''
     exposed_properties = set()
 

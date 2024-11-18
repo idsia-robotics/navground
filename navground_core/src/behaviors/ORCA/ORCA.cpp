@@ -31,15 +31,10 @@ void ORCABehavior::set_treat_obstacles_as_agents(bool value) {
 
 ORCABehavior::ORCABehavior(std::shared_ptr<Kinematics> kinematics,
                            ng_float_t radius)
-    : Behavior(kinematics, radius),
-      state(),
-      use_effective_center(false),
+    : Behavior(kinematics, radius), state(), use_effective_center(false),
       treat_obstacles_as_agents(true),
-      _RVOAgent(std::make_unique<RVO::Agent>()),
-      rvo_neighbors(),
-      rvo_static_obstacles(),
-      rvo_line_obstacles(),
-      rvo_square_obstacles() {
+      _RVOAgent(std::make_unique<RVO::Agent>()), rvo_neighbors(),
+      rvo_static_obstacles(), rvo_line_obstacles(), rvo_square_obstacles() {
   _RVOAgent->maxNeighbors_ = 1000;
   _RVOAgent->timeHorizon_ = 10;
   _RVOAgent->timeHorizonObst_ = 10;
@@ -52,8 +47,8 @@ ORCABehavior::~ORCABehavior() = default;
 // entry
 
 void ORCABehavior::add_line_obstacle(const LineSegment &line) {
-  Vector2 pa = line.p1;  // - line.e1 * safetyMargin - line.e2 * safetyMargin;
-  Vector2 pb = line.p2;  // + line.e1 * safetyMargin + line.e2 * safetyMargin;
+  Vector2 pa = line.p1; // - line.e1 * safetyMargin - line.e2 * safetyMargin;
+  Vector2 pb = line.p2; // + line.e1 * safetyMargin + line.e2 * safetyMargin;
   auto a = std::make_unique<RVO::Obstacle>();
   auto b = std::make_unique<RVO::Obstacle>();
   a->point_ = vector_from(pa);
@@ -186,15 +181,16 @@ void ORCABehavior::prepare(const Vector2 &target_velocity) {
   // TODO(Jerome): check if maxSpeed_ should be set to target or to max
   // TODO(Jerome): avoid repetitions (effective_position vs this function)
   if (is_using_effective_center()) {
-    WheeledKinematics *wk = dynamic_cast<WheeledKinematics *>(kinematics.get());
-    D = wk->get_axis() / 2;
+    TwoWheelsDifferentialDriveKinematics *wk =
+        dynamic_cast<TwoWheelsDifferentialDriveKinematics *>(kinematics.get());
+    D = wk->get_wheel_axis() / 2;
     const RVO::Vector2 delta = vector_from(unit(pose.orientation) * D);
     _RVOAgent->position_ = vector_from(pose.position) + delta;
     _RVOAgent->radius_ = safety_margin + radius + D;
     _RVOAgent->velocity_ = vector_from(
         twist.velocity + normal(pose.orientation) * D * twist.angular_speed);
-    _RVOAgent->maxSpeed_ =
-        target_velocity.norm() / sqrt(1 + std::pow(wk->get_axis() / D / 2, 2));
+    _RVOAgent->maxSpeed_ = target_velocity.norm() /
+                           sqrt(1 + std::pow(wk->get_wheel_axis() / D / 2, 2));
   } else {
     _RVOAgent->radius_ = safety_margin + radius;
     _RVOAgent->velocity_ = vector_from(twist.velocity);
@@ -289,24 +285,25 @@ Vector2 ORCABehavior::desired_velocity_towards_point(const Vector2 &point,
 }
 
 // TODO(J 2023): review ... should I check feasibility?
-Twist2 ORCABehavior::twist_towards_velocity(const Vector2 &absolute_velocity,
-                                            Frame frame) {
+Twist2 ORCABehavior::twist_towards_velocity(const Vector2 &absolute_velocity) {
   if (is_using_effective_center()) {
     Radians angle = orientation_of(absolute_velocity) - pose.orientation;
     ng_float_t speed = absolute_velocity.norm();
     if (speed) {
-      WheeledKinematics *wk =
-          dynamic_cast<WheeledKinematics *>(kinematics.get());
+      TwoWheelsDifferentialDriveKinematics *wk =
+          dynamic_cast<TwoWheelsDifferentialDriveKinematics *>(
+              kinematics.get());
       WheelSpeeds speeds = {
-          speed * (std::cos(angle) - wk->get_axis() / 2 / D * std::sin(angle)),
-          speed * (std::cos(angle) + wk->get_axis() / 2 / D * std::sin(angle))};
-      Twist2 twist = wk->twist(speeds);
-      return to_frame(twist, frame);
+          speed * (std::cos(angle) -
+                   wk->get_wheel_axis() / 2 / D * std::sin(angle)),
+          speed * (std::cos(angle) +
+                   wk->get_wheel_axis() / 2 / D * std::sin(angle))};
+      return wk->twist(speeds);
     } else {
-      return {Vector2::Zero(), 0, frame};
+      return {Vector2::Zero(), 0, Frame::relative};
     }
   }
-  return Behavior::twist_towards_velocity(absolute_velocity, frame);
+  return Behavior::twist_towards_velocity(absolute_velocity);
 }
 
 std::vector<ORCABehavior::Line> ORCABehavior::get_lines() const {
@@ -353,4 +350,4 @@ const std::map<std::string, Property> ORCABehavior::properties =
 
 const std::string ORCABehavior::type = register_type<ORCABehavior>("ORCA");
 
-}  // namespace navground::core
+} // namespace navground::core

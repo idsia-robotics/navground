@@ -92,8 +92,8 @@ Schema
                 type: array   
                 items: T
               once: bool
-            wrap: 
-              enum: [loop, repeat, terminate]
+              wrap: 
+                enum: [loop, repeat, terminate]
             required: [sampler, values]
      choice<T>:
        type: object

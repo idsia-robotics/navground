@@ -13,6 +13,7 @@
 using navground::sim::AgentSampler;
 using navground::sim::Scenario;
 using navground::sim::World;
+using navground::sim::BoundingBox;
 
 // #define _UNSAFE_GROUP_CASTING
 
@@ -28,6 +29,9 @@ template <typename W = World> struct convert_scenario {
       if (sampler) {
         node[name] = sampler;
       }
+    }
+    if (rhs.bounding_box) {
+      node["bounding_box"] = *(rhs.bounding_box);
     }
     node["obstacles"] = rhs.obstacles;
     for (const auto &line : rhs.walls) {
@@ -67,6 +71,9 @@ template <typename W = World> struct convert_scenario {
       for (const auto &c : node["walls"]) {
         rhs.walls.push_back(c.as<Wall>());
       }
+    }
+    if (node["bounding_box"]) {
+      rhs.bounding_box = node["bounding_box"].as<BoundingBox>();
     }
     return true;
   }

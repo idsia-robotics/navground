@@ -36,12 +36,14 @@ using Waypoints = std::vector<navground::core::Vector2>;
  *   - `waypoints` (list of \ref navground::core::Vector2, \ref get_waypoints)
  *
  *   - `loop` (bool, \ref get_loop)
- *   
+ *
  *   - `random` (bool, \ref get_random)
- *   
+ *
  *   - `tolerance` (bool, \ref get_tolerance)
  */
 struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
+  DECLARE_TYPE_AND_PROPERTIES
+  
   /**
    * Whether by default the task loops.
    */
@@ -143,32 +145,14 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @param[in]  value  The desired value
    */
   void set_random(bool value) { _random = value; }
-  /**
-   * @brief      Gets the properties.
-   *
-   * @private
-   * @return     The properties.
-   */
-  virtual const Properties &get_properties() const override {
-    return properties;
-  };
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-  const static std::string type;
 
 protected:
   /**
    * @private
    */
   void update(Agent *agent, World *world, ng_float_t time) override;
+  void prepare(Agent *agent, World *world) override;
+
 
 private:
   Waypoints _waypoints;

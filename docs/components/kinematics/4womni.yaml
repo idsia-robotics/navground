@@ -1,0 +1,21 @@
+steps: 300
+time_step: 0.0333
+scenario:
+  groups:
+    - type: robomaster_ep
+      color: darkcyan
+      number: 1
+      radius: 0.25
+      control_period: 0.1
+      kinematics:
+        type: 4WOmni
+        max_speed: 1
+        wheel_axis: 0.25
+      behavior:
+        type: Dummy
+        heading: target_point
+      task:
+        type: Waypoints
+        waypoints: [[2, 0], [-2, 0]]
+        loop: true
+        tolerance: 0.5

@@ -10,6 +10,8 @@
 
 namespace navground::sim {
 
+void WaypointsTask::prepare(Agent *agent, World *world) { _running = true; }
+
 void WaypointsTask::update(Agent *agent, World *world, ng_float_t time) {
   auto c = agent->get_controller();
   if (c->idle()) {
@@ -17,13 +19,9 @@ void WaypointsTask::update(Agent *agent, World *world, ng_float_t time) {
     if (waypoint) {
       c->go_to_position(*waypoint, _tolerance);
       _running = true;
-      for (const auto &cb : callbacks) {
-        cb({time, 1.0, waypoint->x(), waypoint->y()});
-      }
+      log_event({time, 1.0, waypoint->x(), waypoint->y()});
     } else if (_running) {
-      for (const auto &cb : callbacks) {
-        cb({time, 0.0, 0.0, 0.0});
-      }
+      log_event({time, 0.0, 0.0, 0.0});
       _running = false;
     }
   }

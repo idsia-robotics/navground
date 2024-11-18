@@ -1,0 +1,32 @@
+steps: 200
+time_step: 0.1
+record_pose: true
+scenario:
+  bounding_box:
+    min_y: 0
+    max_y: 2
+    min_x: -1
+    max_x: 5
+  groups:
+    - type: thymio
+      color: darkcyan
+      number: 1
+      radius: 0.25
+      control_period: 0.1
+      orientation: 0
+      position: [0, 0.5]
+      kinematics:
+        type: 2WDiff
+        max_speed: 1.0
+        wheel_axis: 0.5
+      behavior:
+        type: StayAwayFromBoundary
+        optimal_speed: 0.25
+        safety_margin: 0.1
+      task:
+        type: Direction
+        direction: [1, 1]
+      state_estimation:
+        type: Boundary
+        min_y: 0
+        max_y: 2

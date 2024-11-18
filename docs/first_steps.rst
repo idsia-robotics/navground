@@ -125,6 +125,12 @@ want to have a look at some examples
 want get familiar with the installed packages and their commands
    go to :doc:`packages/index`
 
+want to discover which components are installed
+   have a look at :doc:`components/index`
+
+want to get guided through extending navground with new components
+   have a look at :doc:`guides/extend/index`
+
 want to check out the programming interfaces 
    have a look at :doc:`reference/index`
 

@@ -5,8 +5,8 @@
 #ifndef NAVGROUND_CORE_EXAMPLES_MY_SCENARIO_H_
 #define NAVGROUND_CORE_EXAMPLES_MY_SCENARIO_H_
 
-#include "navground/sim/scenario.h"
 #include "my_scenario_export.h"
+#include "navground/sim/scenario.h"
 
 namespace navground::sim {
 
@@ -17,19 +17,18 @@ namespace navground::sim {
  * library.
  */
 struct MY_SCENARIO_EXPORT EmptyScenario : Scenario {
- public:
+public:
   using Scenario::Scenario;
+  DECLARE_TYPE
 
-  std::string get_type() const override { return type; }
-
-  void init_world(World *world, [[maybe_unused]] std::optional<int> seed = std::nullopt) override {
+  void
+  init_world(World *world,
+             [[maybe_unused]] std::optional<int> seed = std::nullopt) override {
     Scenario::init_world(world);
     // ...
   }
-
-  static const std::string type;
 };
 
-}  // namespace navground::core
+} // namespace navground::sim
 
-#endif  // NAVGROUND_CORE_EXAMPLES_NEW_BEHAVIOR_H_
+#endif // NAVGROUND_CORE_EXAMPLES_NEW_BEHAVIOR_H_

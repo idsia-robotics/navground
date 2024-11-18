@@ -1,0 +1,33 @@
+steps: 1000
+time_step: 0.1
+record_pose: true
+scenario:
+  groups:
+    - type: thymio
+      color: darkcyan
+      number: 1
+      radius: 0.25
+      orientation: 0
+      speed_tolerance: 0.1
+      kinematics:
+        type: 2WDiff
+        max_speed: 1.0
+        wheel_axis: 0.5
+      behavior:
+        type: Dummy
+        optimal_speed: 0.5
+      task:
+        type: Waypoints
+        waypoints: [[3, 0], [3, 3], [0, 3], [0, 0]]
+        loop: false
+        tolerance: 0.1
+      state_estimation:
+        type: Odometry
+        angular_speed_bias: 0.1
+        angular_speed_std_dev: 0.2
+        longitudinal_speed_bias: -0.2
+        longitudinal_speed_std_dev: 0.2
+        transversal_speed_bias: 0
+        transversal_speed_std_dev: 0.05
+        update_ego_state: true
+        update_sensing_state: false

@@ -2,7 +2,6 @@
 #define NAVGROUND_CORE_KINEMATICS_H_
 
 #include <algorithm>
-#include <assert.h>
 #include <limits>
 #include <vector>
 
@@ -55,12 +54,12 @@ public:
    *
    * @return     The frame
    */
-  Frame cmd_frame() const {
-    if (is_wheeled() || dof() < 3) {
-      return Frame::relative;
-    }
-    return Frame::absolute;
-  }
+  // Frame cmd_frame() const {
+  //   if (is_wheeled() || dof() < 3) {
+  //     return Frame::relative;
+  //   }
+  //   return Frame::absolute;
+  // }
 
   /**
    * @brief      Computes the nearest feasible twist to a desired twist.
@@ -83,9 +82,10 @@ public:
    * @return     The same desired twist if feasible else the nearest feasible
    * value. How this is defined depends on the concrete sub-class.
    */
-  virtual Twist2 feasible(const Twist2 &twist,
-                          [[maybe_unused]] const Twist2 &current,
-                          [[maybe_unused]] ng_float_t time_step) const {
+  virtual Twist2
+  feasible_from_current(const Twist2 &twist,
+                        [[maybe_unused]] const Twist2 &current,
+                        [[maybe_unused]] ng_float_t time_step) const {
     return feasible(twist);
   }
 
@@ -94,7 +94,7 @@ public:
    *
    * @return     True if wheeled, False otherwise.
    */
-  virtual bool is_wheeled() const = 0;
+  virtual bool is_wheeled() const { return false; }
   /**
    * @brief      Returns the degrees of freedom (between 0 and 3 for planar
    * rigid body kinematics)
@@ -107,7 +107,7 @@ public:
    *
    * @return     The maximal speed.
    */
-  ng_float_t get_max_speed() const { return _max_speed; }
+  virtual ng_float_t get_max_speed() const { return _max_speed; }
   /**
    * @brief      Sets the maximum speed.
    *
@@ -159,14 +159,16 @@ private:
  */
 class NAVGROUND_CORE_EXPORT OmnidirectionalKinematics : public Kinematics {
 public:
+  DECLARE_TYPE
   /**
    * @brief      Constructs a new instance.
    *
    * @param[in]  max_speed          The maximal speed
    * @param[in]  max_angular_speed  The maximal angular speed
    */
-  OmnidirectionalKinematics(ng_float_t max_speed = Kinematics::inf,
-                            ng_float_t max_angular_speed = Kinematics::inf)
+  explicit OmnidirectionalKinematics(
+      ng_float_t max_speed = Kinematics::inf,
+      ng_float_t max_angular_speed = Kinematics::inf)
       : Kinematics(max_speed, max_angular_speed) {}
 
   /**
@@ -174,25 +176,11 @@ public:
    */
   Twist2 feasible(const Twist2 &twist) const override;
   /**
-   * @brief      Returns whether the kinematics has wheels.
-   *
-   * @return     False
-   */
-  bool is_wheeled() const override { return false; }
-  /**
    * @brief      Returns the degrees of freedom
    *
    * @return     3
    */
   unsigned dof() const override { return 3; }
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
-private:
-  const static std::string type;
 };
 
 /**
@@ -201,14 +189,15 @@ private:
  */
 class NAVGROUND_CORE_EXPORT AheadKinematics : public Kinematics {
 public:
+  DECLARE_TYPE
   /**
    * @brief      Constructs a new instance.
    *
    * @param[in]  max_speed          The maximal speed
    * @param[in]  max_angular_speed  The maximal angular speed
    */
-  AheadKinematics(ng_float_t max_speed = Kinematics::inf,
-                  ng_float_t max_angular_speed = Kinematics::inf)
+  explicit AheadKinematics(ng_float_t max_speed = Kinematics::inf,
+                           ng_float_t max_angular_speed = Kinematics::inf)
       : Kinematics(max_speed, max_angular_speed) {}
 
   /**
@@ -216,50 +205,25 @@ public:
    */
   Twist2 feasible(const Twist2 &twist) const override;
   /**
-   * @brief      Returns whether the kinematics has wheels.
-   *
-   * @return     False
-   */
-  bool is_wheeled() const override { return false; }
-  /**
    * @brief      Returns the degrees of freedom
    *
    * @return     2
    */
   unsigned dof() const override { return 2; }
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
-private:
-  static const std::string type;
 };
 
 /**
  * @brief      Abstract wheeled kinematics
  *
- * *Registered properties*:
- *
- *   - `wheel_axis` (float, \ref get_axis)
  */
-class NAVGROUND_CORE_EXPORT WheeledKinematics : public Kinematics {
+class NAVGROUND_CORE_EXPORT WheeledKinematics : virtual public Kinematics {
 public:
-  WheeledKinematics(ng_float_t max_speed = Kinematics::inf,
-                    ng_float_t max_angular_speed = Kinematics::inf,
-                    ng_float_t axis = 0)
-      : Kinematics(max_speed, max_angular_speed), axis(axis) {}
-
-  virtual ~WheeledKinematics() = default;
-
   /**
    * @brief      Returns whether the kinematics has wheels.
    *
    * @return     True
    */
   bool is_wheeled() const override { return true; }
-
   /**
    * @brief      Convert wheel speeds to a twist
    *
@@ -276,7 +240,6 @@ public:
    * @return     The corresponding wheel speeds.
    */
   virtual WheelSpeeds wheel_speeds(const Twist2 &value) const = 0;
-
   /**
    * @brief      Convert a twist to feasible wheel speeds
    *
@@ -284,48 +247,15 @@ public:
    *
    * @return     The corresponding wheel speeds.
    */
-  virtual WheelSpeeds feasible_wheel_speeds(const Twist2 &value) const = 0;
-
-  /**
-   * @private
-   */
-  Twist2 feasible(const Twist2 &value) const override;
-
-  /**
-   * @brief      Gets the wheel axis.
-   *
-   * @return     The axis.
-   */
-  ng_float_t get_axis() const { return axis; }
-  /**
-   * @brief      Sets the wheel axis.
-   *
-   * @param[in]  value  A positive value
-   */
-  void set_axis(ng_float_t value) {
-    if (value > 0)
-      axis = value;
+  virtual WheelSpeeds feasible_wheel_speeds(const Twist2 &value) const {
+    return wheel_speeds(feasible(value));
   }
-
-  /**
-   * @private
-   */
-  virtual const Properties &get_properties() const override {
-    return properties;
-  };
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
-protected:
-  ng_float_t axis;
 };
 
 /**
  * @brief   Two differential drive wheels (left, right) (e.g., a wheelchair)
- *          with software-limited speeds.
+ * with a physical maximal wheel speed, and software-limited
+forward/backwards speeds.
  *
  * It implements two types of kinematics constrains:
  *
@@ -338,19 +268,21 @@ protected:
  * *Registered properties*:
  *
  *   - `max_forward_speed` (float, \ref get_max_forward_speed)
- *   
+ *
  *   - `max_backward_speed` (float, \ref get_max_backward_speed)
  *
+ *   - `wheel_axis` (float, \ref get_wheel_axis)
  */
 class NAVGROUND_CORE_EXPORT TwoWheelsDifferentialDriveKinematics
-    : public WheeledKinematics {
+    : public virtual WheeledKinematics {
 public:
+  DECLARE_TYPE_AND_PROPERTIES
   /**
    * @brief      Constructs a new instance.
    *
    * @param[in]  max_speed          The maximal wheel speed
-   * @param[in]  axis               The wheel axis (i.e., the distance between
-   * the wheels)
+   * @param[in]  wheel_axis               The wheel axis (i.e., the distance
+   * between the wheels)
    * @param[in]  max_angular_speed  The maximal angular speed, that is also
    * limited by the 2 * max_speed / axis, if the axis is positive.
    * @param[in]  max_forward_speed  The maximal linear speed when moving
@@ -358,39 +290,65 @@ public:
    * @param[in]  max_backward_speed The maximal linear speed when moving
    * backwards (set to negative or infinite to leave unconstrained)
    */
-  TwoWheelsDifferentialDriveKinematics(
-      ng_float_t max_speed = Kinematics::inf, ng_float_t axis = 0,
+  explicit TwoWheelsDifferentialDriveKinematics(
+      ng_float_t max_speed = Kinematics::inf, ng_float_t wheel_axis = 1,
       ng_float_t max_angular_speed = Kinematics::inf,
       ng_float_t max_forward_speed = Kinematics::inf,
       ng_float_t max_backward_speed = 0)
-      : WheeledKinematics(max_speed, max_angular_speed, axis),
+      : Kinematics(max_speed, max_angular_speed), _axis(wheel_axis),
         _max_forward_speed(max_forward_speed),
         _max_backward_speed(max_backward_speed) {}
 
+  static constexpr unsigned DOF = 2;
+
+  /**
+   * @brief      Gets the wheel axis.
+   *
+   * @return     The axis.
+   */
+  ng_float_t get_wheel_axis() const { return _axis; }
+  /**
+   * @brief      Sets the wheel axis.
+   *
+   * @param[in]  value  A positive value
+   */
+  void set_wheel_axis(ng_float_t value) {
+    if (value > 0)
+      _axis = value;
+  }
   /**
    * @brief      Returns the degrees of freedom
    *
    * @return     2
    */
-  unsigned dof() const override { return 2; }
+  unsigned dof() const override { return DOF; }
 
   /**
    * @private
    */
   ng_float_t get_max_angular_speed() const override {
     ng_float_t value = Kinematics::inf;
-    if (get_axis() > 0) {
-      value = 2 * get_max_speed() / get_axis();
+    if (get_wheel_axis() > 0) {
+      value = 2 * get_max_speed() / get_wheel_axis();
     }
     return std::min(value, Kinematics::get_max_angular_speed());
   }
+
+  /**
+   * @private
+   */
+  ng_float_t get_max_speed() const override {
+    return std::min(std::max(_max_backward_speed, _max_forward_speed),
+                    Kinematics::get_max_speed());
+  }
+
   /**
    * @brief      Whether the agent can move backwards.
    *
    * @return     True if moving backwards is possible.
    */
   bool can_move_backwards() const {
-    return get_max_speed() > 0 && _max_backward_speed > 0;
+    return Kinematics::get_max_speed() > 0 && _max_backward_speed > 0;
   }
   /**
    * @brief      Whether the agent can move forwards.
@@ -398,7 +356,7 @@ public:
    * @return     True if moving forwards is possible.
    */
   bool can_move_forwards() const {
-    return get_max_speed() > 0 && _max_forward_speed > 0;
+    return Kinematics::get_max_speed() > 0 && _max_forward_speed > 0;
   }
 
   /**
@@ -459,118 +417,14 @@ public:
    */
   WheelSpeeds wheel_speeds(const Twist2 &twist) const override;
 
-  /**
-   * @brief      See \ref WheeledKinematics::feasible_wheel_speeds.
-   *
-   * @param[in]  twist  The twist
-   *
-   * @return     The corresponding wheel speeds in the order {left, right}
-   */
-  WheelSpeeds feasible_wheel_speeds(const Twist2 &twist) const override;
-
   /** @private
    */
   Twist2 feasible(const Twist2 &twist) const override;
 
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
-  /**
-   * @private
-   */
-  const Properties &get_properties() const override { return properties; };
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
 private:
-  const static std::string type;
+  ng_float_t _axis;
   ng_float_t _max_forward_speed;
   ng_float_t _max_backward_speed;
-};
-
-// TODO(Jerome): make it general
-
-/**
- * @brief      Four Omni-differential wheels (e.g., a Robomaster)
- *
- * \warning We assume that the distance between front and back wheel centers is
- * the same as the lateral distance.
- */
-class NAVGROUND_CORE_EXPORT FourWheelsOmniDriveKinematics
-    : public WheeledKinematics {
-public:
-  /**
-   * @brief      Constructs a new instance.
-   *
-   * @param[in]  max_speed          The maximal wheel speed
-   * @param[in]  axis               The wheel axis (i.e., the distance between
-   * the wheels)
-   */
-  FourWheelsOmniDriveKinematics(ng_float_t max_speed = Kinematics::inf,
-                                ng_float_t axis = 0)
-      : WheeledKinematics(max_speed,
-                          axis > 0 ? max_speed / axis : Kinematics::inf, axis) {
-  }
-
-  /**
-   * @brief      Returns the degrees of freedom
-   *
-   * @return     3
-   */
-  unsigned dof() const override { return 3; }
-
-  /**
-   * @private
-   */
-  ng_float_t get_max_angular_speed() const override {
-    if (get_axis() > 0) {
-      return get_max_speed() / get_axis();
-    }
-    return 0;
-  }
-
-  /**
-   * @brief      See \ref WheeledKinematics::twist.
-   *
-   * @param[in]  speeds  The wheel speeds in the order {front left, rear left,
-   * rear right, rear left}
-   *
-   * @return     The corresponding twist
-   */
-  Twist2 twist(const WheelSpeeds &speeds) const override;
-
-  /**
-   * @brief      See \ref WheeledKinematics::wheel_speeds.
-   *
-   * @param[in]  twist  The twist
-   *
-   * @return     The corresponding wheel speeds in the order {front left, rear
-   * left, rear right, rear left}
-   */
-  WheelSpeeds wheel_speeds(const Twist2 &twist) const override;
-
-  /**
-   * @brief      See \ref WheeledKinematics::feasible_wheel_speeds.
-   *
-   * @param[in]  twist  The twist
-   *
-   * @return     The corresponding wheel speeds in the order {front left, rear
-   * left, rear right, rear left}
-   */
-  WheelSpeeds feasible_wheel_speeds(const Twist2 &twist) const override;
-
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
-private:
-  const static std::string type;
 };
 
 /**
@@ -581,7 +435,14 @@ private:
  *
  * *Registered properties*:
  *
- *   - `wheel_axis` (float, \ref WheeledKinematics::get_axis)
+ *   - `wheel_axis` (float, \ref
+ * TwoWheelsDifferentialDriveKinematics::get_wheel_axis)
+ *
+ *   - `max_forward_speed` (float, \ref
+ * TwoWheelsDifferentialDriveKinematics::get_max_forward_speed)
+ *
+ *   - `max_backward_speed` (float, \ref
+ * TwoWheelsDifferentialDriveKinematics::get_max_backward_speed)
  *
  *   - `max_acceleration` (float, \ref get_max_acceleration)
  *
@@ -590,11 +451,14 @@ private:
 class NAVGROUND_CORE_EXPORT DynamicTwoWheelsDifferentialDriveKinematics
     : public TwoWheelsDifferentialDriveKinematics {
 public:
+  DECLARE_TYPE_AND_PROPERTIES
+
   /**
    * @brief      Constructs a new instance.
    *
    * @param[in]  max_speed  The maximal wheel speed
-   * @param[in]  axis  The wheel axis (i.e., the distance between the wheels)
+   * @param[in]  wheel_axis  The wheel axis (i.e., the distance between the
+   * wheels)
    * @param[in]  max_angular_speed  The maximal angular speed, that is also
    * limited by the 2 * max_speed / axis, if the axis is positive.
    * @param[in]  max_forward_speed  The maximal linear speed when moving
@@ -606,14 +470,14 @@ public:
    * 8)``) Equal to 1 for an homogeneous disc of diameter ``axis``.
    */
   DynamicTwoWheelsDifferentialDriveKinematics(
-      ng_float_t max_speed = Kinematics::inf, ng_float_t axis = 0,
+      ng_float_t max_speed = Kinematics::inf, ng_float_t wheel_axis = 1,
       ng_float_t max_angular_speed = Kinematics::inf,
       ng_float_t max_forward_speed = Kinematics::inf,
       ng_float_t max_backward_speed = 0,
       ng_float_t max_acceleration = Kinematics::inf, ng_float_t moi = 1)
-      : TwoWheelsDifferentialDriveKinematics(max_speed, axis, max_angular_speed,
-                                             max_forward_speed,
-                                             max_backward_speed),
+      : TwoWheelsDifferentialDriveKinematics(
+            max_speed, wheel_axis, max_angular_speed, max_forward_speed,
+            max_backward_speed),
         max_acceleration(max_acceleration), moi(moi) {}
 
   using TwoWheelsDifferentialDriveKinematics::feasible;
@@ -621,14 +485,14 @@ public:
   /**
    * @private
    */
-  Twist2 feasible(const Twist2 &twist, const Twist2 &current,
-                  ng_float_t time_step) const override;
+  Twist2 feasible_from_current(const Twist2 &twist, const Twist2 &current,
+                               ng_float_t time_step) const override;
 
   /**
    * @brief      Gets the scaled moment of inertial
    *
-   * It is equal to 1 for an homogeneous of disc of diameter 
-   * \ref WheeledKinematics::get_axis. 
+   * It is equal to 1 for an homogeneous of disc of diameter \ref
+   * TwoWheelsDifferentialDriveKinematics::get_wheel_axis. 
    * Lower for when weight is shifted towards the center.
    *
    * @return     A positive value
@@ -638,7 +502,7 @@ public:
    * @brief      Sets the scaled moment of inertial
    *
    * It is equal to for an homogeneous of disc of diameter 
-   * \ref WheeledKinematics::get_axis. 
+   * \ref TwoWheelsDifferentialDriveKinematics::get_wheel_axis.
    * Lower for when weight is shifted towards the center.
    *
    * @param[in]  value  A positive value
@@ -647,23 +511,6 @@ public:
     if (value > 0)
       moi = value;
   }
-
-#if 0
-  /**
-   * @brief      Returns whether to reduce the torques proportionally
-   *             instead of clipping them independently.
-   *
-   * @return     True if will reduce torques proportionally
-   */
-  bool get_reduce_torques() const { return reduce_torques; }
-  /**
-   * @brief      Sets whether to reduce the torques proportionally
-   *             instead of clipping them independently.
-   *
-   * @param[in]  value  The desired value
-   */
-  void set_reduce_torques(bool value) { reduce_torques = value; }
-#endif
 
   /**
    * @brief      Gets the maximal (body) acceleration.
@@ -730,26 +577,103 @@ public:
    */
   ng_float_t get_max_wheel_torque() const { return max_acceleration; }
 
-  /**
-   * @private
-   */
-  std::string get_type() const override { return type; }
-
-  /**
-   * @private
-   */
-  const Properties &get_properties() const override { return properties; };
-
-  /**
-   * @private
-   */
-  static const std::map<std::string, Property> properties;
-
 private:
-  const static std::string type;
   ng_float_t max_acceleration;
   ng_float_t moi;
-  // bool reduce_torques;
+};
+
+// TODO(Jerome): make it general
+
+/**
+ * @brief      Four Omni-differential wheels (e.g., a Robomaster)
+ *
+ * \warning We assume that the distance between front and back wheel centers is
+ * the same as the lateral distance.
+ */
+class NAVGROUND_CORE_EXPORT FourWheelsOmniDriveKinematics
+    : public virtual WheeledKinematics {
+public:
+  DECLARE_TYPE_AND_PROPERTIES
+  /**
+   * @brief      Constructs a new instance.
+   *
+   * @param[in]  max_speed   The maximal wheel speed
+   * @param[in]  wheel_axis  The wheel axis (i.e., the distance between the
+   * wheels)
+   */
+  explicit FourWheelsOmniDriveKinematics(ng_float_t max_speed = Kinematics::inf,
+                                         ng_float_t wheel_axis = 0)
+      : Kinematics(max_speed, Kinematics::inf), _axis(wheel_axis) {}
+
+  /**
+   * @brief      Gets the wheel axis.
+   *
+   * @return     The axis.
+   */
+  ng_float_t get_wheel_axis() const { return _axis; }
+  /**
+   * @brief      Sets the wheel axis.
+   *
+   * @param[in]  value  A positive value
+   */
+  void set_wheel_axis(ng_float_t value) {
+    if (value > 0)
+      _axis = value;
+  }
+
+  /**
+   * @brief      Returns the degrees of freedom
+   *
+   * @return     3
+   */
+  unsigned dof() const override { return 3; }
+
+  /**
+   * @private
+   */
+  ng_float_t get_max_angular_speed() const override {
+    if (get_wheel_axis() > 0) {
+      return get_max_speed() / get_wheel_axis();
+    }
+    return 0;
+  }
+
+  /**
+   * @brief      See \ref WheeledKinematics::twist.
+   *
+   * @param[in]  speeds  The wheel speeds in the order {front left, rear
+   * left, rear right, rear left}
+   *
+   * @return     The corresponding twist
+   */
+  Twist2 twist(const WheelSpeeds &speeds) const override;
+
+  /**
+   * @brief      See \ref WheeledKinematics::wheel_speeds.
+   *
+   * @param[in]  twist  The twist
+   *
+   * @return     The corresponding wheel speeds in the order {front left, rear
+   * left, rear right, rear left}
+   */
+  WheelSpeeds wheel_speeds(const Twist2 &twist) const override;
+
+  /**
+   * @brief      See \ref WheeledKinematics::feasible_wheel_speeds.
+   *
+   * @param[in]  twist  The twist
+   *
+   * @return     The corresponding wheel speeds in the order {front left, rear
+   * left, rear right, rear left}
+   */
+  WheelSpeeds feasible_wheel_speeds(const Twist2 &twist) const override;
+
+  /** @private
+   */
+  Twist2 feasible(const Twist2 &twist) const override;
+
+private:
+  ng_float_t _axis;
 };
 
 } // namespace navground::core

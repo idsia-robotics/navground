@@ -140,7 +140,7 @@ struct PyBehaviorModulation : public BehaviorModulation {
   }
 };
 
-struct PyTask : Task, virtual PyHasRegister<Task> {
+struct PyTask : public Task, public PyHasRegister<Task> {
   /* Inherit the constructors */
   using Task::Task;
   using PyHasRegister<Task>::C;
@@ -148,7 +148,7 @@ struct PyTask : Task, virtual PyHasRegister<Task> {
   // using PyHasRegister<Task>::decode;
   // using PyHasRegister<Task>::encode;
   using Native = Task;
-  using Task::log_event; 
+  using Task::log_event;
 
   void update(Agent *agent, World *world, ng_float_t time) override {
     PYBIND11_OVERRIDE(void, Task, update, agent, world, time);
@@ -166,18 +166,10 @@ struct PyTask : Task, virtual PyHasRegister<Task> {
   OVERRIDE_ENCODE
 
   bool done() const override { PYBIND11_OVERRIDE(bool, Task, done); }
-
-  const Properties &get_properties() const override {
-    const std::string t = get_type();
-    if (type_properties().count(t)) {
-      return type_properties().at(t);
-    }
-    return Native::get_properties();
-  };
 };
 
-struct PyStateEstimation : StateEstimation,
-                           virtual PyHasRegister<StateEstimation> {
+struct PyStateEstimation : public StateEstimation,
+                           public PyHasRegister<StateEstimation> {
   /* Inherit the constructors */
   using StateEstimation::StateEstimation;
   using PyHasRegister<StateEstimation>::C;
@@ -196,17 +188,9 @@ struct PyStateEstimation : StateEstimation,
 
   OVERRIDE_DECODE
   OVERRIDE_ENCODE
-
-  const Properties &get_properties() const override {
-    const std::string t = get_type();
-    if (type_properties().count(t)) {
-      return type_properties().at(t);
-    }
-    return Native::get_properties();
-  };
 };
 
-struct PySensor : Sensor, virtual PyStateEstimation {
+struct PySensor : public Sensor, public PyStateEstimation {
   // using PyStateEstimation::get_type;
   // using PyStateEstimation::decode;
   // using PyStateEstimation::encode;
@@ -349,7 +333,7 @@ struct PyGroup : public virtual Scenario::Group {
   }
 };
 
-struct PyScenario : public Scenario, virtual PyHasRegister<Scenario> {
+struct PyScenario : public Scenario, public PyHasRegister<Scenario> {
   /* Inherit the constructors */
   using Scenario::Scenario;
   using Native = Scenario;
@@ -367,14 +351,6 @@ struct PyScenario : public Scenario, virtual PyHasRegister<Scenario> {
 
   OVERRIDE_DECODE
   OVERRIDE_ENCODE
-
-  const Properties &get_properties() const override {
-    const std::string t = PyHasRegister<Scenario>::get_type();
-    if (type_properties().count(t)) {
-      return type_properties().at(t);
-    }
-    return Native::get_properties();
-  };
 };
 
 struct PyProbe : public Probe {
@@ -1171,7 +1147,7 @@ Creates a rectangular region
 #endif
 
   py::class_<World, std::shared_ptr<World>>(m, "NativeWorld",
-                                            DOC(navgrou, nd, sim, World, 2))
+                                            DOC(navground, sim, World, 2))
       .def(py::init<>(), DOC(navground, sim, World, World))
       .def("add_callback", &World::add_callback, py::arg("callback"),
            py::keep_alive<1, 2>(), DOC(navground, sim, World, add_callback))
@@ -1327,10 +1303,7 @@ The random generator.
             se->prepare(agent, world);
           },
           py::arg("agent"), py::arg("world"),
-          DOC(navground, sim, StateEstimation, prepare))
-      .def_property(
-          "type", [](StateEstimation *obj) { return obj->get_type(); }, nullptr,
-          "The name associated to the type of an object");
+          DOC(navground, sim, StateEstimation, prepare));
 
   py::class_<BoundedStateEstimation, StateEstimation,
              std::shared_ptr<BoundedStateEstimation>>
@@ -1564,9 +1537,6 @@ The random generator.
           },
           py::arg("world"), py::arg("agent"), py::arg("time"),
           DOC(navground, sim, Task, update))
-      .def_property(
-          "type", [](Task *obj) { return obj->get_type(); }, nullptr,
-          "The name associated to the type of an object")
       .def("done", &Task::done, DOC(navground, sim, Task, done))
       .def("get_log_size", &Task::get_log_size,
            DOC(navground, sim, Task, get_log_size))
@@ -2397,9 +2367,9 @@ and dtype ``np.uint32``::
 
 )doc")
       .def_property("sensing", &ExperimentalRun::get_sensing, nullptr,
-                    DOC(navgroud, sim, ExperimentalRun, property, sensing))
+                    DOC(navground, sim, ExperimentalRun, property, sensing))
       .def("get_sensing_for", &ExperimentalRun::get_sensing_for, py::arg("id"),
-           DOC(navgroud, sim, ExperimentalRun, get_sensing_for))
+           DOC(navground, sim, ExperimentalRun, get_sensing_for))
       .def_property(
           "task_events",
           [](const ExperimentalRun *run) {
@@ -2809,7 +2779,7 @@ Register a probe to record a group of data to during all runs.
       .def_readwrite("groups", &Scenario::groups,
                      DOC(navground, sim, Scenario, groups))
       .def_readwrite("bounding_box", &Scenario::bounding_box,
-                     DOC(navground, sim, World, bounding_box))
+                     DOC(navground, sim, Scenario, bounding_box))
       // py::return_value_policy::reference)
       // .def_property("initializers",
       // &Scenario::get_initializers, nullptr)

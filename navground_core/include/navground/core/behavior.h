@@ -60,13 +60,12 @@ namespace navground::core {
  *
  * 5. actuate the control commands through user code
  */
-class NAVGROUND_CORE_EXPORT Behavior : virtual public HasProperties,
-                                       virtual public HasRegister<Behavior>,
+class NAVGROUND_CORE_EXPORT Behavior : virtual public HasRegister<Behavior>,
                                        protected TrackChanges {
 public:
   using HasRegister<Behavior>::C;
 
-  const static std::string type;
+  DECLARE_TYPE
 
   /**
    * @brief      Different behavior variants for the angular

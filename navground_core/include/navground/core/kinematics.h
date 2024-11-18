@@ -29,8 +29,7 @@ namespace navground::core {
  * Negative speed means unconstrained.
  */
 class NAVGROUND_CORE_EXPORT Kinematics
-    : virtual public HasProperties,
-      virtual public HasRegister<Kinematics> {
+    : virtual public HasRegister<Kinematics> {
 public:
   using HasRegister<Kinematics>::C;
 

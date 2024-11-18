@@ -33,7 +33,7 @@ struct
 #else
     NAVGROUND_CORE_EXPORT
 #endif // _MSC_VER
-        HasRegister {
+        HasRegister : public HasProperties {
   /**
    * A shared pointer to an object of type ``T``.
    */
@@ -145,12 +145,35 @@ struct
    *
    * @return     The associated name
    */
-  virtual std::string get_type() const { return type; }
+  // virtual std::string get_type() const { return type; }
+  virtual std::string get_type() const {
+    const auto &tn = type_names();
+    const auto i = std::type_index(typeid(*this));
+    if (tn.count(i)) {
+      return tn.at(i);
+    }
+    return "";
+  }
+
+  inline static const Properties properties = {};
+
+  /**
+   * @brief      Gets the registered properties. 
+   *
+   * @return     The properties.
+   */
+  const Properties & get_properties() const override {
+    const auto t = get_type();
+    if (t.empty()) {
+      return properties;
+    }
+    return type_properties().at(t);
+  }
 
   /**
    * The name associated to this type.
    */
-  static inline const std::string type = "";
+  // static inline const std::string type = "";
 
   /**
    * @brief      Allows to customize YAML encoding
@@ -164,89 +187,40 @@ struct
    * @param      node  The YAML node
    */
   virtual void decode([[maybe_unused]] const YAML::Node &node) {};
+  
 };
 
 } // namespace navground::core
 
-/**
- * @brief      Overrides \ref navground::core::HasRegister::get_type.
- *
- * \code{.cpp}
- * std::string get_type() const override { return type; }
- * \endcode
- */
-#define OVERRIDE_TYPE                                                          \
-  /** @private */                                                              \
-  std::string get_type() const override { return type; };
 
 /**
- * @brief Overrides \ref navground::core::HasProperties::get_properties
- *
- * \code{.cpp}
- * const navground::core::Properties &get_properties() const override {
- *   return properties;
- * }
- * \endcode
- */
-#define OVERRIDE_PROPERTIES                                                    \
-  /** @private */                                                              \
-  const navground::core::Properties &get_properties() const override {         \
-    return properties;                                                         \
-  };
-
-/**
- * @brief Combine \ref OVERRIDE_TYPE and \ref OVERRIDE_PROPERTIES
- * \code{.cpp}
- * std::string get_type() const override { return type; }
- * const navground::core::Properties &get_properties() const override {
- *   return properties;
- * }
- * \endcode
- */
-#define OVERRIDE_TYPE_AND_PROPERTIES                                           \
-  OVERRIDE_TYPE                                                                \
-  OVERRIDE_PROPERTIES
-
-/**
- * @brief      Adds type declaration and overrides
- * \ref navground::core::HasRegister::get_type.
+ * @brief      Adds type declaration
  *
  * \code{.cpp}
  * static const std::string type;
- * std::string get_type() const override { return type; }
  * \endcode
  */
 #define DECLARE_TYPE                                                           \
   /** @private */                                                              \
   static const std::string type;                                               \
-  OVERRIDE_TYPE
 
 /**
- * @brief Adds properties declaration and overrides
- * \ref navground::core::HasProperties::get_properties.
+ * @brief Adds properties declaration.
  *
  * \code{.cpp}
  * static const std::map<std::string, navground::core::Property> properties;
- * const navground::core::Properties &get_properties() const override {
- *   return properties;
- * }
  * \endcode
  */
 #define DECLARE_PROPERTIES                                                     \
   /** @private */                                                              \
   static const std::map<std::string, navground::core::Property> properties;    \
-  OVERRIDE_PROPERTIES
 
 /**
  * @brief Combine \ref DECLARE_TYPE and \ref DECLARE_PROPERTIES
  *
  * \code{.cpp}
  * static const std::string type;
- * std::string get_type() const override { return type; }
  * static const std::map<std::string, navground::core::Property> properties;
- * const navground::core::Properties &get_properties() const override {
- *   return properties;
- * }
  * \endcode
  */
 #define DECLARE_TYPE_AND_PROPERTIES                                            \

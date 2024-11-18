@@ -22,8 +22,7 @@ class Behavior;
  *
  */
 class NAVGROUND_CORE_EXPORT BehaviorModulation
-    : virtual public HasProperties,
-      virtual public HasRegister<BehaviorModulation> {
+    : virtual public HasRegister<BehaviorModulation> {
  public:
   using HasRegister<BehaviorModulation>::C;
 

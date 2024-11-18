@@ -36,8 +36,7 @@ class World;
  * which it queries to get the relevant entities (located nearby the agent).
  */
 struct NAVGROUND_SIM_EXPORT StateEstimation
-    : public virtual HasProperties,
-      public virtual HasRegister<StateEstimation> {
+    : public virtual HasRegister<StateEstimation> {
   /**
    * @brief      Constructs a new instance.
    * @private

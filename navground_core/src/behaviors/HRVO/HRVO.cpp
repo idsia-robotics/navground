@@ -178,8 +178,7 @@ const std::map<std::string, Property> HRVOBehavior::properties =
                               &HRVOBehavior::get_max_number_of_neighbors,
                               &HRVOBehavior::set_max_number_of_neighbors, 1000,
                               "The maximal number of [HRVO] neighbors")},
-    } +
-    Behavior::properties;
+    };
 
 const std::string HRVOBehavior::type = register_type<HRVOBehavior>("HRVO");
 

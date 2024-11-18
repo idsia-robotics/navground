@@ -28,8 +28,7 @@ namespace navground::sim {
  * @brief      A scenario describes a distribution of \ref World
  * that can be sampled to perform an experiment.
  */
-struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasProperties,
-                                       virtual public HasRegister<Scenario> {
+struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   /**
    * @brief      A group of agents that can be generated and added to the world.
    */

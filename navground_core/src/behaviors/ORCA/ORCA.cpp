@@ -345,8 +345,7 @@ const std::map<std::string, Property> ORCABehavior::properties =
                               &ORCABehavior::get_max_number_of_neighbors,
                               &ORCABehavior::set_max_number_of_neighbors, 1000,
                               "The maximal number of [RVO] neighbors")},
-    } +
-    Behavior::properties;
+    };
 
 const std::string ORCABehavior::type = register_type<ORCABehavior>("ORCA");
 

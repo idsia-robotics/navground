@@ -255,8 +255,7 @@ const std::map<std::string, Property> HLBehavior::properties =
          make_property<ng_float_t, HLBehavior>(
              &HLBehavior::get_barrier_angle, &HLBehavior::set_barrier_angle,
              default_barrier_angle, "Barrier angle")},
-    } +
-    Behavior::properties;
+    };
 
 const std::string HLBehavior::type = register_type<HLBehavior>("HL");
 

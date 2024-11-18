@@ -24,8 +24,7 @@ class World;
  * @brief      This class describe the high-level task control that provides
  * navigation goals.
  */
-struct NAVGROUND_SIM_EXPORT Task : public virtual HasProperties,
-                                   public virtual HasRegister<Task> {
+struct NAVGROUND_SIM_EXPORT Task : public virtual HasRegister<Task> {
   /**
    * The type of callbacks called when the task publishes data related to an
    * event.

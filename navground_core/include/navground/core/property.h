@@ -176,14 +176,14 @@ struct NAVGROUND_CORE_EXPORT HasProperties {
   /**
    * All the properties associated with a owner type.
    */
-  static inline std::map<std::string, Property> properties = Properties{};
+  // static inline std::map<std::string, Property> properties = Properties{};
 
   /**
    * @brief      Gets all properties associated with an owner.
    *
    * @return     The properties.
    */
-  virtual const Properties &get_properties() const { return properties; };
+  virtual const Properties &get_properties() const = 0;
 
   /**
    * @brief      Set the value of a named property.

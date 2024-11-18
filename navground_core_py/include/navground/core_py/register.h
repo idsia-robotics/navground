@@ -23,13 +23,14 @@ using navground::core::Property;
   }
 
 template <typename T>
-struct PyHasRegister : public virtual navground::core::HasRegister<T> {
+struct PyHasRegister : virtual public navground::core::HasRegister<T> {
   /* Inherit the constructors */
   using navground::core::HasRegister<T>::HasRegister;
   using Factory = py::object;
-  using navground::core::HasRegister<T>::get_type;
+  // using navground::core::HasRegister<T>::get_type;
   using navground::core::HasRegister<T>::type_properties;
   using C = py::object;
+  // using navground::core::HasRegister<T>::get_properties;
 
   // TODO(Jerome): may be unsafe ...
   // pybind11 does guard the GIL when calling python functions
@@ -141,6 +142,10 @@ struct PyHasRegister : public virtual navground::core::HasRegister<T> {
   }
 
   std::string get_type() const override {
+    const auto type = HasRegister<T>::get_type();
+    if (!type.empty()) {
+      return type;
+    }
     try {
       auto value = py::cast(this).attr("_type");
       return value.template cast<std::string>();
@@ -161,6 +166,16 @@ void declare_register(py::module &m, const std::string &typestr) {
                   py::arg("type"), py::arg("name"), py::arg("property"),
                   py::arg("default_value"), py::arg("description") = "",
                   py::arg("deprecated_names") = std::vector<std::string>())
+      .def_property(
+          "type", [](PyRegister *obj) { return obj->get_type(); }, nullptr,
+          "The name associated to the type of an object"
+          // DOC(navground, core, HasRegister, property_type)
+          )
+      .def_property(
+          "properties", [](PyRegister *obj) { return obj->get_properties(); },
+          nullptr, "The registered properties"
+          // DOC(navground, core, HasRegister, property_properties)
+          )
       .def_property_readonly_static(
           "types", [](py::object /* self */) { return PyRegister::types(); })
       .def_property_readonly_static(

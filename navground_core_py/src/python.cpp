@@ -148,10 +148,11 @@ template <> std::string to_string(const LineSegment &value) {
 }
 
 struct PyBehaviorModulation : public BehaviorModulation,
-                              virtual public PyHasRegister<BehaviorModulation> {
+                              public PyHasRegister<BehaviorModulation> {
   /* Inherit the constructors */
   using BehaviorModulation::BehaviorModulation;
   using Native = BehaviorModulation;
+  using PyHasRegister<BehaviorModulation>::make_type;
 
   /* Trampolines (need one for each virtual function) */
   void pre(Behavior &behavior, ng_float_t time_step) override {
@@ -168,20 +169,21 @@ struct PyBehaviorModulation : public BehaviorModulation,
 
   // HACK(J): should not happen but as of now, it can be that get_type returns
   // ''
-  const Properties &get_properties() const override {
-    const std::string t = get_type();
-    if (type_properties().count(t)) {
-      return type_properties().at(t);
-    }
-    return Native::get_properties();
-  }
+  // const Properties &get_properties() const override {
+  //   const std::string t = get_type();
+  //   if (type_properties().count(t)) {
+  //     return type_properties().at(t);
+  //   }
+  //   return Native::get_properties();
+  // }
 };
 
-struct PyBehavior : public Behavior, virtual public PyHasRegister<Behavior> {
+struct PyBehavior : virtual public Behavior, virtual public PyHasRegister<Behavior> {
 public:
   /* Inherit the constructors */
   using Behavior::Behavior;
   using Native = Behavior;
+  using PyHasRegister<Behavior>::make_type;
 
   /* Trampolines (need one for each virtual function) */
   Twist2 compute_cmd_internal(ng_float_t time_step) override {
@@ -246,13 +248,13 @@ public:
 
   // HACK(J): should not happen but as of now, it can be that get_type returns
   // ''
-  const Properties &get_properties() const override {
-    const std::string t = get_type();
-    if (type_properties().count(t)) {
-      return type_properties().at(t);
-    }
-    return Native::get_properties();
-  };
+  // const Properties &get_properties() const override {
+  //   const std::string t = get_type();
+  //   if (type_properties().count(t)) {
+  //     return type_properties().at(t);
+  //   }
+  //   return Native::get_properties();
+  // };
 
   py::object py_kinematics;
   // std::vector<py::object> py_modulations;
@@ -264,12 +266,12 @@ public:
   }
 };
 
-class PyKinematics : public Kinematics,
-                     virtual public PyHasRegister<Kinematics> {
-public:
+struct PyKinematics : virtual public Kinematics,
+                      virtual public PyHasRegister<Kinematics> {
   /* Inherit the constructors */
   using Kinematics::Kinematics;
   using Native = Kinematics;
+  using PyHasRegister<Kinematics>::make_type;
 
   /* Trampolines (need one for each virtual function) */
   Twist2 feasible(const Twist2 &twist) const override {
@@ -298,13 +300,13 @@ public:
 
   // HACK(J): should not happen but as of now, it can be that get_type returns
   // ''
-  const Properties &get_properties() const override {
-    const std::string t = get_type();
-    if (type_properties().count(t)) {
-      return type_properties().at(t);
-    }
-    return Native::get_properties();
-  };
+  // const Properties &get_properties() const override {
+  //   const std::string t = get_type();
+  //   if (type_properties().count(t)) {
+  //     return type_properties().at(t);
+  //   }
+  //   return Native::get_properties();
+  // };
 };
 
 namespace YAML {
@@ -349,9 +351,9 @@ PYBIND11_MODULE(_navground, m) {
       .def("get", &HasProperties::get, py::arg("name"),
            DOC(navground, core, HasProperties, get))
       .def("set", &HasProperties::set, py::arg("name"), py::arg("value"),
-           DOC(navground, core, HasProperties, set))
-      .def_property("properties", &HasProperties::get_properties, nullptr,
-                    DOC(navground, core, HasProperties, property_properties));
+           DOC(navground, core, HasProperties, set));
+      // .def_property("properties", &HasProperties::get_properties, nullptr,
+      //               DOC(navground, core, HasProperties, property_properties));
 
   declare_register<Behavior>(m, "Behavior");
   declare_register<Kinematics>(m, "Kinematics");
@@ -580,9 +582,9 @@ PYBIND11_MODULE(_navground, m) {
       .def("is_wheeled", &Kinematics::is_wheeled,
            DOC(navground, core, Kinematics, is_wheeled))
       .def("dof", &Kinematics::dof, DOC(navground, core, Kinematics, dof))
-      .def_property(
-          "type", [](Kinematics *obj) { return obj->get_type(); }, nullptr,
-          DOC(navground, core, HasRegister, property_type))
+      // .def_property(
+      //     "type", [](Kinematics *obj) { return obj->get_type(); }, nullptr,
+      //     DOC(navground, core, HasRegister, property_type))
       // .def_property("cmd_frame", &Kinematics::cmd_frame, nullptr,
       //               DOC(navground, core, Kinematics, property_cmd_frame))
       .def("feasible", &Kinematics::feasible, py::arg("twist"),
@@ -836,9 +838,9 @@ PYBIND11_MODULE(_navground, m) {
       .def("post", &BehaviorModulation::post, py::arg("behavior"),
            py::arg("time_step"), py::arg("cmd"),
            DOC(navground, core, BehaviorModulation, post))
-      .def_property(
-          "type", [](BehaviorModulation *obj) { return obj->get_type(); },
-          nullptr, DOC(navground, core, HasRegister, property_type))
+      // .def_property(
+      //     "type", [](BehaviorModulation *obj) { return obj->get_type(); },
+      //     nullptr, DOC(navground, core, HasRegister, property_type))
       .def_property("enabled", &BehaviorModulation::get_enabled,
                     &BehaviorModulation::set_enabled,
                     DOC(navground, core, BehaviorModulation, property_enabled));
@@ -1187,9 +1189,9 @@ PYBIND11_MODULE(_navground, m) {
       .def_property("desired_velocity", &Behavior::get_desired_velocity,
                     nullptr,
                     DOC(navground, core, Behavior, property_desired_velocity))
-      .def_property(
-          "type", [](Behavior *obj) { return obj->get_type(); }, nullptr,
-          DOC(navground, core, HasRegister, property_type))
+      // .def_property(
+      //     "type", [](Behavior *obj) { return obj->get_type(); }, nullptr,
+      //     DOC(navground, core, HasRegister, property_type))
       .def("to_frame", &Behavior::to_frame, py::arg("value"), py::arg("frame"),
            DOC(navground, core, Behavior, to_frame))
       .def("feasible_speed", &Behavior::feasible_speed, py::arg("value"),

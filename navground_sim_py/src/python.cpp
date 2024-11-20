@@ -1566,7 +1566,7 @@ The random generator.
           [](PyTask *task, Agent *agent, World *world, ng_float_t time) {
             task->update(agent, world, time);
           },
-          py::arg("world"), py::arg("agent"), py::arg("time"),
+          py::arg("agent"), py::arg("world"), py::arg("time"),
           DOC(navground, sim, Task, update))
       .def("done", &Task::done, DOC(navground, sim, Task, done))
       .def("get_log_size", &Task::get_log_size,

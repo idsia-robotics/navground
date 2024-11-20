@@ -54,6 +54,7 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
   void add_to_world(World *world,
                     std::optional<unsigned> index = std::nullopt) override {
     reset(index);
+    if (!number) return;
     RandomGenerator &rg = world->get_random_generator();
     unsigned num = number->sample(rg);
     if (W *w = dynamic_cast<W *>(world)) {

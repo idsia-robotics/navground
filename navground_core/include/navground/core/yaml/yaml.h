@@ -9,6 +9,20 @@
 
 namespace YAML {
 
+template <typename T> struct convert<std::shared_ptr<T>> {
+  static Node encode(const std::shared_ptr<T> &rhs) {
+    if (rhs) {
+      return convert<T>::encode(*rhs);
+    }
+    return Node();
+  }
+  static bool decode(const Node &node, std::shared_ptr<T> &rhs) {
+    rhs = std::make_shared<T>();
+    convert<T>::decode(node, *rhs);
+    return true;
+  }
+};
+
 /**
  * @brief      Load an object from a YAML node
  *
@@ -19,8 +33,7 @@ namespace YAML {
  * @return     A shared pointer with the loaded object or ``nullptr`` if loading
  * fails.
  */
-template <typename T>
-inline std::shared_ptr<T> load_node(const Node &node) {
+template <typename T> inline std::shared_ptr<T> load_node(const Node &node) {
   return node.as<std::shared_ptr<T>>();
 }
 
@@ -74,9 +87,9 @@ or to convert all floats to strings as we like.
  *
  * @return     The YAML string (empty if the pointer is null)
  */
-template <typename T>
-std::string dump(const T *object) {
-  if (!object) return "";
+template <typename T> std::string dump(const T *object) {
+  if (!object)
+    return "";
   YAML::Emitter out;
   // out.SetFloatPrecision(6);
   // out.SetDoublePrecision(6);
@@ -84,6 +97,6 @@ std::string dump(const T *object) {
   return std::string(out.c_str());
 }
 
-}  // namespace YAML
+} // namespace YAML
 
-#endif  // NAVGROUND_CORE_YAML_YAML_H
+#endif // NAVGROUND_CORE_YAML_YAML_H

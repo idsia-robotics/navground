@@ -6,11 +6,12 @@
 
 #include "navground/core/types.h"
 #include "navground/core/yaml/property.h"
+#include "navground/core/yaml/schema.h"
+#include "navground/sim/export.h"
 #include "navground/sim/sampling/agent.h"
 #include "navground/sim/sampling/register.h"
 #include "navground/sim/sampling/sampler.h"
 #include "navground/sim/yaml/world.h"
-#include "navground/sim/export.h"
 #include "yaml-cpp/yaml.h"
 
 using navground::core::Property;
@@ -68,7 +69,7 @@ std::unique_ptr<PropertySampler> property_sampler(const Node& node,
 #endif
 
 template <typename T>
-std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
+std::unique_ptr<Sampler<T>> read_sampler(const Node &node) {
   bool once = false;
   // implicit const
   try {
@@ -191,9 +192,15 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node& node) {
   return nullptr;
 }
 
-template <typename T>
-struct convert<ConstantSampler<T>> {
-  static Node encode(const ConstantSampler<T>& rhs) {
+inline Node generic() {
+  Node node;
+  node["$defs"]["T"]["$dynamicAnchor"] = "T";
+  node["$defs"]["T"]["not"] = true;
+  return node;
+}
+
+template <typename T> struct convert<ConstantSampler<T>> {
+  static Node encode(const ConstantSampler<T> &rhs) {
     if (get_use_compact_samplers() && !rhs.once) {
       return Node(rhs.value);
     }
@@ -205,11 +212,25 @@ struct convert<ConstantSampler<T>> {
     }
     return node;
   }
+  static Node schema() {
+    Node node = generic();
+    Node compact;
+    compact["$dynamicRef"] = "#T";
+    Node extended;
+    extended["type"] = "object";
+    extended["properties"]["value"] = YAML::Clone(compact);
+    extended["properties"]["once"] = schema::type<bool>();
+    extended["properties"]["sampler"]["const"] = "const";
+    extended["required"] = std::vector<std::string>({"sampler", "value"});
+    node["anyOf"].push_back(compact);
+    node["anyOf"].push_back(extended);
+    return node;
+  }
+  static constexpr const char name[] = "const";
 };
 
-template <typename T>
-struct convert<SequenceSampler<T>> {
-  static Node encode(const SequenceSampler<T>& rhs) {
+template <typename T> struct convert<SequenceSampler<T>> {
+  static Node encode(const SequenceSampler<T> &rhs) {
     if (get_use_compact_samplers() && !rhs.once && rhs.wrap == Wrap::loop) {
       return Node(rhs.values);
     }
@@ -222,11 +243,28 @@ struct convert<SequenceSampler<T>> {
     }
     return node;
   }
+  static Node schema() {
+    Node node = generic();
+    Node compact;
+    compact["type"] = "array";
+    compact["items"]["$dynamicRef"] = "#T";
+    Node extended;
+    extended["type"] = "object";
+    extended["properties"]["values"] = YAML::Clone(compact);
+    extended["properties"]["once"] = schema::type<bool>();
+    extended["properties"]["wrap"]["enum"] =
+        std::vector<std::string>{"terminate", "repeat", "loop"};
+    extended["properties"]["sampler"]["const"] = "sequence";
+    extended["required"] = std::vector<std::string>({"sampler", "values"});
+    node["anyOf"].push_back(compact);
+    node["anyOf"].push_back(extended);
+    return node;
+  }
+  static constexpr const char name[] = "sequence";
 };
 
-template <typename T>
-struct convert<ChoiceSampler<T>> {
-  static Node encode(const ChoiceSampler<T>& rhs) {
+template <typename T> struct convert<ChoiceSampler<T>> {
+  static Node encode(const ChoiceSampler<T> &rhs) {
     Node node;
     node["sampler"] = "choice";
     node["values"] = rhs.values;
@@ -235,11 +273,23 @@ struct convert<ChoiceSampler<T>> {
     }
     return node;
   }
+  static Node schema() {
+    Node node = generic();
+    Node values;
+    values["type"] = "array";
+    values["items"]["$dynamicRef"] = "#T";
+    node["type"] = "object";
+    node["properties"]["values"] = values;
+    node["properties"]["once"] = schema::type<bool>();
+    node["properties"]["sampler"]["const"] = "choice";
+    node["required"] = std::vector<std::string>({"sampler", "values"});
+    return node;
+  }
+  static constexpr const char name[] = "choice";
 };
 
-template <typename T>
-struct convert<RegularSampler<T>> {
-  static Node encode(const RegularSampler<T>& rhs) {
+template <typename T> struct convert<RegularSampler<T>> {
+  static Node encode(const RegularSampler<T> &rhs) {
     Node node;
     node["from"] = rhs.from;
     if (rhs.to) {
@@ -256,11 +306,27 @@ struct convert<RegularSampler<T>> {
     }
     return node;
   }
+  static Node schema() {
+    Node node = generic();
+    Node sample;
+    sample["$dynamicRef"] = "#T";
+    node["type"] = "object";
+    node["properties"]["from"] = sample;
+    node["properties"]["to"] = YAML::Clone(sample);
+    node["properties"]["step"] = YAML::Clone(sample);
+    node["properties"]["number"] = schema::type<int>();
+    node["properties"]["once"] = schema::type<bool>();
+    node["properties"]["wrap"]["enum"] =
+        std::vector<std::string>{"terminate", "repeat", "loop"};
+    node["properties"]["sampler"]["const"] = "regular";
+    node["required"] = std::vector<std::string>({"sampler", "from", "to"});
+    return node;
+  }
+  static constexpr const char name[] = "regular";
 };
 
-template <>
-struct convert<GridSampler> {
-  static Node encode(const GridSampler& rhs) {
+template <> struct convert<GridSampler> {
+  static Node encode(const GridSampler &rhs) {
     Node node;
     node["from"] = rhs.from;
     node["to"] = rhs.to;
@@ -272,11 +338,30 @@ struct convert<GridSampler> {
     }
     return node;
   }
+  static Node schema() {
+    Node node;
+    Node sample = schema::ref<Vector2>();
+    node["type"] = "object";
+    node["properties"]["from"] = sample;
+    node["properties"]["to"] = YAML::Clone(sample);
+    node["properties"]["step"] = YAML::Clone(sample);
+    node["properties"]["numbers"]["type"] = "array";
+    node["properties"]["numbers"]["items"] = schema::type<int>();
+    node["properties"]["numbers"]["minItems"] = 2;
+    node["properties"]["numbers"]["maxItems"] = 2;
+    node["properties"]["once"] = schema::type<bool>();
+    node["properties"]["wrap"]["enum"] =
+        std::vector<std::string>{"terminate", "repeat", "loop"};
+    node["properties"]["sampler"]["const"] = "grid";
+    node["required"] =
+        std::vector<std::string>({"sampler", "from", "to", "numbers"});
+    return node;
+  }
+  static constexpr const char name[] = "grid";
 };
 
-template <typename T>
-struct convert<UniformSampler<T>> {
-  static Node encode(const UniformSampler<T>& rhs) {
+template <typename T> struct convert<UniformSampler<T>> {
+  static Node encode(const UniformSampler<T> &rhs) {
     Node node;
     node["from"] = rhs.min;
     node["to"] = rhs.max;
@@ -286,11 +371,24 @@ struct convert<UniformSampler<T>> {
     }
     return node;
   }
+  static Node schema() {
+    Node node = generic();
+    Node sample;
+    sample["$dynamicRef"] = "#T";
+    node["type"] = "object";
+    node["properties"]["from"] = sample;
+    node["properties"]["to"] = YAML::Clone(sample);
+    ;
+    node["properties"]["once"] = schema::type<bool>();
+    node["properties"]["sampler"]["const"] = "uniform";
+    node["required"] = std::vector<std::string>({"sampler", "from", "to"});
+    return node;
+  }
+  static constexpr const char name[] = "uniform";
 };
 
-template <typename T>
-struct convert<NormalSampler<T>> {
-  static Node encode(const NormalSampler<T>& rhs) {
+template <typename T> struct convert<NormalSampler<T>> {
+  static Node encode(const NormalSampler<T> &rhs) {
     Node node;
     if (rhs.min) {
       node["min"] = *rhs.min;
@@ -307,12 +405,29 @@ struct convert<NormalSampler<T>> {
     node["clamp"] = rhs.clamp;
     return node;
   }
+  static Node schema() {
+    Node node = generic();
+    Node sample;
+    sample["$dynamicRef"] = "#T";
+    node["type"] = "object";
+    node["properties"]["min"] = sample;
+    node["properties"]["max"] = YAML::Clone(sample);
+    ;
+    node["properties"]["mean"] = schema::type<ng_float_t>();
+    node["properties"]["std_dev"] = schema::type<ng_float_t>();
+    node["properties"]["once"] = schema::type<bool>();
+    node["properties"]["clamp"] = schema::type<bool>();
+    node["properties"]["sampler"]["const"] = "normal";
+    node["required"] = std::vector<std::string>({"sampler", "mean", "std_dev"});
+    return node;
+  }
+  static constexpr const char name[] = "normal";
 };
 
-inline std::unique_ptr<PropertySampler> property_sampler(
-    const Node& node, const Property& property) {
+inline std::unique_ptr<PropertySampler>
+property_sampler(const Node &node, const Property &property) {
   return std::visit(
-      [&node](auto&& arg) -> std::unique_ptr<PropertySampler> {
+      [&node](auto &&arg) -> std::unique_ptr<PropertySampler> {
         using V = std::decay_t<decltype(arg)>;
         return std::make_unique<PropertySampler>(
             PropertySampler(read_sampler<V>(node)));
@@ -320,40 +435,40 @@ inline std::unique_ptr<PropertySampler> property_sampler(
       property.default_value);
 }
 
-template <typename T>
-struct convert<Sampler<T>*> {
-  static Node encode(const Sampler<T>* rhs) {
-    if (!rhs) return Node();
-    if (const ConstantSampler<T>* sampler =
-            dynamic_cast<const ConstantSampler<T>*>(rhs)) {
+template <typename T> struct convert<Sampler<T> *> {
+  static Node encode(const Sampler<T> *rhs) {
+    if (!rhs)
+      return Node();
+    if (const ConstantSampler<T> *sampler =
+            dynamic_cast<const ConstantSampler<T> *>(rhs)) {
       return Node(*sampler);
     }
-    if (const SequenceSampler<T>* sampler =
-            dynamic_cast<const SequenceSampler<T>*>(rhs)) {
+    if (const SequenceSampler<T> *sampler =
+            dynamic_cast<const SequenceSampler<T> *>(rhs)) {
       return Node(*sampler);
     }
-    if (const ChoiceSampler<T>* sampler =
-            dynamic_cast<const ChoiceSampler<T>*>(rhs)) {
+    if (const ChoiceSampler<T> *sampler =
+            dynamic_cast<const ChoiceSampler<T> *>(rhs)) {
       return Node(*sampler);
     }
     if constexpr (is_algebra<T>) {
-      if (const RegularSampler<T>* sampler =
-              dynamic_cast<const RegularSampler<T>*>(rhs)) {
+      if (const RegularSampler<T> *sampler =
+              dynamic_cast<const RegularSampler<T> *>(rhs)) {
         return Node(*sampler);
       }
     }
     if constexpr (std::is_same_v<T, Vector2>) {
-      if (const GridSampler* sampler = dynamic_cast<const GridSampler*>(rhs)) {
+      if (const GridSampler *sampler = dynamic_cast<const GridSampler *>(rhs)) {
         return Node(*sampler);
       }
     }
     if constexpr (is_number<T>) {
-      if (const UniformSampler<T>* sampler =
-              dynamic_cast<const UniformSampler<T>*>(rhs)) {
+      if (const UniformSampler<T> *sampler =
+              dynamic_cast<const UniformSampler<T> *>(rhs)) {
         return Node(*sampler);
       }
-      if (const NormalSampler<T>* sampler =
-              dynamic_cast<const NormalSampler<T>*>(rhs)) {
+      if (const NormalSampler<T> *sampler =
+              dynamic_cast<const NormalSampler<T> *>(rhs)) {
         return Node(*sampler);
       }
     }
@@ -361,41 +476,66 @@ struct convert<Sampler<T>*> {
   }
 };
 
-template <typename T>
-struct convert<std::shared_ptr<Sampler<T>>> {
-  static Node encode(const std::shared_ptr<Sampler<T>>& rhs) {
-    return convert<Sampler<T>*>::encode(rhs.get());
+namespace schema {
+
+template <typename T> struct type_t<Sampler<T>> {
+  static std::string name() { return type_t<T>::name() + "_sampler"; }
+  static Node schema() {
+    Node node;
+    node["anyOf"] =
+        std::vector<Node>{ref<ConstantSampler<T>>(), ref<SequenceSampler<T>>(),
+                          ref<ChoiceSampler<T>>()};
+    if constexpr (std::is_same_v<T, Vector2>) {
+      node["anyOf"].push_back(ref<GridSampler>());
+    }
+    if constexpr (is_algebra<T>) {
+      node["anyOf"].push_back(ref<RegularSampler<T>>());
+    }
+    if constexpr (is_number<T>) {
+      node["anyOf"].push_back(ref<UniformSampler<T>>());
+      node["anyOf"].push_back(ref<NormalSampler<T>>());
+    }
+    node["$defs"]["T"] = type<T>();
+    node["$defs"]["T"]["$dynamicAnchor"] = "T";
+    return node;
   }
 };
 
-template <>
-struct convert<std::shared_ptr<PropertySampler>> {
-  static Node encode(const std::shared_ptr<PropertySampler>& rhs) {
-    return std::visit([](auto&& arg) { return Node(arg.get()); }, rhs->sampler);
+} // namespace schema
+
+template <typename T> struct convert<std::shared_ptr<Sampler<T>>> {
+  static Node encode(const std::shared_ptr<Sampler<T>> &rhs) {
+    return convert<Sampler<T> *>::encode(rhs.get());
+  }
+};
+
+template <> struct convert<std::shared_ptr<PropertySampler>> {
+  static Node encode(const std::shared_ptr<PropertySampler> &rhs) {
+    return std::visit([](auto &&arg) { return Node(arg.get()); }, rhs->sampler);
   }
 };
 
 template <typename T>
-bool decode_sr(const Node& node, SamplerFromRegister<T>* rhs) {
+bool decode_sr(const Node &node, SamplerFromRegister<T> *rhs) {
   if (!node.IsMap()) {
     return false;
   }
   rhs->type = node["type"].as<std::string>("");
-  const auto& properties = T::type_properties();
+  const auto &properties = T::type_properties();
   if (!properties.count(rhs->type)) {
     std::cerr << "No type " << rhs->type << " in register "
               << get_type_name<T>() << std::endl;
-    for (const auto& s : T::types()) {
+    for (const auto &s : T::types()) {
       std::cout << s << std::endl;
     }
     return false;
   }
   rhs->node = node;
-  for (const auto& [name, property] : properties.at(rhs->type)) {
+  for (const auto &[name, property] : properties.at(rhs->type)) {
     if (node[name]) {
       rhs->properties[name] = property_sampler(node[name], property);
     } else {
-      for (const auto& alt_name : property.deprecated_names) {
+      for (const auto &alt_name : property.deprecated_names) {
         if (node[alt_name]) {
           std::cerr << "Property name " << alt_name << " is deprecated for "
                     << rhs->type << ", use " << name << " instead" << std::endl;
@@ -407,21 +547,20 @@ bool decode_sr(const Node& node, SamplerFromRegister<T>* rhs) {
   return true;
 }
 
-template <typename T>
-Node encode_sr(const SamplerFromRegister<T>& rhs) {
+template <typename T> Node encode_sr(const SamplerFromRegister<T> &rhs) {
   Node node;
   if (!T::has_type(rhs.type)) {
     return node;
   }
   if (rhs.node && rhs.node.IsMap()) {
-    for (const auto& c : rhs.node) {
+    for (const auto &c : rhs.node) {
       node[c.first] = c.second;
     }
   }
   if (!rhs.type.empty()) {
     node["type"] = rhs.type;
   }
-  for (const auto& [name, sampler] : rhs.properties) {
+  for (const auto &[name, sampler] : rhs.properties) {
     if (sampler) {
       node[name] = sampler;
     }
@@ -429,9 +568,8 @@ Node encode_sr(const SamplerFromRegister<T>& rhs) {
   return node;
 }
 
-template <typename T, typename M>
-struct convert<BehaviorSampler<T, M>> {
-  static Node encode(const BehaviorSampler<T, M>& rhs) {
+template <typename T, typename M> struct convert<BehaviorSampler<T, M>> {
+  static Node encode(const BehaviorSampler<T, M> &rhs) {
     Node node = encode_sr<T>(rhs);
     // std::cout << "W" << rhs.type << std::endl;
     if (rhs.optimal_speed) {
@@ -463,9 +601,10 @@ struct convert<BehaviorSampler<T, M>> {
     }
     return node;
   }
-  static bool decode(const Node& node, BehaviorSampler<T, M>& rhs) {
+  static bool decode(const Node &node, BehaviorSampler<T, M> &rhs) {
     bool r = decode_sr<T>(node, &rhs);
-    if (!r) return false;
+    if (!r)
+      return false;
     if (node["optimal_speed"]) {
       rhs.optimal_speed = read_sampler<ng_float_t>(node["optimal_speed"]);
     }
@@ -497,30 +636,56 @@ struct convert<BehaviorSampler<T, M>> {
     }
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["type"] = schema::type<std::string>();
+    node["properties"]["optimal_speed"] = schema::ref<Sampler<ng_float_t>>();
+    node["properties"]["optimal_angular_speed"] =
+        schema::ref<Sampler<ng_float_t>>();
+    node["properties"]["rotation_tau"] = schema::ref<Sampler<ng_float_t>>();
+    node["properties"]["safety_margin"] = schema::ref<Sampler<ng_float_t>>();
+    node["properties"]["horizon"] = schema::ref<Sampler<ng_float_t>>();
+    node["properties"]["path_look_ahead"] = schema::ref<Sampler<ng_float_t>>();
+    node["properties"]["path_tau"] = schema::ref<Sampler<ng_float_t>>();
+    node["properties"]["heading"] = schema::ref<Sampler<std::string>>();
+    node["properties"]["modulations"]["type"] = "array";
+    node["properties"]["modulations"]["items"] =
+        schema::ref<BehaviorModulationSampler<M>>();
+    return node;
+  }
+  static constexpr const char name[] = "behavior_sampler";
 };
 
-template <typename T>
-struct convert<BehaviorModulationSampler<T>> {
-  static Node encode(const BehaviorModulationSampler<T>& rhs) {
+template <typename T> struct convert<BehaviorModulationSampler<T>> {
+  static Node encode(const BehaviorModulationSampler<T> &rhs) {
     Node node = encode_sr<T>(rhs);
     if (rhs.enabled) {
       node["enabled"] = rhs.enabled;
     }
     return node;
   }
-  static bool decode(const Node& node, BehaviorModulationSampler<T>& rhs) {
+  static bool decode(const Node &node, BehaviorModulationSampler<T> &rhs) {
     bool r = decode_sr<T>(node, &rhs);
-    if (!r) return false;
+    if (!r)
+      return false;
     if (node["enabled"]) {
       rhs.enabled = read_sampler<bool>(node["enabled"]);
     }
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["type"] = schema::type<std::string>();
+    node["properties"]["enabled"] = schema::ref<Sampler<bool>>();
+    return node;
+  }
+  static constexpr const char name[] = "behavior_modulation_sampler";
 };
 
-template <typename T>
-struct convert<KinematicsSampler<T>> {
-  static Node encode(const KinematicsSampler<T>& rhs) {
+template <typename T> struct convert<KinematicsSampler<T>> {
+  static Node encode(const KinematicsSampler<T> &rhs) {
     Node node = encode_sr<T>(rhs);
     if (rhs.max_speed) {
       node["max_speed"] = rhs.max_speed;
@@ -530,9 +695,10 @@ struct convert<KinematicsSampler<T>> {
     }
     return node;
   }
-  static bool decode(const Node& node, KinematicsSampler<T>& rhs) {
+  static bool decode(const Node &node, KinematicsSampler<T> &rhs) {
     bool r = decode_sr<T>(node, &rhs);
-    if (!r) return false;
+    if (!r)
+      return false;
     if (node["max_speed"]) {
       rhs.max_speed = read_sampler<ng_float_t>(node["max_speed"]);
     }
@@ -542,28 +708,71 @@ struct convert<KinematicsSampler<T>> {
     }
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["type"] = schema::type<std::string>();
+    node["properties"]["max_speed"] = schema::ref<Sampler<ng_float_t>>();
+    node["properties"]["max_angular_speed"] =
+        schema::ref<Sampler<ng_float_t>>();
+    return node;
+  }
+  static constexpr const char name[] = "kinematics_sampler";
 };
 
-template <typename T>
-struct convert<SamplerFromRegister<T>> {
-  static Node encode(const SamplerFromRegister<T>& rhs) {
-    return encode_sr<T>(rhs);
-  }
-  static bool decode(const Node& node, SamplerFromRegister<T>& rhs) {
+// template <typename T> struct convert<SamplerFromRegister<T>> {
+//   static Node encode(const SamplerFromRegister<T> &rhs) {
+//     return encode_sr<T>(rhs);
+//   }
+//   static bool decode(const Node &node, SamplerFromRegister<T> &rhs) {
+//     bool r = decode_sr<T>(node, &rhs);
+//     return r;
+//   }
+//   static Node schema() {
+//     Node node;
+//     node["type"] = "object";
+//     return node;
+//   }
+// };
+
+template <typename T> struct convert<TaskSampler<T>> {
+  static Node encode(const TaskSampler<T> &rhs) { return encode_sr<T>(rhs); }
+  static bool decode(const Node &node, TaskSampler<T> &rhs) {
     bool r = decode_sr<T>(node, &rhs);
     return r;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    return node;
+  }
+  static constexpr const char name[] = "task_sampler";
 };
 
-template <typename W>
-struct convert<AgentSampler<W>> {
+template <typename T> struct convert<StateEstimationSampler<T>> {
+  static Node encode(const StateEstimationSampler<T> &rhs) {
+    return encode_sr<T>(rhs);
+  }
+  static bool decode(const Node &node, StateEstimationSampler<T> &rhs) {
+    bool r = decode_sr<T>(node, &rhs);
+    return r;
+  }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    return node;
+  }
+  static constexpr const char name[] = "state_estimation_sampler";
+};
+
+template <typename W> struct convert<AgentSampler<W>> {
   using B = typename W::A::B;
   using M = typename W::A::M;
   using K = typename W::A::K;
   using T = typename W::A::T;
   using S = typename W::A::S;
 
-  static Node encode(const AgentSampler<W>& rhs) {
+  static Node encode(const AgentSampler<W> &rhs) {
     Node node;
     // if (!rhs.behavior.type.empty()) {
     node["behavior"] = rhs.behavior;
@@ -612,7 +821,7 @@ struct convert<AgentSampler<W>> {
     }
     return node;
   }
-  static bool decode(const Node& node, AgentSampler<W>& rhs) {
+  static bool decode(const Node &node, AgentSampler<W> &rhs) {
     if (!node.IsMap()) {
       return false;
     }
@@ -664,8 +873,31 @@ struct convert<AgentSampler<W>> {
     }
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["behavior"] = schema::ref<BehaviorSampler<B>>();
+    node["properties"]["kinematics"] = schema::ref<KinematicsSampler<K>>();
+    node["properties"]["state_estimation"] =
+        schema::ref<StateEstimationSampler<S>>();
+    node["properties"]["task"] = schema::ref<TaskSampler<T>>();
+    node["properties"]["position"] = schema::ref<Sampler<Vector2>>();
+    node["properties"]["orientation"] = schema::ref<Sampler<ng_float_t>>();
+    node["properties"]["radius"] = schema::ref<Sampler<ng_float_t>>();
+    node["properties"]["control_period"] = schema::ref<Sampler<ng_float_t>>();
+    node["properties"]["speed_tolerance"] = schema::ref<Sampler<ng_float_t>>();
+    node["properties"]["number"] = schema::ref<Sampler<int>>();
+    node["properties"]["type"] = schema::ref<Sampler<std::string>>();
+    node["properties"]["color"] = schema::ref<Sampler<std::string>>();
+    node["properties"]["tags"] =
+        schema::ref<Sampler<std::vector<std::string>>>();
+    node["properties"]["id"] = schema::ref<Sampler<int>>();
+    node["properties"]["name"] = schema::ref<Sampler<std::string>>();
+    return node;
+  }
+  static constexpr const char name[] = "group";
 };
 
-}  // namespace YAML
+} // namespace YAML
 
-#endif  // NAVGROUND_SIM_YAML_SAMPLER_H
+#endif // NAVGROUND_SIM_YAML_SAMPLER_H

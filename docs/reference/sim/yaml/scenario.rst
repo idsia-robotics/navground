@@ -5,74 +5,15 @@ Scenario
 ========
 
 Group
------
+======
 
 Schema
-^^^^^^
+------
 
-.. code-block:: yaml
-
-   $schema: "https://json-schema.org/draft/2020-12/schema"
-   $id: /schemas/group
-   title: Group
-   type: object
-   properties:
-     behavior: {$ref: #/$defs/behavior_sampler}
-     kinematics: {$ref: #/$defs/kinematic_sampler}
-     task: {$ref: #/$defs/task_sampler}
-     state_estimation: {$ref: #/$defs/state_estimation_sampler}
-     position: {$ref: /schemas/sampler<vector2>}
-     orientation: {$ref: /schemas/sampler<number>}
-     radius: {$ref: /schemas/sampler<number>}
-     control_period: {$ref: /schemas/sampler<number>} 
-     id: {$ref: /schemas/sampler<integer>} 
-     type: {$ref: /schemas/sampler<string>} 
-     number: {$ref: /schemas/sampler<number>} 
-     tags: {$ref: /schemas/sampler<list<string>>} 
-     # Should be unique across groups
-     name: string
-   required: [type]
-   $defs:
-     behavior_sampler: 
-       properties:
-         type: string
-         optimal_speed: {$ref: /schemas/sampler<number>}
-         optimal_angular_speed: {$ref: /schemas/sampler<number>}
-         rotation_tau: {$ref: /schemas/sampler<number>}
-         safety_margin: {$ref: /schemas/sampler<number>}
-         horizon: {$ref: /schemas/sampler<number>}
-         heading: {$ref: /schemas/sampler<string>}
-         modulations:
-          type: array
-          items: {$ref: #/$defs/kinematic_sampler} 
-       required: [type]
-       additionalProperties: {}
-     kinematic_sampler: 
-       properties:
-         type: string
-         max_speed: {$ref: /schemas/sampler<number>}
-         max_angular_speed: {$ref: /schemas/sampler<number>} 
-       required: [type]
-       additionalProperties: {}
-     behavior_modulation_sampler: 
-       properties:
-         type: string
-         enabled: {$ref: /schemas/sampler<bool>}
-       required: [type]
-       additionalProperties: {}
-     task_sampler:
-       properties:
-         type: string
-       required: [type]
-       additionalProperties: {}
-     state_estimation_sampler:
-       properties:
-         type: string
-       required: [type]
-       additionalProperties: {}
+.. schema:: navground.sim.schema()["$defs"]["group"]
 
 Example
-^^^^^^^
+-------
 
 .. code-block:: yaml
 
@@ -126,25 +67,7 @@ Scenario
 Schema
 ^^^^^^
 
-.. code-block:: yaml
-
-   $schema: "https://json-schema.org/draft/2020-12/schema"
-   $id: /schemas/scenario
-   title: Scenario
-   type: object
-   properties:
-     type: string
-     obstacles: 
-       type: array
-       items: {$ref: /schemas/obstacle}
-     walls:
-       type: array
-       items: {$ref: /schemas/wall}
-     groups: 
-       type: array
-       items: {$ref: /schemas/group}
-   required: [type]
-   additionalProperties: {}
+.. schema:: navground.sim.Scenario.base_schema()
 
 Example
 ^^^^^^^
@@ -168,3 +91,7 @@ Example
        radius: 0.1
        control_period: 0.1
 
+Register
+--------
+
+.. schema:: navground.sim.Scenario.register_schema()

@@ -50,35 +50,29 @@ using GoalHandleGoToTarget = rclcpp_action::ServerGoalHandle<GoToTarget>;
 
 namespace navground::core {
 
-template <typename T>
-struct is_ros_param_type : std::false_type {};
-template <>
-struct is_ros_param_type<bool> : std::true_type {};
-template <>
-struct is_ros_param_type<int> : std::true_type {};
-template <>
-struct is_ros_param_type<float> : std::true_type {};
-template <>
-struct is_ros_param_type<std::string> : std::true_type {};
-template <>
-struct is_ros_param_type<std::vector<bool>> : std::true_type {};
-template <>
-struct is_ros_param_type<std::vector<int>> : std::true_type {};
-template <>
-struct is_ros_param_type<std::vector<float>> : std::true_type {};
+template <typename T> struct is_ros_param_type : std::false_type {};
+template <> struct is_ros_param_type<bool> : std::true_type {};
+template <> struct is_ros_param_type<int> : std::true_type {};
+template <> struct is_ros_param_type<float> : std::true_type {};
+template <> struct is_ros_param_type<std::string> : std::true_type {};
+template <> struct is_ros_param_type<std::vector<bool>> : std::true_type {};
+template <> struct is_ros_param_type<std::vector<int>> : std::true_type {};
+template <> struct is_ros_param_type<std::vector<float>> : std::true_type {};
 template <>
 struct is_ros_param_type<std::vector<std::string>> : std::true_type {};
 
-static std::shared_ptr<Kinematics> make_kinematics(
-    const std::string &name, float max_speed, float max_angular_speed,
-    float axis, float max_acceleration, float max_angular_acceleration) {
+static std::shared_ptr<Kinematics>
+make_kinematics(const std::string &name, float max_speed,
+                float max_angular_speed, float axis, float max_acceleration,
+                float max_angular_acceleration) {
   auto kinematics = Kinematics::make_type(name);
   if (kinematics) {
     kinematics->set_max_speed(max_speed);
     kinematics->set_max_angular_speed(max_angular_speed);
-    if (WheeledKinematics *wk =
-            dynamic_cast<WheeledKinematics *>(kinematics.get())) {
-      wk->set_axis(axis);
+    if (TwoWheelsDifferentialDriveKinematics *wk =
+            dynamic_cast<TwoWheelsDifferentialDriveKinematics *>(
+                kinematics.get())) {
+      wk->set_wheel_axis(axis);
     }
     if (DynamicTwoWheelsDifferentialDriveKinematics *wk =
             dynamic_cast<DynamicTwoWheelsDifferentialDriveKinematics *>(
@@ -186,8 +180,8 @@ static std::string tolower(const std::string &value) {
 //       property.default_value);
 // }
 
-static std::optional<Property::Field> get_from_param(
-    const Property &property, const rclcpp::Parameter &param) {
+static std::optional<Property::Field>
+get_from_param(const Property &property, const rclcpp::Parameter &param) {
   return std::visit(
       [&param](auto &&arg) -> std::optional<Property::Field> {
         using T = std::decay_t<decltype(arg)>;
@@ -219,13 +213,10 @@ static std::optional<Property::Field> get_from_param(
 }
 
 class ROSControllerNode : public rclcpp::Node {
- public:
+public:
   ROSControllerNode()
-      : rclcpp::Node("controller"),
-        controller(),
-        markers_pub(*this),
-        fixed_frame(""),
-        goal_handle(nullptr) {
+      : rclcpp::Node("controller"), controller(), markers_pub(*this),
+        fixed_frame(""), goal_handle(nullptr) {
     const double rate = declare_parameter("rate", 10.0);
     update_period = 1.0 / rate;
     param_callback_handle = add_on_set_parameters_callback(
@@ -272,7 +263,7 @@ class ROSControllerNode : public rclcpp::Node {
     RCLCPP_INFO(get_logger(), "Ready");
   }
 
- private:
+private:
   Controller3 controller;
   MarkersPublisher markers_pub;
   double update_period;
@@ -361,41 +352,44 @@ class ROSControllerNode : public rclcpp::Node {
     }
   }
 
-  std::optional<Twist3> twist_from_msg(
-      const geometry_msgs::msg::TwistStamped &msg,
-      const std::string &frame_id) {
+  std::optional<Twist3>
+  twist_from_msg(const geometry_msgs::msg::TwistStamped &msg,
+                 const std::string &frame_id) {
     if (frame_id == msg.header.frame_id) {
       return twist_from(msg.twist);
     }
     auto t = get_transform(frame_id, msg.header.frame_id,
                            tf2_ros::fromMsg(msg.header.stamp));
-    if (!t) return std::nullopt;
+    if (!t)
+      return std::nullopt;
     auto linear = t->linear() * vector_from(msg.twist.linear);
     auto angular = t->linear() * vector_from(msg.twist.angular);
     return Twist3{linear, angular.z()};
   }
 
-  std::optional<Vector3> vector_from_msg(
-      const geometry_msgs::msg::Vector3Stamped &msg,
-      const std::string &frame_id) {
+  std::optional<Vector3>
+  vector_from_msg(const geometry_msgs::msg::Vector3Stamped &msg,
+                  const std::string &frame_id) {
     if (frame_id == msg.header.frame_id) {
       return vector_from(msg.vector);
     }
     auto t = get_transform(frame_id, msg.header.frame_id,
                            tf2_ros::fromMsg(msg.header.stamp));
-    if (!t) return std::nullopt;
+    if (!t)
+      return std::nullopt;
     return t->linear() * vector_from(msg.vector);
   }
 
-  std::optional<Vector3> point_from_msg(
-      const geometry_msgs::msg::PointStamped &msg,
-      const std::string &frame_id) {
+  std::optional<Vector3>
+  point_from_msg(const geometry_msgs::msg::PointStamped &msg,
+                 const std::string &frame_id) {
     if (frame_id == msg.header.frame_id) {
       return point_from(msg.point);
     }
     auto t = get_transform(frame_id, msg.header.frame_id,
                            tf2_ros::fromMsg(msg.header.stamp));
-    if (!t) return std::nullopt;
+    if (!t)
+      return std::nullopt;
     return *t * point_from(msg.point);
   }
 
@@ -406,12 +400,14 @@ class ROSControllerNode : public rclcpp::Node {
     }
     auto t = get_transform(frame_id, msg.header.frame_id,
                            tf2_ros::fromMsg(msg.header.stamp));
-    if (!t) return std::nullopt;
+    if (!t)
+      return std::nullopt;
     return pose_from(*t * transform_from(msg.pose));
   }
 
-  std::optional<std::tuple<Pose3, Twist3>> odom_from_msg(
-      const nav_msgs::msg::Odometry &msg, const std::string &frame_id) {
+  std::optional<std::tuple<Pose3, Twist3>>
+  odom_from_msg(const nav_msgs::msg::Odometry &msg,
+                const std::string &frame_id) {
     Pose3 pose;
     Twist3 twist;
     std::optional<Transform> t;
@@ -420,7 +416,8 @@ class ROSControllerNode : public rclcpp::Node {
     } else {
       t = get_transform(frame_id, msg.header.frame_id,
                         tf2_ros::fromMsg(msg.header.stamp));
-      if (!t) return std::nullopt;
+      if (!t)
+        return std::nullopt;
       pose = pose_from(*t * transform_from(msg.pose.pose));
     }
     if (frame_id == msg.child_frame_id) {
@@ -429,7 +426,8 @@ class ROSControllerNode : public rclcpp::Node {
       if (msg.child_frame_id != msg.header.frame_id) {
         t = get_transform(frame_id, msg.child_frame_id,
                           tf2_ros::fromMsg(msg.header.stamp));
-        if (!t) return std::nullopt;
+        if (!t)
+          return std::nullopt;
       }
       auto linear = t->linear() * vector_from(msg.twist.twist.linear);
       auto angular = t->linear() * vector_from(msg.twist.twist.angular);
@@ -441,7 +439,8 @@ class ROSControllerNode : public rclcpp::Node {
   void odom_cb(const nav_msgs::msg::Odometry &msg) {
     last_localization_stamp = now();
     auto odom = odom_from_msg(msg, fixed_frame);
-    if (!odom) return;
+    if (!odom)
+      return;
     const auto &[pose, twist] = *odom;
     RCLCPP_INFO(get_logger(),
                 "Odom -> %.2f %.2f %.2f %.2f-- %.2f %.2f %.2f %.2f",
@@ -453,7 +452,8 @@ class ROSControllerNode : public rclcpp::Node {
   }
 
   void target_point_cb(const geometry_msgs::msg::PointStamped &msg) {
-    if (goal_handle) return;
+    if (goal_handle)
+      return;
     auto target = point_from_msg(msg, fixed_frame);
     if (target) {
       controller.follow_point(*target);
@@ -464,7 +464,8 @@ class ROSControllerNode : public rclcpp::Node {
   }
 
   void target_pose_cb(const geometry_msgs::msg::PoseStamped &msg) {
-    if (goal_handle) return;
+    if (goal_handle)
+      return;
     auto target = pose_from_msg(msg, fixed_frame);
     if (target) {
       controller.follow_pose(*target);
@@ -475,7 +476,8 @@ class ROSControllerNode : public rclcpp::Node {
   }
 
   void target_twist_cb(const geometry_msgs::msg::TwistStamped &msg) {
-    if (goal_handle) return;
+    if (goal_handle)
+      return;
     auto target = twist_from_msg(msg, fixed_frame);
     if (target) {
       controller.follow_twist(*target);
@@ -494,17 +496,17 @@ class ROSControllerNode : public rclcpp::Node {
 
   void stop_cb([[maybe_unused]] const std_msgs::msg::Empty &msg) { stop(); }
 
-  rclcpp_action::GoalResponse handle_goal(
-      const rclcpp_action::GoalUUID &uuid,
-      std::shared_ptr<const GoToTarget::Goal> goal) {
+  rclcpp_action::GoalResponse
+  handle_goal(const rclcpp_action::GoalUUID &uuid,
+              std::shared_ptr<const GoToTarget::Goal> goal) {
     RCLCPP_INFO(get_logger(), "Received goal request");
     if (!goal_handle && controller.get_behavior())
       return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
     return rclcpp_action::GoalResponse::REJECT;
   }
 
-  rclcpp_action::CancelResponse handle_cancel(
-      const std::shared_ptr<GoalHandleGoToTarget> _goal_handle) {
+  rclcpp_action::CancelResponse
+  handle_cancel(const std::shared_ptr<GoalHandleGoToTarget> _goal_handle) {
     RCLCPP_INFO(get_logger(), "Received request to cancel goal");
     if (_goal_handle == goal_handle) {
       return rclcpp_action::CancelResponse::ACCEPT;
@@ -513,8 +515,8 @@ class ROSControllerNode : public rclcpp::Node {
     }
   }
 
-  void handle_accepted(
-      const std::shared_ptr<GoalHandleGoToTarget> _goal_handle) {
+  void
+  handle_accepted(const std::shared_ptr<GoalHandleGoToTarget> _goal_handle) {
     goal_handle = _goal_handle;
     auto goal = goal_handle->get_goal();
     std::optional<Vector3> target_point;
@@ -561,7 +563,8 @@ class ROSControllerNode : public rclcpp::Node {
       msg.header.stamp = now();
       if (twist.frame == Frame::relative) {
         const auto behavior = controller.get_behavior();
-        if (!behavior) return;
+        if (!behavior)
+          return;
         Twist2 a_twist = behavior->to_absolute(twist.project());
         msg.twist.linear.x = a_twist.velocity.x();
         msg.twist.linear.y = a_twist.velocity.y();
@@ -577,7 +580,8 @@ class ROSControllerNode : public rclcpp::Node {
       geometry_msgs::msg::Twist msg;
       if (twist.frame == Frame::absolute) {
         const auto behavior = controller.get_behavior();
-        if (!behavior) return;
+        if (!behavior)
+          return;
         Twist2 r_twist = behavior->to_relative(twist.project());
         msg.linear.x = r_twist.velocity.x();
         msg.linear.y = r_twist.velocity.y();
@@ -595,9 +599,11 @@ class ROSControllerNode : public rclcpp::Node {
     std::vector<Neighbor3> neighbors;
     for (auto msg : msg.neighbors) {
       auto position = point_from_msg(msg.obstacle.top_position, fixed_frame);
-      if (!position) return;
+      if (!position)
+        return;
       auto velocity = vector_from_msg(msg.velocity, fixed_frame);
-      if (!velocity) return;
+      if (!velocity)
+        return;
       *position -= Vector3(0, 0, msg.obstacle.height);
       neighbors.emplace_back(*position, msg.obstacle.radius,
                              msg.obstacle.height, velocity->head<2>(), msg.id);
@@ -612,7 +618,8 @@ class ROSControllerNode : public rclcpp::Node {
     std::vector<Cylinder> obstacles;
     for (auto msg : msg.obstacles) {
       auto position = point_from_msg(msg.top_position, fixed_frame);
-      if (!position) return;
+      if (!position)
+        return;
       *position -= Vector3(0, 0, msg.height);
       obstacles.emplace_back(*position, msg.radius, msg.height);
     }
@@ -676,7 +683,8 @@ class ROSControllerNode : public rclcpp::Node {
 
   void set_behavior(std::string type) {
     auto behavior = controller.get_behavior();
-    if (behavior && behavior->get_type() == type) return;
+    if (behavior && behavior->get_type() == type)
+      return;
     const auto &type_properties = Behavior::type_properties();
     if (!type_properties.count(type)) {
       RCLCPP_WARN(get_logger(), "Unknown behavior type %s", type.c_str());
@@ -729,8 +737,8 @@ class ROSControllerNode : public rclcpp::Node {
     controller.set_behavior(new_behavior);
   }
 
-  rcl_interfaces::msg::SetParametersResult on_set_parameters(
-      const std::vector<rclcpp::Parameter> &parameters) {
+  rcl_interfaces::msg::SetParametersResult
+  on_set_parameters(const std::vector<rclcpp::Parameter> &parameters) {
     rcl_interfaces::msg::SetParametersResult result;
     result.successful = true;
     Behavior *b = controller.get_behavior().get();
@@ -782,7 +790,7 @@ class ROSControllerNode : public rclcpp::Node {
   }
 };
 
-}  // namespace navground::core
+} // namespace navground::core
 
 int main(int argc, char *argv[]) {
   navground::core::load_plugins();

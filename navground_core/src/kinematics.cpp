@@ -236,7 +236,7 @@ const std::string FourWheelsOmniDriveKinematics::type =
         "4WOmni",
         {{"wheel_axis",
           Property::make(&FourWheelsOmniDriveKinematics::get_wheel_axis,
-                         &FourWheelsOmniDriveKinematics::set_wheel_axis, 0,
-                         "Wheel Axis")}});
+                         &FourWheelsOmniDriveKinematics::set_wheel_axis,
+                         ng_float_t(1), "Wheel Axis")}});
 
 } // namespace navground::core

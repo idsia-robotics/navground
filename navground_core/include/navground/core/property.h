@@ -47,6 +47,35 @@ struct Property {
       std::variant<bool, int, ng_float_t, std::string, Vector2,
                    std::vector<bool>, std::vector<int>, std::vector<ng_float_t>,
                    std::vector<std::string>, std::vector<Vector2>>;
+
+  static std::string_view friendly_type_name(const Field &field) {
+    return std::visit(
+        [](auto &&arg) {
+          using T = std::decay_t<decltype(arg)>;
+          if constexpr (std::is_same_v<T, int>)
+            return "int";
+          if constexpr (std::is_same_v<T, ng_float_t>)
+            return "float";
+          if constexpr (std::is_same_v<T, bool>)
+            return "bool";
+          if constexpr (std::is_same_v<T, std::string>)
+            return "str";
+          if constexpr (std::is_same_v<T, Vector2>)
+            return "vector";
+          if constexpr (std::is_same_v<T, std::vector<int>>)
+            return "[int]";
+          if constexpr (std::is_same_v<T, std::vector<ng_float_t>>)
+            return "[float]";
+          if constexpr (std::is_same_v<T, std::vector<bool>>)
+            return "[bool]";
+          if constexpr (std::is_same_v<T, std::vector<std::string>>)
+            return "[str]";
+          if constexpr (std::is_same_v<T, std::vector<Vector2>>)
+            return "[vector]";
+        },
+        field);
+  }
+
   /**
    * The type of the property value getter, i.e., a function that gets the
    * property value from the owner.
@@ -119,7 +148,8 @@ struct Property {
     Property property;
     property.description = description;
     property.default_value = default_value;
-    property.type_name = std::string(get_type_name<T>());
+    // property.type_name = std::string(get_type_name<T>());
+    property.type_name = std::string(friendly_type_name(default_value));
     property.deprecated_names = deprecated_names;
     property.owner_type_name = std::string(get_type_name<C>());
     property.getter = [getter](const HasProperties *obj) {
@@ -474,7 +504,9 @@ inline std::ostream &operator<<(std::ostream &os,
 
 inline std::ostream &operator<<(std::ostream &os,
                                 const navground::core::Property::Field &value) {
+  os << std::boolalpha;
   std::visit([&os](auto &&arg) { os << arg; }, value);
+  os << std::noboolalpha;
   return os;
 }
 

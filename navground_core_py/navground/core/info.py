@@ -34,6 +34,9 @@ def init_parser_with_registers(parser: argparse.ArgumentParser,
     parser.add_argument('--properties',
                         help="Include properties",
                         action='store_true')
+    parser.add_argument('--description',
+                        help="Include property descriptions",
+                        action='store_true')
     for _, title in registers:
         add_arg_for_register(parser, title)
 
@@ -51,7 +54,8 @@ def parser() -> argparse.ArgumentParser:
 def print_register(cls: Any,
                    title: Optional[str],
                    name: Optional[str] = None,
-                   with_properties: bool = False) -> None:
+                   with_properties: bool = False,
+                   with_description: bool = False) -> None:
     if title:
         print(title)
         print("-" * len(title))
@@ -61,10 +65,13 @@ def print_register(cls: Any,
                 continue
             print(f"{_name}")
             for k, p in properties.items():
+                readonly = " readonly" if p.readonly else ""
                 synonyms = " ".join(p.deprecated_names)
                 if synonyms:
                     synonyms = f", deprecated synonyms: {synonyms}"
-                print(f"     {k}: {p.default_value} [{p.type_name}]{synonyms}")
+                print(f"    {k}: {p.default_value} ({p.type_name}){readonly}{synonyms}")
+                if with_description and p.description:
+                    print(f"      {p.description}")
     else:
         print(", ".join(t for t in cls.types if t and not (name and t != name)))
 
@@ -74,10 +81,10 @@ def info(arg: argparse.Namespace, registers: Registers) -> None:
         name = getattr(arg, get_arg(title))
         selected = name != ''
         if selected:
-            print_register(cls, title, name, arg.properties)
+            print_register(cls, title, name, arg.properties, arg.description)
             return
     for cls, title in registers:
-        print_register(cls, title, None, arg.properties)
+        print_register(cls, title, None, arg.properties, arg.description)
         print("")
 
 

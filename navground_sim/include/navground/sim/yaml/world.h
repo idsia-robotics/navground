@@ -7,6 +7,7 @@
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/property.h"
 #include "navground/core/yaml/register.h"
+#include "navground/core/yaml/schema.h"
 #include "navground/sim/world.h"
 #include "yaml-cpp/yaml.h"
 
@@ -38,6 +39,12 @@ struct convert<Obstacle> {
     }
     return convert<Disc>::decode(node, rhs.disc);
   }
+  static Node schema() {
+    Node node = schema::type<Disc>();
+    node["properties"]["uid"] = schema::type<int>();
+    return node;
+  }
+  static constexpr const char name[] = "obstacle";
 };
 
 template <>
@@ -76,6 +83,14 @@ struct convert<Wall> {
     }
     return false;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["line"] = schema::type<LineSegment>();
+    node["properties"]["uid"] = schema::type<int>();
+    return node;
+  }
+  static constexpr const char name[] = "wall";
 };
 
 template <>
@@ -133,6 +148,16 @@ struct convert<BoundingBox> {
     rhs.init(x, X, y, Y);
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["min_x"] = schema::type<ng_float_t>();
+    node["properties"]["min_y"] = schema::type<ng_float_t>();
+    node["properties"]["max_x"] = schema::type<ng_float_t>();
+    node["properties"]["max_y"] = schema::type<ng_float_t>();
+    return node;
+  }
+  static constexpr const char name[] = "bounding_box";
 };
 
 template <>
@@ -154,6 +179,15 @@ struct convert<World::Lattice> {
                                                   node[1].as<ng_float_t>());
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "array";
+    node["items"] = schema::type<ng_float_t>();
+    node["minItems"] = 2;
+    node["maxItems"] = 2;
+    return node;
+  }
+  static constexpr const char name[] = "lattice";
 };
 
 template <>
@@ -167,6 +201,13 @@ struct convert<Task> {
     decode_properties(node, rhs);
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["type"] = schema::type<std::string>();
+    return node;
+  }
+  static constexpr const char name[] = "task";
 };
 
 template <>
@@ -194,6 +235,13 @@ struct convert<StateEstimation> {
     decode_properties(node, rhs);
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["type"] = schema::type<std::string>();
+    return node;
+  }
+  static constexpr const char name[] = "state_estimation";
 };
 
 template <>
@@ -306,6 +354,30 @@ struct convert<Agent> {
     }
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["behavior"] = schema::ref<Behavior>();
+    node["properties"]["kinematics"] = schema::ref<Kinematics>();
+    node["properties"]["task"] = schema::ref<Task>();
+    node["properties"]["state_estimation"] = schema::ref<StateEstimation>();
+    node["properties"]["position"] = schema::ref<Vector2>();
+    node["properties"]["orientation"] = schema::type<ng_float_t>();
+    node["properties"]["velocity"] = schema::ref<Vector2>();
+    node["properties"]["angular_speed"] = schema::type<ng_float_t>();
+    node["properties"]["radius"] = schema::type<ng_float_t>();
+    node["properties"]["control_period"] = schema::type<ng_float_t>();
+    node["properties"]["speed_tolerance"] = schema::type<ng_float_t>();
+    node["properties"]["type"] = schema::type<std::string>();
+    node["properties"]["color"] = schema::type<std::string>();
+    node["properties"]["id"] = schema::type<int>();
+    node["properties"]["uid"] = schema::type<int>();
+    node["properties"]["external"] = schema::type<bool>();
+    node["properties"]["tags"]["type"] = "array";
+    node["properties"]["tags"]["items"] = schema::type<std::string>();
+    return node;
+  }
+  static constexpr const char name[] = "agent";
 };
 
 template <>
@@ -394,6 +466,22 @@ struct convert<World> {
   static bool decode(const Node& node, World& rhs) {
     return convert_world<>::decode(node, rhs);
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["agents"]["type"] = "array";
+    node["properties"]["agents"]["items"] = schema::ref<Agent>();
+    node["properties"]["obstacles"]["type"] = "array";
+    node["properties"]["obstacles"]["items"] = schema::ref<Obstacle>();
+    node["properties"]["walls"]["type"] = "array";
+    node["properties"]["walls"]["items"] = schema::ref<Wall>();    
+    node["properties"]["bounding_box"] = schema::type<BoundingBox>(); 
+    node["properties"]["lattice"]["type"] = "object";
+    node["properties"]["lattice"]["properties"]["x"] = schema::type<World::Lattice>();
+    node["properties"]["lattice"]["properties"]["y"] = schema::type<World::Lattice>();
+    return node;
+  }
+  static constexpr const char name[] = "world";
 };
 
 }  // namespace YAML

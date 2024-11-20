@@ -13,8 +13,6 @@ Properties
 .. doxygenstruct:: navground::core::Property
    :members:
 
-.. doxygenfunction:: navground::core::make_property
-
 .. doxygentypedef:: navground::core::Properties
 
 .. doxygenstruct:: navground::core::HasProperties

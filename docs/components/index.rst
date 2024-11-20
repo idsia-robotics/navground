@@ -9,7 +9,7 @@ The different type of components share some common functionality:
 - they keep a register of concrete sub-classes,
 - they have named parameters (*properties*),
 - they can be represented through YAML,
-- they can be :doc:`extended <../guides/extend/index>`_ using plugins.
+- they can be :doc:`extended <../guides/extend/index>` using plugins.
 
 The core library defines :doc:`behaviors/index`, :doc:`behavior_modulations/index`, and :doc:`kinematics/index`, which can be used with simulated *and* real-world agents.
 The simulation library adds :doc:`state_estimations/index`, :doc:`tasks/index`, :doc:`scenarios/index` which are specific for simulations.

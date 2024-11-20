@@ -5,67 +5,25 @@ Experiment
 ==========
 
 Schema
-^^^^^^
+======
 
-.. code-block:: yaml
+RecordNeighborsConfig
+---------------------
 
-   $schema: https://json-schema.org/draft/2020-12/schema
-   $id: /schemas/record_neighbors
-   title: RecordNeighborsConfig
-   type: object
-   properties:
-     enabled: bool
-     number: integer
-     relative: bool
-   required: []
+.. schema:: navground.sim.RecordNeighborsConfig.schema()
 
-.. code-block:: yaml
+RecordSensignConfig
+-------------------
 
-   $schema: https://json-schema.org/draft/2020-12/schema
-   $id: /schemas/record_neighbors
-   title: RecordSensingConfig
-   type: object
-   properties:
-     name: string
-     sensor: {$ref: /schemas/state_estimation}
-     agent_indices:    
-      type: array
-      items:
-        type: integer
-   required: []
+.. schema:: navground.sim.RecordSensingConfig.schema()
 
-.. code-block:: yaml
+Experiment
+----------
 
-   $schema: https://json-schema.org/draft/2020-12/schema
-   $id: /schemas/experiment
-   title: Experiment
-   type: object
-   properties:
-     time_step: number
-     steps: integer
-     runs: integer
-     save_directory: string
-     record_pose: bool
-     record_twist: bool
-     record_actuated_cmd: bool
-     record_cmd: bool
-     record_target: bool
-     record_collisions: bool
-     record_safety_violation: bool
-     record_task_events: bool
-     record_deadlocks: bool
-     record_efficacy: bool
-     record_neighbors: {$ref: /schemas/record_neighbors}
-     record_sensing: {$ref: /schemas/record_sensing}
-     use_agent_uid_as_key: bool
-     terminate_when_all_idle_or_stuck: bool
-     scenario: {$ref: /schemas/scenario}
-     name: string
-     run_index: int
-   required: []
+.. schema:: navground.sim.Experiment.schema()
 
 Example
-^^^^^^^
+=======
 
 .. code-block:: yaml
 

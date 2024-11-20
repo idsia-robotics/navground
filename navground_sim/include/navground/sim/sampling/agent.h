@@ -100,8 +100,10 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
   std::string name;
   BehaviorSampler<B, M> behavior;
   KinematicsSampler<K> kinematics;
-  SamplerFromRegister<T> task;
-  SamplerFromRegister<S> state_estimation;
+  TaskSampler<T> task;
+  StateEstimationSampler<S> state_estimation;
+  // SamplerFromRegister<T> task;
+  // SamplerFromRegister<S> state_estimation;
   std::shared_ptr<Sampler<Vector2>> position;
   std::shared_ptr<Sampler<ng_float_t>> orientation;
   std::shared_ptr<Sampler<ng_float_t>> radius;

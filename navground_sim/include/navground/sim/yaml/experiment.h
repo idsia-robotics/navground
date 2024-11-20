@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "navground/core/types.h"
+#include "navground/core/yaml/schema.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/experiment.h"
 #include "navground/sim/scenario.h"
@@ -13,24 +14,23 @@
 #include "yaml-cpp/yaml.h"
 
 using navground::sim::Experiment;
-using navground::sim::RecordSensingConfig;
 using navground::sim::RecordNeighborsConfig;
+using navground::sim::RecordSensingConfig;
 using navground::sim::Scenario;
 using navground::sim::Sensor;
 using navground::sim::StateEstimation;
 
 namespace YAML {
 
-template <>
-struct convert<RecordNeighborsConfig> {
-  static Node encode(const RecordNeighborsConfig& rhs) {
+template <> struct convert<RecordNeighborsConfig> {
+  static Node encode(const RecordNeighborsConfig &rhs) {
     Node node;
     node["enabled"] = rhs.enabled;
     node["number"] = rhs.number;
     node["relative"] = rhs.relative;
     return node;
   }
-  static bool decode(const Node& node, RecordNeighborsConfig& rhs) {
+  static bool decode(const Node &node, RecordNeighborsConfig &rhs) {
     if (node["enabled"]) {
       rhs.enabled = node["enabled"].as<bool>();
     }
@@ -42,11 +42,19 @@ struct convert<RecordNeighborsConfig> {
     }
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["enabled"] = schema::type<bool>();
+    node["properties"]["number"] = schema::type<int>();
+    node["properties"]["relative"] = schema::type<bool>();
+    return node;
+  }
+  static constexpr const char name[] = "record_neighbors_config";
 };
 
-template <>
-struct convert<RecordSensingConfig> {
-  static Node encode(const RecordSensingConfig& rhs) {
+template <> struct convert<RecordSensingConfig> {
+  static Node encode(const RecordSensingConfig &rhs) {
     Node node;
     if (rhs.sensor) {
       node["sensor"] = dynamic_cast<StateEstimation &>(*rhs.sensor);
@@ -57,7 +65,7 @@ struct convert<RecordSensingConfig> {
     }
     return node;
   }
-  static bool decode(const Node& node, RecordSensingConfig& rhs) {
+  static bool decode(const Node &node, RecordSensingConfig &rhs) {
     if (node["sensor"]) {
       auto se = node["sensor"].as<std::shared_ptr<StateEstimation>>();
       if (auto sensor = std::dynamic_pointer_cast<Sensor>(se)) {
@@ -72,10 +80,19 @@ struct convert<RecordSensingConfig> {
     }
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["sensor"] = schema::ref<StateEstimation>();
+    node["properties"]["name"] = schema::type<std::string>();
+    node["properties"]["agent_indices"] = schema::type<std::vector<int>>();
+    return node;
+  }
+  static constexpr const char name[] = "record_sensing_config";
 };
 
 struct convert_experiment {
-  static Node encode(const Experiment& rhs) {
+  static Node encode(const Experiment &rhs) {
     Node node;
     node["time_step"] = rhs.run_config.time_step;
     node["steps"] = rhs.run_config.steps;
@@ -107,7 +124,7 @@ struct convert_experiment {
     node["reset_uids"] = rhs.reset_uids;
     return node;
   }
-  static bool decode(const Node& node, Experiment& rhs) {
+  static bool decode(const Node &node, Experiment &rhs) {
     if (!node.IsMap()) {
       return false;
     }
@@ -181,14 +198,14 @@ struct convert_experiment {
     if (node["reset_uids"]) {
       rhs.reset_uids = node["reset_uids"].as<bool>();
     }
-    rhs.record_config.use_agent_uid_as_key = node["use_agent_uid_as_key"].as<bool>(true);
+    rhs.record_config.use_agent_uid_as_key =
+        node["use_agent_uid_as_key"].as<bool>(true);
     return true;
   }
 };
 
-template <>
-struct convert<Experiment> {
-  static Node encode(const Experiment& rhs) {
+template <> struct convert<Experiment> {
+  static Node encode(const Experiment &rhs) {
     Node node = convert_experiment::encode(rhs);
     if (rhs.scenario) {
       node["scenario"] = *(rhs.scenario);
@@ -196,7 +213,7 @@ struct convert<Experiment> {
     }
     return node;
   }
-  static bool decode(const Node& node, Experiment& rhs) {
+  static bool decode(const Node &node, Experiment &rhs) {
     if (convert_experiment::decode(node, rhs)) {
       if (node["scenario"]) {
         rhs.scenario = node["scenario"].as<std::shared_ptr<Scenario>>();
@@ -205,8 +222,38 @@ struct convert<Experiment> {
     }
     return false;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["time_step"] = schema::type<ng_float_t>();
+    node["properties"]["steps"] = schema::type<int>();
+    node["properties"]["runs"] = schema::type<int>();
+    node["properties"]["save_directory"] = schema::type<std::string>();
+    node["properties"]["record_time"] = schema::type<bool>();
+    node["properties"]["record_pose"] = schema::type<bool>();
+    node["properties"]["record_twist"] = schema::type<bool>();
+    node["properties"]["record_cmd"] = schema::type<bool>();
+    node["properties"]["record_actuated_cmd"] = schema::type<bool>();
+    node["properties"]["record_target"] = schema::type<bool>();
+    node["properties"]["record_collisions"] = schema::type<bool>();
+    node["properties"]["record_safety_violation"] = schema::type<bool>();
+    node["properties"]["record_task_events"] = schema::type<bool>();
+    node["properties"]["record_deadlocks"] = schema::type<bool>();
+    node["properties"]["record_efficacy"] = schema::type<bool>();
+    node["properties"]["record_world"] = schema::type<bool>();
+    node["properties"]["use_agent_uid_as_key"] = schema::type<bool>();
+    node["properties"]["record_neighbors"] = schema::ref<RecordNeighborsConfig>();
+    node["properties"]["record_sensing"] = schema::ref<RecordSensingConfig>();
+    node["properties"]["terminate_when_all_idle_or_stuck"] = schema::type<bool>();
+    node["properties"]["name"] = schema::type<std::string>();
+    node["properties"]["run_index"] = schema::type<int>();
+    node["properties"]["reset_uids"] = schema::type<bool>();
+    node["properties"]["scenario"] = schema::ref<Scenario>();
+    return node;
+  }
+  static constexpr const char name[] = "experiment";
 };
 
-}  // namespace YAML
+} // namespace YAML
 
-#endif  // NAVGROUND_SIM_YAML_EXPERIMENT_H
+#endif // NAVGROUND_SIM_YAML_EXPERIMENT_H

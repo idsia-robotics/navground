@@ -1,5 +1,6 @@
 import functools
-from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Tuple
+from typing import (TYPE_CHECKING, Callable, Dict, List, Optional, Tuple,
+                    TypeAlias, Union)
 
 if TYPE_CHECKING:
     import tqdm
@@ -12,7 +13,7 @@ from navground.core import get_loaded_plugins as _get_loaded_core_plugins
 from navground.core import get_loaded_py_plugins as _get_loaded_py_core_plugins
 from navground.core import load_cpp_plugins
 from navground.core import load_py_plugins as _load_py_core_plugins
-from navground.core import register
+from navground.core import register, register_schema
 
 from ._navground_sim import (Agent, BoundingBox, Dataset, Entity, Experiment,
                              ExperimentalRun, GroupRecordProbe, Obstacle,
@@ -23,11 +24,78 @@ from ._navground_sim import SensingProbe
 from ._navground_sim import Sensor as _Sensor
 from ._navground_sim import StateEstimation as _StateEstimation
 from ._navground_sim import Task as _Task
-from ._navground_sim import (Wall, World, dump, load_agent, load_experiment,
-                             load_scenario, load_state_estimation, load_task,
-                             load_world, use_compact_samplers, uses_doubles)
-from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
-from .run_mp import run_mp
+from ._navground_sim import (Wall, World, schema, use_compact_samplers,
+                             uses_doubles)
+
+SUPPORT_YAML: TypeAlias = Union[navground.core.SUPPORT_YAML, _Task,
+                                _StateEstimation, _Scenario, Experiment, Agent,
+                                World, Wall, Obstacle]
+
+
+def load_state_estimation(value: str) -> Optional[_StateEstimation]:
+    return _StateEstimation.load(value)
+
+
+load_state_estimation.__doc__ = _StateEstimation.load.__doc__
+
+
+def load_task(value: str) -> Optional[_Task]:
+    return _Task.load(value)
+
+
+load_task.__doc__ = _Task.load.__doc__
+
+
+def load_scenario(value: str) -> Optional[_Scenario]:
+    return _Scenario.load(value)
+
+
+load_scenario.__doc__ = _Scenario.load.__doc__
+
+
+def load_obstacle(value: str) -> Optional[Obstacle]:
+    return Obstacle.load(value)
+
+
+load_obstacle.__doc__ = Obstacle.load.__doc__
+
+
+def load_wall(value: str) -> Optional[Wall]:
+    return Wall.load(value)
+
+
+load_wall.__doc__ = Wall.load.__doc__
+
+
+def load_agent(value: str) -> Optional[Agent]:
+    return Agent.load(value)
+
+
+load_agent.__doc__ = Agent.load.__doc__
+
+
+def load_world(value: str) -> Optional[World]:
+    return World.load(value)
+
+
+load_world.__doc__ = World.load.__doc__
+
+
+def load_experiment(value: str) -> Optional[Experiment]:
+    return Experiment.load(value)
+
+
+load_experiment.__doc__ = Experiment.load.__doc__
+
+
+def dump(obj: SUPPORT_YAML) -> str:
+    """
+    Dumps the object to a YAML-string.
+
+    :return: The YAML representation
+    :rtype: str
+    """
+    return obj.dump()
 
 
 class Scenario(_Scenario):
@@ -179,6 +247,9 @@ def setup_tqdm(self,
     self.add_run_callback(lambda _: bar.update(1))
 
 
+from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
+from .run_mp import run_mp
+
 Experiment.setup_tqdm = setup_tqdm
 Experiment.run_mp = run_mp
 
@@ -227,5 +298,6 @@ __all__ = [
     'ExperimentalRun', 'RecordNeighborsConfig', 'RecordSensingConfig',
     'RecordConfig', 'RecordProbe', 'GroupRecordProbe', 'Probe', 'Dataset',
     'RecordedExperiment', 'RecordedExperimentalRun', 'SensingProbe',
-    'use_compact_samplers', 'uses_doubles', 'get_loaded_plugins'
+    'use_compact_samplers', 'uses_doubles', 'get_loaded_plugins', 'schema',
+    'register_schema'
 ]

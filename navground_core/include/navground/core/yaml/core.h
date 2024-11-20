@@ -7,6 +7,7 @@
 #include "navground/core/states/geometric.h"
 #include "navground/core/types.h"
 #include "navground/core/yaml/register.h"
+#include "navground/core/yaml/schema.h"
 #include "yaml-cpp/yaml.h"
 
 using navground::core::Behavior;
@@ -21,15 +22,14 @@ using navground::core::Vector2;
 
 namespace YAML {
 
-template <>
-struct convert<LineSegment> {
-  static Node encode(const LineSegment& rhs) {
+template <> struct convert<LineSegment> {
+  static Node encode(const LineSegment &rhs) {
     Node node;
     node.push_back(rhs.p1);
     node.push_back(rhs.p2);
     return node;
   }
-  static bool decode(const Node& node, LineSegment& rhs) {
+  static bool decode(const Node &node, LineSegment &rhs) {
     if (!node.IsSequence() || node.size() != 2) {
       return false;
     }
@@ -38,17 +38,25 @@ struct convert<LineSegment> {
     rhs.update();
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "array";
+    node["items"] = schema::ref<Vector2>();
+    node["minItems"] = 2;
+    node["maxItems"] = 2;
+    return node;
+  }
+  static constexpr const char name[] = "line_segment";
 };
 
-template <>
-struct convert<Disc> {
-  static Node encode(const Disc& rhs) {
+template <> struct convert<Disc> {
+  static Node encode(const Disc &rhs) {
     Node node;
     node["position"] = rhs.position;
     node["radius"] = rhs.radius;
     return node;
   }
-  static bool decode(const Node& node, Disc& rhs) {
+  static bool decode(const Node &node, Disc &rhs) {
     if (!node.IsMap()) {
       return false;
     }
@@ -56,40 +64,61 @@ struct convert<Disc> {
     rhs.radius = node["radius"].as<ng_float_t>();
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["position"] = schema::ref<Vector2>();
+    node["properties"]["radius"] = schema::type<ng_float_t>();
+    node["unevaluatedProperties"] = false;
+    return node;
+  }
+  static constexpr const char name[] = "disc";
 };
 
-template <>
-struct convert<Neighbor> {
-  static Node encode(const Neighbor& rhs) {
-    Node node = convert<Disc>::encode(static_cast<const Disc&>(rhs));
+template <> struct convert<Neighbor> {
+  static Node encode(const Neighbor &rhs) {
+    Node node = convert<Disc>::encode(static_cast<const Disc &>(rhs));
     node["velocity"] = rhs.velocity;
     node["id"] = rhs.id;
     return node;
   }
-  static bool decode(const Node& node, Neighbor& rhs) {
-    if (!convert<Disc>::decode(node, static_cast<Disc&>(rhs))) {
+  static bool decode(const Node &node, Neighbor &rhs) {
+    if (!convert<Disc>::decode(node, static_cast<Disc &>(rhs))) {
       return false;
     }
     rhs.velocity = node["velocity"].as<Vector2>();
     rhs.id = node["id"].as<unsigned>();
     return true;
   }
+  static Node schema() {
+    Node node = convert<Disc>::schema();
+    node["properties"]["velocity"] = schema::ref<Vector2>();
+    node["properties"]["id"] = schema::type<int>();
+    return node;
+  }
+  static constexpr const char name[] = "neighbor";
 };
 
-template <>
-struct convert<Behavior::Heading> {
-  static Node encode(const Behavior::Heading& rhs) {
+template <> struct convert<Behavior::Heading> {
+  static Node encode(const Behavior::Heading &rhs) {
     return Node(Behavior::heading_to_string(rhs));
   }
-  static bool decode(const Node& node, Behavior::Heading& rhs) {
+  static bool decode(const Node &node, Behavior::Heading &rhs) {
     rhs = Behavior::heading_from_string(node.as<std::string>());
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["enum"] =
+        std::vector<std::string>({"target_point", "target_angle",
+                                  "target_angular_speed", "velocity", "idle"});
+    return node;
+  }
+  static constexpr const char name[] = "heading";
 };
 
-template <>
-struct convert<Behavior> {
-  static Node encode(const Behavior& rhs) {
+template <> struct convert<Behavior> {
+  static Node encode(const Behavior &rhs) {
     Node node;
     encode_type_and_properties<Behavior>(node, rhs);
     node["optimal_speed"] = rhs.get_optimal_speed();
@@ -111,7 +140,8 @@ struct convert<Behavior> {
     }
     return node;
   }
-  static bool decode(const Node& node, Behavior& rhs) {
+
+  static bool decode(const Node &node, Behavior &rhs) {
     decode_properties(node, rhs);
     if (node["optimal_speed"]) {
       rhs.set_optimal_speed(node["optimal_speed"].as<ng_float_t>());
@@ -144,6 +174,9 @@ struct convert<Behavior> {
     if (node["social_margin"]) {
       rhs.social_margin = node["social_margin"].as<SocialMargin>();
     }
+    if (node["kinematics"]) {
+      rhs.set_kinematics(node["kinematics"].as<std::shared_ptr<Kinematics>>());
+    }
     if (node["modulations"]) {
       auto mods = node["modulations"]
                       .as<std::vector<std::shared_ptr<BehaviorModulation>>>();
@@ -153,17 +186,38 @@ struct convert<Behavior> {
     }
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["unevaluatedProperties"] = false;
+    node["properties"]["type"] = schema::type<std::string>();
+    node["properties"]["optimal_speed"] = schema::type<ng_float_t>();
+    node["properties"]["optimal_angular_speed"] = schema::type<ng_float_t>();
+    node["properties"]["rotation_tau"] = schema::type<ng_float_t>();
+    node["properties"]["safety_margin"] = schema::type<ng_float_t>();
+    node["properties"]["horizon"] = schema::type<ng_float_t>();
+    node["properties"]["path_look_ahead"] = schema::type<ng_float_t>();
+    node["properties"]["path_tau"] = schema::type<ng_float_t>();
+    node["properties"]["radius"] = schema::type<ng_float_t>();
+    node["properties"]["heading"] = schema::type<Behavior::Heading>();
+    node["properties"]["kinematics"] = schema::ref<Kinematics>();
+    node["properties"]["social_margin"] = schema::type<SocialMargin>();
+    node["properties"]["modulations"]["type"] = "array";
+    node["properties"]["modulations"]["items"] =
+        schema::ref<BehaviorModulation>();
+    return node;
+  }
+  static constexpr const char name[] = "behavior";
 };
 
-template <>
-struct convert<std::shared_ptr<Behavior>> {
-  static Node encode(const std::shared_ptr<Behavior>& rhs) {
+template <> struct convert<std::shared_ptr<Behavior>> {
+  static Node encode(const std::shared_ptr<Behavior> &rhs) {
     if (rhs) {
       return convert<Behavior>::encode(*rhs);
     }
     return Node();
   }
-  static bool decode(const Node& node, std::shared_ptr<Behavior>& rhs) {
+  static bool decode(const Node &node, std::shared_ptr<Behavior> &rhs) {
     rhs = make_type_from_yaml<Behavior>(node);
     if (rhs) {
       convert<Behavior>::decode(node, *rhs);
@@ -172,16 +226,15 @@ struct convert<std::shared_ptr<Behavior>> {
   }
 };
 
-template <>
-struct convert<Kinematics> {
-  static Node encode(const Kinematics& rhs) {
+template <> struct convert<Kinematics> {
+  static Node encode(const Kinematics &rhs) {
     Node node;
     encode_type_and_properties<Kinematics>(node, rhs);
     node["max_speed"] = rhs.Kinematics::get_max_speed();
     node["max_angular_speed"] = rhs.Kinematics::get_max_angular_speed();
     return node;
   }
-  static bool decode(const Node& node, Kinematics& rhs) {
+  static bool decode(const Node &node, Kinematics &rhs) {
     decode_properties(node, rhs);
     if (node["max_speed"]) {
       rhs.set_max_speed(node["max_speed"].as<ng_float_t>());
@@ -191,14 +244,23 @@ struct convert<Kinematics> {
     }
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["unevaluatedProperties"] = false;
+    node["properties"]["type"] = schema::type<std::string>();
+    node["properties"]["max_speed"] = schema::type<ng_float_t>();
+    node["properties"]["max_angular_speed"] = schema::type<ng_float_t>();
+    return node;
+  }
+  static constexpr const char name[] = "kinematics";
 };
 
-template <>
-struct convert<std::shared_ptr<Kinematics>> {
-  static Node encode(const std::shared_ptr<Kinematics>& rhs) {
+template <> struct convert<std::shared_ptr<Kinematics>> {
+  static Node encode(const std::shared_ptr<Kinematics> &rhs) {
     return convert<Kinematics>::encode(*rhs);
   }
-  static bool decode(const Node& node, std::shared_ptr<Kinematics>& rhs) {
+  static bool decode(const Node &node, std::shared_ptr<Kinematics> &rhs) {
     rhs = make_type_from_yaml<Kinematics>(node);
     if (rhs) {
       convert<Kinematics>::decode(node, *rhs);
@@ -207,28 +269,35 @@ struct convert<std::shared_ptr<Kinematics>> {
   }
 };
 
-template <>
-struct convert<BehaviorModulation> {
-  static Node encode(const BehaviorModulation& rhs) {
+template <> struct convert<BehaviorModulation> {
+  static Node encode(const BehaviorModulation &rhs) {
     Node node;
     encode_type_and_properties<BehaviorModulation>(node, rhs);
     node["enabled"] = rhs.get_enabled();
     return node;
   }
-  static bool decode(const Node& node, BehaviorModulation& rhs) {
+  static bool decode(const Node &node, BehaviorModulation &rhs) {
     decode_properties(node, rhs);
     rhs.set_enabled(node["enabled"].as<bool>(true));
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["unevaluatedProperties"] = false;
+    node["properties"]["type"] = schema::type<std::string>();
+    node["properties"]["enabled"] = schema::type<bool>();
+    return node;
+  }
+  static constexpr const char name[] = "behavior_modulation";
 };
 
-template <>
-struct convert<std::shared_ptr<BehaviorModulation>> {
-  static Node encode(const std::shared_ptr<BehaviorModulation>& rhs) {
+template <> struct convert<std::shared_ptr<BehaviorModulation>> {
+  static Node encode(const std::shared_ptr<BehaviorModulation> &rhs) {
     return convert<BehaviorModulation>::encode(*rhs);
   }
-  static bool decode(const Node& node,
-                     std::shared_ptr<BehaviorModulation>& rhs) {
+  static bool decode(const Node &node,
+                     std::shared_ptr<BehaviorModulation> &rhs) {
     rhs = make_type_from_yaml<BehaviorModulation>(node);
     if (rhs) {
       convert<BehaviorModulation>::decode(node, *rhs);
@@ -237,29 +306,28 @@ struct convert<std::shared_ptr<BehaviorModulation>> {
   }
 };
 
-template <>
-struct convert<SocialMargin> {
-  static Node encode(const SocialMargin& rhs) {
+template <> struct convert<SocialMargin> {
+  static Node encode(const SocialMargin &rhs) {
     Node node;
     auto m = rhs.get_modulation();
     if (m) {
       node["modulation"] = m;
     }
     node["default"] = rhs.get_default_value();
-    for (const auto& [k, v] : rhs.get_values()) {
+    for (const auto &[k, v] : rhs.get_values()) {
       if (v) {
         node["values"][k] = v;
       }
     }
     return node;
   }
-  static bool decode(const Node& node, SocialMargin& rhs) {
+  static bool decode(const Node &node, SocialMargin &rhs) {
     if (node["modulation"]) {
       rhs.set_modulation(
           node["modulation"].as<std::shared_ptr<SocialMargin::Modulation>>());
     }
     if (node["values"] && node["values"].IsMap()) {
-      for (const auto& p : node["values"]) {
+      for (const auto &p : node["values"]) {
         rhs.set(p.first.as<unsigned>(), p.second.as<ng_float_t>());
       }
     }
@@ -268,34 +336,43 @@ struct convert<SocialMargin> {
     }
     return true;
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["unevaluatedProperties"] = false;
+    node["properties"]["modulation"] = schema::type<SocialMargin::Modulation>();
+    node["properties"]["values"]["type"] = "object";
+    node["properties"]["default"] = schema::type<ng_float_t>();
+    return node;
+  }
+  static constexpr const char name[] = "social_margin";
 };
 
-template <>
-struct convert<std::shared_ptr<SocialMargin::Modulation>> {
-  static Node encode(const std::shared_ptr<SocialMargin::Modulation>& rhs) {
+template <> struct convert<std::shared_ptr<SocialMargin::Modulation>> {
+  static Node encode(const std::shared_ptr<SocialMargin::Modulation> &rhs) {
     Node node;
-    if (auto m = dynamic_cast<SocialMargin::ZeroModulation*>(rhs.get())) {
+    if (auto m = dynamic_cast<SocialMargin::ZeroModulation *>(rhs.get())) {
       node["type"] = "zero";
-    } else if (auto m =
-                   dynamic_cast<SocialMargin::ConstantModulation*>(rhs.get())) {
+    } else if (auto m = dynamic_cast<SocialMargin::ConstantModulation *>(
+                   rhs.get())) {
       node["type"] = "constant";
     } else if (auto m =
-                   dynamic_cast<SocialMargin::LinearModulation*>(rhs.get())) {
+                   dynamic_cast<SocialMargin::LinearModulation *>(rhs.get())) {
       node["type"] = "linear";
       node["upper"] = m->get_upper_distance();
-    } else if (auto m = dynamic_cast<SocialMargin::QuadraticModulation*>(
+    } else if (auto m = dynamic_cast<SocialMargin::QuadraticModulation *>(
                    rhs.get())) {
       node["type"] = "quadratic";
       node["upper"] = m->get_upper_distance();
-    } else if (auto m =
-                   dynamic_cast<SocialMargin::LogisticModulation*>(rhs.get())) {
+    } else if (auto m = dynamic_cast<SocialMargin::LogisticModulation *>(
+                   rhs.get())) {
       node["type"] = "logistic";
     }
     return node;
   }
 
-  static bool decode(const Node& node,
-                     std::shared_ptr<SocialMargin::Modulation>& rhs) {
+  static bool decode(const Node &node,
+                     std::shared_ptr<SocialMargin::Modulation> &rhs) {
     rhs = nullptr;
     if (node["type"]) {
       std::string type = node["type"].as<std::string>();
@@ -317,6 +394,18 @@ struct convert<std::shared_ptr<SocialMargin::Modulation>> {
   }
 };
 
-}  // namespace YAML
+template <> struct convert<SocialMargin::Modulation> {
+  static Node schema() {
+    Node node;
+    node["unevaluatedProperties"] = false;
+    node["type"] = "object";
+    node["properties"]["type"]["enum"] = std::vector<std::string>{
+        "zero", "constant", "linear", "quadratic", "logistic"};
+    node["properties"]["upper"] = schema::type<ng_float_t>();
+    return node;
+  }
+};
 
-#endif  // NAVGROUND_CORE_YAML_CORE_H
+} // namespace YAML
+
+#endif // NAVGROUND_CORE_YAML_CORE_H

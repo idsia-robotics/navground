@@ -25,6 +25,10 @@ struct InfoCommand : Command<InfoCommand> {
         .help("Include properties")
         .default_value(false)
         .implicit_value(true);
+    parser.add_argument("--description")
+        .help("Include property descriptions")
+        .default_value(false)
+        .implicit_value(true);
     for (const auto &[title, reg] : titled_registers) {
       std::string name = title;
       std::string metavar = title;
@@ -41,7 +45,8 @@ struct InfoCommand : Command<InfoCommand> {
   void print_register(const std::string &title,
                       const PropertyRegister &registered_properties,
                       const std::string &name = "",
-                      bool with_properties = false) {
+                      bool with_properties = false,
+                      bool with_description = false) {
     std::cout << title << std::endl;
     for (unsigned i = 0; i < title.size(); ++i) {
       std::cout << '-';
@@ -53,13 +58,20 @@ struct InfoCommand : Command<InfoCommand> {
           continue;
         std::cout << _name << std::endl;
         for (const auto &[k, p] : properties) {
-          std::cout << "     " << k << ": " << p.default_value << " ("
+          std::cout << "    " << k << ": " << p.default_value << " ("
                     << p.type_name << ")";
+          if (p.readonly) {
+            std::cout << " readonly";
+          }
           if (!p.deprecated_names.empty()) {
             std::cout << ", deprecated synonyms: ";
             for (const auto &alt_name : p.deprecated_names) {
               std::cout << alt_name << " ";
             }
+          }
+          if (with_description && !p.description.empty()) {
+            std::cout << std::endl; 
+            std::cout << "      " << p.description;
           }
           std::cout << std::endl;
         }
@@ -89,16 +101,17 @@ struct InfoCommand : Command<InfoCommand> {
 
   int execute(const argparse::ArgumentParser &parser) {
     const bool with_properties = parser.get<bool>("properties");
+    const bool with_description = parser.get<bool>("description");
     for (const auto &[title, reg] : titled_registers) {
       std::string arg = get_arg(title);
       if (parser.is_used(arg)) {
         const auto name = parser.get<std::string>(arg);
-        print_register(title, reg(), name, with_properties);
+        print_register(title, reg(), name, with_properties, with_description);
         return 0;
       }
     }
     for (const auto &[title, reg] : titled_registers) {
-      print_register(title, reg(), "", with_properties);
+      print_register(title, reg(), "", with_properties, with_description);
       std::cout << std::endl;
     }
     return 0;

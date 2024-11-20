@@ -15,6 +15,8 @@
 namespace navground::core {
 
 using PropertyRegister = std::map<std::string, Properties>;
+using Schema = std::function<void(YAML::Node &)>;
+using SchemaRegister = std::map<std::string, Schema>;
 
 /**
  * @brief      Contains a register of sub-classes of ``T``, registered by name
@@ -58,6 +60,17 @@ struct
   static PropertyRegister &type_properties() {
     static PropertyRegister p;
     return p;
+  };
+
+  /**
+   * @brief      The registered properties
+   *
+   * @return     A map with the list of properties for all registered
+   * sub-classes ``name -> properties``.
+   */
+  static SchemaRegister &type_schema() {
+    static SchemaRegister r;
+    return r;
   };
 
   /**
@@ -109,6 +122,7 @@ struct
    * @param[in]  type  The user-defined name to be associated with the
    * sub-class.
    * @param[in]  properties Registered properties
+   * @param[in]  schema An optional schema for custom YAML decoders. 
    *
    * @tparam     S     The type of the sub-class
    *
@@ -116,7 +130,8 @@ struct
    */
   template <typename S>
   static std::string register_type(const std::string &type,
-                                   const Properties &properties = {}) {
+                                   const Properties &properties = {},
+                                   const Schema & schema = nullptr) {
     // std::cout << "register_type " << get_type_name<S>() << " as " << type
     //           << std::endl;
     static_assert(std::is_base_of_v<T, S>);
@@ -128,6 +143,9 @@ struct
     factory()[type] = []() { return std::make_shared<S>(); };
     type_properties()[type] = properties;
     type_names()[std::type_index(typeid(S))] = type;
+    if (schema) {
+      type_schema()[type] = schema;
+    }
     // }
 
     return type;
@@ -237,7 +255,7 @@ struct
   static const std::map<std::string, navground::core::Property> properties;
 
 /**
- * @brief Combine \ref static const std::string type; and \ref DECLARE_PROPERTIES
+ * @brief Combine \ref DECLARE_TYPE and \ref DECLARE_PROPERTIES
  *
  * \code{.cpp}
  * static const std::string type;

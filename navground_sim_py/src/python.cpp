@@ -48,6 +48,8 @@
 #include "navground/sim/world.h"
 #include "navground/sim/yaml/experiment.h"
 #include "navground/sim/yaml/scenario.h"
+#include "navground/sim/yaml/schema.h"
+#include "navground/sim/yaml/schema_sim.h"
 #include "navground/sim/yaml/world.h"
 
 using namespace navground::core;
@@ -323,7 +325,7 @@ struct PyWorld : public World {
   }
 };
 
-struct PyGroup : public virtual Scenario::Group {
+struct PyGroup : public Scenario::Group {
   /* Inherit the constructors */
   PyGroup() {};
 
@@ -942,7 +944,11 @@ PYBIND11_MODULE(_navground_sim, m) {
            DOC(navground, sim, Wall, Wall))
       .def(py::init<LineSegment>(), py::arg("line"),
            DOC(navground, sim, Wall, Wall, 3))
-      .def_readwrite("line", &Wall::line, DOC(navground, sim, Wall, line));
+      .def_readwrite("line", &Wall::line, DOC(navground, sim, Wall, line))
+      .def_static("schema", &YAML::schema_py<Wall>, YAML::schema_py_doc())
+      .def_static("load", &YAML::load_string_unique_py<Wall>, py::arg("value"),
+                  YAML::load_string_py_doc("wall", "Wall").c_str())
+      .def("dump", &YAML::dump<Wall>, YAML::dump_doc());
 
   py::class_<Obstacle, Entity, std::shared_ptr<Obstacle>>(
       m, "Obstacle", DOC(navground, sim, Obstacle))
@@ -951,7 +957,12 @@ PYBIND11_MODULE(_navground_sim, m) {
       .def(py::init<Disc>(), py::arg("disc"),
            DOC(navground, sim, Obstacle, Obstacle, 3))
       .def_readwrite("disc", &Obstacle::disc,
-                     DOC(navground, sim, Obstacle, disc));
+                     DOC(navground, sim, Obstacle, disc))
+      .def_static("schema", &YAML::schema_py<Obstacle>, YAML::schema_py_doc())
+      .def_static("load", &YAML::load_string_unique_py<Obstacle>,
+                  py::arg("value"),
+                  YAML::load_string_py_doc("obstacle", "Obstacle").c_str())
+      .def("dump", &YAML::dump<Obstacle>, YAML::dump_doc());
 
   py::class_<BoundingBox>(m, "BoundingBox", "A rectangular region")
       .def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t>(),
@@ -1004,7 +1015,8 @@ Creates a rectangular region
           [](const BoundingBox &bb) {
             return Vector2(bb.getMaxX(), bb.getMaxY());
           },
-          nullptr);
+          nullptr)
+      .def_static("schema", &YAML::schema_py<BoundingBox>);
 
   py::class_<StateEstimation, PyStateEstimation, HasRegister<StateEstimation>,
              HasProperties, std::shared_ptr<StateEstimation>>
@@ -1139,7 +1151,12 @@ Creates a rectangular region
                     DOC(navground, sim, Agent, property, behavior))
       .def_property("kinematics", &PyAgent::get_kinematics,
                     &PyAgent::set_kinematics,
-                    DOC(navground, sim, Agent, property, kinematics));
+                    DOC(navground, sim, Agent, property, kinematics))
+      .def_static("schema", &YAML::schema_py<Agent>, YAML::schema_py_doc())
+      .def_static("load", &YAML::load_string_py<PyAgent>, py::arg("value"),
+                  YAML::load_string_py_doc("agent", "Agent").c_str())
+      .def("dump", &YAML::dump<Agent>, YAML::dump_doc());
+
 #if 0 // TODO(Jerome): why?
       .def_property("controller", &PyAgent::get_controller, nullptr,
                     py::return_value_policy::reference,
@@ -1272,7 +1289,11 @@ Creates a rectangular region
            py::arg("include_zero") = true, py::arg("c8") = true,
            DOC(navground, sim, World, get_lattice_grid))
       .def("should_terminate", &World::should_terminate,
-           DOC(navground, sim, World, should_terminate));
+           DOC(navground, sim, World, should_terminate))
+      .def_static("schema", &YAML::schema_py<World>, YAML::schema_py_doc())
+      .def_static("load", &YAML::load_string_py<PyWorld>, py::arg("value"),
+                  YAML::load_string_py_doc("world", "World").c_str())
+      .def("dump", &YAML::dump<World>, YAML::dump_doc());
 
   py::class_<PyWorld, World, std::shared_ptr<PyWorld>> world(
       m, "World", py::dynamic_attr(), DOC(navground, sim, World));
@@ -1303,7 +1324,17 @@ The random generator.
             se->prepare(agent, world);
           },
           py::arg("agent"), py::arg("world"),
-          DOC(navground, sim, StateEstimation, prepare));
+          DOC(navground, sim, StateEstimation, prepare))
+      .def_static("base_schema", &YAML::base_schema_py<StateEstimation>,
+                  py::arg("reference_register") = true,
+                  YAML::base_schema_py_doc())
+      .def_static("register_schema", &YAML::register_schema_py<StateEstimation>,
+                  YAML::register_schema_py_doc())
+      .def_static(
+          "load", &YAML::load_string_py<PyStateEstimation>, py::arg("value"),
+          YAML::load_string_py_doc("state estimation", "StateEstimation")
+              .c_str())
+      .def("dump", &YAML::dump<StateEstimation>, YAML::dump_doc());
 
   py::class_<BoundedStateEstimation, StateEstimation,
              std::shared_ptr<BoundedStateEstimation>>
@@ -1528,7 +1559,7 @@ The random generator.
           [](PyTask *task, Agent *agent, World *world) {
             task->prepare(agent, world);
           },
-          py::arg("world"), py::arg("agent"),
+          py::arg("agent"), py::arg("world"),
           DOC(navground, sim, Task, prepare))
       .def(
           "update",
@@ -1549,7 +1580,15 @@ The random generator.
           },
           py::arg("log"), DOC(navground, sim, Task, log_event))
       .def("add_callback", &Task::add_callback, py::arg("callback"),
-           DOC(navground, sim, Task, add_callback));
+           DOC(navground, sim, Task, add_callback))
+      .def_static("base_schema", &YAML::base_schema_py<Task>,
+                  py::arg("reference_register") = true,
+                  YAML::base_schema_py_doc())
+      .def_static("register_schema", &YAML::register_schema_py<Task>,
+                  YAML::register_schema_py_doc())
+      .def_static("load", &YAML::load_string_py<PyTask>, py::arg("value"),
+                  YAML::load_string_py_doc("task", "Task").c_str())
+      .def("dump", &YAML::dump<Task>, YAML::dump_doc());
 
   py::class_<DirectionTask, Task, std::shared_ptr<DirectionTask>> direction(
       m, "DirectionTask", DOC(navground, sim, DirectionTask));
@@ -1612,7 +1651,8 @@ The random generator.
             return RecordNeighborsConfig{py::cast<bool>(v[0]),
                                          py::cast<int>(v[1]),
                                          py::cast<bool>(v[2])};
-          }));
+          }))
+      .def_static("schema", &YAML::schema_py<RecordNeighborsConfig>);
 
   py::class_<RecordSensingConfig>(m, "RecordSensingConfig",
                                   DOC(navground, sim, RecordSensingConfig))
@@ -1648,7 +1688,8 @@ The random generator.
             return RecordSensingConfig{py::cast<std::string>(v[0]),
                                        py::cast<std::shared_ptr<Sensor>>(v[1]),
                                        py::cast<std::vector<unsigned>>(v[2])};
-          }));
+          }))
+      .def_static("schema", &YAML::schema_py<RecordSensingConfig>);
 
   py::class_<RecordConfig>(m, "RecordConfig", DOC(navground, sim, RecordConfig))
       .def(py::init(
@@ -2726,7 +2767,11 @@ Register a probe to record a group of data to during all runs.
       .def_property("duration", &Experiment::get_duration, nullptr,
                     DOC(navground, sim, Experiment, property_duration))
       .def_property("begin_time", &Experiment::get_begin_time, nullptr,
-                    DOC(navground, sim, Experiment, property_begin_time));
+                    DOC(navground, sim, Experiment, property_begin_time))
+      .def_static("schema", &YAML::schema_py<Experiment>, YAML::schema_py_doc())
+      .def_static("load", &YAML::load_string_py<PyExperiment>, py::arg("value"),
+                  YAML::load_string_py_doc("experiment", "Experiment").c_str())
+      .def("dump", &YAML::dump<PyExperiment>, YAML::dump_doc());
 
   py::class_<Scenario::Group, PyGroup, std::shared_ptr<Scenario::Group>>(
       scenario, "Group", DOC(navground, sim, Scenario_Group))
@@ -2791,7 +2836,15 @@ Register a probe to record a group of data to during all runs.
             YAML::Node node = YAML::Load(value);
             YAML::update_scenario(scenario, node);
           },
-          py::arg("value"), "Sets the yaml representation");
+          py::arg("value"), "Sets the yaml representation")
+      .def_static("base_schema", &YAML::base_schema_py<Scenario>,
+                  py::arg("reference_register") = true,
+                  YAML::base_schema_py_doc())
+      .def_static("register_schema", &YAML::register_schema_py<Scenario>,
+                  YAML::register_schema_py_doc())
+      .def_static("load", &YAML::load_string_py<PyScenario>, py::arg("value"),
+                  YAML::load_string_py_doc("scenario", "Scenario").c_str())
+      .def("dump", &YAML::dump<Scenario>, YAML::dump_doc());
 
   py::class_<SimpleScenario, Scenario, std::shared_ptr<SimpleScenario>> simple(
       m, "SimpleScenario", DOC(navground, sim, SimpleScenario));
@@ -2905,64 +2958,6 @@ Register a probe to record a group of data to during all runs.
                     DOC(navground, sim, CrossTorusScenario,
                         property_add_safety_to_agent_margin));
 
-  m.def("load_task", &YAML::load_string_py<PyTask>, py::arg("value"),
-        R"doc(
-Load a task from a YAML string.
-
-:return:
-  The loaded task or ``None`` if loading fails.)doc");
-
-  m.def("load_state_estimation", &YAML::load_string_py<PyStateEstimation>,
-        py::arg("value"),
-        R"doc(
-Load a state estimation from a YAML string.
-
-:return:
-  The loaded state estimation or ``None`` if loading fails.)doc");
-  m.def("load_agent", &YAML::load_string_py<PyAgent>, py::arg("value"),
-        R"doc(
-Load an agent from a YAML string.
-
-:return:
-  The loaded agent or ``None`` if loading fails.)doc");
-  m.def("load_world", &YAML::load_string_py<PyWorld>, py::arg("value"),
-        R"doc(
-Load a world from a YAML string.
-
-:return:
-  The loaded world or ``None`` if loading fails.)doc");
-  m.def("load_scenario", &YAML::load_string_py<PyScenario>, py::arg("value"),
-        R"doc(
-Load a scenario from a YAML string.
-
-:return:
-  The loaded scenario or ``None`` if loading fails.)doc");
-  m.def("load_experiment", &YAML::load_string_py<PyExperiment>,
-        py::arg("value"),
-        R"doc(
-Load an experiment from a YAML string.
-
-:return:
-  The loaded experiment or ``None`` if loading fails.)doc");
-
-  m.def("dump", &YAML::dump<Task>, py::arg("task"),
-        "Dump a task to a YAML-string");
-  m.def("dump", &YAML::dump<StateEstimation>, py::arg("state_estimation"),
-        "Dump a state_estimation to a YAML-string");
-  m.def("dump", &YAML::dump<World>, py::arg("world"),
-        "Dump a world to a YAML-string");
-  m.def("dump", &YAML::dump<Scenario>, py::arg("scenario"),
-        "Dump a scenario to a YAML-string");
-  m.def("dump", &YAML::dump<Agent>, py::arg("agent"),
-        "Dump an agent to a YAML-string");
-  m.def("dump", &YAML::dump<PyExperiment>, py::arg("experiment"),
-        "Dump an experiment to a YAML-string");
-  m.def("dump", &YAML::dump<Behavior>, py::arg("behavior"),
-        "Dump a behavior to a YAML-string");
-  m.def("dump", &YAML::dump<Kinematics>, py::arg("kinematics"),
-        "Dump a kinematics to a YAML-string");
-  m.def("dump", &YAML::dump<BehaviorModulation>, py::arg("modulation"),
-        "Dump a modulation to a YAML-string");
   m.def("use_compact_samplers", &YAML::set_use_compact_samplers,
         py::arg("value"),
         "Whether to represent sampler compactly in YAML when possible");
@@ -2988,6 +2983,10 @@ Load an experiment from a YAML string.
   pickle_via_yaml<PyWorld>(world);
   pickle_via_yaml<PyAgent>(agent);
   pickle_via_yaml<PyExperiment>(experiment);
+
+  m.def(
+      "schema", []() { return YAML::to_py(YAML::schema::sim()); },
+      YAML::schema_py_doc());
 
   m.def(
       "uses_doubles",

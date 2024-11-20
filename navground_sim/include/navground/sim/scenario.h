@@ -29,6 +29,9 @@ namespace navground::sim {
  * that can be sampled to perform an experiment.
  */
 struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
+  
+  using Type = Scenario;
+
   /**
    * @brief      A group of agents that can be generated and added to the world.
    */

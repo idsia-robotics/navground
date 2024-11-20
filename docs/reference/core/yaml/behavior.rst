@@ -3,34 +3,17 @@ Behavior
 ========
 
 Schema
-^^^^^^
+======
 
-.. code-block:: yaml
+.. schema:: navground.core.Behavior.base_schema()
 
-   $schema: "https://json-schema.org/draft/2020-12/schema"
-   $id: /schemas/behavior
-   title: Behavior
-   type: object
-   properties:
-     type: string
-     optimal_speed: number
-     optimal_angular_speed: number
-     rotation_tau: number
-     safety_margin: number
-     horizon: number
-     radius: number
-     heading: 
-       enum: idle, target_point, target_angle, target_angular_speed, velocity
-     social_margin: {$ref: /schemas/social_margin}
-     modulations:
-       type: array
-       items:
-         type: {$ref: /schemas/behavior_modulation}
-   required: [type]
-   additionalProperties: {}
+Register
+--------
+
+.. schema:: navground.core.Behavior.register_schema()
 
 Example
-^^^^^^^
+=======
 
 .. code-block:: yaml
 
@@ -42,10 +25,10 @@ Example
    heading: target_point
    social_margin:
      modulation:
-      type: linear
-      upper: 1.0
+       type: linear
+       upper: 1.0
      values:
-      1: 0.5
-      2: 0.25
+       1: 0.5
+       2: 0.25
      default: 0.125
 

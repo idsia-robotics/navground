@@ -50,6 +50,7 @@ struct get<T, std::shared_ptr<T>> {
 template <typename T>
 struct SamplerFromRegister : public Sampler<typename T::C> {
   using C = typename T::C;
+  using Type = T;
 
   /**
    * @brief      Constructs a new instance.
@@ -176,6 +177,7 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
    * @private
    */
   using C = typename T::C;
+  using Type = T;
 
   /**
    * @brief      Constructs a new instance.
@@ -262,6 +264,9 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
  */
 template <typename T = Kinematics>
 struct KinematicsSampler : public SamplerFromRegister<T> {
+
+  using Type = T;
+
   /**
    * @brief      Constructs a new instance.
    *
@@ -309,7 +314,11 @@ struct KinematicsSampler : public SamplerFromRegister<T> {
  * Used to generalize from C++ to Python.
  */
 template <typename T = Task>
-using TaskSampler = SamplerFromRegister<T>;
+struct TaskSampler : public SamplerFromRegister<T> {
+  using Type = T;
+  using SamplerFromRegister<T>::SamplerFromRegister;
+};
+
 /**
  *  Samples \ref StateEstimation
  *
@@ -317,7 +326,10 @@ using TaskSampler = SamplerFromRegister<T>;
  * Used to generalize from C++ to Python.
  */
 template <typename T = StateEstimation>
-using StateEstimationSampler = SamplerFromRegister<T>;
+struct StateEstimationSampler : public SamplerFromRegister<T> {
+  using Type = T;
+  using SamplerFromRegister<T>::SamplerFromRegister;
+};
 
 }  // namespace navground::sim
 

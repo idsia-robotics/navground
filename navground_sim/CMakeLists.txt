@@ -132,12 +132,17 @@ add_executable(plugins src/list_plugins.cpp)
 target_link_libraries(plugins navground_sim)
 add_dependencies(plugins navground_sim)
 
+add_executable(schema src/schema.cpp)
+target_link_libraries(schema navground_sim)
+add_dependencies(schema navground_sim)
+
 install(TARGETS
   info
   run
   sample
   echo
   plugins
+  schema
   DESTINATION
   lib/${PROJECT_NAME}
 )

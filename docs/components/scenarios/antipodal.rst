@@ -72,7 +72,6 @@ where the experiment is configured like
      position_noise: 0.005
      orientation_noise: 0.01
      radius: 2
-     target_margin: 0.1
      tolerance: 0.2
      groups:
        -

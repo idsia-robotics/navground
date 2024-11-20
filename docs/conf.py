@@ -8,6 +8,13 @@
 
 # import subprocess
 import re
+import sys
+import pathlib as pl
+
+sys.path.append(str(pl.Path(__file__).parent / 'ext'))
+
+from schema import SchemaDirective
+
 
 project = 'navground'
 copyright = '2023, Jérôme Guzzi, IDSIA'
@@ -266,6 +273,7 @@ def setup(app):
     app.connect('autodoc-process-docstring', f);
     app.connect('autodoc-process-signature', g);
     app.connect('doctree-read', resolve_internal_aliases)
+    app.add_directive('schema', SchemaDirective)
 
     # app.connect('missing-reference', ref)
     # app.connect('object-description-transform', l)

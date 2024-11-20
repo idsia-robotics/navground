@@ -78,9 +78,13 @@ Registers
     :members:
     :undoc-members:
 
-.. doxygentypedef:: navground::sim::TaskSampler
+.. doxygenstruct:: navground::sim::TaskSampler
+    :members:
+    :undoc-members:
 
-.. doxygentypedef:: navground::sim::StateEstimationSampler
+.. doxygenstruct:: navground::sim::StateEstimationSampler
+    :members:
+    :undoc-members:
 
 Agents
 ======

@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import importlib.metadata
-from typing import (Any, Callable, Dict, List, Literal, Tuple, Type, TypeAlias,
-                    TypeVar, Union)
+from typing import (Any, Callable, Dict, List, Literal, Optional, Tuple, Type,
+                    TypeAlias, TypeVar, Union)
 
 import numpy
 
@@ -20,14 +20,12 @@ from ._navground import (
     SensingState, SocialMargin, SocialMarginConstantModulation,
     SocialMarginLinearModulation, SocialMarginLogisticModulation,
     SocialMarginModulation, SocialMarginQuadraticModulation,
-    SocialMarginZeroModulation, Target, Twist2, clamp_norm, dump)
+    SocialMarginZeroModulation, Target, Twist2, clamp_norm)
 from ._navground import get_loaded_plugins as get_loaded_cpp_plugins
-from ._navground import (load_behavior, load_behavior_modulation,
-                         load_kinematics)
 from ._navground import load_plugins as load_cpp_plugins
-from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
-                         to_absolute_point, to_relative, to_relative_point,
-                         unit, uses_doubles)
+from ._navground import (normalize_angle, orientation_of, rotate, schema,
+                         to_absolute, to_absolute_point, to_relative,
+                         to_relative_point, unit, uses_doubles)
 
 # TODO(Jerome): Add vector shape = (2, )
 # numpy.ndarray[numpy.float32[2, 1]]
@@ -42,6 +40,61 @@ PropertyField = Union[bool, int, float, str, Vector2, List[bool], List[int],
                       List[float], List[str], List[Vector2]]
 
 T = TypeVar('T', bound=Any)
+
+
+def load_behavior(value: str) -> Optional[_Behavior]:
+    return Behavior.load(value)
+
+
+load_behavior.__doc__ = _Behavior.load.__doc__
+
+
+def load_behavior_modulation(value: str) -> Optional[_BehaviorModulation]:
+    return _BehaviorModulation.load(value)
+
+
+load_behavior_modulation.__doc__ = _BehaviorModulation.load.__doc__
+
+
+def load_kinematics(value: str) -> Optional[_Kinematics]:
+    return _Kinematics.load(value)
+
+
+load_kinematics.__doc__ = _Kinematics.load.__doc__
+
+
+def load_disc(value: str) -> Optional[Disc]:
+    return Disc.load(value)
+
+
+load_disc.__doc__ = Disc.load.__doc__
+
+
+def load_line_segment(value: str) -> Optional[LineSegment]:
+    return LineSegment.load(value)
+
+
+load_line_segment.__doc__ = LineSegment.load.__doc__
+
+
+def load_neighbor(value: str) -> Optional[Neighbor]:
+    return Neighbor.load(value)
+
+
+load_neighbor.__doc__ = Neighbor.load.__doc__
+
+SUPPORT_YAML: TypeAlias = Union[_Behavior, _BehaviorModulation, _Kinematics,
+                                Disc, LineSegment, Neighbor]
+
+
+def dump(obj: SUPPORT_YAML) -> str:
+    """
+    Dumps the object to a YAML-string.
+
+    :return: The YAML representation
+    :rtype: str
+    """
+    return obj.dump()
 
 
 def register(default_value: PropertyField,
@@ -90,12 +143,20 @@ def register(default_value: PropertyField,
     return g
 
 
+def register_schema(schema):
+    fn = staticmethod(schema)
+    fn.__is_schema__ = True
+    return fn
+
+
 def _register(super_cls: Type, cls: Type, name: str):
     if not name:
         return
     super_cls._register_type(name, cls)
     cls._type = name
     for k, v in vars(cls).items():
+        if isinstance(v, staticmethod) and hasattr(v, "__is_schema__"):
+            super_cls._register_schema(name, v)
         if isinstance(v, property) and v.fget and hasattr(
                 v.fget, "__default_value__"):
             return_type = v.fget.__annotations__['return']
@@ -271,5 +332,5 @@ __all__ = [
     'behaviors', 'behavior_modulations', 'kinematics', 'clamp_norm', 'rotate',
     'unit', 'orientation_of', 'normalize_angle', 'to_absolute_point',
     'to_relative_point', 'to_absolute', 'to_relative', 'uses_doubles',
-    'get_loaded_plugins'
+    'get_loaded_plugins', 'schema'
 ]

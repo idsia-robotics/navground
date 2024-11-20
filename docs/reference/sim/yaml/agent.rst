@@ -3,44 +3,12 @@ Agent
 =====
 
 Schema
-^^^^^^
+======
 
-.. code-block:: yaml
-
-   $schema: https://json-schema.org/draft/2020-12/schema
-   $id: /schemas/agent
-   properties:
-     behavior:
-       type: {$ref: /schemas/behavior}
-     kinematics:
-       type: {$ref: /schemas/kinematics}
-     task:
-       type: {$ref: /schemas/task}
-     state_estimation:
-       type: {$ref: /schemas/state_estimation}
-     position:
-       type: {$ref: /schemas/vector2}
-     orientation: 
-       type: number
-     velocity:
-       type: {$ref: /schemas/vector2}
-     angular_speed: 
-       type: number
-     radius: 
-       type: number
-     control_period: 
-       type: number
-     id: 
-       type: number
-     type: 
-       type: string
-     tags: 
-       type: array
-       items: string
-   required: []
+.. schema:: navground.sim.Agent.schema()
 
 Example
-^^^^^^^
+=======
 
 .. code-block:: yaml
 

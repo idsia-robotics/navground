@@ -137,6 +137,48 @@ Example
    max_angular_speed: .inf
 
 
+.. _schema:
+
+schema
+-------
+
+Print JSON-Schema of YAML-convertible navground core classes.
+
+.. argparse::
+   :module: navground.core.print_schema
+   :func: parser
+   :prog: schema
+   :nodescription:
+   :nodefault:
+
+Example
+~~~~~~~
+
+.. code-block:: console
+
+   $ schema core
+
+   $id: http://navground/core
+   $schema: https://json-schema.org/draft/2020-12/schema
+   $defs:
+     vector2:
+       type: array
+       items:
+         type: number
+       minItems: 2
+       maxItems: 2
+       $id: http://navground/vector2
+       $schema: https://json-schema.org/draft/2020-12/schema
+     line_segment:
+       type: array
+       items:
+         $ref: vector2
+       minItems: 2
+       maxItems: 2
+       $id: http://navground/line_segment
+       $schema: https://json-schema.org/draft/2020-12/schema
+     ...
+
 .. _plugins:
 
 plugins

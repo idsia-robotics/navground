@@ -46,7 +46,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * The default goal tolerance.
    */
-  inline static const bool default_tolerance = 1;
+  inline static const ng_float_t default_tolerance = 1;
   /**
    * By default moves in sequence.
    */

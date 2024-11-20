@@ -2,28 +2,15 @@
 Sampling
 ========
 
-Most fields in complex schemas, like :ref:`scenarios <scenario yaml>`, specify *samplers* of values.
-Simplified notations are used for elementary samplers, like constant values
+Because in navground scenario are (random) generators of worlds, 
+all fields, except the ``type`` field of registered components, in :ref:`scenarios <scenario yaml>` specify typed *samplers* (like a sampler of integer).
 
-.. code-block:: yaml
+Generic samplers
+================
 
-   field: 1.0  
+Samplers uses generic schema. For instance, :ref:`sequence` defines a sequence of values of any type. Other samplers requires specific types. 
 
-of sequences of values
-
-.. code-block:: yaml
-
-   field: [1.0, 2.0, 3.0]
-
-while other samplers need to be specified explictly, like
-
-.. code-block:: yaml
-
-   field: 
-     sampler: uniform
-     from: 1.0
-     to: 2.0
-
+The schema uses ``$dynamicref`` and ``$dynamicanchor`` to keep sampled data type ``T`` generic (see `<https://json-schema.org/blog/posts/dynamicref-and-generics>`_).
 
 All samplers share a common parameter :cpp:member:`navground::sim::Sampler::once` that freezes the sampler once the first sample has been drawn. Set it to apply the same value to all agents in a group.
 For example, in a scenario specified by
@@ -48,151 +35,38 @@ If instead the scenario is specified by
 in any run, the first agent will get ``radius=1.0``, the second  ``radius=2.0``, and so on.
 
 
+Constant
+~~~~~~~~
 
-Schema
-^^^^^^
+.. schema:: navground.sim.schema()["$defs"]["const_sampler"]
 
-.. https://json-schema.org/blog/posts/dynamicref-and-generics
-.. https://www.w3.org/2019/wot/json-schema#ArraySchema
-
-
-.. code-block:: yaml
-
-   $schema: "https://json-schema.org/draft/2020-12/schema"
-   $id: /schemas/sampler<T>
-   title: Sampler<T>
-   anyOf:
-     - $ref: #/$defs/constant<T>
-     - $ref: #/$defs/sequence<T>
-     - $ref: #/$defs/regular<T>
-     - $ref: #/$defs/regular_step<T>
-     - $ref: #/$defs/uniform
-     - $ref: #/$defs/normal
-     - $ref: #/$defs/grid
-   $defs:
-     constant<T>:
-       oneOf:
-          - type: T
-          - type: object
-            properties:
-              sampler: 
-                const: constant
-              value: T
-              once: bool
-            required: [sampler, value]
-     sequence<T>:
-       oneOf:
-          - type: array
-            items: T
-          - type: object
-            properties:
-              sampler:
-                const: sequence
-              values: 
-                type: array   
-                items: T
-              once: bool
-              wrap: 
-                enum: [loop, repeat, terminate]
-            required: [sampler, values]
-     choice<T>:
-       type: object
-       properties:
-         sampler:
-           const: choice
-         values: 
-           type: array   
-           items: T
-         once: bool
-       required: [sampler, values]
-     # limited to T=number, vector2
-     $ requires step or [to, number]
-     regular<T>:
-       type: object
-       properties:
-         sampler: 
-           const: regular
-         from: T
-         step: T 
-         to: T
-         number: integer
-         wrap: 
-           enum: [loop, repeat, terminate]
-         once: bool
-       required: [sampler, from]
-     grid:
-       type: object
-       properties:
-         sampler: 
-           const: regular
-         from: T
-         to: T
-         numbers: 
-           type: array, 
-           items: number 
-           minItems: 2, 
-           maxItems: 2
-         wrap: 
-           enum: [loop, repeat, terminate]
-         once: bool
-       required: [sampler, from, to, numbers]
-     uniform:
-       type: object
-       properties:
-         sampler: 
-           const: uniform
-         from: number
-         to: number 
-         once: bool
-       required: [sampler, from, to]   
-     normal:
-       type: object
-       properties:
-         sampler: 
-           const: normal
-         min: number
-         max: number
-         mean: number
-         std_dev: number
-         once: bool
-       required: [sampler, mean, std_dev]
-
-
-Examples
-^^^^^^^^
-
-Constant (implicit)
-~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: yaml
-
-   1.0  
-
-Constant (explicit)
-~~~~~~~~~~~~~~~~~~~
+Constants are specified by a value, like ``0.5``, or by an object, like
 
 .. code-block:: yaml
 
    sampler: constant
    value: 0.5    
 
-Sequence (implicit)
-~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: yaml
+Sequence
+~~~~~~~~
 
-   [1.0, 2.0, 2.0, 1.0]  
+.. schema:: navground.sim.schema()["$defs"]["sequence_sampler"]
 
-Sequence (explicit)
-~~~~~~~~~~~~~~~~~~~
+Sequences are specified by an array, like ``[0.5, 1.0]``, or by an object, like
 
 .. code-block:: yaml
 
    sampler: sequence
    values: [1.0, 2.0, 2.0, 1.0]   
 
+
 Choice
 ~~~~~~
+
+.. schema:: navground.sim.schema()["$defs"]["choice_sampler"]
+
+For example
 
 .. code-block:: yaml
 
@@ -202,15 +76,9 @@ Choice
 Regular
 ~~~~~~~
 
-.. code-block:: yaml
+.. schema:: navground.sim.schema()["$defs"]["regular_sampler"]
 
-   sampler: regular
-   from: 0.1
-   to: 0.5
-   number: 4
-
-Regular (step)
-~~~~~~~~~~~~~~
+Restricted to numeric types and vectors. For example
 
 .. code-block:: yaml
 
@@ -220,6 +88,10 @@ Regular (step)
 
 Grid
 ~~~~
+
+.. schema:: navground.sim.schema()["$defs"]["grid_sampler"]
+
+Restricted to vectors. For example
 
 .. code-block:: yaml
 
@@ -231,6 +103,10 @@ Grid
 Random uniform
 ~~~~~~~~~~~~~~
 
+.. schema:: navground.sim.schema()["$defs"]["uniform_sampler"]
+
+Restricted to numeric types. For example
+
 .. code-block:: yaml
 
    sampler: uniform
@@ -239,6 +115,10 @@ Random uniform
 
 Random normal
 ~~~~~~~~~~~~~~
+
+.. schema:: navground.sim.schema()["$defs"]["normal_sampler"]
+
+Restricted to numeric types. For example
 
 .. code-block:: yaml
 
@@ -250,5 +130,53 @@ Random normal
 
 
 
+Typed samplers
+==============
 
+In complex schemas, fields are associate to samplers of given types. We define 10 typed sampler schema, one for
+each of ``boolean``, ``integer``, ``number``, ``string``, ``vector2`` and their respective array types.
+
+.. schema:: {k: v for k, v in navground.sim.schema()['$defs'].items() if k in ('boolean_sample', 'integer_sampler', 'number_sampler', 'string_sampler', 'vector2_sampler', 'boolean_array_sample', 'integer_array_sampler', 'number_array_sampler', 'string_array_sampler', 'vector2_array_sampler')}
+
+For example, integers can be associated to any generic sampler, while strings only to ``const``, ``sequence`` and ``choice``.
+
+Example
+=======
+
+For example, if a scenario has a property "name" of type "string", the corresponding scheme will be 
+
+.. code-block:: yaml
+
+   ...
+   properties
+     name: string_sampler
+
+which accepts any of these instances
+
+.. code-block:: yaml
+
+   name: "apple"
+
+.. code-block:: yaml
+
+   name: ["apple", "pear"]
+
+.. code-block:: yaml
+
+   name: 
+     sampler: choice
+     values: ["apple", "your name"]
+
+but none of these instances
+
+.. code-block:: yaml
+
+   name: 1
+
+.. code-block:: yaml
+
+   name: 
+     sampler: uniform
+     from: "apple"
+     to: "pear"
 

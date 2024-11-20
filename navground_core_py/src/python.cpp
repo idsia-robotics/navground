@@ -28,6 +28,8 @@
 #include "navground/core/states/sensing.h"
 #include "navground/core/types.h"
 #include "navground/core/yaml/core.h"
+#include "navground/core/yaml/schema.h"
+#include "navground/core/yaml/schema_core.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground/core_py/behavior_modulation.h"
 #include "navground/core_py/buffer.h"
@@ -178,7 +180,7 @@ struct PyBehaviorModulation : public BehaviorModulation,
   // }
 };
 
-struct PyBehavior : virtual public Behavior, virtual public PyHasRegister<Behavior> {
+struct PyBehavior : public Behavior, public PyHasRegister<Behavior> {
 public:
   /* Inherit the constructors */
   using Behavior::Behavior;
@@ -266,8 +268,7 @@ public:
   }
 };
 
-struct PyKinematics : virtual public Kinematics,
-                      virtual public PyHasRegister<Kinematics> {
+struct PyKinematics : public Kinematics, public PyHasRegister<Kinematics> {
   /* Inherit the constructors */
   using Kinematics::Kinematics;
   using Native = Kinematics;
@@ -344,7 +345,9 @@ PYBIND11_MODULE(_navground, m) {
       .def_readonly("default_value", &Property::default_value,
                     DOC(navground, core, Property, default_value))
       .def_readonly("type_name", &Property::type_name,
-                    DOC(navground, core, Property, type_name));
+                    DOC(navground, core, Property, type_name))
+      .def_readonly("readonly", &Property::readonly,
+                    DOC(navground, core, Property, readonly));
 
   py::class_<HasProperties, std::shared_ptr<HasProperties>>(
       m, "HasProperties", DOC(navground, core, HasProperties))
@@ -352,8 +355,8 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, HasProperties, get))
       .def("set", &HasProperties::set, py::arg("name"), py::arg("value"),
            DOC(navground, core, HasProperties, set));
-      // .def_property("properties", &HasProperties::get_properties, nullptr,
-      //               DOC(navground, core, HasProperties, property_properties));
+  // .def_property("properties", &HasProperties::get_properties, nullptr,
+  //               DOC(navground, core, HasProperties, property_properties));
 
   declare_register<Behavior>(m, "Behavior");
   declare_register<Kinematics>(m, "Kinematics");
@@ -519,7 +522,11 @@ PYBIND11_MODULE(_navground, m) {
                      DOC(navground, core, Disc, radius))
       .def("distance", &Disc::distance, py::arg("other"),
            DOC(navground, core, Disc, distance))
-      .def("__repr__", &to_string<Disc>);
+      .def("__repr__", &to_string<Disc>)
+      .def_static("schema", &YAML::schema_py<Disc>, YAML::schema_py_doc())
+      .def_static("load", &YAML::load_string_unique_py<Disc>, py::arg("value"),
+                  YAML::load_string_py_doc("disc", "Disc").c_str())
+      .def("dump", &YAML::dump<Disc>, YAML::dump_doc());
 
   py::class_<Neighbor, Disc>(m, "Neighbor", DOC(navground, core, Neighbor))
       .def(py::init<Vector2, ng_float_t, Vector2, int>(), py::arg("position"),
@@ -532,7 +539,11 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Neighbor, relative_to))
       .def(py::self == py::self)
       .def(py::self != py::self)
-      .def("__repr__", &to_string<Neighbor>);
+      .def("__repr__", &to_string<Neighbor>)
+      .def_static("schema", &YAML::schema_py<Neighbor>, YAML::schema_py_doc())
+      .def_static("load", &YAML::load_string_unique_py<Disc>, py::arg("value"),
+                  YAML::load_string_py_doc("neighbor", "Neighbor").c_str())
+      .def("dump", &YAML::dump<Neighbor>, YAML::dump_doc());
 
   py::class_<LineSegment>(m, "LineSegment", DOC(navground, core, LineSegment))
       .def(py::init<Vector2, Vector2>(), py::arg("p1"), py::arg("p2"),
@@ -559,7 +570,13 @@ PYBIND11_MODULE(_navground, m) {
                                                  py::const_),
            py::arg("disc"), py::arg("penetration") = false,
            DOC(navground, core, LineSegment, distance, 2))
-      .def("__repr__", &to_string<LineSegment>);
+      .def("__repr__", &to_string<LineSegment>)
+      .def_static("schema", &YAML::schema_py<LineSegment>,
+                  YAML::schema_py_doc())
+      .def_static("load", &YAML::load_string_unique_py<LineSegment>,
+                  py::arg("value"),
+                  YAML::load_string_py_doc("line", "LineSegment").c_str())
+      .def("dump", &YAML::dump<LineSegment>, YAML::dump_doc());
 
   py::class_<Kinematics, PyKinematics, HasRegister<Kinematics>, HasProperties,
              std::shared_ptr<Kinematics>>
@@ -591,7 +608,15 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, Kinematics, feasible))
       .def("feasible_from_current", &Kinematics::feasible_from_current,
            py::arg("twist"), py::arg("current"), py::arg("time_step"),
-           DOC(navground, core, Kinematics, feasible_from_current));
+           DOC(navground, core, Kinematics, feasible_from_current))
+      .def_static("base_schema", &YAML::base_schema_py<Kinematics>,
+                  py::arg("reference_register") = true,
+                  YAML::base_schema_py_doc())
+      .def_static("register_schema", &YAML::register_schema_py<Kinematics>,
+                  YAML::register_schema_py_doc())
+      .def_static("load", &YAML::load_string_py<PyKinematics>, py::arg("value"),
+                  YAML::load_string_py_doc("kinematics", "Kinematics").c_str())
+      .def("dump", &YAML::dump<Kinematics>, YAML::dump_doc());
 
   py::class_<OmnidirectionalKinematics, Kinematics,
              std::shared_ptr<OmnidirectionalKinematics>>
@@ -817,7 +842,9 @@ PYBIND11_MODULE(_navground, m) {
           py::arg("value"), py::arg("type") = py::none(),
           DOC(navground, core, SocialMargin, set))
       .def_property("max_value", &SocialMargin::get_max_value, nullptr,
-                    DOC(navground, core, SocialMargin, property_max_value));
+                    DOC(navground, core, SocialMargin, property_max_value))
+      .def_static("schema", &YAML::schema_py<SocialMargin>,
+                  YAML::schema_py_doc());
 
   py::class_<BehaviorModulation, PyBehaviorModulation,
              HasRegister<BehaviorModulation>, HasProperties,
@@ -843,7 +870,17 @@ PYBIND11_MODULE(_navground, m) {
       //     nullptr, DOC(navground, core, HasRegister, property_type))
       .def_property("enabled", &BehaviorModulation::get_enabled,
                     &BehaviorModulation::set_enabled,
-                    DOC(navground, core, BehaviorModulation, property_enabled));
+                    DOC(navground, core, BehaviorModulation, property_enabled))
+      .def_static("base_schema", &YAML::base_schema_py<BehaviorModulation>,
+                  py::arg("reference_register") = true,
+                  YAML::base_schema_py_doc())
+      .def_static("register_schema",
+                  &YAML::register_schema_py<BehaviorModulation>,
+                  YAML::register_schema_py_doc())
+      .def_static(
+          "load", &YAML::load_string_py<PyBehaviorModulation>, py::arg("value"),
+          YAML::load_string_py_doc("modulation", "BehaviorModulation").c_str())
+      .def("dump", &YAML::dump<BehaviorModulation>, YAML::dump_doc());
 
   py::class_<RelaxationModulation, BehaviorModulation,
              std::shared_ptr<RelaxationModulation>>
@@ -1249,7 +1286,15 @@ PYBIND11_MODULE(_navground, m) {
       .def("get_target_speed", &Behavior::get_target_speed,
            DOC(navground, core, Behavior, get_target_speed))
       .def("get_target_angular_speed", &Behavior::get_target_angular_speed,
-           DOC(navground, core, Behavior, get_target_angular_speed));
+           DOC(navground, core, Behavior, get_target_angular_speed))
+      .def_static("base_schema", &YAML::base_schema_py<Behavior>,
+                  py::arg("reference_register") = true,
+                  YAML::base_schema_py_doc())
+      .def_static("register_schema", &YAML::register_schema_py<Behavior>,
+                  YAML::register_schema_py_doc())
+      .def_static("load", &YAML::load_string_py<PyBehavior>, py::arg("value"),
+                  YAML::load_string_py_doc("behavior", "Behavior").c_str())
+      .def("dump", &YAML::dump<Behavior>, YAML::dump_doc());
 
   m.def(
       "behavior_has_geometric_state",
@@ -1477,7 +1522,7 @@ Initializes a buffer.
 :type key: str
 :param description: The description
 :type description: :py:class:`navground.core.BufferDescription` | None
-:param data: Optional data to initialize the buffer. If provided, 
+":param" data: Optional data to initialize the buffer. If provided, 
              it will overwrite data initialized from the description.
              Else the buffer will be initialized with zeros.
              Accept any type supporting the buffer protocol.
@@ -1739,31 +1784,6 @@ Initializes a buffer.
            py::arg("dynamic"),
            DOC(navground, core, CachedCollisionComputation, get_free_distance));
 
-  m.def("load_behavior", &YAML::load_string_py<PyBehavior>, py::arg("value"),
-        R"doc(
-Load a behavior from a YAML string.
-
-:return:
-  The loaded behavior or ``None`` if loading fails.)doc");
-  m.def("load_kinematics", &YAML::load_string_py<PyKinematics>,
-        py::arg("value"), R"doc(
-Load a kinematics from a YAML string.
-
-:return:
-  The loaded kinematics or ``None`` if loading fails.)doc");
-  m.def("load_behavior_modulation", &YAML::load_string_py<PyBehaviorModulation>,
-        py::arg("value"), R"doc(
-Load a behavior modulation from a YAML string.
-
-:return:
-  The loaded behavior modulation or ``None`` if loading fails.)doc");
-  m.def("dump", &YAML::dump<Behavior>, py::arg("behavior"),
-        "Dump a behavior to a YAML-string");
-  m.def("dump", &YAML::dump<Kinematics>, py::arg("kinematics"),
-        "Dump a kinematics to a YAML-string");
-  m.def("dump", &YAML::dump<BehaviorModulation>, py::arg("modulation"),
-        "Dump a behavior modulation to a YAML-string");
-
   m.def("load_plugins", &load_plugins, py::arg("plugins") = py::set(),
         py::arg("directories") = py::dict(), py::arg("include_default") = true,
         DOC(navground, core, load_plugins));
@@ -1808,6 +1828,10 @@ Load a behavior modulation from a YAML string.
         DOC(navground, core, rotate));
   m.def("clamp_norm", &clamp_norm, py::arg("vector"), py::arg("max_length"),
         DOC(navground, core, clamp_norm));
+
+  m.def(
+      "schema", []() { return YAML::to_py(YAML::schema::core()); },
+      YAML::schema_py_doc());
 
   m.def(
       "uses_doubles",

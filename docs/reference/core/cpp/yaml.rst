@@ -22,7 +22,7 @@ You can therefore use yaml-cpp APIs, which allows to
 
   .. code-block:: c++
 
-     T object =  node.as<T>();
+     T object = node.as<T>();
 
 - convert a C++ object to a :cpp:class:`YAML::Node`
 
@@ -75,9 +75,11 @@ registered property.
    // - obj.set("my_property", false);
    // in addition to setup the common fields of ``T``. 
 
+Moreover, we expose templated functions that returns the `JSON Schema <https://json-schema.org>`_ for the types listed above, which are also used to document the YAML representations in :doc:`../yaml/index`.
+
 
 Public API
-----------
+==========
 
 .. code-block:: cpp
    
@@ -95,4 +97,31 @@ Public API
 .. doxygenfunction:: dump(const T *object)
 
 
+.. _schema_cpp:
 
+Schema
+------
+
+Partial schema
+~~~~~~~~~~~~~~
+
+.. code-block:: cpp
+   
+   #include "navground/core/yaml/schema.h"
+
+.. cpp:namespace:: YAML::schema
+
+.. doxygenfunction:: schema<T>()
+
+.. doxygenfunction:: base(bool)
+
+.. doxygenfunction:: registered()
+
+Bundle
+~~~~~~
+
+.. code-block:: cpp
+   
+   #include "navground/sim/yaml/schema_core.h"
+
+.. doxygenfunction:: core()

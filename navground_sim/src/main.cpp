@@ -2,17 +2,16 @@
  * @author Jerome Guzzi - <jerome@idsia.ch>
  */
 
-#include "navground/core/behavior.h"
-#include "navground/core/behavior_modulation.h"
 #include "navground/core/command.h"
 #include "navground/core/echo.h"
 #include "navground/core/info.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/list_plugins.h"
 #include "navground/core/plugins.h"
+#include "navground/core/schema.h"
 #include "navground/core/yaml/core.h"
-#include "navground/sim/yaml/experiment.h"
-#include "navground/sim/yaml/scenario.h"
+#include "navground/core/yaml/schema_core.h"
+#include "navground/sim/yaml/schema_sim.h"
 #include "navground/sim/yaml/world.h"
 #include "run_command.h"
 #include "sample_command.h"
@@ -21,11 +20,13 @@
 
 namespace navground::sim {
 
+namespace core = navground::core;
+
 struct MainCommand : Command<MainCommand> {
 
   explicit MainCommand(const std::string &name)
       : Command<MainCommand>(name), _rp("run"), _sp("sample"), _ip("info"),
-        _ep("echo"), _pp("plugins"), _run(), _sample(),
+        _ep("echo"), _xp("schema"), _pp("plugins"), _run(), _sample(),
         _info("", {{"Behaviors", navground::core::Behavior::type_properties},
                    {"Kinematics", navground::core::Kinematics::type_properties},
                    {"Modulations",
@@ -46,6 +47,34 @@ struct MainCommand : Command<MainCommand> {
                   {"agent", &core::echo_s<sim::Agent>},
                   {"experiment", &core::echo_s<sim::Experiment>},
               }),
+        _schema(
+            "", "sim",
+            core::SchemaCommand::Schemas{
+                {"core", &YAML::schema::core},
+                {"sim", &YAML::schema::sim},
+                {"behavior", &YAML::schema::base_with_ref<core::Behavior>},
+                {"modulation",
+                 &YAML::schema::base_with_ref<core::BehaviorModulation>},
+                {"kinematics", &YAML::schema::base_with_ref<core::Kinematics>},
+                {"state_estimation",
+                 &YAML::schema::base_with_ref<sim::StateEstimation>},
+                {"task", &YAML::schema::base_with_ref<sim::Task>},
+                {"agent", &YAML::schema::schema<sim::Agent>},
+                {"world", &YAML::schema::schema<sim::World>},
+                {"scenario", &YAML::schema::base_with_ref<sim::Scenario>},
+                {"experiment", &YAML::schema::schema<sim::World>},
+                {"behavior_register",
+                 &YAML::schema::registered<core::Behavior>},
+                {"behavior_modulation_register",
+                 &YAML::schema::registered<core::BehaviorModulation>},
+                {"kinematics_register",
+                 &YAML::schema::registered<core::Kinematics>},
+                {"state_estimation_register",
+                 &YAML::schema::registered<sim::StateEstimation>},
+                {"task_register", &YAML::schema::registered<sim::Task>},
+                {"scenario_register",
+                 &YAML::schema::registered_sampler<sim::Scenario>},
+            }),
         _list_plugins("", {"behaviors", "kinematics", "modulations",
                            "state_estimations", "tasks", "scenarios"}) {}
 
@@ -58,6 +87,8 @@ struct MainCommand : Command<MainCommand> {
     parser.add_subparser(_ip);
     _echo.setup(_ep);
     parser.add_subparser(_ep);
+    _schema.setup(_xp);
+    parser.add_subparser(_xp);
     _list_plugins.setup(_pp);
     parser.add_subparser(_pp);
   }
@@ -75,6 +106,9 @@ struct MainCommand : Command<MainCommand> {
     if (parser.is_subcommand_used(_ep)) {
       return _echo.execute(_ep);
     }
+    if (parser.is_subcommand_used(_xp)) {
+      return _schema.execute(_xp);
+    }
     if (parser.is_subcommand_used(_pp)) {
       return _list_plugins.execute(_pp);
     }
@@ -88,11 +122,13 @@ private:
   argparse::ArgumentParser _sp;
   argparse::ArgumentParser _ip;
   argparse::ArgumentParser _ep;
+  argparse::ArgumentParser _xp;
   argparse::ArgumentParser _pp;
   RunCommand _run;
   SampleCommand _sample;
   core::InfoCommand _info;
   core::EchoCommand _echo;
+  core::SchemaCommand _schema;
   core::ListPluginsCommand _list_plugins;
 };
 } // namespace navground::sim

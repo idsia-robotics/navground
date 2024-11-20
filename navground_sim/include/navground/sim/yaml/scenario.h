@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 
+#include "navground/core/yaml/schema.h"
 #include "navground/sim/sampling/agent.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/yaml/sampling.h"
@@ -11,9 +12,9 @@
 #include "yaml-cpp/yaml.h"
 
 using navground::sim::AgentSampler;
+using navground::sim::BoundingBox;
 using navground::sim::Scenario;
 using navground::sim::World;
-using navground::sim::BoundingBox;
 
 // #define _UNSAFE_GROUP_CASTING
 
@@ -102,6 +103,19 @@ template <> struct convert<Scenario> {
   static bool decode(const Node &node, Scenario &rhs) {
     return convert_scenario<>::decode(node, rhs);
   }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    node["properties"]["bounding_box"] = schema::ref<BoundingBox>();
+    node["properties"]["obstacles"]["type"] = "array";
+    node["properties"]["obstacles"]["items"] = schema::ref<Obstacle>();
+    node["properties"]["walls"]["type"] = "array";
+    node["properties"]["walls"]["items"] = schema::ref<Wall>();
+    node["properties"]["groups"]["type"] = "array";
+    node["properties"]["groups"]["items"] = schema::ref<AgentSampler<World>>();
+    return node;
+  }
+  static constexpr const char name[] = "scenario";
 };
 
 template <> struct convert<std::shared_ptr<Scenario>> {

@@ -5,6 +5,7 @@
 
 #include "navground/core/property.h"
 #include "navground/core/register.h"
+#include "navground/core_py/yaml.h"
 
 namespace py = pybind11;
 
@@ -29,11 +30,13 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
   using Factory = py::object;
   // using navground::core::HasRegister<T>::get_type;
   using navground::core::HasRegister<T>::type_properties;
+  using navground::core::HasRegister<T>::type_schema;
   using C = py::object;
   // using navground::core::HasRegister<T>::get_properties;
 
   // TODO(Jerome): may be unsafe ...
   // pybind11 does guard the GIL when calling python functions
+#if 0
   void decode(const YAML::Node &node) override {
     auto fn = py_decode();
     if (fn) {
@@ -58,11 +61,31 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
     }
   };
 
+#else
+  void decode(const YAML::Node &node) override {
+    auto fn = py_decode();
+    if (fn) {
+      fn(YAML::to_py(node));
+    }
+  }
+
+  void encode(YAML::Node &node) const override {
+    auto fn = py_encode();
+    if (fn) {
+      const py::object obj = fn(YAML::to_py(node));
+      if (!obj.is_none()) {
+        node = YAML::from_py(obj);
+      }
+    }
+  };
+#endif
+
   virtual py::function py_decode() const { return py::function(); }
 
   virtual py::function py_encode() const { return py::function(); }
 
   inline static std::map<std::string, Factory> factory = {};
+  inline static std::map<std::string, py::object> schema = {};
 
   static void register_type_py(const std::string &name, const py::object &cls) {
     // if (factory.count(name)) {
@@ -70,6 +93,15 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
     // }
     factory[name] = cls;
     type_properties()[name] = Properties{};
+  }
+
+  static void register_schema_py(const std::string &name,
+                                 const py::function &schema_fn) {
+    schema[name] = schema_fn;
+    type_schema()[name] = [schema_fn](YAML::Node &node) {
+      const auto obj = schema_fn(YAML::to_py(node));
+      node = YAML::from_py(obj);
+    };
   }
 
   static std::vector<std::string> types() {
@@ -84,7 +116,8 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
       return factory[name].attr("__call__")();
     }
     try {
-      return py::cast(HasRegister<T>::make_type(name));
+      const auto obj = HasRegister<T>::make_type(name);
+      return py::cast(obj);
     } catch (const std::exception &e) {
       std::cerr << e.what() << std::endl;
       return py::none();
@@ -108,12 +141,13 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
                   const Property::Field &default_value,
                   const std::string &description = "",
                   const std::vector<std::string> &deprecated_names = {}) {
-    std::string type_name = std::visit(
-        [](auto &&arg) {
-          using V = std::decay_t<decltype(arg)>;
-          return std::string(get_type_name<V>());
-        },
-        default_value);
+    // std::string type_name = std::visit(
+    //     [](auto &&arg) {
+    //       using V = std::decay_t<decltype(arg)>;
+    //       return std::string(get_type_name<V>());
+    //     },
+    //     default_value);
+    std::string type_name(Property::friendly_type_name(default_value));
     Property p;
     py::object py_getter = py_property.attr("fget");
     if (!py_getter.is_none()) {
@@ -199,6 +233,8 @@ Check whether a type name has been registered.
     True if the type name has been registered.)doc")
       .def_static("_register_type", &PyRegister::register_type_py,
                   py::arg("name"), py::arg("cls"))
+      .def_static("_register_schema", &PyRegister::register_schema_py,
+                  py::arg("name"), py::arg("schema"))
       .def_static("_add_properties", &PyRegister::add_properties_py,
                   py::arg("type"), py::arg("properties"));
 }

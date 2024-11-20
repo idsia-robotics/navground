@@ -5,24 +5,7 @@ Social margin
 Schema
 ^^^^^^
 
-.. code-block:: yaml
-
-   $schema: https://json-schema.org/draft/2020-12/schema
-   $id: /schemas/social_margin
-   title: SocialMargin
-   type: object
-   properties:
-     default: number
-     values: 
-       type: object
-       patternProperties: ^\d+$
-     modulation: 
-       type: object
-       properties:
-         type:
-         enum: ["zero", "constant", "linear", "quadratic", "logistic"]
-         upper: number     
-   required: [type]
+.. schema:: navground.core.SocialMargin.schema()
 
 Example
 ^^^^^^^

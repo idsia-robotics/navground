@@ -18,10 +18,30 @@ In particular, we specialize the conversion from/to the following additional cla
 - :cpp:struct:`navground::sim::Sampler`
 - :cpp:class:`navground::sim::BehaviorSampler`
 - :cpp:class:`navground::sim::KinematicsSampler`
-- :cpp:type:`navground::sim::StateEstimationSampler`
-- :cpp:type:`navground::sim::TaskSampler`
+- :cpp:class:`navground::sim::StateEstimationSampler`
+- :cpp:class:`navground::sim::TaskSampler`
 - :cpp:class:`navground::sim::AgentSampler`
 - :cpp:class:`navground::sim::Scenario`
 - :cpp:class:`navground::sim::Experiment`
 
+Schema
+------
 
+``navground_sim`` schemas are more complex than ``navground_core`` schemas due to the presence of samplers. In addition to the utilities from the :ref:`core <schema_cpp>`, 
+``navground_sim``  adds
+
+.. cpp:namespace:: YAML::schema
+
+.. code-block:: cpp
+   
+   #include "navground/sim/yaml/schema.h"
+
+.. doxygenfunction:: registered_sampler()
+
+and
+
+.. code-block:: cpp
+   
+   #include "navground/sim/yaml/schema_sim.h"
+
+.. doxygenfunction:: sim()

@@ -321,12 +321,14 @@ const std::string ORCABehavior::type = register_type<ORCABehavior>(
     "ORCA",
     {
         {"time_horizon",
-         Property::make(&ORCABehavior::get_time_horizon,
-                        &ORCABehavior::set_time_horizon, 10, "Time horizon")},
+         Property::make<ng_float_t>(&ORCABehavior::get_time_horizon,
+                                    &ORCABehavior::set_time_horizon, 10,
+                                    "Time horizon")},
         {"static_time_horizon",
-         Property::make(&ORCABehavior::get_static_time_horizon,
-                        &ORCABehavior::set_static_time_horizon, 10,
-                        "Time horizon applied to static linear obstacles")},
+         Property::make<ng_float_t>(
+             &ORCABehavior::get_static_time_horizon,
+             &ORCABehavior::set_static_time_horizon, 10,
+             "Time horizon applied to static linear obstacles")},
         {"effective_center",
          Property::make(
              &ORCABehavior::is_using_effective_center,

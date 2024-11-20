@@ -3,21 +3,17 @@ Task
 ====
 
 Schema
-^^^^^^
+======
 
-.. code-block:: yaml
+.. schema:: navground.sim.Task.base_schema()
 
-   $schema: "https://json-schema.org/draft/2020-12/schema"
-   $id: /schemas/task
-   title: Task
-   type: object
-   properties:
-     type: string
-   required: [type]
-   additionalProperties: {}
+Register
+--------
+
+.. schema:: navground.sim.Task.register_schema()
 
 Example
-^^^^^^^
+=======
 
 .. code-block:: yaml
 

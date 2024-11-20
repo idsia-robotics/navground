@@ -116,12 +116,16 @@ add_executable(echo src/echo.cpp)
 target_link_libraries(echo navground_core argparse::argparse)
 add_dependencies(echo navground_core)
 
+add_executable(schema src/schema.cpp)
+target_link_libraries(schema navground_core argparse::argparse)
+add_dependencies(schema navground_core)
+
 add_executable(plugins src/list_plugins.cpp)
 target_link_libraries(plugins navground_core argparse::argparse)
 add_dependencies(plugins navground_core)
 
 install(TARGETS
-  info echo plugins
+  info echo plugins schema
   DESTINATION lib/${PROJECT_NAME}
 )
 

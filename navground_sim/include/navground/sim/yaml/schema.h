@@ -45,13 +45,16 @@ template <typename T> Node registered_sampler() {
   Node node;
   node["$schema"] = "https://json-schema.org/draft/2020-12/schema";
   node["$id"] = id_name(type_t<T>::name() + "_register");
+  const auto &t_schema = T::Type::type_schema();
   for (const auto &[name, properties] : T::Type::type_properties()) {
     auto tnode = registered_component_sampler_schema(name, properties);
+    if (t_schema.count(name)) {
+      t_schema.at(name)(tnode);
+    }
     node["anyOf"].push_back(tnode);
   }
   return node;
 }
-
 } // namespace schema
 
 } // namespace YAML

@@ -273,7 +273,8 @@ forward/backwards speeds.
  *   - `wheel_axis` (float, \ref get_wheel_axis)
  */
 class NAVGROUND_CORE_EXPORT TwoWheelsDifferentialDriveKinematics
-    : public virtual WheeledKinematics {
+    : virtual public Kinematics,
+      public WheeledKinematics {
 public:
   static const std::string type;
   /**
@@ -590,7 +591,8 @@ private:
  * the same as the lateral distance.
  */
 class NAVGROUND_CORE_EXPORT FourWheelsOmniDriveKinematics
-    : public virtual WheeledKinematics {
+    : virtual public Kinematics,
+      public WheeledKinematics {
 public:
   static const std::string type;
   /**

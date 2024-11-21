@@ -52,6 +52,10 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
   using C = typename T::C;
   using Type = T;
 
+  bool is_valid() const {
+    return T::has_type(type);
+  }
+
   /**
    * @brief      Constructs a new instance.
    *

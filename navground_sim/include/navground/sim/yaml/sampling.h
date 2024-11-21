@@ -557,9 +557,9 @@ template <typename T> Node encode_sr(const SamplerFromRegister<T> &rhs) {
       node[c.first] = c.second;
     }
   }
-  if (!rhs.type.empty()) {
-    node["type"] = rhs.type;
-  }
+  // if (!rhs.type.empty()) {
+  node["type"] = rhs.type;
+  // }
   for (const auto &[name, sampler] : rhs.properties) {
     if (sampler) {
       node[name] = sampler;
@@ -774,16 +774,16 @@ template <typename W> struct convert<AgentSampler<W>> {
 
   static Node encode(const AgentSampler<W> &rhs) {
     Node node;
-    // if (!rhs.behavior.type.empty()) {
-    node["behavior"] = rhs.behavior;
-    // }
-    if (!rhs.kinematics.type.empty()) {
+    if (rhs.behavior.is_valid()) {
+      node["behavior"] = rhs.behavior;
+    }
+    if (rhs.kinematics.is_valid()) {
       node["kinematics"] = rhs.kinematics;
     }
-    if (!rhs.task.type.empty()) {
+    if (rhs.task.is_valid()) {
       node["task"] = rhs.task;
     }
-    if (!rhs.state_estimation.type.empty()) {
+    if (rhs.state_estimation.is_valid()) {
       node["state_estimation"] = rhs.state_estimation;
     }
     if (rhs.position) {

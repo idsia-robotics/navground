@@ -33,7 +33,6 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):  # type: ignore
         :param      range_:         The range
         """
         super().__init__()
-        sim.StateEstimation.__init__(self)  # type: ignore
         self._cc = core.CollisionComputation()
         self._start_angle = start_angle
         self._field_of_view = field_of_view

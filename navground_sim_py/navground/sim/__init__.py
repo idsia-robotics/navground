@@ -8,7 +8,6 @@ if TYPE_CHECKING:
 import importlib.metadata
 
 import navground.core
-from navground.core import _register
 from navground.core import get_loaded_plugins as _get_loaded_core_plugins
 from navground.core import get_loaded_py_plugins as _get_loaded_py_core_plugins
 from navground.core import load_cpp_plugins
@@ -18,39 +17,34 @@ from navground.core import register, register_schema
 from ._navground_sim import (Agent, BoundingBox, Dataset, Entity, Experiment,
                              ExperimentalRun, GroupRecordProbe, Obstacle,
                              Probe, RecordConfig, RecordNeighborsConfig,
-                             RecordProbe, RecordSensingConfig)
-from ._navground_sim import Scenario as _Scenario
-from ._navground_sim import SensingProbe
-from ._navground_sim import Sensor as _Sensor
-from ._navground_sim import StateEstimation as _StateEstimation
-from ._navground_sim import Task as _Task
-from ._navground_sim import (Wall, World, schema, use_compact_samplers,
-                             uses_doubles)
+                             RecordProbe, RecordSensingConfig, Scenario,
+                             SensingProbe, Sensor, StateEstimation, Task, Wall,
+                             World, schema, use_compact_samplers, uses_doubles)
 
-SUPPORT_YAML: TypeAlias = Union[navground.core.SUPPORT_YAML, _Task,
-                                _StateEstimation, _Scenario, Experiment, Agent,
+SUPPORT_YAML: TypeAlias = Union[navground.core.SUPPORT_YAML, Task,
+                                StateEstimation, Scenario, Experiment, Agent,
                                 World, Wall, Obstacle]
 
 
-def load_state_estimation(value: str) -> Optional[_StateEstimation]:
-    return _StateEstimation.load(value)
+def load_state_estimation(value: str) -> Optional[StateEstimation]:
+    return StateEstimation.load(value)
 
 
-load_state_estimation.__doc__ = _StateEstimation.load.__doc__
+load_state_estimation.__doc__ = StateEstimation.load.__doc__
 
 
-def load_task(value: str) -> Optional[_Task]:
-    return _Task.load(value)
+def load_task(value: str) -> Optional[Task]:
+    return Task.load(value)
 
 
-load_task.__doc__ = _Task.load.__doc__
+load_task.__doc__ = Task.load.__doc__
 
 
-def load_scenario(value: str) -> Optional[_Scenario]:
-    return _Scenario.load(value)
+def load_scenario(value: str) -> Optional[Scenario]:
+    return Scenario.load(value)
 
 
-load_scenario.__doc__ = _Scenario.load.__doc__
+load_scenario.__doc__ = Scenario.load.__doc__
 
 
 def load_obstacle(value: str) -> Optional[Obstacle]:
@@ -96,78 +90,6 @@ def dump(obj: SUPPORT_YAML) -> str:
     :rtype: str
     """
     return obj.dump()
-
-
-class Scenario(_Scenario):
-
-    def __init_subclass__(cls, /, **kwargs):
-        name = kwargs.pop('name', '')
-        super().__init_subclass__(**kwargs)
-        _register(_Scenario, cls, name)
-
-    def __init__(self):
-        _Scenario.__init__(self)
-
-    def __getstate__(self):
-        return (self.__dict__, _Scenario.__getstate__(self))
-
-    def __setstate__(self, value):
-        self.__dict__ = value[0]
-        _Scenario.__setstate__(self, value[1])
-
-
-class StateEstimation(_StateEstimation):
-
-    def __init_subclass__(cls, /, **kwargs):
-        name = kwargs.pop('name', '')
-        super().__init_subclass__(**kwargs)
-        _register(_StateEstimation, cls, name)
-
-    def __init__(self, *args, **kwargs):
-        _StateEstimation.__init__(self, *args, **kwargs)
-
-    def __getstate__(self):
-        return (self.__dict__, _StateEstimation.__getstate__(self))
-
-    def __setstate__(self, value):
-        self.__dict__ = value[0]
-        _StateEstimation.__setstate__(self, value[1])
-
-
-class Sensor(_Sensor):
-
-    def __init_subclass__(cls, /, **kwargs):
-        name = kwargs.pop('name', '')
-        super().__init_subclass__(**kwargs)
-        _register(_StateEstimation, cls, name)
-
-    def __init__(self, *args, **kwargs):
-        _Sensor.__init__(self, *args, **kwargs)
-
-    def __getstate__(self):
-        return (self.__dict__, _Sensor.__getstate__(self))
-
-    def __setstate__(self, value):
-        self.__dict__ = value[0]
-        _Sensor.__setstate__(self, value[1])
-
-
-class Task(_Task):
-
-    def __init_subclass__(cls, /, **kwargs):
-        name = kwargs.pop('name', '')
-        super().__init_subclass__(**kwargs)
-        _register(_Task, cls, name)
-
-    def __init__(self):
-        _Task.__init__(self)
-
-    def __getstate__(self):
-        return (self.__dict__, _Task.__getstate__(self))
-
-    def __setstate__(self, value):
-        self.__dict__ = value[0]
-        _Task.__setstate__(self, value[1])
 
 
 from . import scenarios, state_estimations, tasks
@@ -279,7 +201,7 @@ def _(world: World) -> bool:
 
 
 @uses_python.register
-def _(scenario: _Scenario) -> bool:
+def _(scenario: Scenario) -> bool:
     world = World()
     scenario.init_world(world)
     return uses_python(world)

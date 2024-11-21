@@ -9,7 +9,7 @@ import numpy as np
 from navground import core
 
 from . import (Agent, BoundingBox, ExperimentalRun, RecordConfig, World,
-               _Scenario, load_experiment, load_world)
+               Scenario, load_experiment, load_world)
 
 if TYPE_CHECKING:
     import h5py  # type: ignore
@@ -56,7 +56,7 @@ class RecordedExperimentalRun:
 
     def __init__(self,
                  group: 'h5py.Group',
-                 scenario: _Scenario | None = None,
+                 scenario: Scenario | None = None,
                  record_config: RecordConfig | None = None):
         """
         Constructs a new instance.

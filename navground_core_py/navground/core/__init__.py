@@ -1,66 +1,44 @@
 from __future__ import annotations
 
 import importlib.metadata
-from typing import (Any, Callable, Dict, List, Literal, Optional, Tuple, Type,
-                    TypeAlias, TypeVar, Union)
+from typing import Dict, List, Optional, Tuple, TypeAlias, Union
 
-import numpy
-
-from ._navground import Action
-from ._navground import Behavior as _Behavior
-from ._navground import BehaviorModulation as _BehaviorModulation
-from ._navground import (BehaviorModulationRegister, BehaviorRegister, Buffer,
-                         BufferDescription, BufferMap,
-                         CachedCollisionComputation, CollisionComputation,
-                         Controller, Disc, EnvironmentState, Frame,
-                         GeometricState, HasProperties)
-from ._navground import Kinematics as _Kinematics
 from ._navground import (
-    KinematicsRegister, LineSegment, Neighbor, Path, Pose2, Property,
-    SensingState, SocialMargin, SocialMarginConstantModulation,
-    SocialMarginLinearModulation, SocialMarginLogisticModulation,
-    SocialMarginModulation, SocialMarginQuadraticModulation,
-    SocialMarginZeroModulation, Target, Twist2, clamp_norm)
+    Action, Behavior, BehaviorModulation, Buffer, BufferDescription, BufferMap,
+    CachedCollisionComputation, CollisionComputation, Controller, Disc,
+    EnvironmentState, Frame, GeometricState, Kinematics, LineSegment, Neighbor,
+    Path, Pose2, Property, SensingState, SocialMargin,
+    SocialMarginConstantModulation, SocialMarginLinearModulation,
+    SocialMarginLogisticModulation, SocialMarginModulation,
+    SocialMarginQuadraticModulation, SocialMarginZeroModulation, Target,
+    Twist2, clamp_norm)
 from ._navground import get_loaded_plugins as get_loaded_cpp_plugins
 from ._navground import load_plugins as load_cpp_plugins
 from ._navground import (normalize_angle, orientation_of, rotate, schema,
                          to_absolute, to_absolute_point, to_relative,
                          to_relative_point, unit, uses_doubles)
-
-# TODO(Jerome): Add vector shape = (2, )
-# numpy.ndarray[numpy.float32[2, 1]]
-
-# TODO(Jerome): how to define an alias that depends on `uses_doubles`?
-# Vector2: TypeAlias = "numpy.ndarray[numpy.float64, Any]"
-Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]],
-                                   numpy.dtype[numpy.float64]]
-Vector2Like: TypeAlias = Vector2 | tuple[float, float] | list[float]
-
-PropertyField = Union[bool, int, float, str, Vector2, List[bool], List[int],
-                      List[float], List[str], List[Vector2]]
-
-T = TypeVar('T', bound=Any)
+from .property import PropertyField, Vector2, Vector2Like, register
 
 
-def load_behavior(value: str) -> Optional[_Behavior]:
+def load_behavior(value: str) -> Optional[Behavior]:
     return Behavior.load(value)
 
 
-load_behavior.__doc__ = _Behavior.load.__doc__
+load_behavior.__doc__ = Behavior.load.__doc__
 
 
-def load_behavior_modulation(value: str) -> Optional[_BehaviorModulation]:
-    return _BehaviorModulation.load(value)
+def load_behavior_modulation(value: str) -> Optional[BehaviorModulation]:
+    return BehaviorModulation.load(value)
 
 
-load_behavior_modulation.__doc__ = _BehaviorModulation.load.__doc__
+load_behavior_modulation.__doc__ = BehaviorModulation.load.__doc__
 
 
-def load_kinematics(value: str) -> Optional[_Kinematics]:
-    return _Kinematics.load(value)
+def load_kinematics(value: str) -> Optional[Kinematics]:
+    return Kinematics.load(value)
 
 
-load_kinematics.__doc__ = _Kinematics.load.__doc__
+load_kinematics.__doc__ = Kinematics.load.__doc__
 
 
 def load_disc(value: str) -> Optional[Disc]:
@@ -83,8 +61,8 @@ def load_neighbor(value: str) -> Optional[Neighbor]:
 
 load_neighbor.__doc__ = Neighbor.load.__doc__
 
-SUPPORT_YAML: TypeAlias = Union[_Behavior, _BehaviorModulation, _Kinematics,
-                                Disc, LineSegment, Neighbor]
+SUPPORT_YAML: TypeAlias = Union[Behavior, BehaviorModulation, Kinematics, Disc,
+                                LineSegment, Neighbor]
 
 
 def dump(obj: SUPPORT_YAML) -> str:
@@ -97,153 +75,10 @@ def dump(obj: SUPPORT_YAML) -> str:
     return obj.dump()
 
 
-def register(default_value: PropertyField,
-             description: str = "",
-             deprecated_names: list[str] = []) -> Callable[[T], T]:
-    """
-    A decorator to register a property.
-    It must be used below the ``@property`` decorator.
-
-    For example, the following code adds a boolean valued
-    registered property to a registered sub-class ``C`` of class ``T``:
-
-    .. code-block:: python
-
-        class C(T, name="C"):
-
-            def __init__(self):
-                super().__init__()
-                self._my_field = True
-
-            @property
-            @register(True, "...")
-            def my_property(self) -> bool:
-                return self._my_field;
-
-            @my_property.setter
-            def my_property(self, value: bool) -> None:
-                self._my_field = value;
-
-
-    :param default_value:
-        The default value of the property
-        when the object is initialized
-
-    :param description: The description of the property
-
-    :param deprecated_names: A list of alternative deprecated names
-    """
-
-    def g(f: T) -> T:
-        f.__default_value__ = default_value
-        f.__desc__ = description
-        f.__deprecated_names__ = deprecated_names
-        return f
-
-    return g
-
-
 def register_schema(schema):
     fn = staticmethod(schema)
     fn.__is_schema__ = True
     return fn
-
-
-def _register(super_cls: Type, cls: Type, name: str):
-    if not name:
-        return
-    super_cls._register_type(name, cls)
-    cls._type = name
-    for k, v in vars(cls).items():
-        if isinstance(v, staticmethod) and hasattr(v, "__is_schema__"):
-            super_cls._register_schema(name, v)
-        if isinstance(v, property) and v.fget and hasattr(
-                v.fget, "__default_value__"):
-            return_type = v.fget.__annotations__['return']
-            if isinstance(return_type, str):
-                try:
-                    return_type = eval(return_type)
-                except Exception:
-                    return_type = None
-            if return_type == Vector2:
-                return_type = numpy.array
-            else:
-                try:
-                    if return_type._name == "List":
-                        return_type = list
-                except AttributeError:
-                    pass
-            if return_type:
-                default_value = return_type(v.fget.__default_value__)
-            else:
-                default_value = v.fget.__default_value__
-            desc = v.fget.__desc__  # type: ignore
-            deprecated_names = v.fget.__deprecated_names__  # type: ignore
-            super_cls._add_property(name, k, v, default_value, desc,
-                                    deprecated_names)
-
-
-class Behavior(_Behavior):
-
-    __doc__ = _Behavior.__doc__
-
-    def __init_subclass__(cls, /, **kwargs):
-        name = kwargs.pop('name', '')
-        super().__init_subclass__(**kwargs)
-        _register(_Behavior, cls, name)
-
-    def __init__(self, kinematics=None, radius=0.0):
-        _Behavior.__init__(self, kinematics, radius)
-
-    def __getstate__(self):
-        return (self.__dict__, _Behavior.__getstate__(self))
-
-    def __setstate__(self, value):
-        self.__dict__ = value[0]
-        _Behavior.__setstate__(self, value[1])
-
-
-class Kinematics(_Kinematics):
-
-    __doc__ = _Kinematics.__doc__
-
-    def __init_subclass__(cls, /, **kwargs):
-        name = kwargs.pop('name', '')
-        super().__init_subclass__(**kwargs)
-        _register(_Kinematics, cls, name)
-
-    def __init__(self, max_speed=0.0, max_angular_speed=0.0):
-        _Kinematics.__init__(self, max_speed, max_angular_speed)
-
-    def __getstate__(self):
-        return (self.__dict__, _Kinematics.__getstate__(self))
-
-    def __setstate__(self, value):
-        self.__dict__ = value[0]
-        _Kinematics.__setstate__(self, value[1])
-
-
-class BehaviorModulation(_BehaviorModulation):
-
-    __doc__ = _BehaviorModulation.__doc__
-
-    def __init_subclass__(cls, /, **kwargs):
-        name = kwargs.pop('name', '')
-        super().__init_subclass__(**kwargs)
-        _register(_BehaviorModulation, cls, name)
-
-    def __init__(self):
-        _BehaviorModulation.__init__(self)
-
-    def __getstate__(self):
-        return (self.__dict__, _BehaviorModulation.__getstate__(self))
-
-    def __setstate__(self, value):
-        self.__dict__ = value[0]
-        _BehaviorModulation.__setstate__(self, value[1])
-
-
-from . import behavior_modulations, behaviors, kinematics
 
 
 def load_py_plugins() -> None:
@@ -321,6 +156,8 @@ def get_loaded_plugins(
     return rs
 
 
+from . import behavior_modulations, behaviors, kinematics
+
 __all__ = [
     'Behavior', 'Path', 'BehaviorModulation', 'Pose2', 'Twist2', 'Target',
     'Disc', 'Neighbor', 'LineSegment', 'Kinematics', 'Action', 'Controller',
@@ -332,5 +169,9 @@ __all__ = [
     'behaviors', 'behavior_modulations', 'kinematics', 'clamp_norm', 'rotate',
     'unit', 'orientation_of', 'normalize_angle', 'to_absolute_point',
     'to_relative_point', 'to_absolute', 'to_relative', 'uses_doubles',
-    'get_loaded_plugins', 'schema'
+    'get_loaded_plugins', 'schema', "Property",
+    "SocialMarginConstantModulation", "SocialMarginLinearModulation",
+    "SocialMarginLogisticModulation", "SocialMarginModulation",
+    "SocialMarginQuadraticModulation", "SocialMarginZeroModulation",
+    "PropertyField", "Vector2", "Vector2Like", "register"
 ]

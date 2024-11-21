@@ -34,6 +34,7 @@
 #include "navground/core_py/behavior_modulation.h"
 #include "navground/core_py/buffer.h"
 #include "navground/core_py/pickle.h"
+#include "navground/core_py/property.h"
 #include "navground/core_py/register.h"
 #include "navground/core_py/yaml.h"
 
@@ -147,6 +148,15 @@ template <> std::string to_string(const Neighbor &value) {
 template <> std::string to_string(const LineSegment &value) {
   return "LineSegment(" + to_string(value.p1) + ", " + to_string(value.p2) +
          ")";
+}
+
+template <> std::string to_string(const Property &value) {
+  std::string r = "<Property: " + value.type_name;
+  if (value.readonly) {
+    r += " (readonly)";
+  }
+  r += ">";
+  return r;
 }
 
 struct PyBehaviorModulation : public BehaviorModulation,
@@ -336,6 +346,9 @@ PYBIND11_MODULE(_navground, m) {
 #endif
 
   py::class_<Property>(m, "Property", DOC(navground, core, Property))
+      .def(py::init(&make_property_py), py::arg("getter"), py::arg("setter"),
+           py::arg("default"), py::arg("description") = "",
+           py::arg("deprecated_names") = std::vector<std::string>{}, "TODO")
       .def_readonly("description", &Property::description,
                     DOC(navground, core, Property, description))
       .def_readonly("deprecated_names", &Property::deprecated_names,
@@ -347,7 +360,12 @@ PYBIND11_MODULE(_navground, m) {
       .def_readonly("type_name", &Property::type_name,
                     DOC(navground, core, Property, type_name))
       .def_readonly("readonly", &Property::readonly,
-                    DOC(navground, core, Property, readonly));
+                    DOC(navground, core, Property, readonly))
+      .def("__repr__", &to_string<Property>)
+      .def_static("make", &make_property_with_py_property, py::arg("property"),
+                  py::arg("default"), py::arg("description") = "",
+                  py::arg("deprecated_names") = std::vector<std::string>{},
+                  "TODO");
 
   py::class_<HasProperties, std::shared_ptr<HasProperties>>(
       m, "HasProperties", DOC(navground, core, HasProperties))

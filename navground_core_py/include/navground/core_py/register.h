@@ -2,9 +2,11 @@
 #define NAVGROUND_CORE_PY_REGISTER_H
 
 #include <pybind11/pybind11.h>
+#include <pybind11/pytypes.h>
 
 #include "navground/core/property.h"
 #include "navground/core/register.h"
+#include "navground/core_py/property.h"
 #include "navground/core_py/yaml.h"
 
 namespace py = pybind11;
@@ -92,14 +94,16 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
     //   std::cerr << "Type " << name << " already registered" << std::endl;
     // }
     factory[name] = cls;
+    cls.attr("_type") = name;
     type_properties()[name] = Properties{};
   }
 
-  static void register_schema_py(const std::string &name,
-                                 const py::function &schema_fn) {
+  static void set_schema_py(const std::string &name,
+                            const py::function &schema_fn) {
     schema[name] = schema_fn;
     type_schema()[name] = [schema_fn](YAML::Node &node) {
-      const auto obj = schema_fn(YAML::to_py(node));
+      auto obj = YAML::to_py(node);
+      schema_fn(obj);
       node = YAML::from_py(obj);
     };
   }
@@ -135,43 +139,62 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
     }
   }
 
+  static void register_properties_py(const py::object &cls) {
+    if (!py::hasattr(cls, "_type")) {
+      std::cerr << "Python class not registered yet" << std::endl;
+      return;
+    }
+    std::string owner = cls.attr("__module__").cast<std::string>() + "." +
+                        cls.attr("__name__").cast<std::string>();
+    std::string type = cls.attr("_type").cast<std::string>();
+    const auto py_property = py::module_::import("builtins").attr("property");
+    const auto isinstance = py::module_::import("builtins").attr("isinstance");
+    for (auto &item : cls.attr("__dict__").cast<py::dict>()) {
+      const py::object v = py::cast<py::object>(item.second);
+      if (isinstance(v, py_property).cast<bool>() && py::hasattr(v, "fget")) {
+        const auto fget = v.attr("fget");
+        if (py::hasattr(fget, "__default_value__")) {
+          const auto default_value =
+              fget.attr("__default_value__").cast<Property::Field>();
+          const auto desc = fget.attr("__desc__").cast<std::string>();
+          const auto deprecated_names = fget.attr("__deprecated_names__")
+                                            .cast<std::vector<std::string>>();
+          // py::print("Adding Property", item.first, "to type", type, "from class", owner);
+          add_property_py(type, owner, item.first.cast<std::string>(), v,
+                          default_value, desc, deprecated_names);
+        }
+      }
+    }
+  }
+
+  static void register_schema_py(const py::object &cls) {
+    if (!py::hasattr(cls, "_type")) {
+      std::cerr << "Python class not registered yet" << std::endl;
+      return;
+    }
+    std::string type = cls.attr("_type").cast<std::string>();
+    const auto py_staticmethod =
+        py::module_::import("builtins").attr("staticmethod");
+    const auto isinstance = py::module_::import("builtins").attr("isinstance");
+    for (auto &item : cls.attr("__dict__").cast<py::dict>()) {
+      const py::object v = py::cast<py::object>(item.second);
+      if (isinstance(v, py_staticmethod).cast<bool>() &&
+          py::hasattr(v, "__is_schema__")) {
+        // py::print("Setting schema for type", type);
+        set_schema_py(type, v);
+      }
+    }
+  }
+
   static void
-  add_property_py(const std::string &type, const std::string &name,
-                  const py::object &py_property,
+  add_property_py(const std::string &type, const std::string &owner,
+                  const std::string &name, const py::object &py_property,
                   const Property::Field &default_value,
                   const std::string &description = "",
                   const std::vector<std::string> &deprecated_names = {}) {
-    // std::string type_name = std::visit(
-    //     [](auto &&arg) {
-    //       using V = std::decay_t<decltype(arg)>;
-    //       return std::string(get_type_name<V>());
-    //     },
-    //     default_value);
-    std::string type_name(Property::friendly_type_name(default_value));
-    Property p;
-    py::object py_getter = py_property.attr("fget");
-    if (!py_getter.is_none()) {
-      p.getter = [py_getter](const HasProperties *obj) {
-        auto py_value = py_getter.attr("__call__")(py::cast(obj));
-        return py_value.cast<Property::Field>();
-      };
-    } else {
-      p.getter = nullptr;
-    }
-    py::object py_setter = py_property.attr("fset");
-    if (!py_setter.is_none()) {
-      p.setter = [py_setter](HasProperties *obj, const Property::Field &value) {
-        py_setter.attr("__call__")(py::cast(obj), py::cast(value));
-      };
-    } else {
-      p.setter = nullptr;
-    }
-    p.readonly = py_setter.is_none();
-    p.default_value = default_value;
-    p.type_name = type_name;
-    p.description = description;
-    p.owner_type_name = type;
-    p.deprecated_names = deprecated_names;
+    Property p = make_property_with_py_property(py_property, default_value,
+                                                description, deprecated_names);
+    p.owner_type_name = owner;
     type_properties()[type][name] = std::move(p);
   }
 
@@ -196,10 +219,23 @@ void declare_register(py::module &m, const std::string &typestr) {
   std::string pyclass_name = typestr + std::string("Register");
   py::class_<Register, PyRegister, std::shared_ptr<Register>>(
       m, pyclass_name.c_str())
-      .def_static("_add_property", &PyRegister::add_property_py,
-                  py::arg("type"), py::arg("name"), py::arg("property"),
-                  py::arg("default_value"), py::arg("description") = "",
-                  py::arg("deprecated_names") = std::vector<std::string>())
+      .def_property_readonly_static(
+          "__init_subclass__",
+          [](py::object &cls) {
+            return py::cpp_function([cls](const py::kwargs &kwargs) {
+              if (kwargs.contains("name")) {
+                const std::string name = py::cast<std::string>(kwargs["name"]);
+                // py::print("will register", cls, "with name", name);
+                PyRegister::register_type_py(name, cls);
+                PyRegister::register_properties_py(cls);
+                PyRegister::register_schema_py(cls);
+              }
+            });
+          })
+      // .def_static("_add_property", &PyRegister::add_property_py,
+      //             py::arg("type"), py::arg("name"), py::arg("property"),
+      //             py::arg("default_value"), py::arg("description") = "",
+      //             py::arg("deprecated_names") = std::vector<std::string>())
       .def_property(
           "type", [](PyRegister *obj) { return obj->get_type(); }, nullptr,
           "The name associated to the type of an object"
@@ -230,13 +266,13 @@ Check whether a type name has been registered.
     The associated type name.
 
 :return:
-    True if the type name has been registered.)doc")
-      .def_static("_register_type", &PyRegister::register_type_py,
-                  py::arg("name"), py::arg("cls"))
-      .def_static("_register_schema", &PyRegister::register_schema_py,
-                  py::arg("name"), py::arg("schema"))
-      .def_static("_add_properties", &PyRegister::add_properties_py,
-                  py::arg("type"), py::arg("properties"));
+    True if the type name has been registered.)doc");
+  // .def_static("_register_type", &PyRegister::register_type_py,
+  //             py::arg("name"), py::arg("cls"))
+  // .def_static("_register_schema", &PyRegister::register_schema_py,
+  //             py::arg("name"), py::arg("schema"))
+  // .def_static("_add_properties", &PyRegister::add_properties_py,
+  //             py::arg("type"), py::arg("properties"));
 }
 
 #endif // NAVGROUND_CORE_PY_REGISTER_H

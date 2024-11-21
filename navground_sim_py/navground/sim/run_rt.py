@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Optional
 
 from navground.core import command
 
-from . import Experiment, World, _Scenario, load_experiment, load_plugins
+from . import Experiment, World, Scenario, load_experiment, load_plugins
 from .real_time import RealTimeSimulation
 
 if TYPE_CHECKING:
@@ -27,7 +27,7 @@ def until_done(world: World, max_duration: float = -1):
     return f
 
 
-async def run(scenario: _Scenario,
+async def run(scenario: Scenario,
               with_ui: bool = True,
               factor: float = 1.0,
               time_step: float = 0.04,

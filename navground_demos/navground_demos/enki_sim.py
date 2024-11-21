@@ -16,6 +16,8 @@ class ThymioWithAgent(pyenki.Thymio2):
         agent.enki_object = self  # type: ignore
 
     def controlStep(self, dt: float) -> None:
+        if not self.agent.behavior:
+            return
         self.motor_left_target, self.motor_right_target = world2enki(
             self.agent.behavior.actuated_wheel_speeds)
 

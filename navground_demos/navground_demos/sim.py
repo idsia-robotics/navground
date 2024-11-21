@@ -21,9 +21,10 @@ class ThymioDemo(sim.Scenario, name="PyThymioDemo"):  # type: ignore[call-arg]
                 0.166, 0.094)
             behavior = core.Behavior.make_type(self.behavior_type)
             agent = sim.Agent(0.08, behavior, kinematics, task, se, 0.02)
-            agent.behavior.optimal_speed = 0.12
-            agent.behavior.horizon = 1.0
-            agent.behavior.safety_margin = 0.02
+            if agent.behavior:
+                agent.behavior.optimal_speed = 0.12
+                agent.behavior.horizon = 1.0
+                agent.behavior.safety_margin = 0.02
             agent.controller.speed_tolerance = 0.01
             agent.pose = core.Pose2((-0.5 if i else 0.5, 0.5), 0.0)
             agent.type = "thymio"

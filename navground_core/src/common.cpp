@@ -12,12 +12,11 @@ Pose2 Pose2::integrate(const Twist2 &twist, ng_float_t dt) {
                      ? transform_vector(twist.velocity)
                      : twist.velocity;
   if (twist.angular_speed) {
-    const ng_float_t c =
-        std::cos(twist.angular_speed * dt) / twist.angular_speed - 1;
-    const ng_float_t s =
-        std::sin(twist.angular_speed * dt) / twist.angular_speed;
+    const ng_float_t c = std::cos(twist.angular_speed * dt) - 1;
+    const ng_float_t s = std::sin(twist.angular_speed * dt);
     const Eigen::Matrix<ng_float_t, 2, 2> m{{s, c}, {-c, s}};
-    return {position + m * v, orientation + dt * twist.angular_speed};
+    return {position + m * v / twist.angular_speed,
+            orientation + dt * twist.angular_speed};
   }
   return {position + v * dt, orientation};
 }

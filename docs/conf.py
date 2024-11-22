@@ -57,8 +57,8 @@ intersphinx_mapping = {
 tikz_resolution = 600
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store'] + ['tutorials', 'packages', 'guides', 'installation', 'scenarios',
- 'background', 'first_steps.rst', 'cli.rst', 'introduction.rst']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+# + ['tutorials', 'packages', 'guides', 'installation', 'scenarios', 'background', 'first_steps.rst', 'cli.rst', 'introduction.rst']
 
 language = 'en'
 

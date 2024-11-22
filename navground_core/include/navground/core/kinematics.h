@@ -467,7 +467,7 @@ public:
    * backwards (set to negative or infinite to leave unconstrained)
    * @param[in]  max_acceleration The maximal linear body acceleration
    * @param[in]  moi The scaled moment of inertial (``moi = I / (mass * axis^2 /
-   * 8)``) Equal to 1 for an homogeneous disc of diameter ``axis``.
+   * 8)``) Equal to 1 for an homogeneous disc of diameter ``wheel_axis``.
    */
   DynamicTwoWheelsDifferentialDriveKinematics(
       ng_float_t max_speed = Kinematics::inf, ng_float_t wheel_axis = 1,

@@ -39,6 +39,19 @@ Returns the json-schema of the base class
            )doc";
 }
 
+inline const char *schema_of_type_py_doc() {
+  return R"doc(
+Returns the json-schema of a registered component
+
+Returns an empty dictionary if the type is not registered.
+
+:param type: The name of the component
+:type type: str
+:return: A json-schema of the registered class
+:rtype: ``typing.Dict[str, Any]``
+           )doc";
+}
+
 inline const char *register_schema_py_doc() {
   return R"doc(
 Returns the json-schema that includes registered components
@@ -85,6 +98,16 @@ py::object base_schema_py(bool reference_register = true) {
   const auto node = schema::base<T>(reference_register);
   return to_py(node);
 }
+
+template <typename T>
+py::object schema_of_type_py(const std::string & type) {
+  const auto node = schema::schema_of_type<T>(type);
+  if (node.IsNull()) {
+    return py::dict();
+  }
+  return to_py(node);
+}
+
 
 template <typename T> py::object make_type_from_yaml_py(const Node &node) {
   if (node.IsMap()) {

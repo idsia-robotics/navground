@@ -1326,16 +1326,10 @@ The random generator.
           },
           py::arg("agent"), py::arg("world"),
           DOC(navground, sim, StateEstimation, prepare))
-      .def_static("base_schema", &YAML::base_schema_py<StateEstimation>,
-                  py::arg("reference_register") = true,
-                  YAML::base_schema_py_doc())
-      .def_static("register_schema", &YAML::register_schema_py<StateEstimation>,
-                  YAML::register_schema_py_doc())
       .def_static(
           "load", &YAML::load_string_py<PyStateEstimation>, py::arg("value"),
           YAML::load_string_py_doc("state estimation", "StateEstimation")
-              .c_str())
-      .def("dump", &YAML::dump<StateEstimation>, YAML::dump_doc());
+              .c_str());
 
   py::class_<BoundedStateEstimation, StateEstimation,
              std::shared_ptr<BoundedStateEstimation>>
@@ -1582,14 +1576,8 @@ The random generator.
           py::arg("log"), DOC(navground, sim, Task, log_event))
       .def("add_callback", &Task::add_callback, py::arg("callback"),
            DOC(navground, sim, Task, add_callback))
-      .def_static("base_schema", &YAML::base_schema_py<Task>,
-                  py::arg("reference_register") = true,
-                  YAML::base_schema_py_doc())
-      .def_static("register_schema", &YAML::register_schema_py<Task>,
-                  YAML::register_schema_py_doc())
       .def_static("load", &YAML::load_string_py<PyTask>, py::arg("value"),
-                  YAML::load_string_py_doc("task", "Task").c_str())
-      .def("dump", &YAML::dump<Task>, YAML::dump_doc());
+                  YAML::load_string_py_doc("task", "Task").c_str());
 
   py::class_<DirectionTask, Task, std::shared_ptr<DirectionTask>> direction(
       m, "DirectionTask", DOC(navground, sim, DirectionTask));
@@ -2838,14 +2826,26 @@ Register a probe to record a group of data to during all runs.
             YAML::update_scenario(scenario, node);
           },
           py::arg("value"), "Sets the yaml representation")
-      .def_static("base_schema", &YAML::base_schema_py<Scenario>,
-                  py::arg("reference_register") = true,
-                  YAML::base_schema_py_doc())
-      .def_static("register_schema", &YAML::register_schema_py<Scenario>,
-                  YAML::register_schema_py_doc())
       .def_static("load", &YAML::load_string_py<PyScenario>, py::arg("value"),
                   YAML::load_string_py_doc("scenario", "Scenario").c_str())
-      .def("dump", &YAML::dump<Scenario>, YAML::dump_doc());
+      .def_static(
+          "schema_of_type",
+          [](const std::string &type) -> py::object {
+            const auto node =
+                YAML::schema::sampler_schema_of_type<Scenario>(type);
+            if (node.IsNull()) {
+              return py::dict();
+            }
+            return to_py(node);
+          },
+          py::arg("type"), YAML::schema_of_type_py_doc())
+      .def_static(
+          "register_schema",
+          []() {
+            const auto node = YAML::schema::registered_sampler<Scenario>();
+            return to_py(node);
+          },
+          YAML::register_schema_py_doc());
 
   py::class_<SimpleScenario, Scenario, std::shared_ptr<SimpleScenario>> simple(
       m, "SimpleScenario", DOC(navground, sim, SimpleScenario));

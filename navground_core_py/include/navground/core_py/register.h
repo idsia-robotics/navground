@@ -159,7 +159,8 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
           const auto desc = fget.attr("__desc__").cast<std::string>();
           const auto deprecated_names = fget.attr("__deprecated_names__")
                                             .cast<std::vector<std::string>>();
-          // py::print("Adding Property", item.first, "to type", type, "from class", owner);
+          // py::print("Adding Property", item.first, "to type", type, "from
+          // class", owner);
           add_property_py(type, owner, item.first.cast<std::string>(), v,
                           default_value, desc, deprecated_names);
         }
@@ -266,7 +267,16 @@ Check whether a type name has been registered.
     The associated type name.
 
 :return:
-    True if the type name has been registered.)doc");
+    True if the type name has been registered.)doc")
+      .def_static("base_schema", &YAML::base_schema_py<T>,
+                  py::arg("reference_register") = true,
+                  YAML::base_schema_py_doc())
+      .def_static("schema_of_type", &YAML::schema_of_type_py<T>,
+                  py::arg("type"),
+                  YAML::schema_of_type_py_doc())
+      .def_static("register_schema", &YAML::register_schema_py<T>,
+                  YAML::register_schema_py_doc())
+      .def("dump", &YAML::dump<T>, YAML::dump_doc());
   // .def_static("_register_type", &PyRegister::register_type_py,
   //             py::arg("name"), py::arg("cls"))
   // .def_static("_register_schema", &PyRegister::register_schema_py,

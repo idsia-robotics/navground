@@ -665,14 +665,8 @@ Constructs a navground property from a Python property.
       .def("feasible_from_current", &Kinematics::feasible_from_current,
            py::arg("twist"), py::arg("current"), py::arg("time_step"),
            DOC(navground, core, Kinematics, feasible_from_current))
-      .def_static("base_schema", &YAML::base_schema_py<Kinematics>,
-                  py::arg("reference_register") = true,
-                  YAML::base_schema_py_doc())
-      .def_static("register_schema", &YAML::register_schema_py<Kinematics>,
-                  YAML::register_schema_py_doc())
       .def_static("load", &YAML::load_string_py<PyKinematics>, py::arg("value"),
-                  YAML::load_string_py_doc("kinematics", "Kinematics").c_str())
-      .def("dump", &YAML::dump<Kinematics>, YAML::dump_doc());
+                  YAML::load_string_py_doc("kinematics", "Kinematics").c_str());
 
   py::class_<OmnidirectionalKinematics, Kinematics,
              std::shared_ptr<OmnidirectionalKinematics>>
@@ -927,16 +921,9 @@ Constructs a navground property from a Python property.
       .def_property("enabled", &BehaviorModulation::get_enabled,
                     &BehaviorModulation::set_enabled,
                     DOC(navground, core, BehaviorModulation, property_enabled))
-      .def_static("base_schema", &YAML::base_schema_py<BehaviorModulation>,
-                  py::arg("reference_register") = true,
-                  YAML::base_schema_py_doc())
-      .def_static("register_schema",
-                  &YAML::register_schema_py<BehaviorModulation>,
-                  YAML::register_schema_py_doc())
       .def_static(
           "load", &YAML::load_string_py<PyBehaviorModulation>, py::arg("value"),
-          YAML::load_string_py_doc("modulation", "BehaviorModulation").c_str())
-      .def("dump", &YAML::dump<BehaviorModulation>, YAML::dump_doc());
+          YAML::load_string_py_doc("modulation", "BehaviorModulation").c_str());
 
   py::class_<RelaxationModulation, BehaviorModulation,
              std::shared_ptr<RelaxationModulation>>
@@ -1343,14 +1330,8 @@ Constructs a navground property from a Python property.
            DOC(navground, core, Behavior, get_target_speed))
       .def("get_target_angular_speed", &Behavior::get_target_angular_speed,
            DOC(navground, core, Behavior, get_target_angular_speed))
-      .def_static("base_schema", &YAML::base_schema_py<Behavior>,
-                  py::arg("reference_register") = true,
-                  YAML::base_schema_py_doc())
-      .def_static("register_schema", &YAML::register_schema_py<Behavior>,
-                  YAML::register_schema_py_doc())
       .def_static("load", &YAML::load_string_py<PyBehavior>, py::arg("value"),
-                  YAML::load_string_py_doc("behavior", "Behavior").c_str())
-      .def("dump", &YAML::dump<Behavior>, YAML::dump_doc());
+                  YAML::load_string_py_doc("behavior", "Behavior").c_str());
 
   m.def(
       "behavior_has_geometric_state",

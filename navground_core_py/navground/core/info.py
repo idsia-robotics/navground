@@ -31,6 +31,9 @@ def init_parser_with_registers(parser: argparse.ArgumentParser,
                                registers: Registers) -> None:
     command.init_parser(parser)
     parser.description = description()
+    parser.add_argument('--no-build-info',
+                        help="Exclude build infos",
+                        action='store_true')
     parser.add_argument('--properties',
                         help="Include properties",
                         action='store_true')
@@ -76,7 +79,16 @@ def print_register(cls: Any,
         print(", ".join(t for t in cls.types if t and not (name and t != name)))
 
 
-def info(arg: argparse.Namespace, registers: Registers) -> None:
+def info(arg: argparse.Namespace, registers: Registers, build_info: core.BuildInfo) -> None:
+    if not arg.no_build_info:
+        print("Build")
+        print("=====")
+        print(f"git commit: {build_info.git_commit}")
+        print(f"build date: {build_info.date}")
+        print(f"floating-point type {build_info.floating_point_type}")
+        print("")
+    print("Installed components")
+    print("====================")
     for cls, title in registers:
         name = getattr(arg, get_arg(title))
         selected = name != ''
@@ -90,7 +102,7 @@ def info(arg: argparse.Namespace, registers: Registers) -> None:
 
 def _main(arg: argparse.Namespace) -> None:
     command._main(arg)
-    info(arg, registers)
+    info(arg, registers, core.build_info())
 
 
 def main() -> None:

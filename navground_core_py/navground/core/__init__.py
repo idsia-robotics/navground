@@ -4,14 +4,15 @@ import importlib.metadata
 from typing import Dict, List, Optional, Tuple, TypeAlias, Union
 
 from ._navground import (
-    Action, Behavior, BehaviorModulation, Buffer, BufferDescription, BufferMap,
+    Action, Behavior, BehaviorModulation, BehaviorModulationRegister,
+    BehaviorRegister, Buffer, BufferDescription, BufferMap, BuildInfo,
     CachedCollisionComputation, CollisionComputation, Controller, Disc,
-    EnvironmentState, Frame, GeometricState, Kinematics, LineSegment, Neighbor,
-    Path, Pose2, Property, SensingState, SocialMargin,
-    SocialMarginConstantModulation, SocialMarginLinearModulation,
-    SocialMarginLogisticModulation, SocialMarginModulation,
-    SocialMarginQuadraticModulation, SocialMarginZeroModulation, Target,
-    Twist2, clamp_norm)
+    EnvironmentState, Frame, GeometricState, HasProperties, Kinematics,
+    KinematicsRegister, LineSegment, Neighbor, Path, Pose2, Property,
+    SensingState, SocialMargin, SocialMarginConstantModulation,
+    SocialMarginLinearModulation, SocialMarginLogisticModulation,
+    SocialMarginModulation, SocialMarginQuadraticModulation,
+    SocialMarginZeroModulation, Target, Twist2, build_info, clamp_norm)
 from ._navground import get_loaded_plugins as get_loaded_cpp_plugins
 from ._navground import load_plugins as load_cpp_plugins
 from ._navground import (normalize_angle, orientation_of, rotate, schema,
@@ -173,5 +174,6 @@ __all__ = [
     "SocialMarginConstantModulation", "SocialMarginLinearModulation",
     "SocialMarginLogisticModulation", "SocialMarginModulation",
     "SocialMarginQuadraticModulation", "SocialMarginZeroModulation",
-    "PropertyField", "Vector2", "Vector2Like", "register"
+    "PropertyField", "Vector2", "Vector2Like", "register", "build_info",
+    "BuildInfo"
 ]

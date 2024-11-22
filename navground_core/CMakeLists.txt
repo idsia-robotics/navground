@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.11)
 project(navground_core)
 
 # Default to C99
@@ -24,6 +24,15 @@ option(WITH_AMENT "Whether to use ament when available" ON)
 
 include(GenerateExportHeader)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+
+
+# include(FetchContent)
+# set(FETCHCONTENT_QUIET OFF)
+# FetchContent_Declare(cmake_git_version_tracking                   
+#   GIT_REPOSITORY https://github.com/andrew-hardin/cmake-git-version-tracking.git
+#   GIT_TAG 904dbda1336ba4b9a1415a68d5f203f576b696bb
+# )
+# FetchContent_MakeAvailable(cmake_git_version_tracking)
 
 # include(FetchContent)
 # FetchContent_Declare(
@@ -101,6 +110,7 @@ target_include_directories(navground_core
 
 generate_export_header(navground_core EXPORT_FILE_NAME navground/core/export.h)
 target_link_libraries(navground_core PUBLIC Eigen3::Eigen yaml-cpp::yaml-cpp ${CMAKE_DL_LIBS})
+
 if (NAVGROUND_USES_DOUBLE)
   message("Building navground using doubles instead of floats")
   target_compile_definitions(navground_core PUBLIC NAVGROUND_USES_DOUBLE)
@@ -108,9 +118,12 @@ endif()
 
 # set_target_properties(navground_core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
+include(${CMAKE_CURRENT_LIST_DIR}/../cmake/build_info.cmake)
+
 add_executable(info src/info.cpp)
 target_link_libraries(info navground_core argparse::argparse)
 add_dependencies(info navground_core)
+add_build_info(info)
 
 add_executable(echo src/echo.cpp)
 target_link_libraries(echo navground_core argparse::argparse)

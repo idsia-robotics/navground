@@ -19,7 +19,8 @@ from ._navground_sim import (Agent, BoundingBox, Dataset, Entity, Experiment,
                              Probe, RecordConfig, RecordNeighborsConfig,
                              RecordProbe, RecordSensingConfig, Scenario,
                              SensingProbe, Sensor, StateEstimation, Task, Wall,
-                             World, schema, use_compact_samplers, uses_doubles)
+                             World, build_info, schema, use_compact_samplers,
+                             uses_doubles)
 
 SUPPORT_YAML: TypeAlias = Union[navground.core.SUPPORT_YAML, Task,
                                 StateEstimation, Scenario, Experiment, Agent,
@@ -221,5 +222,5 @@ __all__ = [
     'RecordConfig', 'RecordProbe', 'GroupRecordProbe', 'Probe', 'Dataset',
     'RecordedExperiment', 'RecordedExperimentalRun', 'SensingProbe',
     'use_compact_samplers', 'uses_doubles', 'get_loaded_plugins', 'schema',
-    'register_schema'
+    'register_schema', 'build_info'
 ]

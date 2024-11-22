@@ -16,6 +16,7 @@
 #include "docstrings.h"
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
+#include "navground/core/build_info.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/types.h"
 #include "navground/core/yaml/yaml.h"
@@ -2992,6 +2993,8 @@ Register a probe to record a group of data to during all runs.
       "uses_doubles",
       []() { return std::is_same<ng_float_t, float>::value == false; },
       "Returns whether navground has been compiled to use floats or doubles");
+
+  m.def("build_info", []() { return BuildInfo(); }, "Gets the build info");
 
   // m.def("load_plugins", &load_plugins, py::arg("plugins") = "",
   //       py::arg("env") = "", py::arg("directory") = py::none());

@@ -24,3 +24,4 @@ navground.core
    social_margin
    behavior_modulations/index
    controller
+   build

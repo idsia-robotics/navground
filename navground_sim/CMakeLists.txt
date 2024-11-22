@@ -114,15 +114,18 @@ add_executable(sample src/sample.cpp)
 target_link_libraries(sample navground_sim)
 add_dependencies(sample navground_sim)
 
+include(${CMAKE_CURRENT_LIST_DIR}/../cmake/build_info.cmake)
 add_executable(info src/info.cpp)
 target_link_libraries(info navground_sim)
 add_dependencies(info navground_sim)
+add_build_info(info)
 
 add_executable(navground src/main.cpp)
 target_link_libraries(navground navground_sim)
 add_dependencies(navground navground_sim)
 target_include_directories(navground PRIVATE ${cpptqdm_SOURCE_DIR})
 set_target_properties(navground PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+add_build_info(navground)
 
 add_executable(echo src/echo.cpp)
 target_link_libraries(echo navground_sim)

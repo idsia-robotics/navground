@@ -7,6 +7,7 @@ C++ API
 .. doxygennamespace:: navground
    :desc-only:
    
+
 navground::core
 ================
 
@@ -30,4 +31,5 @@ navground::core
    behavior_modulations/index
    controller
    helper
+   build
 

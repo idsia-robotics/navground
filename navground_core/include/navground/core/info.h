@@ -1,6 +1,7 @@
 #ifndef NAVGROUND_CORE_INFO_H
 #define NAVGROUND_CORE_INFO_H
 
+#include "navground/core/build_info.h"
 #include "navground/core/command.h"
 #include "navground/core/register.h"
 #include <algorithm>
@@ -27,6 +28,10 @@ struct InfoCommand : Command<InfoCommand> {
         .implicit_value(true);
     parser.add_argument("--description")
         .help("Include property descriptions")
+        .default_value(false)
+        .implicit_value(true);
+    parser.add_argument("--no-build")
+        .help("Exclude build infos")
         .default_value(false)
         .implicit_value(true);
     for (const auto &[title, reg] : titled_registers) {
@@ -70,7 +75,7 @@ struct InfoCommand : Command<InfoCommand> {
             }
           }
           if (with_description && !p.description.empty()) {
-            std::cout << std::endl; 
+            std::cout << std::endl;
             std::cout << "      " << p.description;
           }
           std::cout << std::endl;
@@ -100,8 +105,20 @@ struct InfoCommand : Command<InfoCommand> {
   }
 
   int execute(const argparse::ArgumentParser &parser) {
+    if (!parser.get<bool>("no-build")) {
+      BuildInfo bi;
+      std::cout << "Build" << std::endl;
+      std::cout << "=====" << std::endl;
+      std::cout << "git commit: " << bi.git_commit << std::endl;
+      std::cout << "build date: " << bi.date << std::endl;
+      std::cout << "floating-point type: " << bi.floating_point_type
+                << std::endl
+                << std::endl;
+    }
     const bool with_properties = parser.get<bool>("properties");
     const bool with_description = parser.get<bool>("description");
+    std::cout << "Installed components" << std::endl;
+    std::cout << "====================" << std::endl;
     for (const auto &[title, reg] : titled_registers) {
       std::string arg = get_arg(title);
       if (parser.is_used(arg)) {

@@ -19,6 +19,7 @@
 #include "navground/core/behaviors/HRVO.h"
 #include "navground/core/behaviors/ORCA.h"
 #include "navground/core/behaviors/dummy.h"
+#include "navground/core/build_info.h"
 #include "navground/core/cached_collision_computation.h"
 #include "navground/core/collision_computation.h"
 #include "navground/core/common.h"
@@ -45,6 +46,11 @@ PYBIND11_MAKE_OPAQUE(std::map<std::string, Buffer>);
 
 template <typename T> static std::string to_string(const T &value) {
   return std::to_string(value);
+}
+
+template <> std::string to_string(const BuildInfo &bi) {
+  return "<git_commit: " + bi.git_commit + " date: " + bi.date +
+         " floating_point_type: " + bi.floating_point_type + ">";
 }
 
 template <> std::string to_string(const Vector2 &value) {
@@ -344,6 +350,14 @@ PYBIND11_MODULE(_navground, m) {
 
   options.disable_enum_members_docstring();
 #endif
+
+  py::class_<BuildInfo>(m, "BuildInfo", DOC(BuildInfo))
+      .def_readonly("git_commit", &BuildInfo::git_commit,
+                    DOC(BuildInfo, description))
+      .def_readonly("date", &BuildInfo::date, DOC(BuildInfo, date))
+      .def_readonly("floating_point_type", &BuildInfo::floating_point_type,
+                    DOC(BuildInfo, floating_point_type))
+      .def("__repr__", &to_string<BuildInfo>);
 
   py::class_<Property>(m, "Property", DOC(navground, core, Property))
       .def(py::init(&make_property_py), py::arg("getter"), py::arg("setter"),
@@ -1850,6 +1864,8 @@ Initializes a buffer.
   m.def(
       "schema", []() { return YAML::to_py(YAML::schema::core()); },
       YAML::schema_py_doc());
+
+  m.def("build_info", []() { return BuildInfo(); }, "Gets the build info");
 
   m.def(
       "uses_doubles",

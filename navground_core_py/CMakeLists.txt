@@ -62,6 +62,9 @@ add_dependencies(_navground navground_core_py)
 set_target_properties(_navground PROPERTIES
          LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/navground/core)
 
+include(${CMAKE_CURRENT_LIST_DIR}/../cmake/build_info.cmake)
+add_build_info(_navground)
+
 install(
   DIRECTORY include/navground/core_py
   DESTINATION include/navground

@@ -182,7 +182,7 @@ Our solution (which follow the same logic as this document) is to
 
   Copies are used for POD/small classes, while reference for large classes or classes that are exchanged through (shared) pointers.
 
-- add, when it makes sense, an second accessor to *mutable* attributes, suffixed by ``_ref`` or by ``_copy``, depending on the case.
+- add, when it makes sense, a second accessor to *mutable* attributes, suffixed by ``_ref`` or by ``_copy``, depending on the case.
 
 For examples, the primary property :py:meth:`navground.core.Behavior.target` returns the target by copy, while the secondary
 :py:meth:`navground.core.Behavior.target_ref` returns it by reference. Using them, setting the orientation of a behavior's target can be done by assigning a new target
@@ -204,11 +204,7 @@ or just a new orientation
 
 .. note::
 
-   Currently this property has two accessors:
-
-   - :py:meth:`navground.core.Behavior.target` (read-write) and :py:meth:`navground.core.Behavior.target_ref` (read-only)
-
-   but this could change in future versions.
+   Currently :py:meth:`navground.core.Behavior.target` (read-write) and :py:meth:`navground.core.Behavior.target_ref` (read-only) are the only two different accessors to the same field but this could change in future nabground versions.
 
 .. warning::
 

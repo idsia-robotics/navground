@@ -59,8 +59,8 @@ You can dump objects of the same classes to YAML:
 .. note::
 
    Like for :py:mod:`navground.core`, functions ``load_<component>()`` and methods ``<Component>.load()`` are equivalent, like
-   for example :py:func:`load_task` and :py:meth:`Task.load`.
+   for example :py:func:`navground.sim.load_task` and :py:meth:`navground.sim.Task.load`.
 
-   Similar is valid for function :py:func:`dump` and methods ``<Component>.dump``, such as :py:meth:`Task.dump`.
+   Similar is valid for function :py:func:`navground.sim.dump` and methods ``<Component>.dump``, such as :py:meth:`navground.sim.Task.dump`.
 
 

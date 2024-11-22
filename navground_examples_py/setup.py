@@ -15,8 +15,8 @@ setup(
     zip_safe=True,
     maintainer='Jerome Guzzi',
     maintainer_email='jerome@idsia.ch',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='A collection of examples that uses the navground core and sim libraries from Python.',
+    license='MIT',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [

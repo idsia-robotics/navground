@@ -5,19 +5,13 @@ YAML Schemas
 The YAML formats are specified using `JSON Schema <https://json-schema.org>`_.
 You can get the full schema using :ref:`schema_sim` (C++ components only), :ref:`schema_sim_py` (C++ and Python components), like
 
-.. code-block:: console
+.. command-output:: navground schema sim
+   :ellipsis: 10
 
-   $ schema sim
-
-   $id: http://navground/sim
-   $schema: https://json-schema.org/draft/2020-12/schema
-   $defs:
-     behavior:
-   ...
 
 To validate a ``<type>`` using this schema, add a reference:
 
-.. code-block::
+.. code-block:: yaml
 
    $id: http://navground/sim
    $schema: https://json-schema.org/draft/2020-12/schema
@@ -28,7 +22,7 @@ To validate a ``<type>`` using this schema, add a reference:
 
 .. note::
 
-   All schema reported in this section are auto-generated using the Python API, see :py:func:`navground.sim.scheme()`.
+   All schema reported in this section are auto-generated using the Python API, see :py:func:`navground.sim.schema()`.
 
 
 .. toctree::

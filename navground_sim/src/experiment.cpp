@@ -246,7 +246,6 @@ void Experiment::save_run(const ExperimentalRun &sim_run) {
   }
 }
 
-// TODO()
 ExperimentalRun &Experiment::run_once(unsigned index) {
   if (state == State::running) {
     std::cerr << "Should not call run_once when already running an experiment"

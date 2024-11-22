@@ -13,20 +13,20 @@ If you built navground from source, you need to source the workspace.
 
       .. code-block:: console
 
-         . install/setup.zsh
+         $ . install/setup.zsh
 
    .. tab:: Linux
 
       .. code-block:: console
          
-         . install/setup.bash
+         $ . install/setup.bash
 
 
    .. tab:: Windows
 
       .. code-block:: console
         
-         install\setup.bat
+         $ install\setup.bat
 
 Run ``navground_py``, which is installed for any type of installations. 
 
@@ -36,33 +36,18 @@ Run ``navground_py``, which is installed for any type of installations.
 
       .. code-block:: console
 
-         navground_py
+         $ navground_py
 
    .. tab:: Windows
 
       .. code-block:: console
 
-         navground_py.exe
+         $ navground_py.exe
 
 You should get a welcome message with few sub-commands to run.
 
-.. code-block:: console
 
-   Welcome to navground!
-   
-   usage: navground_py [-h] {info,run,...} ...
-   
-   options:
-     -h, --help      show this help message and exit
-   
-   Subcommands:
-     {info,run,...}
-       info          Lists registered components.
-       run           Runs an experiment using the Python interpreter
-       run_rt        Runs an experiment using the Python interpreter in real-time.
-       sample        Samples a world from a scenario.
-       record_video  Make video from an experiment using the Python interpreter.
-       replay        Replay an experiment in real-time.
+.. command-output:: navground_py
 
 
 Navground has a modular architecture that users can extend by implementing new behaviors, kinematics, modulations, state estimation, tasks, and scenarios. At installation, navground provides several of these components to play with: calling ``info`` will list them.
@@ -73,16 +58,16 @@ Navground has a modular architecture that users can extend by implementing new b
 
       .. code-block:: console
 
-         navground_py info
+         $ navground_py info
 
    .. tab:: Windows
 
       .. code-block:: console
 
-         navground_py.exe info
+         $ navground_py.exe info
 
 
-.. code-block:: console
+.. program-output:: navground_py info --no-plugins
 
    Behaviors
    ---------

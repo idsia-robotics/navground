@@ -39,19 +39,19 @@ Install the binary dependencies:
 
       .. code-block:: console
 
-         brew install cmake git python3
+         $ brew install cmake git python3
 
    .. tab:: Linux
 
       .. code-block:: console
 
-         sudo apt install -y build-essential cmake git python3-dev python3-pip
+         $ sudo apt install -y build-essential cmake git python3-dev python3-pip
 
    .. tab:: Windows
 
       .. code-block:: console
 
-         choco install -y cmake git python3
+         $ choco install -y cmake git python3
 
 Clone this repository in the ``src`` directory
 

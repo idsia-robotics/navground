@@ -38,6 +38,8 @@ Schema
 
 .. doxygenfunction:: registered_sampler()
 
+.. doxygenfunction:: sampler_schema_of_type(const std::string &)
+
 and
 
 .. code-block:: cpp

@@ -429,7 +429,6 @@ struct convert_world {
     if (node["agents"]) {
       if (node["agents"].IsSequence()) {
         for (const auto& c : node["agents"]) {
-          // TODO
           rhs.add_agent(c.as<std::shared_ptr<T>>());
         }
       }

@@ -57,9 +57,8 @@ intersphinx_mapping = {
 tikz_resolution = 600
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-# ['tutorials', 'packages', 'guides', 'installation', 'scenarios',
-#  'background', 'first_steps.rst', 'cli.rst', 'introduction.rst']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store'] + ['tutorials', 'packages', 'guides', 'installation', 'scenarios',
+ 'background', 'first_steps.rst', 'cli.rst', 'introduction.rst']
 
 language = 'en'
 
@@ -222,7 +221,7 @@ reftarget_aliases['py'] = {
     'Task': 'navground.sim.Task',
     'StateEstimation': 'navground.sim.StateEstimation',
     'WheeledKinematics': 'navground.core.kinematics.WheeledKinematics',
-    'wheeledkinematics.axis': 'navground.core.kinematics.WheeledKinematics.axis',
+    'twowheelsdifferentialdrivekinematics.wheel_axis': 'navground.core.kinematics.WheeledKinematics.wheel_axis',
     'Task.add_callback': 'navground.sim.Task.add_callback',
     'StateEstimation.update': 'navground.sim.StateEstimation.update',
     'sim.Experiment.number_of_runs': 'navground.sim.Experiment.number_of_runs',

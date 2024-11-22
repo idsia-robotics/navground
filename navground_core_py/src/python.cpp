@@ -362,7 +362,20 @@ PYBIND11_MODULE(_navground, m) {
   py::class_<Property>(m, "Property", DOC(navground, core, Property))
       .def(py::init(&make_property_py), py::arg("getter"), py::arg("setter"),
            py::arg("default"), py::arg("description") = "",
-           py::arg("deprecated_names") = std::vector<std::string>{}, "TODO")
+           py::arg("deprecated_names") = std::vector<std::string>{}, R"doc(
+Constructs a new instance.
+
+:param getter: The getter
+:type getter: :py:class:`typing.Callable[[], T]`
+:param setter: An optional setter
+:type setter: :py:class:`typing.Callable[[T], None]` | None
+:param default: The default value, also used to set the type of the property.
+:type default: :py:type:`navground.core.PropertyField`
+:param description: Optional description
+:type description: str
+:param deprecated_names: A list of deprecated names for this property
+:type deprecated_names: list[str]
+           )doc")
       .def_readonly("description", &Property::description,
                     DOC(navground, core, Property, description))
       .def_readonly("deprecated_names", &Property::deprecated_names,
@@ -379,7 +392,18 @@ PYBIND11_MODULE(_navground, m) {
       .def_static("make", &make_property_with_py_property, py::arg("property"),
                   py::arg("default"), py::arg("description") = "",
                   py::arg("deprecated_names") = std::vector<std::string>{},
-                  "TODO");
+                  R"doc(
+Constructs a navground property from a Python property.
+
+:param property: The Python property
+:type property: :py:class:`property`
+:param default: The default value, also used to set the type of the property.
+:type default: :py:type:`navground.core.PropertyField`
+:param description: Optional description
+:type description: str
+:param deprecated_names: A list of deprecated names for this property
+:type deprecated_names: list[str]
+           )doc");
 
   py::class_<HasProperties, std::shared_ptr<HasProperties>>(
       m, "HasProperties", DOC(navground, core, HasProperties))

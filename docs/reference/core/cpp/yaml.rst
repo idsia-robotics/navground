@@ -6,7 +6,7 @@ YAML
 
 We use `yaml-cpp <https://github.com/jbeder/yaml-cpp>`_ to provide import/export 
 from/to YAML. The code in ``navground/yaml`` specializes templates
-of :py:class:`struct YAML::convert<T>`, which is how yaml-cpp is extended to custom classes.
+of :cpp:type:`struct YAML::convert<T>`, which is how yaml-cpp is extended to custom classes.
 
 You can therefore use yaml-cpp APIs, which allows to
 
@@ -70,10 +70,13 @@ registered property.
 .. code-block:: c++
 
    auto obj = node.as<std::shared_ptr<T>>();
-   // will call:
-   // - auto obj = make_type("MySubClass");
-   // - obj.set("my_property", false);
-   // in addition to setup the common fields of ``T``. 
+
+will call:
+
+- ``auto obj = make_type("MySubClass");``
+- ``obj.set("my_property", false);``
+
+in addition to setup the common fields of :cpp:type:`T`. 
 
 Moreover, we expose templated functions that returns the `JSON Schema <https://json-schema.org>`_ for the types listed above, which are also used to document the YAML representations in :doc:`../yaml/index`.
 
@@ -111,9 +114,11 @@ Partial schema
 
 .. cpp:namespace:: YAML::schema
 
-.. doxygenfunction:: schema<T>()
+.. doxygenfunction:: YAML::schema::schema()
 
 .. doxygenfunction:: base(bool)
+
+.. doxygenfunction:: schema_of_type(const std::string &)
 
 .. doxygenfunction:: registered()
 

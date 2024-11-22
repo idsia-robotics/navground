@@ -5,19 +5,12 @@ YAML Schemas
 The YAML formats are specified using `JSON Schema <https://json-schema.org>`_.
 You can get the full schema using :ref:`schema` (C++ components only), :ref:`schema_py` (C++ and Python components), like
 
-.. code-block:: console
-
-   $ schema core
-
-   $id: http://navground/core
-   $schema: https://json-schema.org/draft/2020-12/schema
-   $defs:
-     behavior:
-   ...
+.. command-output:: navground schema core
+   :ellipsis: 10
 
 To validate a ``<type>`` using this schema, add a reference:
 
-.. code-block::
+.. code-block:: yaml
 
    $id: http://navground/core
    $schema: https://json-schema.org/draft/2020-12/schema
@@ -28,7 +21,7 @@ To validate a ``<type>`` using this schema, add a reference:
 
 .. note::
 
-   All schema  reported in this section are auto-generated using the Python API, see :py:func:`navground.core.scheme()`.
+   All schema  reported in this section are auto-generated using the Python API, see :py:func:`navground.core.schema()`.
 
 .. toctree::
    :maxdepth: 2

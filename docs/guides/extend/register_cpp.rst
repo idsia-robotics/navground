@@ -261,10 +261,28 @@ Through these methods you can read more complex parameters from the YAML than :c
 
    my_complex_param:
       a: 1
-      b: 2
-      c: 3
+      b: false
 
-if you implement the custom logic in the decoder and the encoder.
+if you implement the custom logic in the decoder and the encoder, like
+
+.. code-block:: c++
+
+   void encode(YAML::Node &node) const override {
+     node["my_complex_param"]["a"] = my_int_a;
+     node["my_complex_param"]["b"] = my_bool_b;
+   }
+
+   void decode(const YAML::Node &node) override {
+     if (node["my_complex_param"]) {
+       auto param = node["my_complex_param"];
+       if (param["a"]) {
+         my_int_a = param["a"]..as<int>();
+       }
+       if (param["a"]) {
+         my_bool_b = param["b"]..as<bool>();
+       }
+     }
+   }
 
 .. warning::
 
@@ -290,6 +308,28 @@ if you implement the custom logic in the decoder and the encoder.
    the treatment as random variable for free. 
 
 
+Schema
+------
+
+If your class defines a custom YAML representation, it should also register the related JSON-schema, by passing a function of type :cpp:expr:`void(YAML::Node &)` as last argument to :cpp:func:`navground::core::HasRegister::register_type`.
+
+In the example above, we add the appropriate schema
+
+.. code-block:: c++
+
+   static void schema(YAML::Node &node) {
+     Node my_complex_param;
+     my_complex_param["type"] = "object";
+     my_complex_param["properties"]["a"]["type"] = "integer";
+     my_complex_param["properties"]["b"]["type"] = "boolean";
+     my_complex_param["additionalProperties"] = false;
+     node["properties"]["my_complex_param"] = my_complex_param;
+   }
+
+   const std::string type = register_type<MyComponent>(
+       "MyName", {{"my_param", core::Property::make(...)}}, &schema);
+
+
 Class skelethon
 ================
 
@@ -299,25 +339,28 @@ Using the appropriate macro, the class skeleton simplifies to
 .. code-block:: c++
 
    // declaration
-
+   
    struct MyComponent : public Component {
      // ...
      static const std::string type;
      // void encode(YAML::Node &node) const override;
      // void decode(const YAML::Node &node) override;
+     // static void schema(YAML::Node &node);
    };
-
+   
    // definition
-
+   
    const std::string type = register_type<MyComponent>(
-       "MyName", {
-                     {name, core::Property::make(&MyComponent::getter,
-                                                 &MyComponent::setter,
-                                                 default_value, "description")},
-                 });
+       "MyName",
+       {
+           {name, core::Property::make(&MyComponent::getter, &MyComponent::setter,
+                                       default_value, "description")},
+       }
+       // , &MyComponent::schema
+   );
 
 .. _Plugin: 
-
+   
 Install as a plugin
 ===================
 

@@ -185,10 +185,28 @@ Through these methods you can read more complex parameters from the YAML than :p
 
    my_complex_param:
       a: 1
-      b: 2
-      c: 3
+      b: false
 
-if you implement the custom logic in the decoder and the encoder, possibly getting help from `pyyaml <https://pyyaml.org>`_.
+if you implement the custom logic in the decoder and the encoder, for example, like
+
+.. code-block:: python
+
+   class MyComponent(Component, name="MyName"):
+      
+       def encode(node: dict[str, typing.Any]) -> None:
+           node['my_complex_param'] = {
+               'a': self.my_int_a, 
+               'b': self.my_bool_b
+           }
+         
+       def decode(node: dict[str, typing.Any]) -> None:
+           if 'my_complex_param' in node:
+               param = node['my_complex_param']
+               if 'a' in param:
+                   self.my_int_a = int(param['a'])
+               if 'b' in param:
+                   self.my_bool_a = bool(param['b'])
+
 
 .. warning::
 
@@ -214,6 +232,35 @@ if you implement the custom logic in the decoder and the encoder, possibly getti
    the treatment as random variable for free. 
 
 
+Schema
+------
+
+If your class defines a custom YAML representation, it should also register the related JSON-schema, as a function of type :py:type:`typing.Callable[[dict[str, typing.Any]], None]` that modify the default schema of the class.
+
+In the example above, we add the appropriate schema
+
+.. code-block:: python
+
+   class MyComponent(Component, name="MyName"):
+      
+       @core.register_schema
+       def schema(node: dict[str, typing.Any]) -> None:
+           my_complex_param = {
+               'type': 'object',
+               'properties': {
+                   'a': {
+                       'type': 'integer'
+                   },
+                   'b': {
+                       'type': 'boolean'
+                   }
+               },
+               'additionalProperties': False
+           }
+           if not node["properties"]:
+               node["properties"] = {}
+           node["properties"]["my_complex_param"] = my_complex_param
+
 
 Class skelethon
 ================
@@ -234,9 +281,12 @@ Using the appropriate macro, the class skeleton simplifies to
       def name(self, value: Type) -> None:
           ...       
 
-      .. def encode(self) -> str: ...
+      # def encode(self) -> str: ...
 
-      .. def decode(self, yaml: str) -> None: ...
+      # def decode(self, yaml: str) -> None: ...
+      
+      # @core.register_schema
+      # def schema(node: dict[str, typing.Any]) -> None: ...
 
 
 .. _Py Plugin: 

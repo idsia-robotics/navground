@@ -55,6 +55,38 @@ template <typename T> Node registered_sampler() {
   }
   return node;
 }
+
+/**
+ * @brief      Returns the json-schema of a registered component with samplers
+ * of properties.
+ *
+ * The node is empty if the type is not registered.
+ *
+ * @param[in]  type  The name of the component
+ *
+ * @tparam     T     The component type (should be a sub-class of \ref
+ * navground::core::HasRegister<T>)
+ *
+ * @return     A json-schema encoded as a \ref YAML::Node.
+ */
+template <typename T> Node sampler_schema_of_type(const std::string &type) {
+  const auto &ps = T::type_properties();
+  if (!ps.count(type)) {
+    return Node();
+  }
+  Node node = schema<T>();
+
+  for (const auto &[name, property] : ps.at(type)) {
+    node["properties"][name] = property_sampler_schema(property);
+  }
+  const auto &t_schema = T::Type::type_schema();
+  if (t_schema.count(type)) {
+    t_schema.at(type)(node);
+  }
+  node["unevaluatedProperties"] = false;
+  return node;
+}
+
 } // namespace schema
 
 } // namespace YAML

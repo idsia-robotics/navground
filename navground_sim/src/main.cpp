@@ -10,8 +10,7 @@
 #include "navground/core/plugins.h"
 #include "navground/core/schema.h"
 #include "navground/core/yaml/core.h"
-#include "navground/core/yaml/schema_core.h"
-#include "navground/sim/yaml/schema_sim.h"
+#include "navground/sim/schema.h"
 #include "navground/sim/yaml/world.h"
 #include "run_command.h"
 #include "sample_command.h"
@@ -47,34 +46,7 @@ struct MainCommand : Command<MainCommand> {
                   {"agent", &core::echo_s<sim::Agent>},
                   {"experiment", &core::echo_s<sim::Experiment>},
               }),
-        _schema(
-            "", "sim",
-            core::SchemaCommand::Schemas{
-                {"core", &YAML::schema::core},
-                {"sim", &YAML::schema::sim},
-                {"behavior", &YAML::schema::base_with_ref<core::Behavior>},
-                {"modulation",
-                 &YAML::schema::base_with_ref<core::BehaviorModulation>},
-                {"kinematics", &YAML::schema::base_with_ref<core::Kinematics>},
-                {"state_estimation",
-                 &YAML::schema::base_with_ref<sim::StateEstimation>},
-                {"task", &YAML::schema::base_with_ref<sim::Task>},
-                {"agent", &YAML::schema::schema<sim::Agent>},
-                {"world", &YAML::schema::schema<sim::World>},
-                {"scenario", &YAML::schema::base_with_ref<sim::Scenario>},
-                {"experiment", &YAML::schema::schema<sim::World>},
-                {"behavior_register",
-                 &YAML::schema::registered<core::Behavior>},
-                {"behavior_modulation_register",
-                 &YAML::schema::registered<core::BehaviorModulation>},
-                {"kinematics_register",
-                 &YAML::schema::registered<core::Kinematics>},
-                {"state_estimation_register",
-                 &YAML::schema::registered<sim::StateEstimation>},
-                {"task_register", &YAML::schema::registered<sim::Task>},
-                {"scenario_register",
-                 &YAML::schema::registered_sampler<sim::Scenario>},
-            }),
+        _schema("", "sim", schemas()),
         _list_plugins("", {"behaviors", "kinematics", "modulations",
                            "state_estimations", "tasks", "scenarios"}) {}
 

@@ -12,25 +12,31 @@ namespace navground::core {
 
 struct SchemaCommand : Command<SchemaCommand> {
 
-  template <typename T> static YAML::Node component(const std::string &type) {
+  template <typename T>
+  static YAML::Node component(const argparse::ArgumentParser &parser) {
+    const std::string type = parser.get<std::string>("type");
     if (type.empty()) {
       return YAML::schema::base_with_ref<T>();
     }
     return YAML::schema::schema_of_type<T>(type);
   }
 
-  template <typename T> static YAML::Node components(const std::string &) {
+  template <typename T>
+  static YAML::Node components(const argparse::ArgumentParser &) {
     return YAML::schema::registered<T>();
   }
 
-  template <typename T> static YAML::Node schema(const std::string &) {
+  template <typename T>
+  static YAML::Node schema(const argparse::ArgumentParser &) {
     return YAML::schema::schema<T>();
   }
 
-  using Schemas = std::map<const std::string, std::function<YAML::Node(std::string)>>;
+  using Schemas =
+      std::map<const std::string, std::function<YAML::Node(
+                                      const argparse::ArgumentParser &parser)>>;
 
-  inline const static Schemas default_schemas{
-      {"core", [](const std::string &) { return YAML::schema::core(); }},
+  inline const static Schemas core_schemas{
+      {"core", [](const argparse::ArgumentParser &) { return YAML::schema::core(); }},
       {"behavior", &component<core::Behavior>},
       {"behavior_modulation", &component<core::BehaviorModulation>},
       {"kinematics", &component<core::Kinematics>},
@@ -41,7 +47,7 @@ struct SchemaCommand : Command<SchemaCommand> {
   explicit SchemaCommand(const std::string &name,
                          const std::string &default_schema,
                          const Schemas &extra_schemas = {})
-      : Command<SchemaCommand>(name), schemas(default_schemas),
+      : Command<SchemaCommand>(name), schemas(core_schemas),
         default_schema(default_schema) {
     schemas.insert(extra_schemas.begin(), extra_schemas.end());
   }
@@ -72,8 +78,7 @@ struct SchemaCommand : Command<SchemaCommand> {
       std::cerr << "Unknown kind of object: " << kind << std::endl;
       std::exit(1);
     }
-    const std::string type = parser.get<std::string>("type");
-    const YAML::Node node = schemas.at(kind)(type);
+    const YAML::Node node = schemas.at(kind)(parser);
     YAML::Emitter out;
     out << node;
     std::cout << out.c_str();

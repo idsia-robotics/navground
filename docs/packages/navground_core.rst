@@ -59,56 +59,12 @@ Lists registered components (behaviors, kinematics, and behavior modulations) im
 Example
 ~~~~~~~
 
-.. code-block:: console
-
-   $ info --properties
-
-   Behaviors
-   ---------
-   Dummy
-   HL
-        aperture: 3.14159 (double)
-        barrier_angle: 1.5708 (double)
-        epsilon: 0 (double)
-        eta: 0.5 (double)
-        resolution: 101 (int)
-        tau: 0.125 (double)
-   HRVO
-        max_neighbors: 1000 (int)
-        uncertainty_offset: 0 (double)
-   ORCA
-        effective_center: 0 (bool)
-        max_neighbors: 1000 (int)
-        static_time_horizon: 10 (double)
-        time_horizon: 10 (double)
-        treat_obstacles_as_agents: 1 (bool)
-   
-   Kinematics
-   ----------
-   2WDiff
-        wheel_axis: 0 (double)
-   2WDiffDyn
-        max_acceleration: 0 (double)
-        moi: 1 (double)
-        wheel_axis: 0 (double)
-   4WOmni
-        wheel_axis: 0 (double)
-   Ahead
-   Omni
-   
-   Modulations
-   -----------
-   LimitAcceleration
-        max_acceleration: inf (double)
-        max_angular_acceleration: inf (double)
-   MotorPID
-        k_d: 0 (double)
-        k_i: 0 (double)
-        k_p: 1 (double)
-   Relaxation
-        tau: 0.125 (double)
+.. ng-command-output:: info --properties
+   :package: navground_core
+   :ellipsis: 20
 
 .. _echo:
+
 
 echo
 ----
@@ -125,16 +81,9 @@ Load and then print a YAML representation of an object (behavior, kinematic, or 
 Example
 ~~~~~~~
 
-.. code-block:: console
-
-   $ echo kinematics "{type: 2WDiff}"
-
-   type: 2WDiff
-   max_backward_speed: 0
-   max_forward_speed: .inf
-   wheel_axis: 0
-   max_speed: .inf
-   max_angular_speed: .inf
+.. ng-command-output:: echo kinematics "{type: 2WDiff}"
+   :package: navground_core
+   :ellipsis: 20
 
 
 .. _schema:
@@ -154,30 +103,9 @@ Print JSON-Schema of YAML-convertible navground core classes.
 Example
 ~~~~~~~
 
-.. code-block:: console
-
-   $ schema core
-
-   $id: http://navground/core
-   $schema: https://json-schema.org/draft/2020-12/schema
-   $defs:
-     vector2:
-       type: array
-       items:
-         type: number
-       minItems: 2
-       maxItems: 2
-       $id: http://navground/vector2
-       $schema: https://json-schema.org/draft/2020-12/schema
-     line_segment:
-       type: array
-       items:
-         $ref: vector2
-       minItems: 2
-       maxItems: 2
-       $id: http://navground/line_segment
-       $schema: https://json-schema.org/draft/2020-12/schema
-     ...
+.. ng-command-output:: schema core
+   :package: navground_core
+   :ellipsis: 20
 
 .. _plugins:
 
@@ -196,10 +124,6 @@ Load and list plugins.
 Example
 ~~~~~~~
 
-.. code-block:: console
-
-   $ plugins
-
-   navground_examples
-   ------------------
-   Behaviors: Idle
+.. ng-command-output:: plugins
+   :package: navground_core
+   :ellipsis: 20

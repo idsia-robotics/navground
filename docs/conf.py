@@ -14,7 +14,7 @@ import pathlib as pl
 sys.path.append(str(pl.Path(__file__).parent / 'ext'))
 
 from schema import SchemaDirective
-
+from ng_command_output import NGCommandDirective
 
 project = 'navground'
 copyright = '2023, Jérôme Guzzi, IDSIA'
@@ -40,7 +40,8 @@ extensions = [
     'sphinx_copybutton',
     'sphinxcontrib.tikz',
     'sphinx.ext.intersphinx',
-    'sphinx-prompt'
+    'sphinx-prompt',
+    'sphinxcontrib.programoutput'
     # 'sphinx_autodoc_defaultargs'
 ]
 
@@ -274,6 +275,7 @@ def setup(app):
     app.connect('autodoc-process-signature', g);
     app.connect('doctree-read', resolve_internal_aliases)
     app.add_directive('schema', SchemaDirective)
+    app.add_directive('ng-command-output', NGCommandDirective)
 
     # app.connect('missing-reference', ref)
     # app.connect('object-description-transform', l)

@@ -63,67 +63,9 @@ It is equivalent to the :ref:`C++ version <info>` but with additional components
 Example
 ~~~~~~~
 
-.. code-block:: console
-
-   $ info --properties
-     
-   Behaviors
-   ---------
-   Dummy
-   HL
-        aperture: 3.141592653589793 [double]
-        barrier_angle: 1.5707963267948966 [double]
-        epsilon: 0.0 [double]
-        eta: 0.5 [double]
-        resolution: 101 [int]
-        tau: 0.125 [double]
-   HRVO
-        max_neighbors: 1000 [int]
-        uncertainty_offset: 0.0 [double]
-   ORCA
-        effective_center: False [bool]
-        max_neighbors: 1000 [int]
-        static_time_horizon: 10.0 [double]
-        time_horizon: 10.0 [double]
-        treat_obstacles_as_agents: True [bool]
-   PyDummy
-        dummy: True [bool], deprecated synonyms: not_so_smart
-        tired: False [bool]
-   SocialForce
-        c: 0.5 [double]
-        phi: 1.75 [double]
-        step_duration: 1.0 [double]
-        tau: 0.5 [double]
-        u_a: 10.0 [double]
-        u_r: 0.2 [double]
-        v_a: 2.1 [double]
-        v_r: 0.3 [double]
-   
-   Kinematics
-   ----------
-   2WDiff
-        wheel_axis: 0.0 [double]
-   2WDiffDyn
-        max_acceleration: 0.0 [double]
-        moi: 1.0 [double]
-        wheel_axis: 0.0 [double]
-   4WOmni
-        wheel_axis: 0.0 [double]
-   Ahead
-   Omni
-   
-   Behavior modulations
-   --------------------
-   LimitAcceleration
-        max_acceleration: inf [double]
-        max_angular_acceleration: inf [double]
-   MotorPID
-        k_d: 0.0 [double]
-        k_i: 0.0 [double]
-        k_p: 1.0 [double]
-   Relaxation
-        tau: 0.125 [double]
-
+.. ng-command-output:: info --properties
+   :package: navground_core_py
+   :ellipsis: 20
 
 .. _echo_py:
 
@@ -144,26 +86,9 @@ Load and then print a YAML representation of an object (behavior, kinematic, or 
 Example
 ~~~~~~~
 
-.. code-block:: console
-
-   $ echo behavior "{type: PyDummy}"
-
-   type: PyDummy
-   dummy: true
-   tired: false
-   optimal_speed: 0
-   optimal_angular_speed: 0
-   rotation_tau: 0.5
-   safety_margin: 0
-   horizon: 5
-   path_look_ahead: 1
-   path_tau: 0.5
-   radius: 0
-   heading: velocity
-   social_margin:
-     modulation:
-       type: constant
-     default: 0
+.. ng-command-output:: echo behavior "{type: PyDummy}"
+   :package: navground_core_py
+   :ellipsis: 20
 
 
 .. _schema_py:
@@ -183,24 +108,10 @@ Print JSON-Schema of YAML-convertible navground core classes. It is equivalent t
 Example
 ~~~~~~~
 
-.. code-block:: console
+.. ng-command-output:: schema core
+   :package: navground_core_py
+   :ellipsis: 20
 
-   $ schema core
-
-   $defs:
-     behavior:
-       $id: http://navground/behavior
-       $ref: behavior_register
-       $schema: https://json-schema.org/draft/2020-12/schema
-       properties:
-         heading:
-           enum:
-           - target_point
-           - target_angle
-           - target_angular_speed
-           - velocity
-           - idle
-       ...
 
 .. _validate_py:
 
@@ -219,13 +130,10 @@ Validates a YAML representation of an object (behavior, kinematic, or behavior m
 Example
 ~~~~~~~
 
-.. code-block:: console
+.. ng-command-output:: validate kinematics "{type: 2WDiff, whel_axis: 1.0}"
+   :package: navground_core_py
+   :ellipsis: 20
 
-   $ validate kinematics "{type: 2WDiff, whel_axis: 1.0}"
-
-   Unevaluated properties are not allowed ('whel_axis' was unexpected)
-   ...
-   
 
 .. _plugins_py:
 
@@ -244,13 +152,9 @@ Load and list plugins.
 Example
 ~~~~~~~
 
-.. code-block:: console
-
-   $ plugins
-   
-   navground_examples
-   ------------------
-   Behaviors: Idle [C++]
+.. ng-command-output:: plugins
+   :package: navground_core_py
+   :ellipsis: 20
 
 
 navground.core
@@ -260,12 +164,12 @@ Instead of
 
 .. code-block:: console
 
-   install/lib/navground_core_py/<command> [arguments]
+   $ install/lib/navground_core_py/<command> [arguments]
 
 
 you can call the subcommand (``info``) from Python, like
 
 .. code-block:: console
 
-   python -m navground.core [sub-command] [arguments]
+   $ python -m navground.core [sub-command] [arguments]
 

@@ -69,30 +69,6 @@ Navground has a modular architecture that users can extend by implementing new b
 
 .. program-output:: navground_py info --no-plugins
 
-   Behaviors
-   ---------
-   Dummy, HL, HRVO, ORCA, PyDummy, SocialForce
-   
-   Kinematics
-   ----------
-   2WDiff, 2WDiffDyn, 4WOmni, Ahead, Omni
-   
-   Modulations
-   -----------
-   LimitAcceleration, MotorPID, Relaxation
-   
-   State Estimations
-   -----------------
-   Boundary, Bounded, Combination, Discs, Lidar, pyLidar
-   
-   Tasks
-   -----
-   Direction, Waypoints
-   
-   Scenarios
-   ---------
-   Antipodal, Corridor, Cross, CrossTorus, Simple
-
 Next steps
 ==========
 

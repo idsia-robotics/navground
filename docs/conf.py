@@ -221,7 +221,7 @@ reftarget_aliases['py'] = {
     'Task': 'navground.sim.Task',
     'StateEstimation': 'navground.sim.StateEstimation',
     'WheeledKinematics': 'navground.core.kinematics.WheeledKinematics',
-    'twowheelsdifferentialdrivekinematics.wheel_axis': 'navground.core.kinematics.WheeledKinematics.wheel_axis',
+    'twowheelsdifferentialdrivekinematics.wheel_axis': 'navground.core.kinematics.TwoWheelsDifferentialDriveKinematics.wheel_axis',
     'Task.add_callback': 'navground.sim.Task.add_callback',
     'StateEstimation.update': 'navground.sim.StateEstimation.update',
     'sim.Experiment.number_of_runs': 'navground.sim.Experiment.number_of_runs',

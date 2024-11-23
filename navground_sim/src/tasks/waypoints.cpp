@@ -5,6 +5,7 @@
 #include "navground/sim/tasks/waypoints.h"
 
 #include "navground/core/states/geometric.h"
+#include "navground/core/yaml/schema.h"
 #include "navground/sim/agent.h"
 #include "navground/sim/world.h"
 
@@ -67,14 +68,15 @@ bool WaypointsTask::done() const {
 
 const std::string WaypointsTask::type = register_type<WaypointsTask>(
     "Waypoints",
-    {{"waypoints",
-      Property::make(&WaypointsTask::get_waypoints,
-                     &WaypointsTask::set_waypoints, Waypoints{}, "waypoints")},
+    {{"waypoints", Property::make(&WaypointsTask::get_waypoints,
+                                  &WaypointsTask::set_waypoints, Waypoints{},
+                                  "waypoints", &YAML::schema::not_empty)},
      {"loop", Property::make(&WaypointsTask::get_loop, &WaypointsTask::set_loop,
                              default_loop, "loop")},
-     {"tolerance", Property::make(&WaypointsTask::get_tolerance,
-                                  &WaypointsTask::set_tolerance,
-                                  default_tolerance, "tolerance")},
+     {"tolerance",
+      Property::make(&WaypointsTask::get_tolerance,
+                     &WaypointsTask::set_tolerance, default_tolerance,
+                     "tolerance", &YAML::schema::positive)},
      {"random", Property::make(&WaypointsTask::get_random,
                                &WaypointsTask::set_random, default_random,
                                "Whether to pick the next waypoint randomly")}});

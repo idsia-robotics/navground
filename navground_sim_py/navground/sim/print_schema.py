@@ -4,7 +4,7 @@ from navground import sim
 from navground.core import command, print_schema
 
 schemas: print_schema.Schemas = print_schema.schemas | {
-    "sim": sim.schema,
+    "sim": sim.schema.sim,
     "agent": sim.Agent.schema,
     "world": sim.World.schema,
     "experiment": sim.World.schema,

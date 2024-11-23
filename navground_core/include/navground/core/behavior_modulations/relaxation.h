@@ -70,7 +70,7 @@ public:
    *
    * @param[in]  value  A positive value. If zero, relaxation is disabled.
    */
-  void set_tau(ng_float_t value) { _tau = value; }
+  void set_tau(ng_float_t value) { _tau = std::max<ng_float_t>(value, 0); }
 
 private:
   ng_float_t _tau;

@@ -68,7 +68,7 @@ template <> struct convert<Disc> {
     Node node;
     node["type"] = "object";
     node["properties"]["position"] = schema::ref<Vector2>();
-    node["properties"]["radius"] = schema::type<ng_float_t>();
+    node["properties"]["radius"] = schema::type<schema::positive_float>();
     node["unevaluatedProperties"] = false;
     return node;
   }
@@ -93,7 +93,7 @@ template <> struct convert<Neighbor> {
   static Node schema() {
     Node node = convert<Disc>::schema();
     node["properties"]["velocity"] = schema::ref<Vector2>();
-    node["properties"]["id"] = schema::type<int>();
+    node["properties"]["id"] = schema::type<unsigned>();
     return node;
   }
   static constexpr const char name[] = "neighbor";
@@ -191,14 +191,14 @@ template <> struct convert<Behavior> {
     node["type"] = "object";
     node["unevaluatedProperties"] = false;
     node["properties"]["type"] = schema::type<std::string>();
-    node["properties"]["optimal_speed"] = schema::type<ng_float_t>();
-    node["properties"]["optimal_angular_speed"] = schema::type<ng_float_t>();
-    node["properties"]["rotation_tau"] = schema::type<ng_float_t>();
-    node["properties"]["safety_margin"] = schema::type<ng_float_t>();
-    node["properties"]["horizon"] = schema::type<ng_float_t>();
-    node["properties"]["path_look_ahead"] = schema::type<ng_float_t>();
-    node["properties"]["path_tau"] = schema::type<ng_float_t>();
-    node["properties"]["radius"] = schema::type<ng_float_t>();
+    node["properties"]["optimal_speed"] = schema::type<schema::positive_float>();
+    node["properties"]["optimal_angular_speed"] = schema::type<schema::positive_float>();
+    node["properties"]["rotation_tau"] = schema::type<schema::positive_float>();
+    node["properties"]["safety_margin"] = schema::type<schema::positive_float>();
+    node["properties"]["horizon"] = schema::type<schema::positive_float>();
+    node["properties"]["path_look_ahead"] = schema::type<schema::positive_float>();
+    node["properties"]["path_tau"] = schema::type<schema::positive_float>();
+    node["properties"]["radius"] = schema::type<schema::positive_float>();
     node["properties"]["heading"] = schema::type<Behavior::Heading>();
     node["properties"]["kinematics"] = schema::ref<Kinematics>();
     node["properties"]["social_margin"] = schema::type<SocialMargin>();
@@ -401,7 +401,7 @@ template <> struct convert<SocialMargin::Modulation> {
     node["type"] = "object";
     node["properties"]["type"]["enum"] = std::vector<std::string>{
         "zero", "constant", "linear", "quadratic", "logistic"};
-    node["properties"]["upper"] = schema::type<ng_float_t>();
+    node["properties"]["upper"] = schema::type<schema::positive_float>();
     return node;
   }
 };

@@ -3,6 +3,7 @@
  */
 
 #include "navground/core/behaviors/ORCA.h"
+#include "navground/core/yaml/schema.h"
 
 #include <cmath>
 
@@ -323,12 +324,13 @@ const std::string ORCABehavior::type = register_type<ORCABehavior>(
         {"time_horizon",
          Property::make<ng_float_t>(&ORCABehavior::get_time_horizon,
                                     &ORCABehavior::set_time_horizon, 10,
-                                    "Time horizon")},
+                                    "Time horizon", &YAML::schema::positive)},
         {"static_time_horizon",
          Property::make<ng_float_t>(
              &ORCABehavior::get_static_time_horizon,
              &ORCABehavior::set_static_time_horizon, 10,
-             "Time horizon applied to static linear obstacles")},
+             "Time horizon applied to static linear obstacles",
+             &YAML::schema::positive)},
         {"effective_center",
          Property::make(
              &ORCABehavior::is_using_effective_center,
@@ -343,7 +345,8 @@ const std::string ORCABehavior::type = register_type<ORCABehavior>(
         {"max_neighbors",
          Property::make(&ORCABehavior::get_max_number_of_neighbors,
                         &ORCABehavior::set_max_number_of_neighbors, 1000,
-                        "The maximal number of [RVO] neighbors")},
+                        "The maximal number of [RVO] neighbors",
+                        &YAML::schema::positive)},
     });
 
 } // namespace navground::core

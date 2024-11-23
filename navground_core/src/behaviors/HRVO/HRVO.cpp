@@ -3,10 +3,10 @@
  */
 
 #include "navground/core/behaviors/HRVO.h"
-
 #include "HRVO/Agent.h"
 #include "HRVO/HRVO.h"
 #include "HRVO/Obstacle.h"
+#include "navground/core/yaml/schema.h"
 
 namespace navground::core {
 
@@ -168,16 +168,16 @@ unsigned HRVOBehavior::get_max_number_of_neighbors() const {
 }
 
 const std::string HRVOBehavior::type = register_type<HRVOBehavior>(
-    "HRVO",
-    {
-        {"uncertainty_offset",
-         Property::make(&HRVOBehavior::get_uncertainty_offset,
-                        &HRVOBehavior::set_uncertainty_offset, 0,
-                        "Uncertainty offset")},
-        {"max_neighbors",
-         Property::make(&HRVOBehavior::get_max_number_of_neighbors,
-                        &HRVOBehavior::set_max_number_of_neighbors, 1000,
-                        "The maximal number of [HRVO] neighbors")},
-    });
+    "HRVO", {
+                {"uncertainty_offset",
+                 Property::make(&HRVOBehavior::get_uncertainty_offset,
+                                &HRVOBehavior::set_uncertainty_offset, 0,
+                                "Uncertainty offset")},
+                {"max_neighbors",
+                 Property::make(&HRVOBehavior::get_max_number_of_neighbors,
+                                &HRVOBehavior::set_max_number_of_neighbors,
+                                1000, "The maximal number of [HRVO] neighbors",
+                                &YAML::schema::positive)},
+            });
 
 } // namespace navground::core

@@ -3,6 +3,7 @@ from typing import Dict
 
 import numpy as np
 from navground import core, sim
+from navground.core import schema
 
 
 class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):  # type: ignore
@@ -49,7 +50,7 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):  # type: ignore
         self._start_angle = value
 
     @property
-    @sim.register(2 * np.pi, "Field of view")
+    @sim.register(2 * np.pi, "Field of view", schema.positive)
     def field_of_view(self) -> float:
         return self._field_of_view
 
@@ -58,7 +59,7 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):  # type: ignore
         self._field_of_view = max(0.0, value)
 
     @property
-    @sim.register(4.0, "Range")
+    @sim.register(4.0, "Range", schema.positive)
     def range(self) -> float:
         return self._range
 
@@ -67,7 +68,7 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):  # type: ignore
         self._range = max(0.0, value)
 
     @property
-    @sim.register(11, "Resolution")
+    @sim.register(11, "Resolution", schema.strict_positive)
     def resolution(self) -> int:
         return self._resolution
 

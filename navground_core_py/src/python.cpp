@@ -362,6 +362,7 @@ PYBIND11_MODULE(_navground, m) {
   py::class_<Property>(m, "Property", DOC(navground, core, Property))
       .def(py::init(&make_property_py), py::arg("getter"), py::arg("setter"),
            py::arg("default"), py::arg("description") = "",
+           py::arg("schema") = nullptr,
            py::arg("deprecated_names") = std::vector<std::string>{}, R"doc(
 Constructs a new instance.
 
@@ -373,6 +374,8 @@ Constructs a new instance.
 :type default: :py:type:`navground.core.PropertyField`
 :param description: Optional description
 :type description: str
+:param schema: Optional schema modifier
+:type schema: :py:class:`typing.Callable[[dict[str, typing.Any]], None]`
 :param deprecated_names: A list of deprecated names for this property
 :type deprecated_names: list[str]
            )doc")
@@ -391,6 +394,7 @@ Constructs a new instance.
       .def("__repr__", &to_string<Property>)
       .def_static("make", &make_property_with_py_property, py::arg("property"),
                   py::arg("default"), py::arg("description") = "",
+                  py::arg("schema") = nullptr,
                   py::arg("deprecated_names") = std::vector<std::string>{},
                   R"doc(
 Constructs a navground property from a Python property.
@@ -401,6 +405,8 @@ Constructs a navground property from a Python property.
 :type default: :py:type:`navground.core.PropertyField`
 :param description: Optional description
 :type description: str
+:param schema: Optional schema modifier
+:type schema: :py:class:`typing.Callable[[dict[str, typing.Any]], None]`
 :param deprecated_names: A list of deprecated names for this property
 :type deprecated_names: list[str]
            )doc");

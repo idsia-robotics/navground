@@ -98,15 +98,15 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
     type_properties()[name] = Properties{};
   }
 
-  static void set_schema_py(const std::string &name,
-                            const py::function &schema_fn) {
-    schema[name] = schema_fn;
-    type_schema()[name] = [schema_fn](YAML::Node &node) {
-      auto obj = YAML::to_py(node);
-      schema_fn(obj);
-      node = YAML::from_py(obj);
-    };
-  }
+  // static void set_schema_py(const std::string &name,
+  //                           const py::function &schema_fn) {
+  //   schema[name] = schema_fn;
+  //   type_schema()[name] = [schema_fn](YAML::Node &node) {
+  //     auto obj = YAML::to_py(node);
+  //     schema_fn(obj);
+  //     node = YAML::from_py(obj);
+  //   };
+  // }
 
   static std::vector<std::string> types() {
     std::vector rs = HasRegister<T>::types();
@@ -154,15 +154,34 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
       if (isinstance(v, py_property).cast<bool>() && py::hasattr(v, "fget")) {
         const auto fget = v.attr("fget");
         if (py::hasattr(fget, "__default_value__")) {
-          const auto default_value =
+          auto default_value =
               fget.attr("__default_value__").cast<Property::Field>();
+          // If a list is empty, Python as no way to cast it to the correct
+          // type. Therefore, we read the type from a extra `__scalar_value__`
+          // field.
+          if (is_empty_vector(default_value) &&
+              py::hasattr(fget, "__scalar_value__")) {
+            const auto scalar_value =
+                fget.attr("__scalar_value__").cast<Property::Scalar>();
+            default_value = std::visit(
+                [](auto &&arg) -> Property::Field {
+                  using S = std::decay_t<decltype(arg)>;
+                  return std::vector<S>();
+                },
+                scalar_value);
+          }
           const auto desc = fget.attr("__desc__").cast<std::string>();
           const auto deprecated_names = fget.attr("__deprecated_names__")
                                             .cast<std::vector<std::string>>();
+
+          const auto schema =
+              py::hasattr(v, "fget")
+                  ? fget.attr("__schema__").cast<std::optional<py::function>>()
+                  : std::nullopt;
           // py::print("Adding Property", item.first, "to type", type, "from
           // class", owner);
           add_property_py(type, owner, item.first.cast<std::string>(), v,
-                          default_value, desc, deprecated_names);
+                          default_value, desc, schema, deprecated_names);
         }
       }
     }
@@ -182,7 +201,8 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
       if (isinstance(v, py_staticmethod).cast<bool>() &&
           py::hasattr(v, "__is_schema__")) {
         // py::print("Setting schema for type", type);
-        set_schema_py(type, v);
+        // set_schema_py(type, v);
+        type_schema()[type] = YAML::from_schema_py(v);
       }
     }
   }
@@ -192,9 +212,10 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
                   const std::string &name, const py::object &py_property,
                   const Property::Field &default_value,
                   const std::string &description = "",
+                  const std::optional<py::function> &schema = std::nullopt,
                   const std::vector<std::string> &deprecated_names = {}) {
-    Property p = make_property_with_py_property(py_property, default_value,
-                                                description, deprecated_names);
+    Property p = make_property_with_py_property(
+        py_property, default_value, description, schema, deprecated_names);
     p.owner_type_name = owner;
     type_properties()[type][name] = std::move(p);
   }
@@ -272,8 +293,7 @@ Check whether a type name has been registered.
                   py::arg("reference_register") = true,
                   YAML::base_schema_py_doc())
       .def_static("schema_of_type", &YAML::schema_of_type_py<T>,
-                  py::arg("type"),
-                  YAML::schema_of_type_py_doc())
+                  py::arg("type"), YAML::schema_of_type_py_doc())
       .def_static("register_schema", &YAML::register_schema_py<T>,
                   YAML::register_schema_py_doc())
       .def("dump", &YAML::dump<T>, YAML::dump_doc());

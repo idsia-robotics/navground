@@ -12,6 +12,7 @@
 #include "./utilities.h"
 #include "navground/core/export.h"
 #include "navground/core/types.h"
+#include "yaml-cpp/yaml.h"
 
 namespace navground::core {
 
@@ -40,6 +41,12 @@ using TypedSetter = std::function<void(C *, const T &)>;
  * using the methods exposed by \ref navground::core::HasProperties.
  */
 struct Property {
+
+  /**
+   * The type of the scalar values held by the property.
+   */
+  using Scalar = std::variant<bool, int, ng_float_t, std::string, Vector2>;
+
   /**
    * The type of the value held by the property.
    */
@@ -88,6 +95,11 @@ struct Property {
   using Setter = std::function<void(HasProperties *, const Field &)>;
 
   /**
+   * A custom YAML schema modifier
+   */
+  using Schema = std::function<void(YAML::Node &)>;
+
+  /**
    * The property value getter.
    */
   Getter getter;
@@ -118,7 +130,15 @@ struct Property {
    */
   std::vector<std::string> deprecated_names;
 
+  /**
+   * Whether the property is readonly
+   */
   bool readonly;
+
+  /**
+   * A custom YAML schema for the property to add validity constrains
+   */
+  Schema schema;
 
   /**
    * @brief      Makes a property from a pair of typed setters and getters.
@@ -134,6 +154,7 @@ struct Property {
    * @param[in]  description    The property description
    * @param[in]  deprecated_names A list of deprecated alias names
    *                              for this property.
+   * @param[in]  schema         An optional schema
    *
    * @tparam     T              The type of the property
    * @tparam     C              The type of the property owner
@@ -144,8 +165,10 @@ struct Property {
   static Property make(const TypedGetter<T, C> &getter,
                        const TypedSetter<T, C> &setter, const T &default_value,
                        const std::string &description = "",
+                       const Schema &schema = nullptr,
                        const std::vector<std::string> &deprecated_names = {}) {
     Property property;
+    property.schema = schema;
     property.description = description;
     property.default_value = default_value;
     // property.type_name = std::string(get_type_name<T>());
@@ -194,6 +217,7 @@ struct Property {
    * @param[in]  description    The property description
    * @param[in]  deprecated_names A list of deprecated alias names
    *                              for this property.
+   * @param[in]  schema         An optional schema
    *
    * @tparam     T              The type of the property
    * @tparam     C              The type of the property owner
@@ -203,9 +227,10 @@ struct Property {
   template <typename T, class C>
   static Property make(const TypedGetter<T, C> &getter,
                        const std::string &description = "",
+                       const Schema &schema = nullptr,
                        const std::vector<std::string> &deprecated_names = {}) {
     return make(getter, static_cast<const TypedSetter<T, C> &>(nullptr), T{},
-                description, deprecated_names);
+                description, schema, deprecated_names);
   }
 
   /**
@@ -220,6 +245,7 @@ struct Property {
    * @param[in]  description    The property description
    * @param[in]  deprecated_names A list of deprecated alias names
    *                              for this property.
+   * @param[in]  schema         An optional schema
    *
    * @tparam     T              The type of the property
    * @tparam     C              The type of the property owner
@@ -229,8 +255,43 @@ struct Property {
   template <typename T, class C>
   static core::Property
   make(T (C::*getter)() const, const std::string &description = "",
-       const std::vector<std::string> &deprecated_names = {}) {
+       const std::vector<std::string> &deprecated_names = {},
+       const Schema &schema = nullptr) {
     return make(static_cast<const TypedGetter<T, C> &>(getter), description,
+                schema, deprecated_names);
+  }
+
+  /**
+   * @brief      Makes a property from a pair of class setters and getters.
+   * It erases the type of the property (``T``)
+   * and of the property owner (``C``) from the interface, replacing typed by
+   * generic getters and setters. The property type is effectively preserved
+   * inside the getter and setter.
+   *
+   *
+   * @param[in]  getter         A getter
+   * @param[in]  setter         A setter
+   * @param[in]  default_value  The property default value
+   * @param[in]  description    The property description
+   * @param[in]  deprecated_names A list of deprecated alias names
+   *                              for this property.
+   * @param[in]  schema         An optional schema
+   *
+   * @tparam     T              The type of the property
+   * @tparam     C              The type of the property owner
+   * @tparam     U              The type manipulated by the getter and setter.
+   *
+   * @return     A property
+   */
+  template <typename T, class C, typename U>
+  static Property make(U (C::*getter)() const, void (C::*setter)(const U &),
+                       const T &default_value,
+                       const std::string &description = "",
+                       const Schema &schema = nullptr,
+                       const std::vector<std::string> &deprecated_names = {}) {
+    return make(static_cast<const TypedGetter<T, C> &>(getter),
+                static_cast<const TypedSetter<T, C> &>(setter),
+                static_cast<T>(default_value), description, schema,
                 deprecated_names);
   }
 
@@ -248,6 +309,7 @@ struct Property {
    * @param[in]  description    The property description
    * @param[in]  deprecated_names A list of deprecated alias names
    *                              for this property.
+   * @param[in]  schema         An optional schema
    *
    * @tparam     T              The type of the property
    * @tparam     C              The type of the property owner
@@ -256,44 +318,14 @@ struct Property {
    * @return     A property
    */
   template <typename T, class C, typename U>
-  static Property make(U (C::*getter)() const, void (C::*setter)(const U &),
-                       const T &default_value,
-                       const std::string &description = "",
-                       const std::vector<std::string> &deprecated_names = {}) {
+  static Property
+  make(U (C::*getter)() const, void (C::*setter)(U), const T &default_value,
+       const std::string &description = "", const Schema &schema = nullptr,
+       const std::vector<std::string> &deprecated_names = {}) {
     return make(static_cast<const TypedGetter<T, C> &>(getter),
                 static_cast<const TypedSetter<T, C> &>(setter),
-                static_cast<T>(default_value), description, deprecated_names);
-  }
-
-  /**
-   * @brief      Makes a property from a pair of class setters and getters.
-   * It erases the type of the property (``T``)
-   * and of the property owner (``C``) from the interface, replacing typed by
-   * generic getters and setters. The property type is effectively preserved
-   * inside the getter and setter.
-   *
-   *
-   * @param[in]  getter         A getter
-   * @param[in]  setter         A setter
-   * @param[in]  default_value  The property default value
-   * @param[in]  description    The property description
-   * @param[in]  deprecated_names A list of deprecated alias names
-   *                              for this property.
-   *
-   * @tparam     T              The type of the property
-   * @tparam     C              The type of the property owner
-   * @tparam     U              The type manipulated by the getter and setter.
-   *
-   * @return     A property
-   */
-  template <typename T, class C, typename U>
-  static Property make(U (C::*getter)() const, void (C::*setter)(U),
-                       const T &default_value,
-                       const std::string &description = "",
-                       const std::vector<std::string> &deprecated_names = {}) {
-    return make(static_cast<const TypedGetter<T, C> &>(getter),
-                static_cast<const TypedSetter<T, C> &>(setter),
-                static_cast<T>(default_value), description, deprecated_names);
+                static_cast<T>(default_value), description, schema,
+                deprecated_names);
   }
 
   /**
@@ -309,6 +341,7 @@ struct Property {
    * @param[in]  description    The property description
    * @param[in]  deprecated_names A list of deprecated alias names
    *                              for this property.
+   * @param[in]  schema         An optional schema
    *
    * @tparam     T              The type of the property
    * @tparam     C              The type of the property owner
@@ -320,11 +353,12 @@ struct Property {
   static Property
   make_readwrite(U C::*param, const T &default_value,
                  const std::string &description = "",
+                 const Schema &schema = nullptr,
                  const std::vector<std::string> &deprecated_names = {}) {
     return make<T, C>(
         [param](const C *c) -> T { return c->*param; },
         [param](C *c, const T &value) -> void { c->*param = value; },
-        static_cast<T>(default_value), description, deprecated_names);
+        static_cast<T>(default_value), description, schema, deprecated_names);
   }
 
   /**
@@ -339,6 +373,7 @@ struct Property {
    * @param[in]  description    The property description
    * @param[in]  deprecated_names A list of deprecated alias names
    *                              for this property.
+   * @param[in]  schema         An optional schema
    *
    * @tparam     T              The type of the property
    * @tparam     C              The type of the property owner
@@ -349,9 +384,10 @@ struct Property {
   template <typename T, class C, typename U>
   static Property
   make_readonly(U C::*param, const std::string &description = "",
+                const Schema &schema = nullptr,
                 const std::vector<std::string> &deprecated_names = {}) {
     return make<T, C>([param](const C *c) -> T { return c->*param; },
-                      description, deprecated_names);
+                      description, schema, deprecated_names);
   }
 
   /**
@@ -366,6 +402,7 @@ struct Property {
    * @param[in]  description    The property description
    * @param[in]  deprecated_names A list of deprecated alias names
    *                              for this property.
+   * @param[in]  schema         An optional schema
    *
    * @tparam     C              The type of the property owner
    * @tparam     U              The type of param and property
@@ -375,8 +412,9 @@ struct Property {
   template <class C, typename U>
   static Property
   make_readonly(U C::*param, const std::string &description = "",
+                const Schema &schema = nullptr,
                 const std::vector<std::string> &deprecated_names = {}) {
-    return make_readonly<U, C, U>(param, description, deprecated_names);
+    return make_readonly<U, C, U>(param, description, schema, deprecated_names);
   }
 };
 

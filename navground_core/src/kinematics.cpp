@@ -1,4 +1,5 @@
 #include "navground/core/kinematics.h"
+#include "navground/core/yaml/schema.h"
 #include <assert.h>
 
 namespace navground::core {
@@ -63,7 +64,7 @@ static const Properties two_wheel_diff_prop{
     {"wheel_axis",
      Property::make(&TwoWheelsDifferentialDriveKinematics::get_wheel_axis,
                     &TwoWheelsDifferentialDriveKinematics::set_wheel_axis,
-                    ng_float_t(1), "Wheel Axis")},
+                    ng_float_t(1), "Wheel Axis", &YAML::schema::positive)},
     {"max_forward_speed",
      Property::make(
          &TwoWheelsDifferentialDriveKinematics::get_max_forward_speed,
@@ -158,12 +159,14 @@ const std::string DynamicTwoWheelsDifferentialDriveKinematics::type =
                          get_max_acceleration,
                      &DynamicTwoWheelsDifferentialDriveKinematics::
                          set_max_acceleration,
-                     ng_float_t(0), "Maximal acceleration")},
+                     ng_float_t(0), "Maximal acceleration",
+                     &YAML::schema::positive)},
                 {"moi",
                  core::Property::make(
                      &DynamicTwoWheelsDifferentialDriveKinematics::get_moi,
                      &DynamicTwoWheelsDifferentialDriveKinematics::set_moi,
-                     ng_float_t(1), "Scaled moment of inertia")},
+                     ng_float_t(1), "Scaled moment of inertia",
+                     &YAML::schema::positive)},
             });
 
 Twist2 FourWheelsOmniDriveKinematics::twist(const WheelSpeeds &speeds) const {
@@ -237,6 +240,7 @@ const std::string FourWheelsOmniDriveKinematics::type =
         {{"wheel_axis",
           Property::make(&FourWheelsOmniDriveKinematics::get_wheel_axis,
                          &FourWheelsOmniDriveKinematics::set_wheel_axis,
-                         ng_float_t(1), "Wheel Axis")}});
+                         ng_float_t(1), "Wheel Axis",
+                         &YAML::schema::positive)}});
 
 } // namespace navground::core

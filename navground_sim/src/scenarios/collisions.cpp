@@ -3,7 +3,7 @@
  */
 
 #include "navground/sim/scenarios/collisions.h"
-
+#include "navground/core/yaml/schema.h"
 #include <memory>
 #include <utility>
 #include <vector>
@@ -49,8 +49,9 @@ const std::string CollisionsScenario::type = register_type<CollisionsScenario>(
     "Collisions", {{"behavior_name",
                     Property::make_readwrite(&CollisionsScenario::behavior_name,
                                              "HL", "Behavior name")},
-                   {"control_period", Property::make_readwrite(
-                                          &CollisionsScenario::control_period,
-                                          ng_float_t(0.1), "Control period")}});
+                   {"control_period",
+                    Property::make_readwrite(
+                        &CollisionsScenario::control_period, ng_float_t(0.1),
+                        "Control period", &YAML::schema::positive)}});
 
 } // namespace navground::sim

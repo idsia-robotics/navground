@@ -99,15 +99,13 @@ py::object base_schema_py(bool reference_register = true) {
   return to_py(node);
 }
 
-template <typename T>
-py::object schema_of_type_py(const std::string & type) {
+template <typename T> py::object schema_of_type_py(const std::string &type) {
   const auto node = schema::schema_of_type<T>(type);
   if (node.IsNull()) {
     return py::dict();
   }
   return to_py(node);
 }
-
 
 template <typename T> py::object make_type_from_yaml_py(const Node &node) {
   if (node.IsMap()) {
@@ -145,6 +143,16 @@ py::object load_string_unique_py(const std::string &value) {
   } catch (const ParserException &ex) {
     return py::none();
   }
+}
+
+using Schema = std::function<void(YAML::Node &)>;
+
+inline Schema from_schema_py(const py::function &schema_fn) {
+  return [schema_fn](YAML::Node &node) {
+    auto obj = YAML::to_py(node);
+    schema_fn(obj);
+    node = YAML::from_py(obj);
+  };
 }
 
 } // namespace YAML

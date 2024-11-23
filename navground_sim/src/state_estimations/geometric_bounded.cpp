@@ -3,7 +3,7 @@
  */
 
 #include "navground/sim/state_estimations/geometric_bounded.h"
-
+#include "navground/core/yaml/schema.h"
 #include "navground/sim/agent.h"
 #include "navground/sim/world.h"
 
@@ -53,7 +53,7 @@ const std::string BoundedStateEstimation::type =
          {"range",
           Property::make(&BoundedStateEstimation::get_range,
                          &BoundedStateEstimation::set_range, default_range,
-                         "Maximal range (< 0 =infinite)", {"range_of_view"})},
+                         "Maximal range (< 0 =infinite)", nullptr, {"range_of_view"})},
          {"update_static_obstacles",
           Property::make(&BoundedStateEstimation::get_update_static_obstacles,
                          &BoundedStateEstimation::set_update_static_obstacles,

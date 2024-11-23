@@ -3,8 +3,8 @@
  */
 
 #include "navground/core/behavior_modulations/relaxation.h"
-
 #include "navground/core/behavior.h"
+#include "navground/core/yaml/schema.h"
 
 namespace navground::core {
 
@@ -73,8 +73,9 @@ Twist2 RelaxationModulation::post(Behavior &behavior, ng_float_t time_step,
 
 const std::string RelaxationModulation::type =
     register_type<RelaxationModulation>(
-        "Relaxation", {{"tau", Property::make(&RelaxationModulation::get_tau,
-                                              &RelaxationModulation::set_tau,
-                                              default_tau, "Tau")}});
+        "Relaxation",
+        {{"tau", Property::make(&RelaxationModulation::get_tau,
+                                &RelaxationModulation::set_tau, default_tau,
+                                "Tau", &YAML::schema::positive)}});
 
 } // namespace navground::core

@@ -27,7 +27,7 @@ class PyDummyBehavior(Behavior, name="PyDummy"):
         self._tired = False
 
     @property
-    @register(True, "Am I dummy?", ["not_so_smart"])
+    @register(True, "Am I dummy?", None, ["not_so_smart"])
     def dummy(self) -> bool:
         return True
 

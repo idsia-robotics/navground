@@ -4,16 +4,29 @@
 #include <pybind11/pybind11.h>
 
 #include "navground/core/property.h"
+#include "navground/core_py/yaml.h"
 
 namespace py = pybind11;
+using navground::core::HasProperties;
 using navground::core::Property;
 using navground::core::Vector2;
-using navground::core::HasProperties;
 
 template <typename> struct is_std_vector : std::false_type {};
 
 template <typename T, typename A>
 struct is_std_vector<std::vector<T, A>> : std::true_type {};
+
+bool is_empty_vector(const Property::Field &value) {
+  return std::visit(
+      [](auto &&arg) -> bool {
+        using T = std::decay_t<decltype(arg)>;
+        if constexpr (is_std_vector<T>::value) {
+          return arg.size() == 0;
+        }
+        return false;
+      },
+      value);
+}
 
 template <typename T>
 std::optional<Property::Field> convert_py(const Property::Field &value) {
@@ -70,6 +83,7 @@ inline Property
 make_property_py(const py::object &py_getter, const py::object &py_setter,
                  const Property::Field &default_value,
                  const std::string &description = "",
+                 const std::optional<py::function> &py_schema = std::nullopt,
                  const std::vector<std::string> &deprecated_names = {}) {
   Property p;
   if (!py_getter.is_none()) {
@@ -94,6 +108,12 @@ make_property_py(const py::object &py_getter, const py::object &py_setter,
   } else {
     p.setter = nullptr;
   }
+  if (py_schema) {
+    p.schema = YAML::from_schema_py(*py_schema);
+  } else {
+    p.schema = nullptr;
+  }
+
   p.readonly = py_setter.is_none();
   p.default_value = default_value;
   p.type_name = std::string(Property::friendly_type_name(default_value));
@@ -105,9 +125,11 @@ make_property_py(const py::object &py_getter, const py::object &py_setter,
 inline Property make_property_with_py_property(
     const py::object &py_property, const Property::Field &default_value,
     const std::string &description = "",
+    const std::optional<py::function> &py_schema = std::nullopt,
     const std::vector<std::string> &deprecated_names = {}) {
   return make_property_py(py_property.attr("fget"), py_property.attr("fset"),
-                          default_value, description, deprecated_names);
+                          default_value, description, py_schema,
+                          deprecated_names);
 }
 
 #endif // NAVGROUND_CORE_PY_YAML_H

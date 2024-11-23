@@ -1,6 +1,7 @@
 from typing import List, Tuple, Union, cast
 from navground import core, sim
 import numpy as np
+from navground.core import schema
 
 
 def get_path(points: List[core.Vector2]) -> core.Path:
@@ -69,8 +70,8 @@ class PathTask(sim.Task, name="Path"):  # type: ignore[call-arg]
         self._tolerance = tolerance
 
     @property
-    @sim.register([np.zeros(2)], "points")
-    def points(self) -> 'List[core.Vector2]':
+    @sim.register([], "points", schema.longer_than(1))
+    def points(self) -> List[core.Vector2]:
         """
         :returns:    The points defining the curve
         """
@@ -81,7 +82,7 @@ class PathTask(sim.Task, name="Path"):  # type: ignore[call-arg]
         self._points = value
 
     @property
-    @sim.register(1.0, "tolerance")
+    @sim.register(1.0, "tolerance", schema.positive)
     def tolerance(self) -> float:
         """
         :returns:   The goal tolerance
@@ -90,7 +91,7 @@ class PathTask(sim.Task, name="Path"):  # type: ignore[call-arg]
 
     @tolerance.setter
     def tolerance(self, value: float) -> None:
-        self._tolerance = value
+        self._tolerance = max(0, value)
 
     def done(self) -> bool:
         return False

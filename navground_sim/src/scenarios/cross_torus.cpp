@@ -3,7 +3,7 @@
  */
 
 #include "navground/sim/scenarios/cross_torus.h"
-
+#include "navground/core/yaml/schema.h"
 #include <memory>
 #include <utility>
 #include <vector>
@@ -46,11 +46,13 @@ const std::string CrossTorusScenario::type = register_type<CrossTorusScenario>(
     "CrossTorus",
     {{"side", Property::make(&CrossTorusScenario::get_side,
                              &CrossTorusScenario::set_side, default_side,
-                             "Distance between targets")},
+                             "Distance between targets",
+                             &YAML::schema::strict_positive)},
      {"agent_margin",
-      Property::make(&CrossTorusScenario::get_agent_margin,
-                     &CrossTorusScenario::set_agent_margin, 0.1f,
-                     "initial minimal distance between agents")},
+      Property::make<ng_float_t>(&CrossTorusScenario::get_agent_margin,
+                                 &CrossTorusScenario::set_agent_margin, 0.1,
+                                 "initial minimal distance between agents",
+                                 &YAML::schema::positive)},
      {"add_safety_to_agent_margin",
       Property::make(&CrossTorusScenario::get_add_safety_to_agent_margin,
                      &CrossTorusScenario::set_add_safety_to_agent_margin,

@@ -88,6 +88,7 @@ struct convert<Wall> {
     node["type"] = "object";
     node["properties"]["line"] = schema::type<LineSegment>();
     node["properties"]["uid"] = schema::type<int>();
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "wall";
@@ -155,6 +156,7 @@ struct convert<BoundingBox> {
     node["properties"]["min_y"] = schema::type<ng_float_t>();
     node["properties"]["max_x"] = schema::type<ng_float_t>();
     node["properties"]["max_y"] = schema::type<ng_float_t>();
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "bounding_box";
@@ -366,15 +368,16 @@ struct convert<Agent> {
     node["properties"]["velocity"] = schema::ref<Vector2>();
     node["properties"]["angular_speed"] = schema::type<ng_float_t>();
     node["properties"]["radius"] = schema::type<ng_float_t>();
-    node["properties"]["control_period"] = schema::type<ng_float_t>();
-    node["properties"]["speed_tolerance"] = schema::type<ng_float_t>();
+    node["properties"]["control_period"] = schema::type<schema::positive_float>();
+    node["properties"]["speed_tolerance"] = schema::type<schema::positive_float>();
     node["properties"]["type"] = schema::type<std::string>();
     node["properties"]["color"] = schema::type<std::string>();
-    node["properties"]["id"] = schema::type<int>();
-    node["properties"]["uid"] = schema::type<int>();
+    node["properties"]["id"] = schema::type<unsigned>();
+    node["properties"]["uid"] = schema::type<unsigned>();
     node["properties"]["external"] = schema::type<bool>();
     node["properties"]["tags"]["type"] = "array";
     node["properties"]["tags"]["items"] = schema::type<std::string>();
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "agent";
@@ -478,6 +481,7 @@ struct convert<World> {
     node["properties"]["lattice"]["type"] = "object";
     node["properties"]["lattice"]["properties"]["x"] = schema::type<World::Lattice>();
     node["properties"]["lattice"]["properties"]["y"] = schema::type<World::Lattice>();
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "world";

@@ -161,6 +161,17 @@ as additional fields
    When working with components defined in Python, navground properties are not very useful, as you could directly inspect the Python class and use its accessors, or even generic accessors like :py:func:`getattr` and :py:func:`setattr`. Instead, when the component is loaded from YAML or C++, properties offer a generic way to access to instance attributes.
 
 
+Property Schema
+---------------
+
+Pass an optional argument of type :py:type:`typing.Callable[[dict[str, typing.Any]], None]` when registering a property to add validation constrains. For example, to mark an integer property as strictly positive, add
+
+.. code-block:: python
+       
+   @core.register(10, "my description", core.schema.strict_positive)
+   def value(self) -> int: ...
+
+
 .. _Py YAML:
 
 YAML 
@@ -232,8 +243,8 @@ if you implement the custom logic in the decoder and the encoder, for example, l
    the treatment as random variable for free. 
 
 
-Schema
-------
+Class Schema
+------------
 
 If your class defines a custom YAML representation, it should also register the related JSON-schema, as a function of type :py:type:`typing.Callable[[dict[str, typing.Any]], None]` that modify the default schema of the class.
 
@@ -243,7 +254,7 @@ In the example above, we add the appropriate schema
 
    class MyComponent(Component, name="MyName"):
       
-       @core.register_schema
+       @core.schema.register
        def schema(node: dict[str, typing.Any]) -> None:
            my_complex_param = {
                'type': 'object',
@@ -273,7 +284,7 @@ Using the appropriate macro, the class skeleton simplifies to
    class MyComponent(Component, name="MyName"):
       
       @property
-      @core.register(default_value, "description")
+      @core.register(default_value, "description") # add optional property schema
       def name(self) -> Type:
           return ...
       
@@ -285,7 +296,7 @@ Using the appropriate macro, the class skeleton simplifies to
 
       # def decode(self, yaml: str) -> None: ...
       
-      # @core.register_schema
+      # @core.schemaregister
       # def schema(node: dict[str, typing.Any]) -> None: ...
 
 

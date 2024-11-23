@@ -3,6 +3,7 @@
 
 #include "navground/core/common.h"
 #include "navground/core/property.h"
+#include "navground/core/yaml/property.h"
 #include "yaml-cpp/yaml.h"
 #include <string>
 #include <vector>
@@ -49,11 +50,33 @@ template <> struct type_t<int> {
   }
 };
 
+template <> struct type_t<unsigned> {
+  static std::string name() { return "positive_integer"; }
+  static Node schema() {
+    Node node;
+    node["type"] = "integer";
+    node["minimum"] = 0;
+    return node;
+  }
+};
+
 template <> struct type_t<ng_float_t> {
   static std::string name() { return "number"; }
   static Node schema() {
     Node node;
     node["type"] = "number";
+    return node;
+  }
+};
+
+struct positive_float;
+
+template <> struct type_t<positive_float> {
+  static std::string name() { return "positive_number"; }
+  static Node schema() {
+    Node node;
+    node["type"] = "number";
+    node["minimum"] = 0;
     return node;
   }
 };
@@ -96,6 +119,12 @@ inline Node schema(const std::string &name) {
   return node;
 }
 
+inline void positive(Node &node) { node["minimum"] = 0; }
+
+inline void strict_positive(Node &node) { node["exclusiveMinimum"] = 0; }
+
+inline void not_empty(Node &node) { node["minItems"] = 1; }
+
 /**
  * @brief      Returns the json-schema for a type
  *
@@ -133,6 +162,9 @@ inline Node property_schema(const navground::core::Property &property) {
     node["default"] = property.default_value;
   }
   node["description"] = property.description;
+  if (property.schema) {
+    property.schema(node);
+  }
   return node;
 }
 
@@ -227,5 +259,12 @@ template <typename T> Node base_with_ref() { return base<T>(true); }
 } // namespace schema
 
 } // namespace YAML
+
+namespace std {
+
+template <> struct is_floating_point<YAML::schema::positive_float> {
+  static constexpr bool value = true;
+};
+} // namespace std
 
 #endif // NAVGROUND_CORE_YAML_SCHEMA_H

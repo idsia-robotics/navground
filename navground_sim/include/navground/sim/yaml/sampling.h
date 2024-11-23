@@ -41,6 +41,23 @@ using navground::sim::wrap_to_string;
 
 namespace YAML {
 
+namespace schema {
+
+inline Node generic() {
+  Node node;
+  node["$defs"]["T"]["$dynamicAnchor"] = "T";
+  node["$defs"]["T"]["not"] = true;
+  return node;
+}
+
+inline Node generic_type() {
+  Node node;
+  node["$dynamicRef"] = "#T";
+  return node;
+}
+
+} // namespace schema
+
 bool NAVGROUND_SIM_EXPORT get_use_compact_samplers();
 
 void NAVGROUND_SIM_EXPORT set_use_compact_samplers(bool value);
@@ -192,13 +209,6 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node &node) {
   return nullptr;
 }
 
-inline Node generic() {
-  Node node;
-  node["$defs"]["T"]["$dynamicAnchor"] = "T";
-  node["$defs"]["T"]["not"] = true;
-  return node;
-}
-
 template <typename T> struct convert<ConstantSampler<T>> {
   static Node encode(const ConstantSampler<T> &rhs) {
     if (get_use_compact_samplers() && !rhs.once) {
@@ -213,16 +223,15 @@ template <typename T> struct convert<ConstantSampler<T>> {
     return node;
   }
   static Node schema() {
-    Node node = generic();
-    Node compact;
-    compact["$dynamicRef"] = "#T";
+    Node node = schema::generic();
     Node extended;
     extended["type"] = "object";
-    extended["properties"]["value"] = YAML::Clone(compact);
+    extended["properties"]["value"] = schema::generic_type();
     extended["properties"]["once"] = schema::type<bool>();
     extended["properties"]["sampler"]["const"] = "const";
+    extended["additionalProperties"] = false;
     extended["required"] = std::vector<std::string>({"sampler", "value"});
-    node["anyOf"].push_back(compact);
+    node["anyOf"].push_back(schema::generic_type());
     node["anyOf"].push_back(extended);
     return node;
   }
@@ -244,10 +253,11 @@ template <typename T> struct convert<SequenceSampler<T>> {
     return node;
   }
   static Node schema() {
-    Node node = generic();
+    Node node = schema::generic();
     Node compact;
     compact["type"] = "array";
-    compact["items"]["$dynamicRef"] = "#T";
+    compact["items"] = schema::generic_type();
+    compact["items"]["minItems"] = 1;
     Node extended;
     extended["type"] = "object";
     extended["properties"]["values"] = YAML::Clone(compact);
@@ -256,6 +266,7 @@ template <typename T> struct convert<SequenceSampler<T>> {
         std::vector<std::string>{"terminate", "repeat", "loop"};
     extended["properties"]["sampler"]["const"] = "sequence";
     extended["required"] = std::vector<std::string>({"sampler", "values"});
+    extended["additionalProperties"] = false;
     node["anyOf"].push_back(compact);
     node["anyOf"].push_back(extended);
     return node;
@@ -274,15 +285,17 @@ template <typename T> struct convert<ChoiceSampler<T>> {
     return node;
   }
   static Node schema() {
-    Node node = generic();
+    Node node = schema::generic();
     Node values;
     values["type"] = "array";
-    values["items"]["$dynamicRef"] = "#T";
+    values["items"] = schema::generic_type();
+    values["items"]["minItems"] = 1;
     node["type"] = "object";
     node["properties"]["values"] = values;
     node["properties"]["once"] = schema::type<bool>();
     node["properties"]["sampler"]["const"] = "choice";
     node["required"] = std::vector<std::string>({"sampler", "values"});
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "choice";
@@ -307,19 +320,19 @@ template <typename T> struct convert<RegularSampler<T>> {
     return node;
   }
   static Node schema() {
-    Node node = generic();
-    Node sample;
-    sample["$dynamicRef"] = "#T";
+    Node node = schema::generic();
     node["type"] = "object";
-    node["properties"]["from"] = sample;
-    node["properties"]["to"] = YAML::Clone(sample);
-    node["properties"]["step"] = YAML::Clone(sample);
-    node["properties"]["number"] = schema::type<int>();
+    node["properties"]["from"] = schema::generic_type();
+    ;
+    node["properties"]["to"] = schema::generic_type();
+    node["properties"]["step"] = schema::generic_type();
+    node["properties"]["number"] = schema::type<unsigned>();
     node["properties"]["once"] = schema::type<bool>();
     node["properties"]["wrap"]["enum"] =
         std::vector<std::string>{"terminate", "repeat", "loop"};
     node["properties"]["sampler"]["const"] = "regular";
     node["required"] = std::vector<std::string>({"sampler", "from", "to"});
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "regular";
@@ -340,13 +353,12 @@ template <> struct convert<GridSampler> {
   }
   static Node schema() {
     Node node;
-    Node sample = schema::ref<Vector2>();
     node["type"] = "object";
-    node["properties"]["from"] = sample;
-    node["properties"]["to"] = YAML::Clone(sample);
-    node["properties"]["step"] = YAML::Clone(sample);
+    node["properties"]["from"] = schema::ref<Vector2>();
+    node["properties"]["to"] = schema::ref<Vector2>();
+    node["properties"]["step"] = schema::ref<Vector2>();
     node["properties"]["numbers"]["type"] = "array";
-    node["properties"]["numbers"]["items"] = schema::type<int>();
+    node["properties"]["numbers"]["items"] = schema::type<unsigned>();
     node["properties"]["numbers"]["minItems"] = 2;
     node["properties"]["numbers"]["maxItems"] = 2;
     node["properties"]["once"] = schema::type<bool>();
@@ -355,6 +367,7 @@ template <> struct convert<GridSampler> {
     node["properties"]["sampler"]["const"] = "grid";
     node["required"] =
         std::vector<std::string>({"sampler", "from", "to", "numbers"});
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "grid";
@@ -372,16 +385,14 @@ template <typename T> struct convert<UniformSampler<T>> {
     return node;
   }
   static Node schema() {
-    Node node = generic();
-    Node sample;
-    sample["$dynamicRef"] = "#T";
+    Node node = schema::generic();
     node["type"] = "object";
-    node["properties"]["from"] = sample;
-    node["properties"]["to"] = YAML::Clone(sample);
-    ;
+    node["properties"]["from"] = schema::generic_type();
+    node["properties"]["to"] = schema::generic_type();
     node["properties"]["once"] = schema::type<bool>();
     node["properties"]["sampler"]["const"] = "uniform";
     node["required"] = std::vector<std::string>({"sampler", "from", "to"});
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "uniform";
@@ -406,19 +417,17 @@ template <typename T> struct convert<NormalSampler<T>> {
     return node;
   }
   static Node schema() {
-    Node node = generic();
-    Node sample;
-    sample["$dynamicRef"] = "#T";
+    Node node = schema::generic();
     node["type"] = "object";
-    node["properties"]["min"] = sample;
-    node["properties"]["max"] = YAML::Clone(sample);
-    ;
+    node["properties"]["min"] = schema::generic_type();
+    node["properties"]["max"] = schema::generic_type();
     node["properties"]["mean"] = schema::type<ng_float_t>();
-    node["properties"]["std_dev"] = schema::type<ng_float_t>();
+    node["properties"]["std_dev"] = schema::type<schema::positive_float>();
     node["properties"]["once"] = schema::type<bool>();
     node["properties"]["clamp"] = schema::type<bool>();
     node["properties"]["sampler"]["const"] = "normal";
     node["required"] = std::vector<std::string>({"sampler", "mean", "std_dev"});
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "normal";
@@ -568,6 +577,15 @@ template <typename T> Node encode_sr(const SamplerFromRegister<T> &rhs) {
   return node;
 }
 
+namespace schema {
+// TODO(Jerome): add support for modifiers?
+template <typename T>
+inline void add_sampler(Node &node, const std::string &key) {
+  node["properties"][key] = ref<Sampler<T>>();
+}
+
+} // namespace schema
+
 template <typename T, typename M> struct convert<BehaviorSampler<T, M>> {
   static Node encode(const BehaviorSampler<T, M> &rhs) {
     Node node = encode_sr<T>(rhs);
@@ -636,19 +654,26 @@ template <typename T, typename M> struct convert<BehaviorSampler<T, M>> {
     }
     return true;
   }
+  // TODO(Jerome): If possible, add constraints at least to the generic sampler,
+  // e.g., to define a sampler of positive integers.
+  // I could do it brute force just for positive.
+  // I think it is possible but I need to reverse samplers:
+  // now: field: {$ref: <type>_sampler}
+  // then: field: {$ref: sampler, "T=<type>"}
   static Node schema() {
     Node node;
     node["type"] = "object";
     node["properties"]["type"] = schema::type<std::string>();
-    node["properties"]["optimal_speed"] = schema::ref<Sampler<ng_float_t>>();
-    node["properties"]["optimal_angular_speed"] =
-        schema::ref<Sampler<ng_float_t>>();
-    node["properties"]["rotation_tau"] = schema::ref<Sampler<ng_float_t>>();
-    node["properties"]["safety_margin"] = schema::ref<Sampler<ng_float_t>>();
-    node["properties"]["horizon"] = schema::ref<Sampler<ng_float_t>>();
-    node["properties"]["path_look_ahead"] = schema::ref<Sampler<ng_float_t>>();
-    node["properties"]["path_tau"] = schema::ref<Sampler<ng_float_t>>();
-    node["properties"]["heading"] = schema::ref<Sampler<std::string>>();
+    schema::add_sampler<schema::positive_float>(node, "optimal_speed");
+    schema::add_sampler<schema::positive_float>(node, "optimal_angular_speed");
+    schema::add_sampler<schema::positive_float>(node, "rotation_tau");
+    schema::add_sampler<schema::positive_float>(node, "safety_margin");
+    schema::add_sampler<schema::positive_float>(node, "horizon");
+    schema::add_sampler<schema::positive_float>(node, "path_look_ahead");
+    schema::add_sampler<schema::positive_float>(node, "path_tau");
+    schema::add_sampler<schema::positive_float>(node, "optimal_speed");
+    // TODO(Jerome): change once we change the samplers schema.
+    schema::add_sampler<std::string>(node, "heading");
     node["properties"]["modulations"]["type"] = "array";
     node["properties"]["modulations"]["items"] =
         schema::ref<BehaviorModulationSampler<M>>();
@@ -678,7 +703,7 @@ template <typename T> struct convert<BehaviorModulationSampler<T>> {
     Node node;
     node["type"] = "object";
     node["properties"]["type"] = schema::type<std::string>();
-    node["properties"]["enabled"] = schema::ref<Sampler<bool>>();
+    schema::add_sampler<bool>(node, "enabled");
     return node;
   }
   static constexpr const char name[] = "behavior_modulation_sampler";
@@ -712,9 +737,8 @@ template <typename T> struct convert<KinematicsSampler<T>> {
     Node node;
     node["type"] = "object";
     node["properties"]["type"] = schema::type<std::string>();
-    node["properties"]["max_speed"] = schema::ref<Sampler<ng_float_t>>();
-    node["properties"]["max_angular_speed"] =
-        schema::ref<Sampler<ng_float_t>>();
+    schema::add_sampler<ng_float_t>(node, "max_speed");
+    schema::add_sampler<ng_float_t>(node, "max_angular_speed");
     return node;
   }
   static constexpr const char name[] = "kinematics_sampler";
@@ -881,18 +905,19 @@ template <typename W> struct convert<AgentSampler<W>> {
     node["properties"]["state_estimation"] =
         schema::ref<StateEstimationSampler<S>>();
     node["properties"]["task"] = schema::ref<TaskSampler<T>>();
-    node["properties"]["position"] = schema::ref<Sampler<Vector2>>();
-    node["properties"]["orientation"] = schema::ref<Sampler<ng_float_t>>();
-    node["properties"]["radius"] = schema::ref<Sampler<ng_float_t>>();
-    node["properties"]["control_period"] = schema::ref<Sampler<ng_float_t>>();
-    node["properties"]["speed_tolerance"] = schema::ref<Sampler<ng_float_t>>();
-    node["properties"]["number"] = schema::ref<Sampler<int>>();
-    node["properties"]["type"] = schema::ref<Sampler<std::string>>();
-    node["properties"]["color"] = schema::ref<Sampler<std::string>>();
-    node["properties"]["tags"] =
-        schema::ref<Sampler<std::vector<std::string>>>();
-    node["properties"]["id"] = schema::ref<Sampler<int>>();
-    node["properties"]["name"] = schema::ref<Sampler<std::string>>();
+    schema::add_sampler<Vector2>(node, "position");
+    schema::add_sampler<ng_float_t>(node, "orientation");
+    schema::add_sampler<ng_float_t>(node, "orientation");
+    schema::add_sampler<schema::positive_float>(node, "radius");
+    schema::add_sampler<schema::positive_float>(node, "control_period");
+    schema::add_sampler<schema::positive_float>(node, "speed_tolerance");
+    schema::add_sampler<unsigned>(node, "number");
+    schema::add_sampler<std::string>(node, "type");
+    schema::add_sampler<std::string>(node, "tags");
+    schema::add_sampler<std::vector<std::string>>(node, "color");
+    schema::add_sampler<unsigned>(node, "id");
+    schema::add_sampler<std::string>(node, "name");
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "group";

@@ -12,10 +12,10 @@
 
 #include "navground/core/behavior.h"
 #include "navground/core/collision_computation.h"
+#include "navground/core/export.h"
 #include "navground/core/property.h"
 #include "navground/core/states/geometric.h"
 #include "navground/core/types.h"
-#include "navground/core/export.h"
 
 // TODO(J): verify if behavior for tau < step is correct (non smooth)
 
@@ -49,21 +49,21 @@ namespace navground::core {
  * *State*: \ref GeometricState
  */
 class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
- public:
+public:
   static const std::string type;
 
   /**
    * Default \f$\eta\f$
    */
-  static constexpr ng_float_t default_eta =  static_cast<ng_float_t>(0.5);
+  static constexpr ng_float_t default_eta = static_cast<ng_float_t>(0.5);
   /**
    * Default \f$\tau\f$
    */
-  static constexpr ng_float_t default_tau =  static_cast<ng_float_t>(0.125);
+  static constexpr ng_float_t default_tau = static_cast<ng_float_t>(0.125);
   /**
    * Default aperture (full circular sector)
    */
-  static constexpr ng_float_t default_aperture =  static_cast<ng_float_t>(PI);
+  static constexpr ng_float_t default_aperture = static_cast<ng_float_t>(PI);
   /**
    * Maximal resolution
    */
@@ -79,7 +79,8 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   /**
    * Default barrier angle.
    */
-  static constexpr ng_float_t default_barrier_angle = static_cast<ng_float_t>(HALF_PI);
+  static constexpr ng_float_t default_barrier_angle =
+      static_cast<ng_float_t>(HALF_PI);
 
   /**
    * @brief      Contruct a new instance
@@ -89,17 +90,11 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    */
   HLBehavior(std::shared_ptr<Kinematics> kinematics = nullptr,
              ng_float_t radius = 0)
-      : Behavior(kinematics, radius),
-        effective_horizon(0),
-        tau(default_tau),
-        eta(default_eta),
-        aperture(default_aperture),
+      : Behavior(kinematics, radius), effective_horizon(0), tau(default_tau),
+        eta(default_eta), aperture(default_aperture),
         resolution(std::min(default_resolution, max_resolution)),
-        epsilon(default_epsilon),
-        barrier_angle(default_barrier_angle),
-        collision_computation(),
-        state(),
-        cached_target_speed(0) {}
+        epsilon(default_epsilon), barrier_angle(default_barrier_angle),
+        collision_computation(), state(), cached_target_speed(0) {}
   ~HLBehavior() = default;
 
   // -------------------------- BEHAVIOR PARAMETERS
@@ -117,7 +112,10 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    *
    * @param[in]  value  A strict positive value.
    */
-  void set_eta(ng_float_t value) { eta = value; }
+  void set_eta(ng_float_t value) {
+    if (eta > 0)
+      eta = value;
+  }
   /**
    * @brief      Gets the relaxation time \f$\tau\f$. Higher values lead to
    * lower accelerations.
@@ -144,7 +142,9 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    *
    * @param[in]  value  A positive value
    */
-  void set_aperture(Radians value) { aperture = value; }
+  void set_aperture(Radians value) {
+    aperture = std::max<ng_float_t>(value, 0);
+  }
   /**
    * @brief      Gets the number of subdivision of \f$[-\alpha, \alpha]\f$ to
    * search for optimal directions.
@@ -220,9 +220,9 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    * @return     A vector of distances of size \ref
    * get_resolution. Angles are in the agent frame.
    */
-  std::valarray<ng_float_t> get_collision_distance(
-      bool assuming_static = false,
-      std::optional<ng_float_t> speed = std::nullopt);
+  std::valarray<ng_float_t>
+  get_collision_distance(bool assuming_static = false,
+                         std::optional<ng_float_t> speed = std::nullopt);
 
   /**
    * @brief      Gets the angles in \f$[-\alpha, \alpha]\f$
@@ -237,7 +237,7 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    */
   EnvironmentState *get_environment_state() override { return &state; }
 
- protected:
+protected:
   ng_float_t effective_horizon;
   ng_float_t tau;
   ng_float_t eta;
@@ -260,7 +260,7 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
    *
    * If \f$\tau=0\f$, no relaxation is performed and the desired target velocity
    * is returned.
-   * 
+   *
    * @param[in] time_step The time step
    *
    */
@@ -281,8 +281,9 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   ng_float_t distance_to_segment(const LineSegment &line,
                                  Radians absolute_angle);
   ng_float_t dist_for_angle(const DiscCache *agent, Radians angle);
-  ng_float_t compute_distance_to_collision_at_relative_angle(
-      Radians relative_angle, ng_float_t *staticCache);
+  ng_float_t
+  compute_distance_to_collision_at_relative_angle(Radians relative_angle,
+                                                  ng_float_t *staticCache);
   ng_float_t feared_distance_to_collision_at_relative_angle(Radians angle);
   ng_float_t static_dist_for_angle(const DiscCache *agent, Radians angle);
   ng_float_t distance_to_collision_at_relative_angle(Radians angle);
@@ -291,6 +292,6 @@ class NAVGROUND_CORE_EXPORT HLBehavior : public Behavior {
   DiscCache make_obstacle_cache(const Disc &obstacle);
 };
 
-}  // namespace navground::core
+} // namespace navground::core
 
-#endif  // NAVGROUND_CORE_BEHAVIOR_HL_H_
+#endif // NAVGROUND_CORE_BEHAVIOR_HL_H_

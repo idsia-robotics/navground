@@ -234,6 +234,18 @@ and, similarly, will be loaded from YAML.
 
 .. _YAML:
 
+
+Property Schema
+---------------
+
+Pass an optional argument of type :cpp:expr:`void(YAML::Node &)` to methods like :cpp:func:`navground::core::Property::make` to add validation constrains to the property. For example, to mark an integer property as strictly positive, add
+
+.. code-block:: c++
+       
+   core::Property::make(&MyComponent::get_value, &MyComponent::set_value,
+                        10, "my description", &YAML::schema::strict_positive)}});
+
+
 YAML 
 ====
 
@@ -308,8 +320,8 @@ if you implement the custom logic in the decoder and the encoder, like
    the treatment as random variable for free. 
 
 
-Schema
-------
+Class Schema
+------------
 
 If your class defines a custom YAML representation, it should also register the related JSON-schema, by passing a function of type :cpp:expr:`void(YAML::Node &)` as last argument to :cpp:func:`navground::core::HasRegister::register_type`.
 

@@ -16,7 +16,7 @@ from typing import Callable, Optional, Tuple, cast
 
 import numpy as np
 from navground.core import (Behavior, Disc, GeometricState, Kinematics,
-                            LineSegment, Neighbor, Vector2, register)
+                            LineSegment, Neighbor, Vector2, register, schema)
 
 # TODO(Jerome): what about the radius and safety margin?
 
@@ -117,7 +117,7 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
     """
 
     @property
-    @register(0.5, "Relaxation time")
+    @register(0.5, "Relaxation time", schema.positive)
     def tau(self) -> float:
         return self._tau
 
@@ -126,7 +126,7 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         self._tau = max(0, value)
 
     @property
-    @register(1.0, "Step duration")
+    @register(1.0, "Step duration", schema.positive)
     def step_duration(self) -> float:
         return self._step_duration
 
@@ -144,7 +144,7 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         self.cos_phi = np.cos(value)
 
     @property
-    @register(0.5, "Weight of 'non-in-sight' forces")
+    @register(0.5, "Weight of 'non-in-sight' forces", schema.positive)
     def c(self) -> float:
         return self._c
 
@@ -165,7 +165,7 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
             self.v.a = value
 
     @property
-    @register(0.3, "Neighbors potential length scale")
+    @register(0.3, "Neighbors potential length scale", schema.positive)
     def v_r(self) -> float:
         if isinstance(self.v, ExponentialPotential):
             return self.v.r
@@ -189,7 +189,7 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
             self.u.a = value
 
     @property
-    @register(0.2, "Obstacles potential length scale")
+    @register(0.2, "Obstacles potential length scale", schema.positive)
     def u_r(self) -> float:
         if isinstance(self.u, ExponentialPotential):
             return self.u.r

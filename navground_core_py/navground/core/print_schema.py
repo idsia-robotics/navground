@@ -9,7 +9,7 @@ from navground.core import command
 
 Schemas = Dict[str, Callable[[], Dict]]
 schemas: Schemas = {
-    "core": core.schema,
+    "core": core.schema.core,
 }
 
 Components = Dict[str, Type]

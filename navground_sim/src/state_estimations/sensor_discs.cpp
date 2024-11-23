@@ -3,7 +3,7 @@
  */
 
 #include "navground/sim/state_estimations/sensor_discs.h"
-
+#include "navground/core/yaml/schema.h"
 #include <algorithm>
 
 namespace navground::sim {
@@ -103,19 +103,22 @@ const std::string DiscsStateEstimation::type =
     register_type<DiscsStateEstimation>(
         "Discs",
         Properties{
-            {"range", Property::make(&DiscsStateEstimation::get_range,
-                                     &DiscsStateEstimation::set_range,
-                                     default_range, "Maximal range")},
+            {"range",
+             Property::make(&DiscsStateEstimation::get_range,
+                            &DiscsStateEstimation::set_range, default_range,
+                            "Maximal range", &YAML::schema::positive)},
             {"number", Property::make<int>(&DiscsStateEstimation::get_number,
                                            &DiscsStateEstimation::set_number,
-                                           default_number, "Number")},
-            {"max_radius",
-             Property::make(&DiscsStateEstimation::get_max_radius,
-                            &DiscsStateEstimation::set_max_radius,
-                            default_max_radius, "Maximal radius")},
+                                           default_number, "Number",
+                                           &YAML::schema::positive)},
+            {"max_radius", Property::make(&DiscsStateEstimation::get_max_radius,
+                                          &DiscsStateEstimation::set_max_radius,
+                                          default_max_radius, "Maximal radius",
+                                          &YAML::schema::positive)},
             {"max_speed", Property::make(&DiscsStateEstimation::get_max_speed,
                                          &DiscsStateEstimation::set_max_speed,
-                                         default_max_speed, "Maximal speed")},
+                                         default_max_speed, "Maximal speed",
+                                         &YAML::schema::positive)},
             {"include_valid",
              Property::make(&DiscsStateEstimation::get_include_valid,
                             &DiscsStateEstimation::set_include_valid,
@@ -125,10 +128,10 @@ const std::string DiscsStateEstimation::type =
                             &DiscsStateEstimation::set_use_nearest_point,
                             default_use_nearest_point,
                             "Whether to use the nearest point as position")},
-            {"max_id",
-             Property::make<int>(&DiscsStateEstimation::get_max_id,
-                                 &DiscsStateEstimation::set_max_id,
-                                 default_max_id, "The maximal possible id")},
+            {"max_id", Property::make<int>(
+                           &DiscsStateEstimation::get_max_id,
+                           &DiscsStateEstimation::set_max_id, default_max_id,
+                           "The maximal possible id", &YAML::schema::positive)},
         } + Sensor::properties);
 
 } // namespace navground::sim

@@ -3,7 +3,7 @@
  */
 
 #include "navground/sim/scenarios/antipodal.h"
-
+#include "navground/core/yaml/schema.h"
 #include "navground/sim/sampling/sampler.h"
 
 namespace navground::sim {
@@ -40,22 +40,24 @@ void AntipodalScenario::init_world(World *world,
 
 const std::string AntipodalScenario::type = register_type<AntipodalScenario>(
     "Antipodal",
-    {{"radius", core::Property::make(&AntipodalScenario::get_radius,
-                                     &AntipodalScenario::set_radius,
-                                     default_radius, "Radius of the circle")},
-     {"tolerance", core::Property::make(&AntipodalScenario::get_tolerance,
-                                        &AntipodalScenario::set_tolerance,
-                                        default_tolerance, "Goal tolerance")},
+    {{"radius",
+      core::Property::make(&AntipodalScenario::get_radius,
+                           &AntipodalScenario::set_radius, default_radius,
+                           "Radius of the circle", &YAML::schema::positive)},
+     {"tolerance",
+      core::Property::make(&AntipodalScenario::get_tolerance,
+                           &AntipodalScenario::set_tolerance, default_tolerance,
+                           "Goal tolerance", &YAML::schema::strict_positive)},
      {"position_noise",
-      core::Property::make(&AntipodalScenario::get_position_noise,
-                           &AntipodalScenario::set_position_noise,
-                           default_position_noise,
-                           "Noise added to the initial position")},
+      core::Property::make(
+          &AntipodalScenario::get_position_noise,
+          &AntipodalScenario::set_position_noise, default_position_noise,
+          "Noise added to the initial position", &YAML::schema::positive)},
      {"orientation_noise",
-      core::Property::make(&AntipodalScenario::get_orientation_noise,
-                           &AntipodalScenario::set_orientation_noise,
-                           default_orientation_noise,
-                           "Noise added to the initial orientation")},
+      core::Property::make(
+          &AntipodalScenario::get_orientation_noise,
+          &AntipodalScenario::set_orientation_noise, default_orientation_noise,
+          "Noise added to the initial orientation", &YAML::schema::positive)},
      {"shuffle",
       core::Property::make(
           &AntipodalScenario::get_shuffle, &AntipodalScenario::set_shuffle,

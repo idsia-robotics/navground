@@ -3,7 +3,7 @@
  */
 
 #include "navground/sim/state_estimations/sensor_boundary.h"
-
+#include "navground/core/yaml/schema.h"
 #include <valarray>
 
 namespace navground::sim {
@@ -36,22 +36,23 @@ void BoundarySensor::update(Agent *agent, World *world,
 }
 
 const std::string BoundarySensor::type = register_type<BoundarySensor>(
-    "Boundary", Properties{
-                    {"range", Property::make(&BoundarySensor::get_range,
-                                             &BoundarySensor::set_range,
-                                             default_range, "Maximal range")},
-                    {"min_x", Property::make(&BoundarySensor::get_min_x,
-                                             &BoundarySensor::set_min_x, low,
-                                             "Boundary min x")},
-                    {"max_x", Property::make(&BoundarySensor::get_max_x,
-                                             &BoundarySensor::set_max_x, high,
-                                             "Boundary max x")},
-                    {"min_y", Property::make(&BoundarySensor::get_min_y,
-                                             &BoundarySensor::set_min_y, low,
-                                             "Boundary min y")},
-                    {"max_y", Property::make(&BoundarySensor::get_max_y,
-                                             &BoundarySensor::set_max_y, high,
-                                             "Boundary max y")},
-                } + Sensor::properties);
+    "Boundary",
+    Properties{
+        {"range", Property::make(&BoundarySensor::get_range,
+                                 &BoundarySensor::set_range, default_range,
+                                 "Maximal range", &YAML::schema::positive)},
+        {"min_x",
+         Property::make(&BoundarySensor::get_min_x, &BoundarySensor::set_min_x,
+                        low, "Boundary min x")},
+        {"max_x",
+         Property::make(&BoundarySensor::get_max_x, &BoundarySensor::set_max_x,
+                        high, "Boundary max x")},
+        {"min_y",
+         Property::make(&BoundarySensor::get_min_y, &BoundarySensor::set_min_y,
+                        low, "Boundary min y")},
+        {"max_y",
+         Property::make(&BoundarySensor::get_max_y, &BoundarySensor::set_max_y,
+                        high, "Boundary max y")},
+    } + Sensor::properties);
 
 } // namespace navground::sim

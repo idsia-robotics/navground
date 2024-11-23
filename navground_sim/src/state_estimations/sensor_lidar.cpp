@@ -3,7 +3,7 @@
  */
 
 #include "navground/sim/state_estimations/sensor_lidar.h"
-
+#include "navground/core/yaml/schema.h"
 #include "navground/sim/agent.h"
 #include "navground/sim/world.h"
 
@@ -84,9 +84,10 @@ const std::string LidarStateEstimation::type =
     register_type<LidarStateEstimation>(
         "Lidar",
         Properties{
-            {"range", Property::make(&LidarStateEstimation::get_range,
-                                     &LidarStateEstimation::set_range,
-                                     default_range, "Maximal range")},
+            {"range",
+             Property::make(&LidarStateEstimation::get_range,
+                            &LidarStateEstimation::set_range, default_range,
+                            "Maximal range", &YAML::schema::positive)},
             {"start_angle",
              Property::make(&LidarStateEstimation::get_start_angle,
                             &LidarStateEstimation::set_start_angle,
@@ -94,22 +95,26 @@ const std::string LidarStateEstimation::type =
             {"field_of_view",
              Property::make(&LidarStateEstimation::get_field_of_view,
                             &LidarStateEstimation::set_field_of_view,
-                            default_field_of_view, "Total angle")},
+                            default_field_of_view, "Total angle",
+                            &YAML::schema::positive)},
             {"resolution",
              Property::make<int>(&LidarStateEstimation::get_resolution,
                                  &LidarStateEstimation::set_resolution,
-                                 default_resolution, "Resolution")},
+                                 default_resolution, "Resolution",
+                                 &YAML::schema::strict_positive)},
             {"position", Property::make<core::Vector2>(
                              &LidarStateEstimation::get_position,
                              &LidarStateEstimation::set_position,
                              core::Vector2::Zero(), "Relative position")},
             {"error_bias", Property::make(&LidarStateEstimation::get_error_bias,
                                           &LidarStateEstimation::set_error_bias,
-                                          default_error_bias, "Error bias")},
+                                          default_error_bias, "Error bias",
+                                          &YAML::schema::positive)},
             {"error_std_dev",
              Property::make(&LidarStateEstimation::get_error_std_dev,
                             &LidarStateEstimation::set_error_std_dev,
-                            default_error_std_dev, "Error standard deviation")},
+                            default_error_std_dev, "Error standard deviation",
+                            &YAML::schema::positive)},
         } + Sensor::properties);
 
 } // namespace navground::sim

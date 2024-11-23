@@ -51,7 +51,9 @@ inline Node sim() {
   node["$defs"]["record_sensing_config"] = schema<RecordSensingConfig>();
   node["$defs"]["experiment"] = schema<Experiment>();
   node["$defs"]["integer_sampler"] = schema<Sampler<int>>();
+  node["$defs"]["positive_integer_sampler"] = schema<Sampler<unsigned>>();
   node["$defs"]["number_sampler"] = schema<Sampler<ng_float_t>>();
+  node["$defs"]["positive_number_sampler"] = schema<Sampler<schema::positive_float>>();
   node["$defs"]["boolean_sampler"] = schema<Sampler<bool>>();
   node["$defs"]["string_sampler"] = schema<Sampler<std::string>>();
   node["$defs"]["vector2_sampler"] =

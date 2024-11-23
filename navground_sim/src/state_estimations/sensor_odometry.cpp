@@ -3,7 +3,7 @@
  */
 
 #include "navground/sim/state_estimations/sensor_odometry.h"
-
+#include "navground/core/yaml/schema.h"
 #include "navground/sim/agent.h"
 #include "navground/sim/world.h"
 
@@ -56,25 +56,27 @@ const std::string OdometryStateEstimation::type = register_type<
              &OdometryStateEstimation::get_longitudinal_speed_std_dev,
              &OdometryStateEstimation::set_longitudinal_speed_std_dev,
              default_longitudinal_speed_std_dev,
-             "Longitudinal speed standard deviation")},
+             "Longitudinal speed standard deviation", &YAML::schema::positive)},
         {"transversal_speed_bias",
          Property::make(&OdometryStateEstimation::get_transversal_speed_bias,
-                        &OdometryStateEstimation::set_transversal_speed_bias, ng_float_t{0},
-                        "Transversal speed bias")},
+                        &OdometryStateEstimation::set_transversal_speed_bias,
+                        ng_float_t{0}, "Transversal speed bias")},
         {"transversal_speed_std_dev",
          Property::make(&OdometryStateEstimation::get_transversal_speed_std_dev,
                         &OdometryStateEstimation::set_transversal_speed_std_dev,
                         default_longitudinal_speed_std_dev,
-                        "Transversal speed standard deviation")},
+                        "Transversal speed standard deviation",
+                        &YAML::schema::positive)},
         {"angular_speed_bias",
          Property::make(&OdometryStateEstimation::get_angular_speed_bias,
-                        &OdometryStateEstimation::set_angular_speed_bias, ng_float_t{0},
-                        "Angular speed bias")},
+                        &OdometryStateEstimation::set_angular_speed_bias,
+                        ng_float_t{0}, "Angular speed bias")},
         {"angular_speed_std_dev",
          Property::make(&OdometryStateEstimation::get_angular_speed_std_dev,
                         &OdometryStateEstimation::set_angular_speed_std_dev,
                         default_angular_speed_std_dev,
-                        "Angular speed standard deviation")},
+                        "Angular speed standard deviation",
+                        &YAML::schema::positive)},
         {"update_ego_state",
          Property::make(&OdometryStateEstimation::get_update_ego_state,
                         &OdometryStateEstimation::set_update_ego_state, false,

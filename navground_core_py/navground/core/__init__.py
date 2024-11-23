@@ -15,10 +15,11 @@ from ._navground import (
     SocialMarginZeroModulation, Target, Twist2, build_info, clamp_norm)
 from ._navground import get_loaded_plugins as get_loaded_cpp_plugins
 from ._navground import load_plugins as load_cpp_plugins
-from ._navground import (normalize_angle, orientation_of, rotate, schema,
-                         to_absolute, to_absolute_point, to_relative,
-                         to_relative_point, unit, uses_doubles)
+from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
+                         to_absolute_point, to_relative, to_relative_point,
+                         unit, uses_doubles)
 from .property import PropertyField, Vector2, Vector2Like, register
+from . import schema
 
 
 def load_behavior(value: str) -> Optional[Behavior]:
@@ -74,12 +75,6 @@ def dump(obj: SUPPORT_YAML) -> str:
     :rtype: str
     """
     return obj.dump()
-
-
-def register_schema(schema):
-    fn = staticmethod(schema)
-    fn.__is_schema__ = True
-    return fn
 
 
 def load_py_plugins() -> None:

@@ -1,6 +1,7 @@
 from typing import (Any, Callable, List, Literal, Tuple, TypeAlias, Union,
-                    TypeVar)
+                    TypeVar, Type)
 
+from .schema import SchemaModifier
 import numpy
 
 # TODO(Jerome): how to define an alias that depends on `uses_doubles`?
@@ -8,13 +9,14 @@ Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]],
                                    numpy.dtype[numpy.float64]]
 Vector2Like: TypeAlias = Vector2 | tuple[float, float] | list[float]
 
-PropertyField = Union[bool, int, float, str, Vector2, List[bool], List[int],
-                      List[float], List[str], List[Vector2]]
+ScalarPropertyField = Union[bool, int, float, str, Vector2]
+PropertyField = Union[ScalarPropertyField, List[bool], List[int], List[float],
+                      List[str], List[Vector2]]
 
 T = TypeVar('T', bound=Any)
 
 
-def _convert(type_: Any, value: Any) -> PropertyField:
+def _convert(type_: Any, value: Any) -> Tuple[PropertyField, Type]:
     if isinstance(type_, str):
         try:
             type_ = eval(type_)
@@ -38,12 +40,12 @@ def _convert(type_: Any, value: Any) -> PropertyField:
     if item_type is list:
         item_type = Vector2
     if type_ in (list, tuple, List, Tuple):
-        return [_convert_scalar(item_type, x) for x in value]  # type: ignore
-    return _convert_scalar(type_, value)
+        return [_convert_scalar(item_type, x)
+                for x in value], item_type  # type: ignore
+    return _convert_scalar(type_, value), type_
 
 
-def _convert_scalar(type_: Any,
-                    value: Any) -> Union[bool, int, float, str, Vector2]:
+def _convert_scalar(type_: Any, value: Any) -> ScalarPropertyField:
     try:
         type_ = type_.__origin__
     except:
@@ -76,6 +78,7 @@ def _convert_scalar(type_: Any,
 
 def register(default_value: PropertyField,
              description: str = "",
+             schema: SchemaModifier | None = None,
              deprecated_names: list[str] = []) -> Callable[[T], T]:
     """
     A decorator to register a property.
@@ -108,17 +111,25 @@ def register(default_value: PropertyField,
 
     :param description: The description of the property
 
+    :param schema: A optional schema to add validity constrains to the property
+
     :param deprecated_names: A list of alternative deprecated names
     """
 
     def g(f: T) -> T:
         return_type = f.__annotations__.get('return')
         try:
-            f.__default_value__ = _convert(return_type, default_value)
+            value, scalar_type = _convert(return_type, default_value)
+            f.__default_value__ = value
+            if scalar_type in (bool, int, float, str):
+                f.__scalar_value__ = scalar_type()
+            else:
+                f.__scalar_value__ = numpy.zeros(2)
         except Exception as e:
             raise ValueError(f'Default property value not valid: {e}')
         f.__desc__ = description
         f.__deprecated_names__ = deprecated_names
+        f.__schema__ = schema
         return f
 
     return g

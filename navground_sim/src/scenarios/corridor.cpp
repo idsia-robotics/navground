@@ -3,7 +3,7 @@
  */
 
 #include "navground/sim/scenarios/corridor.h"
-
+#include "navground/core/yaml/schema.h"
 #include <memory>
 #include <tuple>
 #include <utility>
@@ -55,14 +55,17 @@ const std::string CorridorScenario::type = register_type<CorridorScenario>(
     "Corridor",
     {{"width",
       Property::make(&CorridorScenario::get_width, &CorridorScenario::set_width,
-                     default_width, "Corridor width")},
-     {"length", Property::make(&CorridorScenario::get_length,
-                               &CorridorScenario::set_length, default_length,
-                               "Corridor length")},
+                     default_width, "Corridor width",
+                     &YAML::schema::strict_positive)},
+     {"length",
+      Property::make(&CorridorScenario::get_length,
+                     &CorridorScenario::set_length, default_length,
+                     "Corridor length", &YAML::schema::strict_positive)},
      {"agent_margin",
       Property::make(&CorridorScenario::get_agent_margin,
                      &CorridorScenario::set_agent_margin, ng_float_t(0.1),
-                     "initial minimal distance between agents")},
+                     "initial minimal distance between agents",
+                     &YAML::schema::positive)},
      {"add_safety_to_agent_margin",
       Property::make(&CorridorScenario::get_add_safety_to_agent_margin,
                      &CorridorScenario::set_add_safety_to_agent_margin,

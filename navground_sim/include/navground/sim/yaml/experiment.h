@@ -46,8 +46,9 @@ template <> struct convert<RecordNeighborsConfig> {
     Node node;
     node["type"] = "object";
     node["properties"]["enabled"] = schema::type<bool>();
-    node["properties"]["number"] = schema::type<int>();
+    node["properties"]["number"] = schema::type<unsigned>();
     node["properties"]["relative"] = schema::type<bool>();
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "record_neighbors_config";
@@ -86,6 +87,7 @@ template <> struct convert<RecordSensingConfig> {
     node["properties"]["sensor"] = schema::ref<StateEstimation>();
     node["properties"]["name"] = schema::type<std::string>();
     node["properties"]["agent_indices"] = schema::type<std::vector<int>>();
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "record_sensing_config";
@@ -225,9 +227,9 @@ template <> struct convert<Experiment> {
   static Node schema() {
     Node node;
     node["type"] = "object";
-    node["properties"]["time_step"] = schema::type<ng_float_t>();
-    node["properties"]["steps"] = schema::type<int>();
-    node["properties"]["runs"] = schema::type<int>();
+    node["properties"]["time_step"] = schema::type<schema::positive_float>();
+    node["properties"]["steps"] = schema::type<unsigned>();
+    node["properties"]["runs"] = schema::type<unsigned>();
     node["properties"]["save_directory"] = schema::type<std::string>();
     node["properties"]["record_time"] = schema::type<bool>();
     node["properties"]["record_pose"] = schema::type<bool>();
@@ -242,13 +244,16 @@ template <> struct convert<Experiment> {
     node["properties"]["record_efficacy"] = schema::type<bool>();
     node["properties"]["record_world"] = schema::type<bool>();
     node["properties"]["use_agent_uid_as_key"] = schema::type<bool>();
-    node["properties"]["record_neighbors"] = schema::ref<RecordNeighborsConfig>();
+    node["properties"]["record_neighbors"] =
+        schema::ref<RecordNeighborsConfig>();
     node["properties"]["record_sensing"] = schema::ref<RecordSensingConfig>();
-    node["properties"]["terminate_when_all_idle_or_stuck"] = schema::type<bool>();
+    node["properties"]["terminate_when_all_idle_or_stuck"] =
+        schema::type<bool>();
     node["properties"]["name"] = schema::type<std::string>();
-    node["properties"]["run_index"] = schema::type<int>();
+    node["properties"]["run_index"] = schema::type<unsigned>();
     node["properties"]["reset_uids"] = schema::type<bool>();
     node["properties"]["scenario"] = schema::ref<Scenario>();
+    node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "experiment";

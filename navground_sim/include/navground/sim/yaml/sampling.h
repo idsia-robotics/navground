@@ -257,7 +257,7 @@ template <typename T> struct convert<SequenceSampler<T>> {
     Node compact;
     compact["type"] = "array";
     compact["items"] = schema::generic_type();
-    compact["items"]["minItems"] = 1;
+    compact["minItems"] = 1;
     Node extended;
     extended["type"] = "object";
     extended["properties"]["values"] = YAML::Clone(compact);
@@ -289,7 +289,7 @@ template <typename T> struct convert<ChoiceSampler<T>> {
     Node values;
     values["type"] = "array";
     values["items"] = schema::generic_type();
-    values["items"]["minItems"] = 1;
+    values["minItems"] = 1;
     node["type"] = "object";
     node["properties"]["values"] = values;
     node["properties"]["once"] = schema::type<bool>();

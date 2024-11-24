@@ -173,7 +173,7 @@ If the experiment is recording data, it will create a directory named ``<experim
 Example
 ~~~~~~~
 
-.. ng-command-output:: run  "{save_directory: ".", scenario: {type: Antipodal, groups: [{number: 20}]}}"
+.. ng-command-output:: run  "{save_directory: "/tmp", scenario: {type: Antipodal, groups: [{number: 20}]}}"
    :package: navground_sim
    :ellipsis: 20
 

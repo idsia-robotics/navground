@@ -50,32 +50,18 @@ inline Node sim() {
   node["$defs"]["record_neighbors_config"] = schema<RecordNeighborsConfig>();
   node["$defs"]["record_sensing_config"] = schema<RecordSensingConfig>();
   node["$defs"]["experiment"] = schema<Experiment>();
-  node["$defs"]["integer_sampler"] = schema<Sampler<int>>();
-  node["$defs"]["positive_integer_sampler"] = schema<Sampler<unsigned>>();
-  node["$defs"]["number_sampler"] = schema<Sampler<ng_float_t>>();
-  node["$defs"]["positive_number_sampler"] = schema<Sampler<schema::positive_float>>();
-  node["$defs"]["boolean_sampler"] = schema<Sampler<bool>>();
-  node["$defs"]["string_sampler"] = schema<Sampler<std::string>>();
-  node["$defs"]["vector2_sampler"] =
-      schema<Sampler<navground::core::Vector2>>();
-  node["$defs"]["integer_array_sampler"] = schema<Sampler<std::vector<int>>>();
-  node["$defs"]["number_array_sampler"] =
-      schema<Sampler<std::vector<ng_float_t>>>();
-  node["$defs"]["boolean_array_sampler"] = schema<Sampler<std::vector<bool>>>();
-  node["$defs"]["string_array_sampler"] =
-      schema<Sampler<std::vector<std::string>>>();
-  node["$defs"]["vector2_array_sampler"] =
-      schema<Sampler<std::vector<navground::core::Vector2>>>();
-  node["$defs"]["const_sampler"] = schema<ConstantSampler<int>>();
-  node["$defs"]["sequence_sampler"] = schema<SequenceSampler<void>>();
-  node["$defs"]["choice_sampler"] = schema<ChoiceSampler<void>>();
-  node["$defs"]["grid_sampler"] = schema<GridSampler>();
-  node["$defs"]["regular_sampler"] = schema<RegularSampler<void>>();
-  node["$defs"]["uniform_sampler"] = schema<UniformSampler<void>>();
-  node["$defs"]["normal_sampler"] = schema<NormalSampler<void>>();
+  node["$defs"]["sampler"] = schema<GenericSampler>();
+  node["$defs"]["number_sampler"] = schema<NumberSampler>();
+  node["$defs"]["vector_sampler"] = schema<VectorSampler>();
+  node["$defs"]["const"] = schema<ConstantSampler<void>>();
+  node["$defs"]["sequence"] = schema<SequenceSampler<void>>();
+  node["$defs"]["choice"] = schema<ChoiceSampler<void>>();
+  node["$defs"]["grid"] = schema<GridSampler>();
+  node["$defs"]["regular"] = schema<RegularSampler<void>>();
+  node["$defs"]["uniform"] = schema<UniformSampler<void>>();
+  node["$defs"]["normal"] = schema<NormalSampler<void>>();
   return node;
 }
-
 } // namespace schema
 
 } // namespace YAML

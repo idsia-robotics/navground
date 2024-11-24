@@ -12,6 +12,8 @@ namespace YAML {
 
 namespace schema {
 
+using Modifier = std::function<void(YAML::Node &)>;
+
 inline const std::string BASE_URL = "http://navground/";
 inline const std::string SCHEMA_PREFIX = "";
 inline const std::string SCHEMA =
@@ -112,6 +114,22 @@ template <typename T> struct type_t<std::vector<T>> {
   }
 };
 
+template <typename T> Node ref() {
+  Node node;
+  node["$ref"] = ref_name(type_t<T>::name());
+  return node;
+}
+
+template <> struct type_t<std::vector<Vector2>> {
+  static std::string name() { return type_t<Vector2>::name() + "_array"; }
+  static Node schema() {
+    Node node;
+    node["type"] = "array";
+    node["items"] = ref<Vector2>();
+    return node;
+  }
+};
+
 inline Node schema(const std::string &name) {
   Node node;
   node["$id"] = id_name(name);
@@ -143,16 +161,14 @@ template <typename T> Node schema() {
   return node;
 }
 
-template <typename T> Node ref() {
-  Node node;
-  node["$ref"] = ref_name(type_t<T>::name());
-  return node;
-}
 
 inline Node property_schema(const navground::core::Property &property) {
   Node node = std::visit(
       [](auto &&arg) -> Node {
         using T = std::decay_t<decltype(arg)>;
+        if constexpr (std::is_same_v<T, Vector2>) {
+          return ref<Vector2>();
+        }
         return type<T>();
       },
       property.default_value);
@@ -255,6 +271,20 @@ template <typename T> Node schema_of_type(const std::string &type) {
 }
 
 template <typename T> Node base_with_ref() { return base<T>(true); }
+
+#if 0
+template <typename T> Node anyOf() {
+  Node node;
+  node["anyOf"].push_back(type_or_ref<T>());
+  return node;
+}
+
+template <typename T, typename... Ts> Node anyOf() {
+  Node node = anyOf<Ts...>();
+  node["anyOf"].push_back(type_or_ref<T>());
+  return node;
+}
+#endif
 
 } // namespace schema
 

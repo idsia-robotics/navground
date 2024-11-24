@@ -1,3 +1,5 @@
+.. _behavior_yaml:
+
 ========
 Behavior
 ========

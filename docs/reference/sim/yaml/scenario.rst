@@ -4,13 +4,55 @@
 Scenario
 ========
 
+Behavior sampler
+================
+
+Sampler of behaviors, replaces types in :ref:`behavior_yaml` with samplers of the same type.
+
+.. schema:: navground.sim.schema.sim()["$defs"]["behavior_sampler"]
+
+Behavior modulation sampler
+===========================
+
+Sampler of behavior modulations, replaces types in :ref:`behavior_modulation_yaml` with samplers of the same type.
+
+.. schema:: navground.sim.schema.sim()["$defs"]["behavior_modulation_sampler"]
+
+Kinematics sampler
+==================
+
+Sampler of kinematics, replaces types in :ref:`kinematics_yaml` with samplers of the same type.
+
+
+.. schema:: navground.sim.schema.sim()["$defs"]["kinematics_sampler"]
+
+
+State estimation sampler
+========================
+
+Sampler of state estimations, replaces types in :ref:`state_estimation_yaml` with samplers of the same type.
+
+
+.. schema:: navground.sim.schema.sim()["$defs"]["state_estimation_sampler"]
+
+Task sampler
+============
+
+Sampler of tasks, replaces types in :ref:`task_yaml` with samplers of the same type.
+
+
+.. schema:: navground.sim.schema.sim()["$defs"]["task_sampler"]
+
+.. _group_yaml:
+
 Group
 ======
 
-Schema
-------
+Sampler of agents: similar to :ref:`agent_yaml` but uses the sampler schemas to populate the agent components. 
 
-.. schema:: navground.sim.schema()["$defs"]["group"]
+.. schema:: navground.sim.schema.sim()["$defs"]["group"]
+
+.. note:: Almost all fields in these schemas are samplers with the exception of the ``type`` field of registered components, which is a scalar string.
 
 Example
 -------
@@ -62,15 +104,14 @@ Example
      to: 0.2
 
 Scenario
---------
+========
 
-Schema
-^^^^^^
+Scenarios are generators of worlds: similar to :ref:`world_yaml` but using :ref:`group_yaml` instead of a list of `agent_yaml`.
 
 .. schema:: navground.sim.Scenario.base_schema()
 
 Example
-^^^^^^^
+-------
 
 .. code-block:: yaml
 
@@ -93,5 +134,7 @@ Example
 
 Register
 --------
+
+Like all the other components, scenarios have a schema that includes all registered sub-classes: 
 
 .. schema:: navground.sim.Scenario.register_schema()

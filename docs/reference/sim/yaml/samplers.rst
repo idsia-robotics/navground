@@ -2,18 +2,48 @@
 Sampling
 ========
 
-Because in navground scenario are (random) generators of worlds, 
-all fields, except the ``type`` field of registered components, in :ref:`scenarios <scenario yaml>` specify typed *samplers* (like a sampler of integer).
-
 Generic samplers
 ================
 
-Samplers uses generic schema. For instance, :ref:`sequence` defines a sequence of values of any type. Other samplers requires specific types. 
+:ref:`C++ samplers <samplers_cpp>` generates samples of a generic types ``T``. To define the corresponding JSON-schema, we follow `<https://json-schema.org/blog/posts/dynamicref-and-generics>`_, using ``$dynamicref`` and ``$dynamicanchor`` to mark the data type ``T`` as generic:
 
-The schema uses ``$dynamicref`` and ``$dynamicanchor`` to keep sampled data type ``T`` generic (see `<https://json-schema.org/blog/posts/dynamicref-and-generics>`_).
 
-All samplers share a common parameter :cpp:member:`navground::sim::Sampler::once` that freezes the sampler once the first sample has been drawn. Set it to apply the same value to all agents in a group.
-For example, in a scenario specified by
+.. code-block:: yaml
+
+   <sampler>:
+     $id: <sampler>
+     $defs:
+       of:
+         $dynamicAnchor: T
+         not: true
+     # uses $dynamicRef: "#T"
+     # ...
+
+Other schemas, when referring to the sampler schema, they should define  ``T``
+
+.. code-block:: yaml
+
+   $id: <id>
+   $ref: <sampler>
+     $defs:
+       of:
+         $dynamicAnchor: T
+         # define schema of T   
+
+like, for example, to sample positive integers:
+
+.. code-block:: yaml
+
+   $id: <id>
+   $ref: <sampler>
+     $defs:
+       of:
+         $dynamicAnchor: T
+         type: integer
+         minimum: 0
+
+
+All generic samplers share a common parameter :cpp:member:`navground::sim::Sampler::once` that freezes the sampler once the first sample has been drawn.  For example, when in the following scenario
 
 .. code-block:: yaml
 
@@ -22,36 +52,32 @@ For example, in a scenario specified by
        radius: [1.0, 2.0, 3.0]
        once: true
 
-all ten agents will be assigned ``radius=1.0`` in the first run, ``radius=2.0`` in the second, and so on.
-If instead the scenario is specified by
-
-.. code-block:: yaml
-
-   groups:
-     - number: 10
-       radius: [1.0, 2.0, 3.0]
-       once: false
-
-in any run, the first agent will get ``radius=1.0``, the second  ``radius=2.0``, and so on.
-
+all ten agents will be assigned ``radius: 1.0`` in the first run, ``radius: 2.0`` in the second, and so on. Instead, for ``once: false``, the first agent will get ``radius: 1.0``, the second  ``radius: 2.0``, and so on, in any run.
 
 Constant
-~~~~~~~~
+--------
 
-.. schema:: navground.sim.schema()["$defs"]["const_sampler"]
+.. schema:: navground.sim.schema.sim()["$defs"]["const"]
 
-Constants are specified by a value, like ``0.5``, or by an object, like
+Example
+~~~~~~~
+
+Constant samplers are specified by a value, like ``0.5``, or by an object, like
 
 .. code-block:: yaml
 
    sampler: constant
-   value: 0.5    
+   value: 0.5
 
+.. _sequence:
 
 Sequence
-~~~~~~~~
+--------
 
-.. schema:: navground.sim.schema()["$defs"]["sequence_sampler"]
+.. schema:: navground.sim.schema.sim()["$defs"]["sequence"]
+
+Example
+~~~~~~~
 
 Sequences are specified by an array, like ``[0.5, 1.0]``, or by an object, like
 
@@ -62,11 +88,12 @@ Sequences are specified by an array, like ``[0.5, 1.0]``, or by an object, like
 
 
 Choice
-~~~~~~
+------
 
-.. schema:: navground.sim.schema()["$defs"]["choice_sampler"]
+.. schema:: navground.sim.schema.sim()["$defs"]["choice"]
 
-For example
+Example
+~~~~~~~
 
 .. code-block:: yaml
 
@@ -74,11 +101,16 @@ For example
    values: [1.0, 2.0, 2.0, 1.0]  
 
 Regular
+-------
+
+.. schema:: navground.sim.schema.sim()["$defs"]["regular"]
+
+.. note::
+
+   Restricted to numeric types and vectors
+
+Example
 ~~~~~~~
-
-.. schema:: navground.sim.schema()["$defs"]["regular_sampler"]
-
-Restricted to numeric types and vectors. For example
 
 .. code-block:: yaml
 
@@ -87,11 +119,16 @@ Restricted to numeric types and vectors. For example
    step: 0.1
 
 Grid
-~~~~
+----
 
-.. schema:: navground.sim.schema()["$defs"]["grid_sampler"]
+.. schema:: navground.sim.schema.sim()["$defs"]["grid"]
 
-Restricted to vectors. For example
+.. note::
+
+   Restricted to numeric types and vectors
+
+Example
+~~~~~~~
 
 .. code-block:: yaml
 
@@ -103,9 +140,14 @@ Restricted to vectors. For example
 Random uniform
 ~~~~~~~~~~~~~~
 
-.. schema:: navground.sim.schema()["$defs"]["uniform_sampler"]
+.. schema:: navground.sim.schema.sim()["$defs"]["uniform"]
 
-Restricted to numeric types. For example
+.. note::
+
+   Restricted to numeric types.
+
+Example
+~~~~~~~
 
 .. code-block:: yaml
 
@@ -116,9 +158,14 @@ Restricted to numeric types. For example
 Random normal
 ~~~~~~~~~~~~~~
 
-.. schema:: navground.sim.schema()["$defs"]["normal_sampler"]
+.. schema:: navground.sim.schema.sim()["$defs"]["normal"]
 
-Restricted to numeric types. For example
+.. note::
+
+   Restricted to numeric types.
+
+Example
+~~~~~~~
 
 .. code-block:: yaml
 
@@ -129,54 +176,75 @@ Restricted to numeric types. For example
    max: 1.0
 
 
+.. _samplers_yaml:
 
-Typed samplers
-==============
+Samplers collections
+====================
 
-In complex schemas, fields are associate to samplers of given types. We define 10 typed sampler schema, one for
-each of ``boolean``, ``integer``, ``number``, ``string``, ``vector2`` and their respective array types.
+Some generic schema works on any type, others are restricted to a subset of types, like uniform samplers that are restricted to numeric types. Therefore, other schemas do not actually refer to the generic schemas directly, but to the allowed set of schemas depending on the type.
 
-.. schema:: {k: v for k, v in navground.sim.schema()['$defs'].items() if k in ('boolean_sample', 'integer_sampler', 'number_sampler', 'string_sampler', 'vector2_sampler', 'boolean_array_sample', 'integer_array_sampler', 'number_array_sampler', 'string_array_sampler', 'vector2_array_sampler')}
+- numbers:
 
-For example, integers can be associated to any generic sampler, while strings only to ``const``, ``sequence`` and ``choice``.
+  .. schema:: navground.sim.schema.sim()['$defs']['number_sampler']
+
+- vectors:
+
+  .. schema:: navground.sim.schema.sim()['$defs']['vector_sampler']
+
+- other types:
+
+  .. schema:: navground.sim.schema.sim()['$defs']['sampler']
+
 
 Example
-=======
+-------
 
-For example, if a scenario has a property "name" of type "string", the corresponding scheme will be 
-
-.. code-block:: yaml
-
-   ...
-   properties
-     name: string_sampler
-
-which accepts any of these instances
+For a scenario that has string property "name", the corresponding scheme will contain 
 
 .. code-block:: yaml
 
-   name: "apple"
+   # ...
+   properties:
+     name:
+       $id: name
+       $ref: sampler
+       $defs:
+         of: 
+           $dynamicRef: T
+           type: string
+     #...
 
-.. code-block:: yaml
+and will accept any of the following instances
 
-   name: ["apple", "pear"]
+- .. code-block:: yaml
 
-.. code-block:: yaml
+     # constant works on strings
+     name: "apple"
 
-   name: 
-     sampler: choice
-     values: ["apple", "your name"]
+- .. code-block:: yaml
+
+     # sequence works on strings
+     name: ["apple", "pear"]
+
+- .. code-block:: yaml
+
+     # choice works on strings
+     name: 
+       sampler: choice
+       values: ["apple", "your name"]
 
 but none of these instances
 
-.. code-block:: yaml
+- .. code-block:: yaml
 
-   name: 1
+     # wrong type
+     name: 1
 
-.. code-block:: yaml
+- .. code-block:: yaml
 
-   name: 
-     sampler: uniform
-     from: "apple"
-     to: "pear"
+     # uniform does not work on strings
+     name: 
+       sampler: uniform
+       from: "apple"
+       to: "pear"
 

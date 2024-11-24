@@ -11,11 +11,13 @@ namespace schema {
 
 using namespace navground::sim;
 
-inline Node property_sampler_schema(const navground::core::Property &property) {
+inline Node property_sampler_schema(const std::string &name,
+                                    const navground::core::Property &property) {
+  Node node = property_schema(property);
   return std::visit(
-      [](auto &&arg) -> Node {
+      [&node, &name](auto &&arg) -> Node {
         using T = std::decay_t<decltype(arg)>;
-        return ref<Sampler<T>>();
+        return sampler<T>(node, name);
       },
       property.default_value);
 }
@@ -25,7 +27,7 @@ inline Node registered_component_sampler_schema(
   Node node;
   node["properties"]["type"]["const"] = type;
   for (const auto &[name, property] : properties) {
-    node["properties"][name] = property_sampler_schema(property);
+    node["properties"][name] = property_sampler_schema(name, property);
   }
   return node;
 }
@@ -77,7 +79,7 @@ template <typename T> Node sampler_schema_of_type(const std::string &type) {
   Node node = schema<T>();
 
   for (const auto &[name, property] : ps.at(type)) {
-    node["properties"][name] = property_sampler_schema(property);
+    node["properties"][name] = property_sampler_schema(name, property);
   }
   const auto &t_schema = T::Type::type_schema();
   if (t_schema.count(type)) {

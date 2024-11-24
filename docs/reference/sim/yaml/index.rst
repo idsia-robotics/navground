@@ -22,7 +22,7 @@ To validate a ``<type>`` using this schema, add a reference:
 
 .. note::
 
-   All schema reported in this section are auto-generated using the Python API, see :py:func:`navground.sim.schema()`.
+   All schema reported in this section are auto-generated using the Python API, see :py:func:`navground.sim.schema.sim()`.
 
 
 .. toctree::

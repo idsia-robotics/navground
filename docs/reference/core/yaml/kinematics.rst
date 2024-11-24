@@ -1,3 +1,5 @@
+.. _kinematics_yaml:
+
 ==========
 Kinematics
 ==========

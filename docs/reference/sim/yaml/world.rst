@@ -1,3 +1,5 @@
+.. _world_yaml:
+
 =====
 World
 =====

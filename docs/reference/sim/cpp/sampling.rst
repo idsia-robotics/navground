@@ -1,6 +1,10 @@
+.. _sampling_cpp:
+
 =========
 Sampling
 =========
+
+.. _samplers_cpp:
 
 Samplers
 ========

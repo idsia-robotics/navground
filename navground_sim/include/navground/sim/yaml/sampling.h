@@ -43,16 +43,16 @@ namespace YAML {
 
 namespace schema {
 
-inline Node generic() {
-  Node node;
-  node["$defs"]["T"]["$dynamicAnchor"] = "T";
-  node["$defs"]["T"]["not"] = true;
-  return node;
-}
-
 inline Node generic_type() {
   Node node;
   node["$dynamicRef"] = "#T";
+  return node;
+}
+
+inline Node generic() {
+  Node node;
+  node["$defs"]["of"]["$dynamicAnchor"] = "T";
+  node["$defs"]["of"]["not"] = true;
   return node;
 }
 
@@ -323,7 +323,6 @@ template <typename T> struct convert<RegularSampler<T>> {
     Node node = schema::generic();
     node["type"] = "object";
     node["properties"]["from"] = schema::generic_type();
-    ;
     node["properties"]["to"] = schema::generic_type();
     node["properties"]["step"] = schema::generic_type();
     node["properties"]["number"] = schema::type<unsigned>();
@@ -487,6 +486,7 @@ template <typename T> struct convert<Sampler<T> *> {
 
 namespace schema {
 
+#if 0
 template <typename T> struct type_t<Sampler<T>> {
   static std::string name() { return type_t<T>::name() + "_sampler"; }
   static Node schema() {
@@ -509,6 +509,67 @@ template <typename T> struct type_t<Sampler<T>> {
     return node;
   }
 };
+#endif
+
+struct GenericSampler;
+
+template <> struct type_t<GenericSampler> {
+  static std::string name() { return "sampler"; }
+  static Node schema() {
+    Node node;
+    node["anyOf"] = std::vector<Node>{ref<ConstantSampler<void>>(),
+                                      ref<SequenceSampler<void>>(),
+                                      ref<ChoiceSampler<void>>()};
+    return node;
+  }
+};
+
+struct NumberSampler;
+
+template <> struct type_t<NumberSampler> {
+  static std::string name() { return "number_sampler"; }
+  static Node schema() {
+    Node node;
+    node["anyOf"] = std::vector<Node>{
+        ref<ConstantSampler<void>>(), ref<SequenceSampler<void>>(),
+        ref<ChoiceSampler<void>>(),   ref<RegularSampler<void>>(),
+        ref<UniformSampler<void>>(),  ref<NormalSampler<void>>()};
+    return node;
+  }
+};
+
+struct VectorSampler;
+
+template <> struct type_t<VectorSampler> {
+  static std::string name() { return "vector_sampler"; }
+  static Node schema() {
+    Node node;
+    node["anyOf"] = std::vector<Node>{
+        ref<ConstantSampler<void>>(), ref<SequenceSampler<void>>(),
+        ref<ChoiceSampler<void>>(), ref<GridSampler>(),
+        ref<RegularSampler<void>>()};
+    return node;
+  }
+};
+
+template <typename T> inline Node sampler_for_type() {
+  if constexpr (std::is_same_v<T, Vector2>) {
+    return ref<VectorSampler>();
+  }
+  if constexpr (is_number<T>) {
+    return ref<NumberSampler>();
+  }
+  return ref<GenericSampler>();
+}
+
+template <typename T>
+inline Node sampler(const Node &sample, const std::string &id) {
+  Node node = sampler_for_type<T>();
+  node["$id"] = id;
+  node["$defs"]["of"] = sample;
+  node["$defs"]["of"]["$dynamicAnchor"] = "T";
+  return node;
+}
 
 } // namespace schema
 
@@ -579,9 +640,16 @@ template <typename T> Node encode_sr(const SamplerFromRegister<T> &rhs) {
 
 namespace schema {
 // TODO(Jerome): add support for modifiers?
+
 template <typename T>
 inline void add_sampler(Node &node, const std::string &key) {
-  node["properties"][key] = ref<Sampler<T>>();
+  Node sample;
+  if constexpr (std::is_same_v<T, Vector2>) {
+    sample = ref<T>();
+  } else {
+    sample = type<T>();
+  }
+  node["properties"][key] = sampler<T>(sample, key);
 }
 
 } // namespace schema
@@ -672,8 +740,7 @@ template <typename T, typename M> struct convert<BehaviorSampler<T, M>> {
     schema::add_sampler<schema::positive_float>(node, "path_look_ahead");
     schema::add_sampler<schema::positive_float>(node, "path_tau");
     schema::add_sampler<schema::positive_float>(node, "optimal_speed");
-    // TODO(Jerome): change once we change the samplers schema.
-    schema::add_sampler<std::string>(node, "heading");
+    schema::add_sampler<Behavior::Heading>(node, "heading");
     node["properties"]["modulations"]["type"] = "array";
     node["properties"]["modulations"]["items"] =
         schema::ref<BehaviorModulationSampler<M>>();

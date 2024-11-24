@@ -202,6 +202,7 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
           py::hasattr(v, "__is_schema__")) {
         // py::print("Setting schema for type", type);
         // set_schema_py(type, v);
+        schema[type] = v;
         type_schema()[type] = YAML::from_schema_py(v);
       }
     }

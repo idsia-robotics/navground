@@ -1,3 +1,5 @@
+.. _behavior_modulation_yaml:
+
 ===================
 Behavior Modulation
 ===================

@@ -29,4 +29,4 @@ Schema
 
 Moreover, we expose methods that return `JSON Schema <https://json-schema.org>`_ for all supported types (``Class.schema``, ``Component.base_schema``, ``Component.register_schema``) and a function that export a bundle schema used for validation in :ref:`validate_py`.
 
-.. autofunction:: navground.core.schema
+.. autofunction:: navground.core.schema.core

@@ -7,7 +7,7 @@ State estimation
 Schema
 ======
 
-.. schema:: navground.sim.StateEstimation.base_schema()
+.. schema:: navground.sim.StateEstimation.schema()
 
 Register
 --------

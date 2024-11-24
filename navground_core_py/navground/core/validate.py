@@ -66,7 +66,7 @@ def validate(arg: argparse.Namespace, kinds: List[str], schema: Dict) -> None:
 
 def _main(arg: argparse.Namespace) -> None:
     command._main(arg)
-    validate(arg, kinds, core.schema.core())
+    validate(arg, kinds, core.schema.bundle())
 
 
 def main() -> None:

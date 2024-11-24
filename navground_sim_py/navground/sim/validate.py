@@ -23,7 +23,7 @@ def parser() -> argparse.ArgumentParser:
 
 def _main(arg: argparse.Namespace) -> None:
     command._main(arg, sim.load_plugins)
-    validate.validate(arg, kinds, sim.schema.sim())
+    validate.validate(arg, kinds, sim.schema.bundle())
 
 
 def main() -> None:

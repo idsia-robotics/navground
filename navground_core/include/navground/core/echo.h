@@ -34,18 +34,12 @@ struct EchoCommand : Command<EchoCommand> {
       : Command<EchoCommand>(name), echos(echos) {}
 
   void setup(argparse::ArgumentParser &parser) {
-    std::string kinds = "";
-    bool first = true;
-    for (const auto &[k, _] : echos) {
-      if (!first) {
-        kinds += ", ";
-      }
-      first = false;
-      kinds += k;
-    }
     parser.add_description(
         "Load an object from YAML and print its YAML representation");
-    parser.add_argument("kind").help("The kind of object to load: " + kinds);
+    auto kind = parser.add_argument("kind").help("The kind of object to load");
+    for (const auto &[k, _] : echos) {
+      kind.add_choice(k);
+    }
     parser.add_argument("YAML").help(
         "YAML string, or path to a YAML file, describing an experiment");
   }

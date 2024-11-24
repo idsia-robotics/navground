@@ -9,14 +9,14 @@ Behavior sampler
 
 Sampler of behaviors, replaces types in :ref:`behavior_yaml` with samplers of the same type.
 
-.. schema:: navground.sim.schema.sim()["$defs"]["behavior_sampler"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["behavior_sampler"]
 
 Behavior modulation sampler
 ===========================
 
 Sampler of behavior modulations, replaces types in :ref:`behavior_modulation_yaml` with samplers of the same type.
 
-.. schema:: navground.sim.schema.sim()["$defs"]["behavior_modulation_sampler"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["behavior_modulation_sampler"]
 
 Kinematics sampler
 ==================
@@ -24,7 +24,7 @@ Kinematics sampler
 Sampler of kinematics, replaces types in :ref:`kinematics_yaml` with samplers of the same type.
 
 
-.. schema:: navground.sim.schema.sim()["$defs"]["kinematics_sampler"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["kinematics_sampler"]
 
 
 State estimation sampler
@@ -33,7 +33,7 @@ State estimation sampler
 Sampler of state estimations, replaces types in :ref:`state_estimation_yaml` with samplers of the same type.
 
 
-.. schema:: navground.sim.schema.sim()["$defs"]["state_estimation_sampler"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["state_estimation_sampler"]
 
 Task sampler
 ============
@@ -41,7 +41,7 @@ Task sampler
 Sampler of tasks, replaces types in :ref:`task_yaml` with samplers of the same type.
 
 
-.. schema:: navground.sim.schema.sim()["$defs"]["task_sampler"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["task_sampler"]
 
 .. _group_yaml:
 
@@ -50,7 +50,7 @@ Group
 
 Sampler of agents: similar to :ref:`agent_yaml` but uses the sampler schemas to populate the agent components. 
 
-.. schema:: navground.sim.schema.sim()["$defs"]["group"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["group"]
 
 .. note:: Almost all fields in these schemas are samplers with the exception of the ``type`` field of registered components, which is a scalar string.
 
@@ -108,7 +108,7 @@ Scenario
 
 Scenarios are generators of worlds: similar to :ref:`world_yaml` but using :ref:`group_yaml` instead of a list of `agent_yaml`.
 
-.. schema:: navground.sim.Scenario.base_schema()
+.. schema:: navground.sim.Scenario.schema()
 
 Example
 -------

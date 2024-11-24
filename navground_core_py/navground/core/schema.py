@@ -1,12 +1,28 @@
 import typing
 
-from ._navground import schema as core
+from ._navground import bundle_schema as bundle
 
 Schema: typing.TypeAlias = dict[str, typing.Any]
 SchemaModifier: typing.TypeAlias = typing.Callable[[Schema], None]
 
 
 def register(modifier: SchemaModifier) -> staticmethod:
+    """
+    Register a custom JSON-schema for a class
+
+    Use it as:
+
+    >>> class MyClass(Class, name=...):
+    >>>
+    >>> @schema.register
+    >>> def modifier(schema: dict[str, typing.Any]) -> None:
+    >>>     ...
+
+    :param      modifier:  A modifier
+
+    :returns:   The registered static method
+    :rtype:     staticmethod
+    """
     fn = staticmethod(modifier)
     fn.__is_schema__ = True  # type: ignore
     return fn
@@ -28,4 +44,4 @@ def longer_than(value: int) -> SchemaModifier:
     return f
 
 
-__all__ = ['core', 'register', 'positive', 'strict_positive', 'longer_than']
+__all__ = ['bundle', 'register', 'positive', 'strict_positive', 'longer_than']

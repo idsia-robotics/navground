@@ -28,36 +28,27 @@ Dumps the object to a YAML-string.
 )doc";
 }
 
-inline const char *base_schema_py_doc() {
+inline const char *component_schema_py_doc() {
   return R"doc(
-Returns the json-schema of the base class
+Returns the json-schema of a component
 
-:param with_registers: Whether to reference registered components schema
+Returns an empty dictionary if a not registered type is requested.
+
+:param reference_register_schema: Whether to reference registered components schema in the base class schema.
 :type with_registers: bool
-:return: The json-schema of the base class
-:rtype: ``typing.Dict[str, Any]``
-           )doc";
-}
-
-inline const char *schema_of_type_py_doc() {
-  return R"doc(
-Returns the json-schema of a registered component
-
-Returns an empty dictionary if the type is not registered.
-
-:param type: The name of the component
+:param type: An optional registered type. If not specified, it returns the schema of the base class.
 :type type: str
 :return: A json-schema of the registered class
-:rtype: ``typing.Dict[str, Any]``
+:rtype: :py:type:`dict[str, typing.Any]`
            )doc";
 }
 
 inline const char *register_schema_py_doc() {
   return R"doc(
-Returns the json-schema that includes registered components
+Returns the json-schema that includes registered components.
 
 :return: "anyOf" json-schema of all registered components.
-:rtype: ``typing.Dict[str, Any]``
+:rtype: :py:type:`dict[str, typing.Any]`
            )doc";
 }
 
@@ -65,8 +56,8 @@ inline const char *schema_py_doc() {
   return R"doc(
 Returns the json-schema
 
-return: json-schema
-:rtype: ``typing.Dict[str, Any]
+:return: json-schema
+:rtype: :py:type:`dict[str, typing.Any]`
 )doc";
 }
 
@@ -89,21 +80,15 @@ template <typename T> py::object schema_py() {
 }
 
 template <typename T> py::object register_schema_py() {
-  const auto node = schema::registered<T>();
+  const auto node = schema::register_schema<T>();
   return to_py(node);
 }
 
 template <typename T>
-py::object base_schema_py(bool reference_register = true) {
-  const auto node = schema::base<T>(reference_register);
-  return to_py(node);
-}
-
-template <typename T> py::object schema_of_type_py(const std::string &type) {
-  const auto node = schema::schema_of_type<T>(type);
-  if (node.IsNull()) {
-    return py::dict();
-  }
+py::object
+component_schema_py(bool reference_register_schema = true,
+                    const std::optional<std::string> &type = std::nullopt) {
+  const auto node = schema::schema<T>(reference_register_schema, type);
   return to_py(node);
 }
 

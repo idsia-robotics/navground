@@ -1,5 +1,4 @@
 import argparse
-import logging
 import sys
 from typing import Callable, Dict, Type
 
@@ -9,7 +8,7 @@ from navground.core import command
 
 Schemas = Dict[str, Callable[[], Dict]]
 schemas: Schemas = {
-    "core": core.schema.core,
+    "core": core.schema.bundle,
 }
 
 Components = Dict[str, Type]
@@ -34,10 +33,18 @@ def init_parser_with_schemas(parser: argparse.ArgumentParser,
                         help="The target type of the scheme",
                         default=default_schema,
                         choices=kinds)
-    parser.add_argument("--type",
-                        type=str,
-                        help="Registered component name",
-                        default="")
+    parser.add_argument(
+        "--register",
+        type=bool,
+        help=
+        "Whether to generate the register schema instead of the base class schema",
+        default=False)
+    parser.add_argument(
+        "--type",
+        type=str,
+        help=
+        "If provided, generates the schema for the sub-class registered under this name"
+    )
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
@@ -53,16 +60,19 @@ def parser() -> argparse.ArgumentParser:
 def schema(arg: argparse.Namespace, schemas: Schemas,
            components: Components) -> None:
     if arg.kind not in schemas and arg.kind not in components:
-        logging.error(f"Unknown kind of target: {arg.kind}")
+        print(f"Unknown kind {arg.kind}", file=sys.stderr)
         sys.exit(1)
     if arg.kind in components:
         cls = components[arg.kind]
-        if arg.type:
-            schema = cls.schema_of_type(arg.type)
+        if arg.register:
+            schema = cls.register_schema(arg.type)
         else:
-            schema = cls.base_schema(True)
+            schema = cls.schema(True, arg.type)
     else:
         schema = schemas[arg.kind]()
+    if not schema:
+        print("Empty schema", file=sys.stderr)
+        sys.exit(1)
     print(yaml.safe_dump(schema))
 
 

@@ -64,3 +64,17 @@ You can dump objects of the same classes to YAML:
    Similar is valid for function :py:func:`navground.sim.dump` and methods ``<Component>.dump``, such as :py:meth:`navground.sim.Task.dump`.
 
 
+Schema
+------
+
+:py:mod:`navground.sim` schemas are more complex than :py:mod:`navground.core` schemas due to the presence of samplers. 
+
+.. py:module:: navground.sim.schema
+   :synopsis: Simulation YAML schema
+
+:module: :py:mod:`navground.sim.schema`
+
+.. autofunction:: navground.sim.schema.register
+
+.. autofunction:: navground.sim.schema.bundle
+

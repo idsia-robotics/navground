@@ -14,26 +14,73 @@ namespace schema {
 
 using Modifier = std::function<void(YAML::Node &)>;
 
+/**
+ * @brief      Constrains to >= 0
+ *
+ * @param      node  The node
+ */
+inline void positive(Node &node) { node["minimum"] = 0; }
+
+/**
+ * @brief      Constrains to > 0
+ *
+ * @param      node  The node
+ */
+inline void strict_positive(Node &node) { node["exclusiveMinimum"] = 0; }
+
+/**
+ * @brief      Constrains to contain at least one item.
+ *
+ * @param      node  The node
+ */
+inline void not_empty(Node &node) { node["minItems"] = 1; }
+
 inline const std::string BASE_URL = "http://navground/";
 inline const std::string SCHEMA_PREFIX = "";
 inline const std::string SCHEMA =
     "https://json-schema.org/draft/2020-12/schema";
 
+/** @private */
 inline std::string ref_name(const std::string &name) {
   return SCHEMA_PREFIX + name;
 }
 
+/** @private */
 inline std::string id_name(const std::string &name) {
   return BASE_URL + SCHEMA_PREFIX + name;
 }
 
+/** @private */
+inline Node schema_prefix(const std::string &name) {
+  Node node;
+  node["$id"] = id_name(name);
+  node["$schema"] = SCHEMA;
+  return node;
+}
+
+/** @private */
 template <typename T> struct type_t {
   static std::string name() { return std::string(convert<T>::name); }
   static Node schema() { return convert<T>::schema(); }
 };
 
+/**
+ * @brief      Reference to a C++ type
+ *
+ * @tparam     T     The type
+ *
+ * @return     A json-schema encoded as a \ref YAML::Node.
+ */
+template <typename T> Node ref() {
+  Node node;
+  node["$ref"] = ref_name(type_t<T>::name());
+  return node;
+}
+
+/** @private */
 template <typename T> Node type() { return type_t<T>::schema(); }
 
+/** @private */
 template <> struct type_t<bool> {
   static std::string name() { return "boolean"; }
   static Node schema() {
@@ -43,6 +90,7 @@ template <> struct type_t<bool> {
   }
 };
 
+/** @private */
 template <> struct type_t<int> {
   static std::string name() { return "integer"; }
   static Node schema() {
@@ -52,6 +100,7 @@ template <> struct type_t<int> {
   }
 };
 
+/** @private */
 template <> struct type_t<unsigned> {
   static std::string name() { return "positive_integer"; }
   static Node schema() {
@@ -62,6 +111,7 @@ template <> struct type_t<unsigned> {
   }
 };
 
+/** @private */
 template <> struct type_t<ng_float_t> {
   static std::string name() { return "number"; }
   static Node schema() {
@@ -71,8 +121,12 @@ template <> struct type_t<ng_float_t> {
   }
 };
 
+/**
+ * @brief A positive float
+ */
 struct positive_float;
 
+/** @private */
 template <> struct type_t<positive_float> {
   static std::string name() { return "positive_number"; }
   static Node schema() {
@@ -83,6 +137,7 @@ template <> struct type_t<positive_float> {
   }
 };
 
+/** @private */
 template <> struct type_t<std::string> {
   static std::string name() { return "string"; }
   static Node schema() {
@@ -92,6 +147,7 @@ template <> struct type_t<std::string> {
   }
 };
 
+/** @private */
 template <> struct type_t<navground::core::Vector2> {
   static std::string name() { return "vector2"; }
   static Node schema() {
@@ -104,6 +160,7 @@ template <> struct type_t<navground::core::Vector2> {
   }
 };
 
+/** @private */
 template <typename T> struct type_t<std::vector<T>> {
   static std::string name() { return type_t<T>::name() + "_array"; }
   static Node schema() {
@@ -114,12 +171,7 @@ template <typename T> struct type_t<std::vector<T>> {
   }
 };
 
-template <typename T> Node ref() {
-  Node node;
-  node["$ref"] = ref_name(type_t<T>::name());
-  return node;
-}
-
+/** @private */
 template <> struct type_t<std::vector<Vector2>> {
   static std::string name() { return type_t<Vector2>::name() + "_array"; }
   static Node schema() {
@@ -130,38 +182,21 @@ template <> struct type_t<std::vector<Vector2>> {
   }
 };
 
-inline Node schema(const std::string &name) {
-  Node node;
-  node["$id"] = id_name(name);
-  node["$schema"] = SCHEMA;
-  return node;
-}
-
-inline void positive(Node &node) { node["minimum"] = 0; }
-
-inline void strict_positive(Node &node) { node["exclusiveMinimum"] = 0; }
-
-inline void not_empty(Node &node) { node["minItems"] = 1; }
-
 /**
- * @brief      Returns the json-schema for a type
+ * @brief      Returns the json-schema for a C++ type
  *
  * @tparam     T  The type
  *
  * @return     A json-schema encoded as a \ref YAML::Node.
  */
 template <typename T> Node schema() {
-  // Node node = schema(type_t<T>::name());
-  // for (const auto &[k, v] : type_t<T>::schema()) {
-  //   node[k] = v;
-  // }
   Node node = type_t<T>::schema();
   node["$id"] = id_name(type_t<T>::name());
   node["$schema"] = SCHEMA;
   return node;
 }
 
-
+/** @private */
 inline Node property_schema(const navground::core::Property &property) {
   Node node = std::visit(
       [](auto &&arg) -> Node {
@@ -184,6 +219,7 @@ inline Node property_schema(const navground::core::Property &property) {
   return node;
 }
 
+/** @private */
 inline Node
 registered_component_schema(const std::string &type,
                             const navground::core::Properties &properties) {
@@ -204,7 +240,7 @@ registered_component_schema(const std::string &type,
  * @return    "anyOf" json-schema of all registered components encoded as a
  * \ref YAML::Node.
  */
-template <typename T> Node registered() {
+template <typename T> Node register_schema() {
   Node node;
   node["$schema"] = SCHEMA;
   node["$id"] = id_name(type_t<T>::name() + "_register");
@@ -219,40 +255,7 @@ template <typename T> Node registered() {
   return node;
 }
 
-/**
- * @brief     Returns the json-schema of a component base-class
- *
- * @param[in]  reference_register  Whether to reference registered components
- * schema
- *
- * @tparam     T  The component type (should be a sub-class of \ref
- * navground::core::HasRegister<T>)
- *
- * @return    A json-schema encoded as a \ref YAML::Node.
- */
-template <typename T> Node base(bool reference_register) {
-  Node node = schema<T>();
-  if (reference_register) {
-    node["$ref"] = ref_name(type_t<T>::name() + "_register");
-    node["unevaluatedProperties"] = false;
-  } else {
-    node["unevaluatedProperties"] = true;
-  }
-  return node;
-}
-
-/**
- * @brief      Returns the json-schema of a registered component.
- *
- * The node is empty if the type is not registered.
- *
- * @param[in]  type  The name of the component
- *
- * @tparam     T     The component type (should be a sub-class of \ref
- * navground::core::HasRegister<T>)
- *
- * @return     A json-schema encoded as a \ref YAML::Node.
- */
+/** @private */
 template <typename T> Node schema_of_type(const std::string &type) {
   const auto &ps = T::type_properties();
   if (!ps.count(type)) {
@@ -270,21 +273,33 @@ template <typename T> Node schema_of_type(const std::string &type) {
   return node;
 }
 
-template <typename T> Node base_with_ref() { return base<T>(true); }
-
-#if 0
-template <typename T> Node anyOf() {
-  Node node;
-  node["anyOf"].push_back(type_or_ref<T>());
+/**
+ * @brief     Returns the json-schema of a component
+ *
+ * @param[in]  reference_register_schema  Whether to reference registered
+ * components schema in the base class schema.
+ * @param[in]  type  An optional registered type. If not specified, it returns the schema of the base class.
+ *
+ * @tparam     T  The component type (should be a sub-class of \ref
+ * navground::core::HasRegister<T>)
+ *
+ * @return    A json-schema encoded as a \ref YAML::Node.
+ */
+template <typename T>
+Node schema(bool reference_register_schema,
+            const std::optional<std::string> &type = std::nullopt) {
+  if (type) {
+    return schema_of_type<T>(*type);
+  }
+  Node node = schema<T>();
+  if (reference_register_schema) {
+    node["$ref"] = ref_name(type_t<T>::name() + "_register");
+    node["unevaluatedProperties"] = false;
+  } else {
+    node["unevaluatedProperties"] = true;
+  }
   return node;
 }
-
-template <typename T, typename... Ts> Node anyOf() {
-  Node node = anyOf<Ts...>();
-  node["anyOf"].push_back(type_or_ref<T>());
-  return node;
-}
-#endif
 
 } // namespace schema
 

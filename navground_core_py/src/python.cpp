@@ -1873,8 +1873,13 @@ Initializes a buffer.
         DOC(navground, core, clamp_norm));
 
   m.def(
-      "schema", []() { return YAML::to_py(YAML::schema::core()); },
-      YAML::schema_py_doc());
+      "bundle_schema", []() { return YAML::to_py(bundle_schema()); },
+      R"doc(
+Returns the bundle json-schema
+
+:return: json-schema
+:rtype: :py:type:`dict[str, typing.Any]`
+)doc");
 
   m.def("build_info", []() { return BuildInfo(); }, "Gets the build info");
 

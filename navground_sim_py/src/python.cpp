@@ -2827,25 +2827,7 @@ Register a probe to record a group of data to during all runs.
           },
           py::arg("value"), "Sets the yaml representation")
       .def_static("load", &YAML::load_string_py<PyScenario>, py::arg("value"),
-                  YAML::load_string_py_doc("scenario", "Scenario").c_str())
-      .def_static(
-          "schema_of_type",
-          [](const std::string &type) -> py::object {
-            const auto node =
-                YAML::schema::sampler_schema_of_type<Scenario>(type);
-            if (node.IsNull()) {
-              return py::dict();
-            }
-            return to_py(node);
-          },
-          py::arg("type"), YAML::schema_of_type_py_doc())
-      .def_static(
-          "register_schema",
-          []() {
-            const auto node = YAML::schema::registered_sampler<Scenario>();
-            return to_py(node);
-          },
-          YAML::register_schema_py_doc());
+                  YAML::load_string_py_doc("scenario", "Scenario").c_str());
 
   py::class_<SimpleScenario, Scenario, std::shared_ptr<SimpleScenario>> simple(
       m, "SimpleScenario", DOC(navground, sim, SimpleScenario));
@@ -2986,8 +2968,13 @@ Register a probe to record a group of data to during all runs.
   pickle_via_yaml<PyExperiment>(experiment);
 
   m.def(
-      "schema", []() { return YAML::to_py(YAML::schema::sim()); },
-      YAML::schema_py_doc());
+      "bundle_schema", []() { return YAML::to_py(navground::sim::bundle_schema()); },
+      R"doc(
+Returns the bundle json-schema
+
+:return: json-schema
+:rtype: :py:type:`dict[str, typing.Any]`
+)doc");
 
   m.def(
       "uses_doubles",

@@ -152,10 +152,23 @@ Load and list plugins.
 Example
 ~~~~~~~
 
-.. ng-command-output:: plugins
-   :package: navground_core_py
-   :ellipsis: 20
+.. .. ng-command-output:: plugins
+..    :package: navground_core_py
+..    :ellipsis: 20
 
+
+.. code-block:: console
+
+   $ plugins
+
+   navground_examples_py
+   ---------------------
+   Behaviors: PyIdle [Python]
+   
+   
+   navground_examples
+   ------------------
+   Behaviors: Idle [C++]
 
 navground.core
 --------------

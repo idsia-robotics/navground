@@ -124,6 +124,14 @@ Load and list plugins.
 Example
 ~~~~~~~
 
-.. ng-command-output:: plugins
-   :package: navground_core
-   :ellipsis: 20
+.. .. ng-command-output:: plugins
+..    :package: navground_core
+..    :ellipsis: 20
+
+.. code-block:: console
+
+   $ plugins
+
+   navground_examples
+   ------------------
+   Behaviors: Idle [C++]

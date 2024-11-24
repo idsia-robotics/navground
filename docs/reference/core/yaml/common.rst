@@ -8,7 +8,7 @@ Vector2
 Schema
 ^^^^^^
 
-.. schema:: navground.core.schema.core()['$defs']['vector2']
+.. schema:: navground.core.schema.bundle()['$defs']['vector2']
 
 Example
 ^^^^^^^

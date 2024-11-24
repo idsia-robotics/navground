@@ -7,7 +7,7 @@ Behavior
 Schema
 ======
 
-.. schema:: navground.core.Behavior.base_schema()
+.. schema:: navground.core.Behavior.schema()
 
 Register
 --------

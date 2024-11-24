@@ -290,11 +290,10 @@ Check whether a type name has been registered.
 
 :return:
     True if the type name has been registered.)doc")
-      .def_static("base_schema", &YAML::base_schema_py<T>,
-                  py::arg("reference_register") = true,
-                  YAML::base_schema_py_doc())
-      .def_static("schema_of_type", &YAML::schema_of_type_py<T>,
-                  py::arg("type"), YAML::schema_of_type_py_doc())
+      .def_static("schema", &YAML::component_schema_py<T>,
+                  py::arg("reference_register_schema") = true,
+                  py::arg("type") = std::nullopt,
+                  YAML::component_schema_py_doc())
       .def_static("register_schema", &YAML::register_schema_py<T>,
                   YAML::register_schema_py_doc())
       .def("dump", &YAML::dump<T>, YAML::dump_doc());

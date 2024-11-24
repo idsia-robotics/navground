@@ -1,5 +1,5 @@
-from ._navground_sim import schema as sim
-from navground.core.schema import core, register
+from ._navground_sim import bundle_schema as bundle
+from navground.core.schema import register
 
 
-__all__ = ['sim', 'core', 'register']
+__all__ = ['bundle', 'register']

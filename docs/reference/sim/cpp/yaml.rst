@@ -27,23 +27,12 @@ In particular, we specialize the conversion from/to the following additional cla
 Schema
 ------
 
-``navground_sim`` schemas are more complex than ``navground_core`` schemas due to the presence of samplers. In addition to the utilities from the :ref:`core <schema_cpp>`, 
-``navground_sim``  adds
-
-.. cpp:namespace:: YAML::schema
-
-.. code-block:: cpp
-   
-   #include "navground/sim/yaml/schema.h"
-
-.. doxygenfunction:: registered_sampler()
-
-.. doxygenfunction:: sampler_schema_of_type(const std::string &)
-
-and
+:cpp:expr:`navground::sim` schemas are more complex than :cpp:expr:`navground::core` schemas due to the presence of samplers. 
 
 .. code-block:: cpp
    
    #include "navground/sim/yaml/schema_sim.h"
 
-.. doxygenfunction:: sim()
+.. cpp:namespace:: navground::sim
+
+.. doxygenfunction:: navground::sim::bundle_schema()

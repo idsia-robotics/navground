@@ -116,11 +116,9 @@ Partial schema
 
 .. doxygenfunction:: YAML::schema::schema()
 
-.. doxygenfunction:: base(bool)
+.. doxygenfunction:: YAML::schema::schema(bool, const std::optional<std::string> &)
 
-.. doxygenfunction:: schema_of_type(const std::string &)
-
-.. doxygenfunction:: registered()
+.. doxygenfunction:: YAML::schema::register_schema()
 
 Bundle
 ~~~~~~
@@ -129,4 +127,6 @@ Bundle
    
    #include "navground/sim/yaml/schema_core.h"
 
-.. doxygenfunction:: core()
+.. cpp:namespace:: navground::core
+
+.. doxygenfunction:: navground::sim::bundle_schema()

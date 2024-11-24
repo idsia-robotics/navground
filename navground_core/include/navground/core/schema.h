@@ -14,16 +14,10 @@ struct SchemaCommand : Command<SchemaCommand> {
 
   template <typename T>
   static YAML::Node component(const argparse::ArgumentParser &parser) {
-    const std::string type = parser.get<std::string>("type");
-    if (type.empty()) {
-      return YAML::schema::base_with_ref<T>();
+    if (parser.get<bool>("register")) {
+      return YAML::schema::register_schema<T>();
     }
-    return YAML::schema::schema_of_type<T>(type);
-  }
-
-  template <typename T>
-  static YAML::Node components(const argparse::ArgumentParser &) {
-    return YAML::schema::registered<T>();
+    return YAML::schema::schema<T>(true, parser.present<std::string>("type"));
   }
 
   template <typename T>
@@ -36,13 +30,11 @@ struct SchemaCommand : Command<SchemaCommand> {
                                       const argparse::ArgumentParser &parser)>>;
 
   inline const static Schemas core_schemas{
-      {"core", [](const argparse::ArgumentParser &) { return YAML::schema::core(); }},
+      {"core",
+       [](const argparse::ArgumentParser &) { return bundle_schema(); }},
       {"behavior", &component<core::Behavior>},
       {"behavior_modulation", &component<core::BehaviorModulation>},
-      {"kinematics", &component<core::Kinematics>},
-      {"behavior_register", &components<core::Behavior>},
-      {"behavior_modulation_register", &components<core::BehaviorModulation>},
-      {"kinematics_register", &components<core::Kinematics>}};
+      {"kinematics", &component<core::Kinematics>}};
 
   explicit SchemaCommand(const std::string &name,
                          const std::string &default_schema,
@@ -53,32 +45,36 @@ struct SchemaCommand : Command<SchemaCommand> {
   }
 
   void setup(argparse::ArgumentParser &parser) {
-    std::string kinds = "";
-    bool first = true;
-    for (const auto &[k, _] : schemas) {
-      if (!first) {
-        kinds += ", ";
-      }
-      first = false;
-      kinds += k;
-    }
     parser.add_description("Prints the YAML schema");
-    parser.add_argument("kind")
-        .help("The target of the schema: " + kinds)
-        .default_value(default_schema);
-    parser.add_argument("--type")
-        .help("Registered component name")
-        .default_value(std::string(""));
+    auto kind = parser.add_argument("kind")
+                    .help("The target of the schema")
+                    .default_value(default_schema);
+    for (const auto &[k, _] : schemas) {
+      kind.add_choice(k);
+    }
+    parser.add_argument("--register")
+        .help(
+            "Whether to generate the register schema instead of the base class "
+            "schema")
+        .default_value(false)
+        .implicit_value(true);
+    parser.add_argument("--type").help("If provided, generates the schema "
+                                       "for the sub-class registered under "
+                                       "this name");
   }
 
   int execute(const argparse::ArgumentParser &parser) {
 
     const std::string kind = parser.get<std::string>("kind");
     if (schemas.count(kind) == 0) {
-      std::cerr << "Unknown kind of object: " << kind << std::endl;
+      std::cerr << "Unknown kind " << kind << std::endl;
       std::exit(1);
     }
     const YAML::Node node = schemas.at(kind)(parser);
+    if (node.IsNull()) {
+      std::cerr << "Empty schema" << std::endl;
+      std::exit(1);
+    }
     YAML::Emitter out;
     out << node;
     std::cout << out.c_str();

@@ -27,6 +27,13 @@ In particular, you can load registered components and dump them to YAML.
 Schema
 ------
 
-Moreover, we expose methods that return `JSON Schema <https://json-schema.org>`_ for all supported types (``Class.schema``, ``Component.base_schema``, ``Component.register_schema``) and a function that export a bundle schema used for validation in :ref:`validate_py`.
+Moreover, we expose methods that return `JSON Schema <https://json-schema.org>`_ for all supported types (``Class.schema``, ``Component.register_schema``), and a function that generate the bundle schema used for validation in :ref:`validate_py`.
 
-.. autofunction:: navground.core.schema.core
+.. py:module:: navground.core.schema
+   :synopsis: YAML schema
+
+:module: :py:mod:`navground.core.schema`
+
+.. autofunction:: navground.core.schema.register
+
+.. autofunction:: navground.core.schema.bundle

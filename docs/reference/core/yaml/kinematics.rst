@@ -7,7 +7,7 @@ Kinematics
 Schema
 ======
 
-.. schema:: navground.core.Kinematics.base_schema()
+.. schema:: navground.core.Kinematics.schema()
 
 Register
 --------

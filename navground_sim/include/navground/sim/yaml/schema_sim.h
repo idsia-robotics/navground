@@ -1,52 +1,50 @@
 #ifndef NAVGROUND_SIM_YAML_SCHEMA_SIM_H
 #define NAVGROUND_SIM_YAML_SCHEMA_SIM_H
 
-#include "navground/core/yaml/schema.h"
 #include "navground/core/yaml/schema_core.h"
-#include "navground/sim/experiment.h"
-#include "navground/sim/sampling/agent.h"
-#include "navground/sim/sampling/register.h"
-#include "navground/sim/world.h"
 #include "navground/sim/yaml/experiment.h"
+#include "navground/sim/yaml/sampling.h"
 #include "navground/sim/yaml/scenario.h"
 #include "navground/sim/yaml/schema.h"
 #include "yaml-cpp/yaml.h"
 
-namespace YAML {
-namespace schema {
+namespace navground::sim {
 
-inline Node sim() {
-  using namespace navground::sim;
+inline YAML::Node bundle_schema() {
+  using namespace YAML::schema;
 
-  Node node = core();
+  auto node = core::bundle_schema();
   node["$id"] = id_name("sim");
-  node["$defs"]["state_estimation"] = base<StateEstimation>(true);
-  node["$defs"]["state_estimation_register"] = registered<StateEstimation>();
-  node["$defs"]["task"] = base<Task>(true);
-  node["$defs"]["task_register"] = registered<Task>();
+  node["$defs"]["scenario"] = schema<Scenario>(true);
+  node["$defs"]["scenario_register"] = register_schema<Scenario>();
+  node["$defs"]["state_estimation"] = schema<StateEstimation>(true);
+  node["$defs"]["state_estimation_register"] =
+      register_schema<StateEstimation>();
+  node["$defs"]["task"] = schema<Task>(true);
+  node["$defs"]["task_register"] = register_schema<Task>();
   node["$defs"]["agent"] = schema<Agent>();
   node["$defs"]["wall"] = schema<Wall>();
   node["$defs"]["obstacle"] = schema<Obstacle>();
   node["$defs"]["world"] = schema<World>();
-  node["$defs"]["behavior_sampler"] = base<BehaviorSampler<>>(true);
+  node["$defs"]["behavior_sampler"] = sampler_schema<BehaviorSampler<>>(true);
   node["$defs"]["behavior_sampler_register"] =
-      registered_sampler<BehaviorSampler<>>();
+      register_sampler_schema<BehaviorSampler<>>();
   node["$defs"]["behavior_modulation_sampler"] =
-      base<BehaviorModulationSampler<>>(true);
+      sampler_schema<BehaviorModulationSampler<>>(true);
   node["$defs"]["behavior_modulation_sampler_register"] =
-      registered_sampler<BehaviorModulationSampler<>>();
-  node["$defs"]["kinematics_sampler"] = base<KinematicsSampler<>>(true);
+      register_sampler_schema<BehaviorModulationSampler<>>();
+  node["$defs"]["kinematics_sampler"] =
+      sampler_schema<KinematicsSampler<>>(true);
   node["$defs"]["kinematics_sampler_register"] =
-      registered_sampler<KinematicsSampler<>>();
+      register_sampler_schema<KinematicsSampler<>>();
   node["$defs"]["state_estimation_sampler"] =
-      base<StateEstimationSampler<>>(true);
+      sampler_schema<StateEstimationSampler<>>(true);
   node["$defs"]["state_estimation_sampler_register"] =
-      registered_sampler<StateEstimationSampler<>>();
-  node["$defs"]["task_sampler"] = base<TaskSampler<>>(true);
-  node["$defs"]["task_sampler_register"] = registered_sampler<TaskSampler<>>();
+      register_sampler_schema<StateEstimationSampler<>>();
+  node["$defs"]["task_sampler"] = sampler_schema<TaskSampler<>>(true);
+  node["$defs"]["task_sampler_register"] =
+      register_sampler_schema<TaskSampler<>>();
   node["$defs"]["group"] = schema<AgentSampler<>>();
-  node["$defs"]["scenario"] = base<Scenario>(true);
-  node["$defs"]["scenario_register"] = registered_sampler<Scenario>();
   node["$defs"]["record_neighbors_config"] = schema<RecordNeighborsConfig>();
   node["$defs"]["record_sensing_config"] = schema<RecordSensingConfig>();
   node["$defs"]["experiment"] = schema<Experiment>();
@@ -62,8 +60,7 @@ inline Node sim() {
   node["$defs"]["normal"] = schema<NormalSampler<void>>();
   return node;
 }
-} // namespace schema
 
-} // namespace YAML
+} // namespace navground::sim
 
 #endif // NAVGROUND_CORE_YAML_SCHEMA_H

@@ -57,7 +57,7 @@ all ten agents will be assigned ``radius: 1.0`` in the first run, ``radius: 2.0`
 Constant
 --------
 
-.. schema:: navground.sim.schema.sim()["$defs"]["const"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["const"]
 
 Example
 ~~~~~~~
@@ -74,7 +74,7 @@ Constant samplers are specified by a value, like ``0.5``, or by an object, like
 Sequence
 --------
 
-.. schema:: navground.sim.schema.sim()["$defs"]["sequence"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["sequence"]
 
 Example
 ~~~~~~~
@@ -90,7 +90,7 @@ Sequences are specified by an array, like ``[0.5, 1.0]``, or by an object, like
 Choice
 ------
 
-.. schema:: navground.sim.schema.sim()["$defs"]["choice"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["choice"]
 
 Example
 ~~~~~~~
@@ -103,7 +103,7 @@ Example
 Regular
 -------
 
-.. schema:: navground.sim.schema.sim()["$defs"]["regular"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["regular"]
 
 .. note::
 
@@ -121,7 +121,7 @@ Example
 Grid
 ----
 
-.. schema:: navground.sim.schema.sim()["$defs"]["grid"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["grid"]
 
 .. note::
 
@@ -140,7 +140,7 @@ Example
 Random uniform
 ~~~~~~~~~~~~~~
 
-.. schema:: navground.sim.schema.sim()["$defs"]["uniform"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["uniform"]
 
 .. note::
 
@@ -158,7 +158,7 @@ Example
 Random normal
 ~~~~~~~~~~~~~~
 
-.. schema:: navground.sim.schema.sim()["$defs"]["normal"]
+.. schema:: navground.sim.schema.bundle()["$defs"]["normal"]
 
 .. note::
 
@@ -185,15 +185,15 @@ Some generic schema works on any type, others are restricted to a subset of type
 
 - numbers:
 
-  .. schema:: navground.sim.schema.sim()['$defs']['number_sampler']
+  .. schema:: navground.sim.schema.bundle()['$defs']['number_sampler']
 
 - vectors:
 
-  .. schema:: navground.sim.schema.sim()['$defs']['vector_sampler']
+  .. schema:: navground.sim.schema.bundle()['$defs']['vector_sampler']
 
 - other types:
 
-  .. schema:: navground.sim.schema.sim()['$defs']['sampler']
+  .. schema:: navground.sim.schema.bundle()['$defs']['sampler']
 
 
 Example

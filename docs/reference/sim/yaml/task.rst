@@ -7,7 +7,7 @@ Task
 Schema
 ======
 
-.. schema:: navground.sim.Task.base_schema()
+.. schema:: navground.sim.Task.schema()
 
 Register
 --------

@@ -53,7 +53,7 @@ static PkgDependencies pkg_deps{};
 // }
 
 static const char *pg = "plugin_build_dependencies";
-typedef void (*BuildDependenciesGetterPtr)(void *);
+typedef void (*BuildDependenciesGetterPtr)(BuildDependencies &);
 
 static BuildDependencies load_library(const fs::path &path) {
   BuildDependencies bd;
@@ -70,7 +70,7 @@ static BuildDependencies load_library(const fs::path &path) {
 #endif
   if (sym) {
     fn = reinterpret_cast<BuildDependenciesGetterPtr>(sym);
-    fn(&bd);
+    fn(bd);
   }
   return bd;
 }

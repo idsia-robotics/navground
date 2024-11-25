@@ -45,18 +45,21 @@ you can use the behavior in an experiment, e.g., configured for like this
 
 Each step adds functionality, summarized in the table below, that is not needed to compile or use the component but that provides a more complete integration with navground.
 
-+------------------+-------------------------------+-------------------------------------------------+
-|       add        |               to              |                     example                     |
-+==================+===============================+=================================================+
-| `Register type`_ | instantiate by name           | ``auto comp = Component::make_type("MyName");`` |
-+------------------+-------------------------------+-------------------------------------------------+
-| `Properties`_    | access parameters by name     | ``comp.set("value", 1);``                       |
-+------------------+-------------------------------+-------------------------------------------------+
-| `YAML`_          | customize the YAML conversion | ``auto comp = YAML::load<Component>(node);``    |
-+------------------+-------------------------------+-------------------------------------------------+
-| `Plugin`_        | share the extension           | ``load_plugins();``                             |
-+------------------+-------------------------------+-------------------------------------------------+
 
+.. role:: cpp(code)
+   :language: c++
+
++----------------------+-------------------------------+----------------------------------------------------+
+|                      |               to              |                      example                       |
++======================+===============================+====================================================+
+| :ref:`Register type` | instantiate by name           | :cpp:`auto comp = Component::make_type("MyName");` |
++----------------------+-------------------------------+----------------------------------------------------+
+| :ref:`Properties`    | access parameters by name     | :cpp:`comp.set("value", 1);`                       |
++----------------------+-------------------------------+----------------------------------------------------+
+| :ref:`YAML`          | customize the YAML conversion | :cpp:`auto comp = YAML::load<Component>(node);`    |
++----------------------+-------------------------------+----------------------------------------------------+
+| :ref:`Plugin`        | share the extension           | :cpp:`load_plugins();`                             |
++----------------------+-------------------------------+----------------------------------------------------+
 
 
 .. _Register type: 
@@ -129,18 +132,18 @@ getter, an optional setter, a default value, and an optional description.
 
 Getters can be
 
-- functions/lambdas of type ``std::function<T(const MyComponent *)>``
-- methods of type ``T MyComponent::*()``
-- members of type ``T MyComponent::*``
+- functions/lambdas of type :cpp:`std::function<T(const MyComponent *)>`
+- methods of type :cpp:`T MyComponent::*()`
+- members of type :cpp:`T MyComponent::*`
 
 while setters can be
 
-- ``nullptr`` to define readonly properties
-- functions/lambdas of type ``std::function<void (const MyComponent *, const & T)>`` or ``std::function<void (const MyComponent *, T)>``
-- methods of type ``void MyComponent::*(const & T)`` or ``void MyComponent::*(T)``
+- :cpp:`nullptr` to define readonly properties
+- functions/lambdas of type :cpp:`std::function<void (const MyComponent *, const & T)>` or :cpp:`std::function<void (const MyComponent *, T)>`
+- methods of type :cpp:`void MyComponent::*(const & T)` or :cpp:`void MyComponent::*(T)`
 
 
-As (optional) second argument of :cpp:func:`navground::core::HasRegister::register_type`, pass a map of type :cpp:type:`navground::core::Properties` associating names to properties,  instantiated using a combination of :cpp:func:`navground::core::Property::make`, :cpp:func:`navground::core::Property::make_readwrite`, and :cpp:func:`navground::core::Property::make_readonly`:
+As (optional) second argument of :cpp:func:`navground::core::HasRegister::register_type`, pass a map of type :cpp:type:`navground::core::Properties` associating names to properties, instantiated using a combination of :cpp:func:`navground::core::Property::make`, :cpp:func:`navground::core::Property::make_readwrite`, and :cpp:func:`navground::core::Property::make_readonly`:
 
 .. code-block:: c++
 
@@ -232,19 +235,18 @@ as additional fields (one for each property)
 
 and, similarly, will be loaded from YAML.
 
-.. _YAML:
-
-
 Property Schema
 ---------------
 
-Pass an optional argument of type :cpp:expr:`void(YAML::Node &)` to methods like :cpp:func:`navground::core::Property::make` to add validation constrains to the property. For example, to mark an integer property as strictly positive, add
+Pass an optional argument of type :cpp:`void(YAML::Node &)` to methods like :cpp:func:`navground::core::Property::make` to add validation constrains to the property. For example, to mark an integer property as strictly positive, add
 
 .. code-block:: c++
        
    core::Property::make(&MyComponent::get_value, &MyComponent::set_value,
                         10, "my description", &YAML::schema::strict_positive)}});
 
+
+.. _YAML:
 
 YAML 
 ====
@@ -267,7 +269,7 @@ There is no need to call the base implementation as it is empty.
      }
    };
 
-Through these methods you can read more complex parameters from the YAML than :cpp:type:`navground::core::Property::Field`. For example, you can configure a value of type ``std::map<std::string, int>`` from a YAML such as
+Through these methods you can read more complex parameters from the YAML than :cpp:type:`navground::core::Property::Field`. For example, you can configure a value of type :cpp:`std::map<std::string, int>` from a YAML such as
 
 .. code-block:: yaml
 
@@ -378,7 +380,7 @@ Install as a plugin
 
 This is a build-time step. Wraps one or more components in a shared library and install it as a plugin to integrate it in the navground CLI and API.
 
-In the project ``CMakeLists.txt``, pass the list of shared libraries you want to install as plugins to  ``register_navground_plugins``.
+In the project ``CMakeLists.txt``, pass the list of shared libraries you want to install as plugins to the cmake function ``register_navground_plugins``.
 
 For example, to build and install component ``MyComponent`` implemented in file ``my_component.cpp``, add
 
@@ -425,7 +427,7 @@ Once installed, the components will be automatically discovered when calling :cp
 .. note::
 
    This will also make the component discoverable and available in the navground CLI,
-   provided that the option "--no-plugins" is not set.
+   provided that the option ``--no-plugins`` is not set.
 
 If you share it with them, the library can be installed by other users too, which just need to copy add edit add the library location to the navground plugin index.
 

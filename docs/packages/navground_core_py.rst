@@ -12,7 +12,7 @@ Dependencies
 - `pybind11 <https://pybind11.readthedocs.io/en/stable/>`_ for binding the C++ library
 - `This fork of pybind11_mkdoc <https://github.com/jeguzzi/pybind11_mkdoc/tree/rst>`_ to extract Python docstrings from the C++ code
 - `NumPy <https://numpy.org>`_ pybind11 exposes Eigen objects using `numpy`
-
+- `PyYAML <https://pyyaml.org>`_ to exchange (YAML) schemas between C++ and python
 
 Python packages
 ===============
@@ -129,6 +129,8 @@ Validates a YAML representation of an object (behavior, kinematic, or behavior m
 
 Example
 ~~~~~~~
+
+Catching a typo like "whel_axis" instead of wheel_axis:
 
 .. ng-command-output:: validate kinematics "{type: 2WDiff, whel_axis: 1.0}"
    :package: navground_core_py

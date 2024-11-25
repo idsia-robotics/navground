@@ -37,6 +37,8 @@ Class skelethon
          :language: Python
 
 
+.. _groups:
+
 Groups
 ======
 
@@ -112,8 +114,10 @@ Then, you add the group to your scenario
 
 .. note::
 
-   This is a weaker way to extend a scenario than sub-classing and registering the sub-class as it is not exposed to YAML.
+   This is a weaker way to extend a scenario than registering a sub-class as the new groups will not be exposed to YAML.
 
+
+.. _initializers:
 
 Initializers
 ============
@@ -143,4 +147,4 @@ Similar to groups, you can add an initializer (:cpp:func:`C++ <navground::sim::S
 
 .. note::
    
-   Like for groups, initializer has not exposed to YAML and must therefore be added through the API.
+   Like for groups, initializers are not exposed to YAML and must therefore be added through the API.

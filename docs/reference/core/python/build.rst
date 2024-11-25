@@ -6,14 +6,19 @@ Build info
 
 .. autoclass:: BuildInfo
    :members:
+   :exclude-members: __init__
+
+.. autoclass:: DependencyInfo
+   :members:
+   :exclude-members: __init__
 
 .. py:type:: BuildDependencies
    :module: navground.core
-   :canonical: dict[str, list[navground.core.BuildInfo]]
+   :canonical: dict[str, DependencyInfo]
 
 .. py:type:: PkgDependencies
    :module: navground.core
-   :canonical: dict[str, dict[pathlib.Path, navground.core.BuildDependencies]]
+   :canonical: dict[str, dict[pathlib.Path, BuildDependencies]]
 
 .. autofunction:: get_build_info
 

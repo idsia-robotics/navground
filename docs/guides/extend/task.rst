@@ -2,10 +2,6 @@
 Tasks
 =====
 
-.. todo:: INTERNAL
-
-   [x] Let task set the target ... without interacting with the controller
-
 At the begin of a simulation, ``prepare``  (:cpp:func:`C++ <navground::sim::Task::prepare>`, :py:meth:`Python <navground.sim.Task.prepare>`) is called: override it to initialize the task.
 The base implementation is empty, therefore it is not required to call it.
 

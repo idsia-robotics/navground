@@ -15,7 +15,7 @@ and can be used to perform experiments.
    :doc:`../probes`
       To record custom data that is not provided by default by experiments, for example to record the internal state of a custom behavior.
 
-   Scenario groups and initializers
+   Scenarios' :ref:`groups <groups>` and :ref:`initializers <initializers>`
       Instead of defining a new scenario, you can add groups or initializers to an existing scenario, for example to position all agents in the scenario along a curve.
 
 ------------------------------

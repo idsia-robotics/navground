@@ -196,6 +196,13 @@ NumPy
 
    $ pip install -U numpy
 
+PyYAML
+^^^^^^
+
+.. code-block:: console
+
+   $ pip install -U PyYAML
+
 pybind11
 ^^^^^^^^
 

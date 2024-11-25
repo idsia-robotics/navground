@@ -9,7 +9,7 @@ You have developed a new navground component in Python (i.e., one of :py:class:`
    from navground import core
    
 
-   class MyComponent(PyComponent):
+   class MyComponent(Component):
       ...
 
 You can already use as it is but if you *register* it, you will integrate it better  
@@ -42,26 +42,27 @@ you can use the behavior in an experiment, e.g., configured for like this
 Each step adds functionality, summarized in the table below, that is not needed to compile or use the component but that provides a more complete integration with navground.
 
 
+.. role:: py(code)
+   :language: cpp
 
-+---------------------+-------------------------------+----------------------------------------------+
-|         add         |               to              |                   example                    |
-+=====================+===============================+==============================================+
-| `Py Register type`_ | instantiate by name           | ``comp = Component.make_type("MyName")``     |
-+---------------------+-------------------------------+----------------------------------------------+
-| `Py Properties`_    | access parameters by name     | ``comp.set("value", 1)``                     |
-+---------------------+-------------------------------+----------------------------------------------+
-| `Py YAML`_          | customize the YAML conversion | ``comp = YAML.load_<component>()``           |
-+---------------------+-------------------------------+----------------------------------------------+
-| `Py Plugin`_        | share the extension           | ``core.load_plugins()``                      |
-+---------------------+-------------------------------+----------------------------------------------+
++--------------------------+-------------------------------+--------------------------------------------+
+|                          |               to              |                  example                   |
++==========================+===============================+============================================+
+| :ref:`Py_Register_type`  | instantiate by name           | :py:`comp = Component.make_type("MyName")` |
++--------------------------+-------------------------------+--------------------------------------------+
+| :ref:`Py Properties`     | access parameters by name     | :py:`comp.set("value", 1)`                 |
++--------------------------+-------------------------------+--------------------------------------------+
+| :ref:`Py YAML`           | customize the YAML conversion | :py:`comp = YAML.load_<component>()`       |
++--------------------------+-------------------------------+--------------------------------------------+
+| :ref:`Py Plugin`         | share the extension           | :py:`core.load_plugins()`                  |
++--------------------------+-------------------------------+--------------------------------------------+
 
-
-.. _Py Register type: 
+.. _Py_Register_type: 
 
 Register the type
 =================
 
-Register your component to the base class register by adding ``name="MyName"`` to the class definition, to be able to instantiate it by name
+Register your component to the base class register by adding :py:`name="MyName"` to the class definition, to be able to instantiate it by name
 
 .. code-block:: python
    
@@ -69,7 +70,7 @@ Register your component to the base class register by adding ``name="MyName"`` t
       ...
 
 
-Once a class has been registered, it can be instantiated using a generic factory method ``Component.make_type`` by providing its name:
+Once a class has been registered, it can be instantiated using a generic factory method :py:`Component.make_type` by providing its name:
 
 .. code-block:: python
 
@@ -164,7 +165,7 @@ as additional fields
 Property Schema
 ---------------
 
-Pass an optional argument of type :py:type:`typing.Callable[[dict[str, typing.Any]], None]` when registering a property to add validation constrains. For example, to mark an integer property as strictly positive, add
+Pass an optional argument of type :py:`typing.Callable[[dict[str, typing.Any]], None]` when registering a property to add validation constrains. For example, to mark an integer property as strictly positive, add
 
 .. code-block:: python
        
@@ -246,7 +247,7 @@ if you implement the custom logic in the decoder and the encoder, for example, l
 Class Schema
 ------------
 
-If your class defines a custom YAML representation, it should also register the related JSON-schema, as a function of type :py:type:`typing.Callable[[dict[str, typing.Any]], None]` that modify the default schema of the class.
+If your class defines a custom YAML representation, it should also register the related JSON-schema, as a function of type :py:`typing.Callable[[dict[str, typing.Any]], None]` that modify the default schema of the class.
 
 In the example above, we add the appropriate schema
 
@@ -322,8 +323,8 @@ to your ``setup.cfg``. The actual key "my_behavior" is currently ignored.
 
 .. note::
     
-   Following end-points are available ``navground_behaviors``, ``navground_kinematics``, ``navground_modulations``, ``navground_tasks``, 
-   ``navground_state_estimations``, and ``navground_scenarios`` to install components of the respective type.
+   Following end-points are available to install components of the respective type: ``navground_behaviors``, ``navground_kinematics``, ``navground_modulations``, ``navground_tasks``, 
+   ``navground_state_estimations``, and ``navground_scenarios`` .
 
 Once installed, the behavior will be automatically discovered when calling :py:func:`navground.core.load_plugins`.
 

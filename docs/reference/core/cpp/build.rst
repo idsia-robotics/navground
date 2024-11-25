@@ -6,13 +6,18 @@ Build info
    
    #include "navground/core/build_info.h"
 
-.. doxygenstruct:: BuildInfo
+.. doxygenstruct:: navground::core::BuildInfo
    :members:
 
-.. doxygentypedef:: BuildDependencies
+.. doxygenstruct:: navground::core::DependencyInfo
+   :members:
 
-.. doxygenfunction:: navground::core::build_info()
+.. doxygentypedef:: navground::core::BuildDependencies
+
+.. doxygentypedef:: navground::core::PkgDependencies
 
 .. doxygenfunction:: navground::core::get_build_info()
 
 .. doxygenfunction:: navground::core::get_build_dependencies()
+
+.. doxygenfunction:: navground::core::get_plugins_dependencies()

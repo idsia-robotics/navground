@@ -9,4 +9,5 @@ Guides
    parallelize
    probes
    install
+   validate
 

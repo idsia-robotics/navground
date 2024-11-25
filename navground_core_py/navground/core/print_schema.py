@@ -32,7 +32,8 @@ def init_parser_with_schemas(parser: argparse.ArgumentParser,
                         type=str,
                         help="The target type of the scheme",
                         default=default_schema,
-                        choices=kinds)
+                        choices=kinds,
+                        nargs='?')
     parser.add_argument(
         "--register",
         type=bool,

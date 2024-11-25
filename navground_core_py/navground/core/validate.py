@@ -4,7 +4,6 @@ import pathlib
 import sys
 from typing import Dict, List
 
-import jsonschema
 import yaml
 from navground import core
 from navground.core import command
@@ -40,6 +39,8 @@ def parser() -> argparse.ArgumentParser:
 
 
 def validate(arg: argparse.Namespace, kinds: List[str], schema: Dict) -> None:
+    import jsonschema
+
     if arg.kind not in kinds:
         logging.error(f"Unknown kind of object to validate: {arg.kind}")
         sys.exit(1)

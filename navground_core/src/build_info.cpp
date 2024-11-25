@@ -11,25 +11,7 @@ namespace navground::core {
 // filling with zeros non parsable items.
 static BuildInfo::Version parse_version(const std::string &value) {
   std::array<unsigned, 3> vs{0, 0, 0};
-  size_t a = 0;
-  for (size_t i = 0; i < 2; i++) {
-    auto b = value.find('.');
-    if (b == std::string::npos) {
-      return vs;
-    } else {
-      try {
-        vs[i] = std::stoul(value.substr(a, b));
-      } catch (...) {
-        return vs;
-      }
-    }
-    a = b + 1;
-  }
-  try {
-    auto b = value.find('-');
-    vs[2] = std::stoul(value.substr(a, b));
-  } catch (...) {
-  }
+  sscanf(value.c_str(),"%u.%u.%u", &vs[0], &vs[1], &vs[2]);
   return vs;
 }
 

@@ -1,6 +1,8 @@
 #include "navground/core/build_info.h"
 #include "navground/core/version.h"
+#include <cstdio>
 #include <ctime>
+#include <iostream>
 #include <time.h>
 
 namespace navground::core {
@@ -44,25 +46,46 @@ std::string BuildInfo::get_version_string() const {
   return s;
 }
 
+// Windows misses strptime.
+
+#if defined(WIN32) || defined(_WIN32) ||                                       \
+    defined(__WIN32) && !defined(__CYGWIN__)
+
+static BuildInfo::Date parse_date(const std::string &value) {
+  struct std::tm time_info{0};
+  int y, m, d, H, M, S;
+  int r = sscanf(value.c_str(), "%d-%d-%dT%d:%d:%dZ", &y, &m, &d, &H, &M, &S);
+  if (r == 6) {
+    time_info.tm_year = y - 1900;
+    time_info.tm_mon = m - 1;
+    time_info.tm_mday = d;
+    time_info.tm_hour = H;
+    time_info.tm_min = M;
+    time_info.tm_sec = S;
+  }
+  time_info.tm_isdst = -1;
+  return std::chrono::system_clock::from_time_t(_mkgmtime(&time_info));
+}
+
+#else
+
 static BuildInfo::Date parse_date(const std::string &value) {
   struct std::tm time_info;
   if (!strptime(value.c_str(), BuildInfo::date_format, &time_info)) {
     return BuildInfo::Date();
   }
   time_info.tm_isdst = -1;
-  return std::chrono::system_clock::from_time_t(
-      // TODO(Jerome): WIN32
-      timegm(&time_info)
-      // std::mktime(&time_info)
+  return std::chrono::system_clock::from_time_t(timegm(&time_info)
+                                                // std::mktime(&time_info)
   );
 }
 
+#endif
+
 std::string BuildInfo::get_date_string() const {
   char buffer[80];
-  struct std::tm time_info;
   const auto t = std::chrono::system_clock::to_time_t(date);
-  std::strftime(buffer, 80, BuildInfo::local_date_format,
-                localtime_r(&t, &time_info));
+  std::strftime(buffer, 80, BuildInfo::local_date_format, localtime(&t));
   return std::string(buffer);
 }
 

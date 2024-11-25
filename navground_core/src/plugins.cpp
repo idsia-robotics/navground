@@ -52,26 +52,27 @@ static PkgDependencies pkg_deps{};
 //   std::endl;
 // }
 
+static const char *pg = "plugin_build_dependencies";
+typedef void (*BuildDependenciesGetterPtr)(void *);
+
 static BuildDependencies load_library(const fs::path &path) {
+  BuildDependencies bd;
+  BuildDependenciesGetterPtr fn = nullptr;
 #if defined(WIN32) || defined(_WIN32) ||                                       \
     defined(__WIN32) && !defined(__CYGWIN__)
   // const auto lib =
-  LoadLibraryA(path.string().c_str());
-  return {};
+  auto handle = LoadLibraryA(path.string().c_str());
+  auto sym = GetProcAddress(handle, pg);
 #else
   // const void *lib =
   void *handle = dlopen(path.c_str(), RTLD_LAZY);
-  void *sym = dlsym(handle, "plugin_build_dependencies");
-  // std::cout << path << ": " << sym << std::endl;
-  if (sym) {
-    auto fn = reinterpret_cast<BuildDependenciesGetterPtr>(sym);
-    return fn();
-  }
-  return {};
+  void *sym = dlsym(handle, pg);
 #endif
-  // if (lib) {
-  //   std::cerr << "Loaded plugin " << path << std::endl;
-  // }
+  if (sym) {
+    fn = reinterpret_cast<BuildDependenciesGetterPtr>(sym);
+    fn(&bd);
+  }
+  return bd;
 }
 
 // static std::set<fs::path>

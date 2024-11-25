@@ -94,8 +94,6 @@ struct NAVGROUND_CORE_EXPORT BuildInfo {
  * A map of dependencies: name -> {build-time version, run-time version}
  */
 using BuildDependencies = std::map<std::string, std::array<BuildInfo, 2>>;
-/** @private */
-using BuildDependenciesGetterPtr = std::add_pointer<BuildDependencies()>::type;
 
 std::string NAVGROUND_CORE_EXPORT build_infos_to_string(const std::array<BuildInfo, 2> &infos);
 

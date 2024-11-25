@@ -42,9 +42,9 @@ static std::shared_ptr<core::Kinematics> make_kinematics(
   }
   kinematics->set_max_speed(k.max_speed);
   kinematics->set_max_angular_speed(k.max_angular_speed);
-  if (core::WheeledKinematics *wk =
-          dynamic_cast<core::WheeledKinematics *>(kinematics.get())) {
-    wk->set_axis(k.wheel_axis);
+  if (core::TwoWheelsDifferentialDriveKinematics *wk =
+          dynamic_cast<core::TwoWheelsDifferentialDriveKinematics *>(kinematics.get())) {
+    wk->set_wheel_axis(k.wheel_axis);
   }
   if (core::DynamicTwoWheelsDifferentialDriveKinematics *wk =
           dynamic_cast<core::DynamicTwoWheelsDifferentialDriveKinematics *>(

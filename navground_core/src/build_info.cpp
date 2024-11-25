@@ -115,8 +115,4 @@ std::string BuildInfo::to_string_diff(const BuildInfo &other) const {
   return s;
 }
 
-std::string build_infos_to_string(const std::array<BuildInfo, 2> &infos) {
-  return infos[0].to_string_diff(infos[1]);
-}
-
 } // namespace navground::core

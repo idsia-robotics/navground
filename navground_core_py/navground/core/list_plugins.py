@@ -10,13 +10,13 @@ def description() -> str:
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
     parser.description = description()
+    parser.add_argument('--dependencies',
+                        help="Display dependencies of C++ plugins",
+                        action='store_true')
 
 
 def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser()
-    p.add_argument('--dependencies',
-                   help="Display dependencies of C++ plugins",
-                   action='store_true')
     init_parser(p)
     return p
 

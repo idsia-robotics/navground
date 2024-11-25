@@ -30,13 +30,13 @@ def get_path(points: List[core.Vector2]) -> core.Path:
     def project(point: core.Vector2Like, a: float, b: float) -> float:
         if a > 0:
             i: Union[int, np.int_] = np.searchsorted(cs, a, side="left")
-            pa = [line.interpolate(a)]
+            pa = [np.asarray(line.interpolate(a).coords)]
         else:
             i = 0
             pa = []
         if b < line.length:
             j: Union[int, np.int_] = np.searchsorted(cs, b, side="right")
-            pb = [line.interpolate(b)]
+            pb = [np.asarray(line.interpolate(b).coords)]
         else:
             j = len(points)
             pb = []

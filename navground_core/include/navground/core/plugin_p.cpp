@@ -9,8 +9,8 @@ __declspec(dllexport)
 __attribute__((visibility("default")))
 #endif
 void plugin_build_dependencies(navground::core::BuildDependencies & bd) {
-  bd.emplace("core", std::array<navground::core::BuildInfo, 2>{
-                          navground::core::build_info(),
-                          navground::core::get_build_info()});
+  bd.emplace("core", navground::core::DependencyInfo{
+                         navground::core::build_info(),
+                         navground::core::get_build_info()});
 }
 }

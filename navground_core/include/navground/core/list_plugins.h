@@ -69,8 +69,8 @@ struct ListPluginsCommand : Command<ListPluginsCommand> {
           std::cout << "Dependencies:" << std::endl;
           for (const auto &[path, ds] : deps.at(pkg)) {
             std::cout << "- " << path.filename().string() << ":" << std::endl;
-            for (const auto &[name, vs] : ds) {
-              std::cout << "  - " << name << ": " << build_infos_to_string(vs)
+            for (const auto &[name, dep] : ds) {
+              std::cout << "  - " << name << ": " << dep.to_string()
                         << std::endl;
             }
           }

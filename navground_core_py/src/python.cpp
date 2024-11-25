@@ -377,6 +377,14 @@ PYBIND11_MODULE(_navground, m) {
            DOC(navground, core, BuildInfo, to_string_diff))
       .def("__repr__", &BuildInfo::to_string);
 
+  py::class_<DependencyInfo>(m, "DependencyInfo",
+                             DOC(navground, core, DependencyInfo))
+      .def_readonly("build", &DependencyInfo::build,
+                    DOC(navground, core, DependencyInfo, build))
+      .def_readonly("run", &DependencyInfo::run,
+                    DOC(navground, core, DependencyInfo, run))
+      .def("__repr__", &DependencyInfo::to_string);
+
   py::class_<Property>(m, "Property", DOC(navground, core, Property))
       .def(py::init(&make_property_py), py::arg("getter"), py::arg("setter"),
            py::arg("default"), py::arg("description") = "",

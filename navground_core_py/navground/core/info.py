@@ -84,12 +84,12 @@ def print_register(cls: Any,
 
 def info(arg: argparse.Namespace, registers: Registers,
          build_info: core.BuildInfo,
-         build_dependencies: dict[str, List[core.BuildInfo]]) -> None:
+         build_dependencies: core.BuildDependencies) -> None:
     if arg.build:
         print(f"Build: {build_info}")
         print("Dependencies:")
-        for name, (build, load) in build_dependencies.items():  # type: ignore
-            print(f"- {name}: {build.to_string_diff(load)}")
+        for name, dep in build_dependencies.items():
+            print(f"- {name}: {dep}")
         print("")
     print("Installed components")
     print("====================")

@@ -42,8 +42,8 @@ def list_plugins(arg: argparse.Namespace,
                 print("Dependencies:")
                 for path, ds in pkg_dependencies[pkg].items():
                     print(f"- {path.name}: ")
-                    for name, (build, load) in ds.items():  # type: ignore
-                        print(f"  - {name}: {build.to_string_diff(load)}")
+                    for name, dep in ds.items():
+                        print(f"  - {name}: {dep}")
             print("")
 
 

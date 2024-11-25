@@ -8,14 +8,14 @@ from . import schema
 from ._navground import (
     Action, Behavior, BehaviorModulation, BehaviorModulationRegister,
     BehaviorRegister, Buffer, BufferDescription, BufferMap, BuildInfo,
-    CachedCollisionComputation, CollisionComputation, Controller, Disc,
-    EnvironmentState, Frame, GeometricState, HasProperties, Kinematics,
-    KinematicsRegister, LineSegment, Neighbor, Path, Pose2, Property,
-    SensingState, SocialMargin, SocialMarginConstantModulation,
-    SocialMarginLinearModulation, SocialMarginLogisticModulation,
-    SocialMarginModulation, SocialMarginQuadraticModulation,
-    SocialMarginZeroModulation, Target, Twist2, clamp_norm,
-    get_build_dependencies, get_build_info)
+    CachedCollisionComputation, CollisionComputation, Controller,
+    DependencyInfo, Disc, EnvironmentState, Frame, GeometricState,
+    HasProperties, Kinematics, KinematicsRegister, LineSegment, Neighbor, Path,
+    Pose2, Property, SensingState, SocialMargin,
+    SocialMarginConstantModulation, SocialMarginLinearModulation,
+    SocialMarginLogisticModulation, SocialMarginModulation,
+    SocialMarginQuadraticModulation, SocialMarginZeroModulation, Target,
+    Twist2, clamp_norm, get_build_dependencies, get_build_info)
 from ._navground import get_loaded_plugins as get_loaded_cpp_plugins
 from ._navground import get_plugins_dependencies
 from ._navground import load_plugins as load_cpp_plugins
@@ -24,7 +24,7 @@ from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
                          unit, uses_doubles)
 from .property import PropertyField, Vector2, Vector2Like, register
 
-BuildDependencies: TypeAlias = Dict[str, List[BuildInfo]]
+BuildDependencies: TypeAlias = Dict[str, DependencyInfo]
 PkgDependencies: TypeAlias = Dict[str, Dict[pl.Path, BuildDependencies]]
 
 
@@ -176,5 +176,6 @@ __all__ = [
     "SocialMarginLogisticModulation", "SocialMarginModulation",
     "SocialMarginQuadraticModulation", "SocialMarginZeroModulation",
     "PropertyField", "Vector2", "Vector2Like", "register", "get_build_info",
-    "BuildInfo", "get_build_dependencies", "get_plugins_dependencies"
+    "BuildInfo", "get_build_dependencies", "get_plugins_dependencies",
+    "DependencyInfo"
 ]

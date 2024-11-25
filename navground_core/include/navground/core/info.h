@@ -124,8 +124,8 @@ struct InfoCommand : Command<InfoCommand> {
       std::cout << "Build: " << bi.to_string() << std::endl;
       if (bd.size()) {
         std::cout << "Dependencies:" << std::endl;
-        for (const auto &[k, vs] : bd) {
-          std::cout << "- " << k << ": " << build_infos_to_string(vs) << std::endl;
+        for (const auto &[k, dep] : bd) {
+          std::cout << "- " << k << ": " << dep.to_string() << std::endl;
         }
       }
       std::cout << std::endl;

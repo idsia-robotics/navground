@@ -23,7 +23,7 @@ struct NAVGROUND_CORE_EXPORT BuildInfo {
    */
   static constexpr const char *date_format = "%Y-%m-%dT%H:%M:%SZ";
   static constexpr const char *local_date_format = "%Y-%m-%dT%H:%M";
-  
+
   /**
    * The version (major.minor.patch)
    */
@@ -75,13 +75,22 @@ struct NAVGROUND_CORE_EXPORT BuildInfo {
   /**
    * @brief      Construct an instance.
    *
-   * @param[in]  git_describe  The output of ``git describe``
-   * @param[in]  utc_date    The utc date in format \ref date_format.
+   * @param[in]  version  The version ({major, minor, patch})
+   * @param[in]  git  The output of ``git describe``
+   * @param[in]  date The build date.
+   * @param[in]  floating_point_type Which type is used for floating-point
+   * numbers.
    */
   BuildInfo(const Version &version, const std::string &git, const Date &date,
             const std::string &floating_point_type)
       : version(version), git(git), date(date),
         floating_point_type(floating_point_type) {}
+  /**
+   * @brief      Construct an instance.
+   *
+   * @param[in]  git_describe  The output of ``git describe``
+   * @param[in]  utc_date    The utc date in format \ref date_format.
+   */
   BuildInfo(const std::string &git_describe, const std::string &utc_date);
 
   bool operator==(const BuildInfo &other) {
@@ -91,11 +100,32 @@ struct NAVGROUND_CORE_EXPORT BuildInfo {
 };
 
 /**
+ * @brief      Holds the build information
+ * at build-time and run-time of a dependency
+ */
+struct DependencyInfo {
+  /**
+   * The build info of the dependency at build time of this library
+   */
+  BuildInfo build;
+  /**
+   * The build info of the currently loaded dependency
+   */
+  BuildInfo run;
+
+  /**
+   * @brief      Represent the different between a pair of \ref BuildInfo
+   * using  \ref  BuildInfo::to_string_diff.
+   *
+   * @return     ``build.to_string_diff(run)``
+   */
+  std::string to_string() const { return build.to_string_diff(run); }
+};
+
+/**
  * A map of dependencies: name -> {build-time version, run-time version}
  */
-using BuildDependencies = std::map<std::string, std::array<BuildInfo, 2>>;
-
-std::string NAVGROUND_CORE_EXPORT build_infos_to_string(const std::array<BuildInfo, 2> &infos);
+using BuildDependencies = std::map<std::string, DependencyInfo>;
 
 /**
  * @brief      Gets the build information.

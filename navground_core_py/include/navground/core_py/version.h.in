@@ -1,0 +1,14 @@
+#ifndef NAVGROUND_CORE_PY_VERSION_H
+#define NAVGROUND_CORE_PY_VERSION_H
+
+#include "navground/core/build_info.h"
+
+namespace navground::core_py {
+
+inline navground::core::BuildInfo build_info() {
+  return navground::core::BuildInfo("@GIT_COMMIT@", "@BUILD_STAMP@");
+}
+
+} // namespace navground::core_py
+
+#endif // NAVGROUND_CORE_PY_VERSION_H

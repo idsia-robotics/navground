@@ -31,8 +31,8 @@ def init_parser_with_registers(parser: argparse.ArgumentParser,
                                registers: Registers) -> None:
     command.init_parser(parser)
     parser.description = description()
-    parser.add_argument('--no-build-info',
-                        help="Exclude build infos",
+    parser.add_argument('--build',
+                        help="Include build infos",
                         action='store_true')
     parser.add_argument('--properties',
                         help="Include properties",
@@ -72,20 +72,24 @@ def print_register(cls: Any,
                 synonyms = " ".join(p.deprecated_names)
                 if synonyms:
                     synonyms = f", deprecated synonyms: {synonyms}"
-                print(f"    {k}: {p.default_value} ({p.type_name}){readonly}{synonyms}")
+                print(
+                    f"    {k}: {p.default_value} ({p.type_name}){readonly}{synonyms}"
+                )
                 if with_description and p.description:
                     print(f"      {p.description}")
     else:
-        print(", ".join(t for t in cls.types if t and not (name and t != name)))
+        print(", ".join(t for t in cls.types
+                        if t and not (name and t != name)))
 
 
-def info(arg: argparse.Namespace, registers: Registers, build_info: core.BuildInfo) -> None:
-    if not arg.no_build_info:
-        print("Build")
-        print("=====")
-        print(f"git commit: {build_info.git_commit}")
-        print(f"build date: {build_info.date}")
-        print(f"floating-point type {build_info.floating_point_type}")
+def info(arg: argparse.Namespace, registers: Registers,
+         build_info: core.BuildInfo,
+         build_dependencies: dict[str, List[core.BuildInfo]]) -> None:
+    if arg.build:
+        print(f"Build: {build_info}")
+        print("Dependencies:")
+        for name, (build, load) in build_dependencies.items():  # type: ignore
+            print(f"- {name}: {build.to_string_diff(load)}")
         print("")
     print("Installed components")
     print("====================")
@@ -102,7 +106,7 @@ def info(arg: argparse.Namespace, registers: Registers, build_info: core.BuildIn
 
 def _main(arg: argparse.Namespace) -> None:
     command._main(arg)
-    info(arg, registers, core.build_info())
+    info(arg, registers, core.get_build_info(), core.get_build_dependencies())
 
 
 def main() -> None:

@@ -55,8 +55,7 @@ set_target_properties(_navground_sim PROPERTIES
          LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/navground/sim)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/build_info.cmake)
-add_build_info(_navground_sim)
-
+configure_build_info(src/version.h.in version.h)
 
 if (ament_cmake_python_FOUND)
   include(ament_python_install_namespace_package)

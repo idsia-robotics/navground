@@ -7,7 +7,7 @@ from navground.core.list_plugins import (description, init_parser,
 
 def _main(arg: argparse.Namespace) -> None:
     sim.load_plugins()
-    list_plugins(arg, sim.get_loaded_plugins())
+    list_plugins(arg, sim.get_loaded_plugins(), sim.get_plugins_dependencies())
 
 
 def main() -> None:

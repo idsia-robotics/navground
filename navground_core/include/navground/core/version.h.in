@@ -1,0 +1,14 @@
+#ifndef NAVGROUND_CORE_VERSION_H
+#define NAVGROUND_CORE_VERSION_H
+
+#include "navground/core/build_info.h"
+
+namespace navground::core {
+
+inline BuildInfo build_info() {
+  return BuildInfo("@GIT_COMMIT@", "@BUILD_STAMP@");
+}
+
+} // namespace navground::core
+
+#endif // NAVGROUND_CORE_VERSION_H

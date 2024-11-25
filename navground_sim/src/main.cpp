@@ -10,6 +10,7 @@
 #include "navground/core/plugins.h"
 #include "navground/core/schema.h"
 #include "navground/core/yaml/core.h"
+#include "navground/sim/build_info.h"
 #include "navground/sim/schema.h"
 #include "navground/sim/yaml/world.h"
 #include "run_command.h"
@@ -26,14 +27,17 @@ struct MainCommand : Command<MainCommand> {
   explicit MainCommand(const std::string &name)
       : Command<MainCommand>(name), _rp("run"), _sp("sample"), _ip("info"),
         _ep("echo"), _xp("schema"), _pp("plugins"), _run(), _sample(),
-        _info("", {{"Behaviors", navground::core::Behavior::type_properties},
-                   {"Kinematics", navground::core::Kinematics::type_properties},
-                   {"Modulations",
-                    navground::core::BehaviorModulation::type_properties},
-                   {"State Estimations",
-                    navground::sim::StateEstimation::type_properties},
-                   {"Tasks", navground::sim::Task::type_properties},
-                   {"Scenarios", navground::sim::Scenario::type_properties}}),
+        _info("",
+              {{"Behaviors", navground::core::Behavior::type_properties},
+               {"Kinematics", navground::core::Kinematics::type_properties},
+               {"Modulations",
+                navground::core::BehaviorModulation::type_properties},
+               {"State Estimations",
+                navground::sim::StateEstimation::type_properties},
+               {"Tasks", navground::sim::Task::type_properties},
+               {"Scenarios", navground::sim::Scenario::type_properties}},
+              navground::sim::get_build_info(),
+              navground::sim::get_build_dependencies()),
         _echo("",
               {
                   {"behavior", &core::echo<core::Behavior>},

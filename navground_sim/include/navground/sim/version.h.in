@@ -1,0 +1,14 @@
+#ifndef NAVGROUND_SIM_VERSION_H_
+#define NAVGROUND_SIM_VERSION_H_
+
+#include "navground/core/build_info.h"
+
+namespace navground::sim {
+
+inline core::BuildInfo build_info() {
+  return core::BuildInfo("@GIT_COMMIT@", "@BUILD_STAMP@");
+}
+
+} // namespace navground::sim
+
+#endif // NAVGROUND_SIM_VERSION_H_

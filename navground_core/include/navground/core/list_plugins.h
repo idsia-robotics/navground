@@ -29,9 +29,16 @@ struct ListPluginsCommand : Command<ListPluginsCommand> {
 
   void setup(argparse::ArgumentParser &parser) {
     parser.add_description("Load and list plugins");
+    parser.add_argument("--dependencies")
+        .help("Display dependencies of C++ plugins")
+        .default_value(false)
+        .implicit_value(true);
   }
 
   int execute([[maybe_unused]] const argparse::ArgumentParser &parser) {
+    const PkgDependencies deps = parser.get<bool>("dependencies")
+                                     ? get_plugins_dependencies()
+                                     : PkgDependencies{};
     for (const auto &[pkg, plugins] : get_loaded_plugins()) {
       std::string s = "";
       for (const auto &kind : kinds) {
@@ -57,8 +64,18 @@ struct ListPluginsCommand : Command<ListPluginsCommand> {
         for (unsigned i = 0; i < pkg.size(); ++i) {
           std::cout << '-';
         }
+        std::cout << std::endl << s;
+        if (deps.count(pkg) && deps.at(pkg).size()) {
+          std::cout << "Dependencies:" << std::endl;
+          for (const auto &[path, ds] : deps.at(pkg)) {
+            std::cout << "- " << path.filename().string() << ":" << std::endl;
+            for (const auto &[name, vs] : ds) {
+              std::cout << "  - " << name << ": " << build_infos_to_string(vs)
+                        << std::endl;
+            }
+          }
+        }
         std::cout << std::endl;
-        std::cout << s << std::endl;
       }
     }
     return 0;

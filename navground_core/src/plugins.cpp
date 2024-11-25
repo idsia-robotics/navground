@@ -1,6 +1,7 @@
 #include "navground/core/plugins.h"
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
+#include "navground/core/build_info.h"
 #include "navground/core/kinematics.h"
 
 #include <filesystem>
@@ -41,14 +42,32 @@ RegisterMap &get_registers() {
 
 static Plugins loaded_plugins{};
 
-static void load_library(const fs::path &path) {
+static PkgDependencies pkg_deps{};
+
+// static void print_build_info(const BuildInfo &bi) {
+//   std::cout << "version:             " << bi.get_version_string() <<
+//   std::endl; std::cout << "git commit:          " << bi.git_commit <<
+//   std::endl; std::cout << "build date:          " << bi.date << std::endl;
+//   std::cout << "floating-point type: " << bi.floating_point_type <<
+//   std::endl;
+// }
+
+static BuildDependencies load_library(const fs::path &path) {
 #if defined(WIN32) || defined(_WIN32) ||                                       \
     defined(__WIN32) && !defined(__CYGWIN__)
   // const auto lib =
   LoadLibraryA(path.string().c_str());
+  return {};
 #else
   // const void *lib =
-  dlopen(path.c_str(), RTLD_LAZY);
+  void *handle = dlopen(path.c_str(), RTLD_LAZY);
+  void *sym = dlsym(handle, "plugin_build_dependencies");
+  // std::cout << path << ": " << sym << std::endl;
+  if (sym) {
+    auto fn = reinterpret_cast<BuildDependenciesGetterPtr>(sym);
+    return fn();
+  }
+  return {};
 #endif
   // if (lib) {
   //   std::cerr << "Loaded plugin " << path << std::endl;
@@ -208,7 +227,8 @@ void load_plugins(const PathSet &plugins, const PathSetMap &directories,
         for (const auto &[name, getter] : get_registers()) {
           old_types[name] = getter();
         }
-        load_library(path);
+        auto bd = load_library(path);
+        pkg_deps[pkg_name][path] = bd;
         for (const auto &[name, getter] : get_registers()) {
           const auto new_types = getter();
           auto &added_types = loaded_plugins[pkg_name][name];
@@ -222,5 +242,7 @@ void load_plugins(const PathSet &plugins, const PathSetMap &directories,
 }
 
 const Plugins &get_loaded_plugins() { return loaded_plugins; }
+
+const PkgDependencies &get_plugins_dependencies() { return pkg_deps; }
 
 } // namespace navground::core

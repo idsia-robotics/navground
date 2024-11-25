@@ -14,6 +14,9 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
 
 def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser()
+    p.add_argument('--dependencies',
+                   help="Display dependencies of C++ plugins",
+                   action='store_true')
     init_parser(p)
     return p
 
@@ -23,7 +26,8 @@ def title(name: str) -> str:
 
 
 def list_plugins(arg: argparse.Namespace,
-                 plugins: Dict[str, Dict[str, List[Tuple[str, str]]]]) -> None:
+                 plugins: Dict[str, Dict[str, List[Tuple[str, str]]]],
+                 pkg_dependencies: core.PkgDependencies) -> None:
     for pkg, vs in plugins.items():
         s = ""
         for kind, ps in vs.items():
@@ -34,12 +38,19 @@ def list_plugins(arg: argparse.Namespace,
             print(pkg)
             print("-" * len(pkg))
             print(s)
+            if arg.dependencies and pkg in pkg_dependencies:
+                print("Dependencies:")
+                for path, ds in pkg_dependencies[pkg].items():
+                    print(f"- {path.name}: ")
+                    for name, (build, load) in ds.items():  # type: ignore
+                        print(f"  - {name}: {build.to_string_diff(load)}")
             print("")
 
 
 def _main(arg: argparse.Namespace) -> None:
     core.load_plugins()
-    list_plugins(arg, core.get_loaded_plugins())
+    list_plugins(arg, core.get_loaded_plugins(),
+                 core.get_plugins_dependencies())
 
 
 def main() -> None:

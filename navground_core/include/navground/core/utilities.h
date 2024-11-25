@@ -1,12 +1,14 @@
 #ifndef NAVGROUND_CORE_UTILITIES_H
 #define NAVGROUND_CORE_UTILITIES_H
 
+#include "navground/core/common.h"
+#include "navground/core/types.h"
+#include <array>
+#include <string>
 #include <string_view>
 #include <vector>
-#include "navground/core/common.h"
 
-template <typename T>
-constexpr auto get_type_name() -> std::string_view {
+template <typename T> constexpr auto get_type_name() -> std::string_view {
 #if defined(__clang__)
   constexpr auto prefix = std::string_view{"[T = "};
   constexpr auto suffix = "]";
@@ -36,9 +38,9 @@ constexpr auto get_type_name<navground::core::Vector2>() -> std::string_view {
 }
 
 template <>
-constexpr auto get_type_name<std::vector<navground::core::Vector2>>() -> std::string_view {
+constexpr auto get_type_name<std::vector<navground::core::Vector2>>()
+    -> std::string_view {
   return "std::vector<Vector2>";
 }
 
-
-#endif  // NAVGROUND_CORE_UTILITIES_H
+#endif // NAVGROUND_CORE_UTILITIES_H

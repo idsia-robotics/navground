@@ -1,3 +1,4 @@
+#include <pybind11/chrono.h>
 #include <pybind11/eigen.h>
 #include <pybind11/functional.h>
 #include <pybind11/operators.h>
@@ -28,6 +29,7 @@
 #include "navground/core/plugins.h"
 #include "navground/core/states/sensing.h"
 #include "navground/core/types.h"
+#include "navground/core/version.h"
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/schema.h"
 #include "navground/core/yaml/schema_core.h"
@@ -37,10 +39,16 @@
 #include "navground/core_py/pickle.h"
 #include "navground/core_py/property.h"
 #include "navground/core_py/register.h"
+#include "navground/core_py/version.h"
 #include "navground/core_py/yaml.h"
 
 using namespace navground::core;
 namespace py = pybind11;
+
+static navground::core::BuildDependencies build_dependencies_core_py() {
+  return {{"core",
+           {navground::core::build_info(), navground::core::get_build_info()}}};
+}
 
 PYBIND11_MAKE_OPAQUE(std::map<std::string, Buffer>);
 
@@ -48,10 +56,11 @@ template <typename T> static std::string to_string(const T &value) {
   return std::to_string(value);
 }
 
-template <> std::string to_string(const BuildInfo &bi) {
-  return "<git_commit: " + bi.git_commit + " date: " + bi.date +
-         " floating_point_type: " + bi.floating_point_type + ">";
-}
+// template <> std::string to_string(const BuildInfo &bi) {
+//   return "<version: " + bi.get_version_string() +
+//          ", git_commit: " + bi.git_commit + ", date: " + bi.date +
+//          ", floating_point_type: " + bi.floating_point_type + ">";
+// }
 
 template <> std::string to_string(const Vector2 &value) {
   return "(" + std::to_string(value[0]) + ", " + std::to_string(value[1]) + ")";
@@ -351,13 +360,22 @@ PYBIND11_MODULE(_navground, m) {
   options.disable_enum_members_docstring();
 #endif
 
-  py::class_<BuildInfo>(m, "BuildInfo", DOC(BuildInfo))
-      .def_readonly("git_commit", &BuildInfo::git_commit,
-                    DOC(BuildInfo, description))
-      .def_readonly("date", &BuildInfo::date, DOC(BuildInfo, date))
+  py::class_<BuildInfo>(m, "BuildInfo", DOC(navground, core, BuildInfo))
+      .def_readonly("version", &BuildInfo::version,
+                    DOC(navground, core, BuildInfo, version))
+      .def_readonly("git", &BuildInfo::git,
+                    DOC(navground, core, BuildInfo, git))
+      .def_readonly("date", &BuildInfo::date,
+                    DOC(navground, core, BuildInfo, date))
       .def_readonly("floating_point_type", &BuildInfo::floating_point_type,
-                    DOC(BuildInfo, floating_point_type))
-      .def("__repr__", &to_string<BuildInfo>);
+                    DOC(navground, core, BuildInfo, floating_point_type))
+      .def_property("version_string", &BuildInfo::get_version_string, nullptr,
+                    DOC(navground, core, BuildInfo, property, version_string))
+      .def_property("date_string", &BuildInfo::get_date_string, nullptr,
+                    DOC(navground, core, BuildInfo, property, date_string))
+      .def("to_string_diff", &BuildInfo::to_string_diff, py::arg("other"),
+           DOC(navground, core, BuildInfo, to_string_diff))
+      .def("__repr__", &BuildInfo::to_string);
 
   py::class_<Property>(m, "Property", DOC(navground, core, Property))
       .def(py::init(&make_property_py), py::arg("getter"), py::arg("setter"),
@@ -1881,7 +1899,13 @@ Returns the bundle json-schema
 :rtype: :py:type:`dict[str, typing.Any]`
 )doc");
 
-  m.def("build_info", []() { return BuildInfo(); }, "Gets the build info");
+  m.def("get_build_info", &navground::core_py::build_info,
+        DOC(navground, core, get_build_info));
+  m.def("get_build_dependencies", &build_dependencies_core_py,
+        "Gets the build dependencies",
+        DOC(navground, core, get_build_dependencies));
+  m.def("get_plugins_dependencies", &get_plugins_dependencies,
+        DOC(navground, core, get_plugins_dependencies));
 
   m.def(
       "uses_doubles",

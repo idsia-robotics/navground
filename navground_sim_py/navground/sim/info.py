@@ -21,7 +21,7 @@ def parser() -> argparse.ArgumentParser:
 
 def _main(arg: argparse.Namespace) -> None:
     command._main(arg, sim.load_plugins)
-    info(arg, registers, sim.build_info())
+    info(arg, registers, sim.get_build_info(), sim.get_build_dependencies())
 
 
 def main() -> None:

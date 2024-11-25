@@ -88,9 +88,13 @@ add_library(navground_core SHARED
   src/kinematics.cpp
   src/common.cpp
   src/plugins.cpp
+  src/build_info.cpp
 )
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/register_plugins.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/../cmake/build_info.cmake)
+
+configure_build_info(include/navground/core/version.h.in navground/core/version.h)
 
 if (ament_cmake_FOUND AND ament_index_cpp_FOUND)
   message("Using ament index to register plugins")
@@ -101,6 +105,7 @@ else()
   message("Using ad-hoc index to register plugins")
   set(NAVGROUND_PLUGINS_IN_AMENT_INDEX FALSE)
 endif()
+# add_build_info(navground_core)
 
 target_compile_definitions(navground_core PUBLIC NAVGROUND_PLUGINS_INDEX="${NAVGROUND_PLUGINS_INDEX}")
 target_include_directories(navground_core
@@ -118,12 +123,10 @@ endif()
 
 # set_target_properties(navground_core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
-include(${CMAKE_CURRENT_LIST_DIR}/../cmake/build_info.cmake)
-
 add_executable(info src/info.cpp)
 target_link_libraries(info navground_core argparse::argparse)
 add_dependencies(info navground_core)
-add_build_info(info)
+# add_build_info(info)
 
 add_executable(echo src/echo.cpp)
 target_link_libraries(echo navground_core argparse::argparse)
@@ -148,7 +151,9 @@ install(
 )
 
 install(FILES
-  ${PROJECT_BINARY_DIR}/navground/core/export.h DESTINATION include/navground/core
+  ${PROJECT_BINARY_DIR}/navground/core/export.h 
+  ${PROJECT_BINARY_DIR}/navground/core/version.h
+  DESTINATION include/navground/core
 )
 
 install(

@@ -82,9 +82,12 @@ add_library(navground_sim SHARED
   src/sampling.cpp
   src/yaml.cpp
   src/plugins.cpp
+  src/build_info.cpp
 )
 
 generate_export_header(navground_sim EXPORT_FILE_NAME navground/sim/export.h)
+include(${CMAKE_CURRENT_LIST_DIR}/../cmake/build_info.cmake)
+configure_build_info(include/navground/sim/version.h.in navground/sim/version.h)
 
 # -Wl,-force_load 
 target_link_libraries(
@@ -118,14 +121,12 @@ include(${CMAKE_CURRENT_LIST_DIR}/../cmake/build_info.cmake)
 add_executable(info src/info.cpp)
 target_link_libraries(info navground_sim)
 add_dependencies(info navground_sim)
-add_build_info(info)
 
 add_executable(navground src/main.cpp)
 target_link_libraries(navground navground_sim)
 add_dependencies(navground navground_sim)
 target_include_directories(navground PRIVATE ${cpptqdm_SOURCE_DIR})
 set_target_properties(navground PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
-add_build_info(navground)
 
 add_executable(echo src/echo.cpp)
 target_link_libraries(echo navground_sim)
@@ -162,7 +163,9 @@ install(
 )
 
 install(FILES
- ${PROJECT_BINARY_DIR}/navground/sim/export.h DESTINATION include/navground/sim
+ ${PROJECT_BINARY_DIR}/navground/sim/export.h 
+ ${PROJECT_BINARY_DIR}/navground/sim/version.h 
+ DESTINATION include/navground/sim
 )
 
 install(

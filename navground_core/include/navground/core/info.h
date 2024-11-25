@@ -11,14 +11,29 @@
 
 namespace navground::core {
 
+// inline void print_build_info(const BuildInfo &bi) {
+//   std::cout << "version:             " << bi.get_version_string() << std::endl;
+//   std::cout << "git commit:          " << bi.git_commit << std::endl;
+//   std::cout << "build date:          " << bi.date << std::endl;
+//   std::cout << "floating-point type: " << bi.floating_point_type << std::endl;
+// }
+
+// inline void print_build_dependencies(const BuildDependencies &bd) {
+//   for (const auto & [name, vs] : bd) {
+//     std::cout << "name: " << dependencies_difference_to_string(vs) << std::endl; 
+//   }
+// }
+
 struct InfoCommand : Command<InfoCommand> {
 
   using TitledRegisters =
       std::map<std::string, std::function<PropertyRegister()>>;
 
   explicit InfoCommand(const std::string &name,
-                       const TitledRegisters titled_registers)
-      : Command<InfoCommand>(name), titled_registers(titled_registers) {}
+                       const TitledRegisters titled_registers,
+                       const BuildInfo &bi, const BuildDependencies &bd)
+      : Command<InfoCommand>(name), titled_registers(titled_registers), bi(bi),
+        bd(bd) {}
 
   void setup(argparse::ArgumentParser &parser) {
     parser.add_description("Lists registered components.");
@@ -30,8 +45,8 @@ struct InfoCommand : Command<InfoCommand> {
         .help("Include property descriptions")
         .default_value(false)
         .implicit_value(true);
-    parser.add_argument("--no-build")
-        .help("Exclude build infos")
+    parser.add_argument("--build")
+        .help("Include build infos")
         .default_value(false)
         .implicit_value(true);
     for (const auto &[title, reg] : titled_registers) {
@@ -105,15 +120,15 @@ struct InfoCommand : Command<InfoCommand> {
   }
 
   int execute(const argparse::ArgumentParser &parser) {
-    if (!parser.get<bool>("no-build")) {
-      BuildInfo bi;
-      std::cout << "Build" << std::endl;
-      std::cout << "=====" << std::endl;
-      std::cout << "git commit: " << bi.git_commit << std::endl;
-      std::cout << "build date: " << bi.date << std::endl;
-      std::cout << "floating-point type: " << bi.floating_point_type
-                << std::endl
-                << std::endl;
+    if (parser.get<bool>("build")) {
+      std::cout << "Build: " << bi.to_string() << std::endl;
+      if (bd.size()) {
+        std::cout << "Dependencies:" << std::endl;
+        for (const auto &[k, vs] : bd) {
+          std::cout << "- " << k << ": " << build_infos_to_string(vs) << std::endl;
+        }
+      }
+      std::cout << std::endl;
     }
     const bool with_properties = parser.get<bool>("properties");
     const bool with_description = parser.get<bool>("description");
@@ -134,6 +149,8 @@ struct InfoCommand : Command<InfoCommand> {
     return 0;
   }
   TitledRegisters titled_registers;
+  BuildInfo bi;
+  BuildDependencies bd;
 };
 
 } // namespace navground::core

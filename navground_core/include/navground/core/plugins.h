@@ -7,6 +7,7 @@
 #include <set>
 #include <vector>
 
+#include "navground/core/build_info.h"
 #include "navground/core/export.h"
 
 namespace navground::core {
@@ -14,6 +15,10 @@ namespace navground::core {
 using PkgPlugins = std::map<std::string, std::vector<std::string>>;
 
 using Plugins = std::map<std::string, PkgPlugins>;
+
+// pkg -> (shared lib path -> dependencies)
+using PkgDependencies =
+    std::map<std::string, std::map<std::filesystem::path, BuildDependencies>>;
 
 using PathSet = std::set<std::filesystem::path>;
 
@@ -50,7 +55,11 @@ NAVGROUND_CORE_EXPORT void load_plugins(const PathSet &plugins = {},
  * @brief      Returns all plugins implemented in C++
  *
  */
-NAVGROUND_CORE_EXPORT const Plugins & get_loaded_plugins();
+NAVGROUND_CORE_EXPORT const Plugins &get_loaded_plugins();
+/**
+ * @brief      Gets the dependencies of loaded packages
+ */
+NAVGROUND_CORE_EXPORT const PkgDependencies &get_plugins_dependencies();
 
 } // namespace navground::core
 

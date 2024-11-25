@@ -9,6 +9,7 @@
 #include "navground/sim/scenario.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/task.h"
+#include "navground/sim/build_info.h"
 
 int main(int argc, char *argv[]) {
   navground::core::InfoCommand cmd(
@@ -18,6 +19,8 @@ int main(int argc, char *argv[]) {
        {"Modulations", navground::core::BehaviorModulation::type_properties},
        {"State Estimations", navground::sim::StateEstimation::type_properties},
        {"Tasks", navground::sim::Task::type_properties},
-       {"Scenarios", navground::sim::Scenario::type_properties}});
+       {"Scenarios", navground::sim::Scenario::type_properties}},
+      navground::sim::get_build_info(),
+      navground::sim::get_build_dependencies());
   return cmd.run(argc, argv);
 }

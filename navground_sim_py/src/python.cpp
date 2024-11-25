@@ -19,12 +19,15 @@
 #include "navground/core/build_info.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/types.h"
+#include "navground/core/version.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground/core_py/behavior_modulation.h"
 #include "navground/core_py/collection.h"
 #include "navground/core_py/pickle.h"
 #include "navground/core_py/register.h"
+#include "navground/core_py/version.h"
 #include "navground/core_py/yaml.h"
+#include "navground/sim/build_info.h"
 #include "navground/sim/dataset.h"
 #include "navground/sim/experiment.h"
 #include "navground/sim/experimental_run.h"
@@ -46,15 +49,28 @@
 #include "navground/sim/task.h"
 #include "navground/sim/tasks/direction.h"
 #include "navground/sim/tasks/waypoints.h"
+#include "navground/sim/version.h"
 #include "navground/sim/world.h"
 #include "navground/sim/yaml/experiment.h"
 #include "navground/sim/yaml/scenario.h"
 #include "navground/sim/yaml/schema.h"
 #include "navground/sim/yaml/schema_sim.h"
 #include "navground/sim/yaml/world.h"
+#include "version.h"
 
 using namespace navground::core;
 using namespace navground::sim;
+
+static navground::core::BuildDependencies build_dependencies_sim_py() {
+  py::module_ core = py::module_::import("navground.core");
+  const auto bi =
+      core.attr("get_build_info")().cast<navground::core::BuildInfo>();
+  return {
+      {"core",
+       {navground::core::build_info(), navground::core::get_build_info()}},
+      {"sim", {navground::sim::build_info(), navground::sim::get_build_info()}},
+      {"core_py", {navground::core_py::build_info(), bi}}};
+}
 
 namespace py = pybind11;
 
@@ -2968,7 +2984,8 @@ Register a probe to record a group of data to during all runs.
   pickle_via_yaml<PyExperiment>(experiment);
 
   m.def(
-      "bundle_schema", []() { return YAML::to_py(navground::sim::bundle_schema()); },
+      "bundle_schema",
+      []() { return YAML::to_py(navground::sim::bundle_schema()); },
       R"doc(
 Returns the bundle json-schema
 
@@ -2981,8 +2998,10 @@ Returns the bundle json-schema
       []() { return std::is_same<ng_float_t, float>::value == false; },
       "Returns whether navground has been compiled to use floats or doubles");
 
-  m.def("build_info", []() { return BuildInfo(); }, "Gets the build info");
-
+  m.def("get_build_info", &navground::sim_py::build_info,
+        DOC(navground, core, get_build_info));
+  m.def("get_build_dependencies", &build_dependencies_sim_py,
+        DOC(navground, core, get_build_dependencies));
   // m.def("load_plugins", &load_plugins, py::arg("plugins") = "",
   //       py::arg("env") = "", py::arg("directory") = py::none());
 }

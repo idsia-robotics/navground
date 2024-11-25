@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import importlib.metadata
+import pathlib as pl
 from typing import Dict, List, Optional, Tuple, TypeAlias, Union
 
+from . import schema
 from ._navground import (
     Action, Behavior, BehaviorModulation, BehaviorModulationRegister,
     BehaviorRegister, Buffer, BufferDescription, BufferMap, BuildInfo,
@@ -12,14 +14,18 @@ from ._navground import (
     SensingState, SocialMargin, SocialMarginConstantModulation,
     SocialMarginLinearModulation, SocialMarginLogisticModulation,
     SocialMarginModulation, SocialMarginQuadraticModulation,
-    SocialMarginZeroModulation, Target, Twist2, build_info, clamp_norm)
+    SocialMarginZeroModulation, Target, Twist2, clamp_norm,
+    get_build_dependencies, get_build_info)
 from ._navground import get_loaded_plugins as get_loaded_cpp_plugins
+from ._navground import get_plugins_dependencies
 from ._navground import load_plugins as load_cpp_plugins
 from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
                          to_absolute_point, to_relative, to_relative_point,
                          unit, uses_doubles)
 from .property import PropertyField, Vector2, Vector2Like, register
-from . import schema
+
+BuildDependencies: TypeAlias = Dict[str, List[BuildInfo]]
+PkgDependencies: TypeAlias = Dict[str, Dict[pl.Path, BuildDependencies]]
 
 
 def load_behavior(value: str) -> Optional[Behavior]:
@@ -169,6 +175,6 @@ __all__ = [
     "SocialMarginConstantModulation", "SocialMarginLinearModulation",
     "SocialMarginLogisticModulation", "SocialMarginModulation",
     "SocialMarginQuadraticModulation", "SocialMarginZeroModulation",
-    "PropertyField", "Vector2", "Vector2Like", "register", "build_info",
-    "BuildInfo"
+    "PropertyField", "Vector2", "Vector2Like", "register", "get_build_info",
+    "BuildInfo", "get_build_dependencies", "get_plugins_dependencies"
 ]

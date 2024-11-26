@@ -59,8 +59,8 @@ Then, export the plugin and the library path
 
 .. code-block:: console
 
-   export DYLD_FALLBACK_LIBRARY_PATH=`pwd`/lib
-   export NAVGROUND_PLUGINS_PREFIX=`pwd`:$NAVGROUND_PLUGINS_PREFIX
+   $ export DYLD_FALLBACK_LIBRARY_PATH=`pwd`/lib
+   $ export NAVGROUND_PLUGINS_PREFIX=`pwd`:$NAVGROUND_PLUGINS_PREFIX
 
 
 Python packages
@@ -70,19 +70,19 @@ We recommend using a virtual environment. Then, call
 
 .. code-block:: console
 
-   pip install <path_to_the_python_package> --prefix install
+   $ pip install <path_to_the_python_package> --prefix install
 
 for any Pure Python package you want to install to ``install``, like
 
 .. code-block:: console
 
-   pip install src/navground/navground_examples_py --prefix install
+   $ pip install src/navground/navground_examples_py --prefix install
 
 Then, export the Python path
 
 .. code-block:: console
 
-   export PYTHONPATH=`pwd`/install/lib/python3.<XX>/site-packages 
+   $ export PYTHONPATH=`pwd`/install/lib/python3.<XX>/site-packages 
 
 
 Ament
@@ -101,4 +101,4 @@ When ament is not used, navground plugins are registered on a ad-hoc index. This
 
 .. code-block:: console
    
-   export NAVGROUND_PLUGINS_PREFIX=`pwd`:$NAVGROUND_PLUGINS_PREFIX
+   $ export NAVGROUND_PLUGINS_PREFIX=`pwd`:$NAVGROUND_PLUGINS_PREFIX

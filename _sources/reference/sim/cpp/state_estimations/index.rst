@@ -4,7 +4,7 @@ State estimations
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    state_estimation
    geometric_bounded

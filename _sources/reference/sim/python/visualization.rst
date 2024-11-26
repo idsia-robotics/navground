@@ -2,48 +2,61 @@
 Visualization
 =============
 
-Visualization related functionality are provided in sub package
-:module:  :py:mod:`navground.sim.ui` and not imported in the top-level package to minimize dependencies.
+.. py:module:: navground.sim.ui
+   :synopsis: Visualization
 
+Visualization related functionality are implemented in sub-package
+:py:mod:`navground.sim.ui` and not imported in the top-level package 
+to minimize dependencies.
 
-Display a simulated world
-=========================
+SVG and HTML rendering
+======================
 
-:module:  :py:mod:`navground.sim.ui`
+:module: :py:mod:`navground.sim.ui`
 
-.. autofunction:: navground.sim.ui.svg_for_world
+.. py:currentmodule:: navground.sim.ui
 
-.. autofunction:: navground.sim.ui.html_for_world
+.. autoclass:: Decorate
 
-.. autofunction:: navground.sim.notebook.notebook_view
+   A function that returns a dictionary of SVG style attributes for an entity, like
+   ``{"fill": "red"}``.
 
+.. autoclass:: Rect
 
-:module:  :py:mod:`navground.sim.ui.render`
+   A rectangle defined by bottom-left and top-right points.
 
-Render SVGs using ``cairosvg``.
+.. autofunction:: svg_color
 
-.. autofunction:: navground.sim.ui.render.image_for_world
+.. autofunction:: svg_for_world
 
-.. autofunction:: navground.sim.ui.render.png_for_world
+.. autofunction:: html_for_world
 
-.. autofunction:: navground.sim.ui.render.pdf_for_world
+Rasterized rendering
+====================
 
+:module: :py:mod:`navground.sim.ui.render`
 
-Synchronize HTML clients with a simulation 
-==========================================
+.. py:module:: navground.sim.ui.render
+   :synopsis: Rasterized Rendering
 
-:module:  :py:mod:`navground.sim.ui`
+   Rasterizes SVG using `cairosvg <https://cairosvg.org>`_.
 
-.. autoclass:: navground.sim.ui.WebUI
-    :members:
-    :exclude-members: __new__
+.. autofunction:: image_for_world
+
+.. autofunction:: png_for_world
+
+.. autofunction:: pdf_for_world
+
 
 Video
 =====
 
-:module:  :py:mod:`navground.sim.ui.video`
+:module: :py:mod:`navground.sim.ui.video`
 
-Requires ``moviepy``.
+.. py:module:: navground.sim.ui.video
+   :synopsis: Video utils
+   
+   Uses `moviepy <https://zulko.github.io/moviepy/>`_.
 
 .. autofunction:: navground.sim.ui.video.record_video
 
@@ -52,3 +65,51 @@ Requires ``moviepy``.
 .. autofunction:: navground.sim.ui.video.display_video
 
 .. autofunction:: navground.sim.ui.video.display_video_from_run
+
+
+Notebook helpers
+================
+
+:module: :py:mod:`navground.sim.notebook`
+
+.. py:module:: navground.sim.notebook
+   :synopsis: Jupyter utils
+
+   Helpers to display simulations in Jupyter notebooks.
+
+.. autofunction:: display_in_notebook
+
+.. autofunction:: notebook_view
+
+.. autofunction:: run_in_notebook
+
+
+Matplotlib helpers
+==================
+
+:module: :py:mod:`navground.sim.pyplot_helpers`
+
+.. py:module:: navground.sim.pyplot_helpers
+   :synopsis: Matplotlib utils
+
+   Helpers to plot simulations using `matplotlib <https://matplotlib.org>`_
+
+.. autofunction:: plot_agent
+
+.. autofunction:: plot_world
+
+.. autofunction:: plot_trajectory
+
+.. autofunction:: plot_run
+
+
+Real-time
+=========
+
+:module:  :py:mod:`navground.sim.ui`
+
+.. py:currentmodule:: navground.sim.ui
+
+.. autoclass:: WebUI
+    :members:
+    :exclude-members: __new__

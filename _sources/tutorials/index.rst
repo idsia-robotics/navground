@@ -3,7 +3,7 @@ Tutorials
 =========
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
    designing_an_experiment
    running_an_experiment_no_hdf5
@@ -12,5 +12,6 @@ Tutorials
    playback
    deadlocks_and_collisions
    modulations
+   sensors
 
 

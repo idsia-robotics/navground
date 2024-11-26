@@ -20,6 +20,8 @@ Basics
 
 How to instantiate and apply a behavior to avoid a circular obstacle.
 
+.. _component_example:
+
 Component 
 ---------
 

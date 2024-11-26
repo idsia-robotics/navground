@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Computing collisions &#8212; navground 0.2.1 documentation</title>
+    <title>Computing collisions &#8212; navground 0.3.0 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=c480a563"></script>
+    <script src="../../../_static/documentation_options.js?v=83a61292"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,8 +56,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/cpp/collision_computation';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Modulations" href="modulations.html" />
-    <link rel="prev" title="Environment State" href="state.html" />
+    <link rel="next" title="Social margin" href="social_margin.html" />
+    <link rel="prev" title="Sensing" href="state/sensing.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -135,7 +135,7 @@
   
   
   
-    <p class="title logo__title">navground 0.2.1 documentation</p>
+    <p class="title logo__title">navground 0.3.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -183,24 +183,78 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sensors.html">Sensors</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../guides/register.html">How to register a component</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../guides/extend/index.html">How to extend navground</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/register_cpp.html">How to integrate a C++ component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/register_py.html">How to integrate a Python component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior.html">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior_modulation.html">Behavior modulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/kinematics.html">Kinematics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/state_estimation.html">State Estimations</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/task.html">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/scenario.html">Scenarios</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/probes.html">How to record custom data in experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/install.html">How to build without the ROS build tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/validate.html">How to validate code</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../scenarios/index.html">Benchmark scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/antipodal.html">Antipodal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/corridor.html">Corridor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross.html">Cross</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross_torus.html">Cross Torus</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../components/index.html">Components</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/behaviors/index.html">Behaviors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/orca.html">Optimal Reciprocal Collision Avoidance (ORCA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/hrvo.html">Hybrid Velocity Obstacle (HRVO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/hl.html">Human-like (HL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/social_force.html">Social Force</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/behavior_modulations/index.html">Behavior Modulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/limit_acceleration.html">Limiting the acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/limit_twist.html">Limiting the twist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/motor_pid.html">Motorized Wheels PID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/relaxation.html">Relaxation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/kinematics/index.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/omni.html">Omni-directional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/ahead.html">Ahead</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/4womni.html">Four-wheeled differential drive</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/bounded.html">Geometric with limited range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/discs.html">Discs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/odometry.html">Odometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/lidar.html">Lidar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/boundary.html">Boundary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/direction.html">Direction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/waypoints.html">Waypoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/path.html">Path</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/scenarios/index.html">Scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/cross.html">Cross</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/cross_torus.html">Cross Torus</a></li>
+</ul>
+</details></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/accessors.html">Accessors</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -210,37 +264,41 @@
 <li class="toctree-l4"><a class="reference internal" href="common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yaml.html">YAML</a></li>
-<li class="toctree-l4"><a class="reference internal" href="kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="target.html">Target</a></li>
 <li class="toctree-l4"><a class="reference internal" href="behaviors/index.html">Behaviors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="state/index.html">Environment State</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">Computing collisions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="behavior_modulations/index.html">Behavior Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="controller.html">Controller</a></li>
 <li class="toctree-l4"><a class="reference internal" href="helper.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build.html">Build info</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/yaml.html">YAML</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/target.html">Target</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/behaviors/index.html">Behaviors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/state/index.html">Environment State</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/collision_computation.html">Computing collisions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/behavior_modulations/index.html">Behavior Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/build.html">Build info</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/common.html">Geometry</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../yaml/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/register.html">Registered components</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/social_margin.html">Social margin</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../yaml/behavior.html">Behavior</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/behavior_modulation.html">Behavior Modulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/behavior.html">Behavior</a></li>
 </ul>
 </details></li>
 </ul>
@@ -249,34 +307,32 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/agent.html">Agent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/yaml.html">YAML</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/agent.html">Agent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/experiment.html">Experiments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/visualization.html">Visualization</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/recorded_experiment.html">Recorded Experiments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/real_time.html">Real-time simulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/helpers.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/visualization/index.html">Visualization</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/task.html">Task</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/samplers.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/scenario.html">Scenario</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/experiment.html">Experiment</a></li>
@@ -426,47 +482,47 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisioncomputation">CollisionComputation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCacheE"><code class="docutils literal notranslate"><span class="pre">DiscCache</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache9DiscCacheE7Vector210ng_float_t7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">DiscCache::DiscCache()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache5deltaE"><code class="docutils literal notranslate"><span class="pre">DiscCache::delta</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache8velocityE"><code class="docutils literal notranslate"><span class="pre">DiscCache::velocity</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache8distanceE"><code class="docutils literal notranslate"><span class="pre">DiscCache::distance</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisioncomputation">CollisionComputation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCacheE"><code class="docutils literal notranslate"><span class="pre">DiscCache</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache9DiscCacheE7Vector210ng_float_t7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">DiscCache()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache5deltaE"><code class="docutils literal notranslate"><span class="pre">delta</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache8velocityE"><code class="docutils literal notranslate"><span class="pre">velocity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache8distanceE"><code class="docutils literal notranslate"><span class="pre">distance</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputationE"><code class="docutils literal notranslate"><span class="pre">CollisionComputation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation20CollisionComputationEv"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::CollisionComputation()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation28get_free_distance_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::get_free_distance_for_sector()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20CollisionComputation21get_angles_for_sectorE7Radians7Radians6size_t"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::get_angles_for_sector()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation22get_contour_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::get_contour_for_sector()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEENSt6vectorI9DiscCacheEENSt6vectorI9DiscCacheEE"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::setup()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEERKNSt6vectorI4DiscEERKNSt6vectorI8NeighborEE"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::setup()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation20static_free_distanceE7Radians10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::static_free_distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation21dynamic_free_distanceE7Radians10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::dynamic_free_distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation19dynamic_may_collideERK9DiscCache10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::dynamic_may_collide()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation18static_may_collideERK9DiscCache10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::static_may_collide()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputationE"><code class="docutils literal notranslate"><span class="pre">CollisionComputation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation20CollisionComputationEv"><code class="docutils literal notranslate"><span class="pre">CollisionComputation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation28get_free_distance_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_free_distance_for_sector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20CollisionComputation21get_angles_for_sectorE7Radians7Radians6size_t"><code class="docutils literal notranslate"><span class="pre">get_angles_for_sector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation22get_contour_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_contour_for_sector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEENSt6vectorI9DiscCacheEENSt6vectorI9DiscCacheEE"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEERKNSt6vectorI4DiscEERKNSt6vectorI8NeighborEE"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation20static_free_distanceE7Radians10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">static_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation21dynamic_free_distanceE7Radians10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">dynamic_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation19dynamic_may_collideERK9DiscCache10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">dynamic_may_collide()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation18static_may_collideERK9DiscCache10ng_float_t"><code class="docutils literal notranslate"><span class="pre">static_may_collide()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cachedcollisioncomputation">CachedCollisionComputation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputationE"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation26CachedCollisionComputationEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::CachedCollisionComputation()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation14set_resolutionE6size_t"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::set_resolution()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_resolution()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation13set_min_angleE7Radians"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::set_min_angle()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation13get_min_angleEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_min_angle()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation10set_lengthE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::set_length()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation10get_lengthEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_length()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation16set_max_distanceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::set_max_distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation16get_max_distanceEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_max_distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation9set_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::set_speed()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation9get_speedEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_speed()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation20static_free_distanceE7Radiansb"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::static_free_distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation21dynamic_free_distanceE7Radians"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::dynamic_free_distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation5resetEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::reset()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation9get_cacheEbb"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_cache()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation17get_free_distanceEb"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_free_distance()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cachedcollisioncomputation">CachedCollisionComputation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputationE"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation26CachedCollisionComputationEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation14set_resolutionE6size_t"><code class="docutils literal notranslate"><span class="pre">set_resolution()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">get_resolution()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation13set_min_angleE7Radians"><code class="docutils literal notranslate"><span class="pre">set_min_angle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation13get_min_angleEv"><code class="docutils literal notranslate"><span class="pre">get_min_angle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation10set_lengthE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_length()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation10get_lengthEv"><code class="docutils literal notranslate"><span class="pre">get_length()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation16set_max_distanceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_max_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation16get_max_distanceEv"><code class="docutils literal notranslate"><span class="pre">get_max_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation9set_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation9get_speedEv"><code class="docutils literal notranslate"><span class="pre">get_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation20static_free_distanceE7Radiansb"><code class="docutils literal notranslate"><span class="pre">static_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation21dynamic_free_distanceE7Radians"><code class="docutils literal notranslate"><span class="pre">dynamic_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation5resetEv"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation9get_cacheEbb"><code class="docutils literal notranslate"><span class="pre">get_cache()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation17get_free_distanceEb"><code class="docutils literal notranslate"><span class="pre">get_free_distance()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -497,7 +553,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core9DiscCache9DiscCacheE7Vector210ng_float_t7Vector210ng_float_t">
-<span class="target" id="structnavground_1_1core_1_1_disc_cache_1ae41cc8d56ad7a1ba5d11243b3438d7bc"></span><span class="sig-name descname"><span class="n"><span class="pre">DiscCache</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">delta</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">margin</span></span>, <a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">velocity</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Zero</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">visible_angle</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">M_PI_2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core9DiscCache9DiscCacheE7Vector210ng_float_t7Vector210ng_float_t" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1core_1_1_disc_cache_1a1eb3664f89165d28eed4274b19839421"></span><span class="sig-name descname"><span class="n"><span class="pre">DiscCache</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">Vector2</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">delta</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">margin</span></span>, <span class="n"><span class="pre">Vector2</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">velocity</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">Vector2</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Zero</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">visible_angle</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7HALF_PIE" title="navground::core::HALF_PI"><span class="n"><span class="pre">HALF_PI</span></span></a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core9DiscCache9DiscCacheE7Vector210ng_float_t7Vector210ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Construct a disc cache. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -505,6 +561,7 @@
 <li><p><strong>delta</strong> – <strong>[in]</strong> The difference of positions (<code class="docutils literal notranslate"><span class="pre">obstacle</span> <span class="pre">-</span> <span class="pre">agent</span></code>) in absolute frame </p></li>
 <li><p><strong>margin</strong> – <strong>[in]</strong> The margin (sum of the radii and safety margin) </p></li>
 <li><p><strong>velocity</strong> – <strong>[in]</strong> The disc velocity </p></li>
+<li><p><strong>visible_angle</strong> – <strong>[in]</strong> When colliding, directions outside the sector defined by <code class="docutils literal notranslate"><span class="pre">[-visible_angle,</span> <span class="pre">visible_angle]</span></code> are considered safe. </p></li>
 </ul>
 </dd>
 </dl>
@@ -515,13 +572,13 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core9DiscCache5deltaE">
-<span class="target" id="structnavground_1_1core_1_1_disc_cache_1a386a1f46b9cbc6d1042e3035cf2ae1ae"></span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delta</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9DiscCache5deltaE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1core_1_1_disc_cache_1a386a1f46b9cbc6d1042e3035cf2ae1ae"></span><span class="n"><span class="pre">Vector2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delta</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9DiscCache5deltaE" title="Link to this definition">#</a><br /></dt>
 <dd><p>the difference of positions (obstacle - agent) in absolute frame </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core9DiscCache8velocityE">
-<span class="target" id="structnavground_1_1core_1_1_disc_cache_1a01d5d3d228222f81debc1f06dc60dce6"></span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">velocity</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9DiscCache8velocityE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1core_1_1_disc_cache_1a01d5d3d228222f81debc1f06dc60dce6"></span><span class="n"><span class="pre">Vector2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">velocity</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9DiscCache8velocityE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The disc velocity in absolute frame </p>
 </dd></dl>
 
@@ -537,7 +594,7 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputationE">
 <span class="target" id="classnavground_1_1core_1_1_collision_computation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CollisionComputation</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputationE" title="Link to this definition">#</a><br /></dt>
-<dd><p>This class compute collisions of moving points with lists of <a class="reference internal" href="#structnavground_1_1core_1_1_disc_cache"><span class="std std-ref">DiscCache</span></a> and <a class="reference internal" href="state.html#structnavground_1_1core_1_1_line_segment"><span class="std std-ref">LineSegment</span></a>. </p>
+<dd><p>This class compute collisions of moving points with lists of <a class="reference internal" href="#structnavground_1_1core_1_1_disc_cache"><span class="std std-ref">DiscCache</span></a> and <a class="reference internal" href="state/geometric.html#structnavground_1_1core_1_1_line_segment"><span class="std std-ref">LineSegment</span></a>. </p>
 <p>Subclassed by <a class="reference internal" href="#classnavground_1_1core_1_1_cached_collision_computation"><span class="std std-ref">navground::core::CachedCollisionComputation</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
@@ -609,8 +666,8 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEENSt6vectorI9DiscCacheEENSt6vectorI9DiscCacheEE">
-<span class="target" id="classnavground_1_1core_1_1_collision_computation_1ac7382316793bd054121eb2545e03db87"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setup</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">pose_</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">margin_</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">line_segments</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core9DiscCacheE" title="navground::core::DiscCache"><span class="n"><span class="pre">DiscCache</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">static_discs</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core9DiscCacheE" title="navground::core::DiscCache"><span class="n"><span class="pre">DiscCache</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dynamic_discs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEENSt6vectorI9DiscCacheEENSt6vectorI9DiscCacheEE" title="Link to this definition">#</a><br /></dt>
-<dd><p>Set the state from collections of <a class="reference internal" href="state.html#structnavground_1_1core_1_1_line_segment"><span class="std std-ref">LineSegment</span></a> and <a class="reference internal" href="#structnavground_1_1core_1_1_disc_cache"><span class="std std-ref">DiscCache</span></a>. </p>
+<span class="target" id="classnavground_1_1core_1_1_collision_computation_1ac7382316793bd054121eb2545e03db87"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setup</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">Pose2</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pose_</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">margin_</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">LineSegment</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">line_segments</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core9DiscCacheE" title="navground::core::DiscCache"><span class="n"><span class="pre">DiscCache</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">static_discs</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core9DiscCacheE" title="navground::core::DiscCache"><span class="n"><span class="pre">DiscCache</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dynamic_discs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEENSt6vectorI9DiscCacheEENSt6vectorI9DiscCacheEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set the state from collections of <a class="reference internal" href="state/geometric.html#structnavground_1_1core_1_1_line_segment"><span class="std std-ref">LineSegment</span></a> and <a class="reference internal" href="#structnavground_1_1core_1_1_disc_cache"><span class="std std-ref">DiscCache</span></a>. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -626,8 +683,8 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEERKNSt6vectorI4DiscEERKNSt6vectorI8NeighborEE">
-<span class="target" id="classnavground_1_1core_1_1_collision_computation_1a48830c9028fbea912ff2b33ab784394b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setup</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">pose_</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">margin_</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">line_segments</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><span class="n"><span class="pre">Disc</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">static_discs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state.html#_CPPv4N9navground4core8NeighborE" title="navground::core::Neighbor"><span class="n"><span class="pre">Neighbor</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dynamic_discs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEERKNSt6vectorI4DiscEERKNSt6vectorI8NeighborEE" title="Link to this definition">#</a><br /></dt>
-<dd><p>Set the state from collections of <a class="reference internal" href="state.html#structnavground_1_1core_1_1_line_segment"><span class="std std-ref">LineSegment</span></a>, <a class="reference internal" href="state.html#structnavground_1_1core_1_1_disc"><span class="std std-ref">Disc</span></a>, and <a class="reference internal" href="state.html#structnavground_1_1core_1_1_neighbor"><span class="std std-ref">Neighbor</span></a>. </p>
+<span class="target" id="classnavground_1_1core_1_1_collision_computation_1a48830c9028fbea912ff2b33ab784394b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setup</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">Pose2</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pose_</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">margin_</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">LineSegment</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">line_segments</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">Disc</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">static_discs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">Neighbor</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dynamic_discs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEERKNSt6vectorI4DiscEERKNSt6vectorI8NeighborEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set the state from collections of <a class="reference internal" href="state/geometric.html#structnavground_1_1core_1_1_line_segment"><span class="std std-ref">LineSegment</span></a>, <a class="reference internal" href="state/geometric.html#structnavground_1_1core_1_1_disc"><span class="std std-ref">Disc</span></a>, and <a class="reference internal" href="state/geometric.html#structnavground_1_1core_1_1_neighbor"><span class="std std-ref">Neighbor</span></a>. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -723,7 +780,7 @@
 </div>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputationE">
-<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CachedCollisionComputation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core20CollisionComputationE" title="navground::core::CollisionComputation"><span class="n"><span class="pre">CollisionComputation</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputationE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CachedCollisionComputation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">core</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">CollisionComputation</span></span><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputationE" title="Link to this definition">#</a><br /></dt>
 <dd><p>This class extend <a class="reference internal" href="#classnavground_1_1core_1_1_collision_computation"><span class="std std-ref">CollisionComputation</span></a> to cache the results. </p>
 <p>It assumes that the agents is only interested in possible collisions when moving in directions comprised in an interval  <span class="math notranslate nohighlight">\([\alpha, \alpha +
 \Delta]\)</span>, represented by in <span class="math notranslate nohighlight">\(N\)</span> points at regular steps, only up to a maximal distance <span class="math notranslate nohighlight">\(D\)</span>, and that the agent moves at at given speed. </p>
@@ -931,20 +988,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="state.html"
+       href="state/sensing.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Environment State</p>
+        <p class="prev-next-title">Sensing</p>
       </div>
     </a>
     <a class="right-next"
-       href="modulations.html"
+       href="social_margin.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Modulations</p>
+        <p class="prev-next-title">Social margin</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -965,47 +1022,47 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisioncomputation">CollisionComputation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCacheE"><code class="docutils literal notranslate"><span class="pre">DiscCache</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache9DiscCacheE7Vector210ng_float_t7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">DiscCache::DiscCache()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache5deltaE"><code class="docutils literal notranslate"><span class="pre">DiscCache::delta</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache8velocityE"><code class="docutils literal notranslate"><span class="pre">DiscCache::velocity</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache8distanceE"><code class="docutils literal notranslate"><span class="pre">DiscCache::distance</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisioncomputation">CollisionComputation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCacheE"><code class="docutils literal notranslate"><span class="pre">DiscCache</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache9DiscCacheE7Vector210ng_float_t7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">DiscCache()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache5deltaE"><code class="docutils literal notranslate"><span class="pre">delta</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache8velocityE"><code class="docutils literal notranslate"><span class="pre">velocity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache8distanceE"><code class="docutils literal notranslate"><span class="pre">distance</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputationE"><code class="docutils literal notranslate"><span class="pre">CollisionComputation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation20CollisionComputationEv"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::CollisionComputation()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation28get_free_distance_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::get_free_distance_for_sector()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20CollisionComputation21get_angles_for_sectorE7Radians7Radians6size_t"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::get_angles_for_sector()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation22get_contour_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::get_contour_for_sector()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEENSt6vectorI9DiscCacheEENSt6vectorI9DiscCacheEE"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::setup()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEERKNSt6vectorI4DiscEERKNSt6vectorI8NeighborEE"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::setup()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation20static_free_distanceE7Radians10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::static_free_distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation21dynamic_free_distanceE7Radians10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::dynamic_free_distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation19dynamic_may_collideERK9DiscCache10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::dynamic_may_collide()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation18static_may_collideERK9DiscCache10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CollisionComputation::static_may_collide()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputationE"><code class="docutils literal notranslate"><span class="pre">CollisionComputation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation20CollisionComputationEv"><code class="docutils literal notranslate"><span class="pre">CollisionComputation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation28get_free_distance_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_free_distance_for_sector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20CollisionComputation21get_angles_for_sectorE7Radians7Radians6size_t"><code class="docutils literal notranslate"><span class="pre">get_angles_for_sector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation22get_contour_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_contour_for_sector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEENSt6vectorI9DiscCacheEENSt6vectorI9DiscCacheEE"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEERKNSt6vectorI4DiscEERKNSt6vectorI8NeighborEE"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation20static_free_distanceE7Radians10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">static_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation21dynamic_free_distanceE7Radians10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">dynamic_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation19dynamic_may_collideERK9DiscCache10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">dynamic_may_collide()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation18static_may_collideERK9DiscCache10ng_float_t"><code class="docutils literal notranslate"><span class="pre">static_may_collide()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cachedcollisioncomputation">CachedCollisionComputation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputationE"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation26CachedCollisionComputationEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::CachedCollisionComputation()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation14set_resolutionE6size_t"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::set_resolution()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_resolution()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation13set_min_angleE7Radians"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::set_min_angle()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation13get_min_angleEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_min_angle()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation10set_lengthE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::set_length()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation10get_lengthEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_length()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation16set_max_distanceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::set_max_distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation16get_max_distanceEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_max_distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation9set_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::set_speed()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation9get_speedEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_speed()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation20static_free_distanceE7Radiansb"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::static_free_distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation21dynamic_free_distanceE7Radians"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::dynamic_free_distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation5resetEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::reset()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation9get_cacheEbb"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_cache()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation17get_free_distanceEb"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation::get_free_distance()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cachedcollisioncomputation">CachedCollisionComputation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputationE"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation26CachedCollisionComputationEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation14set_resolutionE6size_t"><code class="docutils literal notranslate"><span class="pre">set_resolution()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">get_resolution()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation13set_min_angleE7Radians"><code class="docutils literal notranslate"><span class="pre">set_min_angle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation13get_min_angleEv"><code class="docutils literal notranslate"><span class="pre">get_min_angle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation10set_lengthE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_length()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation10get_lengthEv"><code class="docutils literal notranslate"><span class="pre">get_length()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation16set_max_distanceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_max_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation16get_max_distanceEv"><code class="docutils literal notranslate"><span class="pre">get_max_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation9set_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation9get_speedEv"><code class="docutils literal notranslate"><span class="pre">get_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation20static_free_distanceE7Radiansb"><code class="docutils literal notranslate"><span class="pre">static_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation21dynamic_free_distanceE7Radians"><code class="docutils literal notranslate"><span class="pre">dynamic_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation5resetEv"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation9get_cacheEbb"><code class="docutils literal notranslate"><span class="pre">get_cache()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation17get_free_distanceEb"><code class="docutils literal notranslate"><span class="pre">get_free_distance()</span></code></a></li>
 </ul>
 </li>
 </ul>

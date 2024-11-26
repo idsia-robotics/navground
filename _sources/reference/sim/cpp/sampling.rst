@@ -1,6 +1,10 @@
+.. _sampling_cpp:
+
 =========
 Sampling
 =========
+
+.. _samplers_cpp:
 
 Samplers
 ========
@@ -78,9 +82,13 @@ Registers
     :members:
     :undoc-members:
 
-.. doxygentypedef:: navground::sim::TaskSampler
+.. doxygenstruct:: navground::sim::TaskSampler
+    :members:
+    :undoc-members:
 
-.. doxygentypedef:: navground::sim::StateEstimationSampler
+.. doxygenstruct:: navground::sim::StateEstimationSampler
+    :members:
+    :undoc-members:
 
 Agents
 ======

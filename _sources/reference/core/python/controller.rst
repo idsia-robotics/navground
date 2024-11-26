@@ -2,6 +2,8 @@
 Controller
 ==========
 
+.. py:currentmodule:: navground.core
+
 .. autoclass:: navground.core.Action.State
    :members: __init__, name, value
    :exclude-members: __new__
@@ -24,10 +26,10 @@ Controller
       the action succeeded
 
 
-.. autoclass:: navground.core.Action
+.. autoclass:: Action
     :members:
     :exclude-members: State
 
-.. autoclass:: navground.core.Controller
+.. autoclass:: Controller
     :members:
 

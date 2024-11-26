@@ -6,7 +6,7 @@ YAML
 
 We use `yaml-cpp <https://github.com/jbeder/yaml-cpp>`_ to provide import/export 
 from/to YAML. The code in ``navground/yaml`` specializes templates
-of :py:class:`struct YAML::convert<T>`, which is how yaml-cpp is extended to custom classes.
+of :cpp:type:`struct YAML::convert<T>`, which is how yaml-cpp is extended to custom classes.
 
 You can therefore use yaml-cpp APIs, which allows to
 
@@ -22,7 +22,7 @@ You can therefore use yaml-cpp APIs, which allows to
 
   .. code-block:: c++
 
-     T object =  node.as<T>();
+     T object = node.as<T>();
 
 - convert a C++ object to a :cpp:class:`YAML::Node`
 
@@ -70,14 +70,19 @@ registered property.
 .. code-block:: c++
 
    auto obj = node.as<std::shared_ptr<T>>();
-   // will call:
-   // - auto obj = make_type("MySubClass");
-   // - obj.set("my_property", false);
-   // in addition to setup the common fields of ``T``. 
+
+will call:
+
+- ``auto obj = make_type("MySubClass");``
+- ``obj.set("my_property", false);``
+
+in addition to setup the common fields of :cpp:type:`T`. 
+
+Moreover, we expose templated functions that returns the `JSON Schema <https://json-schema.org>`_ for the types listed above, which are also used to document the YAML representations in :doc:`../yaml/index`.
 
 
 Public API
-----------
+==========
 
 .. code-block:: cpp
    
@@ -95,4 +100,33 @@ Public API
 .. doxygenfunction:: dump(const T *object)
 
 
+.. _schema_cpp:
 
+Schema
+------
+
+Partial schema
+~~~~~~~~~~~~~~
+
+.. code-block:: cpp
+   
+   #include "navground/core/yaml/schema.h"
+
+.. cpp:namespace:: YAML::schema
+
+.. doxygenfunction:: YAML::schema::schema()
+
+.. doxygenfunction:: YAML::schema::schema(bool, const std::optional<std::string> &)
+
+.. doxygenfunction:: YAML::schema::register_schema()
+
+Bundle
+~~~~~~
+
+.. code-block:: cpp
+   
+   #include "navground/sim/yaml/schema_core.h"
+
+.. cpp:namespace:: navground::core
+
+.. doxygenfunction:: navground::sim::bundle_schema()

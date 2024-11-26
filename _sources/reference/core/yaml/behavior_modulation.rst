@@ -1,24 +1,21 @@
+.. _behavior_modulation_yaml:
+
 ===================
 Behavior Modulation
 ===================
 
 Schema
-^^^^^^
+======
 
-.. code-block:: yaml
+.. schema:: navground.core.BehaviorModulation.schema()
 
-   $schema: "https://json-schema.org/draft/2020-12/schema"
-   $id: /schemas/behavior_modulation
-   title: BehaviorModulation
-   type: object
-   properties:
-     type: string
-     enabled: boolean
-   required: [type]
-   additionalProperties: {}
+Register
+--------
+
+.. schema:: navground.core.BehaviorModulation.register_schema()
 
 Example
-^^^^^^^
+=======
 
 .. code-block:: yaml
 

@@ -1,75 +1,29 @@
+.. _world_yaml:
+
 =====
 World
 =====
 
 Schema
-^^^^^^
+======
 
-.. code-block:: yaml
+Wall
+----
 
-   $schema: https://json-schema.org/draft/2020-12/schema
-   $id: /schemas/wall
-   title: Wall
-   type: object
-   properties:
-     line: {$ref: /schemas/line_segment}
-     uid: number
-   required: [line]
+.. schema:: navground.sim.Wall.schema()
 
-.. code-block:: yaml
+Obstacle
+--------
 
-   $schema: https://json-schema.org/draft/2020-12/schema
-   $id: /schemas/obstacle
-   title: Wall
-   type: object
-   properties:
-     position: {$ref: /schemas/vector2}
-     radius: number  
-     uid: number
-   required: [position, radius]
+.. schema:: navground.sim.Obstacle.schema()
 
-.. code-block:: yaml
+World
+-----
 
-   $schema: "https://json-schema.org/draft/2020-12/schema"
-   $id: /schemas/world
-   title: World
-   type: object
-   properties:
-     obstacles: 
-       type: array
-       items: {$ref: /schemas/obstacle}
-     walls:
-       type: array
-       items: {$ref: /schemas/wall}
-     groups: 
-       type: array
-       items: {$ref: /schemas/agent}
-     lattice:
-       type: object
-       properties:
-         x: 
-           type: array
-           items: numbers
-           minItems: 2
-           maxItems: 2
-         y: 
-           type: array
-           items: numbers
-           minItems: 2
-           maxItems: 2
-       required: []
-     bounding_box:
-       type: object
-       properties:
-         min_x: number
-         min_y: number
-         max_x: number
-         max_y: number
-       required: []
-   required: []
+.. schema:: navground.sim.World.schema()
 
 Example
-^^^^^^^
+=======
 
 .. code-block:: yaml
 

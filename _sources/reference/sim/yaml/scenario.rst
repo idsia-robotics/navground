@@ -4,75 +4,58 @@
 Scenario
 ========
 
+Behavior sampler
+================
+
+Sampler of behaviors, replaces types in :ref:`behavior_yaml` with samplers of the same type.
+
+.. schema:: navground.sim.schema.bundle()["$defs"]["behavior_sampler"]
+
+Behavior modulation sampler
+===========================
+
+Sampler of behavior modulations, replaces types in :ref:`behavior_modulation_yaml` with samplers of the same type.
+
+.. schema:: navground.sim.schema.bundle()["$defs"]["behavior_modulation_sampler"]
+
+Kinematics sampler
+==================
+
+Sampler of kinematics, replaces types in :ref:`kinematics_yaml` with samplers of the same type.
+
+
+.. schema:: navground.sim.schema.bundle()["$defs"]["kinematics_sampler"]
+
+
+State estimation sampler
+========================
+
+Sampler of state estimations, replaces types in :ref:`state_estimation_yaml` with samplers of the same type.
+
+
+.. schema:: navground.sim.schema.bundle()["$defs"]["state_estimation_sampler"]
+
+Task sampler
+============
+
+Sampler of tasks, replaces types in :ref:`task_yaml` with samplers of the same type.
+
+
+.. schema:: navground.sim.schema.bundle()["$defs"]["task_sampler"]
+
+.. _group_yaml:
+
 Group
------
+======
 
-Schema
-^^^^^^
+Sampler of agents: similar to :ref:`agent_yaml` but uses the sampler schemas to populate the agent components. 
 
-.. code-block:: yaml
+.. schema:: navground.sim.schema.bundle()["$defs"]["group"]
 
-   $schema: "https://json-schema.org/draft/2020-12/schema"
-   $id: /schemas/group
-   title: Group
-   type: object
-   properties:
-     behavior: {$ref: #/$defs/behavior_sampler}
-     kinematics: {$ref: #/$defs/kinematic_sampler}
-     task: {$ref: #/$defs/task_sampler}
-     state_estimation: {$ref: #/$defs/state_estimation_sampler}
-     position: {$ref: /schemas/sampler<vector2>}
-     orientation: {$ref: /schemas/sampler<number>}
-     radius: {$ref: /schemas/sampler<number>}
-     control_period: {$ref: /schemas/sampler<number>} 
-     id: {$ref: /schemas/sampler<integer>} 
-     type: {$ref: /schemas/sampler<string>} 
-     number: {$ref: /schemas/sampler<number>} 
-     tags: {$ref: /schemas/sampler<list<string>>} 
-     # Should be unique across groups
-     name: string
-   required: [type]
-   $defs:
-     behavior_sampler: 
-       properties:
-         type: string
-         optimal_speed: {$ref: /schemas/sampler<number>}
-         optimal_angular_speed: {$ref: /schemas/sampler<number>}
-         rotation_tau: {$ref: /schemas/sampler<number>}
-         safety_margin: {$ref: /schemas/sampler<number>}
-         horizon: {$ref: /schemas/sampler<number>}
-         heading: {$ref: /schemas/sampler<string>}
-         modulations:
-          type: array
-          items: {$ref: #/$defs/kinematic_sampler} 
-       required: [type]
-       additionalProperties: {}
-     kinematic_sampler: 
-       properties:
-         type: string
-         max_speed: {$ref: /schemas/sampler<number>}
-         max_angular_speed: {$ref: /schemas/sampler<number>} 
-       required: [type]
-       additionalProperties: {}
-     behavior_modulation_sampler: 
-       properties:
-         type: string
-         enabled: {$ref: /schemas/sampler<bool>}
-       required: [type]
-       additionalProperties: {}
-     task_sampler:
-       properties:
-         type: string
-       required: [type]
-       additionalProperties: {}
-     state_estimation_sampler:
-       properties:
-         type: string
-       required: [type]
-       additionalProperties: {}
+.. note:: Almost all fields in these schemas are samplers with the exception of the ``type`` field of registered components, which is a scalar string.
 
 Example
-^^^^^^^
+-------
 
 .. code-block:: yaml
 
@@ -121,33 +104,14 @@ Example
      to: 0.2
 
 Scenario
---------
+========
 
-Schema
-^^^^^^
+Scenarios are generators of worlds: similar to :ref:`world_yaml` but using :ref:`group_yaml` instead of a list of `agent_yaml`.
 
-.. code-block:: yaml
-
-   $schema: "https://json-schema.org/draft/2020-12/schema"
-   $id: /schemas/scenario
-   title: Scenario
-   type: object
-   properties:
-     type: string
-     obstacles: 
-       type: array
-       items: {$ref: /schemas/obstacle}
-     walls:
-       type: array
-       items: {$ref: /schemas/wall}
-     groups: 
-       type: array
-       items: {$ref: /schemas/group}
-   required: [type]
-   additionalProperties: {}
+.. schema:: navground.sim.Scenario.schema()
 
 Example
-^^^^^^^
+-------
 
 .. code-block:: yaml
 
@@ -168,3 +132,9 @@ Example
        radius: 0.1
        control_period: 0.1
 
+Register
+--------
+
+Like all the other components, scenarios have a schema that includes all registered sub-classes: 
+
+.. schema:: navground.sim.Scenario.register_schema()

@@ -3,7 +3,7 @@ Scenarios
 =========
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    scenario
    simple

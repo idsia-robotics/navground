@@ -2,22 +2,22 @@
 Social margin
 =============
 
-.. autoclass:: navground.core._navground.SocialMarginModulation
+.. autoclass:: navground.core.SocialMarginModulation
     :members:
 
-.. autoclass:: navground.core._navground.SocialMarginZeroModulation
+.. autoclass:: navground.core.SocialMarginZeroModulation
     :members:
 
-.. autoclass:: navground.core._navground.SocialMarginConstantModulation
+.. autoclass:: navground.core.SocialMarginConstantModulation
     :members:
 
-.. autoclass:: navground.core._navground.SocialMarginLinearModulation
+.. autoclass:: navground.core.SocialMarginLinearModulation
     :members:
 
-.. autoclass:: navground.core._navground.SocialMarginQuadraticModulation
+.. autoclass:: navground.core.SocialMarginQuadraticModulation
     :members:
 
-.. autoclass:: navground.core._navground.SocialMarginLogisticModulation
+.. autoclass:: navground.core.SocialMarginLogisticModulation
     :members:
 
 .. autoclass:: navground.core.SocialMargin

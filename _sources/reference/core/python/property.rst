@@ -2,17 +2,18 @@
 Properties
 ==========
 
-.. py:class:: PropertyField
-   :module: navground.core
+.. py:currentmodule:: navground.core
 
-   A type alias to ``Union[bool, int, float, str, Vector2, List[bool], List[int], List[float], List[str], List[Vector2]]``
+.. py:type:: PropertyField
+   :canonical: bool | int | float | str | Vector2 | list[bool] | list[int] | list[float] | list[str] | list[Vector2]
 
-.. autoclass:: navground.core._navground.Property
+.. autoclass:: Property
    :members:
    :undoc-members:
    :exclude-members: __init__
 
-.. autoclass:: navground.core._navground.HasProperties
+.. autoclass:: HasProperties
    :members:
    :undoc-members:
    :exclude-members: __init__
+

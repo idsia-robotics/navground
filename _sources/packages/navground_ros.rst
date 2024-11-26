@@ -84,7 +84,7 @@ Kinematics
 .. ros:parameter:: kinematics.wheel_axis float
    :default: 1.0
 
-   Wheel axis, see :cpp:func:`navground::core::WheeledKinematics::get_axis`.  Should be positive. Only relevant for wheeled kinematics.
+   Wheel axis, see :cpp:func:`navground::core::TwoWheelsDifferentialDriveKinematics::get_wheel_axis`.  Should be positive. Only relevant for some kinematics.
 
 
 Behavior

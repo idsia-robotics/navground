@@ -20,4 +20,4 @@ set ``HDF5_DISABLE_VERSION_CHECK`` to 1
 
 .. code-block:: console
 
-   set HDF5_DISABLE_VERSION_CHECK=1
+   $ set HDF5_DISABLE_VERSION_CHECK=1

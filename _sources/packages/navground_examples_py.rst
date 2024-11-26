@@ -12,6 +12,16 @@ Behavior
 How to instantiate and apply a behavior to avoid a circular obstacle.
 See the equivalent :ref:`C++ example <basics_behavior>`.
 
+.. _py_component_example:
+
+Component 
+---------
+
+:module:  `my_behavior.py <https://github.com/idsia-robotics/navground/tree/main/navground_examples_py/navground_examples_py/my_behavior.py>`_
+
+How to define and register a new behavior.
+See the equivalent :ref:`C++ example <component_example>`.
+
 Controller 
 ----------
 

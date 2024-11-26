@@ -41,6 +41,12 @@ Experimental run
 .. doxygenstruct:: navground::sim::RunConfig
     :members:
 
+.. doxygenstruct:: navground::sim::RecordSensingConfig
+    :members:
+
+.. doxygenstruct:: navground::sim::RecordNeighborsConfig
+    :members:
+
 .. doxygenstruct:: navground::sim::RecordConfig
     :members:
 

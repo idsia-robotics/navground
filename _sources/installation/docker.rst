@@ -19,4 +19,4 @@ We provide the following `docker files <https://github.com/idsia-robotics/navgro
    * - ``Dockerfile.python``
      - Install the pre-built navground wheel in ``python:3.12-slim``
    * - ``Dockerfile.notebook``
-     - Install the pre-built navground wheel in ``python:3.12-slim`` and everything needed to run the jupyter notebooks in `tutorials <https://github.com/idsia-robotics/navground/tree/main/docs/tutorials>`_:
+     - Install the pre-built navground wheel in ``python:3.12-slim`` and everything needed to run the jupyter notebooks in `tutorials <https://github.com/idsia-robotics/navground/tree/main/docs/tutorials>`_.

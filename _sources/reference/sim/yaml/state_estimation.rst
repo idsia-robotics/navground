@@ -1,23 +1,22 @@
+.. _state_estimation_yaml:
+
 ================
 State estimation
 ================
 
 Schema
-^^^^^^
+======
 
-.. code-block:: yaml
+.. schema:: navground.sim.StateEstimation.schema()
 
-  $schema: "https://json-schema.org/draft/2020-12/schema"
-  $id: /schemas/state_estimation
-  title: StateEstimation
-  type: object
-  properties:
-    type: string
-  required: [type]
-  additionalProperties: {}
+Register
+--------
+
+.. schema:: navground.sim.StateEstimation.register_schema()
 
 Example
-^^^^^^^
+=======
+
 
 .. code-block:: yaml
 

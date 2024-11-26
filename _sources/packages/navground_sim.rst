@@ -59,115 +59,9 @@ Lists registered components (behaviors, kinematics, behavior modulations, state 
 Example
 ~~~~~~~
 
-.. code-block:: console
-
-   $ info --properties
-
-   Behaviors
-   ---------
-   Dummy
-   HL
-        aperture: 3.14159 (double)
-        barrier_angle: 1.5708 (double)
-        epsilon: 0 (double)
-        eta: 0.5 (double)
-        resolution: 101 (int)
-        tau: 0.125 (double)
-   HRVO
-        max_neighbors: 1000 (int)
-        uncertainty_offset: 0 (double)
-   ORCA
-        effective_center: 0 (bool)
-        max_neighbors: 1000 (int)
-        static_time_horizon: 10 (double)
-        time_horizon: 10 (double)
-        treat_obstacles_as_agents: 1 (bool)
-   
-   Kinematics
-   ----------
-   2WDiff
-        wheel_axis: 0 (double)
-   2WDiffDyn
-        max_acceleration: 0 (double)
-        moi: 1 (double)
-        wheel_axis: 0 (double)
-   4WOmni
-        wheel_axis: 0 (double)
-   Ahead
-   Omni
-   
-   Modulations
-   -----------
-   LimitAcceleration
-        max_acceleration: inf (double)
-        max_angular_acceleration: inf (double)
-   MotorPID
-        k_d: 0 (double)
-        k_i: 0 (double)
-        k_p: 1 (double)
-   Relaxation
-        tau: 0.125 (double)
-   
-   Scenarios
-   ---------
-   Antipodal
-        orientation_noise: 0 (double)
-        position_noise: 0 (double)
-        radius: 1 (double)
-        shuffle: 0 (bool)
-        tolerance: 0.1 (double)
-   Corridor
-        add_safety_to_agent_margin: 1 (bool)
-        agent_margin: 0.1 (double)
-        length: 10 (double)
-        width: 1 (double)
-   Cross
-        add_safety_to_agent_margin: 1 (bool)
-        agent_margin: 0.1 (float)
-        side: 2 (float)
-        target_margin: 0.5 (float)
-        tolerance: 0.25 (float)
-   CrossTorus
-        add_safety_to_agent_margin: 1 (bool)
-        agent_margin: 0.1 (float)
-        side: 2 (float)
-   Simple
-   
-   State Estimations
-   -----------------
-   Boundary
-        max_x: inf (double)
-        max_y: inf (double)
-        min_x: -inf (double)
-        min_y: -inf (double)
-        range: 1 (double)
-   Bounded
-        range: 1 (double), deprecated synonyms: range_of_view 
-        update_static_obstacles: 0 (bool)
-   Combination
-   Discs
-        include_valid: 1 (bool)
-        max_id: 0 (int)
-        max_radius: 0 (double)
-        max_speed: 0 (double)
-        number: 1 (int)
-        range: 1 (double)
-        use_nearest_point: 1 (bool)
-   Lidar
-        field_of_view: 6.28319 (double)
-        range: 1 (double)
-        resolution: 100 (int)
-        start_angle: -3.14159 (double)
-   
-   Tasks
-   -----
-   Direction
-        direction: [1, 0] (Vector2)
-   Waypoints
-        loop: 1 (bool)
-        random: 0 (bool)
-        tolerance: 1 (double)
-        waypoints: [] (std::vector<Vector2>)
+.. ng-command-output:: info --properties
+   :package: navground_sim
+   :ellipsis: 20
 
 
 .. _echo_sim:
@@ -189,19 +83,32 @@ Load and then print a YAML representation of an object (behavior, kinematic, beh
 Example
 ~~~~~~~
 
-.. code-block:: console
+.. ng-command-output:: echo scenario "{type: Corridor, agent_margin: 0.25, width: 2}"
+   :package: navground_sim
+   :ellipsis: 20
 
-   $ echo scenario "{type: Corridor, agent_margin: 0.25, width: 2}"
 
-   type: Corridor
-   add_safety_to_agent_margin: true
-   agent_margin: 0.25
-   length: 10
-   width: 2
-   obstacles:
-     []
-   walls:
-     []
+.. _schema_sim:
+
+schema
+-------
+
+Print JSON-Schema of YAML-convertible navground sim classes.
+
+.. argparse::
+   :module: navground.sim.print_schema
+   :func: parser
+   :prog: schema
+   :nodescription:
+   :nodefault:
+
+Example
+~~~~~~~
+
+.. ng-command-output:: schema sim
+   :package: navground_sim
+   :ellipsis: 20
+
 
 .. _plugins_sim:
 
@@ -220,6 +127,10 @@ Load and list plugins.
 Example
 ~~~~~~~
 
+.. .. ng-command-output:: plugins
+..    :package: navground_sim
+..    :ellipsis: 20
+
 .. code-block:: console
 
    $ plugins
@@ -232,7 +143,7 @@ Example
    ------------------
    Behaviors: Idle
    Scenarios: Empty
-
+   
 
 .. _sample:
 
@@ -251,58 +162,9 @@ Samples a world from a scenario containing components implemented in C++.
 Example
 ~~~~~~~
 
-.. code-block:: console
-
-   $ sample "{type: Antipodal, groups: [{number: 2}]}"
-
-   obstacles:
-     []
-   walls:
-     []
-   agents:
-     - task:
-         type: Waypoints
-         loop: false
-         tolerance: 0.100000001
-         waypoints:
-           -
-             - -1
-             - -0
-       position:
-         - 1
-         - 0
-       orientation: 3.14159274
-       velocity:
-         - 0
-         - 0
-       angular_speed: 0
-       radius: 0
-       control_period: 0
-       type: ""
-       id: 0
-       uid: 0
-     - task:
-         type: Waypoints
-         loop: false
-         tolerance: 0.100000001
-         waypoints:
-           -
-             - 1
-             - 8.74227766e-08
-       position:
-         - -1
-         - -8.74227766e-08
-       orientation: 6.28318548
-       velocity:
-         - 0
-         - 0
-       angular_speed: 0
-       radius: 0
-       control_period: 0
-       type: ""
-       id: 0
-       uid: 1
-
+.. ng-command-output:: sample "{type: Antipodal, groups: [{number: 2}]}"
+   :package: navground_sim
+   :ellipsis: 20
 
 .. _run:
 
@@ -325,18 +187,12 @@ If the experiment is recording data, it will create a directory named ``<experim
 Example
 ~~~~~~~
 
-.. code-block:: console
-
-   $ run  "{save_directory: ".", scenario: {type: Antipodal, groups: [{number: 20}]}}"
-
-   Duration: 0.0120453 s
-   Saved to: "./experiment_3784746994027959661_2023-07-07_16-13-36/data.h5"      
+.. ng-command-output:: run  "{save_directory: "/tmp", scenario: {type: Antipodal, groups: [{number: 20}]}}"
+   :package: navground_sim
+   :ellipsis: 20
 
 
-.. note::
-
-   Although individual runs execute in a single thread, we can speed up experiments consisting of *multiple* runs by parallelizing them. Check out :ref:`the related guide <parallelize_guide>` to know more.
-
+.. note:: Although individual runs execute in a single thread, we can speed up experiments consisting of *multiple* runs by parallelizing them. Check out :ref:`the related guide <parallelize_guide>` to know more.
 
  .. _navground:
 
@@ -347,33 +203,16 @@ A command that contains all other commands of this package as sub-commands, inst
 
 .. code-block:: console
 
-   naground <command> [arguments]
+   $ naground <command> [arguments]
 
 instead of 
 
 .. code-block:: console
 
-   install/lib/navground_sim/<command> [arguments]
+   $ install/lib/navground_sim/<command> [arguments]
 
 Example
 ~~~~~~~
 
-.. code-block:: console
-
-   $ navground run --help   
-
-   Usage: run [--help] [--version] [--tqdm] [--run_index VAR] [--runs    VAR] [--threads VAR] [--processes VAR] YAML
-   
-   Runs an experiment.
-   
-   Positional arguments:
-     YAML           YAML string, or path to a YAML file, describing an    experiment 
-   
-   Optional arguments:
-     -h, --help     shows help message and exits 
-     -v, --version  prints version information and exits 
-     --tqdm         Display tqdm bar 
-     --run_index    Will overwrite the experiment own run_index if    positive. [nargs=0..1] [default: -1]
-     --runs         Will overwrite the experiment own runs if positive. [   nargs=0..1] [default: -1]
-     --threads      Number of threads [nargs=0..1] [default: 1]
-     --processes    Number of processes [only supported by run_py] [   nargs=0..1] [default: 1]   
+.. command-output:: navground run --help  
+   :ellipsis: 20

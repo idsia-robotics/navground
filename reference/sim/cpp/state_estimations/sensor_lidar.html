@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Lidar &#8212; navground 0.2.1 documentation</title>
+    <title>Lidar &#8212; navground 0.3.0 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=c480a563"></script>
+    <script src="../../../../_static/documentation_options.js?v=83a61292"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.2.1 documentation</p>
+    <p class="title logo__title">navground 0.3.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -181,24 +181,78 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../guides/register.html">How to register a component</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../guides/extend/index.html">How to extend navground</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/register_cpp.html">How to integrate a C++ component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/register_py.html">How to integrate a Python component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/behavior.html">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/behavior_modulation.html">Behavior modulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/kinematics.html">Kinematics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/state_estimation.html">State Estimations</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/task.html">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/scenario.html">Scenarios</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../guides/probes.html">How to record custom data in experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../guides/install.html">How to build without the ROS build tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/validate.html">How to validate code</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../scenarios/index.html">Benchmark scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../scenarios/antipodal.html">Antipodal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../scenarios/corridor.html">Corridor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../scenarios/cross.html">Cross</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../scenarios/cross_torus.html">Cross Torus</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../components/index.html">Components</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/behaviors/index.html">Behaviors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/behaviors/dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/behaviors/orca.html">Optimal Reciprocal Collision Avoidance (ORCA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/behaviors/hrvo.html">Hybrid Velocity Obstacle (HRVO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/behaviors/hl.html">Human-like (HL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/behaviors/social_force.html">Social Force</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/behavior_modulations/index.html">Behavior Modulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/behavior_modulations/limit_acceleration.html">Limiting the acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/behavior_modulations/limit_twist.html">Limiting the twist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/behavior_modulations/motor_pid.html">Motorized Wheels PID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/behavior_modulations/relaxation.html">Relaxation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/kinematics/index.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/omni.html">Omni-directional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/ahead.html">Ahead</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/4womni.html">Four-wheeled differential drive</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/bounded.html">Geometric with limited range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/discs.html">Discs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/odometry.html">Odometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/lidar.html">Lidar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/boundary.html">Boundary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/tasks/direction.html">Direction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/tasks/waypoints.html">Waypoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/tasks/path.html">Path</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/scenarios/index.html">Scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/scenarios/cross.html">Cross</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/scenarios/cross_torus.html">Cross Torus</a></li>
+</ul>
+</details></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/accessors.html">Accessors</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -208,37 +262,41 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/yaml.html">YAML</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/target.html">Target</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/behaviors/index.html">Behaviors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/state/index.html">Environment State</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/collision_computation.html">Computing collisions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/behavior_modulations/index.html">Behavior Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/controller.html">Controller</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/helper.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/build.html">Build info</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../core/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/python/yaml.html">YAML</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../core/python/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/python/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/python/target.html">Target</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/python/behaviors/index.html">Behaviors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../core/python/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/python/state/index.html">Environment State</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/python/collision_computation.html">Computing collisions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../core/python/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/python/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/python/behavior_modulations/index.html">Behavior Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/python/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/python/build.html">Build info</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../core/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/common.html">Geometry</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/register.html">Registered components</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/social_margin.html">Social margin</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/behavior.html">Behavior</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/behavior.html">Behavior</a></li>
 </ul>
 </details></li>
 </ul>
@@ -247,34 +305,32 @@
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">C++ API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="../world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../agent.html">Agent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../tasks/index.html">Tasks</a></li>
 <li class="toctree-l4 current active"><a class="reference internal" href="index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml.html">YAML</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/agent.html">Agent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../python/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../python/experiment.html">Experiments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../python/visualization.html">Visualization</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../python/recorded_experiment.html">Recorded Experiments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../python/real_time.html">Real-time simulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/helpers.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/visualization/index.html">Visualization</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/task.html">Task</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/samplers.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/scenario.html">Scenario</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/experiment.html">Experiment</a></li>
@@ -424,32 +480,32 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimationE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tjRK7Vector210ng_float_t10ng_float_tRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::LidarStateEstimation()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation9set_rangeE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_range()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation9get_rangeEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_range()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation15set_start_angleE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_start_angle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation15get_start_angleEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_start_angle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_field_of_viewE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_field_of_view()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_field_of_viewEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_field_of_view()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_error_biasE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_error_bias()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_error_biasEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_error_bias()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_error_std_devE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_error_std_dev()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_error_std_devEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_error_std_dev()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_resolutionEi"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_resolution()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_resolution()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation12set_positionERKN4core7Vector2E"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_position()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation12get_positionEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_position()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation21get_angular_incrementEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_angular_increment()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation10get_anglesEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_angles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation11read_rangesERN4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::read_ranges()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation13default_rangeE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_range</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_start_angle</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_field_of_view</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_resolutionE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_resolution</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_error_biasE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_error_bias</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_error_std_devE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_error_std_dev</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation10field_nameE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::field_name</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimationE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tjRK7Vector210ng_float_t10ng_float_tRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation9set_rangeE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation9get_rangeEv"><code class="docutils literal notranslate"><span class="pre">get_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation15set_start_angleE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_start_angle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation15get_start_angleEv"><code class="docutils literal notranslate"><span class="pre">get_start_angle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_field_of_viewE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_field_of_view()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_field_of_viewEv"><code class="docutils literal notranslate"><span class="pre">get_field_of_view()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_error_biasE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_error_bias()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_error_biasEv"><code class="docutils literal notranslate"><span class="pre">get_error_bias()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_error_std_devE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_error_std_dev()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_error_std_devEv"><code class="docutils literal notranslate"><span class="pre">get_error_std_dev()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_resolutionEi"><code class="docutils literal notranslate"><span class="pre">set_resolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">get_resolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation12set_positionERKN4core7Vector2E"><code class="docutils literal notranslate"><span class="pre">set_position()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation12get_positionEv"><code class="docutils literal notranslate"><span class="pre">get_position()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation21get_angular_incrementEv"><code class="docutils literal notranslate"><span class="pre">get_angular_increment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation10get_anglesEv"><code class="docutils literal notranslate"><span class="pre">get_angles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation11read_rangesERN4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">read_ranges()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation13default_rangeE"><code class="docutils literal notranslate"><span class="pre">default_range</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE"><code class="docutils literal notranslate"><span class="pre">default_start_angle</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE"><code class="docutils literal notranslate"><span class="pre">default_field_of_view</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_resolutionE"><code class="docutils literal notranslate"><span class="pre">default_resolution</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_error_biasE"><code class="docutils literal notranslate"><span class="pre">default_error_bias</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_error_std_devE"><code class="docutils literal notranslate"><span class="pre">default_error_std_dev</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation10field_nameE"><code class="docutils literal notranslate"><span class="pre">field_name</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -470,7 +526,7 @@
 </div>
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimationE">
-<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LidarStateEstimation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="sensor.html#_CPPv4N9navground3sim6SensorE" title="navground::sim::Sensor"><span class="n"><span class="pre">Sensor</span></span></a><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimationE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LidarStateEstimation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">sim</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Sensor</span></span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimationE" title="Link to this definition">#</a><br /></dt>
 <dd><p>A distance scanner. </p>
 <p><em>Registered properties</em>:</p>
 <p><ul class="simple">
@@ -487,7 +543,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tjRK7Vector210ng_float_t10ng_float_tRKNSt6stringE">
-<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a382b57204f794f746dadd040539bb449"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LidarStateEstimation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">range</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation13default_rangeE" title="navground::sim::LidarStateEstimation::default_range"><span class="n"><span class="pre">default_range</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">start_angle</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE" title="navground::sim::LidarStateEstimation::default_start_angle"><span class="n"><span class="pre">default_start_angle</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">field_of_view</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE" title="navground::sim::LidarStateEstimation::default_field_of_view"><span class="n"><span class="pre">default_field_of_view</span></span></a>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">resolution</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_resolutionE" title="navground::sim::LidarStateEstimation::default_resolution"><span class="n"><span class="pre">default_resolution</span></span></a>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Zero</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">error_bias</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_error_biasE" title="navground::sim::LidarStateEstimation::default_error_bias"><span class="n"><span class="pre">default_error_bias</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">error_std_dev</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_error_std_devE" title="navground::sim::LidarStateEstimation::default_error_std_dev"><span class="n"><span class="pre">default_error_std_dev</span></span></a>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tjRK7Vector210ng_float_t10ng_float_tRKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a382b57204f794f746dadd040539bb449"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LidarStateEstimation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">range</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation13default_rangeE" title="navground::sim::LidarStateEstimation::default_range"><span class="n"><span class="pre">default_range</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">start_angle</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE" title="navground::sim::LidarStateEstimation::default_start_angle"><span class="n"><span class="pre">default_start_angle</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">field_of_view</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE" title="navground::sim::LidarStateEstimation::default_field_of_view"><span class="n"><span class="pre">default_field_of_view</span></span></a>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">resolution</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_resolutionE" title="navground::sim::LidarStateEstimation::default_resolution"><span class="n"><span class="pre">default_resolution</span></span></a>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">Vector2</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">Vector2</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Zero</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">error_bias</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_error_biasE" title="navground::sim::LidarStateEstimation::default_error_bias"><span class="n"><span class="pre">default_error_bias</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">error_std_dev</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_error_std_devE" title="navground::sim::LidarStateEstimation::default_error_std_dev"><span class="n"><span class="pre">default_error_std_dev</span></span></a>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tjRK7Vector210ng_float_t10ng_float_tRKNSt6stringE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -683,7 +739,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim20LidarStateEstimation11read_rangesERN4core12SensingStateE">
-<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1aba2cbfb435b9009ab18b14d36ff2e5c4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">read_ranges</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/state.html#_CPPv4N9navground4core12SensingStateE" title="navground::core::SensingState"><span class="n"><span class="pre">SensingState</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">state</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim20LidarStateEstimation11read_rangesERN4core12SensingStateE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1aba2cbfb435b9009ab18b14d36ff2e5c4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">read_ranges</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/state/sensing.html#_CPPv4N9navground4core12SensingStateE" title="navground::core::SensingState"><span class="n"><span class="pre">SensingState</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">state</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim20LidarStateEstimation11read_rangesERN4core12SensingStateE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Reads the ranges stored in a sensing state. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -706,13 +762,13 @@
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE">
-<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1af80ffc99b5fc5a89abf878606feeeb5e"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_start_angle</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="k"><span class="pre">static_cast</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">M_PI</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1af80ffc99b5fc5a89abf878606feeeb5e"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_start_angle</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="k"><span class="pre">static_cast</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core2PIE" title="navground::core::PI"><span class="n"><span class="pre">PI</span></span></a><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The default start angle [radians] </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE">
-<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a32cca1d983afd95d40342d8a14e5ae30"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_field_of_view</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">TWO_PI</span></span><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_lidar_state_estimation_1a32cca1d983afd95d40342d8a14e5ae30"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">default_field_of_view</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core6TWO_PIE" title="navground::core::TWO_PI"><span class="n"><span class="pre">TWO_PI</span></span></a><a class="headerlink" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The default field of view [radians] </p>
 </dd></dl>
 
@@ -791,32 +847,32 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimationE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tjRK7Vector210ng_float_t10ng_float_tRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::LidarStateEstimation()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation9set_rangeE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_range()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation9get_rangeEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_range()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation15set_start_angleE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_start_angle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation15get_start_angleEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_start_angle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_field_of_viewE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_field_of_view()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_field_of_viewEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_field_of_view()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_error_biasE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_error_bias()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_error_biasEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_error_bias()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_error_std_devE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_error_std_dev()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_error_std_devEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_error_std_dev()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_resolutionEi"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_resolution()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_resolution()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation12set_positionERKN4core7Vector2E"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::set_position()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation12get_positionEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_position()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation21get_angular_incrementEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_angular_increment()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation10get_anglesEv"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::get_angles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation11read_rangesERN4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::read_ranges()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation13default_rangeE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_range</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_start_angle</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_field_of_view</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_resolutionE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_resolution</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_error_biasE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_error_bias</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_error_std_devE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::default_error_std_dev</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation10field_nameE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation::field_name</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimationE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation20LidarStateEstimationE10ng_float_t10ng_float_t10ng_float_tjRK7Vector210ng_float_t10ng_float_tRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">LidarStateEstimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation9set_rangeE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation9get_rangeEv"><code class="docutils literal notranslate"><span class="pre">get_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation15set_start_angleE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_start_angle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation15get_start_angleEv"><code class="docutils literal notranslate"><span class="pre">get_start_angle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_field_of_viewE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_field_of_view()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_field_of_viewEv"><code class="docutils literal notranslate"><span class="pre">get_field_of_view()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_error_biasE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_error_bias()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_error_biasEv"><code class="docutils literal notranslate"><span class="pre">get_error_bias()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation17set_error_std_devE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_error_std_dev()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation17get_error_std_devEv"><code class="docutils literal notranslate"><span class="pre">get_error_std_dev()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation14set_resolutionEi"><code class="docutils literal notranslate"><span class="pre">set_resolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">get_resolution()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation12set_positionERKN4core7Vector2E"><code class="docutils literal notranslate"><span class="pre">set_position()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation12get_positionEv"><code class="docutils literal notranslate"><span class="pre">get_position()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation21get_angular_incrementEv"><code class="docutils literal notranslate"><span class="pre">get_angular_increment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation10get_anglesEv"><code class="docutils literal notranslate"><span class="pre">get_angles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim20LidarStateEstimation11read_rangesERN4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">read_ranges()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation13default_rangeE"><code class="docutils literal notranslate"><span class="pre">default_range</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation19default_start_angleE"><code class="docutils literal notranslate"><span class="pre">default_start_angle</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_field_of_viewE"><code class="docutils literal notranslate"><span class="pre">default_field_of_view</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_resolutionE"><code class="docutils literal notranslate"><span class="pre">default_resolution</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation18default_error_biasE"><code class="docutils literal notranslate"><span class="pre">default_error_bias</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation21default_error_std_devE"><code class="docutils literal notranslate"><span class="pre">default_error_std_dev</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim20LidarStateEstimation10field_nameE"><code class="docutils literal notranslate"><span class="pre">field_name</span></code></a></li>
 </ul>
 </li>
 </ul>

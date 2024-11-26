@@ -8,7 +8,7 @@ Benchmarks scenarios provide common scenarios where to test navigation behavior.
 
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
    antipodal
    corridor

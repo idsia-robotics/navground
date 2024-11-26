@@ -20,7 +20,6 @@ Install the appropriate package manager for your system
 
       We are going to use ``apt``.
 
-
    .. tab:: Windows
 
       We are going to use ``choco``, install it from `Chocolatey <https://chocolatey.org/install>`_.
@@ -39,19 +38,19 @@ Install the binary dependencies:
 
       .. code-block:: console
 
-         brew install cmake git python3
+         $ brew install cmake git python3
 
    .. tab:: Linux
 
       .. code-block:: console
 
-         sudo apt install -y build-essential cmake git python3-dev python3-pip
+         $ sudo apt install -y build-essential cmake git python3-dev python3-pip
 
    .. tab:: Windows
 
       .. code-block:: console
 
-         choco install -y cmake git python3
+         $ choco install -y cmake git python3
 
 Clone this repository in the ``src`` directory
 
@@ -85,10 +84,12 @@ The following script installs everything needed to run navground simulations and
 
       .. code-block:: console
    
-         python3 -m pip install colcon-common-extensions vcstool numpy h5py git+https://github.com/jeguzzi/pybind11_mkdoc@rst
-         vcs import --input src/navground/installation/deps.repos
-         vcs import --input src/navground/installation/ament.repos
+         python3 -m pip install colcon-common-extensions vcstool numpy h5py PyYAML git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+         vcs import --shallow --input src/navground/installation/deps.repos
+         vcs import --shallow --input src/navground/installation/ament.repos
          export COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+         colcon build --metas src/navground/colcon/navground.meta --packages-up-to ament_cmake ament_package ament_index_cpp
+         source install/setup.bash
          colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_examples navground_examples_py navground_examples_yaml
 
    .. tab:: Windows
@@ -96,9 +97,11 @@ The following script installs everything needed to run navground simulations and
       .. code-block:: console
 
          python -m pip install colcon-common-extensions vcstool numpy h5py git+https://github.com/jeguzzi/pybind11_mkdoc@rst
-         vcs import --input src/navground/installation/deps.repos
-         vcs import --input src/navground/installation/ament.repos
+         vcs import --shallow --input src/navground/installation/deps.repos
+         vcs import --shallow --input src/navground/installation/ament.repos
          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+         colcon build --metas src/navground/colcon/navground.meta --packages-up-to ament_cmake ament_package ament_index_cpp
+         install\setup.bat
          colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_examples navground_examples_py navground_examples_yaml
       
 .. note::

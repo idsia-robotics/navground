@@ -2,6 +2,8 @@
 Kinematics
 ==========
 
+.. py:currentmodule:: navground.core
+
 Abstract classes
 ================
 
@@ -13,9 +15,10 @@ Kinematics base class
    :inherited-members:
    :exclude-members: __new__
 
+.. py:module:: navground.core.kinematics
+
 Wheeled kinematics based class
 ------------------------------
-
 
 .. autoclass:: navground.core.kinematics.WheeledKinematics
    :members:

@@ -2,8 +2,11 @@
 Behaviors
 =========
 
+.. py:module:: navground.core.behaviors
+   :synopsis: Behaviors
+
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    behavior
    dummy

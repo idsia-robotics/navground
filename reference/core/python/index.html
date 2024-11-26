@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Python API &#8212; navground 0.2.1 documentation</title>
+    <title>Python API &#8212; navground 0.3.0 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=c480a563"></script>
+    <script src="../../../_static/documentation_options.js?v=83a61292"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -57,7 +57,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Geometry" href="common.html" />
-    <link rel="prev" title="Helpers" href="../cpp/helper.html" />
+    <link rel="prev" title="Build info" href="../cpp/build.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -135,7 +135,7 @@
   
   
   
-    <p class="title logo__title">navground 0.2.1 documentation</p>
+    <p class="title logo__title">navground 0.3.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -183,24 +183,78 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sensors.html">Sensors</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../guides/register.html">How to register a component</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../guides/extend/index.html">How to extend navground</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/register_cpp.html">How to integrate a C++ component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/register_py.html">How to integrate a Python component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior.html">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior_modulation.html">Behavior modulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/kinematics.html">Kinematics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/state_estimation.html">State Estimations</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/task.html">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/scenario.html">Scenarios</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/probes.html">How to record custom data in experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/install.html">How to build without the ROS build tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/validate.html">How to validate code</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../scenarios/index.html">Benchmark scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/antipodal.html">Antipodal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/corridor.html">Corridor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross.html">Cross</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross_torus.html">Cross Torus</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../components/index.html">Components</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/behaviors/index.html">Behaviors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/orca.html">Optimal Reciprocal Collision Avoidance (ORCA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/hrvo.html">Hybrid Velocity Obstacle (HRVO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/hl.html">Human-like (HL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/social_force.html">Social Force</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/behavior_modulations/index.html">Behavior Modulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/limit_acceleration.html">Limiting the acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/limit_twist.html">Limiting the twist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/motor_pid.html">Motorized Wheels PID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/relaxation.html">Relaxation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/kinematics/index.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/omni.html">Omni-directional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/ahead.html">Ahead</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/4womni.html">Four-wheeled differential drive</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/bounded.html">Geometric with limited range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/discs.html">Discs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/odometry.html">Odometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/lidar.html">Lidar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/boundary.html">Boundary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/direction.html">Direction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/waypoints.html">Waypoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/path.html">Path</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/scenarios/index.html">Scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/cross.html">Cross</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/cross_torus.html">Cross Torus</a></li>
+</ul>
+</details></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/accessors.html">Accessors</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -210,37 +264,41 @@
 <li class="toctree-l4"><a class="reference internal" href="../cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/yaml.html">YAML</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../cpp/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/target.html">Target</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/behaviors/index.html">Behaviors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../cpp/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/state/index.html">Environment State</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/collision_computation.html">Computing collisions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../cpp/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/behavior_modulations/index.html">Behavior Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/controller.html">Controller</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/helper.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/build.html">Build info</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">Python API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yaml.html">YAML</a></li>
-<li class="toctree-l4"><a class="reference internal" href="kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="target.html">Target</a></li>
 <li class="toctree-l4"><a class="reference internal" href="behaviors/index.html">Behaviors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="state/index.html">Environment State</a></li>
 <li class="toctree-l4"><a class="reference internal" href="collision_computation.html">Computing collisions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="behavior_modulations/index.html">Behavior Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build.html">Build info</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/common.html">Geometry</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../yaml/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/register.html">Registered components</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/social_margin.html">Social margin</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../yaml/behavior.html">Behavior</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/behavior_modulation.html">Behavior Modulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/behavior.html">Behavior</a></li>
 </ul>
 </details></li>
 </ul>
@@ -249,34 +307,32 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/agent.html">Agent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/yaml.html">YAML</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/agent.html">Agent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/experiment.html">Experiments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/visualization.html">Visualization</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/recorded_experiment.html">Recorded Experiments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/real_time.html">Real-time simulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/helpers.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/visualization/index.html">Visualization</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/task.html">Task</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/samplers.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/scenario.html">Scenario</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/experiment.html">Experiment</a></li>
@@ -403,7 +459,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -419,6 +477,14 @@
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-navground.core">navground.core</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -430,271 +496,104 @@
                   
   <section id="python-api">
 <h1>Python API<a class="headerlink" href="#python-api" title="Link to this heading">#</a></h1>
+<section id="module-navground.core">
+<span id="navground-core"></span><h2>navground.core<a class="headerlink" href="#module-navground.core" title="Link to this heading">#</a></h2>
+<p>This Python package exposes a similar interface as <a class="reference internal" href="../cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">navground::core</span></code></a> that is wraps using <a class="reference external" href="https://pybind11.readthedocs.io">pybind11</a>.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="common.html">Geometry</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.core.Frame"><code class="docutils literal notranslate"><span class="pre">Frame</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Frame.__init__"><code class="docutils literal notranslate"><span class="pre">Frame.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Frame.absolute"><code class="docutils literal notranslate"><span class="pre">Frame.absolute</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Frame.name"><code class="docutils literal notranslate"><span class="pre">Frame.name</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Frame.relative"><code class="docutils literal notranslate"><span class="pre">Frame.relative</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Frame.value"><code class="docutils literal notranslate"><span class="pre">Frame.value</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.Vector2"><code class="docutils literal notranslate"><span class="pre">Vector2</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.core.Pose2"><code class="docutils literal notranslate"><span class="pre">Pose2</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Pose2.__init__"><code class="docutils literal notranslate"><span class="pre">Pose2.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Pose2.absolute"><code class="docutils literal notranslate"><span class="pre">Pose2.absolute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Pose2.integrate"><code class="docutils literal notranslate"><span class="pre">Pose2.integrate()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Pose2.relative"><code class="docutils literal notranslate"><span class="pre">Pose2.relative()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Pose2.rotate"><code class="docutils literal notranslate"><span class="pre">Pose2.rotate()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Pose2.orientation"><code class="docutils literal notranslate"><span class="pre">Pose2.orientation</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Pose2.position"><code class="docutils literal notranslate"><span class="pre">Pose2.position</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.core.Twist2"><code class="docutils literal notranslate"><span class="pre">Twist2</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Twist2.__init__"><code class="docutils literal notranslate"><span class="pre">Twist2.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Twist2.absolute"><code class="docutils literal notranslate"><span class="pre">Twist2.absolute()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Twist2.interpolate"><code class="docutils literal notranslate"><span class="pre">Twist2.interpolate()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Twist2.is_almost_zero"><code class="docutils literal notranslate"><span class="pre">Twist2.is_almost_zero()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Twist2.relative"><code class="docutils literal notranslate"><span class="pre">Twist2.relative()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Twist2.rotate"><code class="docutils literal notranslate"><span class="pre">Twist2.rotate()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Twist2.snap_to_zero"><code class="docutils literal notranslate"><span class="pre">Twist2.snap_to_zero()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Twist2.angular_speed"><code class="docutils literal notranslate"><span class="pre">Twist2.angular_speed</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Twist2.frame"><code class="docutils literal notranslate"><span class="pre">Twist2.frame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="common.html#navground.core.Twist2.velocity"><code class="docutils literal notranslate"><span class="pre">Twist2.velocity</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.core.orientation_of"><code class="docutils literal notranslate"><span class="pre">orientation_of()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.core.normalize_angle"><code class="docutils literal notranslate"><span class="pre">normalize_angle()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.core.to_relative"><code class="docutils literal notranslate"><span class="pre">to_relative()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.core.to_absolute"><code class="docutils literal notranslate"><span class="pre">to_absolute()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.core.to_relative_point"><code class="docutils literal notranslate"><span class="pre">to_relative_point()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.core.to_absolute_point"><code class="docutils literal notranslate"><span class="pre">to_absolute_point()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.core.unit"><code class="docutils literal notranslate"><span class="pre">unit()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.core.rotate"><code class="docutils literal notranslate"><span class="pre">rotate()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#navground.core.clamp_norm"><code class="docutils literal notranslate"><span class="pre">clamp_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html#two-dimensional">Two dimensional</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="auto_registration.html">Auto registration</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="property.html">Properties</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="property.html#navground.core.PropertyField"><code class="docutils literal notranslate"><span class="pre">PropertyField</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="property.html#navground.core._navground.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="property.html#navground.core._navground.HasProperties"><code class="docutils literal notranslate"><span class="pre">HasProperties</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="register.html">Register</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="register.html#navground.core.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="register.html#navground.core._navground.BehaviorRegister"><code class="docutils literal notranslate"><span class="pre">BehaviorRegister</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="register.html#navground.core._navground.KinematicsRegister"><code class="docutils literal notranslate"><span class="pre">KinematicsRegister</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="plugins.html">Plugins</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugins.html#navground.core.load_plugins"><code class="docutils literal notranslate"><span class="pre">load_plugins()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="plugins.html#navground.core.get_loaded_plugins"><code class="docutils literal notranslate"><span class="pre">get_loaded_plugins()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="property.html">Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="register.html">Register</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html">Plugins</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yaml.html">YAML</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yaml.html#load_behavior"><code class="docutils literal notranslate"><span class="pre">load_behavior()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yaml.html#load_kinematics"><code class="docutils literal notranslate"><span class="pre">load_kinematics()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.core.load_behavior"><code class="docutils literal notranslate"><span class="pre">load_behavior()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.core.load_behavior_modulation"><code class="docutils literal notranslate"><span class="pre">load_behavior_modulation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.core.load_kinematics"><code class="docutils literal notranslate"><span class="pre">load_kinematics()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.core.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#schema">Schema</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="kinematics.html">Kinematics</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kinematics.html#abstract-classes">Abstract classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="kinematics.html#kinematics-base-class">Kinematics base class</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kinematics.html#wheeled-kinematics-based-class">Wheeled kinematics based class</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="kinematics.html#omnidirectional">Omnidirectional</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="kinematics.html#navground.core.kinematics.OmnidirectionalKinematics"><code class="docutils literal notranslate"><span class="pre">OmnidirectionalKinematics</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="kinematics.html#ahead">Ahead</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="kinematics.html#navground.core.kinematics.AheadKinematics"><code class="docutils literal notranslate"><span class="pre">AheadKinematics</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="kinematics.html#two-wheels-differential-drive">Two wheels differential drive</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="kinematics.html#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics"><code class="docutils literal notranslate"><span class="pre">TwoWheelsDifferentialDriveKinematics</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="kinematics.html#two-wheels-differential-drive-with-dynamic-constraints">Two wheels differential drive with dynamic constraints</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="kinematics.html#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics"><code class="docutils literal notranslate"><span class="pre">DynamicTwoWheelsDifferentialDriveKinematics</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="kinematics.html#four-wheels-omnidirectional-drive">Four wheels omnidirectional drive</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="kinematics.html#navground.core.kinematics.FourWheelsOmniDriveKinematics"><code class="docutils literal notranslate"><span class="pre">FourWheelsOmniDriveKinematics</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="kinematics/index.html">Kinematics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kinematics/kinematics.html">Base Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kinematics/omni.html">Omnidirectional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kinematics/ahead.html">Ahead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kinematics/wheeled.html">Wheeled kinematics based class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kinematics/2wdiff.html">Two wheels differential drive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kinematics/2wdiffdyn.html">Two wheels differential drive with dynamic constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kinematics/4wdiff.html">Four wheels omnidirectional drive</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="target.html">Target</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="target.html#navground.core.Path"><code class="docutils literal notranslate"><span class="pre">Path</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Path.__init__"><code class="docutils literal notranslate"><span class="pre">Path.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Path.get_point"><code class="docutils literal notranslate"><span class="pre">Path.get_point()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Path.track"><code class="docutils literal notranslate"><span class="pre">Path.track()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Path.coordinate"><code class="docutils literal notranslate"><span class="pre">Path.coordinate</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Path.curve"><code class="docutils literal notranslate"><span class="pre">Path.curve</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Path.length"><code class="docutils literal notranslate"><span class="pre">Path.length</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Path.loop"><code class="docutils literal notranslate"><span class="pre">Path.loop</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Path.project"><code class="docutils literal notranslate"><span class="pre">Path.project</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="target.html#navground.core.Target"><code class="docutils literal notranslate"><span class="pre">Target</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.Direction"><code class="docutils literal notranslate"><span class="pre">Target.Direction()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.Orientation"><code class="docutils literal notranslate"><span class="pre">Target.Orientation()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.Point"><code class="docutils literal notranslate"><span class="pre">Target.Point()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.Pose"><code class="docutils literal notranslate"><span class="pre">Target.Pose()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.Stop"><code class="docutils literal notranslate"><span class="pre">Target.Stop()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.Twist"><code class="docutils literal notranslate"><span class="pre">Target.Twist()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.Velocity"><code class="docutils literal notranslate"><span class="pre">Target.Velocity()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.__init__"><code class="docutils literal notranslate"><span class="pre">Target.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.satisfied"><code class="docutils literal notranslate"><span class="pre">Target.satisfied()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.angular_speed"><code class="docutils literal notranslate"><span class="pre">Target.angular_speed</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.direction"><code class="docutils literal notranslate"><span class="pre">Target.direction</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.orientation"><code class="docutils literal notranslate"><span class="pre">Target.orientation</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.orientation_tolerance"><code class="docutils literal notranslate"><span class="pre">Target.orientation_tolerance</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.path"><code class="docutils literal notranslate"><span class="pre">Target.path</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.position"><code class="docutils literal notranslate"><span class="pre">Target.position</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.position_tolerance"><code class="docutils literal notranslate"><span class="pre">Target.position_tolerance</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.speed"><code class="docutils literal notranslate"><span class="pre">Target.speed</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="target.html#navground.core.Target.valid"><code class="docutils literal notranslate"><span class="pre">Target.valid</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="target.html#navground.core.Curve"><code class="docutils literal notranslate"><span class="pre">Curve</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="target.html#navground.core.Projection"><code class="docutils literal notranslate"><span class="pre">Projection</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="target.html#navground.core.Path"><code class="docutils literal notranslate"><span class="pre">Path</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="target.html#navground.core.Target"><code class="docutils literal notranslate"><span class="pre">Target</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="behaviors/index.html">Behaviors</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="behaviors/behavior.html">Base class</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior.Heading"><code class="docutils literal notranslate"><span class="pre">Heading</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior"><code class="docutils literal notranslate"><span class="pre">Behavior</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="behaviors/behavior.html">Base class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behaviors/dummy.html">Dummy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behaviors/py_dummy.html">PyDummy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behaviors/HL.html">Human-Like</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behaviors/ORCA.html">ORCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behaviors/HRVO.html">HRVO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behaviors/social_force.html">Social Forces</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="behaviors/dummy.html">Dummy</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="behaviors/dummy.html#navground.core.behaviors.DummyBehavior"><code class="docutils literal notranslate"><span class="pre">DummyBehavior</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="behaviors/py_dummy.html">PyDummy</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="behaviors/py_dummy.html#navground.core.behaviors.PyDummyBehavior"><code class="docutils literal notranslate"><span class="pre">PyDummyBehavior</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="behaviors/HL.html">Human-Like</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="behaviors/HL.html#navground.core.behaviors.HLBehavior"><code class="docutils literal notranslate"><span class="pre">HLBehavior</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="behaviors/ORCA.html">ORCA</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="behaviors/ORCA.html#navground.core.behaviors.ORCABehavior"><code class="docutils literal notranslate"><span class="pre">ORCABehavior</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="behaviors/HRVO.html">HRVO</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="behaviors/HRVO.html#navground.core.behaviors.HRVOBehavior"><code class="docutils literal notranslate"><span class="pre">HRVOBehavior</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="behaviors/social_force.html">Social Forces</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior"><code class="docutils literal notranslate"><span class="pre">SocialForceBehavior</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="state.html">Environment State</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="state.html#base-class">Base class</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="state.html#navground.core.EnvironmentState"><code class="docutils literal notranslate"><span class="pre">EnvironmentState</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="state.html#geometric">Geometric</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="state.html#navground.core.LineSegment"><code class="docutils literal notranslate"><span class="pre">LineSegment</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="state.html#navground.core.Disc"><code class="docutils literal notranslate"><span class="pre">Disc</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="state.html#navground.core.Neighbor"><code class="docutils literal notranslate"><span class="pre">Neighbor</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="state.html#navground.core.GeometricState"><code class="docutils literal notranslate"><span class="pre">GeometricState</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="state.html#sensing">Sensing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="state.html#navground.core.BufferDescription"><code class="docutils literal notranslate"><span class="pre">BufferDescription</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="state.html#navground.core.Buffer"><code class="docutils literal notranslate"><span class="pre">Buffer</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="state.html#navground.core.SensingState"><code class="docutils literal notranslate"><span class="pre">SensingState</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="state/index.html">Environment State</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="state/base.html">Base class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="state/geometric.html">Geometric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="state/sensing.html">Sensing</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="collision_computation.html">Computing collisions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="collision_computation.html#collisioncomputation">CollisionComputation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="collision_computation.html#navground.core.CollisionComputation"><code class="docutils literal notranslate"><span class="pre">CollisionComputation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_computation.html#collisioncomputation">CollisionComputation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_computation.html#cachedcollisioncomputation">CachedCollisionComputation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="collision_computation.html#cachedcollisioncomputation">CachedCollisionComputation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="collision_computation.html#navground.core.CachedCollisionComputation"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="social_margin.html">Social margin</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="social_margin.html#navground.core.SocialMarginModulation"><code class="docutils literal notranslate"><span class="pre">SocialMarginModulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="social_margin.html#navground.core.SocialMarginZeroModulation"><code class="docutils literal notranslate"><span class="pre">SocialMarginZeroModulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="social_margin.html#navground.core.SocialMarginConstantModulation"><code class="docutils literal notranslate"><span class="pre">SocialMarginConstantModulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="social_margin.html#navground.core.SocialMarginLinearModulation"><code class="docutils literal notranslate"><span class="pre">SocialMarginLinearModulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="social_margin.html#navground.core.SocialMarginQuadraticModulation"><code class="docutils literal notranslate"><span class="pre">SocialMarginQuadraticModulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="social_margin.html#navground.core.SocialMarginLogisticModulation"><code class="docutils literal notranslate"><span class="pre">SocialMarginLogisticModulation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="social_margin.html#navground.core.SocialMargin"><code class="docutils literal notranslate"><span class="pre">SocialMargin</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="modulations.html">Modulations</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="behavior_modulation.html">Behavior Modulation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="behavior_modulation.html#navground.core.BehaviorModulation"><code class="docutils literal notranslate"><span class="pre">BehaviorModulation</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="behavior_modulation.html#relaxation">Relaxation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="behavior_modulation.html#limit-twist">Limit Twist</a></li>
-<li class="toctree-l3"><a class="reference internal" href="behavior_modulation.html#limit-acceleration">Limit Acceleration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="behavior_modulation.html#motor-pid">Motor PID</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="social_margin.html">Social margin</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="social_margin.html#navground.core._navground.SocialMarginModulation"><code class="docutils literal notranslate"><span class="pre">SocialMarginModulation</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="social_margin.html#navground.core._navground.SocialMarginZeroModulation"><code class="docutils literal notranslate"><span class="pre">SocialMarginZeroModulation</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="social_margin.html#navground.core._navground.SocialMarginConstantModulation"><code class="docutils literal notranslate"><span class="pre">SocialMarginConstantModulation</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="social_margin.html#navground.core._navground.SocialMarginLinearModulation"><code class="docutils literal notranslate"><span class="pre">SocialMarginLinearModulation</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="social_margin.html#navground.core._navground.SocialMarginQuadraticModulation"><code class="docutils literal notranslate"><span class="pre">SocialMarginQuadraticModulation</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="social_margin.html#navground.core._navground.SocialMarginLogisticModulation"><code class="docutils literal notranslate"><span class="pre">SocialMarginLogisticModulation</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="social_margin.html#navground.core.SocialMargin"><code class="docutils literal notranslate"><span class="pre">SocialMargin</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="behavior_modulations/index.html">Behavior Modulations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="behavior_modulations/behavior_modulation.html">Base class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behavior_modulations/limit_acceleration.html">Limit Acceleration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behavior_modulations/limit_twist.html">Limit Twist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behavior_modulations/motor_pid.html">Motor PID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="behavior_modulations/relaxation.html">Relaxation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="controller.html">Controller</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="controller.html#navground.core.Action.State"><code class="docutils literal notranslate"><span class="pre">State</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.State.idle"><code class="docutils literal notranslate"><span class="pre">State.idle</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.State.running"><code class="docutils literal notranslate"><span class="pre">State.running</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.State.failure"><code class="docutils literal notranslate"><span class="pre">State.failure</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.State.success"><code class="docutils literal notranslate"><span class="pre">State.success</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.State.__init__"><code class="docutils literal notranslate"><span class="pre">State.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.State.name"><code class="docutils literal notranslate"><span class="pre">State.name</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.State.value"><code class="docutils literal notranslate"><span class="pre">State.value</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller.html#navground.core.Action.State"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller.html#navground.core.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller.html#navground.core.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="controller.html#navground.core.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.__init__"><code class="docutils literal notranslate"><span class="pre">Action.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.abort"><code class="docutils literal notranslate"><span class="pre">Action.abort()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.done"><code class="docutils literal notranslate"><span class="pre">Action.done</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.done_cb"><code class="docutils literal notranslate"><span class="pre">Action.done_cb</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.running"><code class="docutils literal notranslate"><span class="pre">Action.running</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.running_cb"><code class="docutils literal notranslate"><span class="pre">Action.running_cb</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Action.state"><code class="docutils literal notranslate"><span class="pre">Action.state</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="controller.html#navground.core.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.__init__"><code class="docutils literal notranslate"><span class="pre">Controller.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.follow_direction"><code class="docutils literal notranslate"><span class="pre">Controller.follow_direction()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.follow_manual_cmd"><code class="docutils literal notranslate"><span class="pre">Controller.follow_manual_cmd()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.follow_path"><code class="docutils literal notranslate"><span class="pre">Controller.follow_path()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.follow_point"><code class="docutils literal notranslate"><span class="pre">Controller.follow_point()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.follow_pose"><code class="docutils literal notranslate"><span class="pre">Controller.follow_pose()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.follow_twist"><code class="docutils literal notranslate"><span class="pre">Controller.follow_twist()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.follow_velocity"><code class="docutils literal notranslate"><span class="pre">Controller.follow_velocity()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.go_to_pose"><code class="docutils literal notranslate"><span class="pre">Controller.go_to_pose()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.go_to_position"><code class="docutils literal notranslate"><span class="pre">Controller.go_to_position()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.set_cmd_cb"><code class="docutils literal notranslate"><span class="pre">Controller.set_cmd_cb()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.stop"><code class="docutils literal notranslate"><span class="pre">Controller.stop()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.update"><code class="docutils literal notranslate"><span class="pre">Controller.update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.behavior"><code class="docutils literal notranslate"><span class="pre">Controller.behavior</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.cmd_frame"><code class="docutils literal notranslate"><span class="pre">Controller.cmd_frame</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.idle"><code class="docutils literal notranslate"><span class="pre">Controller.idle</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.speed_tolerance"><code class="docutils literal notranslate"><span class="pre">Controller.speed_tolerance</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html#navground.core.Controller.state"><code class="docutils literal notranslate"><span class="pre">Controller.state</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Build info</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="build.html#navground.core.BuildInfo"><code class="docutils literal notranslate"><span class="pre">BuildInfo</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html#navground.core.DependencyInfo"><code class="docutils literal notranslate"><span class="pre">DependencyInfo</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html#navground.core.BuildDependencies"><code class="docutils literal notranslate"><span class="pre">BuildDependencies</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html#navground.core.PkgDependencies"><code class="docutils literal notranslate"><span class="pre">PkgDependencies</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html#navground.core.get_build_info"><code class="docutils literal notranslate"><span class="pre">get_build_info()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html#navground.core.get_build_dependencies"><code class="docutils literal notranslate"><span class="pre">get_build_dependencies()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html#navground.core.get_plugins_dependencies"><code class="docutils literal notranslate"><span class="pre">get_plugins_dependencies()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </div>
+</section>
 </section>
 
 
@@ -709,12 +608,12 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../cpp/helper.html"
+       href="../cpp/build.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Helpers</p>
+        <p class="prev-next-title">Build info</p>
       </div>
     </a>
     <a class="right-next"
@@ -732,6 +631,22 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-navground.core">navground.core</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

@@ -6,4 +6,4 @@ Human-Like
    #include "navground/core/behaviors/HL.h"
 
 .. doxygenclass:: navground::core::HLBehavior
-    :members:
+   :members:

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>World &#8212; navground 0.2.1 documentation</title>
+    <title>World &#8212; navground 0.3.0 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=c480a563"></script>
+    <script src="../../../_static/documentation_options.js?v=83a61292"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.2.1 documentation</p>
+    <p class="title logo__title">navground 0.3.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -181,24 +181,78 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/playback.html">Load and playing back recorded experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sensors.html">Sensors</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../guides/register.html">How to register a component</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../guides/extend/index.html">How to extend navground</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/register_cpp.html">How to integrate a C++ component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/register_py.html">How to integrate a Python component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior.html">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior_modulation.html">Behavior modulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/kinematics.html">Kinematics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/state_estimation.html">State Estimations</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/task.html">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/scenario.html">Scenarios</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/probes.html">How to record custom data in experiments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guides/install.html">How to build without the ROS build tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/validate.html">How to validate code</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../scenarios/index.html">Benchmark scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/antipodal.html">Antipodal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/corridor.html">Corridor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross.html">Cross</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross_torus.html">Cross Torus</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../components/index.html">Components</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/behaviors/index.html">Behaviors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/orca.html">Optimal Reciprocal Collision Avoidance (ORCA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/hrvo.html">Hybrid Velocity Obstacle (HRVO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/hl.html">Human-like (HL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/social_force.html">Social Force</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/behavior_modulations/index.html">Behavior Modulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/limit_acceleration.html">Limiting the acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/limit_twist.html">Limiting the twist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/motor_pid.html">Motorized Wheels PID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/relaxation.html">Relaxation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/kinematics/index.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/omni.html">Omni-directional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/ahead.html">Ahead</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/4womni.html">Four-wheeled differential drive</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/bounded.html">Geometric with limited range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/discs.html">Discs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/odometry.html">Odometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/lidar.html">Lidar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/boundary.html">Boundary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/direction.html">Direction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/waypoints.html">Waypoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/path.html">Path</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/scenarios/index.html">Scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/cross.html">Cross</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/cross_torus.html">Cross Torus</a></li>
+</ul>
+</details></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/accessors.html">Accessors</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -208,37 +262,41 @@
 <li class="toctree-l4"><a class="reference internal" href="../../core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/cpp/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/cpp/yaml.html">YAML</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/cpp/target.html">Target</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/cpp/behaviors/index.html">Behaviors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/state/index.html">Environment State</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/cpp/collision_computation.html">Computing collisions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/behavior_modulations/index.html">Behavior Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/cpp/controller.html">Controller</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/cpp/helper.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/build.html">Build info</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../core/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../core/python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/python/yaml.html">YAML</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../core/python/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/python/target.html">Target</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/python/behaviors/index.html">Behaviors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../core/python/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/state/index.html">Environment State</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/python/collision_computation.html">Computing collisions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../core/python/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/behavior_modulations/index.html">Behavior Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/python/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/build.html">Build info</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../core/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../core/yaml/common.html">Geometry</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../core/yaml/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/yaml/register.html">Registered components</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/yaml/social_margin.html">Social margin</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../core/yaml/behavior.html">Behavior</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../core/yaml/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/yaml/behavior.html">Behavior</a></li>
 </ul>
 </details></li>
 </ul>
@@ -247,34 +305,32 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/agent.html">Agent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../cpp/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../cpp/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/yaml.html">YAML</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Python API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="agent.html">Agent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="experiment.html">Experiments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="visualization.html">Visualization</a></li>
-<li class="toctree-l4"><a class="reference internal" href="recorded_experiment.html">Recorded Experiments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="real_time.html">Real-time simulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="helpers.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualization/index.html">Visualization</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/task.html">Task</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/samplers.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/scenario.html">Scenario</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/experiment.html">Experiment</a></li>
@@ -424,75 +480,85 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.BoundingBox"><code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.BoundingBox.__init__"><code class="docutils literal notranslate"><span class="pre">BoundingBox.__init__()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.BoundingBox"><code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.BoundingBox.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.BoundingBox.schema"><code class="docutils literal notranslate"><span class="pre">schema()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Entity"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Entity.has_been_in_collision_since"><code class="docutils literal notranslate"><span class="pre">Entity.has_been_in_collision_since()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Entity.last_collision_time"><code class="docutils literal notranslate"><span class="pre">Entity.last_collision_time</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Entity"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Entity.has_been_in_collision_since"><code class="docutils literal notranslate"><span class="pre">has_been_in_collision_since()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Entity.last_collision_time"><code class="docutils literal notranslate"><span class="pre">last_collision_time</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle"><code class="docutils literal notranslate"><span class="pre">Obstacle</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.__init__"><code class="docutils literal notranslate"><span class="pre">Obstacle.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.disc"><code class="docutils literal notranslate"><span class="pre">Obstacle.disc</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle"><code class="docutils literal notranslate"><span class="pre">Obstacle</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.schema"><code class="docutils literal notranslate"><span class="pre">schema()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.disc"><code class="docutils literal notranslate"><span class="pre">disc</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall"><code class="docutils literal notranslate"><span class="pre">Wall</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.__init__"><code class="docutils literal notranslate"><span class="pre">Wall.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.line"><code class="docutils literal notranslate"><span class="pre">Wall.line</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall"><code class="docutils literal notranslate"><span class="pre">Wall</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.schema"><code class="docutils literal notranslate"><span class="pre">schema()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.line"><code class="docutils literal notranslate"><span class="pre">line</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World"><code class="docutils literal notranslate"><span class="pre">World</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.__init__"><code class="docutils literal notranslate"><span class="pre">World.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.actuate"><code class="docutils literal notranslate"><span class="pre">World.actuate()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_agent"><code class="docutils literal notranslate"><span class="pre">World.add_agent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_callback"><code class="docutils literal notranslate"><span class="pre">World.add_callback()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_obstacle"><code class="docutils literal notranslate"><span class="pre">World.add_obstacle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_random_obstacles"><code class="docutils literal notranslate"><span class="pre">World.add_random_obstacles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_wall"><code class="docutils literal notranslate"><span class="pre">World.add_wall()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents_are_idle"><code class="docutils literal notranslate"><span class="pre">World.agents_are_idle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents_are_idle_or_stuck"><code class="docutils literal notranslate"><span class="pre">World.agents_are_idle_or_stuck()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.clear_collisions"><code class="docutils literal notranslate"><span class="pre">World.clear_collisions()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.compute_safety_violation"><code class="docutils literal notranslate"><span class="pre">World.compute_safety_violation()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.copy_random_generator"><code class="docutils literal notranslate"><span class="pre">World.copy_random_generator()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_collision"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_collision()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_deadlock"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_deadlock()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_discs_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_discs_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_entity"><code class="docutils literal notranslate"><span class="pre">World.get_entity()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_lattice"><code class="docutils literal notranslate"><span class="pre">World.get_lattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_lattice_grid"><code class="docutils literal notranslate"><span class="pre">World.get_lattice_grid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_line_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_line_obstacles_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_neighbors"><code class="docutils literal notranslate"><span class="pre">World.get_neighbors()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_obstacles_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.in_collision"><code class="docutils literal notranslate"><span class="pre">World.in_collision()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.index_of_agent"><code class="docutils literal notranslate"><span class="pre">World.index_of_agent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.record_collision"><code class="docutils literal notranslate"><span class="pre">World.record_collision()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.reset_callbacks"><code class="docutils literal notranslate"><span class="pre">World.reset_callbacks()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run"><code class="docutils literal notranslate"><span class="pre">World.run()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run_until"><code class="docutils literal notranslate"><span class="pre">World.run_until()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.set_lattice"><code class="docutils literal notranslate"><span class="pre">World.set_lattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.set_termination_condition"><code class="docutils literal notranslate"><span class="pre">World.set_termination_condition()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.should_terminate"><code class="docutils literal notranslate"><span class="pre">World.should_terminate()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.snap_twists_to_zero"><code class="docutils literal notranslate"><span class="pre">World.snap_twists_to_zero()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.space_agents_apart"><code class="docutils literal notranslate"><span class="pre">World.space_agents_apart()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.subdivide_bounding_box"><code class="docutils literal notranslate"><span class="pre">World.subdivide_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.update"><code class="docutils literal notranslate"><span class="pre">World.update()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.update_dry"><code class="docutils literal notranslate"><span class="pre">World.update_dry()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents"><code class="docutils literal notranslate"><span class="pre">World.agents</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.bounding_box"><code class="docutils literal notranslate"><span class="pre">World.bounding_box</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.collisions"><code class="docutils literal notranslate"><span class="pre">World.collisions</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.discs"><code class="docutils literal notranslate"><span class="pre">World.discs</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.has_termination_condition"><code class="docutils literal notranslate"><span class="pre">World.has_termination_condition</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.line_obstacles"><code class="docutils literal notranslate"><span class="pre">World.line_obstacles</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.minimal_bounding_box"><code class="docutils literal notranslate"><span class="pre">World.minimal_bounding_box</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.obstacles"><code class="docutils literal notranslate"><span class="pre">World.obstacles</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.random_generator"><code class="docutils literal notranslate"><span class="pre">World.random_generator</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.seed"><code class="docutils literal notranslate"><span class="pre">World.seed</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.step"><code class="docutils literal notranslate"><span class="pre">World.step</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.time"><code class="docutils literal notranslate"><span class="pre">World.time</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.walls"><code class="docutils literal notranslate"><span class="pre">World.walls</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World"><code class="docutils literal notranslate"><span class="pre">World</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.actuate"><code class="docutils literal notranslate"><span class="pre">actuate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_agent"><code class="docutils literal notranslate"><span class="pre">add_agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_callback"><code class="docutils literal notranslate"><span class="pre">add_callback()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_obstacle"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_random_obstacles"><code class="docutils literal notranslate"><span class="pre">add_random_obstacles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_wall"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents_are_idle"><code class="docutils literal notranslate"><span class="pre">agents_are_idle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents_are_idle_or_stuck"><code class="docutils literal notranslate"><span class="pre">agents_are_idle_or_stuck()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.clear_collisions"><code class="docutils literal notranslate"><span class="pre">clear_collisions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.compute_safety_violation"><code class="docutils literal notranslate"><span class="pre">compute_safety_violation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.copy_random_generator"><code class="docutils literal notranslate"><span class="pre">copy_random_generator()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_collision"><code class="docutils literal notranslate"><span class="pre">get_agents_in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_deadlock"><code class="docutils literal notranslate"><span class="pre">get_agents_in_deadlock()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_region"><code class="docutils literal notranslate"><span class="pre">get_agents_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_discs_in_region"><code class="docutils literal notranslate"><span class="pre">get_discs_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_entity"><code class="docutils literal notranslate"><span class="pre">get_entity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_lattice"><code class="docutils literal notranslate"><span class="pre">get_lattice()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_lattice_grid"><code class="docutils literal notranslate"><span class="pre">get_lattice_grid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_line_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_neighbors"><code class="docutils literal notranslate"><span class="pre">get_neighbors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">get_obstacles_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.in_collision"><code class="docutils literal notranslate"><span class="pre">in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.index_of_agent"><code class="docutils literal notranslate"><span class="pre">index_of_agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.record_collision"><code class="docutils literal notranslate"><span class="pre">record_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.reset_callbacks"><code class="docutils literal notranslate"><span class="pre">reset_callbacks()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run_until"><code class="docutils literal notranslate"><span class="pre">run_until()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.schema"><code class="docutils literal notranslate"><span class="pre">schema()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.set_lattice"><code class="docutils literal notranslate"><span class="pre">set_lattice()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.set_termination_condition"><code class="docutils literal notranslate"><span class="pre">set_termination_condition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.should_terminate"><code class="docutils literal notranslate"><span class="pre">should_terminate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.snap_twists_to_zero"><code class="docutils literal notranslate"><span class="pre">snap_twists_to_zero()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.space_agents_apart"><code class="docutils literal notranslate"><span class="pre">space_agents_apart()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.subdivide_bounding_box"><code class="docutils literal notranslate"><span class="pre">subdivide_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.update_dry"><code class="docutils literal notranslate"><span class="pre">update_dry()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents"><code class="docutils literal notranslate"><span class="pre">agents</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.bounding_box"><code class="docutils literal notranslate"><span class="pre">bounding_box</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.collisions"><code class="docutils literal notranslate"><span class="pre">collisions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.discs"><code class="docutils literal notranslate"><span class="pre">discs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.has_termination_condition"><code class="docutils literal notranslate"><span class="pre">has_termination_condition</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.line_obstacles"><code class="docutils literal notranslate"><span class="pre">line_obstacles</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.minimal_bounding_box"><code class="docutils literal notranslate"><span class="pre">minimal_bounding_box</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.obstacles"><code class="docutils literal notranslate"><span class="pre">obstacles</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.random_generator"><code class="docutils literal notranslate"><span class="pre">random_generator</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.seed"><code class="docutils literal notranslate"><span class="pre">seed</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.step"><code class="docutils literal notranslate"><span class="pre">step</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.time"><code class="docutils literal notranslate"><span class="pre">time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.walls"><code class="docutils literal notranslate"><span class="pre">walls</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -531,18 +597,23 @@
 </dd>
 </dl>
 <ol class="arabic simple" start="2">
-<li><p>__init__(p1: numpy.ndarray[numpy.float64[2, 1]], p2: numpy.ndarray[numpy.float64[2, 1]]) -&gt; None</p></li>
+<li><p>__init__(p1: Vector2, p2: Vector2) -&gt; None</p></li>
 </ol>
 <p>Creates a rectangular region</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>p1</strong> – Bottom-left corner</p></li>
-<li><p><strong>max_x</strong> – Top-right corner</p></li>
+<li><p><strong>p2</strong> – Top-right corner</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.BoundingBox.schema">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">schema</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.sim.BoundingBox.schema" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -555,7 +626,7 @@ used internally by the simulation, for instance, to identify entities
 in a UI.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Entity.has_been_in_collision_since">
-<span class="sig-name descname"><span class="pre">has_been_in_collision_since</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#navground.sim.Entity.has_been_in_collision_since" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">has_been_in_collision_since</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#navground.sim.Entity.has_been_in_collision_since" title="Link to this definition">#</a></dt>
 <dd><p>Determines if the entity has been in collision at least once since the
 given time.</p>
 <dl class="field-list simple">
@@ -573,7 +644,7 @@ given time.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">last_collision_time</span></span><a class="headerlink" href="#navground.sim.Entity.last_collision_time" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
 </dd>
 </dl>
 <p>Returns the last collision time</p>
@@ -590,7 +661,7 @@ given time.</p>
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#navground.sim.Obstacle.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>__init__(position: numpy.ndarray[numpy.float64[2, 1]], radius: float) -&gt; None</p></li>
+<li><p>__init__(position: Vector2, radius: float) -&gt; None</p></li>
 </ol>
 <p>Constructs a new instance.</p>
 <dl class="field-list simple">
@@ -612,12 +683,54 @@ given time.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.Obstacle.dump">
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#navground.sim.Obstacle.dump" title="Link to this definition">#</a></dt>
+<dd><p>Dumps the object to a YAML-string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The YAML representation</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.Obstacle.load">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.sim.Obstacle.load" title="Link to this definition">#</a></dt>
+<dd><p>Load a obstacle modulation from a YAML string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The loaded obstacle or <code class="docutils literal notranslate"><span class="pre">None</span></code> if loading fails.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#navground.sim.Obstacle" title="navground.sim.Obstacle">Obstacle</a>| None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.Obstacle.schema">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">schema</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.sim.Obstacle.schema" title="Link to this definition">#</a></dt>
+<dd><p>Returns the json-schema</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>json-schema</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-type docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">typing.Any]</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="navground.sim.Obstacle.disc">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">disc</span></span><a class="headerlink" href="#navground.sim.Obstacle.disc" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../core/python/state.html#navground.core.Disc" title="navground.core.Disc">navground.core.Disc</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../../core/python/state/geometric.html#navground.core.Disc" title="navground.core.Disc">navground.core.Disc</a></p>
 </dd>
 </dl>
 <p>The disc.</p>
@@ -635,7 +748,7 @@ given time.</p>
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#navground.sim.Wall.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>__init__(p1: numpy.ndarray[numpy.float64[2, 1]], p2: numpy.ndarray[numpy.float64[2, 1]]) -&gt; None</p></li>
+<li><p>__init__(p1: Vector2, p2: Vector2) -&gt; None</p></li>
 </ol>
 <p>Constructs a new instance.</p>
 <dl class="field-list simple">
@@ -657,12 +770,54 @@ given time.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.Wall.dump">
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#navground.sim.Wall.dump" title="Link to this definition">#</a></dt>
+<dd><p>Dumps the object to a YAML-string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The YAML representation</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.Wall.load">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.sim.Wall.load" title="Link to this definition">#</a></dt>
+<dd><p>Load a wall modulation from a YAML string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The loaded wall or <code class="docutils literal notranslate"><span class="pre">None</span></code> if loading fails.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#navground.sim.Wall" title="navground.sim.Wall">Wall</a>| None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.Wall.schema">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">schema</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.sim.Wall.schema" title="Link to this definition">#</a></dt>
+<dd><p>Returns the json-schema</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>json-schema</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-type docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">typing.Any]</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="navground.sim.Wall.line">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">line</span></span><a class="headerlink" href="#navground.sim.Wall.line" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../core/python/state.html#navground.core.LineSegment" title="navground.core.LineSegment">navground.core.LineSegment</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../../core/python/state/geometric.html#navground.core.LineSegment" title="navground.core.LineSegment">navground.core.LineSegment</a></p>
 </dd>
 </dl>
 <p>The line segment</p>
@@ -675,13 +830,13 @@ given time.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">World</span></span><a class="headerlink" href="#navground.sim.World" title="Link to this definition">#</a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Constructs a new instance.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.actuate">
-<span class="sig-name descname"><span class="pre">actuate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.actuate" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">actuate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.actuate" title="Link to this definition">#</a></dt>
 <dd><p>Actuate then controllers and perform collisions resolutions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -692,7 +847,7 @@ given time.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.add_agent">
-<span class="sig-name descname"><span class="pre">add_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.add_agent" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.add_agent" title="Link to this definition">#</a></dt>
 <dd><p>Adds an agent to the world.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -703,7 +858,7 @@ given time.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.add_callback">
-<span class="sig-name descname"><span class="pre">add_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.add_callback" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.add_callback" title="Link to this definition">#</a></dt>
 <dd><p>Adds a callback to be executed after each simulation step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -738,7 +893,7 @@ given time.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.add_random_obstacles">
-<span class="sig-name descname"><span class="pre">add_random_obstacles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_tries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.add_random_obstacles" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_random_obstacles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_tries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.add_random_obstacles" title="Link to this definition">#</a></dt>
 <dd><p>Adds a random obstacles in the world bounding box</p>
 <p>It iteratively try to sample a disc that is far enough of any other
 item. If the sampling fails, it counts as a try and the process stop
@@ -784,7 +939,7 @@ it’s additional to their safety margin.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.agents_are_idle">
-<span class="sig-name descname"><span class="pre">agents_are_idle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#navground.sim.World.agents_are_idle" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">agents_are_idle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#navground.sim.World.agents_are_idle" title="Link to this definition">#</a></dt>
 <dd><p>Check if all agents are idle (i.e., their tasks are done and their
 controller are idle).</p>
 <dl class="field-list simple">
@@ -796,7 +951,7 @@ controller are idle).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.agents_are_idle_or_stuck">
-<span class="sig-name descname"><span class="pre">agents_are_idle_or_stuck</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#navground.sim.World.agents_are_idle_or_stuck" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">agents_are_idle_or_stuck</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#navground.sim.World.agents_are_idle_or_stuck" title="Link to this definition">#</a></dt>
 <dd><p>Check if all agents are idle or stuck (i.e., they are no moving
 because they task is done or they are deadlocked)</p>
 <dl class="field-list simple">
@@ -808,20 +963,20 @@ because they task is done or they are deadlocked)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.clear_collisions">
-<span class="sig-name descname"><span class="pre">clear_collisions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.clear_collisions" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">clear_collisions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.clear_collisions" title="Link to this definition">#</a></dt>
 <dd><p>Clear collisions</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.compute_safety_violation">
-<span class="sig-name descname"><span class="pre">compute_safety_violation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">safety_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#navground.sim.World.compute_safety_violation" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">compute_safety_violation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">safety_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#navground.sim.World.compute_safety_violation" title="Link to this definition">#</a></dt>
 <dd><p>Calculates the safety violation, i.e. the maximal penetration of a
 neighbor or obstacle in the safety margin of the agent.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>agent</strong> – The agent</p></li>
-<li><p><strong>agent</strong> – The safety margin. If not set, it will default to the agent’s
+<li><p><strong>safety_margin</strong> – The safety margin. If not set, it will default to the agent’s
 behavior safety margin.</p></li>
 </ul>
 </dd>
@@ -833,7 +988,7 @@ behavior safety margin.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.copy_random_generator">
-<span class="sig-name descname"><span class="pre">copy_random_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.World" title="navground.sim.World"><span class="pre">navground.sim.World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.copy_random_generator" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">copy_random_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.World" title="navground.sim.World"><span class="pre">navground.sim.World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.copy_random_generator" title="Link to this definition">#</a></dt>
 <dd><p>Copy the random generator from another world</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -843,8 +998,22 @@ behavior safety margin.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.World.dump">
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#navground.sim.World.dump" title="Link to this definition">#</a></dt>
+<dd><p>Dumps the object to a YAML-string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The YAML representation</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_agents_in_collision">
-<span class="sig-name descname"><span class="pre">get_agents_in_collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_collision" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_agents_in_collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_collision" title="Link to this definition">#</a></dt>
 <dd><p>Gets the agents that had a collision after <code class="docutils literal notranslate"><span class="pre">now</span> <span class="pre">-</span> <span class="pre">duration</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -858,7 +1027,7 @@ behavior safety margin.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_agents_in_deadlock">
-<span class="sig-name descname"><span class="pre">get_agents_in_deadlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_deadlock" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_agents_in_deadlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_deadlock" title="Link to this definition">#</a></dt>
 <dd><p>Gets the agents that are in stuck since <code class="docutils literal notranslate"><span class="pre">now</span> <span class="pre">-</span> <span class="pre">duration</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -872,7 +1041,7 @@ behavior safety margin.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_agents_in_region">
-<span class="sig-name descname"><span class="pre">get_agents_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_region" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_agents_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_agents_in_region" title="Link to this definition">#</a></dt>
 <dd><p>Gets all agents in a bounding box.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -886,7 +1055,7 @@ behavior safety margin.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_discs_in_region">
-<span class="sig-name descname"><span class="pre">get_discs_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/state.html#navground.core.Disc" title="navground.core.Disc"><span class="pre">navground.core.Disc</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_discs_in_region" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_discs_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/state/geometric.html#navground.core.Disc" title="navground.core.Disc"><span class="pre">navground.core.Disc</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_discs_in_region" title="Link to this definition">#</a></dt>
 <dd><p>Gets all agents in a bounding box.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -903,7 +1072,7 @@ behavior safety margin.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_entity">
-<span class="sig-name descname"><span class="pre">get_entity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity"><span class="pre">navground.sim.Entity</span></a></span></span><a class="headerlink" href="#navground.sim.World.get_entity" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_entity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity"><span class="pre">navground.sim.Entity</span></a></span></span><a class="headerlink" href="#navground.sim.World.get_entity" title="Link to this definition">#</a></dt>
 <dd><p>Find an entity by identifier</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -917,7 +1086,7 @@ behavior safety margin.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_lattice">
-<span class="sig-name descname"><span class="pre">get_lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.get_lattice" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.get_lattice" title="Link to this definition">#</a></dt>
 <dd><p>Gets the periodic lattice.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -932,14 +1101,14 @@ wraps the selected axis.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_lattice_grid">
-<span class="sig-name descname"><span class="pre">get_lattice_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_zero</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c8</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_lattice_grid" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_lattice_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_zero</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c8</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_lattice_grid" title="Link to this definition">#</a></dt>
 <dd><p>The N=0, 1, or 2 vectors that define the lattice, e.g., <code class="docutils literal notranslate"><span class="pre">{delta_x,</span>
 <span class="pre">-delta_x}</span></code> if only the axis=0 lattice is set.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Whether</strong> – to include the zero vector</p></li>
-<li><p><strong>Whether</strong> – to use 8-connectivity instead of 4-connectivity</p></li>
+<li><p><strong>include_zero</strong> – Whether to include the zero vector</p></li>
+<li><p><strong>c8</strong> – Whether to use 8-connectivity instead of 4-connectivity</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -950,7 +1119,7 @@ wraps the selected axis.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_line_obstacles_in_region">
-<span class="sig-name descname"><span class="pre">get_line_obstacles_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/state.html#navground.core.LineSegment" title="navground.core.LineSegment"><span class="pre">navground.core.LineSegment</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_line_obstacles_in_region" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_line_obstacles_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/state/geometric.html#navground.core.LineSegment" title="navground.core.LineSegment"><span class="pre">navground.core.LineSegment</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_line_obstacles_in_region" title="Link to this definition">#</a></dt>
 <dd><p>Gets all walls in a bounding box.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -964,7 +1133,7 @@ wraps the selected axis.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_neighbors">
-<span class="sig-name descname"><span class="pre">get_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/state.html#navground.core.Neighbor" title="navground.core.Neighbor"><span class="pre">navground.core.Neighbor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_neighbors" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/state/geometric.html#navground.core.Neighbor" title="navground.core.Neighbor"><span class="pre">navground.core.Neighbor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_neighbors" title="Link to this definition">#</a></dt>
 <dd><p>Gets all neighbor of an agent</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -983,7 +1152,7 @@ the agent.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.get_obstacles_in_region">
-<span class="sig-name descname"><span class="pre">get_obstacles_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#navground.sim.Obstacle" title="navground.sim.Obstacle"><span class="pre">navground.sim.Obstacle</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_obstacles_in_region" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_obstacles_in_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#navground.sim.Obstacle" title="navground.sim.Obstacle"><span class="pre">navground.sim.Obstacle</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.get_obstacles_in_region" title="Link to this definition">#</a></dt>
 <dd><p>Gets all obstacles in a bounding box.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -997,7 +1166,7 @@ the agent.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.in_collision">
-<span class="sig-name descname"><span class="pre">in_collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity"><span class="pre">navground.sim.Entity</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity"><span class="pre">navground.sim.Entity</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#navground.sim.World.in_collision" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">in_collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity"><span class="pre">navground.sim.Entity</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity"><span class="pre">navground.sim.Entity</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#navground.sim.World.in_collision" title="Link to this definition">#</a></dt>
 <dd><p>Check if two entities are currently in collision</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1014,7 +1183,7 @@ the agent.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.index_of_agent">
-<span class="sig-name descname"><span class="pre">index_of_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.index_of_agent" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">index_of_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">navground.sim.NativeAgent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.index_of_agent" title="Link to this definition">#</a></dt>
 <dd><p>Searches for the index of an agent.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1028,8 +1197,22 @@ found.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.World.load">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.sim.World.load" title="Link to this definition">#</a></dt>
+<dd><p>Load a world modulation from a YAML string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The loaded world or <code class="docutils literal notranslate"><span class="pre">None</span></code> if loading fails.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#navground.sim.World" title="navground.sim.World">World</a>| None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.record_collision">
-<span class="sig-name descname"><span class="pre">record_collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity"><span class="pre">navground.sim.Entity</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity"><span class="pre">navground.sim.Entity</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.record_collision" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">record_collision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity"><span class="pre">navground.sim.Entity</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity"><span class="pre">navground.sim.Entity</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.record_collision" title="Link to this definition">#</a></dt>
 <dd><p>Record the collision between two entities</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1043,13 +1226,13 @@ found.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.reset_callbacks">
-<span class="sig-name descname"><span class="pre">reset_callbacks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.reset_callbacks" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">reset_callbacks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.reset_callbacks" title="Link to this definition">#</a></dt>
 <dd><p>Clear all the callbacks</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.run" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.run" title="Link to this definition">#</a></dt>
 <dd><p>Updates the world for one or more time steps</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1063,7 +1246,7 @@ found.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.run_until">
-<span class="sig-name descname"><span class="pre">run_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.run_until" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">run_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.run_until" title="Link to this definition">#</a></dt>
 <dd><p>Updates the world until a condition is satisfied</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1076,8 +1259,22 @@ found.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.World.schema">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">schema</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.sim.World.schema" title="Link to this definition">#</a></dt>
+<dd><p>Returns the json-schema</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>json-schema</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-type docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">typing.Any]</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.set_lattice">
-<span class="sig-name descname"><span class="pre">set_lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.set_lattice" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.set_lattice" title="Link to this definition">#</a></dt>
 <dd><p>Sets the periodic lattice.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1093,7 +1290,7 @@ wrapping.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.set_termination_condition">
-<span class="sig-name descname"><span class="pre">set_termination_condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#navground.sim.World" title="navground.sim.World"><span class="pre">navground.sim.NativeWorld</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.set_termination_condition" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_termination_condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#navground.sim.World" title="navground.sim.World"><span class="pre">navground.sim.NativeWorld</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.set_termination_condition" title="Link to this definition">#</a></dt>
 <dd><p>Sets a condition to terminate simulations</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1104,7 +1301,7 @@ wrapping.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.should_terminate">
-<span class="sig-name descname"><span class="pre">should_terminate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#navground.sim.World.should_terminate" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">should_terminate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#navground.sim.World.should_terminate" title="Link to this definition">#</a></dt>
 <dd><p>Checks whether the simulation should terminate</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1115,7 +1312,7 @@ wrapping.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.snap_twists_to_zero">
-<span class="sig-name descname"><span class="pre">snap_twists_to_zero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.snap_twists_to_zero" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">snap_twists_to_zero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.snap_twists_to_zero" title="Link to this definition">#</a></dt>
 <dd><p>Snap agents’ twists smaller than epsilon to zero.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1126,7 +1323,7 @@ wrapping.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.space_agents_apart">
-<span class="sig-name descname"><span class="pre">space_agents_apart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minimal_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_safety_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.space_agents_apart" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">space_agents_apart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minimal_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_safety_margin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.space_agents_apart" title="Link to this definition">#</a></dt>
 <dd><p>Move agents so that they do not overlap anymore with themselves or
 with any obstacle</p>
 <dl class="field-list simple">
@@ -1142,12 +1339,12 @@ with any obstacle</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.subdivide_bounding_box">
-<span class="sig-name descname"><span class="pre">subdivide_bounding_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.subdivide_bounding_box" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">subdivide_bounding_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/python/common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#navground.sim.BoundingBox" title="navground.sim.BoundingBox"><span class="pre">navground.sim.BoundingBox</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.sim.World.subdivide_bounding_box" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.update" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.update" title="Link to this definition">#</a></dt>
 <dd><p>Updates world for a single time step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1158,7 +1355,7 @@ with any obstacle</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.World.update_dry">
-<span class="sig-name descname"><span class="pre">update_dry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">advance_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#navground.sim.World.update_dry" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">update_dry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">advance_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.World.update_dry" title="Link to this definition">#</a></dt>
 <dd><p>Updates world for a single time step without actuation and collisions
 resolution.</p>
 <dl class="field-list simple">
@@ -1176,7 +1373,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">agents</span></span><a class="headerlink" href="#navground.sim.World.agents" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent">navground.sim.NativeAgent</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent">navground.sim.NativeAgent</a>]</p>
 </dd>
 </dl>
 <p>All agents in this world.</p>
@@ -1198,7 +1395,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collisions</span></span><a class="headerlink" href="#navground.sim.World.collisions" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>set[tuple[<a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity">navground.sim.Entity</a>, <a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity">navground.sim.Entity</a>]]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.13)">set</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)">tuple</a>[<a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity">navground.sim.Entity</a>, <a class="reference internal" href="#navground.sim.Entity" title="navground.sim.Entity">navground.sim.Entity</a>]]</p>
 </dd>
 </dl>
 <p>The colliding pairs computed during the last simulation step.</p>
@@ -1209,7 +1406,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">discs</span></span><a class="headerlink" href="#navground.sim.World.discs" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="../../core/python/state.html#navground.core.Disc" title="navground.core.Disc">navground.core.Disc</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference internal" href="../../core/python/state/geometric.html#navground.core.Disc" title="navground.core.Disc">navground.core.Disc</a>]</p>
 </dd>
 </dl>
 <p>All disc shaped static obstacles in this world.</p>
@@ -1225,7 +1422,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_termination_condition</span></span><a class="headerlink" href="#navground.sim.World.has_termination_condition" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
 </dd>
 </dl>
 <p>Returns whether there is a termination condition set.</p>
@@ -1241,7 +1438,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">line_obstacles</span></span><a class="headerlink" href="#navground.sim.World.line_obstacles" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="../../core/python/state.html#navground.core.LineSegment" title="navground.core.LineSegment">navground.core.LineSegment</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference internal" href="../../core/python/state/geometric.html#navground.core.LineSegment" title="navground.core.LineSegment">navground.core.LineSegment</a>]</p>
 </dd>
 </dl>
 <p>All line obstacles in this world.</p>
@@ -1263,7 +1460,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obstacles</span></span><a class="headerlink" href="#navground.sim.World.obstacles" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="#navground.sim.Obstacle" title="navground.sim.Obstacle">navground.sim.Obstacle</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference internal" href="#navground.sim.Obstacle" title="navground.sim.Obstacle">navground.sim.Obstacle</a>]</p>
 </dd>
 </dl>
 <p>All obstacles in this world.</p>
@@ -1274,10 +1471,15 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random_generator</span></span><a class="headerlink" href="#navground.sim.World.random_generator" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>object</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)">object</a></p>
 </dd>
 </dl>
-<p>TODO</p>
+<p>The random generator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.random.Generator</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -1285,7 +1487,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">seed</span></span><a class="headerlink" href="#navground.sim.World.seed" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a></p>
 </dd>
 </dl>
 <p>The random seed.</p>
@@ -1296,7 +1498,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">step</span></span><a class="headerlink" href="#navground.sim.World.step" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a></p>
 </dd>
 </dl>
 <p>The simulation step.</p>
@@ -1307,7 +1509,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#navground.sim.World.time" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
 </dd>
 </dl>
 <p>The simulation time.</p>
@@ -1318,7 +1520,7 @@ resolution.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">walls</span></span><a class="headerlink" href="#navground.sim.World.walls" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="#navground.sim.Wall" title="navground.sim.Wall">navground.sim.Wall</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference internal" href="#navground.sim.Wall" title="navground.sim.Wall">navground.sim.Wall</a>]</p>
 </dd>
 </dl>
 <p>All walls in this world.</p>
@@ -1374,75 +1576,85 @@ resolution.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.BoundingBox"><code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.BoundingBox.__init__"><code class="docutils literal notranslate"><span class="pre">BoundingBox.__init__()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.BoundingBox"><code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.BoundingBox.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.BoundingBox.schema"><code class="docutils literal notranslate"><span class="pre">schema()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Entity"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Entity.has_been_in_collision_since"><code class="docutils literal notranslate"><span class="pre">Entity.has_been_in_collision_since()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Entity.last_collision_time"><code class="docutils literal notranslate"><span class="pre">Entity.last_collision_time</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Entity"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Entity.has_been_in_collision_since"><code class="docutils literal notranslate"><span class="pre">has_been_in_collision_since()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Entity.last_collision_time"><code class="docutils literal notranslate"><span class="pre">last_collision_time</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle"><code class="docutils literal notranslate"><span class="pre">Obstacle</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.__init__"><code class="docutils literal notranslate"><span class="pre">Obstacle.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.disc"><code class="docutils literal notranslate"><span class="pre">Obstacle.disc</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle"><code class="docutils literal notranslate"><span class="pre">Obstacle</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.schema"><code class="docutils literal notranslate"><span class="pre">schema()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Obstacle.disc"><code class="docutils literal notranslate"><span class="pre">disc</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall"><code class="docutils literal notranslate"><span class="pre">Wall</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.__init__"><code class="docutils literal notranslate"><span class="pre">Wall.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.line"><code class="docutils literal notranslate"><span class="pre">Wall.line</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall"><code class="docutils literal notranslate"><span class="pre">Wall</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.schema"><code class="docutils literal notranslate"><span class="pre">schema()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.Wall.line"><code class="docutils literal notranslate"><span class="pre">line</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World"><code class="docutils literal notranslate"><span class="pre">World</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.__init__"><code class="docutils literal notranslate"><span class="pre">World.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.actuate"><code class="docutils literal notranslate"><span class="pre">World.actuate()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_agent"><code class="docutils literal notranslate"><span class="pre">World.add_agent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_callback"><code class="docutils literal notranslate"><span class="pre">World.add_callback()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_obstacle"><code class="docutils literal notranslate"><span class="pre">World.add_obstacle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_random_obstacles"><code class="docutils literal notranslate"><span class="pre">World.add_random_obstacles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_wall"><code class="docutils literal notranslate"><span class="pre">World.add_wall()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents_are_idle"><code class="docutils literal notranslate"><span class="pre">World.agents_are_idle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents_are_idle_or_stuck"><code class="docutils literal notranslate"><span class="pre">World.agents_are_idle_or_stuck()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.clear_collisions"><code class="docutils literal notranslate"><span class="pre">World.clear_collisions()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.compute_safety_violation"><code class="docutils literal notranslate"><span class="pre">World.compute_safety_violation()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.copy_random_generator"><code class="docutils literal notranslate"><span class="pre">World.copy_random_generator()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_collision"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_collision()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_deadlock"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_deadlock()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_agents_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_discs_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_discs_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_entity"><code class="docutils literal notranslate"><span class="pre">World.get_entity()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_lattice"><code class="docutils literal notranslate"><span class="pre">World.get_lattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_lattice_grid"><code class="docutils literal notranslate"><span class="pre">World.get_lattice_grid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_line_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_line_obstacles_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_neighbors"><code class="docutils literal notranslate"><span class="pre">World.get_neighbors()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">World.get_obstacles_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.in_collision"><code class="docutils literal notranslate"><span class="pre">World.in_collision()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.index_of_agent"><code class="docutils literal notranslate"><span class="pre">World.index_of_agent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.record_collision"><code class="docutils literal notranslate"><span class="pre">World.record_collision()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.reset_callbacks"><code class="docutils literal notranslate"><span class="pre">World.reset_callbacks()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run"><code class="docutils literal notranslate"><span class="pre">World.run()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run_until"><code class="docutils literal notranslate"><span class="pre">World.run_until()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.set_lattice"><code class="docutils literal notranslate"><span class="pre">World.set_lattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.set_termination_condition"><code class="docutils literal notranslate"><span class="pre">World.set_termination_condition()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.should_terminate"><code class="docutils literal notranslate"><span class="pre">World.should_terminate()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.snap_twists_to_zero"><code class="docutils literal notranslate"><span class="pre">World.snap_twists_to_zero()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.space_agents_apart"><code class="docutils literal notranslate"><span class="pre">World.space_agents_apart()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.subdivide_bounding_box"><code class="docutils literal notranslate"><span class="pre">World.subdivide_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.update"><code class="docutils literal notranslate"><span class="pre">World.update()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.update_dry"><code class="docutils literal notranslate"><span class="pre">World.update_dry()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents"><code class="docutils literal notranslate"><span class="pre">World.agents</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.bounding_box"><code class="docutils literal notranslate"><span class="pre">World.bounding_box</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.collisions"><code class="docutils literal notranslate"><span class="pre">World.collisions</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.discs"><code class="docutils literal notranslate"><span class="pre">World.discs</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.has_termination_condition"><code class="docutils literal notranslate"><span class="pre">World.has_termination_condition</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.line_obstacles"><code class="docutils literal notranslate"><span class="pre">World.line_obstacles</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.minimal_bounding_box"><code class="docutils literal notranslate"><span class="pre">World.minimal_bounding_box</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.obstacles"><code class="docutils literal notranslate"><span class="pre">World.obstacles</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.random_generator"><code class="docutils literal notranslate"><span class="pre">World.random_generator</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.seed"><code class="docutils literal notranslate"><span class="pre">World.seed</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.step"><code class="docutils literal notranslate"><span class="pre">World.step</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.time"><code class="docutils literal notranslate"><span class="pre">World.time</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.walls"><code class="docutils literal notranslate"><span class="pre">World.walls</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World"><code class="docutils literal notranslate"><span class="pre">World</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.actuate"><code class="docutils literal notranslate"><span class="pre">actuate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_agent"><code class="docutils literal notranslate"><span class="pre">add_agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_callback"><code class="docutils literal notranslate"><span class="pre">add_callback()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_obstacle"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_random_obstacles"><code class="docutils literal notranslate"><span class="pre">add_random_obstacles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.add_wall"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents_are_idle"><code class="docutils literal notranslate"><span class="pre">agents_are_idle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents_are_idle_or_stuck"><code class="docutils literal notranslate"><span class="pre">agents_are_idle_or_stuck()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.clear_collisions"><code class="docutils literal notranslate"><span class="pre">clear_collisions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.compute_safety_violation"><code class="docutils literal notranslate"><span class="pre">compute_safety_violation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.copy_random_generator"><code class="docutils literal notranslate"><span class="pre">copy_random_generator()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_collision"><code class="docutils literal notranslate"><span class="pre">get_agents_in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_deadlock"><code class="docutils literal notranslate"><span class="pre">get_agents_in_deadlock()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_agents_in_region"><code class="docutils literal notranslate"><span class="pre">get_agents_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_discs_in_region"><code class="docutils literal notranslate"><span class="pre">get_discs_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_entity"><code class="docutils literal notranslate"><span class="pre">get_entity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_lattice"><code class="docutils literal notranslate"><span class="pre">get_lattice()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_lattice_grid"><code class="docutils literal notranslate"><span class="pre">get_lattice_grid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_line_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_neighbors"><code class="docutils literal notranslate"><span class="pre">get_neighbors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.get_obstacles_in_region"><code class="docutils literal notranslate"><span class="pre">get_obstacles_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.in_collision"><code class="docutils literal notranslate"><span class="pre">in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.index_of_agent"><code class="docutils literal notranslate"><span class="pre">index_of_agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.record_collision"><code class="docutils literal notranslate"><span class="pre">record_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.reset_callbacks"><code class="docutils literal notranslate"><span class="pre">reset_callbacks()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.run_until"><code class="docutils literal notranslate"><span class="pre">run_until()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.schema"><code class="docutils literal notranslate"><span class="pre">schema()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.set_lattice"><code class="docutils literal notranslate"><span class="pre">set_lattice()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.set_termination_condition"><code class="docutils literal notranslate"><span class="pre">set_termination_condition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.should_terminate"><code class="docutils literal notranslate"><span class="pre">should_terminate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.snap_twists_to_zero"><code class="docutils literal notranslate"><span class="pre">snap_twists_to_zero()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.space_agents_apart"><code class="docutils literal notranslate"><span class="pre">space_agents_apart()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.subdivide_bounding_box"><code class="docutils literal notranslate"><span class="pre">subdivide_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.update_dry"><code class="docutils literal notranslate"><span class="pre">update_dry()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.agents"><code class="docutils literal notranslate"><span class="pre">agents</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.bounding_box"><code class="docutils literal notranslate"><span class="pre">bounding_box</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.collisions"><code class="docutils literal notranslate"><span class="pre">collisions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.discs"><code class="docutils literal notranslate"><span class="pre">discs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.has_termination_condition"><code class="docutils literal notranslate"><span class="pre">has_termination_condition</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.line_obstacles"><code class="docutils literal notranslate"><span class="pre">line_obstacles</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.minimal_bounding_box"><code class="docutils literal notranslate"><span class="pre">minimal_bounding_box</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.obstacles"><code class="docutils literal notranslate"><span class="pre">obstacles</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.random_generator"><code class="docutils literal notranslate"><span class="pre">random_generator</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.seed"><code class="docutils literal notranslate"><span class="pre">seed</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.step"><code class="docutils literal notranslate"><span class="pre">step</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.time"><code class="docutils literal notranslate"><span class="pre">time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.World.walls"><code class="docutils literal notranslate"><span class="pre">walls</span></code></a></li>
 </ul>
 </li>
 </ul>

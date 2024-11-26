@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Environment State &#8212; navground 0.2.1 documentation</title>
+    <title>Environment State &#8212; navground 0.2.2 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=c480a563"></script>
+    <script src="../../../_static/documentation_options.js?v=d3f42505"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.2.1 documentation</p>
+    <p class="title logo__title">navground 0.2.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -199,6 +199,7 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/accessors.html">Accessors</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -208,12 +209,13 @@
 <li class="toctree-l4"><a class="reference internal" href="common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yaml.html">YAML</a></li>
-<li class="toctree-l4"><a class="reference internal" href="kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="target.html">Target</a></li>
 <li class="toctree-l4"><a class="reference internal" href="behaviors/index.html">Behaviors</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">Environment State</a></li>
 <li class="toctree-l4"><a class="reference internal" href="collision_computation.html">Computing collisions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="behavior_modulations/index.html">Behavior Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="controller.html">Controller</a></li>
 <li class="toctree-l4"><a class="reference internal" href="helper.html">Helpers</a></li>
 </ul>
@@ -222,12 +224,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/auto_registration.html">Auto registration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/yaml.html">YAML</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/target.html">Target</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/behaviors/index.html">Behaviors</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/state.html">Environment State</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/collision_computation.html">Computing collisions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../python/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/behavior_modulations/index.html">Behavior Modulations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/controller.html">Controller</a></li>
 </ul>
 </details></li>
@@ -247,27 +250,25 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/agent.html">Agent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/yaml.html">YAML</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/world.html">World</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/agent.html">Agent</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/tasks/index.html">Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/scenarios/index.html">Scenarios</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/experiment.html">Experiments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/visualization.html">Visualization</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/recorded_experiment.html">Recorded Experiments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../sim/python/real_time.html">Real-time simulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/plugins.html">Plugins</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/helpers.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/visualization/index.html">Visualization</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -424,104 +425,104 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class">Base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class">Base class</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core16EnvironmentStateE"><code class="docutils literal notranslate"><span class="pre">EnvironmentState</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric">Geometric</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegmentE"><code class="docutils literal notranslate"><span class="pre">LineSegment</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment11LineSegmentERK7Vector2RK7Vector2"><code class="docutils literal notranslate"><span class="pre">LineSegment::LineSegment()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment14distance_alongERK7Vector2RK7Vector2i"><code class="docutils literal notranslate"><span class="pre">LineSegment::distance_along()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2p1E"><code class="docutils literal notranslate"><span class="pre">LineSegment::p1</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2p2E"><code class="docutils literal notranslate"><span class="pre">LineSegment::p2</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2e1E"><code class="docutils literal notranslate"><span class="pre">LineSegment::e1</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2e2E"><code class="docutils literal notranslate"><span class="pre">LineSegment::e2</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment6lengthE"><code class="docutils literal notranslate"><span class="pre">LineSegment::length</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric">Geometric</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegmentE"><code class="docutils literal notranslate"><span class="pre">LineSegment</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment11LineSegmentERK7Vector2RK7Vector2"><code class="docutils literal notranslate"><span class="pre">LineSegment()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment14distance_alongERK7Vector2RK7Vector2i"><code class="docutils literal notranslate"><span class="pre">distance_along()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2p1E"><code class="docutils literal notranslate"><span class="pre">p1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2p2E"><code class="docutils literal notranslate"><span class="pre">p2</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2e1E"><code class="docutils literal notranslate"><span class="pre">e1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2e2E"><code class="docutils literal notranslate"><span class="pre">e2</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment6lengthE"><code class="docutils literal notranslate"><span class="pre">length</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4DiscE"><code class="docutils literal notranslate"><span class="pre">Disc</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4Disc4DiscERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Disc::Disc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DisceqERK4Disc"><code class="docutils literal notranslate"><span class="pre">Disc::operator==()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DiscplERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Disc::operator+()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4DiscpLERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Disc::operator+=()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DiscmiERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Disc::operator-()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4DiscmIERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Disc::operator-=()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DiscneERK4Disc"><code class="docutils literal notranslate"><span class="pre">Disc::operator!=()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4Disc8distanceERK4Disc"><code class="docutils literal notranslate"><span class="pre">Disc::distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4Disc8positionE"><code class="docutils literal notranslate"><span class="pre">Disc::position</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4Disc6radiusE"><code class="docutils literal notranslate"><span class="pre">Disc::radius</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4DiscE"><code class="docutils literal notranslate"><span class="pre">Disc</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4Disc4DiscERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Disc()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DisceqERK4Disc"><code class="docutils literal notranslate"><span class="pre">operator==()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DiscplERK7Vector2"><code class="docutils literal notranslate"><span class="pre">operator+()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4DiscpLERK7Vector2"><code class="docutils literal notranslate"><span class="pre">operator+=()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DiscmiERK7Vector2"><code class="docutils literal notranslate"><span class="pre">operator-()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4DiscmIERK7Vector2"><code class="docutils literal notranslate"><span class="pre">operator-=()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DiscneERK4Disc"><code class="docutils literal notranslate"><span class="pre">operator!=()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4Disc8distanceERK4Disc"><code class="docutils literal notranslate"><span class="pre">distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4Disc8positionE"><code class="docutils literal notranslate"><span class="pre">position</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4Disc6radiusE"><code class="docutils literal notranslate"><span class="pre">radius</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8NeighborE"><code class="docutils literal notranslate"><span class="pre">Neighbor</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor8NeighborERK7Vector210ng_float_tK7Vector2j"><code class="docutils literal notranslate"><span class="pre">Neighbor::Neighbor()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor8NeighborERK4DiscK7Vector2j"><code class="docutils literal notranslate"><span class="pre">Neighbor::Neighbor()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8NeighboraSERK4Disc"><code class="docutils literal notranslate"><span class="pre">Neighbor::operator=()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor11relative_toERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Neighbor::relative_to()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor8velocityE"><code class="docutils literal notranslate"><span class="pre">Neighbor::velocity</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor2idE"><code class="docutils literal notranslate"><span class="pre">Neighbor::id</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8NeighborE"><code class="docutils literal notranslate"><span class="pre">Neighbor</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor8NeighborERK7Vector210ng_float_tK7Vector2j"><code class="docutils literal notranslate"><span class="pre">Neighbor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor8NeighborERK4DiscK7Vector2j"><code class="docutils literal notranslate"><span class="pre">Neighbor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8NeighboraSERK4Disc"><code class="docutils literal notranslate"><span class="pre">operator=()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor11relative_toERK5Pose2"><code class="docutils literal notranslate"><span class="pre">relative_to()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor8velocityE"><code class="docutils literal notranslate"><span class="pre">velocity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor2idE"><code class="docutils literal notranslate"><span class="pre">id</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricStateE"><code class="docutils literal notranslate"><span class="pre">GeometricState</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core14GeometricState13get_neighborsEv"><code class="docutils literal notranslate"><span class="pre">GeometricState::get_neighbors()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricState13set_neighborsERKNSt6vectorI8NeighborEE"><code class="docutils literal notranslate"><span class="pre">GeometricState::set_neighbors()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core14GeometricState20get_static_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">GeometricState::get_static_obstacles()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricState20set_static_obstaclesERKNSt6vectorI4DiscEE"><code class="docutils literal notranslate"><span class="pre">GeometricState::set_static_obstacles()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core14GeometricState18get_line_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">GeometricState::get_line_obstacles()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricState18set_line_obstaclesERKNSt6vectorI11LineSegmentEE"><code class="docutils literal notranslate"><span class="pre">GeometricState::set_line_obstacles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricStateE"><code class="docutils literal notranslate"><span class="pre">GeometricState</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core14GeometricState13get_neighborsEv"><code class="docutils literal notranslate"><span class="pre">get_neighbors()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricState13set_neighborsERKNSt6vectorI8NeighborEE"><code class="docutils literal notranslate"><span class="pre">set_neighbors()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core14GeometricState20get_static_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_static_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricState20set_static_obstaclesERKNSt6vectorI4DiscEE"><code class="docutils literal notranslate"><span class="pre">set_static_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core14GeometricState18get_line_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricState18set_line_obstaclesERKNSt6vectorI11LineSegmentEE"><code class="docutils literal notranslate"><span class="pre">set_line_obstacles()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sensing">Sensing</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sensing">Sensing</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11BufferShapeE"><code class="docutils literal notranslate"><span class="pre">BufferShape</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10BufferTypeE"><code class="docutils literal notranslate"><span class="pre">BufferType</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10BufferDataE"><code class="docutils literal notranslate"><span class="pre">BufferData</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescriptionE"><code class="docutils literal notranslate"><span class="pre">BufferDescription</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription17BufferDescriptionERK11BufferShapeRKNSt6stringEddb"><code class="docutils literal notranslate"><span class="pre">BufferDescription::BufferDescription()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core17BufferDescription11get_stridesEv"><code class="docutils literal notranslate"><span class="pre">BufferDescription::get_strides()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription5shapeE"><code class="docutils literal notranslate"><span class="pre">BufferDescription::shape</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription3lowE"><code class="docutils literal notranslate"><span class="pre">BufferDescription::low</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription4highE"><code class="docutils literal notranslate"><span class="pre">BufferDescription::high</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription11categoricalE"><code class="docutils literal notranslate"><span class="pre">BufferDescription::categorical</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription4typeE"><code class="docutils literal notranslate"><span class="pre">BufferDescription::type</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground4core17BufferDescription4makeE17BufferDescriptionRK11BufferShapeddb"><code class="docutils literal notranslate"><span class="pre">BufferDescription::make()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescriptionE"><code class="docutils literal notranslate"><span class="pre">BufferDescription</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription17BufferDescriptionERK11BufferShapeRKNSt6stringEddb"><code class="docutils literal notranslate"><span class="pre">BufferDescription()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core17BufferDescription11get_stridesEv"><code class="docutils literal notranslate"><span class="pre">get_strides()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription5shapeE"><code class="docutils literal notranslate"><span class="pre">shape</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription3lowE"><code class="docutils literal notranslate"><span class="pre">low</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription4highE"><code class="docutils literal notranslate"><span class="pre">high</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription11categoricalE"><code class="docutils literal notranslate"><span class="pre">categorical</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription4typeE"><code class="docutils literal notranslate"><span class="pre">type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground4core17BufferDescription4makeE17BufferDescriptionRK11BufferShapeddb"><code class="docutils literal notranslate"><span class="pre">make()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6BufferE"><code class="docutils literal notranslate"><span class="pre">Buffer</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK17BufferDescription10BufferType"><code class="docutils literal notranslate"><span class="pre">Buffer::Buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK17BufferDescription"><code class="docutils literal notranslate"><span class="pre">Buffer::Buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK17BufferDescriptionRK10BufferData"><code class="docutils literal notranslate"><span class="pre">Buffer::Buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK10BufferData"><code class="docutils literal notranslate"><span class="pre">Buffer::Buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer4sizeEv"><code class="docutils literal notranslate"><span class="pre">Buffer::size()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer4typeEv"><code class="docutils literal notranslate"><span class="pre">Buffer::type()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0ENK9navground4core6Buffer8get_dataEPKNSt8valarrayI1TEEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_data()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer18get_data_containerEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_data_container()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0ENK9navground4core6Buffer8has_typeEbv"><code class="docutils literal notranslate"><span class="pre">Buffer::has_type()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer8set_dataE10BufferDatab"><code class="docutils literal notranslate"><span class="pre">Buffer::set_data()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer7get_ptrEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_ptr()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer7set_ptrEPvRK11BufferShapeRKNSt6stringEb"><code class="docutils literal notranslate"><span class="pre">Buffer::set_ptr()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer15get_descriptionEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_description()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer15set_descriptionE17BufferDescriptionb"><code class="docutils literal notranslate"><span class="pre">Buffer::set_description()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer7get_lowEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_low()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer8get_highEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_high()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer15get_categoricalEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_categorical()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer9get_shapeEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_shape()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer7set_lowEd"><code class="docutils literal notranslate"><span class="pre">Buffer::set_low()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer8set_highEd"><code class="docutils literal notranslate"><span class="pre">Buffer::set_high()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer15set_categoricalEb"><code class="docutils literal notranslate"><span class="pre">Buffer::set_categorical()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer9set_shapeE11BufferShapeb"><code class="docutils literal notranslate"><span class="pre">Buffer::set_shape()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground4core6Buffer8set_typeEbb"><code class="docutils literal notranslate"><span class="pre">Buffer::set_type()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer8set_typeERKNSt6stringEb"><code class="docutils literal notranslate"><span class="pre">Buffer::set_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6BufferE"><code class="docutils literal notranslate"><span class="pre">Buffer</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK17BufferDescription10BufferType"><code class="docutils literal notranslate"><span class="pre">Buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK17BufferDescription"><code class="docutils literal notranslate"><span class="pre">Buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK17BufferDescriptionRK10BufferData"><code class="docutils literal notranslate"><span class="pre">Buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK10BufferData"><code class="docutils literal notranslate"><span class="pre">Buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer4sizeEv"><code class="docutils literal notranslate"><span class="pre">size()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer4typeEv"><code class="docutils literal notranslate"><span class="pre">type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0ENK9navground4core6Buffer8get_dataEPKNSt8valarrayI1TEEv"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer18get_data_containerEv"><code class="docutils literal notranslate"><span class="pre">get_data_container()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0ENK9navground4core6Buffer8has_typeEbv"><code class="docutils literal notranslate"><span class="pre">has_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer8set_dataE10BufferDatab"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer7get_ptrEv"><code class="docutils literal notranslate"><span class="pre">get_ptr()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer7set_ptrEPvRK11BufferShapeRKNSt6stringEb"><code class="docutils literal notranslate"><span class="pre">set_ptr()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer15get_descriptionEv"><code class="docutils literal notranslate"><span class="pre">get_description()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer15set_descriptionE17BufferDescriptionb"><code class="docutils literal notranslate"><span class="pre">set_description()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer7get_lowEv"><code class="docutils literal notranslate"><span class="pre">get_low()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer8get_highEv"><code class="docutils literal notranslate"><span class="pre">get_high()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer15get_categoricalEv"><code class="docutils literal notranslate"><span class="pre">get_categorical()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer9get_shapeEv"><code class="docutils literal notranslate"><span class="pre">get_shape()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer7set_lowEd"><code class="docutils literal notranslate"><span class="pre">set_low()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer8set_highEd"><code class="docutils literal notranslate"><span class="pre">set_high()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer15set_categoricalEb"><code class="docutils literal notranslate"><span class="pre">set_categorical()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer9set_shapeE11BufferShapeb"><code class="docutils literal notranslate"><span class="pre">set_shape()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground4core6Buffer8set_typeEbb"><code class="docutils literal notranslate"><span class="pre">set_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer8set_typeERKNSt6stringEb"><code class="docutils literal notranslate"><span class="pre">set_type()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">SensingState</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState12SensingStateEv"><code class="docutils literal notranslate"><span class="pre">SensingState::SensingState()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12SensingState11get_buffersEv"><code class="docutils literal notranslate"><span class="pre">SensingState::get_buffers()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState11init_bufferERKNSt6stringERK17BufferDescription10BufferType"><code class="docutils literal notranslate"><span class="pre">SensingState::init_buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState11init_bufferERKNSt6stringERK17BufferDescription"><code class="docutils literal notranslate"><span class="pre">SensingState::init_buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState11init_bufferERKNSt6stringERK10BufferData"><code class="docutils literal notranslate"><span class="pre">SensingState::init_buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState10set_bufferERKNSt6stringERK6Buffer"><code class="docutils literal notranslate"><span class="pre">SensingState::set_buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState10get_bufferERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">SensingState::get_buffer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">SensingState</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState12SensingStateEv"><code class="docutils literal notranslate"><span class="pre">SensingState()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12SensingState11get_buffersEv"><code class="docutils literal notranslate"><span class="pre">get_buffers()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState11init_bufferERKNSt6stringERK17BufferDescription10BufferType"><code class="docutils literal notranslate"><span class="pre">init_buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState11init_bufferERKNSt6stringERK17BufferDescription"><code class="docutils literal notranslate"><span class="pre">init_buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState11init_bufferERKNSt6stringERK10BufferData"><code class="docutils literal notranslate"><span class="pre">init_buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState10set_bufferERKNSt6stringERK6Buffer"><code class="docutils literal notranslate"><span class="pre">set_buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState10get_bufferERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">get_buffer()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -957,7 +958,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core17BufferDescription17BufferDescriptionERK11BufferShapeRKNSt6stringEddb">
-<span class="target" id="structnavground_1_1core_1_1_buffer_description_1a5a5512df7917e4a09eb023b79d6dda75"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BufferDescription</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core11BufferShapeE" title="navground::core::BufferShape"><span class="n"><span class="pre">BufferShape</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">shape</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">low</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">min</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">high</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">max</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">categorical</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core17BufferDescription17BufferDescriptionERK11BufferShapeRKNSt6stringEddb" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1core_1_1_buffer_description_1a5b9ce4989c9f324ec2255ada667ecf1d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BufferDescription</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core11BufferShapeE" title="navground::core::BufferShape"><span class="n"><span class="pre">BufferShape</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">shape</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core11BufferShapeE" title="navground::core::BufferShape"><span class="n"><span class="pre">BufferShape</span></span></a><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">low</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">min</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">high</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">max</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">categorical</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core17BufferDescription17BufferDescriptionERK11BufferShapeRKNSt6stringEddb" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1091,7 +1092,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core6Buffer6BufferERK10BufferData">
-<span class="target" id="classnavground_1_1core_1_1_buffer_1a7ab4e7e7a7b490a4bafcc567dd67b840"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Buffer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10BufferDataE" title="navground::core::BufferData"><span class="n"><span class="pre">BufferData</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core6Buffer6BufferERK10BufferData" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1core_1_1_buffer_1a09a4926fbb669467b4472f0de901cf41"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Buffer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core10BufferDataE" title="navground::core::BufferData"><span class="n"><span class="pre">BufferData</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core6Buffer6BufferERK10BufferData" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs an unbounded, flat buffer of data. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1458,7 +1459,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> – <strong>[in]</strong> The new value </p></li>
+<li><p><strong>key</strong> – <strong>[in]</strong> The key </p></li>
 <li><p><strong>value</strong> – <strong>[in]</strong> The value </p></li>
 </ul>
 </dd>
@@ -1531,104 +1532,104 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class">Base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class">Base class</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core16EnvironmentStateE"><code class="docutils literal notranslate"><span class="pre">EnvironmentState</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric">Geometric</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegmentE"><code class="docutils literal notranslate"><span class="pre">LineSegment</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment11LineSegmentERK7Vector2RK7Vector2"><code class="docutils literal notranslate"><span class="pre">LineSegment::LineSegment()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment14distance_alongERK7Vector2RK7Vector2i"><code class="docutils literal notranslate"><span class="pre">LineSegment::distance_along()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2p1E"><code class="docutils literal notranslate"><span class="pre">LineSegment::p1</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2p2E"><code class="docutils literal notranslate"><span class="pre">LineSegment::p2</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2e1E"><code class="docutils literal notranslate"><span class="pre">LineSegment::e1</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2e2E"><code class="docutils literal notranslate"><span class="pre">LineSegment::e2</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment6lengthE"><code class="docutils literal notranslate"><span class="pre">LineSegment::length</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric">Geometric</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegmentE"><code class="docutils literal notranslate"><span class="pre">LineSegment</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment11LineSegmentERK7Vector2RK7Vector2"><code class="docutils literal notranslate"><span class="pre">LineSegment()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment14distance_alongERK7Vector2RK7Vector2i"><code class="docutils literal notranslate"><span class="pre">distance_along()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2p1E"><code class="docutils literal notranslate"><span class="pre">p1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2p2E"><code class="docutils literal notranslate"><span class="pre">p2</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2e1E"><code class="docutils literal notranslate"><span class="pre">e1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment2e2E"><code class="docutils literal notranslate"><span class="pre">e2</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11LineSegment6lengthE"><code class="docutils literal notranslate"><span class="pre">length</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4DiscE"><code class="docutils literal notranslate"><span class="pre">Disc</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4Disc4DiscERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Disc::Disc()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DisceqERK4Disc"><code class="docutils literal notranslate"><span class="pre">Disc::operator==()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DiscplERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Disc::operator+()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4DiscpLERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Disc::operator+=()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DiscmiERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Disc::operator-()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4DiscmIERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Disc::operator-=()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DiscneERK4Disc"><code class="docutils literal notranslate"><span class="pre">Disc::operator!=()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4Disc8distanceERK4Disc"><code class="docutils literal notranslate"><span class="pre">Disc::distance()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4Disc8positionE"><code class="docutils literal notranslate"><span class="pre">Disc::position</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4Disc6radiusE"><code class="docutils literal notranslate"><span class="pre">Disc::radius</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4DiscE"><code class="docutils literal notranslate"><span class="pre">Disc</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4Disc4DiscERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Disc()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DisceqERK4Disc"><code class="docutils literal notranslate"><span class="pre">operator==()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DiscplERK7Vector2"><code class="docutils literal notranslate"><span class="pre">operator+()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4DiscpLERK7Vector2"><code class="docutils literal notranslate"><span class="pre">operator+=()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DiscmiERK7Vector2"><code class="docutils literal notranslate"><span class="pre">operator-()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4DiscmIERK7Vector2"><code class="docutils literal notranslate"><span class="pre">operator-=()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4DiscneERK4Disc"><code class="docutils literal notranslate"><span class="pre">operator!=()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core4Disc8distanceERK4Disc"><code class="docutils literal notranslate"><span class="pre">distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4Disc8positionE"><code class="docutils literal notranslate"><span class="pre">position</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core4Disc6radiusE"><code class="docutils literal notranslate"><span class="pre">radius</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8NeighborE"><code class="docutils literal notranslate"><span class="pre">Neighbor</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor8NeighborERK7Vector210ng_float_tK7Vector2j"><code class="docutils literal notranslate"><span class="pre">Neighbor::Neighbor()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor8NeighborERK4DiscK7Vector2j"><code class="docutils literal notranslate"><span class="pre">Neighbor::Neighbor()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8NeighboraSERK4Disc"><code class="docutils literal notranslate"><span class="pre">Neighbor::operator=()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor11relative_toERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Neighbor::relative_to()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor8velocityE"><code class="docutils literal notranslate"><span class="pre">Neighbor::velocity</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor2idE"><code class="docutils literal notranslate"><span class="pre">Neighbor::id</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8NeighborE"><code class="docutils literal notranslate"><span class="pre">Neighbor</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor8NeighborERK7Vector210ng_float_tK7Vector2j"><code class="docutils literal notranslate"><span class="pre">Neighbor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor8NeighborERK4DiscK7Vector2j"><code class="docutils literal notranslate"><span class="pre">Neighbor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8NeighboraSERK4Disc"><code class="docutils literal notranslate"><span class="pre">operator=()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor11relative_toERK5Pose2"><code class="docutils literal notranslate"><span class="pre">relative_to()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor8velocityE"><code class="docutils literal notranslate"><span class="pre">velocity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Neighbor2idE"><code class="docutils literal notranslate"><span class="pre">id</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricStateE"><code class="docutils literal notranslate"><span class="pre">GeometricState</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core14GeometricState13get_neighborsEv"><code class="docutils literal notranslate"><span class="pre">GeometricState::get_neighbors()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricState13set_neighborsERKNSt6vectorI8NeighborEE"><code class="docutils literal notranslate"><span class="pre">GeometricState::set_neighbors()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core14GeometricState20get_static_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">GeometricState::get_static_obstacles()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricState20set_static_obstaclesERKNSt6vectorI4DiscEE"><code class="docutils literal notranslate"><span class="pre">GeometricState::set_static_obstacles()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core14GeometricState18get_line_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">GeometricState::get_line_obstacles()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricState18set_line_obstaclesERKNSt6vectorI11LineSegmentEE"><code class="docutils literal notranslate"><span class="pre">GeometricState::set_line_obstacles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricStateE"><code class="docutils literal notranslate"><span class="pre">GeometricState</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core14GeometricState13get_neighborsEv"><code class="docutils literal notranslate"><span class="pre">get_neighbors()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricState13set_neighborsERKNSt6vectorI8NeighborEE"><code class="docutils literal notranslate"><span class="pre">set_neighbors()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core14GeometricState20get_static_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_static_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricState20set_static_obstaclesERKNSt6vectorI4DiscEE"><code class="docutils literal notranslate"><span class="pre">set_static_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core14GeometricState18get_line_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core14GeometricState18set_line_obstaclesERKNSt6vectorI11LineSegmentEE"><code class="docutils literal notranslate"><span class="pre">set_line_obstacles()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sensing">Sensing</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sensing">Sensing</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11BufferShapeE"><code class="docutils literal notranslate"><span class="pre">BufferShape</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10BufferTypeE"><code class="docutils literal notranslate"><span class="pre">BufferType</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10BufferDataE"><code class="docutils literal notranslate"><span class="pre">BufferData</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescriptionE"><code class="docutils literal notranslate"><span class="pre">BufferDescription</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription17BufferDescriptionERK11BufferShapeRKNSt6stringEddb"><code class="docutils literal notranslate"><span class="pre">BufferDescription::BufferDescription()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core17BufferDescription11get_stridesEv"><code class="docutils literal notranslate"><span class="pre">BufferDescription::get_strides()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription5shapeE"><code class="docutils literal notranslate"><span class="pre">BufferDescription::shape</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription3lowE"><code class="docutils literal notranslate"><span class="pre">BufferDescription::low</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription4highE"><code class="docutils literal notranslate"><span class="pre">BufferDescription::high</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription11categoricalE"><code class="docutils literal notranslate"><span class="pre">BufferDescription::categorical</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription4typeE"><code class="docutils literal notranslate"><span class="pre">BufferDescription::type</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground4core17BufferDescription4makeE17BufferDescriptionRK11BufferShapeddb"><code class="docutils literal notranslate"><span class="pre">BufferDescription::make()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescriptionE"><code class="docutils literal notranslate"><span class="pre">BufferDescription</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription17BufferDescriptionERK11BufferShapeRKNSt6stringEddb"><code class="docutils literal notranslate"><span class="pre">BufferDescription()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core17BufferDescription11get_stridesEv"><code class="docutils literal notranslate"><span class="pre">get_strides()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription5shapeE"><code class="docutils literal notranslate"><span class="pre">shape</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription3lowE"><code class="docutils literal notranslate"><span class="pre">low</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription4highE"><code class="docutils literal notranslate"><span class="pre">high</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription11categoricalE"><code class="docutils literal notranslate"><span class="pre">categorical</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core17BufferDescription4typeE"><code class="docutils literal notranslate"><span class="pre">type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground4core17BufferDescription4makeE17BufferDescriptionRK11BufferShapeddb"><code class="docutils literal notranslate"><span class="pre">make()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6BufferE"><code class="docutils literal notranslate"><span class="pre">Buffer</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK17BufferDescription10BufferType"><code class="docutils literal notranslate"><span class="pre">Buffer::Buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK17BufferDescription"><code class="docutils literal notranslate"><span class="pre">Buffer::Buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK17BufferDescriptionRK10BufferData"><code class="docutils literal notranslate"><span class="pre">Buffer::Buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK10BufferData"><code class="docutils literal notranslate"><span class="pre">Buffer::Buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer4sizeEv"><code class="docutils literal notranslate"><span class="pre">Buffer::size()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer4typeEv"><code class="docutils literal notranslate"><span class="pre">Buffer::type()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0ENK9navground4core6Buffer8get_dataEPKNSt8valarrayI1TEEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_data()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer18get_data_containerEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_data_container()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0ENK9navground4core6Buffer8has_typeEbv"><code class="docutils literal notranslate"><span class="pre">Buffer::has_type()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer8set_dataE10BufferDatab"><code class="docutils literal notranslate"><span class="pre">Buffer::set_data()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer7get_ptrEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_ptr()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer7set_ptrEPvRK11BufferShapeRKNSt6stringEb"><code class="docutils literal notranslate"><span class="pre">Buffer::set_ptr()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer15get_descriptionEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_description()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer15set_descriptionE17BufferDescriptionb"><code class="docutils literal notranslate"><span class="pre">Buffer::set_description()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer7get_lowEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_low()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer8get_highEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_high()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer15get_categoricalEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_categorical()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer9get_shapeEv"><code class="docutils literal notranslate"><span class="pre">Buffer::get_shape()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer7set_lowEd"><code class="docutils literal notranslate"><span class="pre">Buffer::set_low()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer8set_highEd"><code class="docutils literal notranslate"><span class="pre">Buffer::set_high()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer15set_categoricalEb"><code class="docutils literal notranslate"><span class="pre">Buffer::set_categorical()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer9set_shapeE11BufferShapeb"><code class="docutils literal notranslate"><span class="pre">Buffer::set_shape()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground4core6Buffer8set_typeEbb"><code class="docutils literal notranslate"><span class="pre">Buffer::set_type()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer8set_typeERKNSt6stringEb"><code class="docutils literal notranslate"><span class="pre">Buffer::set_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6BufferE"><code class="docutils literal notranslate"><span class="pre">Buffer</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK17BufferDescription10BufferType"><code class="docutils literal notranslate"><span class="pre">Buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK17BufferDescription"><code class="docutils literal notranslate"><span class="pre">Buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK17BufferDescriptionRK10BufferData"><code class="docutils literal notranslate"><span class="pre">Buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer6BufferERK10BufferData"><code class="docutils literal notranslate"><span class="pre">Buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer4sizeEv"><code class="docutils literal notranslate"><span class="pre">size()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer4typeEv"><code class="docutils literal notranslate"><span class="pre">type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0ENK9navground4core6Buffer8get_dataEPKNSt8valarrayI1TEEv"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer18get_data_containerEv"><code class="docutils literal notranslate"><span class="pre">get_data_container()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0ENK9navground4core6Buffer8has_typeEbv"><code class="docutils literal notranslate"><span class="pre">has_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer8set_dataE10BufferDatab"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer7get_ptrEv"><code class="docutils literal notranslate"><span class="pre">get_ptr()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer7set_ptrEPvRK11BufferShapeRKNSt6stringEb"><code class="docutils literal notranslate"><span class="pre">set_ptr()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer15get_descriptionEv"><code class="docutils literal notranslate"><span class="pre">get_description()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer15set_descriptionE17BufferDescriptionb"><code class="docutils literal notranslate"><span class="pre">set_description()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer7get_lowEv"><code class="docutils literal notranslate"><span class="pre">get_low()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer8get_highEv"><code class="docutils literal notranslate"><span class="pre">get_high()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer15get_categoricalEv"><code class="docutils literal notranslate"><span class="pre">get_categorical()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Buffer9get_shapeEv"><code class="docutils literal notranslate"><span class="pre">get_shape()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer7set_lowEd"><code class="docutils literal notranslate"><span class="pre">set_low()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer8set_highEd"><code class="docutils literal notranslate"><span class="pre">set_high()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer15set_categoricalEb"><code class="docutils literal notranslate"><span class="pre">set_categorical()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer9set_shapeE11BufferShapeb"><code class="docutils literal notranslate"><span class="pre">set_shape()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground4core6Buffer8set_typeEbb"><code class="docutils literal notranslate"><span class="pre">set_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Buffer8set_typeERKNSt6stringEb"><code class="docutils literal notranslate"><span class="pre">set_type()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">SensingState</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState12SensingStateEv"><code class="docutils literal notranslate"><span class="pre">SensingState::SensingState()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12SensingState11get_buffersEv"><code class="docutils literal notranslate"><span class="pre">SensingState::get_buffers()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState11init_bufferERKNSt6stringERK17BufferDescription10BufferType"><code class="docutils literal notranslate"><span class="pre">SensingState::init_buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState11init_bufferERKNSt6stringERK17BufferDescription"><code class="docutils literal notranslate"><span class="pre">SensingState::init_buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState11init_bufferERKNSt6stringERK10BufferData"><code class="docutils literal notranslate"><span class="pre">SensingState::init_buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState10set_bufferERKNSt6stringERK6Buffer"><code class="docutils literal notranslate"><span class="pre">SensingState::set_buffer()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState10get_bufferERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">SensingState::get_buffer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">SensingState</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState12SensingStateEv"><code class="docutils literal notranslate"><span class="pre">SensingState()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12SensingState11get_buffersEv"><code class="docutils literal notranslate"><span class="pre">get_buffers()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState11init_bufferERKNSt6stringERK17BufferDescription10BufferType"><code class="docutils literal notranslate"><span class="pre">init_buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState11init_bufferERKNSt6stringERK17BufferDescription"><code class="docutils literal notranslate"><span class="pre">init_buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState11init_bufferERKNSt6stringERK10BufferData"><code class="docutils literal notranslate"><span class="pre">init_buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState10set_bufferERKNSt6stringERK6Buffer"><code class="docutils literal notranslate"><span class="pre">set_buffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SensingState10get_bufferERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">get_buffer()</span></code></a></li>
 </ul>
 </li>
 </ul>

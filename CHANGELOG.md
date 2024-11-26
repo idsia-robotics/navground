@@ -1,37 +1,72 @@
 # Changelog
 
-## [Unreleased]
+## [0.3.0] 2024-26-11
+
+This release improves usability when extending navground with new components and when validating code:
+- we documented all protected virtual methods that are meant to be overriden by sub-classes,
+- we simplified and documented how to register a new component,
+- we added (JSON-) schemas for all YAML representations and CLI commands to validate YAML string/files.
 
 ### Added
 
+- Exposed and documented all virtual methods meant to be specialized in `Python` , in particular all the different sub-methods of `Behavior::compute_cmd`
+- Added `core::PI`, `core::HALF_PI` and `core::TWO_PI`
+- Added `EnvironmentState` constructor to Python
+- Added optional argument to force `Behavior::compute_cmd` to output feasible commands.
+- Added `Task::log_event` to simplify sub-classing tasks.
+- Added optional arguments to `HasRegister<T>::register_type` to register properties and YAML schema.
+- Added build-time information to sim/core libraries and plugins. Libraries now expose when they where built, with which configuration (for now just which floating-point type), and from which git commit. Libraries and plugins now expose also the list of dependencies (limited to navground libraries), with build-time information and load-time information, to check if library/plugins are using newer versions of the navground libraries than the version they where compiled against.
+- Added `Scenario::make_world` and `Scenario::bounding_box`
+- Added custom svg renderers and support to render quadrotors and robomasters
+- Added `start_angle` and `fov` to lidar sensing state
+- Added a background doc on the difference between getting a reference or a copy from Pybind11.
+- Added doc guides on how to extend navground
+- Documented all currently implemented components with videos and examples
+
 ### Fixed
+
+- Resolved missing references in the docs, adding also `intersphinx_mapping`.
+- Fixed `Behavior::compute_cmd` in case of no target: now calls `cmd_twist_towards_stopping` instead of returning zero.
+- `sim.Dataset.push` now accepts different types of scalars without losing precision
+- `MotorPIDModulation` now requires `DynamicTwoWheelsDifferentialDriveKinematics`.
+- Python navground properties now correctly infer and pass down the correct type and on the C++ side, setters also respect the type.
+- Fixed missing arguments and references in the docs.
 
 ### Changed
 
+- Restructured the docs (all components have their own file now)
+- Renamed `Sensor::prepare` to `Sensor::prepare_state`
+- Renamed `Experimental::get_duration_ns` to `Experimental::get_duration`
+- Renamed `ExperimentalRun::get_duration_ns` to `ExperimentalRun::get_duration`
+- Refactored `pyplot_helper` to increase code reuse.
+- The (agent) controller now evaluates the behavior even when no action is active. This enable an (agent) task to operate on behavior targets without passing through the controller.
+- Simplified Python interfaces of `core.Buffer`, `core.SensingState`, `sim.Dataset`, and `sim.ExperimentalRun.add_record`: they now group together constructors/methods by accepting optional arguments.  
+- `Pose` integration is now exact (i.e., along arc of circles instead of line segments)
+- `WheeledKinematics` is now a pure abstract class that adds few interfaces converting twists to wheel speeds but no data. `TwoWheelsDifferentialDriveKinematics` and `FourWheelsOmniDriveKinematics` get their own `wheel_axis` member (renamed from `axis`)
+- `Kinematics::get_max_speed` is now virtual while `Kinematics::is_wheeled` is still virtual but no more pure.
+- In C++, registered classes get automatically overridden `get_type` and `get_properties`. Replaced static members `type` and `properties` with methods `HasRegister<T>::get_type<C>` and `HasRegister<T>::get_properties<C>`.
+- Replaced ``make_property` with several overloads of `Property::make` to simplify defining properties from class methods.
+- Refactored the implementation of Python components (behaviors, kinematics, ...) between C++ (Pybind11) and Python
+   - replaced Python-defined base-classes with richer Pybind11 base classes
+      - added `__init_subclass__` to enable autoregistration
+      - pickle protocol uses `__dict__` when available
+   - added `<Component>.load` and `<Component>.dump` from Pybind11
+   - moved `load_<component>` and `dump` to Python 
+   - added `property.py` and `schema.py` with helper methods for registration
+- Added Python YAML APIs for `Wall`, `Obstacle`, `Line`, `Disc`, and `Neighbor`.
+- Added YAML schema generation and validation as API and CLI (`schema` and `validate`). To support operating with schemas on Python, we added `PyYAML` as required dependency.
+- Simplified and uniformed the interfaces of `Scenario::Group` and `Scenario::Init` to use optional seeds as arguments.
+- Refined the error models in `OdometryStateEstimation`
+- `ExperimentalRun` now stores all fields of target except paths and record the agent own sensing state, not just external sensors. `ExperimentalRun` and `RecordedExperimentalRun`,  `go_to_step` can now set target and sensing state.
+- `Agent::update` now uses `Kinematics::feasible_from_current` to compute feasible commands and  check if the agent is stuck only after evaluating the behavior.
+- `Agent` exposes `Controller::speed_tolerance` (also as YAML field)
+- In most examples in the docs, we now generate the output automatically (like schemas and CLI commands)
+- New types of `EnvironmentState` can be now defined (also) in Python.
+- Updated Python stubs
+
 ### Removed
 
-## [0.2.3] - TBD
-
-### Added
-
-- exposed and documented all virtual methods meant to be specialized in `Python` , in particular all the different branches of `Behavior::compute_cmd`
-- added `core::PI`, `core::HALF_PI` and `core::TWO_PI`
-
-### Fixed
-
-- resolved missing references in the docs, adding also `intersphinx_mapping`.
-- fixed no target case: behavior now calls `cmd_twist_towards_stopping` instead of returning zero
-
-### Changed
-
-- restructured the docs (all components have their own file now)
-- renamed `Sensor::prepare` to `Sensor::prepare_state`
-- renamed `Experimental::get_duration_ns` to `Experimental::get_duration`
-- renamed `ExperimentalRun::get_duration_ns` to `ExperimentalRun::get_duration`
-- refined `pyplot_helper` to reuse parts
-- added guards in `@register` when calling the type and allowed passing the type as a string
-
-### Removed
+- Removed `Frame` argument from `Behavior::compute_cmd` (virtual) sub-methods: they are now free to compute a command in any frame. `Behavior::compute_cmd` takes now care of returning a command in the requested frame. 
 
 
 ## [0.2.2] - 2024-07-11

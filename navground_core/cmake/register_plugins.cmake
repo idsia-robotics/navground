@@ -14,7 +14,7 @@ function(register_navground_plugins)
 
   foreach(target ${ARG_TARGETS})
     get_target_property(OUT ${target} LINK_LIBRARIES)
-    message("${target} PLUGIN DEPS ${OUT}")
+    # message("${target} PLUGIN DEPS ${OUT}")
     if("navground_sim::navground_sim" IN_LIST OUT)
       set(content "#include \"navground/sim/plugin_p.cpp\"")
     else()

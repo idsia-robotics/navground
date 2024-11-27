@@ -17,7 +17,7 @@ def notebook_view(width: int = 600, **kwargs: Any) -> HTML:
 
     :returns:   A HTML view
     """
-    return HTML(
+    return HTML(  # type: ignore[no-untyped-call]
         html_for_world(world=None,
                        with_websocket=True,
                        width=width,
@@ -32,7 +32,8 @@ def display_in_notebook(world: World, **kwargs: Any) -> SVG:
     :param      world:             The world to display
     :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
     """
-    return SVG(data=svg_for_world(world, **kwargs))
+    return SVG(data=svg_for_world(world,  # type: ignore[no-untyped-call]
+                                  **kwargs))
 
 
 async def run_in_notebook(world: World,
@@ -56,7 +57,7 @@ async def run_in_notebook(world: World,
     """
 
     view = notebook_view(width=width, port=port, **kwargs)
-    display_html(view)
+    display_html(view)  # type: ignore[no-untyped-call]
     ui = WebUI(port=port)
     await ui.prepare()
     rt = RealTimeSimulation(world=world,

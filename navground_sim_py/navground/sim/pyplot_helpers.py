@@ -49,38 +49,35 @@ def plot_agent(ax: Axes,
         velocity = agent.velocity
     if not color:
         color = agent.color or 'b'
-    circle = Circle(tuple(position),
-                            agent.radius,
-                            color=color,
-                            alpha=alpha)
+    circle = Circle(tuple(position), agent.radius, color=color, alpha=alpha)
     ax.add_patch(circle)
     dot_center = position + core.unit(
         pose.orientation) * agent.radius * (1 - dot_radius)
     dot = Circle(tuple(dot_center),
-                         dot_radius * agent.radius,
-                         color=dot_color,
-                         alpha=alpha)
+                 dot_radius * agent.radius,
+                 color=dot_color,
+                 alpha=alpha)
     ax.add_patch(dot)
 
     if velocity_arrow_width > 0 and np.any(velocity):
         vel = Arrow(position[0],
-                            position[1],
-                            velocity[0],
-                            velocity[1],
-                            width=velocity_arrow_width * agent.radius,
-                            color=color,
-                            edgecolor=velocity_arrow_color,
-                            alpha=0.5)
+                    position[1],
+                    velocity[0],
+                    velocity[1],
+                    width=velocity_arrow_width * agent.radius,
+                    color=color,
+                    edgecolor=velocity_arrow_color,
+                    alpha=0.5)
         ax.add_patch(vel)
     if with_safety_margin and agent.behavior:
         safety_margin = agent.behavior.safety_margin
         if safety_margin > 0:
             c = Circle(tuple(position),
-                               agent.radius + safety_margin,
-                               color=color,
-                               alpha=alpha,
-                               fill=False,
-                               linestyle='--')
+                       agent.radius + safety_margin,
+                       color=color,
+                       alpha=alpha,
+                       fill=False,
+                       linestyle='--')
             ax.add_patch(c)
 
 
@@ -104,9 +101,7 @@ def plot_world(ax: Axes,
     """
     for obstacle in world.obstacles:
         disc = obstacle.disc
-        c = Circle(tuple(disc.position),
-                           disc.radius,
-                           color=obstacles_color)
+        c = Circle(tuple(disc.position), disc.radius, color=obstacles_color)
         ax.add_patch(c)
     if with_agents:
         for agent in world.agents:
@@ -216,6 +211,7 @@ def plot_runs(runs: Sequence[sim.ExperimentalRun],
               columns: int = 1,
               width: float = 10,
               fig: Figure | None = None,
+              hide_axes: bool = True,
               **kwargs: Any) -> Figure:
     """
     Plots several runs using :py:func:`plot_run` as subplots.
@@ -223,7 +219,8 @@ def plot_runs(runs: Sequence[sim.ExperimentalRun],
     :param      runs:     The runs
     :param      columns:  The number of subplots columns
     :param      width:    The width of a subplot
-    :param      fig:      An optional figuer
+    :param      fig:      An optional figuer:
+    :param      hide_axes: Whether to hide the axes
     :param      kwargs:   Keywords arguments passed to :py:func:`plot_run`
 
     :returns:   The figure
@@ -242,6 +239,8 @@ def plot_runs(runs: Sequence[sim.ExperimentalRun],
         bx = ax.get_xbound()
         by = ax.get_ybound()
         hs.append((by[1] - by[0]) / (bx[1] - bx[0]))
+        if hide_axes:
+            ax.set_axis_off()
     if is_new_fig:
         for ax in axs[len(runs):]:
             ax.set_axis_off()

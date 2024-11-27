@@ -13,7 +13,7 @@ from . import (Agent, BoundingBox, Bounds, ExperimentalRun, RecordConfig,
                Scenario, World, load_experiment, load_world)
 
 if TYPE_CHECKING:
-    import h5py  # type: ignore
+    import h5py  # type: ignore[import-untyped]
 
 
 def _timedelta_from_ns(ns: int) -> datetime.timedelta:

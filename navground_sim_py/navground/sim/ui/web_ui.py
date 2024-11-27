@@ -7,7 +7,8 @@ import time
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 
 import websockets
-import websockets.server
+from websockets.legacy.server import (Serve, WebSocketServer,
+                                      WebSocketServerProtocol)
 
 from .. import Agent, Entity, Obstacle, Wall, World, bounds_for_world
 from .to_svg import Attributes, Decorate, Rect, flat_dict, size
@@ -19,7 +20,7 @@ Callback = Callable[[Any], None]
 
 
 async def consumer_handler(
-        websocket: websockets.server.WebSocketServerProtocol,  # type: ignore
+        websocket: WebSocketServerProtocol,
         callbacks: List[Callback]) -> None:
     try:
         async for msg in websocket:
@@ -31,7 +32,7 @@ async def consumer_handler(
 
 
 async def producer_handler(
-        websocket: websockets.server.WebSocketServerProtocol,   # type: ignore
+        websocket: WebSocketServerProtocol,
         queue: asyncio.Queue[str]) -> None:
     while True:
         msg = await queue.get()
@@ -141,7 +142,7 @@ class WebUI:
         self.in_collision: Set[int] = set()
         self.in_deadlock: Set[int] = set()
         self.decorate = decorate
-        self.server: Optional[websockets.WebSocketServer] = None   # type: ignore
+        self.server: Optional[WebSocketServer] = None
 
     @property
     def is_ready(self) -> bool:
@@ -155,8 +156,7 @@ class WebUI:
         """
         if not self._prepared:
             try:
-                self.server = await websockets.server.serve(   # type: ignore
-                    self.handle_ws, self.host, self.port)
+                self.server = await Serve(self.handle_ws, self.host, self.port)
             except OSError as e:
                 print(e, file=sys.stderr)
                 return False
@@ -170,10 +170,11 @@ class WebUI:
         """
         return len(self.queues)
 
-    async def handle_ws(self,
-                        websocket: websockets.server.WebSocketServerProtocol,   # type: ignore
-                        path: str,
-                        port: int = 8000) -> None:
+    async def handle_ws(
+            self,
+            websocket: WebSocketServerProtocol,
+            path: str,
+            port: int = 8000) -> None:
         logging.info('Websocket connection opened')
         queue: asyncio.Queue[str] = asyncio.Queue()
         self.queues.append(queue)

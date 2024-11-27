@@ -2,12 +2,12 @@ import pathlib
 from typing import Any, Tuple, Union
 
 try:
-    import moviepy.editor as mpy
+    import moviepy.editor as mpy  # type: ignore[import-untyped]
     MOVIEPY_VERSION = 1
 except ImportError:
     # No more `editor` in moviepy>=2
     # https://zulko.github.io/moviepy/getting_started/updating_to_v2.html
-    import moviepy as mpy
+    import moviepy as mpy  # type: ignore[import-untyped]
     MOVIEPY_VERSION = 2
 
 import numpy as np

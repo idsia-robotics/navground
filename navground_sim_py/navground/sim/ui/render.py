@@ -1,6 +1,6 @@
 from typing import Any, cast
 
-import cairosvg
+import cairosvg  # type: ignore[import-untyped]
 import numpy as np
 import numpy.typing
 

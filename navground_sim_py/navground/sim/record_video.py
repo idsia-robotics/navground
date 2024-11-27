@@ -123,7 +123,7 @@ def parser() -> argparse.ArgumentParser:
 
 def _load_recorded_experiment(path: str) -> Optional[RecordedExperiment]:
     try:
-        import h5py
+        import h5py  # type: ignore[import-untyped]
 
         file = h5py.File(path)
         return RecordedExperiment(file=file)

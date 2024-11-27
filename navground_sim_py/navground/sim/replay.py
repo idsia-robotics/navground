@@ -10,7 +10,7 @@ from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
 
 if TYPE_CHECKING:
     from .ui import Rect, WebUI
-    import h5py  # type: ignore
+    import h5py  # type: ignore[import-untyped]
 
 
 class RealTimeReplay(RealTimeSimulation):

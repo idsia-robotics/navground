@@ -3,7 +3,7 @@ import multiprocessing
 from multiprocessing.queues import Queue
 
 try:
-    import multiprocess  # type: ignore
+    import multiprocess  # type: ignore[import-untyped]
 except ImportError:
     multiprocess = None
 
@@ -171,7 +171,7 @@ def run_mp(experiment: sim.Experiment,
     experiment.stop(save_runs=save_runs)
     add_links = not keep and path is not None
     if add_links:
-        import h5py
+        import h5py  # type: ignore[import-untyped]
 
         with h5py.File(path, 'a') as file:
             for (_, _, i, number_of_runs, data_path,

@@ -1,13 +1,11 @@
 import argparse
+from types import ModuleType
+from typing import Any
 
-from . import info
-from . import echo
-from . import list_plugins
-from . import validate
-from . import print_schema
+from . import echo, info, list_plugins, print_schema, validate
 
 
-def config_parser(parsers, name, module):
+def config_parser(parsers: Any, name: str, module: ModuleType) -> None:
     parser = parsers.add_parser(name, help=module.description())
     module.init_parser(parser)
     parser.set_defaults(func=module._main)
@@ -28,7 +26,7 @@ def parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main():
+def main() -> None:
     ps = parser()
     args = ps.parse_args()
     if args.cmd is not None:

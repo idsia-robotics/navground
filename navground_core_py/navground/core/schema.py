@@ -6,7 +6,7 @@ Schema: typing.TypeAlias = dict[str, typing.Any]
 SchemaModifier: typing.TypeAlias = typing.Callable[[Schema], None]
 
 
-def register(modifier: SchemaModifier) -> staticmethod:
+def register(modifier: SchemaModifier) -> staticmethod[[Schema], None]:
     """
     Register a custom JSON-schema for a class
 
@@ -24,7 +24,7 @@ def register(modifier: SchemaModifier) -> staticmethod:
     :rtype:     staticmethod
     """
     fn = staticmethod(modifier)
-    fn.__is_schema__ = True  # type: ignore
+    fn.__is_schema__ = True  # type: ignore[attr-defined]
     return fn
 
 

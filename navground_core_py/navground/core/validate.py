@@ -2,7 +2,7 @@ import argparse
 import logging
 import pathlib
 import sys
-from typing import Dict, List
+from typing import Any, Dict, List
 
 import yaml
 from navground import core
@@ -38,7 +38,7 @@ def parser() -> argparse.ArgumentParser:
     return p
 
 
-def validate(arg: argparse.Namespace, kinds: List[str], schema: Dict) -> None:
+def validate(arg: argparse.Namespace, kinds: List[str], schema: Dict[str, Any]) -> None:
     import jsonschema
 
     if arg.kind not in kinds:

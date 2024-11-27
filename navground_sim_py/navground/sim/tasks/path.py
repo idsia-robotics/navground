@@ -48,7 +48,7 @@ def get_path(points: List[core.Vector2]) -> core.Path:
     return core.Path(project, curve, cs[-1], loop)
 
 
-class PathTask(sim.Task, name="Path"):  # type: ignore[call-arg]
+class PathTask(sim.Task, name="Path"):
     """
        The task to follow a path defined by a list of points.
 

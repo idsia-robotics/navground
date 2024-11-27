@@ -8,12 +8,11 @@ import jinja2
 import numpy as np
 from navground import core
 
-from .. import Agent, BoundingBox, Entity, Obstacle, Wall, World
+from .. import Agent, Bounds, BoundingBox, Entity, Obstacle, Wall, World, bounds_for_world
 
-Point = np.ndarray
-Rect = Union[Tuple[Point, Point], np.ndarray]
+Rect = Union[Bounds, np.typing.NDArray[np.float_]]
 Attributes = MutableMapping[str, str]
-
+Point = core.Vector2
 Decorate = Callable[[Entity], Attributes]
 
 folder = os.path.dirname(os.path.realpath(__file__))
@@ -21,17 +20,7 @@ template_folder = os.path.join(folder, 'templates')
 jinjia_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(template_folder))
 
-
-def bounds_of_bounding_box(
-        bb: BoundingBox) -> Tuple[core.Vector2, core.Vector2]:
-    return bb.p1, bb.p2
-
-
-def bounds_for_world(world: World) -> Tuple[core.Vector2, core.Vector2]:
-    return bounds_of_bounding_box(world.bounding_box)
-
-
-def rect_around(center: Point, width: float | None,
+def rect_around(center: core.Vector2, width: float | None,
                 height: float | None) -> Rect:
     if width is None:
         width = height
@@ -40,7 +29,7 @@ def rect_around(center: Point, width: float | None,
     if height is None or width is None:
         raise ValueError("Provide at least one of height or width")
     delta = np.array((width * 0.5, height * 0.5))
-    return np.asarray(center) - delta, np.asarray(center) + delta
+    return center - delta, center + delta
 
 
 def svg_color(r: float, g: float, b: float) -> str:
@@ -417,6 +406,5 @@ def size(
 
 def save(world: World, path: str = '', **kwargs: Any) -> None:
     svg = svg_for_world(world, **kwargs)
-    svg = cast(str, svg)
     with open(path, 'w') as f:
         f.write(svg)

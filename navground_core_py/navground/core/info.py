@@ -4,8 +4,8 @@ from typing import Any, List, Optional, Tuple, Type
 from navground import core
 from navground.core import command
 
-Component = Tuple[Type, str, Optional[str]]
-Registers = List[Tuple[Type, str]]
+Component = Tuple[Type[Any], str, Optional[str]]
+Registers = List[Tuple[Type[Any], str]]
 registers = [(core.Behavior, "Behaviors"), (core.Kinematics, "Kinematics"),
              (core.BehaviorModulation, "Modulations")]
 

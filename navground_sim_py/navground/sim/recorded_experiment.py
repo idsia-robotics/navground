@@ -3,19 +3,19 @@ import pathlib
 import re
 import sys
 import warnings
-from typing import TYPE_CHECKING, Dict, List, Optional, Set, Tuple, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Tuple, Union
 
 import numpy as np
 from navground import core
 
-from . import (Agent, BoundingBox, ExperimentalRun, RecordConfig, World,
-               Scenario, load_experiment, load_world)
+from . import (Agent, BoundingBox, Bounds, ExperimentalRun, RecordConfig,
+               Scenario, World, load_experiment, load_world)
 
 if TYPE_CHECKING:
     import h5py  # type: ignore
 
 
-def _timedelta_from_ns(ns: int):
+def _timedelta_from_ns(ns: int) -> datetime.timedelta:
     return datetime.timedelta(microseconds=ns / 1e3)
 
 
@@ -146,7 +146,7 @@ class RecordedExperimentalRun:
         return self._group
 
     @property
-    def records(self) -> Dict:
+    def records(self) -> Dict[str, 'h5py.Dataset']:
         """All recorded datasets"""
         return self.get_records()
 
@@ -199,7 +199,9 @@ class RecordedExperimentalRun:
             g = self._group
         return _get_all_datasets(g, f'{g.name}/')
 
-    def get_task_events(self, agent: Agent):
+    def get_task_events(
+        self, agent: Agent
+    ) -> Union['h5py.Dataset', np.typing.NDArray[np.float_]]:
         """
         The recorded events logged by the task of an agent
         as a HDF5 dataset of shape
@@ -318,13 +320,13 @@ class RecordedExperimentalRun:
         """
         return self._step >= self.recorded_steps - 1
 
-    def __setattr__(self, attr, value):
+    def __setattr__(self, attr: str, value: Any) -> None:
         if self._frozen and attr not in self._mutable:
             raise AttributeError("RecordedExperiment are frozen")
-        return super().__setattr__(attr, value)
+        super().__setattr__(attr, value)
 
     @property
-    def bounds(self) -> Optional[Tuple[np.ndarray, np.ndarray]]:
+    def bounds(self) -> Optional[Bounds]:
         """
         Computes the rectangle in which agents are contained during the run:
         ``(lower-left corner, top-right corner)``
@@ -356,7 +358,7 @@ class RecordedExperimentalRun:
                                max(bb.max_y, max_over_agents[1]))
         return bb
 
-    def get_collision_events(self, min_interval: int = 0) -> np.ndarray:
+    def get_collision_events(self, min_interval: int = 0) -> np.typing.NDArray[np.int_]:
         """
         Gets the recorded collisions events, i.e.
         collisions separated by more than min_interval steps
@@ -387,7 +389,7 @@ class RecordedExperimentalRun:
             collision_events.append((a, b, *es))
         return np.asarray(collision_events)
 
-    def get_steps_to_collision(self, min_interval: int = 0) -> np.ndarray:
+    def get_steps_to_collision(self, min_interval: int = 0) -> np.typing.NDArray[np.int_]:
         """
         Gets the steps to the next recorded collision
         for each agent at each simulation step.
@@ -497,7 +499,7 @@ class RecordedExperiment:
         """The duration of the experiment"""
         self._frozen = True
 
-    def __setattr__(self, attr, value):
+    def __setattr__(self, attr: str, value: Any) -> None:
         if self._frozen:
             raise AttributeError("RecordedExperiment are frozen")
-        return super().__setattr__(attr, value)
+        super().__setattr__(attr, value)

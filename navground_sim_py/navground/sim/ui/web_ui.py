@@ -9,9 +9,8 @@ from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 import websockets
 import websockets.server
 
-from .. import Agent, Entity, Obstacle, Wall, World
-from .to_svg import (Attributes, Decorate, Rect, bounds_for_world, flat_dict,
-                     size)
+from .. import Agent, Entity, Obstacle, Wall, World, bounds_for_world
+from .to_svg import Attributes, Decorate, Rect, flat_dict, size
 
 PoseMsg = Tuple[float, float, float]
 EntityMsg = Dict[str, Any]
@@ -33,7 +32,7 @@ async def consumer_handler(
 
 async def producer_handler(
         websocket: websockets.server.WebSocketServerProtocol,   # type: ignore
-        queue: asyncio.Queue) -> None:
+        queue: asyncio.Queue[str]) -> None:
     while True:
         msg = await queue.get()
         try:
@@ -129,7 +128,7 @@ class WebUI:
         """
         self.port = port
         self.host = host
-        self.queues: List[asyncio.Queue] = []
+        self.queues: List[asyncio.Queue[str]] = []
         self._callbacks: List[Callback] = []
         if max_rate > 0:
             self.min_period = 1 / max_rate
@@ -176,7 +175,7 @@ class WebUI:
                         path: str,
                         port: int = 8000) -> None:
         logging.info('Websocket connection opened')
-        queue: asyncio.Queue = asyncio.Queue()
+        queue: asyncio.Queue[str] = asyncio.Queue()
         self.queues.append(queue)
         consumer_task = asyncio.ensure_future(
             consumer_handler(websocket, self._callbacks))
@@ -350,6 +349,6 @@ class WebUI:
     def remove_callback(self, cb: Callback) -> None:
         self._callbacks.remove(cb)
 
-    def __del__(self):
+    def __del__(self) -> None:
         if self.server:
             self.server.close()

@@ -1,8 +1,9 @@
-from typing import (Any, Callable, List, Literal, Tuple, TypeAlias, Union,
-                    TypeVar, Type)
+from typing import (Any, Callable, List, Literal, Tuple, Type, TypeAlias,
+                    TypeVar, Union, cast)
+
+import numpy
 
 from .schema import SchemaModifier
-import numpy
 
 # TODO(Jerome): how to define an alias that depends on `uses_doubles`?
 Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]],
@@ -16,7 +17,7 @@ PropertyField = Union[ScalarPropertyField, List[bool], List[int], List[float],
 T = TypeVar('T', bound=Any)
 
 
-def _convert(type_: Any, value: Any) -> Tuple[PropertyField, Type]:
+def _convert(type_: Any, value: Any) -> Tuple[PropertyField, Type[Any]]:
     if isinstance(type_, str):
         try:
             type_ = eval(type_)
@@ -40,8 +41,9 @@ def _convert(type_: Any, value: Any) -> Tuple[PropertyField, Type]:
     if item_type is list:
         item_type = Vector2
     if type_ in (list, tuple, List, Tuple):
-        return [_convert_scalar(item_type, x)
-                for x in value], item_type  # type: ignore
+        return cast(PropertyField,
+                    [_convert_scalar(item_type, x)
+                     for x in value]), cast(Type[Any], item_type)
     return _convert_scalar(type_, value), type_
 
 
@@ -70,7 +72,7 @@ def _convert_scalar(type_: Any, value: Any) -> ScalarPropertyField:
         raise TypeError(
             f"Implicit conversion of {value} to {type_} is not permitted")
     try:
-        return type_(value)
+        return cast(ScalarPropertyField, type_(value))
     except:
         pass
     raise TypeError(f"Unsupported value {value} for type {type_}")

@@ -85,7 +85,7 @@ def _main(arg: argparse.Namespace) -> None:
                     bar.update(1)
 
                 if arg.processes > 1:
-                    experiment.run_mp(number_of_processes=arg.processes,  # type: ignore
+                    experiment.run_mp(number_of_processes=arg.processes,
                                       bar=bar,
                                       keep=arg.save_single_hdf5,
                                       use_multiprocess=arg.use_multiprocess)
@@ -94,7 +94,7 @@ def _main(arg: argparse.Namespace) -> None:
                     experiment.run(keep=False, number_of_threads=arg.threads)
         else:
             if arg.processes > 1:
-                experiment.run_mp(number_of_processes=arg.processes,  # type: ignore
+                experiment.run_mp(number_of_processes=arg.processes,
                                   keep=arg.save_single_hdf5,
                                   use_multiprocess=arg.use_multiprocess)
             else:

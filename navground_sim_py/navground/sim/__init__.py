@@ -1,5 +1,5 @@
 import functools
-from typing import (TYPE_CHECKING, Callable, Dict, List, Optional, Tuple,
+from typing import (TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple,
                     TypeAlias, Union)
 
 if TYPE_CHECKING:
@@ -8,6 +8,7 @@ if TYPE_CHECKING:
 import importlib.metadata
 
 import navground.core
+from navground.core import Vector2
 from navground.core import get_loaded_plugins as _get_loaded_core_plugins
 from navground.core import get_loaded_py_plugins as _get_loaded_py_core_plugins
 from navground.core import get_plugins_dependencies, load_cpp_plugins
@@ -22,6 +23,17 @@ from ._navground_sim import (Agent, BoundingBox, Dataset, Entity, Experiment,
                              SensingProbe, Sensor, StateEstimation, Task, Wall,
                              World, get_build_dependencies, get_build_info,
                              use_compact_samplers, uses_doubles)
+
+Bounds = Tuple[Vector2, Vector2]
+
+
+def bounds_of_bounding_box(bb: BoundingBox) -> Bounds:
+    return bb.p1, bb.p2
+
+
+def bounds_for_world(world: World) -> Bounds:
+    return bounds_of_bounding_box(world.bounding_box)
+
 
 SUPPORT_YAML: TypeAlias = Union[navground.core.SUPPORT_YAML, Task,
                                 StateEstimation, Scenario, Experiment, Agent,
@@ -99,7 +111,7 @@ from . import scenarios, state_estimations, tasks
 TaskCallback = Callable[[List[float]], None]
 
 
-def load_py_plugins():
+def load_py_plugins() -> None:
     _load_py_core_plugins()
     for group in ('navground_tasks', 'navground_state_estimations',
                   'navground_scenarios'):
@@ -154,8 +166,8 @@ def get_loaded_plugins(
     return _get_loaded_core_plugins(kinds)
 
 
-def setup_tqdm(self,
-               bar: 'tqdm.tqdm',
+def setup_tqdm(self: Experiment,
+               bar: 'tqdm.tqdm[Any]',
                number_of_runs: Optional[int] = None) -> None:
     """
         Configure a tqdm object that displays the progress of an experiment
@@ -168,18 +180,22 @@ def setup_tqdm(self,
     """
 
     bar.total = number_of_runs if number_of_runs is not None else self.number_of_runs
-    self.add_run_callback(lambda _: bar.update(1))
+
+    def bar_update(run: ExperimentalRun) -> None:
+        bar.update(1)
+
+    self.add_run_callback(bar_update)
 
 
 from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
 from .run_mp import run_mp
 
-Experiment.setup_tqdm = setup_tqdm
-Experiment.run_mp = run_mp
+Experiment.setup_tqdm = setup_tqdm  # type: ignore[method-assign]
+Experiment.run_mp = run_mp  # type: ignore[method-assign]
 
 
 @functools.singledispatch
-def uses_python(item) -> bool:
+def uses_python(item: Any) -> bool:
     """
     Check whether this item uses any Python-class
     as behavior/kinematics/state estimation/task.

@@ -1,15 +1,18 @@
 import math
-from typing import Any, Callable, Sequence, Mapping
+from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
-from matplotlib import patches
 from matplotlib import pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+from matplotlib.lines import Line2D
+from matplotlib.patches import Arrow, Circle
 from navground import core, sim
 
 Indices = list[int] | slice
 
 
-def plot_agent(ax: plt.Axes,
+def plot_agent(ax: Axes,
                agent: sim.Agent,
                pose: core.Pose2 | None = None,
                velocity: core.Vector2 | None = None,
@@ -45,21 +48,21 @@ def plot_agent(ax: plt.Axes,
         velocity = agent.velocity
     if not color:
         color = agent.color or 'b'
-    circle = patches.Circle(tuple(position),
+    circle = Circle(tuple(position),
                             agent.radius,
                             color=color,
                             alpha=alpha)
     ax.add_patch(circle)
     dot_center = position + core.unit(
         pose.orientation) * agent.radius * (1 - dot_radius)
-    dot = patches.Circle(tuple(dot_center),
+    dot = Circle(tuple(dot_center),
                          dot_radius * agent.radius,
                          color=dot_color,
                          alpha=alpha)
     ax.add_patch(dot)
 
     if velocity_arrow_width > 0 and np.any(velocity):
-        vel = patches.Arrow(position[0],
+        vel = Arrow(position[0],
                             position[1],
                             velocity[0],
                             velocity[1],
@@ -71,16 +74,16 @@ def plot_agent(ax: plt.Axes,
     if with_safety_margin and agent.behavior:
         safety_margin = agent.behavior.safety_margin
         if safety_margin > 0:
-            c = plt.Circle(tuple(position),
-                           agent.radius + safety_margin,
-                           color=color,
-                           alpha=alpha,
-                           fill=False,
-                           linestyle='--')
+            c = Circle(tuple(position),
+                               agent.radius + safety_margin,
+                               color=color,
+                               alpha=alpha,
+                               fill=False,
+                               linestyle='--')
             ax.add_patch(c)
 
 
-def plot_world(ax: plt.Axes,
+def plot_world(ax: Axes,
                world: sim.World,
                obstacles_color: str = 'k',
                in_box: bool = False,
@@ -100,9 +103,9 @@ def plot_world(ax: plt.Axes,
     """
     for obstacle in world.obstacles:
         disc = obstacle.disc
-        c = plt.Circle(tuple(disc.position),
-                       disc.radius,
-                       color=obstacles_color)
+        c = Circle(tuple(disc.position),
+                           disc.radius,
+                           color=obstacles_color)
         ax.add_patch(c)
     if with_agents:
         for agent in world.agents:
@@ -110,7 +113,7 @@ def plot_world(ax: plt.Axes,
     for wall in world.walls:
         line = wall.line
         x, y = np.asarray((line.p1, line.p2)).T
-        ax.add_line(plt.Line2D(x, y, color=obstacles_color))
+        ax.add_line(Line2D(x, y, color=obstacles_color))
     bb = world.bounding_box
     ax.set_aspect('equal')
     if in_box:
@@ -122,8 +125,8 @@ def plot_world(ax: plt.Axes,
         ax.set_yticklabels([])
 
 
-def plot_trajectory(ax: plt.Axes,
-                    poses: np.ndarray,
+def plot_trajectory(ax: Axes,
+                    poses: np.typing.NDArray[np.float_],
                     color: str,
                     agent: sim.Agent | None = None,
                     step: int = 0,
@@ -156,7 +159,7 @@ def plot_trajectory(ax: plt.Axes,
 
 
 def plot_run(
-    ax: plt.Axes,
+    ax: Axes,
     run: sim.ExperimentalRun | sim.RecordedExperimentalRun,
     agent_indices: Indices = slice(None),
     step: int = 0,
@@ -211,8 +214,8 @@ def plot_run(
 def plot_runs(runs: Sequence[sim.ExperimentalRun],
               columns: int = 1,
               width: float = 10,
-              fig: plt.Figure | None = None,
-              **kwargs: Any) -> plt.Figure:
+              fig: Figure | None = None,
+              **kwargs: Any) -> Figure:
     """
     Plots several runs using :py:func:`plot_run` as subplots.
 

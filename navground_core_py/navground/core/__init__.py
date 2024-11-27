@@ -177,5 +177,5 @@ __all__ = [
     "SocialMarginQuadraticModulation", "SocialMarginZeroModulation",
     "PropertyField", "Vector2", "Vector2Like", "register", "get_build_info",
     "BuildInfo", "get_build_dependencies", "get_plugins_dependencies",
-    "DependencyInfo"
+    "DependencyInfo", "load_cpp_plugins"
 ]

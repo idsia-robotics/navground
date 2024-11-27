@@ -5,9 +5,9 @@ import moviepy.editor as mpy
 import numpy as np
 from navground import core
 
-from .. import Agent, ExperimentalRun, RecordedExperimentalRun, World
-from .render import image_for_world
-from .to_svg import Rect, bounds_of_bounding_box
+from .. import Agent, ExperimentalRun, RecordedExperimentalRun, World, bounds_of_bounding_box
+from .render import image_for_world, Image
+from .to_svg import Rect
 
 
 def make_video(world: World,
@@ -31,7 +31,7 @@ def make_video(world: World,
         if isinstance(rotation, float):
             theta = rotation
 
-    def make_frame(t: float) -> np.ndarray:
+    def make_frame(t: float) -> Image:
         nonlocal bounds
         nonlocal rotation
         t = t * factor
@@ -87,7 +87,7 @@ def make_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
     elif not bounds:
         bounds = bounds_of_bounding_box(run.bounding_box)
 
-    def make_frame(t: float) -> np.ndarray:
+    def make_frame(t: float) -> Image:
         nonlocal frame
         nonlocal step
         nonlocal bounds
@@ -126,7 +126,7 @@ def record_video(path: Union[str, pathlib.Path],
                  fps: int = 30,
                  follow: Agent | None = None,
                  bounds: Rect | None = None,
-                 **kwargs: Any):
+                 **kwargs: Any) -> None:
     """
     Record a video while performing a simulation.
 
@@ -168,7 +168,7 @@ def record_video_from_run(path: Union[str, pathlib.Path],
                           bounds: Rect | None = None,
                           from_time: float = 0,
                           to_time: float | None = None,
-                          **kwargs: Any):
+                          **kwargs: Any) -> None:
     """
     Create a video from a recorded simulation.
 

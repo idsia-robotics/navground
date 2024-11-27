@@ -2,7 +2,7 @@ import asyncio
 import logging
 import threading
 import time
-from typing import Optional, Callable, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Callable, Optional
 
 from . import World
 
@@ -52,13 +52,13 @@ class RealTimeSimulation:
         self.bounds = bounds
         self.thread: Optional[threading.Thread] = None
 
-    def stop(self):
+    def stop(self) -> None:
         """
         Signals to stop the simulation
         """
         self._stop = True
 
-    async def init(self):
+    async def init(self) -> None:
         """
             Initializes the simulation and the UI
         """
@@ -67,7 +67,7 @@ class RealTimeSimulation:
         self._initialized = True
         self._stop = False
 
-    def _run_in_event_loop(self, loop, until=None):
+    def _run_in_event_loop(self, loop: Any, until: Callback | None = None) -> None:
         asyncio.run_coroutine_threadsafe(self.run(until=until), loop)
 
     def run_threaded(self, until: Optional[Callback]) -> None:

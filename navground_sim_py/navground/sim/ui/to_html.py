@@ -46,7 +46,7 @@ def save(world: Optional[World] = None,
          simulation: bool = False,
          **kwargs: Any) -> None:
     if simulation:
-        kw: Mapping = ChainMap({
+        kw: Mapping[str, Any] = ChainMap({
             'interactive': True,
             'with_websocket': True
         }, kwargs)

@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 
 import cairosvg
 import numpy as np
@@ -6,8 +6,10 @@ import numpy as np
 from .. import World
 from .to_svg import svg_for_world
 
+Image = np.typing.NDArray[np.uint8]
 
-def _surface_to_npim(surface):
+
+def _surface_to_npim(surface: cairosvg.surface.PNGSurface) -> Image:
     """ Transforms a Cairo surface into a numpy array. """
     im = +np.frombuffer(surface.get_data(), np.uint8)
     H, W = surface.get_height(), surface.get_width()
@@ -15,7 +17,9 @@ def _surface_to_npim(surface):
     return im[:, :, 2::-1]
 
 
-def _svg_to_npim(svg_bytestring, dpi=96, background_color="snow"):
+def _svg_to_npim(svg_bytestring: str,
+                 dpi: int = 96,
+                 background_color: str = "snow") -> Image:
     """ Renders a svg bytestring as a RGB image in a numpy array """
     tree = cairosvg.parser.Tree(bytestring=svg_bytestring)
     surf = cairosvg.surface.PNGSurface(tree,
@@ -27,7 +31,7 @@ def _svg_to_npim(svg_bytestring, dpi=96, background_color="snow"):
 
 def image_for_world(world: World,
                     background_color: str = "snow",
-                    **kwargs: Any) -> np.ndarray:
+                    **kwargs: Any) -> Image:
     """
     Renders the world as a raw image
 
@@ -41,10 +45,12 @@ def image_for_world(world: World,
     return _svg_to_npim(svg_data, background_color=background_color)
 
 
-def png_for_world(world: World,
-                  background_color: str = "snow",
-                  dpi: int = 96,
-                  **kwargs: Any,) -> bytes:
+def png_for_world(
+    world: World,
+    background_color: str = "snow",
+    dpi: int = 96,
+    **kwargs: Any,
+) -> bytes:
     """
     Renders the world as an png image
 
@@ -55,8 +61,11 @@ def png_for_world(world: World,
     :returns:   A png bytestring
     """
     svg_data = svg_for_world(world, **kwargs)
-    return cairosvg.svg2png(bytestring=svg_data,
-                            background_color=background_color, dpi=dpi)
+    return cast(
+        bytes,
+        cairosvg.svg2png(bytestring=svg_data,
+                         background_color=background_color,
+                         dpi=dpi))
 
 
 def pdf_for_world(world: World,
@@ -72,5 +81,7 @@ def pdf_for_world(world: World,
     :returns:   A pdf bytestring
     """
     svg_data = svg_for_world(world, **kwargs)
-    return cairosvg.svg2pdf(bytestring=svg_data,
-                            background_color=background_color)
+    return cast(
+        bytes,
+        cairosvg.svg2pdf(bytestring=svg_data,
+                         background_color=background_color))

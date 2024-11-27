@@ -5,7 +5,7 @@ import os
 import pathlib
 import random
 import sys
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
 from navground.core import command
 
@@ -13,13 +13,12 @@ from . import Experiment, World, Scenario, load_experiment, load_plugins
 from .real_time import RealTimeSimulation
 
 if TYPE_CHECKING:
-    from .ui import Decorate
-    from .ui.web_ui import Rect
+    from .ui import Decorate, Rect
 
 
-def until_done(world: World, max_duration: float = -1):
+def until_done(world: World, max_duration: float = -1) -> Callable[[], bool]:
 
-    def f():
+    def f() -> bool:
         done = [a.task.done() for a in world.agents if a.task]
         return ((done and all(done))
                 or (max_duration > 0 and world.time > max_duration))

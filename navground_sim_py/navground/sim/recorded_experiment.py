@@ -6,6 +6,7 @@ import warnings
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Tuple, Union
 
 import numpy as np
+import numpy.typing
 from navground import core
 
 from . import (Agent, BoundingBox, Bounds, ExperimentalRun, RecordConfig,

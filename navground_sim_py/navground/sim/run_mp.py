@@ -1,5 +1,6 @@
 import itertools
 import multiprocessing
+from multiprocessing.queues import Queue
 
 try:
     import multiprocess  # type: ignore
@@ -9,8 +10,8 @@ except ImportError:
 import pathlib
 import warnings
 from queue import Empty
-from typing import (TYPE_CHECKING, Any, Callable, Dict, Iterable, List, Optional,
-                    Tuple)
+from typing import (TYPE_CHECKING, Any, Callable, Dict, Iterable, List,
+                    Optional, Tuple)
 
 import numpy as np
 from navground import sim
@@ -31,7 +32,7 @@ def _load_and_run_experiment(
     start_index: int,
     number_of_runs: int,
     data_path: Optional[pathlib.Path],
-    queue: Optional[multiprocessing.Queue[int]] = None,
+    queue: Optional[Queue[int]] = None,
     probes: Probes = ([], {}, {}),
     scenario_init_callback: ScenarioInitCallback | None = None
 ) -> Dict[int, sim.ExperimentalRun]:

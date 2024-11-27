@@ -237,7 +237,7 @@ struct BufferDescription {
     const size_t e = shape.size() - 1;
     for (int i = 0; i <= e; ++i) {
       strides[e - i] = size;
-      size *= shape[i];
+      size *= shape[e - i];
     }
     return strides;
   }

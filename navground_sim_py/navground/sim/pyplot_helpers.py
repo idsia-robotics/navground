@@ -2,6 +2,7 @@ import math
 from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
+import numpy.typing
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure

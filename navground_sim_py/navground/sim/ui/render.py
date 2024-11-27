@@ -2,6 +2,7 @@ from typing import Any, cast
 
 import cairosvg
 import numpy as np
+import numpy.typing
 
 from .. import World
 from .to_svg import svg_for_world

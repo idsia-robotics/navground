@@ -6,9 +6,11 @@ from typing import (Any, Callable, Collection, Dict, List, MutableMapping,
 
 import jinja2
 import numpy as np
+import numpy.typing
 from navground import core
 
-from .. import Agent, Bounds, BoundingBox, Entity, Obstacle, Wall, World, bounds_for_world
+from .. import (Agent, BoundingBox, Bounds, Entity, Obstacle, Wall, World,
+                bounds_for_world)
 
 Rect = Union[Bounds, np.typing.NDArray[np.float_]]
 Attributes = MutableMapping[str, str]

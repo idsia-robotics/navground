@@ -1,7 +1,15 @@
 import pathlib
 from typing import Any, Tuple, Union
 
-import moviepy.editor as mpy
+try:
+    import moviepy.editor as mpy
+    MOVIEPY_VERSION = 1
+except ImportError:
+    # No more `editor` in moviepy>=2
+    # https://zulko.github.io/moviepy/getting_started/updating_to_v2.html
+    import moviepy as mpy
+    MOVIEPY_VERSION = 2
+
 import numpy as np
 from navground import core
 
@@ -153,11 +161,10 @@ def record_video(path: Union[str, pathlib.Path],
     if suffix.lower() == ".gif":
         clip.write_gif(str(path), fps=fps)
     else:
-        clip.write_videofile(str(path),
-                             fps=fps,
-                             audio=False,
-                             verbose=False,
-                             logger=None)
+        kwargs = {'audio': False, 'logger': None}
+        if MOVIEPY_VERSION == 1:
+            kwargs['verbose'] = False
+        clip.write_videofile(str(path), fps=fps, **kwargs)
 
 
 def record_video_from_run(path: Union[str, pathlib.Path],
@@ -193,11 +200,10 @@ def record_video_from_run(path: Union[str, pathlib.Path],
     if suffix.lower() == ".gif":
         clip.write_gif(str(path), fps=fps)
     else:
-        clip.write_videofile(str(path),
-                             fps=fps,
-                             audio=False,
-                             verbose=False,
-                             logger=None)
+        kwargs = {'audio': False, 'logger': None}
+        if MOVIEPY_VERSION == 1:
+            kwargs['verbose'] = False
+        clip.write_videofile(str(path), fps=fps, **kwargs)
 
 
 def display_video(world: World,
@@ -229,9 +235,14 @@ def display_video(world: World,
                       follow=follow,
                       bounds=bounds,
                       **kwargs)
-    return clip.ipython_display(fps=fps,
-                                rd_kwargs=dict(verbose=False, logger=None),
-                                width=display_width)
+    # Renamed `ipython_display` to `display_in_notebook` in moviepy>2
+    if MOVIEPY_VERSION == 1:
+        return clip.ipython_display(fps=fps,
+                                    rd_kwargs=dict(verbose=False, logger=None),
+                                    width=display_width)
+    return clip.display_in_notebook(fps=fps,
+                                    rd_kwargs=dict(logger=None),
+                                    width=display_width)
 
 
 def display_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
@@ -261,6 +272,11 @@ def display_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
                                from_time=from_time,
                                to_time=to_time,
                                **kwargs)
-    return clip.ipython_display(fps=fps,
-                                rd_kwargs=dict(verbose=False, logger=None),
-                                width=display_width)
+    # Renamed `ipython_display` to `display_in_notebook` in moviepy>2
+    if MOVIEPY_VERSION == 1:
+        return clip.ipython_display(fps=fps,
+                                    rd_kwargs=dict(verbose=False, logger=None),
+                                    width=display_width)
+    return clip.display_in_notebook(fps=fps,
+                                    rd_kwargs=dict(logger=None),
+                                    width=display_width)

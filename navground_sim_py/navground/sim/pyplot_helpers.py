@@ -1,5 +1,6 @@
 import math
-from typing import Any, Callable, Mapping, Sequence
+from typing import Any
+from collections.abc import Callable, Mapping, Sequence
 
 import numpy as np
 import numpy.typing
@@ -234,7 +235,7 @@ def plot_runs(runs: Sequence[sim.ExperimentalRun],
         axs = fig.axes
         is_new_fig = False
     hs = []
-    for ax, run in zip(axs, runs):
+    for ax, run in zip(axs, runs, strict=False):
         plot_run(ax, run, **kwargs)
         bx = ax.get_xbound()
         by = ax.get_ybound()

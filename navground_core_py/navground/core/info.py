@@ -1,11 +1,11 @@
 import argparse
-from typing import Any, List, Optional, Tuple, Type
+from typing import Any
 
 from navground import core
 from navground.core import command
 
-Component = Tuple[Type[Any], str, Optional[str]]
-Registers = List[Tuple[Type[Any], str]]
+Component = tuple[type[Any], str, str | None]
+Registers = list[tuple[type[Any], str]]
 registers = [(core.Behavior, "Behaviors"), (core.Kinematics, "Kinematics"),
              (core.BehaviorModulation, "Modulations")]
 
@@ -55,8 +55,8 @@ def parser() -> argparse.ArgumentParser:
 
 
 def print_register(cls: Any,
-                   title: Optional[str],
-                   name: Optional[str] = None,
+                   title: str | None,
+                   name: str | None = None,
                    with_properties: bool = False,
                    with_description: bool = False) -> None:
     if title:

@@ -2,12 +2,13 @@ import argparse
 import logging
 import pathlib
 import sys
-from typing import Any, Callable, Dict
+from typing import Any
+from collections.abc import Callable
 
 from navground import core
 from navground.core import command
 
-Echos = Dict[str, Callable[[str], Any]]
+Echos = dict[str, Callable[[str], Any]]
 echos: Echos = {
     "behavior": core.load_behavior,
     "modulation": core.load_behavior_modulation,
@@ -51,7 +52,7 @@ def echo(arg: argparse.Namespace,
     try:
         path = pathlib.Path(yaml)
         if path.exists():
-            with open(path, 'r') as f:
+            with open(path) as f:
                 yaml = f.read()
     except Exception as e:
         logging.error(f"Failed to load file: {e}")

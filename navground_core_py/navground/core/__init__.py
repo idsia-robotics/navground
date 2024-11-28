@@ -1,8 +1,7 @@
-from __future__ import annotations
-
 import importlib.metadata
 import pathlib as pl
-from typing import Dict, List, Optional, Tuple, TypeAlias, Union
+from collections.abc import Iterable
+from typing import TypeAlias
 
 from . import schema
 from ._navground import (
@@ -22,55 +21,58 @@ from ._navground import load_plugins as load_cpp_plugins
 from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
                          to_absolute_point, to_relative, to_relative_point,
                          unit, uses_doubles)
-from .property import PropertyField, Vector2, Vector2Like, register
+from .property import PropertyField, Vector2, Vector2Like, FloatType, register
 
-BuildDependencies: TypeAlias = Dict[str, DependencyInfo]
-PkgDependencies: TypeAlias = Dict[str, Dict[pl.Path, BuildDependencies]]
+# isort: split
+
+from . import behavior_modulations, behaviors, kinematics
+
+BuildDependencies: TypeAlias = dict[str, DependencyInfo]
+PkgDependencies: TypeAlias = dict[str, dict[pl.Path, BuildDependencies]]
 
 
-def load_behavior(value: str) -> Optional[Behavior]:
+def load_behavior(value: str) -> Behavior | None:
     return Behavior.load(value)
 
 
 load_behavior.__doc__ = Behavior.load.__doc__
 
 
-def load_behavior_modulation(value: str) -> Optional[BehaviorModulation]:
+def load_behavior_modulation(value: str) -> BehaviorModulation | None:
     return BehaviorModulation.load(value)
 
 
 load_behavior_modulation.__doc__ = BehaviorModulation.load.__doc__
 
 
-def load_kinematics(value: str) -> Optional[Kinematics]:
+def load_kinematics(value: str) -> Kinematics | None:
     return Kinematics.load(value)
 
 
 load_kinematics.__doc__ = Kinematics.load.__doc__
 
 
-def load_disc(value: str) -> Optional[Disc]:
+def load_disc(value: str) -> Disc | None:
     return Disc.load(value)
 
 
 load_disc.__doc__ = Disc.load.__doc__
 
 
-def load_line_segment(value: str) -> Optional[LineSegment]:
+def load_line_segment(value: str) -> LineSegment | None:
     return LineSegment.load(value)
 
 
 load_line_segment.__doc__ = LineSegment.load.__doc__
 
 
-def load_neighbor(value: str) -> Optional[Neighbor]:
+def load_neighbor(value: str) -> Neighbor | None:
     return Neighbor.load(value)
 
 
 load_neighbor.__doc__ = Neighbor.load.__doc__
 
-SUPPORT_YAML: TypeAlias = Union[Behavior, BehaviorModulation, Kinematics, Disc,
-                                LineSegment, Neighbor]
+SUPPORT_YAML: TypeAlias = Behavior | BehaviorModulation | Kinematics | Disc | LineSegment | Neighbor
 
 
 def dump(obj: SUPPORT_YAML) -> str:
@@ -101,9 +103,9 @@ def load_plugins() -> None:
     load_py_plugins()
 
 
-def get_loaded_py_plugins(
-    kinds: List[str] = ['behaviors', 'kinematics', 'modulations']
-) -> Dict[str, Dict[str, List[str]]]:
+def get_loaded_py_plugins(kinds: Iterable[str] = (
+    'behaviors', 'kinematics',
+    'modulations')) -> dict[str, dict[str, list[str]]]:
     """
     Returns all plugins implemented in Python
 
@@ -111,7 +113,7 @@ def get_loaded_py_plugins(
 
     :returns:   A dictionary {pkg name: {kind: [registered types]}}
     """
-    rs: Dict[str, Dict[str, List[str]]] = {}
+    rs: dict[str, dict[str, list[str]]] = {}
     for kind in kinds:
         eps = importlib.metadata.entry_points(group=f'navground_{kind}')
         for e in eps:
@@ -126,9 +128,9 @@ def get_loaded_py_plugins(
     return rs
 
 
-def get_loaded_plugins(
-    kinds: List[str] = ['behaviors', 'kinematics', 'modulations']
-) -> Dict[str, Dict[str, List[Tuple[str, str]]]]:
+def get_loaded_plugins(kinds: Iterable[str] = (
+    'behaviors', 'kinematics',
+    'modulations')) -> dict[str, dict[str, list[tuple[str, str]]]]:
     """
     Returns all plugins
 
@@ -158,8 +160,6 @@ def get_loaded_plugins(
     return rs
 
 
-from . import behavior_modulations, behaviors, kinematics
-
 __all__ = [
     'Behavior', 'Path', 'BehaviorModulation', 'Pose2', 'Twist2', 'Target',
     'Disc', 'Neighbor', 'LineSegment', 'Kinematics', 'Action', 'Controller',
@@ -177,5 +177,6 @@ __all__ = [
     "SocialMarginQuadraticModulation", "SocialMarginZeroModulation",
     "PropertyField", "Vector2", "Vector2Like", "register", "get_build_info",
     "BuildInfo", "get_build_dependencies", "get_plugins_dependencies",
-    "DependencyInfo", "load_cpp_plugins"
+    "DependencyInfo", "load_cpp_plugins", "BehaviorModulationRegister",
+    "BehaviorRegister", "HasProperties", "KinematicsRegister", "FloatType"
 ]

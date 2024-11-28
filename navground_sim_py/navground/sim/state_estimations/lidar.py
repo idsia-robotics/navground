@@ -1,5 +1,4 @@
 import warnings
-from typing import Dict
 
 import numpy as np
 from navground import core, sim
@@ -94,9 +93,9 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):
         try:
             state.set_buffer("range", core.Buffer(data=ranges))
         except (AttributeError, KeyError):
-            warnings.warn(f"Cannot set field sensing of {state}")
+            warnings.warn(f"Cannot set field sensing of {state}", stacklevel=1)
 
-    def get_description(self) -> Dict[str, core.BufferDescription]:
+    def get_description(self) -> dict[str, core.BufferDescription]:
         desc = core.BufferDescription([self.resolution], float, 0.0,
                                       self.range)
         return {'range': desc}

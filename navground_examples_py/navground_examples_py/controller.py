@@ -39,6 +39,7 @@ def main(behavior_name: str = "HL") -> None:
     t = 0.0
     while not action.done:
         cmd = controller.update(dt)
+        behavior.actuate(cmd, dt)
         t += dt
     print(f'Arrived at {behavior.position} after {t:.1f} s')
 

@@ -1,4 +1,3 @@
-from typing import Optional
 
 import numpy as np
 from navground.core import Behavior, Kinematics, Vector2, register
@@ -21,7 +20,7 @@ class PyDummyBehavior(Behavior, name="PyDummy"):
 
     # Not needed ... defined to have a more complete template
     def __init__(self,
-                 kinematics: Optional[Kinematics] = None,
+                 kinematics: Kinematics | None = None,
                  radius: float = 0.0):
         super().__init__(kinematics, radius)
         self._tired = False

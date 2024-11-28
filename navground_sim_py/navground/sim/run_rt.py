@@ -5,7 +5,8 @@ import os
 import pathlib
 import random
 import sys
-from typing import TYPE_CHECKING, Callable, Optional
+from typing import TYPE_CHECKING, Optional
+from collections.abc import Callable
 
 from navground.core import command
 
@@ -90,7 +91,8 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         '--factor',
         help=
-        'Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)',
+        ('Real-time factor (set to 1.0 to run in real-time, set to higher to run '
+         'faster or to lower to run slower then real-time)'),
         type=float,
         default=1.0)
     parser.add_argument('--no-ui',
@@ -146,7 +148,7 @@ def _main(arg: argparse.Namespace,
     command._main(arg, load_plugins)
     logging.basicConfig(level=logging.INFO)
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
-        with open(arg.YAML, 'r') as f:
+        with open(arg.YAML) as f:
             yaml = f.read()
     else:
         yaml = arg.YAML
@@ -170,7 +172,7 @@ def _main(arg: argparse.Namespace,
     except RuntimeError as e:
         logging.error(f"Error while parsing: {e}")
     if not experiment:
-        logging.error(f"Could not load the experiment")
+        logging.error("Could not load the experiment")
         sys.exit(1)
     loop = asyncio.get_event_loop()
     if arg.area is not None:

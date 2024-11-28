@@ -12,7 +12,8 @@
     - gradient in case of divergence
 """
 
-from typing import Callable, Optional, Tuple, cast
+from typing import cast
+from collections.abc import Callable
 
 import numpy as np
 from navground.core import (Behavior, Disc, GeometricState, Kinematics,
@@ -24,7 +25,7 @@ from navground.core import (Behavior, Disc, GeometricState, Kinematics,
 # value and gradient
 # in the paper, called b
 def neighbor_distance(position: Vector2, neighbor: Neighbor,
-                      step_duration: float) -> Tuple[float, Vector2]:
+                      step_duration: float) -> tuple[float, Vector2]:
     delta = position - neighbor.position
     step = neighbor.velocity * step_duration
     n1 = np.linalg.norm(delta, axis=-1)
@@ -41,7 +42,7 @@ def neighbor_distance(position: Vector2, neighbor: Neighbor,
     return b, grad
 
 
-def disc_distance(position: Vector2, disc: Disc) -> Tuple[float, Vector2]:
+def disc_distance(position: Vector2, disc: Disc) -> tuple[float, Vector2]:
     delta = position - disc.position
     distance = cast(float, np.linalg.norm(delta))
     if distance:
@@ -52,7 +53,7 @@ def disc_distance(position: Vector2, disc: Disc) -> Tuple[float, Vector2]:
 
 
 def segment_distance(position: Vector2,
-                     line: LineSegment) -> Tuple[float, Vector2]:
+                     line: LineSegment) -> tuple[float, Vector2]:
     delta = position - line.p1
     x = delta.dot(line.e1)
     if x < 0:
@@ -72,7 +73,7 @@ def segment_distance(position: Vector2,
 class Potential:
     """A monotonic decreasing function of the distance"""
 
-    def __call__(self, x: float) -> Tuple[float, Vector2]:
+    def __call__(self, x: float) -> tuple[float, Vector2]:
         "Return the value and gradient of the potential"
         return 0.0, np.zeros(2)
 
@@ -86,7 +87,7 @@ class ExponentialPotential(Potential):
         self.a = a
         self.r = r
 
-    def __call__(self, x: float) -> Tuple[float, Vector2]:
+    def __call__(self, x: float) -> tuple[float, Vector2]:
         v = self.a * np.exp(-x / self.r)
         return v, -v / self.r
 
@@ -202,7 +203,7 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
 
     def __init__(
             self,
-            kinematics: Optional[Kinematics] = None,
+            kinematics: Kinematics | None = None,
             radius: float = 0.0,
             tau: float = 0.5,
             step_duration: float = 1.0,

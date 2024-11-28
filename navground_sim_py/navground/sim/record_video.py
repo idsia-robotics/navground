@@ -71,8 +71,9 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
         type=int)
     parser.add_argument(
         '--factor',
-        help=
-        'Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)',
+        help=(
+            'Real-time factor (set to 1.0 to run in real-time, set to higher '
+            'to run faster or to lower to run slower then real-time)'),
         type=float,
         default=1.0)
     parser.add_argument('--width',
@@ -121,7 +122,7 @@ def parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _load_recorded_experiment(path: str) -> Optional[RecordedExperiment]:
+def _load_recorded_experiment(path: str) -> RecordedExperiment | None:
     try:
         import h5py  # type: ignore[import-untyped]
 
@@ -131,9 +132,9 @@ def _load_recorded_experiment(path: str) -> Optional[RecordedExperiment]:
         return None
 
 
-def _load_experiment(value: str) -> Optional[Experiment]:
+def _load_experiment(value: str) -> Experiment | None:
     if os.path.exists(value) and os.path.isfile(value):
-        with open(value, 'r') as f:
+        with open(value) as f:
             yaml = f.read()
     else:
         yaml = value

@@ -2,7 +2,8 @@ import asyncio
 import logging
 import threading
 import time
-from typing import TYPE_CHECKING, Any, Callable, Optional
+from typing import TYPE_CHECKING, Any, Optional
+from collections.abc import Callable
 
 from . import World
 
@@ -50,7 +51,7 @@ class RealTimeSimulation:
         self._initialized = False
         self._stop = False
         self.bounds = bounds
-        self.thread: Optional[threading.Thread] = None
+        self.thread: threading.Thread | None = None
 
     def stop(self) -> None:
         """
@@ -70,7 +71,7 @@ class RealTimeSimulation:
     def _run_in_event_loop(self, loop: Any, until: Callback | None = None) -> None:
         asyncio.run_coroutine_threadsafe(self.run(until=until), loop)
 
-    def run_threaded(self, until: Optional[Callback]) -> None:
+    def run_threaded(self, until: Callback | None) -> None:
         """
         Run a simulation in a thread.
         Blocks until the simulation is done.
@@ -85,7 +86,7 @@ class RealTimeSimulation:
                                        args=(asyncio.get_event_loop(), until))
         self.thread.start()
 
-    async def run(self, until: Optional[Callback] = None) -> None:
+    async def run(self, until: Callback | None = None) -> None:
         """
         Simulate a world.
 

@@ -10,8 +10,8 @@ except ImportError:
 import pathlib
 import warnings
 from queue import Empty
-from typing import (TYPE_CHECKING, Any, Callable, Dict, Iterable, List,
-                    Optional, Tuple)
+from typing import (TYPE_CHECKING, Any, Optional)
+from collections.abc import Callable, Iterable
 
 import numpy as np
 from navground import sim
@@ -19,9 +19,9 @@ from navground import sim
 if TYPE_CHECKING:
     import tqdm
 
-Probes = Tuple[List[Callable[[], sim.Probe]],
-               Dict[str, Callable[[], sim.RecordProbe]],
-               Dict[str, Callable[[], sim.GroupRecordProbe]]]
+Probes = tuple[list[Callable[[], sim.Probe]],
+               dict[str, Callable[[], sim.RecordProbe]],
+               dict[str, Callable[[], sim.GroupRecordProbe]]]
 
 ScenarioInitCallback = Callable[['sim._navground_sim.Scenario', int], None]
 
@@ -31,11 +31,11 @@ def _load_and_run_experiment(
     yaml: str,
     start_index: int,
     number_of_runs: int,
-    data_path: Optional[pathlib.Path],
-    queue: Optional[Queue[int]] = None,
+    data_path: pathlib.Path | None,
+    queue: Queue[int] | None = None,
     probes: Probes = ([], {}, {}),
     scenario_init_callback: ScenarioInitCallback | None = None
-) -> Dict[int, sim.ExperimentalRun]:
+) -> dict[int, sim.ExperimentalRun]:
 
     experiment = sim.load_experiment(yaml)
     if not experiment:
@@ -52,7 +52,7 @@ def _load_and_run_experiment(
     return experiment.runs
 
 
-def _divide(number: int, chunks: int) -> List[int]:
+def _divide(number: int, chunks: int) -> list[int]:
     n = number // chunks
     ns = [n] * chunks
     r = number % chunks
@@ -64,9 +64,9 @@ def _divide(number: int, chunks: int) -> List[int]:
 def run_mp(experiment: sim.Experiment,
            number_of_processes: int,
            keep: bool = False,
-           number_of_runs: Optional[int] = None,
-           start_index: Optional[int] = None,
-           callback: Optional[Callable[[int], None]] = None,
+           number_of_runs: int | None = None,
+           start_index: int | None = None,
+           callback: Callable[[int], None] | None = None,
            bar: Optional['tqdm.tqdm[Any]'] = None,
            scenario_init_callback: ScenarioInitCallback | None = None,
            use_multiprocess: bool = False) -> None:
@@ -74,15 +74,16 @@ def run_mp(experiment: sim.Experiment,
 
     Run an experiment distributing its runs in parallel over multiple processes.
 
-    Use this to parallelize experiments that contains Python classes, see :py:fun:``uses_python``,
-    :py:attr:`Experiment.run` parallelizes over multiple threads instead and cannot
-    be used to run such experiments because of the GIL.
+    Use this to parallelize experiments that contains Python classes,
+    see :py:fun:``uses_python``, :py:attr:`Experiment.run` parallelizes over
+    multiple threads instead and cannot be used to run such experiments because of the GIL.
 
-    If ``keep=True``,  the experiment will query the runs from the different processes and hold them in memory.
-    If it is configured to save the data, it will save a single HDF5 file.
+    If ``keep=True``,  the experiment will query the runs from the different processes
+    and hold them in memory. If it is configured to save the data, it will save a single HDF5 file.
 
-    If ``keep=False``, the experiment won't keep the runs in memory. If it is configured to save the data,
-    it will save one HDF5 file per process (``"data_<i>.h5"``) and one "data.h5" linking all the runs together.
+    If ``keep=False``, the experiment won't keep the runs in memory.
+    If it is configured to save the data, it will save one HDF5 file per process (``"data_<i>.h5"``)
+    and one "data.h5" linking all the runs together.
     To access the data, you will need to load the HFD5 file.
 
     :param      experiment:             The experiment
@@ -92,8 +93,10 @@ def run_mp(experiment: sim.Experiment,
     :param      start_index:            The index of the first run
     :param      callback:               An optional callback to run after each run is completed
     :param      bar:                    An optional tqdm bar to display the progresses.
-    :param      scenario_init_callback: An optional callback to set as :py:attr:`Experiment.scenario_init_callback`.
-    :param      use_multiprocess:       Whether to use the `multiprocess` package instead of `multiprocessing`
+    :param      scenario_init_callback: An optional callback to set
+                                        as :py:attr:`Experiment.scenario_init_callback`.
+    :param      use_multiprocess:       Whether to use the `multiprocess` package
+                                        instead of `multiprocessing`
     """
     if use_multiprocess and multiprocess:
         mp = multiprocess
@@ -102,14 +105,14 @@ def run_mp(experiment: sim.Experiment,
 
     if number_of_processes < 1:
         warnings.warn(
-            f'Negative number of processes {number_of_processes} ... will not run the experiment'
-        )
+            f'Negative number of processes {number_of_processes} ... will not run the experiment',
+            stacklevel=1)
         return
 
     if number_of_processes > mp.cpu_count():
         warnings.warn(
-            f'More processes {number_of_processes} than number of cores {mp.cpu_count()}'
-        )
+            f'More processes {number_of_processes} than number of cores {mp.cpu_count()}',
+            stacklevel=1)
     experiment.start()
 
     if callback or bar is not None:
@@ -146,8 +149,15 @@ def run_mp(experiment: sim.Experiment,
                                experiment._group_record_probes),
                               number_of_processes)
     partial_experiments = list(
-        zip(keeps, yaml, start_indices, chunks, paths, queues, probes,
-            scenario_init_callbacks))
+        zip(keeps,
+            yaml,
+            start_indices,
+            chunks,
+            paths,
+            queues,
+            probes,
+            scenario_init_callbacks,
+            strict=False))
 
     with mp.Pool(number_of_processes) as p:
         r = p.starmap_async(_load_and_run_experiment, partial_experiments)

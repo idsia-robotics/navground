@@ -3,7 +3,7 @@ import asyncio
 import logging
 import pathlib
 import sys
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Optional
 
 from .real_time import RealTimeSimulation
 from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
@@ -72,7 +72,9 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         '--factor',
         help=
-        'Real-time factor (set to 1.0 to run in real-time, set to higher to run faster or to lower to run slower then real-time)',
+        ('Real-time factor (set to 1.0 to run in real-time, '
+         'set to higher to run faster or to lower to run slower then real-time)'
+         ),
         type=float,
         default=1.0)
     parser.add_argument('--no-ui',
@@ -81,7 +83,8 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         '--record_video',
         help=
-        'The path to a folder where to save videos instead of replaying in an UI. If left empty, it will not create videos.',
+        ('The path to a folder where to save videos instead of replaying in an UI. '
+         'If left empty, it will not create videos.'),
         type=str,
         default='')
     parser.add_argument('--no-browser',
@@ -114,7 +117,7 @@ async def run(file: 'h5py.File',
               ui_fps: float = 25.0,
               background_color: str = 'snow',
               seed: int = -1,
-              video: Union[str, pathlib.Path] = '') -> None:
+              video: str | pathlib.Path = '') -> None:
     if with_ui:
 
         from .ui.web_ui import WebUI
@@ -172,7 +175,7 @@ def _main(arg: argparse.Namespace) -> None:
         import h5py
 
         file = h5py.File(arg.path, 'r')
-    except:
+    except Exception:
         logging.error(f"Could not open HDF5 file {arg.path}")
         sys.exit(1)
     loop = asyncio.get_event_loop()

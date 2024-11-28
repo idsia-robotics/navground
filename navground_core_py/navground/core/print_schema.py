@@ -1,19 +1,20 @@
 import argparse
 import sys
-from typing import Any, Callable, Dict, Type
+from typing import Any
+from collections.abc import Callable
 
 import yaml
 from navground import core
 from navground.core import command
 
-Schema = Dict[str, Any]
+Schema = dict[str, Any]
 
-Schemas = Dict[str, Callable[[], Schema]]
+Schemas = dict[str, Callable[[], Schema]]
 schemas: Schemas = {
     "core": core.schema.bundle,
 }
 
-Components = Dict[str, Type[Any]]
+Components = dict[str, type[Any]]
 components: Components = {
     "behavior": core.Behavior,
     "behavior_modulation": core.BehaviorModulation,

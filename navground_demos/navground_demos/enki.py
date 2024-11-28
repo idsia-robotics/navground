@@ -2,29 +2,29 @@ import argparse
 import itertools
 import sys
 import time
-from typing import Iterator, List, Set, Tuple
+from collections.abc import Iterator
 
 import numpy
 import pyenki
 from navground import core
 
 
-def enki2world(cs: Tuple[float, float]) -> core.Vector2:
+def enki2world(cs: tuple[float, float]) -> core.Vector2:
     return numpy.array([0.01 * c for c in cs])
 
 
-def world2enki(cs: core.Vector2Like) -> Tuple[float, float]:
+def world2enki(cs: core.Vector2Like) -> tuple[float, float]:
     return (100 * cs[0], 100 * cs[1])
 
 
 class Thymio(pyenki.Thymio2):
 
-    targets: Iterator[Tuple[Tuple[float, float, float], Tuple[float, float]]]
-    thymios: Set['Thymio']
+    targets: Iterator[tuple[tuple[float, float, float], tuple[float, float]]]
+    thymios: set['Thymio']
 
     def __init__(self,
                  behavior_name: str = "HL",
-                 obstacles: List[pyenki.CircularObject] = []):
+                 obstacles: list[pyenki.CircularObject] = []):
         super().__init__(use_aseba_units=False)
         behavior = core.Behavior.make_type(behavior_name)
         if not behavior:

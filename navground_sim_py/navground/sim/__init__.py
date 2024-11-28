@@ -1,6 +1,6 @@
 import functools
-from typing import (TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple,
-                    TypeAlias, Union)
+from collections.abc import Callable, Iterable
+from typing import TYPE_CHECKING, Any, TypeAlias
 
 if TYPE_CHECKING:
     import tqdm
@@ -24,7 +24,12 @@ from ._navground_sim import (Agent, BoundingBox, Dataset, Entity, Experiment,
                              World, get_build_dependencies, get_build_info,
                              use_compact_samplers, uses_doubles)
 
-Bounds = Tuple[Vector2, Vector2]
+# isort: split
+
+from . import scenarios, state_estimations, tasks
+from .run_mp import run_mp
+
+Bounds = tuple[Vector2, Vector2]
 
 
 def bounds_of_bounding_box(bb: BoundingBox) -> Bounds:
@@ -35,61 +40,61 @@ def bounds_for_world(world: World) -> Bounds:
     return bounds_of_bounding_box(world.bounding_box)
 
 
-SUPPORT_YAML: TypeAlias = Union[navground.core.SUPPORT_YAML, Task,
-                                StateEstimation, Scenario, Experiment, Agent,
-                                World, Wall, Obstacle]
+SUPPORT_YAML: TypeAlias = (navground.core.SUPPORT_YAML | Task | StateEstimation
+                           | Scenario | Experiment | Agent | World | Wall
+                           | Obstacle)
 
 
-def load_state_estimation(value: str) -> Optional[StateEstimation]:
+def load_state_estimation(value: str) -> StateEstimation | None:
     return StateEstimation.load(value)
 
 
 load_state_estimation.__doc__ = StateEstimation.load.__doc__
 
 
-def load_task(value: str) -> Optional[Task]:
+def load_task(value: str) -> Task | None:
     return Task.load(value)
 
 
 load_task.__doc__ = Task.load.__doc__
 
 
-def load_scenario(value: str) -> Optional[Scenario]:
+def load_scenario(value: str) -> Scenario | None:
     return Scenario.load(value)
 
 
 load_scenario.__doc__ = Scenario.load.__doc__
 
 
-def load_obstacle(value: str) -> Optional[Obstacle]:
+def load_obstacle(value: str) -> Obstacle | None:
     return Obstacle.load(value)
 
 
 load_obstacle.__doc__ = Obstacle.load.__doc__
 
 
-def load_wall(value: str) -> Optional[Wall]:
+def load_wall(value: str) -> Wall | None:
     return Wall.load(value)
 
 
 load_wall.__doc__ = Wall.load.__doc__
 
 
-def load_agent(value: str) -> Optional[Agent]:
+def load_agent(value: str) -> Agent | None:
     return Agent.load(value)
 
 
 load_agent.__doc__ = Agent.load.__doc__
 
 
-def load_world(value: str) -> Optional[World]:
+def load_world(value: str) -> World | None:
     return World.load(value)
 
 
 load_world.__doc__ = World.load.__doc__
 
 
-def load_experiment(value: str) -> Optional[Experiment]:
+def load_experiment(value: str) -> Experiment | None:
     return Experiment.load(value)
 
 
@@ -106,9 +111,7 @@ def dump(obj: SUPPORT_YAML) -> str:
     return obj.dump()
 
 
-from . import scenarios, state_estimations, tasks
-
-TaskCallback = Callable[[List[float]], None]
+TaskCallback = Callable[[list[float]], None]
 
 
 def load_py_plugins() -> None:
@@ -134,12 +137,9 @@ def load_plugins() -> None:
     load_py_plugins()
 
 
-def get_loaded_py_plugins(
-    kinds: List[str] = [
-        'behaviors', 'kinematics', 'modulations', 'state_estimations', 'tasks',
-        'scenarios'
-    ]
-) -> Dict[str, Dict[str, List[str]]]:
+def get_loaded_py_plugins(kinds: Iterable[str] = (
+    'behaviors', 'kinematics', 'modulations', 'state_estimations', 'tasks',
+    'scenarios')) -> dict[str, dict[str, list[str]]]:
     """
     Returns all plugins implemented in Python
 
@@ -150,12 +150,9 @@ def get_loaded_py_plugins(
     return _get_loaded_py_core_plugins(kinds)
 
 
-def get_loaded_plugins(
-    kinds: List[str] = [
-        'behaviors', 'kinematics', 'modulations', 'state_estimations', 'tasks',
-        'scenarios'
-    ]
-) -> Dict[str, Dict[str, List[Tuple[str, str]]]]:
+def get_loaded_plugins(kinds: Iterable[str] = (
+    'behaviors', 'kinematics', 'modulations', 'state_estimations', 'tasks',
+    'scenarios')) -> dict[str, dict[str, list[tuple[str, str]]]]:
     """
     Returns all plugins
 
@@ -164,34 +161,6 @@ def get_loaded_plugins(
     :returns:   A dictionary {pkg name: {kind: [(registered type, language)]}}
     """
     return _get_loaded_core_plugins(kinds)
-
-
-def setup_tqdm(self: Experiment,
-               bar: 'tqdm.tqdm[Any]',
-               number_of_runs: Optional[int] = None) -> None:
-    """
-        Configure a tqdm object that displays the progress of an experiment
-
-        :param bar: a tqdm progress bar
-
-        :param number_of_runs: the number of runs to track. If not provided,
-                               it will use :py:attr:`sim.Experiment.number_of_runs`.
-
-    """
-
-    bar.total = number_of_runs if number_of_runs is not None else self.number_of_runs
-
-    def bar_update(run: ExperimentalRun) -> None:
-        bar.update(1)
-
-    self.add_run_callback(bar_update)
-
-
-from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
-from .run_mp import run_mp
-
-Experiment.setup_tqdm = setup_tqdm  # type: ignore[method-assign]
-Experiment.run_mp = run_mp  # type: ignore[method-assign]
 
 
 @functools.singledispatch
@@ -230,6 +199,33 @@ def _(experiment: Experiment) -> bool:
     return uses_python(experiment.scenario)
 
 
+def setup_tqdm(self: Experiment,
+               bar: 'tqdm.tqdm[Any]',
+               number_of_runs: int | None = None) -> None:
+    """
+        Configure a tqdm object that displays the progress of an experiment
+
+        :param bar: a tqdm progress bar
+
+        :param number_of_runs: the number of runs to track. If not provided,
+                               it will use :py:attr:`sim.Experiment.number_of_runs`.
+
+    """
+
+    bar.total = number_of_runs if number_of_runs is not None else self.number_of_runs
+
+    def bar_update(run: ExperimentalRun) -> None:
+        bar.update(1)
+
+    self.add_run_callback(bar_update)
+
+
+Experiment.setup_tqdm = setup_tqdm  # type: ignore[method-assign]
+Experiment.run_mp = run_mp  # type: ignore[method-assign]
+
+# isort: stop
+from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun  # noqa: E402
+
 __all__ = [
     'Entity', 'Obstacle', 'Wall', 'World', 'Agent', 'Experiment', 'Scenario',
     'StateEstimation', 'Task', 'BoundingBox', 'dump', 'TaskCallback',
@@ -239,5 +235,6 @@ __all__ = [
     'RecordConfig', 'RecordProbe', 'GroupRecordProbe', 'Probe', 'Dataset',
     'RecordedExperiment', 'RecordedExperimentalRun', 'SensingProbe',
     'use_compact_samplers', 'uses_doubles', 'get_loaded_plugins', 'schema',
-    'get_build_info', 'get_build_dependencies', 'get_plugins_dependencies'
+    'get_build_info', 'get_build_dependencies', 'get_plugins_dependencies',
+    'scenarios', 'state_estimations', 'tasks'
 ]

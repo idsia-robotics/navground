@@ -1,6 +1,5 @@
 import argparse
 import time
-from typing import List, Optional
 import pathlib as pl
 
 from navground import core, sim
@@ -12,8 +11,8 @@ class ThymioDemo(sim.Scenario, name="PyThymioDemo"):  # type: ignore[call-arg]
         super().__init__()
         self._behavior_type = behavior_type
 
-    def init_world(self, world: sim.World, seed: Optional[int] = None) -> None:
-        targets: List[core.Vector2Like] = [(1, 0), (-1, 0)]
+    def init_world(self, world: sim.World, seed: int | None = None) -> None:
+        targets: list[core.Vector2Like] = [(1, 0), (-1, 0)]
         for i in range(2):
             task = sim.tasks.WaypointsTask(targets, True, 0.2)
             se = sim.state_estimations.BoundedStateEstimation(1.0)

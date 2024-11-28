@@ -1,5 +1,4 @@
 import argparse
-from typing import Dict, List, Tuple
 
 from navground import core
 
@@ -26,7 +25,7 @@ def title(name: str) -> str:
 
 
 def list_plugins(arg: argparse.Namespace,
-                 plugins: Dict[str, Dict[str, List[Tuple[str, str]]]],
+                 plugins: dict[str, dict[str, list[tuple[str, str]]]],
                  pkg_dependencies: core.PkgDependencies) -> None:
     for pkg, vs in plugins.items():
         s = ""

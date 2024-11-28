@@ -2,13 +2,13 @@ import argparse
 import logging
 import pathlib
 import sys
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
 from navground import core
 from navground.core import command
 
-kinds: List[str] = ["behavior", "behavior_modulation", "kinematics"]
+kinds: list[str] = ["behavior", "behavior_modulation", "kinematics"]
 
 
 def description() -> str:
@@ -16,7 +16,7 @@ def description() -> str:
 
 
 def init_parser_with_kinds(parser: argparse.ArgumentParser,
-                           kinds: List[str]) -> None:
+                           kinds: list[str]) -> None:
     command.init_parser(parser)
     parser.add_argument("kind",
                         type=str,
@@ -38,7 +38,7 @@ def parser() -> argparse.ArgumentParser:
     return p
 
 
-def validate(arg: argparse.Namespace, kinds: List[str], schema: Dict[str, Any]) -> None:
+def validate(arg: argparse.Namespace, kinds: list[str], schema: dict[str, Any]) -> None:
     import jsonschema
 
     if arg.kind not in kinds:
@@ -48,7 +48,7 @@ def validate(arg: argparse.Namespace, kinds: List[str], schema: Dict[str, Any]) 
     try:
         path = pathlib.Path(yaml_str)
         if path.exists():
-            with open(path, 'r') as f:
+            with open(path) as f:
                 yaml_str = f.read()
     except Exception as e:
         logging.error(f"Failed to load file: {e}")

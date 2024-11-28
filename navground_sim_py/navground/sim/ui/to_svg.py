@@ -1,8 +1,8 @@
 import math
 import os
 from collections import ChainMap
-from typing import (Any, Callable, Collection, Dict, List, MutableMapping,
-                    Optional, Tuple, Union, cast)
+from collections.abc import Callable, Collection, MutableMapping
+from typing import Any
 
 import jinja2
 import numpy as np
@@ -12,7 +12,7 @@ from navground import core
 from .. import (Agent, BoundingBox, Bounds, Entity, Obstacle, Wall, World,
                 bounds_for_world)
 
-Rect = Union[Bounds, np.typing.NDArray[np.float_]]
+Rect = Bounds | np.typing.NDArray[np.float_]
 Attributes = MutableMapping[str, str]
 Point = core.Vector2
 Decorate = Callable[[Entity], Attributes]
@@ -21,6 +21,7 @@ folder = os.path.dirname(os.path.realpath(__file__))
 template_folder = os.path.join(folder, 'templates')
 jinjia_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(template_folder))
+
 
 def rect_around(center: core.Vector2, width: float | None,
                 height: float | None) -> Rect:
@@ -60,9 +61,9 @@ def flat(attributes: Attributes) -> str:
     return r
 
 
-def flat_dict(attributes: Attributes) -> Dict[str, str]:
+def flat_dict(attributes: Attributes) -> dict[str, str]:
     attributes = dict(attributes)
-    r: Dict[str, str] = {}
+    r: dict[str, str] = {}
     if 'class' in attributes:
         r['class'] = attributes.pop('class')
     r['style'] = ';'.join(f"{k}:{v}" for k, v in attributes.items())
@@ -73,7 +74,7 @@ def default_decoration(e: Entity) -> Attributes:
     return {}
 
 
-def svg_polyline(points: List[Point],
+def svg_polyline(points: list[Point],
                  precision: int = 2,
                  attributes: Attributes = {},
                  **kwargs: str) -> str:
@@ -180,36 +181,36 @@ def svg_for_agent(
                      delta=delta)
 
 
-def svg_for_world(
-        world: Optional[World] = None,
-        precision: int = 3,
-        decorate: Optional[Decorate] = None,
-        bounds: Optional[Rect] = None,
-        width: int = 600,
-        min_height: int = 100,
-        relative_margin: float = 0.05,
-        background_color: str = 'snow',
-        display_shape: bool = False,
-        grid: float = 0,
-        grid_color: str = 'grey',
-        grid_thickness: float = 0.01,
-        rotation: Tuple[core.Vector2, float] | float | None = None,
-        extras: Collection[Callable[[World], str]] = []) -> str:
+def svg_for_world(world: World | None = None,
+                  precision: int = 3,
+                  decorate: Decorate | None = None,
+                  bounds: Rect | None = None,
+                  width: int = 600,
+                  min_height: int = 100,
+                  relative_margin: float = 0.05,
+                  background_color: str = 'snow',
+                  display_shape: bool = False,
+                  grid: float = 0,
+                  grid_color: str = 'grey',
+                  grid_thickness: float = 0.01,
+                  rotation: tuple[core.Vector2, float] | float | None = None,
+                  extras: Collection[Callable[[World], str]] = []) -> str:
     """
     Draw the world as a SVG.
 
     :param      world:                  The world to display
     :param      precision:              The number of decimal digits for poses
     :param      decorate:               A function to decorate entities.
-                                        Should return a dictionary of valid SVG style attributes, e.g.
-                                        ``{"fill": "red"}`` for a given entity.
+                                        Should return a dictionary of valid SVG style attributes,
+                                        e.g., ``{"fill": "red"}`` for a given entity.
     :param      bounds:                 The rectangular area to be displayed
     :param      width:                  The width in pixels
     :param      min_height:             The minimum height in pixels
     :param      relative_margin:        The relative margin
     :param      background_color:       A valid SVG color for the background
     :param      display_shape:          Whether to display the agent circular shape
-    :param      grid:                   The size of the square grid tile (set to zero or negative to skip drawing a grid)
+    :param      grid:                   The size of the square grid tile
+                                        (set to zero or negative to skip drawing a grid)
     :param      grid_color:             The color of the grid
     :param      grid_thickness:         The thickness of the grid
     :param      rotation:               A planar rotation applied before drawing [rad]
@@ -234,12 +235,12 @@ def svg_for_world(
 
 
 def _svg_for_world(
-    world: Optional[World] = None,
+    world: World | None = None,
     prefix: str = '',
     precision: int = 2,
-    decorate: Optional[Decorate] = None,
+    decorate: Decorate | None = None,
     standalone: bool = True,
-    bounds: Optional[Rect] = None,
+    bounds: Rect | None = None,
     width: int = 600,
     min_height: int = 100,
     relative_margin: float = 0.05,
@@ -251,9 +252,9 @@ def _svg_for_world(
     grid: float = 0,
     grid_color: str = 'grey',
     grid_thickness: float = 0.01,
-    rotation: Tuple[core.Vector2, float] | float | None = None,
+    rotation: tuple[core.Vector2, float] | float | None = None,
     extras: Collection[Callable[[World], str]] = [],
-) -> Tuple[str, Dict[str, str]]:
+) -> tuple[str, dict[str, str]]:
     g = ""
     if world:
         if bounds is None:
@@ -383,7 +384,7 @@ def size(
     width: int = 600,
     min_height: float = 100,
     relative_margin: float = 0.05
-) -> Tuple[int, int, Tuple[float, float, float, float], float]:
+) -> tuple[int, int, tuple[float, float, float, float], float]:
     # We want python not numpy floats
     min_p, max_p = [np.asarray(xs).tolist() for xs in bounds]
     min_x, min_y = min_p

@@ -4,7 +4,8 @@ import json
 import logging
 import sys
 import time
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any
+from collections.abc import Callable
 
 import websockets
 from websockets.legacy.server import (Serve, WebSocketServer,
@@ -13,15 +14,15 @@ from websockets.legacy.server import (Serve, WebSocketServer,
 from .. import Agent, Entity, Obstacle, Wall, World, bounds_for_world
 from .to_svg import Attributes, Decorate, Rect, flat_dict, size
 
-PoseMsg = Tuple[float, float, float]
-EntityMsg = Dict[str, Any]
+PoseMsg = tuple[float, float, float]
+EntityMsg = dict[str, Any]
 
 Callback = Callable[[Any], None]
 
 
 async def consumer_handler(
         websocket: WebSocketServerProtocol,
-        callbacks: List[Callback]) -> None:
+        callbacks: list[Callback]) -> None:
     try:
         async for msg in websocket:
             data = json.loads(msg)
@@ -108,7 +109,7 @@ class WebUI:
     >>> await sim.run()
     """
 
-    _instances: Dict[int, 'WebUI'] = {}
+    _instances: dict[int, 'WebUI'] = {}
 
     def __init__(self,
                  host: str = '0.0.0.0',
@@ -116,7 +117,7 @@ class WebUI:
                  max_rate: float = 30,
                  display_deadlocks: bool = False,
                  display_collisions: bool = False,
-                 decorate: Optional[Decorate] = None) -> None:
+                 decorate: Decorate | None = None) -> None:
         """
         Constructs a new instance.
 
@@ -129,20 +130,20 @@ class WebUI:
         """
         self.port = port
         self.host = host
-        self.queues: List[asyncio.Queue[str]] = []
-        self._callbacks: List[Callback] = []
+        self.queues: list[asyncio.Queue[str]] = []
+        self._callbacks: list[Callback] = []
         if max_rate > 0:
             self.min_period = 1 / max_rate
         else:
             self.min_period = 0
-        self.last_update_stamp: Optional[float] = None
+        self.last_update_stamp: float | None = None
         self._prepared = False
         self.display_collisions = display_collisions
         self.display_deadlocks = display_deadlocks
-        self.in_collision: Set[int] = set()
-        self.in_deadlock: Set[int] = set()
+        self.in_collision: set[int] = set()
+        self.in_deadlock: set[int] = set()
         self.decorate = decorate
-        self.server: Optional[WebSocketServer] = None
+        self.server: WebSocketServer | None = None
 
     @property
     def is_ready(self) -> bool:
@@ -197,8 +198,8 @@ class WebUI:
         return cls._instances[port]
 
     async def update_size(self,
-                          world: Optional[World] = None,
-                          bounds: Optional[Rect] = None) -> None:
+                          world: World | None = None,
+                          bounds: Rect | None = None) -> None:
         if bounds is None and world is not None:
             bounds = bounds_for_world(world)
         if bounds is None:
@@ -209,7 +210,7 @@ class WebUI:
         for queue in self.queues:
             await queue.put(data)
 
-    async def init(self, world: World, bounds: Optional[Rect] = None) -> None:
+    async def init(self, world: World, bounds: Rect | None = None) -> None:
         """
         Initialize the client views to display a world
 
@@ -258,8 +259,8 @@ class WebUI:
         msg = ['m', {a._uid: pose_msg(a) for a in world.agents}]
         await self.send(msg)
 
-    def compute_style(self, world: World) -> Dict[int, Attributes]:
-        rs: Dict[int, Attributes] = {}
+    def compute_style(self, world: World) -> dict[int, Attributes]:
+        rs: dict[int, Attributes] = {}
         if self.decorate:
             for e in itertools.chain(world.walls, world.obstacles,
                                      world.agents):

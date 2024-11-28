@@ -47,7 +47,7 @@ class EnkiExperiment:
 
             cylinder.position = world2enki(obstacle.disc.position)
             self.enki_world.add_object(cylinder)
-        for wall in self.world.walls:
+        for _ in self.world.walls:
             pass
 
     def update(self, dt: float) -> bool:
@@ -62,9 +62,7 @@ class EnkiExperiment:
         if self.experiment.terminate_when_all_idle_or_stuck and self.world.agents_are_idle_or_stuck(
         ):
             return True
-        if self.world.step >= self.experiment.steps:
-            return True
-        return False
+        return self.world.step >= self.experiment.steps
 
     def run_once(self, seed: int) -> None:
         self.prepare_run(seed)
@@ -114,7 +112,7 @@ def parser() -> argparse.ArgumentParser:
 def main() -> None:
     arg = parser().parse_args()
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):
-        with open(arg.YAML, 'r') as f:
+        with open(arg.YAML) as f:
             yaml = f.read()
     else:
         yaml = arg.YAML

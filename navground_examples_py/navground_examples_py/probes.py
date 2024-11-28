@@ -1,5 +1,4 @@
 import sys
-from typing import Dict, List
 
 import numpy as np
 from navground import sim
@@ -22,7 +21,7 @@ class IsMovingProbe(sim.RecordProbe):
         for agent in run.world.agents:
             self.data.push(not agent.twist.is_almost_zero())
 
-    def get_shape(self, world: sim.World) -> List[int]:
+    def get_shape(self, world: sim.World) -> list[int]:
         return [len(world.agents)]
 
 
@@ -37,7 +36,7 @@ class IsMovingSparseProbe(sim.GroupRecordProbe):
                 ds.push(run.world.time)
 
     def get_shapes(self, world: sim.World,
-                   use_uid: bool) -> Dict[str, List[int]]:
+                   use_uid: bool) -> dict[str, list[int]]:
         return {
             str(a._uid if use_uid else i): []
             for i, a in enumerate(world.agents)

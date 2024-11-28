@@ -1,5 +1,5 @@
 import pathlib
-from typing import Any, Tuple, Union
+from typing import Any
 
 try:
     import moviepy.editor as mpy  # type: ignore[import-untyped]
@@ -26,7 +26,7 @@ def make_video(world: World,
                follow: Agent | None = None,
                bounds: Rect | None = None,
                terminate_when_all_idle_or_stuck: bool = True,
-               rotation: Tuple[core.Vector2, float] | float | None = None,
+               rotation: tuple[core.Vector2, float] | float | None = None,
                **kwargs: Any) -> mpy.VideoClip:
     t0 = world.time
     theta = 0.0
@@ -70,7 +70,7 @@ def make_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
                         bounds: Rect | None = None,
                         from_time: float = 0,
                         to_time: float | None = None,
-                        rotation: Tuple[core.Vector2, float] | float
+                        rotation: tuple[core.Vector2, float] | float
                         | None = None,
                         **kwargs: Any) -> mpy.VideoClip:
 
@@ -126,7 +126,7 @@ def make_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
     return mpy.VideoClip(make_frame, duration=sim_duration / factor)
 
 
-def record_video(path: Union[str, pathlib.Path],
+def record_video(path: str | pathlib.Path,
                  world: World,
                  time_step: float,
                  duration: float,
@@ -167,7 +167,7 @@ def record_video(path: Union[str, pathlib.Path],
         clip.write_videofile(str(path), fps=fps, **kwargs)
 
 
-def record_video_from_run(path: Union[str, pathlib.Path],
+def record_video_from_run(path: str | pathlib.Path,
                           run: RecordedExperimentalRun | ExperimentalRun,
                           factor: float = 1.0,
                           fps: int = 30,

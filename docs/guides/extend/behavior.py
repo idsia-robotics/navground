@@ -2,7 +2,7 @@ from navground import core
 
 class MyBehavior(core.PyBehavior):
 
-    def __init__(self, kinematics: core.Kinematics | None = None, radius: float):
+    def __init__(self, kinematics: core.Kinematics | None = None, radius: float = 0):
         super().__init__(kinematics, radius)
         self._env_state = MyEnvironmentState()
 

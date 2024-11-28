@@ -2,7 +2,8 @@ import argparse
 
 from navground import sim
 from navground.core import command
-from navground.core.info import description, info, init_parser_with_registers
+from navground.core.info import description  # noqa: F401
+from navground.core.info import info, init_parser_with_registers
 from navground.core.info import registers as core_registers
 
 registers = core_registers + [(sim.StateEstimation, "State Estimations"),

@@ -3,7 +3,7 @@ import pathlib
 import re
 import sys
 import warnings
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Tuple, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 import numpy as np
 import numpy.typing
@@ -21,10 +21,10 @@ def _timedelta_from_ns(ns: int) -> datetime.timedelta:
 
 
 def _get_all_datasets(group: 'h5py.Group',
-                      ns: str) -> Dict[str, 'h5py.Dataset']:
+                      ns: str) -> dict[str, 'h5py.Dataset']:
     import h5py
-    rs: Dict[str, h5py.Dataset] = {}
-    for k, v in group.items():
+    rs: dict[str, h5py.Dataset] = {}
+    for _, v in group.items():
         if isinstance(v, h5py.Group):
             cs = _get_all_datasets(v, ns)
             rs.update(**cs)
@@ -68,33 +68,33 @@ class RecordedExperimentalRun:
         self._group = group
         self._scenario = scenario
         self.reset()
-        self.collisions: Optional['h5py.Dataset'] = group.get('collisions')
+        self.collisions: 'h5py.Dataset' | None = group.get('collisions')
         """The recorded collisions"""
-        self.deadlocks: Optional['h5py.Dataset'] = group.get('deadlocks')
+        self.deadlocks: 'h5py.Dataset' | None = group.get('deadlocks')
         """The recorded deadlocks"""
-        self.efficacy: Optional['h5py.Dataset'] = group.get('efficacy')
+        self.efficacy: 'h5py.Dataset' | None = group.get('efficacy')
         """The recorded efficacy"""
-        self.commands: Optional['h5py.Dataset'] = group.get('cmds')
+        self.commands: 'h5py.Dataset' | None = group.get('cmds')
         """The recorded commands"""
-        self.poses: Optional['h5py.Dataset'] = group.get('poses')
+        self.poses: 'h5py.Dataset' | None = group.get('poses')
         """The recorded poses"""
-        self.twists: Optional['h5py.Dataset'] = group.get('twists')
+        self.twists: 'h5py.Dataset' | None = group.get('twists')
         """The recorded twists"""
-        self.times: Optional['h5py.Dataset'] = group.get('times')
+        self.times: 'h5py.Dataset' | None = group.get('times')
         """The recorded times"""
-        self.targets: Optional['h5py.Dataset'] = group.get('targets')
+        self.targets: 'h5py.Dataset' | None = group.get('targets')
         """The recorded targets"""
-        self.task_events: Dict[int, 'h5py.Dataset'] = {
+        self.task_events: dict[int, 'h5py.Dataset'] = {
             int(k): v
             for k, v in group.get('task_events', {}).items()
         }
         """The sensing state"""
-        self.sensing: Dict[int, 'h5py.Group'] = {
+        self.sensing: dict[int, 'h5py.Group'] = {
             int(k): v
             for k, v in group.get('sensing', {}).items()
         }
         """The recorded task events"""
-        self.safety_violations: Optional['h5py.Dataset'] = group.get(
+        self.safety_violations: 'h5py.Dataset' | None = group.get(
             'safety_violations')
         """The recorded safety violations"""
         self.seed: int = group.attrs['seed']
@@ -113,7 +113,7 @@ class RecordedExperimentalRun:
         """The actual number of steps that have been performed"""
         self.time_step: float = group.attrs['time_step']
         """The time step used by the simulation"""
-        self._indices: Dict[int, int] = {
+        self._indices: dict[int, int] = {
             agent._uid: i
             for i, agent in enumerate(self.world.agents)
         }
@@ -134,7 +134,8 @@ class RecordedExperimentalRun:
         elif self._scenario:
             warnings.warn(
                 'HDF5 group does not store a world ... sampling from '
-                'the scenario may not be correct')
+                'the scenario may not be correct',
+                stacklevel=1)
             self.world = World()
             self._scenario.init_world(self.world, seed=seed)
         else:
@@ -147,17 +148,17 @@ class RecordedExperimentalRun:
         return self._group
 
     @property
-    def records(self) -> Dict[str, 'h5py.Dataset']:
+    def records(self) -> dict[str, 'h5py.Dataset']:
         """All recorded datasets"""
         return self.get_records()
 
     @property
-    def record_names(self) -> Set[str]:
+    def record_names(self) -> set[str]:
         """All recorded dataset names"""
 
         return self.get_record_names()
 
-    def get_record_names(self, group: str = '') -> Set[str]:
+    def get_record_names(self, group: str = '') -> set[str]:
         """
          Gets the names of records.
 
@@ -185,7 +186,7 @@ class RecordedExperimentalRun:
             return value
         return None
 
-    def get_records(self, group: str = '') -> Dict[str, 'h5py.Dataset']:
+    def get_records(self, group: str = '') -> dict[str, 'h5py.Dataset']:
         """
         Gets recorded data map.
 
@@ -201,7 +202,7 @@ class RecordedExperimentalRun:
         return _get_all_datasets(g, f'{g.name}/')
 
     def get_task_events(
-        self, agent: Agent
+            self, agent: Agent
     ) -> Union['h5py.Dataset', np.typing.NDArray[np.float_]]:
         """
         The recorded events logged by the task of an agent
@@ -256,15 +257,18 @@ class RecordedExperimentalRun:
             self.world.step = self._step
             if self.poses:
                 for ps, agent in zip(self.poses[self._step],
-                                     self.world.agents):
+                                     self.world.agents,
+                                     strict=False):
                     agent.pose = core.Pose2(ps[:2], ps[2])
             if self.twists:
                 for ps, agent in zip(self.twists[self._step],
-                                     self.world.agents):
+                                     self.world.agents,
+                                     strict=False):
                     agent.twist = core.Twist2(ps[:2], ps[2])
             if self.commands:
                 for ps, agent in zip(self.commands[self._step],
-                                     self.world.agents):
+                                     self.world.agents,
+                                     strict=False):
                     agent.last_cmd = core.Twist2(ps[:2], ps[2])
             if self.sensing and self.record_config:
                 use_uid = self.record_config.use_agent_uid_as_key
@@ -284,7 +288,8 @@ class RecordedExperimentalRun:
 
             if self.targets:
                 for ps, agent in zip(self.targets[self._step],
-                                     self.world.agents):
+                                     self.world.agents,
+                                     strict=False):
                     if agent.behavior:
                         agent.behavior.target = ExperimentalRun.target_from_data(
                             ps)
@@ -327,7 +332,7 @@ class RecordedExperimentalRun:
         super().__setattr__(attr, value)
 
     @property
-    def bounds(self) -> Optional[Bounds]:
+    def bounds(self) -> Bounds | None:
         """
         Computes the rectangle in which agents are contained during the run:
         ``(lower-left corner, top-right corner)``
@@ -359,7 +364,9 @@ class RecordedExperimentalRun:
                                max(bb.max_y, max_over_agents[1]))
         return bb
 
-    def get_collision_events(self, min_interval: int = 0) -> np.typing.NDArray[np.int_]:
+    def get_collision_events(self,
+                             min_interval: int = 0
+                             ) -> np.typing.NDArray[np.int_]:
         """
         Gets the recorded collisions events, i.e.
         collisions separated by more than min_interval steps
@@ -372,9 +379,9 @@ class RecordedExperimentalRun:
         if self.collisions is None:
             print("Collisions not recorded", file=sys.stderr)
             return np.array([], dtype=int)
-        collision_events: List[Tuple[int, int, int, int]] = []
+        collision_events: list[tuple[int, int, int, int]] = []
         # (e1, e2) -> (begin, end)
-        ts: Dict[Tuple[int, int], tuple[int, int]] = {}
+        ts: dict[tuple[int, int], tuple[int, int]] = {}
         for t, *es in self.collisions:
             es = tuple(es)
             if es not in ts:
@@ -390,7 +397,9 @@ class RecordedExperimentalRun:
             collision_events.append((a, b, *es))
         return np.asarray(collision_events)
 
-    def get_steps_to_collision(self, min_interval: int = 0) -> np.typing.NDArray[np.int_]:
+    def get_steps_to_collision(self,
+                               min_interval: int = 0
+                               ) -> np.typing.NDArray[np.int_]:
         """
         Gets the steps to the next recorded collision
         for each agent at each simulation step.
@@ -440,7 +449,7 @@ class RecordedExperiment:
     _frozen = False
 
     def __init__(self,
-                 path: Union[str, pathlib.Path] = '',
+                 path: str | pathlib.Path = '',
                  file: Optional['h5py.File'] = None):
         """
         Constructs a new instance.
@@ -472,7 +481,7 @@ class RecordedExperiment:
         self.record_config = self._experiment.record_config
         """The record config used by the experiment"""
 
-        self.runs: Dict[int, RecordedExperimentalRun] = {
+        self.runs: dict[int, RecordedExperimentalRun] = {
             int(re.match(r"run_(\d+)", k).groups()[0]):  # type: ignore
             RecordedExperimentalRun(v, self._experiment.scenario,
                                     record_config=self.record_config)

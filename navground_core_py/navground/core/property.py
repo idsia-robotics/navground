@@ -1,62 +1,71 @@
-from typing import (Any, Callable, List, Literal, Tuple, Type, TypeAlias,
-                    TypeVar, Union, cast)
+from collections.abc import Callable, Collection
+from typing import (Any, Literal, TypeAlias, TypeVar, cast, get_args,
+                    get_origin, get_type_hints)
 
 import numpy
+from navground.core import uses_doubles
+from navground.core.schema import SchemaModifier
 
-from .schema import SchemaModifier
-
-# TODO(Jerome): how to define an alias that depends on `uses_doubles`?
-Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]],
-                                   numpy.dtype[numpy.float64]]
+FloatType = numpy.float64 if uses_doubles() else numpy.float32
+# Type aliases cannot be dynamically evaluated ...
+# else we would set the type to FloatType instead of numpy.float64
+Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]], numpy.dtype[numpy.float64]]
 Vector2Like: TypeAlias = Vector2 | tuple[float, float] | list[float]
 
-ScalarPropertyField = Union[bool, int, float, str, Vector2]
-PropertyField = Union[ScalarPropertyField, List[bool], List[int], List[float],
-                      List[str], List[Vector2]]
+ScalarPropertyField: TypeAlias = bool | int | float | str | Vector2
+ListPropertyField: TypeAlias = list[bool] | list[int] | list[float] | list[
+    str] | list[Vector2]
+PropertyField: TypeAlias = ScalarPropertyField | ListPropertyField
 
 T = TypeVar('T', bound=Any)
 
 
-def _convert(type_: Any, value: Any) -> Tuple[PropertyField, Type[Any]]:
-    if isinstance(type_, str):
-        try:
-            type_ = eval(type_)
-        except Exception:
-            type_ = None
-
-    item_type = None
-    try:
-        # decompose X[y] in X and y
-        item_type, *_ = type_.__args__
-        type_ = type_.__origin__
-    except:
-        pass
-    if not item_type:
+def _convert(getter: Callable[..., Any],
+             value: Any) -> tuple[PropertyField, type[ScalarPropertyField]]:
+    type_hint = get_type_hints(getter).get('return', None)
+    type_: type[Any]
+    item_type: type[Any] | None
+    if type_hint:
+        if type_hint == Vector2:
+            type_ = Vector2
+            item_type = None
+        else:
+            args = get_args(type_hint)
+            if args:
+                if len(args) != 1:
+                    raise TypeError(
+                        f"Invalid generic annotation: too may args {type_hint}"
+                    )
+                item_type = args[0]
+                type_ = get_origin(type_hint)
+            else:
+                type_ = type_hint
+                item_type = None
+    else:
+        type_ = type(value)
+        item_type = None
+    if type_ is tuple:
+        type_ = list
+    if type_ is list and item_type is None:
         try:
             item_type = type(value[0])
-        except:
-            pass
-    if not type_:
-        type_ = type(value)
-    if item_type is list:
-        item_type = Vector2
-    if type_ in (list, tuple, List, Tuple):
-        return cast(PropertyField,
+        except Exception as e:
+            raise TypeError(
+                f"Default value {value} should be an non-empty sequence"
+            ) from e
+    if type_ is list:
+        return cast(ListPropertyField,
                     [_convert_scalar(item_type, x)
-                     for x in value]), cast(Type[Any], item_type)
+                     for x in value]), cast(type[ScalarPropertyField],
+                                            item_type)
     return _convert_scalar(type_, value), type_
 
 
 def _convert_scalar(type_: Any, value: Any) -> ScalarPropertyField:
-    try:
-        type_ = type_.__origin__
-    except:
-        pass
-
-    if type_ not in (bool, int, float, str, numpy.ndarray):
+    if type_ not in (bool, int, float, str, Vector2):
         raise TypeError(f"Unsupported type {type_}")
 
-    if type_ is numpy.ndarray:
+    if type_ == Vector2:
         try:
             if len(value) == 2:
                 return numpy.asarray(value, dtype=float)
@@ -64,24 +73,25 @@ def _convert_scalar(type_: Any, value: Any) -> ScalarPropertyField:
                 raise ValueError(
                     f"Unsupported value with length {len(value)} != 2 for type Vector2"
                 )
-        except:
-            raise TypeError(f"Unsupported value {value} for type {type_}")
-
-    if type_ is not type(value) and type_ not in (
-            float, int) and type(value) not in (float, int):
+        except Exception as e:
+            raise TypeError(
+                f"Unsupported value {value} for type {type_}") from e
+    if type_ is not type(value) and type_ not in (float, int) and not (
+            type(value) in (float, int) and type_ in (float, int)):
         raise TypeError(
             f"Implicit conversion of {value} to {type_} is not permitted")
     try:
         return cast(ScalarPropertyField, type_(value))
-    except:
-        pass
-    raise TypeError(f"Unsupported value {value} for type {type_}")
+    except Exception as e:
+        raise TypeError(f"Unsupported value {value} for type {type_}") from e
 
 
-def register(default_value: PropertyField,
-             description: str = "",
-             schema: SchemaModifier | None = None,
-             deprecated_names: list[str] = []) -> Callable[[T], T]:
+def register(
+    default_value: PropertyField,
+    description: str = "",
+    schema: SchemaModifier | None = None,
+    deprecated_names: Collection[str] = tuple()
+) -> Callable[[T], T]:
     """
     A decorator to register a property.
     It must be used below the ``@property`` decorator.
@@ -119,16 +129,15 @@ def register(default_value: PropertyField,
     """
 
     def g(f: T) -> T:
-        return_type = f.__annotations__.get('return')
         try:
-            value, scalar_type = _convert(return_type, default_value)
+            value, scalar_type = _convert(f, default_value)
             f.__default_value__ = value
             if scalar_type in (bool, int, float, str):
-                f.__scalar_value__ = scalar_type()
+                f.__scalar_value__ = scalar_type()  # type: ignore[call-arg]
             else:
-                f.__scalar_value__ = numpy.zeros(2)
+                f.__scalar_value__ = numpy.zeros(2, dtype=FloatType)
         except Exception as e:
-            raise ValueError(f'Default property value not valid: {e}')
+            raise ValueError('Default property value not valid') from e
         f.__desc__ = description
         f.__deprecated_names__ = deprecated_names
         f.__schema__ = schema

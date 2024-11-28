@@ -4,7 +4,8 @@ import shutil
 import tempfile
 import webbrowser
 from collections import ChainMap
-from typing import Any, List, Mapping, Optional
+from typing import Any
+from collections.abc import Mapping
 
 import jinja2
 
@@ -35,13 +36,13 @@ def open_html(width: int = 640,
     webbrowser.open(f"file://{f.resolve()}", new=1)
 
 
-def save(world: Optional[World] = None,
+def save(world: World | None = None,
          world_name: str = '',
          folder: str = '',
          file_name: str = 'index',
          empty: bool = False,
-         include_style_path: Optional[str] = None,
-         include_script_path: Optional[str] = None,
+         include_style_path: str | None = None,
+         include_script_path: str | None = None,
          copy_included_files: bool = False,
          simulation: bool = False,
          **kwargs: Any) -> None:
@@ -52,7 +53,7 @@ def save(world: Optional[World] = None,
         }, kwargs)
     else:
         kw = kwargs
-    paths: List[str] = []
+    paths: list[str] = []
     if copy_included_files:
         if include_style_path:
             paths.append(include_style_path)
@@ -76,7 +77,7 @@ def save(world: Optional[World] = None,
 notebook_count = 0
 
 
-def html_for_world(world: Optional[World] = None,
+def html_for_world(world: World | None = None,
                    world_name: str = '',
                    with_websocket: bool = False,
                    notebook: bool = False,
@@ -84,7 +85,7 @@ def html_for_world(world: Optional[World] = None,
                    display_shape: bool = False,
                    external_style_path: str = '',
                    style: str = '',
-                   include_script_path: Optional[str] = None,
+                   include_script_path: str | None = None,
                    **kwargs: Any) -> str:
     """
     Draw the world as a SVG embedded in HTML, optionally with a javascript script to keep
@@ -99,7 +100,8 @@ def html_for_world(world: Optional[World] = None,
     :param      external_style_path:    The external style path
     :param      style:                  An inline CSS style to include
     :param      include_script_path:    An alternative script path to be included
-    :param      kwargs:                 Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    :param      kwargs:                 Arguments forwarded to
+                                        :py:func:`navground.sim.ui.svg_for_world`
 
     :returns:   An HTML string
     """

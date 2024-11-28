@@ -1,10 +1,10 @@
-from typing import List, Tuple, Union, cast
+from typing import cast
 from navground import core, sim
 import numpy as np
 from navground.core import schema
 
 
-def get_path(points: List[core.Vector2]) -> core.Path:
+def get_path(points: list[core.Vector2]) -> core.Path:
     from shapely import geometry as g
 
     delta = np.diff(np.asarray(points), axis=0)
@@ -19,7 +19,7 @@ def get_path(points: List[core.Vector2]) -> core.Path:
     ws = np.insert(ws, 0, 0)
     line = g.LineString(points)
 
-    def curve(s: float) -> Tuple[core.Vector2, float, float]:
+    def curve(s: float) -> tuple[core.Vector2, float, float]:
         if s < 0:
             return points[0], cs[0], 0
         if s > cs[-1]:
@@ -29,13 +29,13 @@ def get_path(points: List[core.Vector2]) -> core.Path:
 
     def project(point: core.Vector2Like, a: float, b: float) -> float:
         if a > 0:
-            i: Union[int, np.int_] = np.searchsorted(cs, a, side="left")
+            i: int | np.int_ = np.searchsorted(cs, a, side="left")
             pa = [np.asarray(line.interpolate(a).coords)]
         else:
             i = 0
             pa = []
         if b < line.length:
-            j: Union[int, np.int_] = np.searchsorted(cs, b, side="right")
+            j: int | np.int_ = np.searchsorted(cs, b, side="right")
             pb = [np.asarray(line.interpolate(b).coords)]
         else:
             j = len(points)
@@ -58,7 +58,7 @@ class PathTask(sim.Task, name="Path"):
        - :py:attr:`tolerance` (float)
     """
 
-    def __init__(self, points: List[core.Vector2] = [], tolerance: float = 1):
+    def __init__(self, points: list[core.Vector2] = [], tolerance: float = 1):
         """
         Constructs a new instance.
 
@@ -71,14 +71,14 @@ class PathTask(sim.Task, name="Path"):
 
     @property
     @sim.register([], "points", schema.longer_than(1))
-    def points(self) -> List[core.Vector2]:
+    def points(self) -> list[core.Vector2]:
         """
         :returns:    The points defining the curve
         """
         return self._points
 
     @points.setter
-    def points(self, value: List[core.Vector2]) -> None:
+    def points(self, value: list[core.Vector2]) -> None:
         self._points = value
 
     @property

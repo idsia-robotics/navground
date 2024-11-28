@@ -34,11 +34,14 @@ def parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main() -> None:
-    ps = parser()
-    args = ps.parse_args()
-    if args.cmd is not None:
-        args.func(args)
+def _main(arg: argparse.Namespace) -> None:
+    if arg.cmd is not None:
+        arg.func(arg)
     else:
         print("Welcome to navground!\n")
-        ps.print_help()
+        parser().print_help()
+
+
+def main() -> None:
+    args = parser().parse_args()
+    _main(args)

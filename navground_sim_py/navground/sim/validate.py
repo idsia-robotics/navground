@@ -1,10 +1,9 @@
 import argparse
-from typing import List
 
 from navground import sim
 from navground.core import command, validate
 
-kinds: List[str] = validate.kinds + [
+kinds: list[str] = validate.kinds + [
     "state_estimation", "task", "agent", "world", "scenario", "experiment"
 ]
 

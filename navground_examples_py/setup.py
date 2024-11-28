@@ -15,7 +15,8 @@ setup(
     zip_safe=True,
     maintainer='Jerome Guzzi',
     maintainer_email='jerome@idsia.ch',
-    description='A collection of examples that uses the navground core and sim libraries from Python.',
+    description=('A collection of examples that uses the navground core '
+                 'and sim libraries from Python.'),
     license='MIT',
     tests_require=['pytest'],
     entry_points={

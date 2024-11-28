@@ -1,0 +1,95 @@
+name: Test Python
+on:
+  workflow_dispatch:
+env:
+  COLCON_DEFAULTS_FILE: src/navground/colcon/defaults.yaml
+jobs:
+  test_python:
+    strategy:
+      matrix:
+        python-version:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
+        os:
+          - ubuntu-latest
+    name: Build and Test Navground 
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      - name: install colcon
+        run: pip install colcon-common-extensions
+      - name: load deps
+        uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: install
+          key: ${{ matrix.os }}-${{ hashFiles('src/navground/installation/deps.repos', 'src/navground/installation/ament.repos') }}
+      - name: download deps
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install vcstool
+          vcs import --shallow --input src/navground/installation/deps.repos
+          vcs import --shallow --input src/navground/installation/ament.repos
+      - name: build deps
+        if: ${{steps.cache.outputs.cache-hit != 'true' }}
+        run: colcon build --metas src/navground/colcon/navground.meta --packages-up-to argparse Eigen3 YAML_CPP GEOS HighFive HDF5 pybind11 ament_cmake ament_package ament_index_cpp
+      - name: save deps
+        uses: actions/cache/save@v4
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: install
+          key: ${{ matrix.os }}-${{ hashFiles('src/navground/installation/deps.repos', 'src/navground/installation/ament.repos') }}   
+      - name: build navground
+        run: |
+          source install/setup.bash
+          colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_sim_py navground_examples_py navground_examples navground_examples_yaml
+      - name: install python runtime deps
+        run: pip install numpy PyYaml tqdm cairosvg moviepy Jinja2 websockets jsonschema
+      - name: test load
+        run: |
+          source install/setup.bash
+          python -c "from navground import core, sim"
+      - name: test info
+        run: |
+          source install/setup.bash
+          navground_py info --build --properties
+      - name: test plugins
+        run: |
+          source install/setup.bash
+          navground_py plugins --dependencies        
+      - name: test schema
+        run: |
+          source install/setup.bash
+          navground_py schema sim   
+      - name: test validate
+        run: |
+          source install/setup.bash
+          navground_py validate experiment install/share/navground_examples_yaml/experiment/cross.yaml
+      - name: test echo
+        run: |
+          source install/setup.bash
+          navground_py echo behavior "{type: Dummy}"   
+      - name: test sample
+        run: |
+         source install/setup.bash
+         navground_py sample "{type: Cross, groups: [{number: 10, behavior: {type: Dummy}}]}" 
+      - name: test run
+        run: |
+          source install/setup.bash
+          navground_py run experiment install/share/navground_examples_yaml/experiment/cross.yaml --tqdm
+          navground_py run experiment install/share/navground_examples_yaml/experiment/corridor.yaml --processes 2 --runs 10
+          navground run experiment install/share/navground_examples_yaml/experiment/antipodal.yaml --threads 2 -- runs 10
+          navground_py run experiment install/share/navground_examples_yaml/experiment/cross_torus.yaml --run_index 1001    
+      - name: test video
+        run: |
+          source install/setup.bash
+          navground_py record_video install/share/navground_examples_yaml/experiment/cross.yaml /tmp/video.mp4 --factor 100
+

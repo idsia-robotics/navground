@@ -32,7 +32,7 @@ def _load_and_run_experiment(
     start_index: int,
     number_of_runs: int,
     data_path: pathlib.Path | None,
-    queue: Queue[int] | None = None,
+    queue: 'Queue[int]' | None = None,
     probes: Probes = ([], {}, {}),
     scenario_init_callback: ScenarioInitCallback | None = None
 ) -> dict[int, sim.ExperimentalRun]:

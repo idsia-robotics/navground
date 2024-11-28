@@ -51,7 +51,7 @@ jobs:
       - name: build navground
         run: |
           source install/setup.bash
-          colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_examples_py navground_examples navground_examples_yaml
+          colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_examples_py navground_examples_yaml
       - name: install python runtime deps
         run: pip install numpy PyYaml tqdm cairosvg moviepy Jinja2 websockets jsonschema
       - name: test load

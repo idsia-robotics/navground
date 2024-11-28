@@ -203,7 +203,7 @@ class RecordedExperimentalRun:
 
     def get_task_events(
             self, agent: Agent
-    ) -> Union['h5py.Dataset', np.typing.NDArray[np.float_]]:
+    ) -> Union['h5py.Dataset', np.typing.NDArray[np.floating[Any]]]:
         """
         The recorded events logged by the task of an agent
         as a HDF5 dataset of shape

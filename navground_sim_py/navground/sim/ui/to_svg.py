@@ -12,7 +12,7 @@ from navground import core
 from .. import (Agent, BoundingBox, Bounds, Entity, Obstacle, Wall, World,
                 bounds_for_world)
 
-Rect = Bounds | np.typing.NDArray[np.float_]
+Rect = Bounds | np.typing.NDArray[np.floating[Any]]
 Attributes = MutableMapping[str, str]
 Point = core.Vector2
 Decorate = Callable[[Entity], Attributes]

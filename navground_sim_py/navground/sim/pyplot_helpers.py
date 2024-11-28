@@ -123,7 +123,7 @@ def plot_world(ax: Axes,
 
 
 def plot_trajectory(ax: Axes,
-                    poses: np.typing.NDArray[np.float_],
+                    poses: np.typing.NDArray[np.floating[Any]],
                     color: str,
                     agent: sim.Agent | None = None,
                     step: int = 0,

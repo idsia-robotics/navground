@@ -6,7 +6,7 @@ import numpy
 from navground.core import uses_doubles
 from navground.core.schema import SchemaModifier
 
-FloatType = numpy.float64 if uses_doubles() else numpy.float32
+FloatType: type[numpy.floating[Any]] = numpy.float64 if uses_doubles() else numpy.float32
 # Type aliases cannot be dynamically evaluated ...
 # else we would set the type to FloatType instead of numpy.float64
 Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]], numpy.dtype[numpy.float64]]

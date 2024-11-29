@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How to validate code &#8212; navground 0.3.0 documentation</title>
+    <title>How to validate code &#8212; navground 0.3.1 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=83a61292"></script>
+    <script src="../_static/documentation_options.js?v=385a908f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.0 documentation</p>
+    <p class="title logo__title">navground 0.3.1 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -502,21 +502,17 @@ we suggest to use the following tools to validate Python and YAML too.</p>
 <h2>Python<a class="headerlink" href="#python" title="Link to this heading">#</a></h2>
 <p>Packages <a class="reference internal" href="../reference/core/python/index.html#module-navground.core" title="navground.core: Core package"><code class="xref py py-mod docutils literal notranslate"><span class="pre">navground.core</span></code></a> and  <a class="reference internal" href="../reference/sim/python/index.html#module-navground.sim" title="navground.sim: Simulation package"><code class="xref py py-mod docutils literal notranslate"><span class="pre">navground.sim</span></code></a> have type hints. For the pybind11 parts, we provide stub files, while Python code is fully annotated with types. Therefore you can use tools such as <a class="reference external" href="https://mypy.readthedocs.io">mypy</a>, to check you code.</p>
 <p>To check the packages themselves, you can run</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mypy -p navground.core --namespace-packages --ignore-missing-imports
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mypy -p navground.core --strict
 Success: no issues found in 18 source files
 </pre></div>
 </div>
 <p>and</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mypy -p navground.sim --namespace-packages --ignore-missing-imports
-Success: no issues found in 35 source files
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ mypy -p navground.core --strict
+Success: no issues found in 18 source files
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">--ignore-missing-imports</span></code> silences errors from third party packages missing type hints.</p>
-</div>
 <p>To check your package, you can run</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mypy<span class="w"> </span>&lt;path&gt;<span class="w"> </span>--ignore-missing-imports
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mypy<span class="w"> </span>&lt;path&gt;
 </pre></div>
 </div>
 </section>

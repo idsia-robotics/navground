@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.3.1] 2024-29-11
+
+Patch release that remove deprecated type hints and add support for the recently released version 2 of moviepy.
+
+### Added
+
+- Added support for latest numpy and moviepy.
+
+### Fixed
+
+- Updated type hints to removed deprecated `typing` import and resolved all errors reported by `mypy --strict` and `ruff` with `flake8-pep585` and `pyupgrade`.
+- Fixed that `navground_py schema sim` outputted a schema without registered core classes by moving static definitions of registers to separate cpp files.
+- Fixed `--register` argument of `navground_py schema`.
+
+### Changed
+
+- `navground.sim.pyplot_helpers.plot_runs` now hides the axis by default.
+- Modified `navground.core.property to use `typing.get_type` instead of eval.
+
 ## [0.3.0] 2024-26-11
 
 This release improves usability when extending navground with new components and when validating code:

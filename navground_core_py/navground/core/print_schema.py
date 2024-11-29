@@ -39,10 +39,9 @@ def init_parser_with_schemas(parser: argparse.ArgumentParser,
                         nargs='?')
     parser.add_argument(
         "--register",
-        type=bool,
         help=
         "Whether to generate the register schema instead of the base class schema",
-        default=False)
+        action='store_true')
     parser.add_argument(
         "--type",
         type=str,
@@ -69,7 +68,7 @@ def schema(arg: argparse.Namespace, schemas: Schemas,
     if arg.kind in components:
         cls = components[arg.kind]
         if arg.register:
-            schema = cls.register_schema(arg.type)
+            schema = cls.register_schema()
         else:
             schema = cls.schema(True, arg.type)
     else:

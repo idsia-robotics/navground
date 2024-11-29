@@ -15,7 +15,7 @@ jobs:
           - "3.13"
         os:
           - ubuntu-latest
-    name: Build and Test Navground 
+    name: Build and Test Navground
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -47,7 +47,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         with:
           path: install
-          key: ${{ matrix.os }}-${{ hashFiles('src/navground/installation/deps.repos', 'src/navground/installation/ament.repos') }}   
+          key: ${{ matrix.os }}-${{ hashFiles('src/navground/installation/deps.repos', 'src/navground/installation/ament.repos') }}
       - name: build navground
         run: |
           source install/setup.bash
@@ -61,15 +61,18 @@ jobs:
       - name: test info
         run: |
           source install/setup.bash
+          navground    info --build --properties
           navground_py info --build --properties
       - name: test plugins
         run: |
           source install/setup.bash
-          navground_py plugins --dependencies        
+          navground    plugins --dependencies
+          navground_py plugins --dependencies 
       - name: test schema
         run: |
           source install/setup.bash
-          navground_py schema sim   
+          navground    schema sim
+          navground_py schema sim
       - name: test validate
         run: |
           source install/setup.bash
@@ -77,19 +80,21 @@ jobs:
       - name: test echo
         run: |
           source install/setup.bash
+          navground    echo behavior "{type: Dummy}"
           navground_py echo behavior "{type: Dummy}"
-          navground_py echo behavior "{type: PyDummy}" 
+          navground_py echo behavior "{type: PyDummy}"
       - name: test sample
         run: |
          source install/setup.bash
-         navground_py sample "{type: Cross, groups: [{number: 10, behavior: {type: Dummy}}]}"
+         navground    sample "{type: Cross, groups: [{number: 10, behavior: {type: Dummy}}]}"
+         navground_py sample "{type: Cross, groups: [{number: 10, behavior: {type: PyDummy}}]}"
       - name: test run
         run: |
           source install/setup.bash
-          navground_py run experiment install/share/navground_examples_yaml/experiment/cross.yaml --tqdm
-          navground_py run experiment install/share/navground_examples_yaml/experiment/corridor.yaml --processes 2 --runs 10
-          navground run experiment install/share/navground_examples_yaml/experiment/antipodal.yaml --threads 2 -- runs 10
-          navground_py run experiment install/share/navground_examples_yaml/experiment/cross_torus.yaml --run_index 1001    
+          navground_py run install/share/navground_examples_yaml/experiment/cross.yaml       --run_index 1001
+          navground    run install/share/navground_examples_yaml/experiment/cross_torus.yaml --run_index 2002
+          navground_py run install/share/navground_examples_yaml/experiment/corridor.yaml    --processes 2 --runs 10 --tqdm
+          navground    run install/share/navground_examples_yaml/experiment/antipodal.yaml   --threads 2   --runs 10 --tqdm
       - name: test video
         run: |
           source install/setup.bash

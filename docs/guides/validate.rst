@@ -13,20 +13,18 @@ Packages :py:mod:`navground.core` and  :py:mod:`navground.sim` have type hints. 
 
 To check the packages themselves, you can run
 
-.. command-output:: mypy -p navground.core --namespace-packages --ignore-missing-imports 
+.. command-output:: mypy -p navground.core --strict
 
 and
 
-.. command-output:: mypy -p navground.sim --namespace-packages --ignore-missing-imports 
+.. command-output:: mypy -p navground.core --strict
 
-
-.. note:: ``--ignore-missing-imports`` silences errors from third party packages missing type hints.
 
 To check your package, you can run
 
 .. code-block:: console 
 
-   $ mypy <path> --ignore-missing-imports 
+   $ mypy <path>
    
 
 YAML

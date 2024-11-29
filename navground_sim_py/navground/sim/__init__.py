@@ -221,7 +221,7 @@ def setup_tqdm(self: Experiment,
 
 
 Experiment.setup_tqdm = setup_tqdm  # type: ignore[method-assign]
-Experiment.run_mp = run_mp  # type: ignore[assignment]
+Experiment.run_mp = run_mp  # type: ignore[method-assign]
 
 # isort: stop
 from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun  # noqa: E402

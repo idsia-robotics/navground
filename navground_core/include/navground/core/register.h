@@ -46,32 +46,21 @@ struct
    *
    * @return     A map of registered factory functions ``name -> factory``.
    */
-  static std::map<std::string, Factory> &factory() {
-    static std::map<std::string, Factory> f;
-    return f;
-  };
-
+  static std::map<std::string, Factory> &factory();
   /**
    * @brief      The registered properties
    *
    * @return     A map with the list of properties for all registered
    * sub-classes ``name -> properties``.
    */
-  static PropertyRegister &type_properties() {
-    static PropertyRegister p;
-    return p;
-  };
-
+  static PropertyRegister &type_properties();
   /**
    * @brief      The registered properties
    *
    * @return     A map with the list of properties for all registered
    * sub-classes ``name -> properties``.
    */
-  static SchemaRegister &type_schema() {
-    static SchemaRegister r;
-    return r;
-  };
+  static SchemaRegister &type_schema();
 
   /**
    * @brief      Create a shared pointer of type ``T``, selecting the factory
@@ -122,7 +111,7 @@ struct
    * @param[in]  type  The user-defined name to be associated with the
    * sub-class.
    * @param[in]  properties Registered properties
-   * @param[in]  schema An optional schema for custom YAML decoders. 
+   * @param[in]  schema An optional schema for custom YAML decoders.
    *
    * @tparam     S     The type of the sub-class
    *
@@ -131,7 +120,7 @@ struct
   template <typename S>
   static std::string register_type(const std::string &type,
                                    const Properties &properties = {},
-                                   const Schema & schema = nullptr) {
+                                   const Schema &schema = nullptr) {
     // std::cout << "register_type " << get_type_name<S>() << " as " << type
     //           << std::endl;
     static_assert(std::is_base_of_v<T, S>);
@@ -151,13 +140,11 @@ struct
     return type;
   }
 
-  static std::map<std::type_index, std::string> &type_names() {
-    static std::map<std::type_index, std::string> _r;
-    return _r;
-  }
+  static std::map<std::type_index, std::string> &type_names();
 
   /**
-   * @brief      Gets the name associated to the type of an object in the register.
+   * @brief      Gets the name associated to the type of an object in the
+   * register.
    *
    * @return     The associated name or empty if not registered.
    */
@@ -239,7 +226,7 @@ struct
  * static const std::string type;
  * \endcode
  */
-#define DECLARE_TYPE                                                          \
+#define DECLARE_TYPE                                                           \
   /** @private */                                                              \
   static const std::string type;
 
@@ -263,7 +250,31 @@ struct
  * \endcode
  */
 #define DECLARE_TYPE_AND_PROPERTIES                                            \
-  static const std::string type;                                                                 \
+  static const std::string type;                                               \
   DECLARE_PROPERTIES
+
+/**
+ * @private
+ */
+#define DEFINE_REGISTERS(Class)                                                \
+  template <> PropertyRegister &HasRegister<Class>::type_properties() {        \
+    static PropertyRegister p;                                                 \
+    return p;                                                                  \
+  };                                                                           \
+  template <> SchemaRegister &HasRegister<Class>::type_schema() {              \
+    static SchemaRegister r;                                                   \
+    return r;                                                                  \
+  };                                                                           \
+  template <>                                                                  \
+  std::map<std::string, HasRegister<Class>::Factory> &                         \
+  HasRegister<Class>::factory() {                                              \
+    static std::map<std::string, HasRegister<Class>::Factory> f;               \
+    return f;                                                                  \
+  };                                                                           \
+  template <>                                                                  \
+  std::map<std::type_index, std::string> &HasRegister<Class>::type_names() {   \
+    static std::map<std::type_index, std::string> _r;                          \
+    return _r;                                                                 \
+  }
 
 #endif // NAVGROUND_CORE_REGISTER_H

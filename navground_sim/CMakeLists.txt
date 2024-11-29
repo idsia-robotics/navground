@@ -83,6 +83,7 @@ add_library(navground_sim SHARED
   src/yaml.cpp
   src/plugins.cpp
   src/build_info.cpp
+  src/register.cpp
 )
 
 generate_export_header(navground_sim EXPORT_FILE_NAME navground/sim/export.h)

@@ -89,6 +89,7 @@ add_library(navground_core SHARED
   src/common.cpp
   src/plugins.cpp
   src/build_info.cpp
+  src/register.cpp
 )
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/register_plugins.cmake)

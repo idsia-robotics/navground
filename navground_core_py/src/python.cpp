@@ -1701,9 +1701,18 @@ Initializes a buffer.
 
   py::class_<DummyBehavior, Behavior, std::shared_ptr<DummyBehavior>> dummy(
       m, "DummyBehavior", DOC(navground, core, DummyBehavior));
-  dummy.def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
-            py::arg("kinematics") = py::none(), py::arg("radius") = 0,
-            DOC(navground, core, Behavior, Behavior));
+  dummy
+      .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
+           py::arg("kinematics") = py::none(), py::arg("radius") = 0,
+           DOC(navground, core, Behavior, Behavior))
+      .def("set_environment_state", &DummyBehavior::set_environment_state,
+           py::arg("state"),
+           DOC(navground, core, DummyBehavior, set_environment_state))
+      .def_property("environment_state_type",
+                    &DummyBehavior::get_environment_state_type,
+                    &DummyBehavior::set_environment_state_type,
+                    DOC(navground, core, DummyBehavior, property,
+                        environment_state_type));
 
   py::class_<Action, std::shared_ptr<Action>> action(
       m, "Action", DOC(navground, core, Action));

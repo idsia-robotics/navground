@@ -9,11 +9,12 @@ scenario:
       control_period: 0.1
       kinematics:
         type: 4WOmni
-        max_speed: 1
+        max_speed: 2
         wheel_axis: 0.25
       behavior:
         type: Dummy
         heading: target_point
+        optimal_speed: 1
       task:
         type: Waypoints
         waypoints: [[2, 0], [-2, 0]]

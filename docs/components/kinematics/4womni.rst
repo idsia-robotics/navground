@@ -1,9 +1,9 @@
-===============================
-Four-wheeled differential drive
-===============================
+==================================
+Four-wheeled omnidirectional drive
+==================================
 
-The kinematics of an agent with four independently controlled mecanum wheels.
-The kinematics let the agent move in any direction, but has constrains deriving from the maximal speed of its wheels. 
+The kinematics of an agent with four independently controlled Mecanum wheels.
+The kinematics lets the agent move in any direction, with constrains deriving from the maximal speed of its wheels. 
 
 Example
 =======

@@ -6,7 +6,7 @@ Patch release to fix a bug in `PathTask`.
 
 ### Added
 
-- `DummyBehavior` can now be configured to use any `EnvironmentState` to favor its usage to test arbitrary state estimations
+- `DummyBehavior` can now be configured to use any `EnvironmentState` to favor its usage to test arbitrary state estimations.
 
 ### Fixed
 

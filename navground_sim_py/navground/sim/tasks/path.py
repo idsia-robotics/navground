@@ -2,10 +2,16 @@ from typing import cast
 from navground import core, sim
 import numpy as np
 from navground.core import schema
+import warnings
 
 
-def get_path(points: list[core.Vector2]) -> core.Path:
-    from shapely import geometry as g
+def get_path(points: list[core.Vector2]) -> core.Path | None:
+
+    try:
+        from shapely import geometry as g
+    except ImportError:
+        warnings.warn('Install shapely to use task \"Path\"', stacklevel=1)
+        return None
 
     delta = np.diff(np.asarray(points), axis=0)
     ds = np.linalg.norm(delta, axis=-1)
@@ -30,13 +36,13 @@ def get_path(points: list[core.Vector2]) -> core.Path:
     def project(point: core.Vector2Like, a: float, b: float) -> float:
         if a > 0:
             i: int | np.int_ = np.searchsorted(cs, a, side="left")
-            pa = [np.asarray(line.interpolate(a).coords)]
+            pa = [np.asarray(line.interpolate(a).coords[0])]
         else:
             i = 0
             pa = []
         if b < line.length:
             j: int | np.int_ = np.searchsorted(cs, b, side="right")
-            pb = [np.asarray(line.interpolate(b).coords)]
+            pb = [np.asarray(line.interpolate(b).coords[0])]
         else:
             j = len(points)
             pb = []
@@ -106,5 +112,6 @@ class PathTask(sim.Task, name="Path"):
         return None
 
     def prepare(self, agent: sim.Agent, world: sim.World) -> None:
-        if len(self.points) > 1:
-            agent.controller.follow_path(get_path(self.points), self.tolerance)
+        path = self.path
+        if path:
+            agent.controller.follow_path(path, self.tolerance)

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Dummy &#8212; navground 0.3.1 documentation</title>
+    <title>Dummy &#8212; navground 0.3.2 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=385a908f"></script>
+    <script src="../../../../_static/documentation_options.js?v=2f2e10e9"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.1 documentation</p>
+    <p class="title logo__title">navground 0.3.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -482,6 +482,8 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behaviors.DummyBehavior"><code class="docutils literal notranslate"><span class="pre">DummyBehavior</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behaviors.DummyBehavior.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behaviors.DummyBehavior.set_environment_state"><code class="docutils literal notranslate"><span class="pre">set_environment_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behaviors.DummyBehavior.environment_state_type"><code class="docutils literal notranslate"><span class="pre">environment_state_type</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -503,9 +505,10 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DummyBehavior</span></span><a class="headerlink" href="#navground.core.behaviors.DummyBehavior" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="behavior.html#navground.core.Behavior" title="navground.core.Behavior"><code class="xref py py-class docutils literal notranslate"><span class="pre">Behavior</span></code></a></p>
 <p>Dummy behavior that ignores obstacles.</p>
-<p>Mainly useful to test the interaction with other components</p>
-<p><em>Registered properties</em>: none</p>
-<p><em>State</em>: empty</p>
+<p>Mainly useful to test the interaction with other components.</p>
+<p>Can be assigned an arbitrary environment state, using <a class="reference internal" href="#navground.core.behaviors.DummyBehavior.set_environment_state" title="navground.core.behaviors.DummyBehavior.set_environment_state"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_environment_state()</span></code></a>, and/or the property “environment”</p>
+<p><em>Registered properties</em>: environment (string, <a class="reference internal" href="#navground.core.behaviors.DummyBehavior.environment_state_type" title="navground.core.behaviors.DummyBehavior.environment_state_type"><code class="xref py py-attr docutils literal notranslate"><span class="pre">environment_state_type</span></code></a>),</p>
+<p><em>State</em>: any</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.behaviors.DummyBehavior.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kinematics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../kinematics/kinematics.html#navground.core.Kinematics" title="navground.core.Kinematics"><span class="pre">navground.core.Kinematics</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.behaviors.DummyBehavior.__init__" title="Link to this definition">#</a></dt>
@@ -518,6 +521,33 @@
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.behaviors.DummyBehavior.set_environment_state">
+<span class="sig-name descname"><span class="pre">set_environment_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../state/base.html#navground.core.EnvironmentState" title="navground.core.EnvironmentState"><span class="pre">navground.core.EnvironmentState</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.behaviors.DummyBehavior.set_environment_state" title="Link to this definition">#</a></dt>
+<dd><p>Sets the environment state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state</strong> – The state</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.behaviors.DummyBehavior.environment_state_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">environment_state_type</span></span><a class="headerlink" href="#navground.core.behaviors.DummyBehavior.environment_state_type" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+<p>The environment state type.</p>
+<ul class="simple">
+<li><p>“geometric” for <code class="xref py py-class docutils literal notranslate"><span class="pre">geometristate</span></code>,</p></li>
+<li><p>“sensing” for <code class="xref py py-class docutils literal notranslate"><span class="pre">sensingstate</span></code>,</p></li>
+<li><p>“” for an null state.</p></li>
+</ul>
 </dd></dl>
 
 </dd></dl>
@@ -572,6 +602,8 @@
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behaviors.DummyBehavior"><code class="docutils literal notranslate"><span class="pre">DummyBehavior</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behaviors.DummyBehavior.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behaviors.DummyBehavior.set_environment_state"><code class="docutils literal notranslate"><span class="pre">set_environment_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.behaviors.DummyBehavior.environment_state_type"><code class="docutils literal notranslate"><span class="pre">environment_state_type</span></code></a></li>
 </ul>
 </li>
 </ul>

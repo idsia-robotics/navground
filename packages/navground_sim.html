@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>navground_sim &#8212; navground 0.3.1 documentation</title>
+    <title>navground_sim &#8212; navground 0.3.2 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=385a908f"></script>
+    <script src="../_static/documentation_options.js?v=2f2e10e9"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.1 documentation</p>
+    <p class="title logo__title">navground 0.3.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -577,8 +577,8 @@
 <section id="info">
 <span id="info-sim"></span><h3>info<a class="headerlink" href="#info" title="Link to this heading">#</a></h3>
 <p>Lists registered components (behaviors, kinematics, behavior modulations, state estimations, tasks, and scenarios) implemented in C++.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">build</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">properties</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">description</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behaviors</span> <span class="p">[</span><span class="n">BEHAVIORS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">modulations</span> <span class="p">[</span><span class="n">MODULATIONS</span><span class="p">]]</span>
-            <span class="p">[</span><span class="o">--</span><span class="n">state_estimations</span> <span class="p">[</span><span class="n">STATE</span> <span class="n">ESTIMATIONS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">tasks</span> <span class="p">[</span><span class="n">TASKS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">scenarios</span> <span class="p">[</span><span class="n">SCENARIOS</span><span class="p">]]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">build</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">properties</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">description</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behaviors</span> <span class="p">[</span><span class="n">BEHAVIORS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">modulations</span> <span class="p">[</span><span class="n">MODULATIONS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">state_estimations</span> <span class="p">[</span><span class="n">STATE</span> <span class="n">ESTIMATIONS</span><span class="p">]]</span>
+            <span class="p">[</span><span class="o">--</span><span class="n">tasks</span> <span class="p">[</span><span class="n">TASKS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">scenarios</span> <span class="p">[</span><span class="n">SCENARIOS</span><span class="p">]]</span>
 </pre></div>
 </div>
 <section id="navground.sim.info-parser-named-arguments">
@@ -625,6 +625,7 @@
 <span class="go">Behaviors</span>
 <span class="go">---------</span>
 <span class="go">Dummy</span>
+<span class="go">    environment:  (str)</span>
 <span class="go">HL</span>
 <span class="go">    aperture: 3.14159 (float)</span>
 <span class="go">    barrier_angle: 1.5708 (float)</span>
@@ -639,7 +640,6 @@
 <span class="go">    ignore_obstacles: false (bool)</span>
 <span class="go">ORCA</span>
 <span class="go">    effective_center: false (bool)</span>
-<span class="go">    max_neighbors: 1000 (int)</span>
 <span class="go">...</span>
 </pre></div>
 </div>
@@ -688,14 +688,14 @@
 <section id="schema">
 <span id="schema-sim"></span><h3>schema<a class="headerlink" href="#schema" title="Link to this heading">#</a></h3>
 <p>Print JSON-Schema of YAML-convertible navground sim classes.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">schema</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">register</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="n">TYPE</span><span class="p">]</span> <span class="p">[{</span><span class="n">sim</span><span class="p">,</span><span class="n">core</span><span class="p">,</span><span class="n">behavior_modulation</span><span class="p">,</span><span class="n">state_estimation</span><span class="p">,</span><span class="n">agent</span><span class="p">,</span><span class="n">experiment</span><span class="p">,</span><span class="n">behavior</span><span class="p">,</span><span class="n">world</span><span class="p">,</span><span class="n">kinematics</span><span class="p">,</span><span class="n">scenario</span><span class="p">,</span><span class="n">task</span><span class="p">}]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">schema</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">register</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="n">TYPE</span><span class="p">]</span> <span class="p">[{</span><span class="n">experiment</span><span class="p">,</span><span class="n">behavior</span><span class="p">,</span><span class="n">state_estimation</span><span class="p">,</span><span class="n">behavior_modulation</span><span class="p">,</span><span class="n">agent</span><span class="p">,</span><span class="n">kinematics</span><span class="p">,</span><span class="n">core</span><span class="p">,</span><span class="n">world</span><span class="p">,</span><span class="n">task</span><span class="p">,</span><span class="n">scenario</span><span class="p">,</span><span class="n">sim</span><span class="p">}]</span>
 </pre></div>
 </div>
 <section id="navground.sim.print_schema-parser-positional-arguments">
 <h4>Positional Arguments<a class="headerlink" href="#navground.sim.print_schema-parser-positional-arguments" title="Link to this heading">#</a></h4>
 <dl class="option-list">
 <dt><kbd>kind</kbd></dt>
-<dd><p>Possible choices: sim, core, behavior_modulation, state_estimation, agent, experiment, behavior, world, kinematics, scenario, task</p>
+<dd><p>Possible choices: experiment, behavior, state_estimation, behavior_modulation, agent, kinematics, core, world, task, scenario, sim</p>
 <p>The target type of the scheme</p>
 </dd>
 </dl>
@@ -887,8 +887,8 @@
 
 <span class="go">Performing experiment ...</span>
 <span class="go">Experiment done</span>
-<span class="go">Duration: 0.0448412 s</span>
-<span class="go">Saved to: &quot;/tmp/experiment_3812492788053772637_2024-11-29_13-16-46/data.h5&quot;</span>
+<span class="go">Duration: 0.0470514 s</span>
+<span class="go">Saved to: &quot;/tmp/experiment_3812492788053772637_2024-12-01_20-08-24/data.h5&quot;</span>
 </pre></div>
 </div>
 <div class="admonition note">

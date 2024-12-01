@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; navground 0.3.1 documentation</title>
+    <title>Index &#8212; navground 0.3.2 documentation</title>
   
   
   
@@ -42,7 +42,7 @@
 
     <script src="_static/jquery.js?v=5d32c60e"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="_static/documentation_options.js?v=385a908f"></script>
+    <script src="_static/documentation_options.js?v=2f2e10e9"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -132,7 +132,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.1 documentation</p>
+    <p class="title logo__title">navground 0.3.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -223,7 +223,7 @@
 <li class="toctree-l3"><a class="reference internal" href="components/kinematics/ahead.html">Ahead</a></li>
 <li class="toctree-l3"><a class="reference internal" href="components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
-<li class="toctree-l3"><a class="reference internal" href="components/kinematics/4womni.html">Four-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -1136,11 +1136,13 @@
         <li><a href="reference/sim/python/experiment/run.html#navground.sim.RecordNeighborsConfig.enabled">(RecordNeighborsConfig property)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/world.html#navground.sim.Entity">Entity (class in navground.sim)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.environment_state">environment_state (Behavior property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/dummy.html#navground.core.behaviors.DummyBehavior.environment_state_type">environment_state_type (DummyBehavior property)</a>
 </li>
       <li><a href="reference/core/python/state/base.html#navground.core.EnvironmentState">EnvironmentState (class in navground.core)</a>
 </li>
@@ -2512,6 +2514,12 @@
 </li>
       <li><a href="reference/core/cpp/behaviors/dummy.html#_CPPv4N9navground4core13DummyBehavior13DummyBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t">navground::core::DummyBehavior::DummyBehavior (C++ function)</a>
 </li>
+      <li><a href="reference/core/cpp/behaviors/dummy.html#_CPPv4NK9navground4core13DummyBehavior26get_environment_state_typeEv">navground::core::DummyBehavior::get_environment_state_type (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/dummy.html#_CPPv4N9navground4core13DummyBehavior21set_environment_stateERKNSt10shared_ptrI16EnvironmentStateEE">navground::core::DummyBehavior::set_environment_state (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/dummy.html#_CPPv4N9navground4core13DummyBehavior26set_environment_state_typeERKNSt6stringE">navground::core::DummyBehavior::set_environment_state_type (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/kinematics/2wdiffdyn.html#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematicsE">navground::core::DynamicTwoWheelsDifferentialDriveKinematics (C++ class)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics/2wdiffdyn.html#_CPPv4N9navground4core43DynamicTwoWheelsDifferentialDriveKinematics43DynamicTwoWheelsDifferentialDriveKinematicsE10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t10ng_float_t">navground::core::DynamicTwoWheelsDifferentialDriveKinematics::DynamicTwoWheelsDifferentialDriveKinematics (C++ function)</a>
@@ -3114,10 +3122,10 @@
 </li>
       <li><a href="reference/core/cpp/kinematics/2wdiff.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics17can_move_forwardsEv">navground::core::TwoWheelsDifferentialDriveKinematics::can_move_forwards (C++ function)</a>
 </li>
-      <li><a href="reference/core/cpp/kinematics/2wdiff.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics3dofEv">navground::core::TwoWheelsDifferentialDriveKinematics::dof (C++ function)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/cpp/kinematics/2wdiff.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics3dofEv">navground::core::TwoWheelsDifferentialDriveKinematics::dof (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/kinematics/2wdiff.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics22get_max_backward_speedEv">navground::core::TwoWheelsDifferentialDriveKinematics::get_max_backward_speed (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics/2wdiff.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics21get_max_forward_speedEv">navground::core::TwoWheelsDifferentialDriveKinematics::get_max_forward_speed (C++ function)</a>
@@ -4886,6 +4894,8 @@
 </li>
       <li><a href="reference/core/python/state/sensing.html#navground.core.Buffer.set_description">set_description() (Buffer method)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/dummy.html#navground.core.behaviors.DummyBehavior.set_environment_state">set_environment_state() (DummyBehavior method)</a>
+</li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.set_lattice">set_lattice() (World method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.set_state_from">set_state_from() (Behavior method)</a>
@@ -4932,10 +4942,10 @@
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.follow_point">simNavground.follow_point() (built-in function)</a>
 </li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.follow_pose">simNavground.follow_pose() (built-in function)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="packages/navground_coppeliasim.html#simNavground.follow_pose">simNavground.follow_pose() (built-in function)</a>
+</li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.follow_velocity">simNavground.follow_velocity() (built-in function)</a>
 </li>
       <li><a href="packages/navground_coppeliasim.html#simNavground.get_actuated_wheel_speeds">simNavground.get_actuated_wheel_speeds() (built-in function)</a>

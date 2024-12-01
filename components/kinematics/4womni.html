@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Four-wheeled differential drive &#8212; navground 0.3.1 documentation</title>
+    <title>Four-wheeled omnidirectional drive &#8212; navground 0.3.2 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../_static/documentation_options.js?v=385a908f"></script>
+    <script src="../../_static/documentation_options.js?v=2f2e10e9"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.1 documentation</p>
+    <p class="title logo__title">navground 0.3.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -224,7 +224,7 @@
 <li class="toctree-l3"><a class="reference internal" href="ahead.html">Ahead</a></li>
 <li class="toctree-l3"><a class="reference internal" href="2wdiff.html">Two-wheeled differential drive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">Four-wheeled differential drive</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Four-wheeled omnidirectional drive</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -470,7 +470,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Four-wheeled differential drive</h1>
+    <h1>Four-wheeled omnidirectional drive</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -492,10 +492,10 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="four-wheeled-differential-drive">
-<h1>Four-wheeled differential drive<a class="headerlink" href="#four-wheeled-differential-drive" title="Link to this heading">#</a></h1>
-<p>The kinematics of an agent with four independently controlled mecanum wheels.
-The kinematics let the agent move in any direction, but has constrains deriving from the maximal speed of its wheels.</p>
+  <section id="four-wheeled-omnidirectional-drive">
+<h1>Four-wheeled omnidirectional drive<a class="headerlink" href="#four-wheeled-omnidirectional-drive" title="Link to this heading">#</a></h1>
+<p>The kinematics of an agent with four independently controlled Mecanum wheels.
+The kinematics lets the agent move in any direction, with constrains deriving from the maximal speed of its wheels.</p>
 <section id="example">
 <h2>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
 <video controls="True" loop="True" preload="auto" width="780"><source src="../../_images/4womni.mp4" type="video/mp4"></video><p>The video has been recorded using</p>
@@ -514,11 +514,12 @@ The kinematics let the agent move in any direction, but has constrains deriving 
 <span class="w">      </span><span class="nt">control_period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
 <span class="w">      </span><span class="nt">kinematics</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4WOmni</span>
-<span class="w">        </span><span class="nt">max_speed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">max_speed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
 <span class="w">        </span><span class="nt">wheel_axis</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.25</span>
 <span class="w">      </span><span class="nt">behavior</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dummy</span>
 <span class="w">        </span><span class="nt">heading</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">target_point</span>
+<span class="w">        </span><span class="nt">optimal_speed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="w">      </span><span class="nt">task</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Waypoints</span>
 <span class="w">        </span><span class="nt">waypoints</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[[</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">]]</span>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Dummy &#8212; navground 0.3.1 documentation</title>
+    <title>Dummy &#8212; navground 0.3.2 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=385a908f"></script>
+    <script src="../../../../_static/documentation_options.js?v=2f2e10e9"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.1 documentation</p>
+    <p class="title logo__title">navground 0.3.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -482,6 +482,9 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core13DummyBehaviorE"><code class="docutils literal notranslate"><span class="pre">DummyBehavior</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core13DummyBehavior13DummyBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">DummyBehavior()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core13DummyBehavior21set_environment_stateERKNSt10shared_ptrI16EnvironmentStateEE"><code class="docutils literal notranslate"><span class="pre">set_environment_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core13DummyBehavior26get_environment_state_typeEv"><code class="docutils literal notranslate"><span class="pre">get_environment_state_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core13DummyBehavior26set_environment_state_typeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">set_environment_state_type()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -505,21 +508,67 @@
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core13DummyBehaviorE">
 <span class="target" id="classnavground_1_1core_1_1_dummy_behavior"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DummyBehavior</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">core</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Behavior</span></span><a class="headerlink" href="#_CPPv4N9navground4core13DummyBehaviorE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Dummy behavior that ignores obstacles. </p>
-<p>Mainly useful to test the interaction with other components</p>
-<p><em>Registered properties</em>: none</p>
-<p><em>State</em>: empty </p>
+<p>Mainly useful to test the interaction with other components.</p>
+<p>Can be assigned an arbitrary environment state, using <a class="reference internal" href="#classnavground_1_1core_1_1_dummy_behavior_1a58546bd50caf616e674267876052bb08"><span class="std std-ref">set_environment_state</span></a>, and/or the property “environment”</p>
+<p><em>Registered properties</em>: environment (string, <a class="reference internal" href="#classnavground_1_1core_1_1_dummy_behavior_1a840b4b9f3895181d69ceeaa8776378ce"><span class="std std-ref">get_environment_state_type</span></a>),</p>
+<p><em>State</em>: any </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core13DummyBehavior13DummyBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t">
-<span class="target" id="classnavground_1_1core_1_1_dummy_behavior_1a5c1cad0f4dc35439310cf2b6678e03a5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DummyBehavior</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">Kinematics</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">kinematics</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core13DummyBehavior13DummyBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t" title="Link to this definition">#</a><br /></dt>
-<dd><p>Contruct a new instance. </p>
+<span class="target" id="classnavground_1_1core_1_1_dummy_behavior_1a5c1cad0f4dc35439310cf2b6678e03a5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DummyBehavior</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">Kinematics</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">kinematics</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core13DummyBehavior13DummyBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>kinematics</strong> – <strong>[in]</strong> The kinematics </p></li>
 <li><p><strong>radius</strong> – <strong>[in]</strong> The radius </p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core13DummyBehavior21set_environment_stateERKNSt10shared_ptrI16EnvironmentStateEE">
+<span class="target" id="classnavground_1_1core_1_1_dummy_behavior_1a58546bd50caf616e674267876052bb08"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_environment_state</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">EnvironmentState</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">state</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core13DummyBehavior21set_environment_stateERKNSt10shared_ptrI16EnvironmentStateEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the environment state. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state</strong> – <strong>[in]</strong> The state </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core13DummyBehavior26get_environment_state_typeEv">
+<span class="target" id="classnavground_1_1core_1_1_dummy_behavior_1a840b4b9f3895181d69ceeaa8776378ce"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_environment_state_type</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core13DummyBehavior26get_environment_state_typeEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the environment state type. </p>
+<p><ul class="simple">
+<li><p>“Geometric” for GeometriState,</p></li>
+<li><p>”Sensing” for <a class="reference internal" href="../state/sensing.html#classnavground_1_1core_1_1_sensing_state"><span class="std std-ref">SensingState</span></a>,</p></li>
+<li><p>”” for an null state.</p></li>
+</ul>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The environment state type. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core13DummyBehavior26set_environment_state_typeERKNSt6stringE">
+<span class="target" id="classnavground_1_1core_1_1_dummy_behavior_1aaf3c840cd7ec34530f5b3585c9e3af8c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_environment_state_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core13DummyBehavior26set_environment_state_typeERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the environment state type. </p>
+<p><ul class="simple">
+<li><p>“Geometric” for GeometriState,</p></li>
+<li><p>”Sensing” for <a class="reference internal" href="../state/sensing.html#classnavground_1_1core_1_1_sensing_state"><span class="std std-ref">SensingState</span></a>,</p></li>
+<li><p>anything else for an null state.</p></li>
+</ul>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The value </p>
 </dd>
 </dl>
 </dd></dl>
@@ -577,6 +626,9 @@
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core13DummyBehaviorE"><code class="docutils literal notranslate"><span class="pre">DummyBehavior</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core13DummyBehavior13DummyBehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">DummyBehavior()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core13DummyBehavior21set_environment_stateERKNSt10shared_ptrI16EnvironmentStateEE"><code class="docutils literal notranslate"><span class="pre">set_environment_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core13DummyBehavior26get_environment_state_typeEv"><code class="docutils literal notranslate"><span class="pre">get_environment_state_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core13DummyBehavior26set_environment_state_typeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">set_environment_state_type()</span></code></a></li>
 </ul>
 </li>
 </ul>

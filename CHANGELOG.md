@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.2] 2024-29-11
+
+Patch release to fix a bug in `PathTask`.
+
+### Added
+
+- `DummyBehavior` can now be configured to use any `EnvironmentState` to favor its usage to test arbitrary state estimations
+
+### Fixed
+
+- Fixed an error in `PathTask` and added a warning when `shapely` is not installed.
+
 ## [0.3.1] 2024-29-11
 
 Patch release that remove deprecated type hints and add support for the recently released version 2 of moviepy.

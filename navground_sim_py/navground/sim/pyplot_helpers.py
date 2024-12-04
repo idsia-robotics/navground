@@ -228,14 +228,12 @@ def plot_runs(runs: Sequence[sim.ExperimentalRun],
     """
     rows = math.ceil(len(runs) / columns)
     if not fig:
-        fig, axs = plt.subplots(rows, columns)
+        fig, _ = plt.subplots(rows, columns)
         is_new_fig = True
-        axs = axs.flatten()
     else:
-        axs = fig.axes
         is_new_fig = False
     hs = []
-    for ax, run in zip(axs, runs, strict=False):
+    for ax, run in zip(fig.axes, runs, strict=False):
         plot_run(ax, run, **kwargs)
         bx = ax.get_xbound()
         by = ax.get_ybound()
@@ -243,7 +241,7 @@ def plot_runs(runs: Sequence[sim.ExperimentalRun],
         if hide_axes:
             ax.set_axis_off()
     if is_new_fig:
-        for ax in axs[len(runs):]:
+        for ax in fig.axes[len(runs):]:
             ax.set_axis_off()
         height = np.median(hs) * width * rows / columns
         fig.set_size_inches(width, height)

@@ -431,6 +431,34 @@ struct PyGroupRecordProbe : public GroupRecordProbe {
   }
 };
 
+static py::object add_record_probe_py(const std::string &name,
+                                      const py::object &probe_factory,
+                                      ExperimentalRun &run) {
+  auto ds = run.add_record(name);
+  auto obj = probe_factory.attr("__call__")(ds);
+  const auto dtype = obj.attr("dtype");
+  set_dataset_type_py(*ds, dtype);
+  auto probe = obj.cast<std::shared_ptr<Probe>>();
+  run.add_probe(probe);
+  return obj;
+}
+
+static py::object add_group_record_probe_py(const std::string &name,
+                                            const py::object &probe_factory,
+                                            ExperimentalRun &run) {
+  auto probe_py = probe_factory.attr("__call__")();
+  const auto dtype = probe_py.attr("dtype");
+  const auto factory = [name, dtype, &run](const std::string &sub_key) {
+    auto ds = run.add_record(sub_key, name);
+    set_dataset_type_py(*ds, dtype);
+    return ds;
+  };
+  auto probe_cpp = probe_py.cast<std::shared_ptr<GroupRecordProbe>>();
+  probe_cpp->set_factory(factory);
+  run.add_probe(probe_cpp);
+  return probe_py;
+}
+
 struct PyExperiment : public Experiment {
   /* Inherit the constructors */
   using Experiment::Experiment;
@@ -600,30 +628,17 @@ private:
     _py_probes[run.get_seed()].push_back(obj);
   }
 
-  void instantiate_record_probe(const std::string &name, const py::object cls,
+  void instantiate_record_probe(const std::string &name,
+                                const py::object factory,
                                 ExperimentalRun &run) {
-    auto ds = run.add_record(name);
-    auto obj = cls.attr("__call__")(ds);
-    const auto dtype = obj.attr("dtype");
-    set_dataset_type_py(*ds, dtype);
-    auto probe = obj.cast<std::shared_ptr<Probe>>();
-    run.add_probe(probe);
+    auto obj = ::add_record_probe_py(name, factory, run);
     _py_probes[run.get_seed()].push_back(obj);
   }
 
   void instantiate_group_record_probe(const std::string &name,
-                                      const py::object cls,
+                                      const py::object &probe_factory,
                                       ExperimentalRun &run) {
-    const auto dtype = cls.attr("dtype");
-    const auto factory = [name, dtype, &run](const std::string &sub_key) {
-      auto ds = run.add_record(sub_key, name);
-      set_dataset_type_py(*ds, dtype);
-      return ds;
-    };
-    auto obj = cls.attr("__call__")();
-    auto probe = obj.cast<std::shared_ptr<GroupRecordProbe>>();
-    probe->set_factory(factory);
-    run.add_probe(probe);
+    auto obj = ::add_group_record_probe_py(name, probe_factory, run);
     _py_probes[run.get_seed()].push_back(obj);
   }
 };
@@ -2131,52 +2146,40 @@ Adds a record.
            py::arg("probe"), DOC(navground, sim, ExperimentalRun, add_probe))
       .def(
           "add_record_probe",
-          [](py::object &run, const std::string &name, py::object cls) {
+          [](py::object &run, const std::string &name,
+             const py::object &probe) {
             ExperimentalRun &_run = py::cast<ExperimentalRun &>(run);
-            auto ds = _run.add_record(name);
-            set_dataset_type_py(*ds, cls.attr("dtype"));
-            auto obj = cls.attr("__call__")(ds);
-            auto probe = obj.cast<std::shared_ptr<Probe>>();
-            _run.add_probe(probe);
+            auto obj = add_record_probe_py(name, probe, _run);
             add_py_item(run, obj, "probes");
             return obj;
           },
-          py::arg("key"), py::arg("probe_cls"), R"doc(
+          py::arg("key"), py::arg("probe"), R"doc(
 Adds a record probe.
 
 :param key: the key of the record to be created
 :type key: str
 
-:param probe_cls: the probe class
-:type key: Type[sim.RecordProbe]
+:param probe: the probe factory like a RecordProbe class.
+:type key: typing.Callable[[navground.sim.Dataset], sim.RecordProbe]
 
 )doc")
       .def(
           "add_group_record_probe",
-          [](py::object &run, const std::string &name, py::object cls) {
+          [](py::object &run, const std::string &name,
+             const py::object &probe) {
             ExperimentalRun &_run = py::cast<ExperimentalRun &>(run);
-            const auto dtype = cls.attr("dtype");
-            const auto factory = [name, dtype,
-                                  &_run](const std::string &sub_key) {
-              auto ds = _run.add_record(sub_key, name);
-              set_dataset_type_py(*ds, dtype);
-              return ds;
-            };
-            auto obj = cls.attr("__call__")();
-            auto probe = obj.cast<std::shared_ptr<GroupRecordProbe>>();
-            probe->set_factory(factory);
-            _run.add_probe(probe);
+            auto obj = add_group_record_probe_py(name, probe, _run);
             add_py_item(run, obj, "probes");
             return obj;
           },
-          py::arg("key"), py::arg("probe_cls"), R"doc(
+          py::arg("key"), py::arg("probe"), R"doc(
 Adds a group record probe.
 
 :param key: the key of the group to be created
 :type key: str
 
-:param probe_cls: the probe class
-:type key: Type[sim.GroupRecordProbe]
+:param probe: the probe factory like a GroupRecordProbe class.
+:type key: typing.Callable[[], sim.GroupRecordProbe]
 
 )doc")
       .def_property(
@@ -2746,26 +2749,26 @@ The array is empty if efficacy has not been recorded in the run.
                      &PyExperiment::_py_record_probe_factories)
       .def_readwrite("_group_record_probes",
                      &PyExperiment::_py_group_record_probe_factories)
-      .def("add_probe", &PyExperiment::add_probe_py, py::arg("factory"),
+      .def("add_probe", &PyExperiment::add_probe_py, py::arg("probe"),
            DOC(navground, sim, Experiment, add_probe))
       .def("add_record_probe", &PyExperiment::add_record_probe_py,
-           py::arg("key"), py::arg("probe_cls"), R"doc(
+           py::arg("key"), py::arg("probe"), R"doc(
 Register a probe to record data to during all runs.
 
 :param key: the name associated to the record
 :type key: str
-:param probe_cls: the class of the probe.
-:type probe_cls: Type[sim.RecordProbe]
+:param probe: the probe factory like a RecordProbe class.
+:type key: typing.Callable[[navground.sim.Dataset], sim.RecordProbe]
 )doc")
       .def("add_group_record_probe", &PyExperiment::add_group_record_probe_py,
-           py::arg("key"), py::arg("probe_cls"),
+           py::arg("key"), py::arg("probe"),
            R"doc(
 Register a probe to record a group of data to during all runs.
 
 :param key: the name associated to the group
 :type key: str
-:param probe_cls: the class of the probe.
-:type probe_cls: Type[sim.GroupRecordProbe]
+:param probe: the probe factory like a GroupRecordProbe class.
+:type key: typing.Callable[[], sim.GroupRecordProbe]
 )doc")
       .def("save", &Experiment::save, py::arg("directory") = py::none(),
            py::arg("path") = py::none(), DOC(navground, sim, Experiment, save))

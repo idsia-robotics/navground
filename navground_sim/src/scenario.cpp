@@ -28,7 +28,7 @@ void Scenario::init_world(World *world, std::optional<int> seed) {
       set(name, value);
     }
   }
-  for (const auto &init : initializers) {
+  for (const auto &[_, init] : get_inits()) {
     init(world, seed);
   }
 }

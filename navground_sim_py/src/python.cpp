@@ -364,6 +364,10 @@ struct PyScenario : public Scenario, public PyHasRegister<Scenario> {
 
   std::shared_ptr<World> make_world(std::optional<int> seed = std::nullopt) {
     auto world = std::make_shared<PyWorld>();
+    // NOTE: creating the py::object before calling
+    // `init_world`, let Python initializer store
+    // (a reference) to the world.
+    py::object py_world = py::cast(world);
     init_world(world.get(), seed);
     return world;
   }
@@ -952,6 +956,17 @@ py::dtype get_dataset_type_py(const Dataset &dataset) {
         return py::dtype::of<T>();
       },
       dataset.get_data());
+}
+
+static void init_scenario(Scenario *scenario, py::dict *state) {
+  if (state->contains("__py_inits")) {
+    const auto ds = (*state)["__py_inits"].cast<py::dict>();
+    for (const auto &item : ds) {
+      const auto key = item.first.cast<std::string>();
+      const auto value = item.second.cast<Scenario::Init>();
+      scenario->set_init(key, value);
+    }
+  }
 }
 
 PYBIND11_MODULE(_navground_sim, m) {
@@ -1710,6 +1725,42 @@ The random generator.
                                        py::cast<std::vector<unsigned>>(v[2])};
           }))
       .def_static("schema", &YAML::schema_py<RecordSensingConfig>);
+
+  py::class_<RunConfig>(m, "RunConfig", DOC(navground, sim, RunConfig))
+      .def(py::init([](ng_float_t time_step = 0, unsigned steps = 0,
+                       bool terminate_when_all_idle_or_stuck = false) {
+             return new RunConfig{time_step, steps,
+                                  terminate_when_all_idle_or_stuck};
+           }),
+           py::arg("time_step") = 0, py::arg("steps") = 0,
+           py::arg("terminate_when_all_idle_or_stuck") = false)
+      .def_readwrite("time_step", &RunConfig::time_step,
+                     DOC(navground, sim, RunConfig, time_step))
+      .def_readwrite("steps", &RunConfig::steps,
+                     DOC(navground, sim, RunConfig, steps))
+      .def_readwrite(
+          "terminate_when_all_idle_or_stuck",
+          &RunConfig::terminate_when_all_idle_or_stuck,
+          DOC(navground, sim, RunConfig, terminate_when_all_idle_or_stuck))
+      .def("__repr__",
+           [](const RunConfig &value) -> py::str {
+             py::str r("RunConfig(time_step=");
+             r += py::str(py::cast(value.time_step));
+             r += py::str(", steps=") + py::str(py::cast(value.steps));
+             r += py::str(", terminate_when_all_idle_or_stuck=") +
+                  py::str(py::cast(value.terminate_when_all_idle_or_stuck));
+             r += py::str(")");
+             return r;
+           })
+      .def(py::pickle(
+          [](const RunConfig &value) {
+            return py::make_tuple(value.time_step, value.steps,
+                                  value.terminate_when_all_idle_or_stuck);
+          },
+          [](py::tuple v) { // __setstate__
+            return RunConfig{py::cast<ng_float_t>(v[0]),
+                             py::cast<unsigned>(v[1]), py::cast<bool>(v[2])};
+          }));
 
   py::class_<RecordConfig>(m, "RecordConfig", DOC(navground, sim, RecordConfig))
       .def(py::init(
@@ -2651,7 +2702,8 @@ The array is empty if efficacy has not been recorded in the run.
 
   py::class_<Scenario, PyScenario, HasRegister<Scenario>, HasProperties,
              std::shared_ptr<Scenario>>
-      scenario(m, "Scenario", DOC(navground, sim, Scenario));
+      scenario(m, "Scenario", py::dynamic_attr(),
+               DOC(navground, sim, Scenario));
 
   py::class_<PyExperiment, std::shared_ptr<PyExperiment>> experiment(
       m, "Experiment", DOC(navground, sim, Experiment));
@@ -2781,6 +2833,37 @@ Register a probe to record a group of data to during all runs.
                   YAML::load_string_py_doc("experiment", "Experiment").c_str())
       .def("dump", &YAML::dump<PyExperiment>, YAML::dump_doc());
 
+  experiment.def(py::pickle(
+      [](const PyExperiment &exp) {
+        // __getstate__
+        return py::make_tuple(exp.record_config, exp.run_config,
+                              exp.number_of_runs, exp.save_directory, exp.name,
+                              exp.scenario, exp.run_index, exp.reset_uids,
+                              exp._py_probe_factories,
+                              exp._py_record_probe_factories,
+                              exp._py_group_record_probe_factories);
+      },
+      [](py::tuple t) { // __setstate__
+        if (t.size() != 11) {
+          throw std::runtime_error("Invalid state!");
+        }
+        PyExperiment exp;
+        exp.record_config = py::cast<RecordConfig>(t[0]);
+        exp.run_config = py::cast<RunConfig>(t[1]);
+        exp.number_of_runs = py::cast<unsigned>(t[2]);
+        exp.save_directory = py::cast<std::filesystem::path>(t[3]);
+        exp.name = py::cast<std::string>(t[4]);
+        exp.scenario = py::cast<std::shared_ptr<Scenario>>(t[5]);
+        exp.run_index = py::cast<unsigned>(t[6]);
+        exp.reset_uids = py::cast<bool>(t[7]);
+        exp._py_probe_factories = py::cast<std::vector<py::object>>(t[8]);
+        exp._py_record_probe_factories =
+            py::cast<std::map<std::string, py::object>>(t[9]);
+        exp._py_group_record_probe_factories =
+            py::cast<std::map<std::string, py::object>>(t[10]);
+        return exp;
+      }));
+
   py::class_<Scenario::Group, PyGroup, std::shared_ptr<Scenario::Group>>(
       scenario, "Group", DOC(navground, sim, Scenario_Group))
       .def(py::init<>(), "")
@@ -2836,8 +2919,41 @@ Register a probe to record a group of data to during all runs.
       // py::return_value_policy::reference)
       // .def_property("initializers",
       // &Scenario::get_initializers, nullptr)
-      .def("add_init", &Scenario::add_init, py::arg("initializer"),
-           DOC(navground, sim, Scenario, add_init))
+      .def(
+          "add_init", //&Scenario::add_init,
+          [](Scenario &scenario, const py::function &initializer) {
+            const auto key =
+                scenario.add_init(initializer.cast<Scenario::Init>());
+            set_py_key(py::cast(scenario), key, initializer, "inits");
+            return key;
+          },
+          py::arg("initializer"), DOC(navground, sim, Scenario, add_init))
+      .def(
+          "set_init",
+          [](Scenario &scenario, const std::string &key,
+             const py::function &initializer) {
+            scenario.set_init(key, initializer.cast<Scenario::Init>());
+            set_py_key(py::cast(scenario), key, initializer, "inits");
+          },
+          py::arg("key"), py::arg("initializer"),
+          DOC(navground, sim, Scenario, set_init))
+
+      .def(
+          "remove_init", //&Scenario::remove_init,
+          [](Scenario &scenario, const std::string &key) {
+            scenario.remove_init(key);
+            remove_py_key(py::cast(scenario), key, "inits");
+          },
+          py::arg("key"), DOC(navground, sim, Scenario, remove_init))
+      .def(
+          "clear_inits", //&Scenario::clear_inits,
+          [](Scenario &scenario) {
+            scenario.clear_inits();
+            clear_py_map(py::cast(scenario), "inits");
+          },
+          DOC(navground, sim, Scenario, clear_inits))
+      .def_property("inits", &Scenario::get_inits, nullptr,
+                    DOC(navground, sim, Scenario, property_inits))
       .def(
           "set_yaml",
           [](Scenario &scenario, const std::string &value) {
@@ -2976,15 +3092,15 @@ Register a probe to record a group of data to during all runs.
   pickle_via_yaml<PyTask>(task);
   pickle_via_yaml<PyTask>(waypoints);
   pickle_via_yaml<PyTask>(direction);
-  pickle_via_yaml<PyScenario>(scenario);
-  pickle_via_yaml<PyScenario>(simple);
-  pickle_via_yaml<PyScenario>(antipodal);
-  pickle_via_yaml<PyScenario>(cross);
-  pickle_via_yaml<PyScenario>(cross_torus);
-  pickle_via_yaml<PyScenario>(corridor);
+  pickle_via_yaml<PyScenario>(scenario, init_scenario);
+  pickle_via_yaml<PyScenario>(simple, init_scenario);
+  pickle_via_yaml<PyScenario>(antipodal, init_scenario);
+  pickle_via_yaml<PyScenario>(cross, init_scenario);
+  pickle_via_yaml<PyScenario>(cross_torus, init_scenario);
+  pickle_via_yaml<PyScenario>(corridor, init_scenario);
   pickle_via_yaml<PyWorld>(world);
   pickle_via_yaml<PyAgent>(agent);
-  pickle_via_yaml<PyExperiment>(experiment);
+  // pickle_via_yaml<PyExperiment>(experiment);
 
   m.def(
       "bundle_schema",

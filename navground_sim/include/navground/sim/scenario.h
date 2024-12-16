@@ -29,7 +29,7 @@ namespace navground::sim {
  * that can be sampled to perform an experiment.
  */
 struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
-  
+
   using Type = Scenario;
 
   /**
@@ -55,7 +55,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   /**
    * A collection of world initializers
    */
-  using Inits = std::vector<Init>;
+  using Inits = std::map<std::string, Init>;
 
   /**
    * @brief      Constructs a new instance.
@@ -64,7 +64,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
    */
   explicit Scenario(const Inits &inits = {})
       : groups(), obstacles(), walls(), property_samplers(),
-        initializers(inits) {}
+        initializers(inits), init_count(0) {}
 
   /**
    * @brief      Initializes the world.
@@ -85,17 +85,43 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
    * @brief      Adds a world initializer.
    *
    * @param[in]  initializer  The initializer
+   *
+   * @return     The associated key
    */
-  void add_init(const Init &initializer) {
-    initializers.push_back(initializer);
+  std::string add_init(const Init &initializer) {
+    const auto key = key_for_next_init();
+    set_init(key, initializer);
+    return key;
   }
+
+  /**
+   * @brief      Sets a world initializer.
+   *
+   * @param[in]  key  The key
+   * @param[in]  initializer  The initializer
+   */
+  void set_init(const std::string &key, const Init &initializer) {
+    initializers[key] = initializer;
+  }
+
+  /**
+   * @brief Remove the last added world initializer.
+   *
+   * @param[in]  key  The key
+   */
+  void remove_init(const std::string &key) { initializers.erase(key); }
+
+  /**
+   * @brief      Removed all initializers
+   */
+  void clear_inits() { initializers.clear(); }
 
   /**
    * @brief      Gets the world initializers.
    *
    * @return     The initializers.
    */
-  const Inits &get_initializers() const { return initializers; }
+  const Inits &get_inits() const { return initializers; }
 
   /**
    * @brief      Adds a group.
@@ -105,6 +131,21 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   void add_group(const std::shared_ptr<Group> &group) {
     groups.push_back(group);
   }
+
+  /**
+   * @brief Remove the last added group.
+   *
+   */
+  void remove_group() {
+    if (groups.size()) {
+      groups.pop_back();
+    }
+  }
+
+  /**
+   * @brief      Remove all groups
+   */
+  void clear_groups() { groups.clear(); }
 
   /**
    * Groups
@@ -139,6 +180,9 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
 
 private:
   Inits initializers;
+  unsigned init_count;
+
+  std::string key_for_next_init() { return std::to_string(init_count++); }
 };
 
 } // namespace navground::sim

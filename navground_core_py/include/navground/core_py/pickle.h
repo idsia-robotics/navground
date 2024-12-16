@@ -7,7 +7,11 @@
 
 namespace py = pybind11;
 //
-template <typename S, typename C> void pickle_via_yaml(C &cls) {
+// !!!!! If I pass the dict by reference it crashes !!!!!!
+template <typename S> using Init = std::function<void(S *, py::dict *)>;
+
+template <typename S, typename C>
+void pickle_via_yaml(C &cls, const Init<typename S::Native> &init = nullptr) {
   cls.def(py::pickle(
       [](typename C::type *obj) {
         // __getstate__
@@ -18,7 +22,7 @@ template <typename S, typename C> void pickle_via_yaml(C &cls) {
         }
         return py::make_tuple(YAML::dump<typename S::Native>(obj));
       },
-      [](const py::tuple &t) {
+      [init](const py::tuple &t) {
         // __setstate__
         if (t.size() > 0) {
           const YAML::Node node = YAML::Load(t[0].cast<std::string>());
@@ -27,6 +31,9 @@ template <typename S, typename C> void pickle_via_yaml(C &cls) {
           py::dict py_state;
           if (t.size() > 1) {
             py_state = t[1].cast<py::dict>();
+          }
+          if (init) {
+            init(cpp_obj.get(), &py_state);
           }
           return std::make_pair(cpp_obj, py_state);
         }

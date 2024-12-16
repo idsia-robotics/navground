@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.3.3] 2024-16-12
+
+Patch release add more support for Python `Scenario` initializers and 
+that fixes few bugs.
+
+### Added
+
+- Experiments now pickle Python probes too.
+- Scenarios now pickle Python initializers too. For this, `Scenario` gets a `__dict__` too.
+- Added several accessors to `Scenario` groups and inits.
+- Exposed `Experiment::RunConfig` to Python
+
+### Fixed
+
+- Corrected single run case in `plot_runs`
+- `Experiment.add_group_record_probe` and `Experiment.add_record_probe` have now types that are coherent with accepting factories and do not requires `factory.dtype` anymore, instead reading it from instances once created.
+- Fixed `Behavior::get_target_direction` in absolute frame.
+
+### Changed
+
+- `Behavior::get_efficacy` now returns 0 when the target velocity is null.
+- `Scenario` inits are now stored as a string-keyed map. `Scenario::add_init` accepts the same argument, creating and returning an incremental (string) key.
+
+### Removed
+
+
 ## [0.3.2] 2024-29-11
 
 Patch release to fix a bug in `PathTask`.

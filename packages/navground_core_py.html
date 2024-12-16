@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>navground_core_py &#8212; navground 0.3.2 documentation</title>
+    <title>navground_core_py &#8212; navground 0.3.3 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=2f2e10e9"></script>
+    <script src="../_static/documentation_options.js?v=94d292f4"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.2 documentation</p>
+    <p class="title logo__title">navground 0.3.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -224,7 +224,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../components/kinematics/ahead.html">Ahead</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/4womni.html">Four-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -685,14 +685,14 @@ It is equivalent to the <a class="reference internal" href="navground_core.html#
 <section id="schema">
 <span id="schema-py"></span><h3>schema<a class="headerlink" href="#schema" title="Link to this heading">#</a></h3>
 <p>Print JSON-Schema of YAML-convertible navground core classes. It is equivalent to the <a class="reference internal" href="navground_core.html#schema"><span class="std std-ref">C++ version</span></a> but with additional components implemented in Python.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">schema</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">register</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="n">TYPE</span><span class="p">]</span> <span class="p">[{</span><span class="n">behavior</span><span class="p">,</span><span class="n">core</span><span class="p">,</span><span class="n">behavior_modulation</span><span class="p">,</span><span class="n">kinematics</span><span class="p">}]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">schema</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">register</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="n">TYPE</span><span class="p">]</span> <span class="p">[{</span><span class="n">kinematics</span><span class="p">,</span><span class="n">behavior</span><span class="p">,</span><span class="n">core</span><span class="p">,</span><span class="n">behavior_modulation</span><span class="p">}]</span>
 </pre></div>
 </div>
 <section id="navground.core.print_schema-parser-positional-arguments">
 <h4>Positional Arguments<a class="headerlink" href="#navground.core.print_schema-parser-positional-arguments" title="Link to this heading">#</a></h4>
 <dl class="option-list">
 <dt><kbd>kind</kbd></dt>
-<dd><p>Possible choices: behavior, core, behavior_modulation, kinematics</p>
+<dd><p>Possible choices: kinematics, behavior, core, behavior_modulation</p>
 <p>The target type of the scheme</p>
 </dd>
 </dl>

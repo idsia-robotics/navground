@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Base class &#8212; navground 0.3.2 documentation</title>
+    <title>Base class &#8212; navground 0.3.3 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=2f2e10e9"></script>
+    <script src="../../../../_static/documentation_options.js?v=94d292f4"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.2 documentation</p>
+    <p class="title logo__title">navground 0.3.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -224,7 +224,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/ahead.html">Ahead</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/4womni.html">Four-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -504,7 +504,7 @@
 </div>
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim15StateEstimationE">
-<span class="target" id="structnavground_1_1sim_1_1_state_estimation"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StateEstimation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">core</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">HasRegister</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim15StateEstimationE" title="navground::sim::StateEstimation"><span class="n"><span class="pre">StateEstimation</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim15StateEstimationE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_state_estimation"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StateEstimation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/register.html#_CPPv4I0EN9navground4core11HasRegisterE" title="navground::core::HasRegister"><span class="n"><span class="pre">HasRegister</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim15StateEstimationE" title="navground::sim::StateEstimation"><span class="n"><span class="pre">StateEstimation</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim15StateEstimationE" title="Link to this definition">#</a><br /></dt>
 <dd><p>This class describe a generic state estimation that should update the environment state used by the agent <a class="reference internal" href="../../../core/cpp/behaviors/behavior.html#classnavground_1_1core_1_1_behavior"><span class="std std-ref">navground::core::Behavior</span></a>. </p>
 <p>As the environment state is specialized by sub-classes of <a class="reference internal" href="../../../core/cpp/behaviors/behavior.html#classnavground_1_1core_1_1_behavior"><span class="std std-ref">navground::core::Behavior</span></a> like <a class="reference internal" href="../../../core/cpp/state/geometric.html#classnavground_1_1core_1_1_geometric_state"><span class="std std-ref">navground::core::GeometricState</span></a>, concrete sub-classes have to target one or more of them.</p>
 <p>In particular, the agent should use a state estimation compatible with it’s state representation.</p>
@@ -514,7 +514,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim15StateEstimation6updateEP5AgentP5WorldP16EnvironmentState">
-<span class="target" id="structnavground_1_1sim_1_1_state_estimation_1a97e559a7c513840db8a209d7eccd687e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">agent</span></span>, <a class="reference internal" href="../world.html#_CPPv4N9navground3sim5WorldE" title="navground::sim::World"><span class="n"><span class="pre">World</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">world</span></span>, <span class="n"><span class="pre">EnvironmentState</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">state</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim15StateEstimation6updateEP5AgentP5WorldP16EnvironmentState" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_state_estimation_1a97e559a7c513840db8a209d7eccd687e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">agent</span></span>, <a class="reference internal" href="../world.html#_CPPv4N9navground3sim5WorldE" title="navground::sim::World"><span class="n"><span class="pre">World</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">world</span></span>, <a class="reference internal" href="../../../core/cpp/state/base.html#_CPPv4N9navground4core16EnvironmentStateE" title="navground::core::EnvironmentState"><span class="n"><span class="pre">EnvironmentState</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">state</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim15StateEstimation6updateEP5AgentP5WorldP16EnvironmentState" title="Link to this definition">#</a><br /></dt>
 <dd><p>Updates an environment state with respect to a given agent. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

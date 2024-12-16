@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Experimental run &#8212; navground 0.3.2 documentation</title>
+    <title>Experimental run &#8212; navground 0.3.3 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=2f2e10e9"></script>
+    <script src="../../../../_static/documentation_options.js?v=94d292f4"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.2 documentation</p>
+    <p class="title logo__title">navground 0.3.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -224,7 +224,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/ahead.html">Ahead</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/4womni.html">Four-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -884,13 +884,13 @@ use the agent index.</p>
 <dd><p>Simulates a world and collects data.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.ExperimentalRun.add_group_record_probe">
-<span class="sig-name descname"><span class="pre">add_group_record_probe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe_cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.add_group_record_probe" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_group_record_probe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.add_group_record_probe" title="Link to this definition">#</a></dt>
 <dd><p>Adds a group record probe.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<em>Type</em><em>[</em><a class="reference internal" href="probes.html#navground.sim.GroupRecordProbe" title="navground.sim.GroupRecordProbe"><em>sim.GroupRecordProbe</em></a><em>]</em>) – the key of the group to be created</p></li>
-<li><p><strong>probe_cls</strong> – the probe class</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><em>Callable</em></a><em>[</em><em>[</em><em>]</em><em>, </em><a class="reference internal" href="probes.html#navground.sim.GroupRecordProbe" title="navground.sim.GroupRecordProbe"><em>sim.GroupRecordProbe</em></a><em>]</em>) – the key of the group to be created</p></li>
+<li><p><strong>probe</strong> – the probe factory like a GroupRecordProbe class.</p></li>
 </ul>
 </dd>
 </dl>
@@ -915,8 +915,8 @@ use the agent index.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – the record key</p></li>
-<li><p><strong>data</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.ArrayLike" title="(in NumPy v2.1)"><code class="xref py py-data docutils literal notranslate"><span class="pre">numpy.typing.ArrayLike</span></code></a> | None) – Copies shape, data and dtype from this numpy array (if specified)</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.DTypeLike" title="(in NumPy v2.1)"><code class="xref py py-data docutils literal notranslate"><span class="pre">numpy.typing.DTypeLike</span></code></a> | None.) – The type of data to store (if specified and if <code class="docutils literal notranslate"><span class="pre">data</span></code> is None)</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.ArrayLike" title="(in NumPy v2.2)"><code class="xref py py-data docutils literal notranslate"><span class="pre">numpy.typing.ArrayLike</span></code></a> | None) – Copies shape, data and dtype from this numpy array (if specified)</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.DTypeLike" title="(in NumPy v2.2)"><code class="xref py py-data docutils literal notranslate"><span class="pre">numpy.typing.DTypeLike</span></code></a> | None.) – The type of data to store (if specified and if <code class="docutils literal notranslate"><span class="pre">data</span></code> is None)</p></li>
 <li><p><strong>item_shape</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>]</em>) – Set the shape of all axis except the first (only if <code class="docutils literal notranslate"><span class="pre">data</span></code> is None ).
 Set to an empty list to instantiate a flat dataset.</p></li>
 </ul>
@@ -926,13 +926,13 @@ Set to an empty list to instantiate a flat dataset.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.ExperimentalRun.add_record_probe">
-<span class="sig-name descname"><span class="pre">add_record_probe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe_cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.add_record_probe" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_record_probe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.add_record_probe" title="Link to this definition">#</a></dt>
 <dd><p>Adds a record probe.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<em>Type</em><em>[</em><a class="reference internal" href="probes.html#navground.sim.RecordProbe" title="navground.sim.RecordProbe"><em>sim.RecordProbe</em></a><em>]</em>) – the key of the record to be created</p></li>
-<li><p><strong>probe_cls</strong> – the probe class</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference internal" href="dataset.html#navground.sim.Dataset" title="navground.sim.Dataset"><em>navground.sim.Dataset</em></a><em>]</em><em>, </em><a class="reference internal" href="probes.html#navground.sim.RecordProbe" title="navground.sim.RecordProbe"><em>sim.RecordProbe</em></a><em>]</em>) – the key of the record to be created</p></li>
+<li><p><strong>probe</strong> – the probe factory like a RecordProbe class.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1213,7 +1213,7 @@ won’t record any more data.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">actuated_commands</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.actuated_commands" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)">numpy.ndarray</a></p>
 </dd>
 </dl>
 <p>The recorded actuated commands of the agents as a numpy array of shape 
@@ -1243,7 +1243,7 @@ won’t record any more data.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collisions</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.collisions" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)">numpy.ndarray</a></p>
 </dd>
 </dl>
 <p>The recorded collisions between pairs of entities as
@@ -1261,7 +1261,7 @@ and dtype <code class="docutils literal notranslate"><span class="pre">np.uint32
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">commands</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.commands" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)">numpy.ndarray</a></p>
 </dd>
 </dl>
 <p>The recorded commands of the agents as a numpy array of shape 
@@ -1280,7 +1280,7 @@ and dtype <code class="docutils literal notranslate"><span class="pre">np.uint32
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deadlocks</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.deadlocks" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)">numpy.ndarray</a></p>
 </dd>
 </dl>
 <p>The time since agents are deadlocked as a numpy array of shape 
@@ -1309,7 +1309,7 @@ Else, it has been stuck since <code class="docutils literal notranslate"><span c
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">efficacy</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.efficacy" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)">numpy.ndarray</a></p>
 </dd>
 </dl>
 <p>The recorded agents’ efficacy as a numpy array of shape 
@@ -1359,7 +1359,7 @@ Else, it has been stuck since <code class="docutils literal notranslate"><span c
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">neighbors</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.neighbors" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)">numpy.ndarray</a></p>
 </dd>
 </dl>
 <p>The recorded agents’ neighbors as a numpy array of shape 
@@ -1376,7 +1376,7 @@ Else, it has been stuck since <code class="docutils literal notranslate"><span c
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">poses</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.poses" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)">numpy.ndarray</a></p>
 </dd>
 </dl>
 <p>The recorded poses of the agents as a numpy array of shape 
@@ -1450,7 +1450,7 @@ to keys <code class="docutils literal notranslate"><span class="pre">&lt;group&g
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">safety_violations</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.safety_violations" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)">numpy.ndarray</a></p>
 </dd>
 </dl>
 <p>The recorded amounts of safety violation as a numpy array of shape 
@@ -1490,7 +1490,7 @@ to keys <code class="docutils literal notranslate"><span class="pre">&lt;group&g
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">targets</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.targets" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)">numpy.ndarray</a></p>
 </dd>
 </dl>
 <p>The recorded targets of the agents as a numpy array of shape 
@@ -1555,7 +1555,7 @@ else &lt;x&gt;? is 0.0 and value &lt;x&gt; is set to zero.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">times</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.times" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)">numpy.ndarray</a></p>
 </dd>
 </dl>
 <p>The recorded simulation times as a numpy array of shape
@@ -1571,7 +1571,7 @@ else &lt;x&gt;? is 0.0 and value &lt;x&gt; is set to zero.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">twists</span></span><a class="headerlink" href="#navground.sim.ExperimentalRun.twists" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)">numpy.ndarray</a></p>
 </dd>
 </dl>
 <p>The recorded twists of the agents as a numpy array of shape 

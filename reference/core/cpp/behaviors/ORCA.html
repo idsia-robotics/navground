@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ORCA &#8212; navground 0.3.2 documentation</title>
+    <title>ORCA &#8212; navground 0.3.3 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=2f2e10e9"></script>
+    <script src="../../../../_static/documentation_options.js?v=94d292f4"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.2 documentation</p>
+    <p class="title logo__title">navground 0.3.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -224,7 +224,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/ahead.html">Ahead</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/4womni.html">Four-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -518,7 +518,7 @@
 </div>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core12ORCABehaviorE">
-<span class="target" id="classnavground_1_1core_1_1_o_r_c_a_behavior"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ORCABehavior</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">core</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Behavior</span></span><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehaviorE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1core_1_1_o_r_c_a_behavior"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ORCABehavior</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehaviorE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Optimal Reciprocal Collision Avoidance (see <a class="reference external" href="http://gamma.cs.unc.edu/RVO2">http://gamma.cs.unc.edu/RVO2</a>) </p>
 <p>A wrapper of the open-source implementation from <a class="github reference external" href="https://github.com/snape/RVO2">snape/RVO2</a></p>
 <p><em>Registered properties</em>:</p>
@@ -534,7 +534,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core12ORCABehavior12ORCABehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t">
-<span class="target" id="classnavground_1_1core_1_1_o_r_c_a_behavior_1a952d3a1a2ad4adafdfc95679be3e2287"></span><span class="sig-name descname"><span class="n"><span class="pre">ORCABehavior</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">Kinematics</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">kinematics</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehavior12ORCABehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="classnavground_1_1core_1_1_o_r_c_a_behavior_1a952d3a1a2ad4adafdfc95679be3e2287"></span><span class="sig-name descname"><span class="n"><span class="pre">ORCABehavior</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../kinematics/kinematics.html#_CPPv4N9navground4core10KinematicsE" title="navground::core::Kinematics"><span class="n"><span class="pre">Kinematics</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">kinematics</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehavior12ORCABehaviorENSt10shared_ptrI10KinematicsEE10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Contruct a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -685,13 +685,13 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core12ORCABehavior4Line5pointE">
-<span class="target" id="structnavground_1_1core_1_1_o_r_c_a_behavior_1_1_line_1af587833c5e6d1effd286028a400353a3"></span><span class="n"><span class="pre">Vector2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">point</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehavior4Line5pointE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1core_1_1_o_r_c_a_behavior_1_1_line_1af587833c5e6d1effd286028a400353a3"></span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">point</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehavior4Line5pointE" title="Link to this definition">#</a><br /></dt>
 <dd><p>A point on the line </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core12ORCABehavior4Line9directionE">
-<span class="target" id="structnavground_1_1core_1_1_o_r_c_a_behavior_1_1_line_1a887890e1fece4d6eaba6d44acb2c4b56"></span><span class="n"><span class="pre">Vector2</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">direction</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehavior4Line9directionE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1core_1_1_o_r_c_a_behavior_1_1_line_1a887890e1fece4d6eaba6d44acb2c4b56"></span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">direction</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core12ORCABehavior4Line9directionE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The direction </p>
 </dd></dl>
 

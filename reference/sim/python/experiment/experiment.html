@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Experiment &#8212; navground 0.3.2 documentation</title>
+    <title>Experiment &#8212; navground 0.3.3 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=2f2e10e9"></script>
+    <script src="../../../../_static/documentation_options.js?v=94d292f4"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.2 documentation</p>
+    <p class="title logo__title">navground 0.3.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -224,7 +224,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/ahead.html">Ahead</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/4womni.html">Four-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -566,13 +566,13 @@ instance if you are using a different run-loop.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.add_group_record_probe">
-<span class="sig-name descname"><span class="pre">add_group_record_probe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe_cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.Experiment.add_group_record_probe" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_group_record_probe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.Experiment.add_group_record_probe" title="Link to this definition">#</a></dt>
 <dd><p>Register a probe to record a group of data to during all runs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – the name associated to the group</p></li>
-<li><p><strong>probe_cls</strong> (<em>Type</em><em>[</em><a class="reference internal" href="probes.html#navground.sim.GroupRecordProbe" title="navground.sim.GroupRecordProbe"><em>sim.GroupRecordProbe</em></a><em>]</em>) – the class of the probe.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><em>Callable</em></a><em>[</em><em>[</em><em>]</em><em>, </em><a class="reference internal" href="probes.html#navground.sim.GroupRecordProbe" title="navground.sim.GroupRecordProbe"><em>sim.GroupRecordProbe</em></a><em>]</em>) – the name associated to the group</p></li>
+<li><p><strong>probe</strong> – the probe factory like a GroupRecordProbe class.</p></li>
 </ul>
 </dd>
 </dl>
@@ -580,7 +580,7 @@ instance if you are using a different run-loop.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.add_probe">
-<span class="sig-name descname"><span class="pre">add_probe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.Experiment.add_probe" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_probe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.Experiment.add_probe" title="Link to this definition">#</a></dt>
 <dd><p>Register a probe to be added to all runs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -591,13 +591,13 @@ instance if you are using a different run-loop.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.Experiment.add_record_probe">
-<span class="sig-name descname"><span class="pre">add_record_probe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe_cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.Experiment.add_record_probe" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_record_probe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.Experiment.add_record_probe" title="Link to this definition">#</a></dt>
 <dd><p>Register a probe to record data to during all runs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – the name associated to the record</p></li>
-<li><p><strong>probe_cls</strong> (<em>Type</em><em>[</em><a class="reference internal" href="probes.html#navground.sim.RecordProbe" title="navground.sim.RecordProbe"><em>sim.RecordProbe</em></a><em>]</em>) – the class of the probe.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference internal" href="dataset.html#navground.sim.Dataset" title="navground.sim.Dataset"><em>navground.sim.Dataset</em></a><em>]</em><em>, </em><a class="reference internal" href="probes.html#navground.sim.RecordProbe" title="navground.sim.RecordProbe"><em>sim.RecordProbe</em></a><em>]</em>) – the name associated to the record</p></li>
+<li><p><strong>probe</strong> – the probe factory like a RecordProbe class.</p></li>
 </ul>
 </dd>
 </dl>
@@ -780,8 +780,8 @@ multiple threads instead and cannot be used to run such experiments because of t
 <p>If <code class="docutils literal notranslate"><span class="pre">keep=True</span></code>,  the experiment will query the runs from the different processes
 and hold them in memory. If it is configured to save the data, it will save a single HDF5 file.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">keep=False</span></code>, the experiment won’t keep the runs in memory.
-If it is configured to save the data, it will save one HDF5 file per process (<code class="docutils literal notranslate"><span class="pre">&quot;data_&lt;i&gt;.h5&quot;</span></code>)
-and one “data.h5” linking all the runs together.
+If it is configured to save the data, it will save one HDF5 file
+per process (<code class="docutils literal notranslate"><span class="pre">&quot;data_&lt;i&gt;.h5&quot;</span></code>) and one “data.h5” linking all the runs together.
 To access the data, you will need to load the HFD5 file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

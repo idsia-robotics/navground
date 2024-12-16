@@ -243,6 +243,6 @@ def plot_runs(runs: Sequence[sim.ExperimentalRun],
     if is_new_fig:
         for ax in fig.axes[len(runs):]:
             ax.set_axis_off()
-        height = np.median(hs) * width * rows / columns
+        height = float(np.median(hs) * width * rows / columns)
         fig.set_size_inches(width, height)
     return fig

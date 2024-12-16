@@ -16,13 +16,12 @@ from navground.core import load_py_plugins as _load_py_core_plugins
 from navground.core import register
 
 from . import schema
-from ._navground_sim import (Agent, BoundingBox, Dataset, Entity, Experiment,
-                             ExperimentalRun, GroupRecordProbe, Obstacle,
-                             Probe, RecordConfig, RecordNeighborsConfig,
-                             RecordProbe, RecordSensingConfig, Scenario,
-                             SensingProbe, Sensor, StateEstimation, Task, Wall,
-                             World, get_build_dependencies, get_build_info,
-                             use_compact_samplers, uses_doubles)
+from ._navground_sim import (
+    Agent, BoundingBox, Dataset, Entity, Experiment, ExperimentalRun,
+    GroupRecordProbe, Obstacle, Probe, RecordConfig, RecordNeighborsConfig,
+    RecordProbe, RecordSensingConfig, RunConfig, Scenario, SensingProbe,
+    Sensor, StateEstimation, Task, Wall, World, get_build_dependencies,
+    get_build_info, use_compact_samplers, uses_doubles)
 
 # isort: split
 
@@ -224,7 +223,8 @@ Experiment.setup_tqdm = setup_tqdm  # type: ignore[method-assign]
 Experiment.run_mp = run_mp  # type: ignore[method-assign]
 
 # isort: stop
-from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun  # noqa: E402
+from .recorded_experiment import (  # noqa: E402
+    RecordedExperiment, RecordedExperimentalRun)
 
 __all__ = [
     'Entity', 'Obstacle', 'Wall', 'World', 'Agent', 'Experiment', 'Scenario',
@@ -236,5 +236,5 @@ __all__ = [
     'RecordedExperiment', 'RecordedExperimentalRun', 'SensingProbe',
     'use_compact_samplers', 'uses_doubles', 'get_loaded_plugins', 'schema',
     'get_build_info', 'get_build_dependencies', 'get_plugins_dependencies',
-    'scenarios', 'state_estimations', 'tasks'
+    'scenarios', 'state_estimations', 'tasks', 'RunConfig'
 ]

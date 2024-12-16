@@ -3,7 +3,7 @@ import multiprocessing
 from multiprocessing.queues import Queue
 
 try:
-    import multiprocess  # type: ignore[import-not-found, import-untyped]
+    import multiprocess  # type: ignore[import-untyped]
 except ImportError:
     multiprocess = None
 

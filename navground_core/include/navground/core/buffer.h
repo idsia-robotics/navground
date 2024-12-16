@@ -172,6 +172,10 @@ struct BufferDescription {
    */
   BufferShape shape;
   /**
+   * A code that identify the type of data.
+   */
+  std::string type;
+  /**
    * The lower limits
    */
   double low;
@@ -183,10 +187,6 @@ struct BufferDescription {
    * Whether the [integer] data is categorical or not.
    */
   bool categorical;
-  /**
-   * A code that identify the type of data.
-   */
-  std::string type;
 
   /**
    * @brief      Constructs a new instance.
@@ -234,7 +234,7 @@ struct BufferDescription {
   std::vector<size_t> get_strides() const {
     std::vector<size_t> strides(shape.size());
     size_t size = get_scalar_size(type);
-    const size_t e = shape.size() - 1;
+    const int e = shape.size() - 1;
     for (int i = 0; i <= e; ++i) {
       strides[e - i] = size;
       size *= shape[e - i];
@@ -269,7 +269,7 @@ public:
    */
   Buffer(const BufferDescription &desc, BufferType value) : description(desc) {
     std::visit(
-        [this, value](auto &&arg) {
+        [this](auto &&arg) {
           using T = std::decay_t<decltype(arg)>;
           data = std::valarray<T>(arg, get_described_size());
         },
@@ -282,7 +282,8 @@ public:
    *
    * @param[in]  desc  The description
    */
-  Buffer(const BufferDescription &desc) : Buffer(desc, get_zero(desc.type)) {}
+  explicit Buffer(const BufferDescription &desc)
+      : Buffer(desc, get_zero(desc.type)) {}
 
   /**
    * @brief      Constructs a new instance with data
@@ -300,7 +301,7 @@ public:
    *
    * @param[in]  value  The data
    */
-  Buffer(const BufferData &value = std::valarray<ng_float_t>(0))
+  explicit Buffer(const BufferData &value = std::valarray<ng_float_t>(0))
       : Buffer(::navground::core::get_description(value)) {
     data = value;
   }

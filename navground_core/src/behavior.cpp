@@ -224,10 +224,9 @@ bool Behavior::is_stopped(ng_float_t epsilon_speed,
 bool Behavior::is_stuck() const { return !should_stop() && is_stopped(); }
 
 ng_float_t Behavior::get_efficacy() const {
-  // const auto v = target.get_ideal_velocity(pose.position, optimal_speed);
   const auto v = get_target_velocity(Frame::absolute);
   if (!v.norm())
-    return 1;
+    return 0;
   return v.dot(twist.velocity) / v.squaredNorm();
 }
 
@@ -252,18 +251,16 @@ std::optional<ng_float_t> Behavior::get_target_orientation(Frame frame) const {
 }
 
 std::optional<Vector2> Behavior::get_target_direction(Frame frame) const {
-  const auto delta = get_target_position(frame);
-  if (delta) {
-    return delta->normalized();
+  std::optional<Vector2> e = std::nullopt;
+  if (target.position && !target.satisfied(pose.position)) {
+    e = (*(target.position) - pose.position).normalized();
+  } else if (target.direction) {
+    e = target.direction->normalized();
   }
-  if (target.direction) {
-    const Vector2 e = target.direction->normalized();
-    if (frame == Frame::relative) {
-      return to_relative(e);
-    }
-    return e;
+  if (e && frame == Frame::relative) {
+    return to_relative(*e);
   }
-  return std::nullopt;
+  return e;
 }
 
 std::optional<ng_float_t>

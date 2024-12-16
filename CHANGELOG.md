@@ -2,8 +2,7 @@
 
 ## [0.3.3] 2024-16-12
 
-Patch release add more support for Python `Scenario` initializers and 
-that fixes few bugs.
+This patch release adds more support for Python `Scenario` initializers and fixes few bugs.
 
 ### Added
 
@@ -22,8 +21,6 @@ that fixes few bugs.
 
 - `Behavior::get_efficacy` now returns 0 when the target velocity is null.
 - `Scenario` inits are now stored as a string-keyed map. `Scenario::add_init` accepts the same argument, creating and returning an incremental (string) key.
-
-### Removed
 
 
 ## [0.3.2] 2024-29-11

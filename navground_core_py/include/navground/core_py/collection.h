@@ -52,4 +52,35 @@ inline void clear_collection_py(const py::object &obj,
   }
 }
 
-#endif  // NAVGROUND_CORE_PY_COLLECTION_H
+inline bool has_py_map(const py::object &obj, const std::string &name) {
+  return has_py_collection(obj, name);
+}
+
+inline py::dict get_py_map(const py::object &obj, const std::string &name) {
+  py::object key = py::str("__py_" + name);
+  if (!py::hasattr(obj, key)) {
+    obj.attr(key) = py::dict();
+  }
+  return static_cast<py::dict>(py::getattr(obj, key));
+}
+
+inline void set_py_key(const py::object &obj, const std::string &key,
+                       const py::object &value, const std::string &name) {
+  get_py_map(obj, name)[key.c_str()] = value;
+}
+
+inline void remove_py_key(const py::object &obj, const std::string &key,
+                          const std::string &name) {
+  auto dict = get_py_map(obj, name);
+  if (dict.contains(key)) {
+    dict.attr("pop")(key);
+  }
+}
+
+inline void clear_py_map(const py::object &obj, const std::string &name) {
+  if (has_py_map(obj, name)) {
+    get_py_map(obj, name).attr("clear")();
+  }
+}
+
+#endif // NAVGROUND_CORE_PY_COLLECTION_H

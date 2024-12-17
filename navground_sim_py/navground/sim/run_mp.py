@@ -59,7 +59,8 @@ def run_mp(experiment: sim.Experiment,
            callback: Callable[[int], None] | None = None,
            bar: Optional['tqdm.tqdm[Any]'] = None,
            scenario_init_callback: ScenarioInitCallback | None = None,
-           use_multiprocess: bool = False) -> None:
+           use_multiprocess: bool = False,
+           load_plugins: bool = True) -> None:
     """
 
     Run an experiment distributing its runs in parallel over multiple processes.
@@ -87,6 +88,7 @@ def run_mp(experiment: sim.Experiment,
                                         as :py:attr:`Experiment.scenario_init_callback`.
     :param      use_multiprocess:       Whether to use the `multiprocess` package
                                         instead of `multiprocessing`
+    :param      load_plugins:           Whether load the plugins in the processes
     """
     if use_multiprocess and multiprocess:
         mp = multiprocess
@@ -145,7 +147,12 @@ def run_mp(experiment: sim.Experiment,
             scenario_init_callbacks,
             strict=False))
 
-    with mp.Pool(number_of_processes) as p:
+    if load_plugins:
+        init = sim.load_plugins
+    else:
+        init = None
+
+    with mp.Pool(number_of_processes, init) as p:
         r = p.starmap_async(_load_and_run_experiment, partial_experiments)
         if queue is not None:
             while not r.ready():

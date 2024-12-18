@@ -8,6 +8,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
       - run: pip install setuptools-git-versioning
-      - run: setuptools-git-versioning
+      - run: |
+          cd navground_py
+          setuptools-git-versioning
       - run: git tag
+      - run: git describe -all
       - run: git describe --tags --dirty

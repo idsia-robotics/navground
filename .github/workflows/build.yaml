@@ -1,9 +1,5 @@
 name: Build
-on:
-  workflow_dispatch:
-  push:
-    tags:
-      - '*'
+on: push
 env:
   COLCON_DEFAULTS_FILE: src/navground/colcon/defaults.yaml
 jobs:
@@ -58,21 +54,69 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           source install/setup.bash
-          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim # navground_examples
+          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core navground_sim navground_examples navground_examples_yaml
       - name: build navground (win)
         if: runner.os == 'Windows'
         run: |
           install\setup.ps1
           set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
-          colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim # navground_examples
+          colcon build --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core navground_sim navground_examples navground_examples_yaml
       - name: archive install
         uses: actions/upload-artifact@v4
         with:
           name: install-${{ matrix.os }}
           path: install
           if-no-files-found: error
-  build_py:
+
+  test_cpp:
     needs: build_cpp
+    name: Test C++ 📦
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      matrix:
+        os:
+          - ubuntu-20.04
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+      runs-on: ${{ matrix.os }}
+      steps:
+        - name: download install
+          uses: actions/download-artifact@v4
+          with:
+            name: install-${{ matrix.os }}
+            path: install
+        - name: test info
+          run: |
+            source install/setup.bash
+            navground info --build --properties
+        - name: test plugins
+          run: |
+            source install/setup.bash
+            navground plugins --dependencies
+        - name: test schema
+          run: |
+            source install/setup.bash
+            navground schema sim
+        - name: test echo
+          run: |
+            source install/setup.bash
+            navground echo behavior "{type: Dummy}"
+        - name: test sample
+          run: |
+            source install/setup.bash
+            navground sample "{type: Cross, groups: [{number: 10, behavior: {type: Dummy}}]}"
+        - name: test run
+          run: |
+            source install/setup.bash
+            navground run install/share/navground_examples_yaml/experiment/cross.yaml
+            navground run install/share/navground_examples_yaml/experiment/corridor.yaml --save_directory "."
+            navground run install/share/navground_examples_yaml/experiment/cross_torus.yaml --runs 2 --run_index 1001 --chdir
+            navground run install/share/navground_examples_yaml/experiment/antipodal.yaml --threads 2 --runs 10 --tqdm
+  build_py:
+    needs: test_cpp
     name: Build Python 📦
     strategy:
       matrix:
@@ -114,13 +158,13 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           source install/setup.bash
-          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
+          colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core_py navground_sim_py navground_examples_py
       - name: build navground (win)
         if: runner.os == 'Windows'
         run: |
           install\setup.ps1
           set COLCON_DEFAULTS_FILE=src\navground\colcon\defaults.yaml
-          colcon build --event-handlers console_direct+ --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core_py navground_sim_py # navground_examples_py
+          colcon build --event-handlers console_direct+ --event-handlers desktop_notification- --metas src\navground\colcon\navground.meta --packages-select navground_core_py navground_sim_py navground_examples_py
       - name: archive logs
         if: failure()
         uses: actions/upload-artifact@v4
@@ -155,8 +199,81 @@ jobs:
           name: wheel-${{ matrix.os }}-py${{matrix.python-version}}
           path: dist/*
           if-no-files-found: error
-  publish-to-testpypi:
+
+  test_py:
     needs: build_py
+    name: Test Python 📦
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      matrix:
+        os:
+          - ubuntu-20.04
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+        python-version:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: download install
+        uses: actions/download-artifact@v4
+        with:
+          name: install-${{ matrix.os }}-py${{matrix.python-version}}
+          path: install
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      - name: install python runtime deps
+        run: pip install numpy PyYaml tqdm cairosvg moviepy Jinja2 websockets jsonschema
+      - name: test load
+        run: |
+          source install/setup.bash
+          python -c "from navground import core, sim"
+      - name: test info
+        run: |
+          source install/setup.bash
+          navground_py info --build --properties
+      - name: test plugins
+        run: |
+          source install/setup.bash
+          navground_py plugins --dependencies
+      - name: test schema
+        run: |
+          source install/setup.bash
+          navground_py schema sim
+      - name: test validate
+        run: |
+          source install/setup.bash
+          navground_py validate experiment install/share/navground_examples_yaml/experiment/cross.yaml
+      - name: test echo
+        run: |
+          source install/setup.bash
+          navground_py echo behavior "{type: Dummy}"
+          navground_py echo behavior "{type: PyDummy}"
+      - name: test sample
+        run: |
+         source install/setup.bash
+         navground_py sample "{type: Cross, groups: [{number: 10, behavior: {type: PyDummy}}]}"
+      - name: test run
+        run: |
+          source install/setup.bash
+          navground_py run install/share/navground_examples_yaml/experiment/cross.yaml
+          navground_py run install/share/navground_examples_yaml/experiment/corridor.yaml    --save_directory "."
+          navground_py run install/share/navground_examples_yaml/experiment/cross_torus.yaml --runs 2 --run_index 1001 --chdir
+          navground_py run install/share/navground_examples_yaml/experiment/antipodal.yaml   --processes 2 --runs 10 --tqdm
+      - name: test video
+        run: |
+          source install/setup.bash
+          navground_py record_video install/share/navground_examples_yaml/experiment/cross.yaml /tmp/video.mp4 --factor 100
+
+  publish-to-testpypi:
+    needs: test_py
     name: Publish wheels to TestPyPI
     runs-on: ubuntu-latest
     environment:
@@ -178,7 +295,7 @@ jobs:
           repository-url: https://test.pypi.org/legacy/
           skip-existing: true
   publish-to-pypi:
-    needs: build_py
+    needs: test_py
     name: Publish wheels to PyPI
     if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
     runs-on: ubuntu-latest

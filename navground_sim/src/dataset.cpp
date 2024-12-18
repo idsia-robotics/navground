@@ -68,6 +68,8 @@ void Dataset::push(const Dataset::Scalar &data) {
   std::visit(
       [this](auto &&arg) {
         using T = std::decay_t<decltype(arg)>;
+        // TODO(Jerome): Xcode analyser is complaining that
+        // this is an implicit conversion that may lead to losing integer precision
         push<T>(arg);
       },
       data);

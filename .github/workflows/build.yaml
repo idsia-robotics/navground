@@ -71,7 +71,6 @@ jobs:
   test_cpp:
     needs: build_cpp
     name: Test C++ 📦
-    continue-on-error: true
     strategy:
       matrix:
         os:
@@ -88,9 +87,9 @@ jobs:
           name: install-${{ matrix.os }}
           path: install
       - name: chmod
+        if: runner.os != 'Windows'
         run: |
           chmod -R 777 install/bin
-          ls -lah install/bin
       - name: test info
         if: runner.os != 'Windows'
         run: |
@@ -245,7 +244,6 @@ jobs:
   test_py:
     needs: build_py
     name: Test Python 📦
-    continue-on-error: true
     strategy:
       matrix:
         os:
@@ -273,9 +271,9 @@ jobs:
       - name: install python runtime deps
         run: pip install numpy PyYaml tqdm cairosvg moviepy Jinja2 websockets jsonschema
       - name: chmod
+        if: runner.os != 'Windows'
         run: |
           chmod -R 777 install/bin
-          ls -lah install/bin
       - name: test load
         if: runner.os != 'Windows'
         run: |

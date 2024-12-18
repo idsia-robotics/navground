@@ -88,6 +88,10 @@ jobs:
         with:
           name: install-${{ matrix.os }}
           path: install
+      - name: chmod
+        run: |
+          chmod -R 777 install/bin
+          ls -lah install/bin
       - name: test info
         run: |
           source install/setup.bash
@@ -231,6 +235,10 @@ jobs:
           cache: 'pip'
       - name: install python runtime deps
         run: pip install numpy PyYaml tqdm cairosvg moviepy Jinja2 websockets jsonschema
+      - name: chmod
+        run: |
+          chmod -R 777 install/bin
+          ls -lah install/bin
       - name: test load
         run: |
           source install/setup.bash

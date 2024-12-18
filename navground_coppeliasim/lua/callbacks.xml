@@ -777,6 +777,20 @@
         <return>
         </return>
     </command>
+    <command name="dump">
+        <description>The YAML representation of the agent or behavior
+        </description>
+        <params>
+          <param name="handle" type="int">
+            <description>The handle of an agent or controller</description>
+          </param>
+        </params>
+        <return>
+          <param name="yaml" type="string">
+              <description></description>
+          </param>
+        </return>
+    </command>
     <command name="add_agent_from_yaml">
         <description>TODO
         </description>
@@ -913,19 +927,19 @@
         <param name="type" type="string">
           <description>The type</description>
         </param>
-        <param name="max_speed" type="ng_float_t" default="0.0">
+        <param name="max_speed" type="ng_float_t" default="-1">
           <description>The maximal speed</description>
         </param>
-        <param name="max_angular_speed" type="ng_float_t" default="0.0">
+        <param name="max_angular_speed" type="ng_float_t" default="-1">
           <description>The maximal angular speed</description>
         </param>
-        <param name="wheel_axis" type="ng_float_t" default="0.0">
+        <param name="wheel_axis" type="ng_float_t" default="1">
             <description>The axis length</description>
         </param>
         <param name="max_acceleration" type="ng_float_t" default="1.0">
             <description>The maximal acceleration</description>
         </param>
-        <param name="max_angular_acceleration" type="ng_float_t" default="0.0">
+        <param name="max_angular_acceleration" type="ng_float_t" default="4">
             <description>The maximal angular acceleration</description>
         </param>
     </struct>  

@@ -1,9 +1,9 @@
 #include "plugin.h"
 
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <vector>
-#include <mutex>
 
 #include "config.h"
 #include "navground/core/behavior.h"
@@ -34,17 +34,19 @@ typedef double simFloat;
 typedef float simFloat;
 #endif
 
-static std::shared_ptr<core::Kinematics> make_kinematics(
-    const kinematics_t &k) {
+static std::shared_ptr<core::Kinematics>
+make_kinematics(const kinematics_t &k) {
   auto kinematics = core::Kinematics::make_type(k.type);
   if (!kinematics) {
     kinematics = std::make_shared<core::OmnidirectionalKinematics>();
   }
   kinematics->set_max_speed(k.max_speed);
-  kinematics->set_max_angular_speed(k.max_angular_speed);
   if (core::TwoWheelsDifferentialDriveKinematics *wk =
-          dynamic_cast<core::TwoWheelsDifferentialDriveKinematics *>(kinematics.get())) {
+          dynamic_cast<core::TwoWheelsDifferentialDriveKinematics *>(
+              kinematics.get())) {
     wk->set_wheel_axis(k.wheel_axis);
+  } else {
+    kinematics->set_max_angular_speed(k.max_angular_speed);
   }
   if (core::DynamicTwoWheelsDifferentialDriveKinematics *wk =
           dynamic_cast<core::DynamicTwoWheelsDifferentialDriveKinematics *>(
@@ -64,36 +66,36 @@ static vector2_t to_vector2_t(const Vector2 &v) {
 
 static Vector2 from_vector2_t(const vector2_t &v) { return Vector2(v.x, v.y); }
 
-static std::optional<core::Property::Field> from_property_field_t(
-    const property_field_t &value) {
+static std::optional<core::Property::Field>
+from_property_field_t(const property_field_t &value) {
   std::vector<Vector2> vs;
   switch (value.type) {
-    case 0:
-      return value.bool_value;
-    case 1:
-      return value.int_value;
-    case 2:
-      return value.float_value;
-    case 3:
-      return value.string_value;
-    case 4:
-      return from_vector2_t(value.vector_value);
-    case 5:
-      return value.bool_list;
-    case 6:
-      return value.int_list;
-    case 7:
-      return value.float_list;
-    case 8:
-      return value.string_list;
-    case 9:
-      for (const auto i : value.vector_list) {
-        vs.push_back(from_vector2_t(i));
-      }
-      return vs;
-    default:
-      std::cerr << "Unknown property_field_t type " << value.type << std::endl;
-      return std::nullopt;
+  case 0:
+    return value.bool_value;
+  case 1:
+    return value.int_value;
+  case 2:
+    return value.float_value;
+  case 3:
+    return value.string_value;
+  case 4:
+    return from_vector2_t(value.vector_value);
+  case 5:
+    return value.bool_list;
+  case 6:
+    return value.int_list;
+  case 7:
+    return value.float_list;
+  case 8:
+    return value.string_list;
+  case 9:
+    for (const auto i : value.vector_list) {
+      vs.push_back(from_vector2_t(i));
+    }
+    return vs;
+  default:
+    std::cerr << "Unknown property_field_t type " << value.type << std::endl;
+    return std::nullopt;
   }
 }
 
@@ -105,45 +107,45 @@ static property_field_t to_property_field_t(const core::Property::Field &v) {
   property_field_t value;
   value.type = v.index();
   switch (value.type) {
-    case 0:
-      value.bool_value = std::get<bool>(v);
-      break;
-    case 1:
-      value.int_value = std::get<int>(v);
-      break;
-    case 2:
-      value.float_value = std::get<ng_float_t>(v);
-      break;
-    case 3:
-      value.string_value = std::get<std::string>(v);
-      break;
-    case 4:
-      value.vector_value = to_vector2_t(std::get<Vector2>(v));
-      break;
-    case 5:
-      value.bool_list = std::get<std::vector<bool>>(v);
-      break;
-    case 6:
-      value.int_list = std::get<std::vector<int>>(v);
-      break;
-    case 7:
-      value.float_list = std::get<std::vector<ng_float_t>>(v);
-      break;
-    case 8:
-      value.string_list = std::get<std::vector<std::string>>(v);
-      break;
-    case 9:
-      auto rs = std::get<std::vector<Vector2>>(v);
-      for (const auto &i : rs) {
-        value.vector_list.push_back(to_vector2_t(i));
-      }
-      break;
+  case 0:
+    value.bool_value = std::get<bool>(v);
+    break;
+  case 1:
+    value.int_value = std::get<int>(v);
+    break;
+  case 2:
+    value.float_value = std::get<ng_float_t>(v);
+    break;
+  case 3:
+    value.string_value = std::get<std::string>(v);
+    break;
+  case 4:
+    value.vector_value = to_vector2_t(std::get<Vector2>(v));
+    break;
+  case 5:
+    value.bool_list = std::get<std::vector<bool>>(v);
+    break;
+  case 6:
+    value.int_list = std::get<std::vector<int>>(v);
+    break;
+  case 7:
+    value.float_list = std::get<std::vector<ng_float_t>>(v);
+    break;
+  case 8:
+    value.string_list = std::get<std::vector<std::string>>(v);
+    break;
+  case 9:
+    auto rs = std::get<std::vector<Vector2>>(v);
+    for (const auto &i : rs) {
+      value.vector_list.push_back(to_vector2_t(i));
+    }
+    break;
   }
   return value;
 }
 
 class Plugin : public sim::Plugin {
- public:
+public:
   Plugin() : sim::Plugin(), controllers(), frame(-1) {}
 
 #if SIM_PROGRAM_VERSION_NB < 40600
@@ -197,9 +199,11 @@ class Plugin : public sim::Plugin {
         int uid = agent->uid;
         int handle = agent_handles[uid];
         int r = simGetObjectPosition(handle, frame, ps);
-        if (r == -1) continue;
+        if (r == -1)
+          continue;
         r = simGetObjectOrientation(handle, frame, os);
-        if (r == -1) continue;
+        if (r == -1)
+          continue;
         const core::Pose2 pose({ps[0], ps[1]}, os[2]);
         if (!has_set_twist[handle]) {
           // const Vector2 velocity = (pose.position - agent->pose.position) /
@@ -459,7 +463,7 @@ class Plugin : public sim::Plugin {
     auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
       const auto &target = behavior->get_target();
-      auto & o = out->target;
+      auto &o = out->target;
       if (target.position) {
         o.position.x = target.position->x();
         o.position.y = target.position->y();
@@ -716,18 +720,18 @@ class Plugin : public sim::Plugin {
       auto value = from_property_field_t(in->value);
       if (value) {
         switch (in->owner) {
-          case 0:
-            agent->get_behavior()->set(in->name, *value);
-            break;
-          case 1:
-            agent->get_kinematics()->set(in->name, *value);
-            break;
-          case 2:
-            agent->get_state_estimation()->set(in->name, *value);
-            break;
-          case 3:
-            agent->get_task()->set(in->name, *value);
-            break;
+        case 0:
+          agent->get_behavior()->set(in->name, *value);
+          break;
+        case 1:
+          agent->get_kinematics()->set(in->name, *value);
+          break;
+        case 2:
+          agent->get_state_estimation()->set(in->name, *value);
+          break;
+        case 3:
+          agent->get_task()->set(in->name, *value);
+          break;
         }
       }
     }
@@ -738,20 +742,20 @@ class Plugin : public sim::Plugin {
     if (agent) {
       core::Properties properties;
       switch (in->owner) {
-        case 0:
-          properties = agent->get_behavior()->get_properties();
-          break;
-        case 1:
-          properties = agent->get_kinematics()->get_properties();
-          break;
-        case 2:
-          properties = agent->get_state_estimation()->get_properties();
-          break;
-        case 3:
-          properties = agent->get_task()->get_properties();
-          break;
-        default:
-          return;
+      case 0:
+        properties = agent->get_behavior()->get_properties();
+        break;
+      case 1:
+        properties = agent->get_kinematics()->get_properties();
+        break;
+      case 2:
+        properties = agent->get_state_estimation()->get_properties();
+        break;
+      case 3:
+        properties = agent->get_task()->get_properties();
+        break;
+      default:
+        return;
       }
       for (const auto &[name, property] : properties) {
         out->properties.push_back(
@@ -765,20 +769,20 @@ class Plugin : public sim::Plugin {
     if (agent) {
       core::Property::Field value;
       switch (in->owner) {
-        case 0:
-          value = agent->get_behavior()->get(in->name);
-          break;
-        case 1:
-          value = agent->get_kinematics()->get(in->name);
-          break;
-        case 2:
-          value = agent->get_state_estimation()->get(in->name);
-          break;
-        case 3:
-          value = agent->get_task()->get(in->name);
-          break;
-        default:
-          return;
+      case 0:
+        value = agent->get_behavior()->get(in->name);
+        break;
+      case 1:
+        value = agent->get_kinematics()->get(in->name);
+        break;
+      case 2:
+        value = agent->get_state_estimation()->get(in->name);
+        break;
+      case 3:
+        value = agent->get_task()->get(in->name);
+        break;
+      default:
+        return;
       }
       try {
         out->value = to_property_field_t(value);
@@ -790,7 +794,8 @@ class Plugin : public sim::Plugin {
   void add_obstacle(add_obstacle_in *in, add_obstacle_out *out) {
     simFloat ps[3];
     int r = simGetObjectPosition(in->handle, frame, ps);
-    if (r == -1) return;
+    if (r == -1)
+      return;
     get_world()->add_obstacle(
         nsim::Obstacle{core::Vector2{ps[0], ps[1]}, in->radius});
   }
@@ -798,6 +803,18 @@ class Plugin : public sim::Plugin {
   void add_wall(add_wall_in *in, add_wall_out *out) {
     get_world()->add_wall(nsim::Wall{core::Vector2{in->p1[0], in->p1[1]},
                                      core::Vector2{in->p2[0], in->p2[1]}});
+  }
+
+  void dump(dump_in *in, dump_out *out) {
+    auto agent = agent_with_handle(in->handle);
+    if (agent) {
+      out->yaml = YAML::dump(agent);
+      return;
+    }
+    auto behavior = behavior_with_handle(in->handle);
+    if (behavior) {
+      out->yaml = YAML::dump(behavior);
+    }
   }
 
   void add_agent_from_yaml(add_agent_from_yaml_in *in,
@@ -915,7 +932,7 @@ class Plugin : public sim::Plugin {
     }
   }
 
- private:
+private:
   std::map<int, std::unique_ptr<core::Controller3>> controllers;
   std::shared_ptr<nsim::World> world;
   std::unique_ptr<nsim::Experiment> experiment;
@@ -923,7 +940,7 @@ class Plugin : public sim::Plugin {
   // uid -> handle
   std::map<int, int> agent_handles;
   // handle -> agent
-  std::map<int, nsim::Agent*> agents;
+  std::map<int, nsim::Agent *> agents;
   // handle -> value
   std::map<int, bool> has_set_twist;
   int frame;

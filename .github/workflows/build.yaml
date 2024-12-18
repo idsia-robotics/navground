@@ -269,6 +269,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: install python runtime deps
         run: pip install numpy PyYaml tqdm cairosvg moviepy Jinja2 websockets jsonschema
+      - name: install ffmpeg (moviepy dep)
+        if: runner.os == 'macOS'
+        run: brew install ffmpeg
       - name: chmod
         if: runner.os != 'Windows'
         run: |

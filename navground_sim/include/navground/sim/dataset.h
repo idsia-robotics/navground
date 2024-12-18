@@ -280,7 +280,7 @@ public:
   }
 
   /**
-   * @brief      Writes a buffer with the content one dataset entry.
+   * @brief      Writes a buffer with the content of one dataset entry.
    *
    * @param      buffer  The buffer
    * @param[in]  index   The index of the entry

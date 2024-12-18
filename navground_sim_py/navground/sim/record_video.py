@@ -4,8 +4,9 @@ import os
 import random
 import sys
 from typing import TYPE_CHECKING, Any, Optional
-
+import pathlib
 from navground.core import command
+from navground.core.utils import chdir
 
 from . import (Agent, Experiment, ExperimentalRun, RecordedExperiment,
                RecordedExperimentalRun, load_experiment, load_plugins)
@@ -107,6 +108,12 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
                         help='The size of the grid',
                         default='0',
                         type=float)
+    parser.add_argument(
+        '--chdir',
+        help=(
+            "Whether to change working directory to the directory containing "
+            "the file. Useful when the config contains relative paths."),
+        action='store_true')
 
     # parser.add_argument('--display-deadlocks',
     #                     help='Color deadlocked agent in blue',
@@ -132,13 +139,19 @@ def _load_recorded_experiment(path: str) -> RecordedExperiment | None:
         return None
 
 
-def _load_experiment(value: str) -> Experiment | None:
+def _load_experiment(value: str,
+                     should_change_dir: bool = False) -> Experiment | None:
+    wd: pathlib.Path | None = None
     if os.path.exists(value) and os.path.isfile(value):
         with open(value) as f:
             yaml = f.read()
+        if should_change_dir:
+            wd = pathlib.Path(value).parent
     else:
         yaml = value
     try:
+        with chdir(wd):
+            return load_experiment(yaml)
         return load_experiment(yaml)
     except RuntimeError:
         return None
@@ -154,7 +167,7 @@ def _main(arg: argparse.Namespace,
     command._main(arg, load_plugins)
     logging.basicConfig(level=logging.INFO)
     experiment = _load_recorded_experiment(arg.input) or _load_experiment(
-        arg.input)
+        arg.input, arg.chdir)
     if not experiment:
         logging.error(f"Could not load the experiment from {arg.input}")
         sys.exit(1)

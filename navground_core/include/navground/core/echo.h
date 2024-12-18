@@ -2,6 +2,7 @@
 #define NAVGROUND_CORE_ECHO_H
 
 #include "navground/core/command.h"
+#include "navground/core/cwd.h"
 #include "navground/core/yaml/yaml.h"
 
 #include <iostream>
@@ -42,6 +43,11 @@ struct EchoCommand : Command<EchoCommand> {
     }
     parser.add_argument("YAML").help(
         "YAML string, or path to a YAML file, describing an experiment");
+    parser.add_argument("--chdir")
+        .help("Whether to change working directory to the directory containing "
+              "the file. Useful when the config contains relative paths")
+        .default_value(false)
+        .implicit_value(true);
   }
 
   int execute(const argparse::ArgumentParser &parser) {
@@ -53,12 +59,16 @@ struct EchoCommand : Command<EchoCommand> {
       std::exit(1);
     }
     const std::string yaml = parser.get<std::string>("YAML");
+    std::optional<std::filesystem::path> wd = std::nullopt;
     if (std::filesystem::exists(yaml)) {
       try {
         node = YAML::LoadFile(yaml);
       } catch (const YAML::ParserException &e) {
         std::cerr << "Could not load YAML file: " << e.what() << std::endl;
         std::exit(1);
+      }
+      if (parser.get<bool>("chdir")) {
+        wd = std::filesystem::path(yaml).parent_path();
       }
     } else {
       try {
@@ -69,6 +79,7 @@ struct EchoCommand : Command<EchoCommand> {
       }
     }
     try {
+      CurrentWorkingDirectory cwd(wd);
       if (!echos.at(kind)(node)) {
         std::cerr << "Failed to load " << kind << std::endl;
         std::exit(1);

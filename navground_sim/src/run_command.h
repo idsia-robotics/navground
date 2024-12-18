@@ -1,6 +1,7 @@
 #include <filesystem>
 
 #include "navground/core/command.h"
+#include "navground/core/cwd.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/experiment.h"
 #include "navground/sim/yaml/experiment.h"
@@ -20,12 +21,16 @@ struct RunCommand : Command<RunCommand> {
   int execute(const argparse::ArgumentParser &parser) {
     YAML::Node node;
     const std::string yaml = parser.get<std::string>("YAML");
+    std::optional<std::filesystem::path> wd = std::nullopt;
     if (std::filesystem::exists(yaml)) {
       try {
         node = YAML::LoadFile(yaml);
       } catch (const YAML::ParserException &e) {
         std::cerr << "[Error] " << e.what() << std::endl;
         std::exit(1);
+      }
+      if (parser.get<bool>("chdir")) {
+        wd = std::filesystem::path(yaml).parent_path();
       }
     } else {
       try {
@@ -36,6 +41,7 @@ struct RunCommand : Command<RunCommand> {
       }
     }
     Experiment experiment;
+    core::CurrentWorkingDirectory cwd(wd);
     try {
       experiment = node.as<Experiment>();
     } catch (const std::exception &e) {
@@ -50,6 +56,9 @@ struct RunCommand : Command<RunCommand> {
     }
     if (runs >= 0) {
       experiment.number_of_runs = runs;
+    }
+    if (auto save_dir = parser.present<std::string>("save_directory")) {
+      experiment.save_directory = *save_dir;
     }
     const int p = parser.get<int>("processes");
     const int j = parser.get<int>("threads");
@@ -76,8 +85,8 @@ struct RunCommand : Command<RunCommand> {
     }
 
     std::cout << "Experiment done" << std::endl;
-    std::cout << "Duration: " << experiment.get_duration().count() / 1e9
-              << " s" << std::endl;
+    std::cout << "Duration: " << experiment.get_duration().count() / 1e9 << " s"
+              << std::endl;
     if (experiment.has_file()) {
       std::cout << "Saved to: " << *(experiment.get_path()) << std::endl;
     }
@@ -108,6 +117,14 @@ struct RunCommand : Command<RunCommand> {
         .help("Number of processes [only supported by Python]")
         .default_value(1)
         .scan<'i', int>();
+    parser.add_argument("--save_directory")
+        .help("Where to save the experiment. If not specified, it reads the "
+              "value from the configuration");
+    parser.add_argument("--chdir")
+        .help("Whether to change working directory to the directory containing "
+              "the file. Useful when the config contains relative paths")
+        .default_value(false)
+        .implicit_value(true);
   }
 };
 

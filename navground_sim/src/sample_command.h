@@ -1,6 +1,7 @@
 #include <filesystem>
 
 #include "navground/core/command.h"
+#include "navground/core/cwd.h"
 #include "navground/core/yaml/yaml.h"
 #include "navground/sim/experiment.h"
 #include "navground/sim/yaml/experiment.h"
@@ -19,12 +20,16 @@ public:
     YAML::Node node;
     const std::string yaml = parser.get<std::string>("YAML");
     const int seed = parser.get<int>("seed");
+    std::optional<std::filesystem::path> wd = std::nullopt;
     if (std::filesystem::exists(yaml)) {
       try {
         node = YAML::LoadFile(yaml);
       } catch (const YAML::ParserException &e) {
         std::cerr << "[Error] " << e.what() << std::endl;
         std::exit(1);
+      }
+      if (parser.get<bool>("chdir")) {
+        wd = std::filesystem::path(yaml).parent_path();
       }
     } else {
       try {
@@ -34,6 +39,7 @@ public:
         std::exit(1);
       }
     }
+    core::CurrentWorkingDirectory cwd(wd);
     std::shared_ptr<navground::sim::Scenario> scenario;
     try {
       scenario = YAML::load_node<navground::sim::Scenario>(node);
@@ -70,6 +76,11 @@ public:
         .help("Seed")
         .default_value(0)
         .scan<'i', int>();
+    parser.add_argument("--chdir")
+        .help("Whether to change working directory to the directory containing "
+              "the file. Useful when the config contains relative paths.")
+        .default_value(false)
+        .implicit_value(true);
   }
 };
 

@@ -2,11 +2,13 @@ import argparse
 import logging
 import pathlib
 import sys
-from typing import Any
 from collections.abc import Callable
+from typing import Any
 
 from navground import core
 from navground.core import command
+
+from .utils import chdir
 
 Echos = dict[str, Callable[[str], Any]]
 echos: Echos = {
@@ -20,7 +22,8 @@ def description() -> str:
     return "Load an object from YAML and print its YAML representation."
 
 
-def init_parser_with_echos(parser: argparse.ArgumentParser, echos: Echos) -> None:
+def init_parser_with_echos(parser: argparse.ArgumentParser,
+                           echos: Echos) -> None:
     command.init_parser(parser)
     kinds = ", ".join(echos.keys())
     parser.add_argument("kind",
@@ -30,6 +33,12 @@ def init_parser_with_echos(parser: argparse.ArgumentParser, echos: Echos) -> Non
         "YAML",
         type=str,
         help="YAML string, or path to a YAML file, describing an experiment")
+    parser.add_argument(
+        '--chdir',
+        help=(
+            "Whether to change working directory to the directory containing "
+            "the file. Useful when the config contains relative paths."),
+        action='store_true')
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
@@ -49,21 +58,24 @@ def echo(arg: argparse.Namespace,
         logging.error(f"Unknown kind of object to load: {arg.kind}")
         sys.exit(1)
     yaml = arg.YAML
+    wd: pathlib.Path | None = None
     try:
         path = pathlib.Path(yaml)
         if path.exists():
             with open(path) as f:
                 yaml = f.read()
+            if arg.chdir:
+                wd = path.parent
     except Exception as e:
         logging.error(f"Failed to load file: {e}")
         sys.exit(1)
-
-    obj = echos[arg.kind](yaml)
-    if obj:
-        print(dump(obj))
-    else:
-        logging.error(f"Failed to load {arg.kind}")
-        sys.exit(1)
+    with chdir(wd):
+        obj = echos[arg.kind](yaml)
+        if obj:
+            print(dump(obj))
+        else:
+            logging.error(f"Failed to load {arg.kind}")
+            sys.exit(1)
 
 
 def _main(arg: argparse.Namespace) -> None:

@@ -81,40 +81,40 @@ jobs:
           - ubuntu-latest
           - windows-latest
           - macos-latest
-      runs-on: ${{ matrix.os }}
-      steps:
-        - name: download install
-          uses: actions/download-artifact@v4
-          with:
-            name: install-${{ matrix.os }}
-            path: install
-        - name: test info
-          run: |
-            source install/setup.bash
-            navground info --build --properties
-        - name: test plugins
-          run: |
-            source install/setup.bash
-            navground plugins --dependencies
-        - name: test schema
-          run: |
-            source install/setup.bash
-            navground schema sim
-        - name: test echo
-          run: |
-            source install/setup.bash
-            navground echo behavior "{type: Dummy}"
-        - name: test sample
-          run: |
-            source install/setup.bash
-            navground sample "{type: Cross, groups: [{number: 10, behavior: {type: Dummy}}]}"
-        - name: test run
-          run: |
-            source install/setup.bash
-            navground run install/share/navground_examples_yaml/experiment/cross.yaml
-            navground run install/share/navground_examples_yaml/experiment/corridor.yaml --save_directory "."
-            navground run install/share/navground_examples_yaml/experiment/cross_torus.yaml --runs 2 --run_index 1001 --chdir
-            navground run install/share/navground_examples_yaml/experiment/antipodal.yaml --threads 2 --runs 10 --tqdm
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: download install
+        uses: actions/download-artifact@v4
+        with:
+          name: install-${{ matrix.os }}
+          path: install
+      - name: test info
+        run: |
+          source install/setup.bash
+          navground info --build --properties
+      - name: test plugins
+        run: |
+          source install/setup.bash
+          navground plugins --dependencies
+      - name: test schema
+        run: |
+          source install/setup.bash
+          navground schema sim
+      - name: test echo
+        run: |
+          source install/setup.bash
+          navground echo behavior "{type: Dummy}"
+      - name: test sample
+        run: |
+          source install/setup.bash
+          navground sample "{type: Cross, groups: [{number: 10, behavior: {type: Dummy}}]}"
+      - name: test run
+        run: |
+          source install/setup.bash
+          navground run install/share/navground_examples_yaml/experiment/cross.yaml
+          navground run install/share/navground_examples_yaml/experiment/corridor.yaml --save_directory "."
+          navground run install/share/navground_examples_yaml/experiment/cross_torus.yaml --runs 2 --run_index 1001 --chdir
+          navground run install/share/navground_examples_yaml/experiment/antipodal.yaml --threads 2 --runs 10 --tqdm
   build_py:
     needs: test_cpp
     name: Build Python 📦

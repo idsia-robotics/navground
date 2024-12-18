@@ -272,9 +272,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: install python runtime deps
         run: pip install numpy PyYaml tqdm cairosvg moviepy Jinja2 websockets jsonschema
-      # - name: install moviepy deps (mac)
-      #   if: runner.os == 'macOS'
-      #   run: brew install ffmpeg cairo
       - name: chmod
         if: runner.os != 'Windows'
         run: |
@@ -367,16 +364,44 @@ jobs:
           navground_py run install/share/navground_examples_yaml/experiment/corridor.yaml    --save_directory "."
           navground_py run install/share/navground_examples_yaml/experiment/cross_torus.yaml --runs 2 --run_index 1001 --chdir
           navground_py run install/share/navground_examples_yaml/experiment/antipodal.yaml   --processes 2 --runs 10 --tqdm
-      - name: test video
-        # running only on linux for now because I need to figure out how to install and discover cairo 
+      - name: test video (mac)
+        if: runner.os == 'macOS'
+        run: |
+          brew install -y ffmpeg cairo
+          export DYLD_FALLBACK_LIBRARY_PATH=$DYLD_FALLBACK_LIBRARY_PATH/opt/homebrew/lib:$PATH
+          source install/setup.bash
+          navground_py record_video install/share/navground_examples_yaml/experiment/cross.yaml video.mp4 --factor 25 --seed 1
+      - name: test video (linux)
         if: runner.os == 'Linux'
         run: |
           source install/setup.bash
-          navground_py record_video install/share/navground_examples_yaml/experiment/cross.yaml /tmp/video.mp4 --factor 100
+          navground_py record_video install/share/navground_examples_yaml/experiment/cross.yaml video.mp4 --factor 25 --seed 1
+      - name: install cairo (win)
+        if: runner.os == 'Windows'
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: preshing/cairo-windows
+          tag: with-tee
+          fileName: cairo-windows-1.17.2.zip
+          extract: true
+      - name: test video (win)
+        if: runner.os == 'Windows'
+        run: |
+          Copy-Item "cairo-windows-1.17.2\lib\x64\cairo.dll" -Destination "libcairo-2.dll"
+          choco install -y ffmpeg
+          install\setup.ps1
+          navground_py record_video install/share/navground_examples_yaml/experiment/cross.yaml video.mp4 --factor 25 --seed 1
+      - name: upload video
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-${{ matrix.os }}-py${{matrix.python-version}}
+          path: video.mp4
+          if-no-files-found: error
 
   publish-to-testpypi:
     needs: test_py
     name: Publish wheels to TestPyPI
+    if: startsWith(github.ref, 'refs/tags/')  # temporary: only publish to TestPyPI on tag pushes, else the wheel is rejected
     runs-on: ubuntu-latest
     environment:
       name: testpypi

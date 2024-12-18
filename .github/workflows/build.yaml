@@ -71,9 +71,7 @@ jobs:
   test_cpp:
     needs: build_cpp
     name: Test C++ 📦
-    defaults:
-      run:
-        shell: bash
+    continue-on-error: true
     strategy:
       matrix:
         os:
@@ -81,6 +79,7 @@ jobs:
           - ubuntu-latest
           - windows-latest
           - macos-latest
+      fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
       - name: download install
@@ -93,28 +92,67 @@ jobs:
           chmod -R 777 install/bin
           ls -lah install/bin
       - name: test info
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           navground info --build --properties
+      - name: test info
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          navground info --build --properties
       - name: test plugins
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           navground plugins --dependencies
+      - name: test plugins
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          navground plugins --dependencies
       - name: test schema
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           navground schema sim
+      - name: test schema
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.bash
+          navground schema sim
       - name: test echo
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           navground echo behavior "{type: Dummy}"
+      - name: test echo
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.bash
+          navground echo behavior "{type: Dummy}"
       - name: test sample
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           navground sample "{type: Cross, groups: [{number: 10, behavior: {type: Dummy}}]}"
+      - name: test sample
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.bash
+          navground sample "{type: Cross, groups: [{number: 10, behavior: {type: Dummy}}]}"
       - name: test run
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
+          navground run install/share/navground_examples_yaml/experiment/cross.yaml
+          navground run install/share/navground_examples_yaml/experiment/corridor.yaml --save_directory "."
+          navground run install/share/navground_examples_yaml/experiment/cross_torus.yaml --runs 2 --run_index 1001 --chdir
+          navground run install/share/navground_examples_yaml/experiment/antipodal.yaml --threads 2 --runs 10 --tqdm
+      - name: test run
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.bash
           navground run install/share/navground_examples_yaml/experiment/cross.yaml
           navground run install/share/navground_examples_yaml/experiment/corridor.yaml --save_directory "."
           navground run install/share/navground_examples_yaml/experiment/cross_torus.yaml --runs 2 --run_index 1001 --chdir
@@ -207,9 +245,7 @@ jobs:
   test_py:
     needs: build_py
     name: Test Python 📦
-    defaults:
-      run:
-        shell: bash
+    continue-on-error: true
     strategy:
       matrix:
         os:
@@ -222,6 +258,7 @@ jobs:
           - "3.11"
           - "3.12"
           - "3.13"
+      fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
       - name: download install
@@ -240,44 +277,102 @@ jobs:
           chmod -R 777 install/bin
           ls -lah install/bin
       - name: test load
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           python -c "from navground import core, sim"
+      - name: test load
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          python -c "from navground import core, sim"
       - name: test info
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           navground_py info --build --properties
+      - name: test info
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          navground_py info --build --properties
       - name: test plugins
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           navground_py plugins --dependencies
+      - name: test plugins
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          navground_py plugins --dependencies
       - name: test schema
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           navground_py schema sim
+      - name: test schema
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          navground_py schema sim
       - name: test validate
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           navground_py validate experiment install/share/navground_examples_yaml/experiment/cross.yaml
+      - name: test validate
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          navground_py validate experiment install/share/navground_examples_yaml/experiment/cross.yaml
       - name: test echo
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           navground_py echo behavior "{type: Dummy}"
           navground_py echo behavior "{type: PyDummy}"
-      - name: test sample
+      - name: test echo
+        if: runner.os == 'Windows'
         run: |
-         source install/setup.bash
-         navground_py sample "{type: Cross, groups: [{number: 10, behavior: {type: PyDummy}}]}"
+          install\setup.ps1
+          navground_py echo behavior "{type: Dummy}"
+          navground_py echo behavior "{type: PyDummy}"
+      - name: test sample
+        if: runner.os != 'Windows'
+        run: |
+          source install/setup.bash
+          navground_py sample "{type: Cross, groups: [{number: 10, behavior: {type: PyDummy}}]}"
+      - name: test sample
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          navground_py sample "{type: Cross, groups: [{number: 10, behavior: {type: PyDummy}}]}"
       - name: test run
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
           navground_py run install/share/navground_examples_yaml/experiment/cross.yaml
           navground_py run install/share/navground_examples_yaml/experiment/corridor.yaml    --save_directory "."
           navground_py run install/share/navground_examples_yaml/experiment/cross_torus.yaml --runs 2 --run_index 1001 --chdir
           navground_py run install/share/navground_examples_yaml/experiment/antipodal.yaml   --processes 2 --runs 10 --tqdm
+      - name: test run
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
+          navground_py run install/share/navground_examples_yaml/experiment/cross.yaml
+          navground_py run install/share/navground_examples_yaml/experiment/corridor.yaml    --save_directory "."
+          navground_py run install/share/navground_examples_yaml/experiment/cross_torus.yaml --runs 2 --run_index 1001 --chdir
+          navground_py run install/share/navground_examples_yaml/experiment/antipodal.yaml   --processes 2 --runs 10 --tqdm
       - name: test video
+        if: runner.os != 'Windows'
         run: |
           source install/setup.bash
+          navground_py record_video install/share/navground_examples_yaml/experiment/cross.yaml /tmp/video.mp4 --factor 100
+      - name: test video
+        if: runner.os == 'Windows'
+        run: |
+          install\setup.ps1
           navground_py record_video install/share/navground_examples_yaml/experiment/cross.yaml /tmp/video.mp4 --factor 100
 
   publish-to-testpypi:

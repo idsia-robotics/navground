@@ -333,6 +333,21 @@ public:
   }
 
   /**
+   * @brief      Gets the data stored in the buffer
+   *
+   * @tparam     T     The desired type
+   *
+   * @return     The data pointer or null if the type is different.
+   */
+  template <typename T> const T *get_typed_ptr() const {
+    const auto vs = std::get_if<std::valarray<T>>(&data);
+    if (vs) {
+      return &((*vs)[0]);
+    }
+    return nullptr;
+  }
+
+  /**
    * @brief      Gets the data container.
    *
    * @return     The data container.

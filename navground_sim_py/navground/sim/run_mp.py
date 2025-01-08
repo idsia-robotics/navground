@@ -9,9 +9,9 @@ except ImportError:
 
 import pathlib
 import warnings
-from queue import Empty
-from typing import (TYPE_CHECKING, Any, Optional)
 from collections.abc import Callable, Iterable
+from queue import Empty
+from typing import TYPE_CHECKING, Any, Optional
 
 import numpy as np
 from navground import sim
@@ -107,12 +107,6 @@ def run_mp(experiment: sim.Experiment,
             stacklevel=1)
     experiment.start()
 
-    if callback or bar is not None:
-        m = mp.Manager()
-        queue = m.Queue()
-    else:
-        queue = None
-
     if number_of_runs is not None:
         experiment.number_of_runs = number_of_runs
     if start_index is not None:
@@ -135,40 +129,43 @@ def run_mp(experiment: sim.Experiment,
         ]
     scenario_init_callbacks = itertools.repeat(scenario_init_callback)
     experiments = itertools.repeat(experiment, number_of_processes)
-    queues = itertools.repeat(queue, number_of_processes)
     keeps = itertools.repeat(keep, number_of_processes)
-    partial_experiments = list(
-        zip(keeps,
-            experiments,
-            start_indices,
-            chunks,
-            paths,
-            queues,
-            scenario_init_callbacks,
-            strict=False))
-
     if load_plugins:
         init = sim.load_plugins
     else:
         init = None
-
-    with mp.Pool(number_of_processes, init) as p:
-        r = p.starmap_async(_load_and_run_experiment, partial_experiments)
-        if queue is not None:
-            while not r.ready():
-                try:
-                    i = queue.get(timeout=1)
-                    if callback:
-                        callback(i)
-                    if bar is not None:
-                        bar.update(1)
-                except Empty:
-                    pass
+    with mp.Manager() as m:
+        if callback or bar is not None:
+            queue = m.Queue()
         else:
-            r.wait()
-    for runs in r.get():
-        for i, run in runs.items():
-            experiment.add_run(i, run)
+            queue = None
+        queues = itertools.repeat(queue, number_of_processes)
+        partial_experiments = list(
+            zip(keeps,
+                experiments,
+                start_indices,
+                chunks,
+                paths,
+                queues,
+                scenario_init_callbacks,
+                strict=False))
+        with mp.Pool(number_of_processes, init) as p:
+            r = p.starmap_async(_load_and_run_experiment, partial_experiments)
+            if queue is not None:
+                while not r.ready():
+                    try:
+                        i = queue.get(timeout=1)
+                        if callback:
+                            callback(i)
+                        if bar is not None:
+                            bar.update(1)
+                    except Empty:
+                        pass
+            else:
+                r.wait()
+        for runs in r.get():
+            for i, run in runs.items():
+                experiment.add_run(i, run)
     path = experiment.path
     save_runs = keep and path is not None
     experiment.stop(save_runs=save_runs)

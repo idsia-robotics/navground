@@ -483,6 +483,7 @@ struct PyExperiment : public Experiment {
   std::vector<py::object> _py_probe_factories;
   std::map<std::string, py::object> _py_record_probe_factories;
   std::map<std::string, py::object> _py_group_record_probe_factories;
+  std::map<bool, std::vector<py::object>> _py_run_callbacks;
 
   std::shared_ptr<World> make_world() override {
     auto world = std::make_shared<PyWorld>();
@@ -495,6 +496,11 @@ struct PyExperiment : public Experiment {
   void set_scenario(const py::object &value) {
     py_scenario = value;
     scenario = value.cast<std::shared_ptr<Scenario>>();
+  }
+
+  void add_run_callback_py(const py::object &value, bool at_init = false) {
+    _py_run_callbacks[at_init].push_back(value);
+    add_run_callback(value.cast<RunCallback>(), at_init);
   }
 
   /**
@@ -1765,30 +1771,23 @@ The random generator.
   py::class_<RecordConfig>(m, "RecordConfig", DOC(navground, sim, RecordConfig))
       .def(py::init(
                [](bool time, bool pose, bool twist, bool cmd, bool actuated_cmd,
-                  bool target, bool safety_violation, bool collisions,
+                  bool target, bool collisions, bool safety_violation,
                   bool task_events, bool deadlocks, bool efficacy, bool world,
                   RecordNeighborsConfig neighbors, bool use_agent_uid_as_key,
                   std::vector<RecordSensingConfig> sensing) {
-                 return new RecordConfig{time,
-                                         pose,
-                                         twist,
-                                         cmd,
-                                         actuated_cmd,
-                                         target,
-                                         safety_violation,
-                                         collisions,
-                                         task_events,
-                                         deadlocks,
-                                         efficacy,
-                                         world,
-                                         neighbors,
-                                         use_agent_uid_as_key,
+                 return new RecordConfig{time,         pose,
+                                         twist,        cmd,
+                                         actuated_cmd, target,
+                                         collisions,   safety_violation,
+                                         task_events,  deadlocks,
+                                         efficacy,     world,
+                                         neighbors,    use_agent_uid_as_key,
                                          sensing};
                }),
            py::arg("time") = false, py::arg("pose") = false,
            py::arg("twist") = false, py::arg("cmd") = false,
            py::arg("actuated_cmd") = false, py::arg("target") = false,
-           py::arg("safety_violation") = false, py::arg("collisions") = false,
+           py::arg("collisions") = false, py::arg("safety_violation") = false,
            py::arg("task_events") = false, py::arg("deadlocks") = false,
            py::arg("efficacy") = false, py::arg("world") = false,
            py::arg("neighbors") = RecordNeighborsConfig{false, 0, false},
@@ -1843,10 +1842,10 @@ The random generator.
              r += py::str(", actuated_cmd=") +
                   py::str(py::cast(value.actuated_cmd));
              r += py::str(", target=") + py::str(py::cast(value.target));
-             r += py::str(", safety_violation=") +
-                  py::str(py::cast(value.safety_violation));
              r +=
                  py::str(", collisions=") + py::str(py::cast(value.collisions));
+             r += py::str(", safety_violation=") +
+                  py::str(py::cast(value.safety_violation));
              r += py::str(", task_events=") +
                   py::str(py::cast(value.task_events));
              r += py::str(", deadlocks=") + py::str(py::cast(value.deadlocks));
@@ -1862,7 +1861,7 @@ The random generator.
           [](const RecordConfig &value) {
             return py::make_tuple(value.time, value.pose, value.twist,
                                   value.cmd, value.actuated_cmd, value.target,
-                                  value.safety_violation, value.collisions,
+                                  value.collisions, value.safety_violation,
                                   value.task_events, value.deadlocks,
                                   value.efficacy, value.world, value.neighbors,
                                   value.use_agent_uid_as_key, value.sensing);
@@ -2762,10 +2761,13 @@ The array is empty if efficacy has not been recorded in the run.
                     DOC(navground, sim, Experiment, property_run_callbacks))
       .def("clear_run_callbacks", &Experiment::clear_run_callbacks,
            DOC(navground, sim, Experiment, clear_run_callbacks))
-      .def("add_run_callback", &Experiment::add_run_callback,
+      .def("add_run_callback", &PyExperiment::add_run_callback_py,
            py::arg("callback"), py::arg("at_init") = false,
-           py::keep_alive<1, 2>(),
            DOC(navground, sim, Experiment, add_run_callback))
+      // .def("add_run_callback", &Experiment::add_run_callback,
+      //      py::arg("callback"), py::arg("at_init") = false,
+      //      py::keep_alive<1, 2>(),
+      //      DOC(navground, sim, Experiment, add_run_callback))
       .def("run_once", &Experiment::run_once, py::arg("seed"),
            py::return_value_policy::reference,
            DOC(navground, sim, Experiment, run_once))
@@ -2836,15 +2838,15 @@ Register a probe to record a group of data to during all runs.
   experiment.def(py::pickle(
       [](const PyExperiment &exp) {
         // __getstate__
-        return py::make_tuple(exp.record_config, exp.run_config,
-                              exp.number_of_runs, exp.save_directory, exp.name,
-                              exp.scenario, exp.run_index, exp.reset_uids,
-                              exp._py_probe_factories,
-                              exp._py_record_probe_factories,
-                              exp._py_group_record_probe_factories);
+        return py::make_tuple(
+            exp.record_config, exp.run_config, exp.number_of_runs,
+            exp.save_directory, exp.name, exp.scenario, exp.run_index,
+            exp.reset_uids, exp._py_probe_factories,
+            exp._py_record_probe_factories,
+            exp._py_group_record_probe_factories, exp._py_run_callbacks);
       },
       [](py::tuple t) { // __setstate__
-        if (t.size() != 11) {
+        if (t.size() != 12) {
           throw std::runtime_error("Invalid state!");
         }
         PyExperiment exp;
@@ -2861,6 +2863,12 @@ Register a probe to record a group of data to during all runs.
             py::cast<std::map<std::string, py::object>>(t[9]);
         exp._py_group_record_probe_factories =
             py::cast<std::map<std::string, py::object>>(t[10]);
+        for (const auto &[k, vs] :
+             py::cast<std::map<bool, std::vector<py::object>>>(t[11])) {
+          for (const auto &v : vs) {
+            exp.add_run_callback_py(v, k);
+          }
+        }
         return exp;
       }));
 

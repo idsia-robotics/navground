@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.3.4] 2025-01-09
+
+This patch release adds a few arguments to Navground CLI and fixes some issues when running an experiment over multiple processes.
+
+### Added
+
+- In `run`, added optional argument `--save_directory` that overrides the experiment config.
+- In `run`, `sample`, `echo`, and `record_video`, added optional argument `--chdir` that changes the working directory to the parent of the file that is being loaded. This enable to specified file paths in the file fields that are relative to the path. 
+- lua function `simNavground.dump`
+- Added run callbacks to `Experiment` pickling.
+- Added `Buffer::get_typed_ptr`
+
+### Fixed
+
+- `Experiment.run_mp` now load the plugins in every process, not just the main one.
+- `Experiment.run_mp` now works with `multiprocess` when we need a queue.
+- Kinematics default values in `navground_coppeliasim`
+- Corrected order of `collisions` and `safety_violation` in Python `RecordConfig` constructor (and pickle).
+
+### Changed
+
+- `World::update` now first updates the state of all agents and then the control of all the agents. This simplifies using coupled/centralized behaviors because, at the time of the first agent behavior update, the state of all the other behaviors is already up-to-date.
+
 ## [0.3.3] 2024-16-12
 
 This patch release adds more support for Python `Scenario` initializers and fixes few bugs.

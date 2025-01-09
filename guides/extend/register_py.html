@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How to integrate a Python component &#8212; navground 0.3.3 documentation</title>
+    <title>How to integrate a Python component &#8212; navground 0.3.4 documentation</title>
   
   
   
@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,23 +27,23 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../_static/documentation_options.js?v=94d292f4"></script>
+    <script src="../../_static/documentation_options.js?v=01c71025"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.3 documentation</p>
+    <p class="title logo__title">navground 0.3.4 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -348,9 +348,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -506,10 +511,10 @@
   <section id="how-to-integrate-a-python-component">
 <h1>How to integrate a Python component<a class="headerlink" href="#how-to-integrate-a-python-component" title="Link to this heading">#</a></h1>
 <p>You have developed a new navground component in Python (i.e., one of <a class="reference internal" href="../../reference/core/python/behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><code class="xref py py-class docutils literal notranslate"><span class="pre">navground.core.Behavior</span></code></a>, <a class="reference internal" href="../../reference/core/python/behavior_modulations/behavior_modulation.html#navground.core.BehaviorModulation" title="navground.core.BehaviorModulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">navground.core.BehaviorModulation</span></code></a>, <a class="reference internal" href="../../reference/core/python/kinematics/kinematics.html#navground.core.Kinematics" title="navground.core.Kinematics"><code class="xref py py-class docutils literal notranslate"><span class="pre">navground.core.Kinematics</span></code></a>, <a class="reference internal" href="../../reference/sim/python/scenarios/scenario.html#navground.sim.Scenario" title="navground.sim.Scenario"><code class="xref py py-class docutils literal notranslate"><span class="pre">navground.sim.Scenario</span></code></a>, <a class="reference internal" href="../../reference/sim/python/state_estimations/state_estimation.html#navground.sim.StateEstimation" title="navground.sim.StateEstimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">navground.sim.StateEstimation</span></code></a>, or <a class="reference internal" href="../../reference/sim/python/tasks/task.html#navground.sim.Task" title="navground.sim.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">navground.sim.Task</span></code></a>).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">core</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 
 
-<span class="k">class</span> <span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
    <span class="o">...</span>
 </pre></div>
 </div>
@@ -566,7 +571,7 @@ in the navground API and CLI, and you will simplify its usage by others.</p>
 <section id="register-the-type">
 <span id="py-register-type"></span><h2>Register the type<a class="headerlink" href="#register-the-type" title="Link to this heading">#</a></h2>
 <p>Register your component to the base class register by adding <code class="code highlight py cpp docutils literal highlight-cpp"><span class="n">name</span><span class="o">=</span><span class="s">&quot;MyName&quot;</span></code> to the class definition, to be able to instantiate it by name</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
    <span class="o">...</span>
 </pre></div>
 </div>
@@ -594,27 +599,27 @@ in the navground API and CLI, and you will simplify its usage by others.</p>
 <p>Add a Python property for any parameter you want to expose.
 Below <a class="reference external" href="https://docs.python.org/3/library/functions.html#property" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">property</span></code></a>, add the <a class="reference internal" href="../../reference/core/python/register.html#navground.core.register" title="navground.core.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">navground.core.register()</span></code></a> decorator
 with the default value and an optional description</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
 
    <span class="nd">@property</span>
    <span class="nd">@core</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;my description&quot;</span><span class="p">)</span>
-   <span class="k">def</span> <span class="nf">my_param</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+   <span class="k">def</span><span class="w"> </span><span class="nf">my_param</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
       <span class="k">return</span> <span class="kc">True</span>
 </pre></div>
 </div>
 <p>In the trivial example above, the property returns a constant value and has no setter. In general, properties will be get/set attributes of the class, like</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">):</span>
 
-   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+   <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="kc">True</span>
 
    <span class="nd">@property</span>
    <span class="nd">@core</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;my description&quot;</span><span class="p">)</span>
-   <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+   <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
 
    <span class="nd">@value</span><span class="o">.</span><span class="n">setter</span>
-   <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+   <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
 </pre></div>
 </div>
@@ -642,7 +647,7 @@ with the default value and an optional description</p>
 <h3>Property Schema<a class="headerlink" href="#property-schema" title="Link to this heading">#</a></h3>
 <p>Pass an optional argument of type <code class="code highlight py cpp docutils literal highlight-cpp"><span class="n">typing</span><span class="p">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">dict</span><span class="p">[</span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">typing</span><span class="p">.</span><span class="n">Any</span><span class="p">]],</span><span class="w"> </span><span class="n">None</span><span class="p">]</span></code> when registering a property to add validation constrains. For example, to mark an integer property as strictly positive, add</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@core</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;my description&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">strict_positive</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span> <span class="o">...</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span> <span class="o">...</span>
 </pre></div>
 </div>
 </section>
@@ -650,13 +655,13 @@ with the default value and an optional description</p>
 <section id="yaml">
 <span id="py-yaml"></span><h2>YAML<a class="headerlink" href="#yaml" title="Link to this heading">#</a></h2>
 <p>In case the conversion from/to YAML provided by navground is not sufficient, specialize the methods <code class="docutils literal notranslate"><span class="pre">encode</span></code> and <code class="docutils literal notranslate"><span class="pre">decode</span></code>. There is no need to call the base implementation as it is empty.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
 
    <span class="c1"># ... properties</span>
 
-   <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+   <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
       <span class="o">...</span>
-   <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yaml</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+   <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yaml</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
       <span class="o">...</span>
 </pre></div>
 </div>
@@ -667,15 +672,15 @@ with the default value and an optional description</p>
 </pre></div>
 </div>
 <p>if you implement the custom logic in the decoder and the encoder, for example, like</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">node</span><span class="p">[</span><span class="s1">&#39;my_complex_param&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">my_int_a</span><span class="p">,</span>
             <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">my_bool_b</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="s1">&#39;my_complex_param&#39;</span> <span class="ow">in</span> <span class="n">node</span><span class="p">:</span>
             <span class="n">param</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;my_complex_param&#39;</span><span class="p">]</span>
             <span class="k">if</span> <span class="s1">&#39;a&#39;</span> <span class="ow">in</span> <span class="n">param</span><span class="p">:</span>
@@ -708,10 +713,10 @@ the treatment as random variable for free.</p>
 <h3>Class Schema<a class="headerlink" href="#class-schema" title="Link to this heading">#</a></h3>
 <p>If your class defines a custom YAML representation, it should also register the related JSON-schema, as a function of type <code class="code highlight py cpp docutils literal highlight-cpp"><span class="n">typing</span><span class="p">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">dict</span><span class="p">[</span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">typing</span><span class="p">.</span><span class="n">Any</span><span class="p">]],</span><span class="w"> </span><span class="n">None</span><span class="p">]</span></code> that modify the default schema of the class.</p>
 <p>In the example above, we add the appropriate schema</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
 
     <span class="nd">@core</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">register</span>
-    <span class="k">def</span> <span class="nf">schema</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">schema</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">my_complex_param</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span>
             <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span>
@@ -734,15 +739,15 @@ the treatment as random variable for free.</p>
 <section id="class-skelethon">
 <h2>Class skelethon<a class="headerlink" href="#class-skelethon" title="Link to this heading">#</a></h2>
 <p>Using the appropriate macro, the class skeleton simplifies to</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
 
    <span class="nd">@property</span>
    <span class="nd">@core</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">default_value</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span> <span class="c1"># add optional property schema</span>
-   <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">:</span>
+   <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">:</span>
        <span class="k">return</span> <span class="o">...</span>
 
    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
-   <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+   <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
        <span class="o">...</span>
 
    <span class="c1"># def encode(self) -&gt; str: ...</span>
@@ -771,7 +776,7 @@ the treatment as random variable for free.</p>
 <code class="docutils literal notranslate"><span class="pre">navground_state_estimations</span></code>, and <code class="docutils literal notranslate"><span class="pre">navground_scenarios</span></code> .</p>
 </div>
 <p>Once installed, the behavior will be automatically discovered when calling <a class="reference internal" href="../../reference/core/python/plugins.html#navground.core.load_plugins" title="navground.core.load_plugins"><code class="xref py py-func docutils literal notranslate"><span class="pre">navground.core.load_plugins()</span></code></a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">core</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">core</span><span class="o">.</span><span class="n">load_plugins</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Behavior</span><span class="o">.</span><span class="n">types</span><span class="p">)</span>
 
@@ -898,8 +903,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

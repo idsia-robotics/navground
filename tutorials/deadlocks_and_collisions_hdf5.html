@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deadlocks and Collisions &#8212; navground 0.3.3 documentation</title>
+    <title>Deadlocks and Collisions &#8212; navground 0.3.4 documentation</title>
   
   
   
@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,24 +27,24 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=94d292f4"></script>
+    <script src="../_static/documentation_options.js?v=01c71025"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -136,7 +136,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.3 documentation</p>
+    <p class="title logo__title">navground 0.3.4 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -351,9 +351,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -520,9 +525,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground.sim.ui.web_ui</span> <span class="kn">import</span> <span class="n">WebUI</span>
-<span class="kn">from</span> <span class="nn">navground.sim.notebook</span> <span class="kn">import</span> <span class="n">notebook_view</span>
-<span class="kn">from</span> <span class="nn">navground.sim.real_time</span> <span class="kn">import</span> <span class="n">RealTimeSimulation</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground.sim.ui.web_ui</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebUI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">navground.sim.notebook</span><span class="w"> </span><span class="kn">import</span> <span class="n">notebook_view</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">navground.sim.real_time</span><span class="w"> </span><span class="kn">import</span> <span class="n">RealTimeSimulation</span>
 
 <span class="n">web_ui</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">max_rate</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
                <span class="n">display_collisions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">display_deadlocks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -538,7 +543,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim</span>
 
 <span class="n">yaml</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">type: Cross</span>
@@ -1188,7 +1193,7 @@ svg {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Video</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Video</span>
 
 <span class="n">Video</span><span class="p">(</span><span class="s2">&quot;collisions.mp4&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
@@ -1849,7 +1854,7 @@ svg {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Video</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Video</span>
 
 <span class="n">Video</span><span class="p">(</span><span class="s2">&quot;deadlocks.mp4&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
@@ -1869,7 +1874,7 @@ svg {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim</span>
 
 <span class="n">yaml</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">steps: 3000</span>
@@ -1921,7 +1926,7 @@ svg {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.notebook</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_experiment</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
 
@@ -1937,21 +1942,26 @@ svg {
 <div class="output_area docutils container">
 <script type="application/vnd.jupyter.widget-view+json">{"model_id": "5bcbd2cfdad447b897de792d2a7b1590", "version_major": 2, "version_minor": 0}</script></div>
 </div>
-<p>We import all relevant data into a pandas frame where we also define - “safe”: no collisions - “fluid”: no deadlocks - “ok”: when safe and fluid</p>
+<p>We import all relevant data into a pandas frame where we also define</p>
+<ul class="simple">
+<li><p>“safe”: no collisions</p></li>
+<li><p>“fluid”: no deadlocks</p></li>
+<li><p>“ok”: when safe and fluid</p></li>
+</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">h5py</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 
-<span class="k">def</span> <span class="nf">count_deadlocks</span><span class="p">(</span><span class="n">deadlock_time</span><span class="p">,</span> <span class="n">final_time</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">count_deadlocks</span><span class="p">(</span><span class="n">deadlock_time</span><span class="p">,</span> <span class="n">final_time</span><span class="p">):</span>
     <span class="n">is_deadlocked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">deadlock_time</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">deadlock_time</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">final_time</span> <span class="o">-</span> <span class="mf">5.0</span><span class="p">))</span>
     <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">is_deadlocked</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">extract_data</span><span class="p">(</span><span class="n">experiment</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_data</span><span class="p">(</span><span class="n">experiment</span><span class="p">):</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
     <span class="n">collisions</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">deadlocks</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2129,7 +2139,11 @@ svg {
 </table>
 </div></div>
 </div>
-<p>We plot the consequences of the safety margin on deadlocks and collisions. We see that - for low safety margins, there are collisions - for high safety margins, there are deadlocks</p>
+<p>We plot the consequences of the safety margin on deadlocks and collisions. We see that</p>
+<ul class="simple">
+<li><p>for low safety margins, there are collisions</p></li>
+<li><p>for high safety margins, there are deadlocks</p></li>
+</ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
@@ -2167,7 +2181,7 @@ svg {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim</span>
 
 <span class="n">yaml</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">steps: 3000</span>
@@ -2229,11 +2243,11 @@ svg {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">multiprocess</span> <span class="kn">import</span> <span class="n">Pool</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocess</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pool</span>
 
-<span class="k">def</span> <span class="nf">run_in_parallel</span><span class="p">(</span><span class="n">yaml</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">total_runs</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">processes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_in_parallel</span><span class="p">(</span><span class="n">yaml</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">total_runs</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">processes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">_run_experiment</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_run_experiment</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
         <span class="n">experiment</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_experiment</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
         <span class="n">experiment</span><span class="o">.</span><span class="n">number_of_runs</span> <span class="o">=</span> <span class="n">chunks</span>
         <span class="n">experiment</span><span class="o">.</span><span class="n">run_index</span> <span class="o">=</span> <span class="n">index</span>
@@ -2383,8 +2397,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

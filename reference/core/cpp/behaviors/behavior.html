@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Base class &#8212; navground 0.3.3 documentation</title>
+    <title>Base class &#8212; navground 0.3.4 documentation</title>
   
   
   
@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,23 +27,23 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=94d292f4"></script>
+    <script src="../../../../_static/documentation_options.js?v=01c71025"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -135,7 +135,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.3 documentation</p>
+    <p class="title logo__title">navground 0.3.4 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -350,9 +350,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -615,7 +620,7 @@
 <p>The following describes the typical usage of a behavior.</p>
 <p><em>At initialization</em></p>
 <p><ol class="loweralpha simple">
-<li><p>select the concrete behavior, the agent’s size (agents are shaped like discs), and <a class="reference internal" href="../kinematics/kinematics.html#classnavground_1_1core_1_1_kinematics"><span class="std std-ref">Kinematics</span></a>;</p></li>
+<li><p>select the concrete behavior, the agent’s size (agents are shaped like discs), and Kinematics;</p></li>
 <li><p>configure the generic parameters: <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a3c0fa646da7328e2df7f7ee17bff2e83"><span class="std std-ref">set_optimal_speed</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a5f5441ad181d013e2b824da6446b53eb"><span class="std std-ref">set_horizon</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a25bcf3c8b7aacd9ed10537efa1345aad"><span class="std std-ref">set_safety_margin</span></a> <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1ac22a48fce497063adc0a6a91b2b7c45d"><span class="std std-ref">set_rotation_tau</span></a>, and <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a3fb075642439fa21fa2384778d50d345"><span class="std std-ref">set_heading_behavior</span></a>;</p></li>
 <li><p>configure the specific parameters of the concrete behavior.</p></li>
 </ol>
@@ -951,7 +956,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior26get_assume_cmd_is_actuatedEv">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1a2ad42b0947769946035c30a0bb4da7b1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_assume_cmd_is_actuated</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior26get_assume_cmd_is_actuatedEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets whether to assume that the compute command will be actuated as it is. </p>
-<p>If set, <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a> will assume that the control command computed by <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1ac17512a662d714c9860ccf3220bb6e6b"><span class="std std-ref">compute_cmd</span></a> be actuated, therefore setting <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a76d49fd8e08578aec3ffd144b144e002"><span class="std std-ref">set_actuated_twist</span></a> to that value. If not set, the user should set <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a76d49fd8e08578aec3ffd144b144e002"><span class="std std-ref">Behavior::set_actuated_twist</span></a> before querying for a new control commands: some behavior use the old actuated control command to compute smoother controls.</p>
+<p>If set, Behavior will assume that the control command computed by <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1ac17512a662d714c9860ccf3220bb6e6b"><span class="std std-ref">compute_cmd</span></a> be actuated, therefore setting <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a76d49fd8e08578aec3ffd144b144e002"><span class="std std-ref">set_actuated_twist</span></a> to that value. If not set, the user should set <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a76d49fd8e08578aec3ffd144b144e002"><span class="std std-ref">Behavior::set_actuated_twist</span></a> before querying for a new control commands: some behavior use the old actuated control command to compute smoother controls.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True if it assumes that the command will be actuated as it is. </p>
@@ -1727,7 +1732,7 @@
 <li><p>else =&gt; calls <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a0137f027349360568dde15fd793d825f"><span class="std std-ref">cmd_twist_towards_stopping</span></a>.</p></li>
 </ol>
 </p>
-<p>To specialize a <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>, users may override this or any of the methods listed above. They may also override the following internal methods:</p>
+<p>To specialize a Behavior, users may override this or any of the methods listed above. They may also override the following internal methods:</p>
 <p><ul class="simple">
 <li><p><a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1ade5a9e48a459bedb2d8b355e9a6a0ec8"><span class="std std-ref">desired_velocity_towards_point</span></a></p></li>
 <li><p><a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a7c809abfdfdf9fe286efc8c8cd21cdd9"><span class="std std-ref">desired_velocity_towards_velocity</span></a></p></li>
@@ -1749,7 +1754,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Behavior20cmd_twist_along_pathER4Path10ng_float_t10ng_float_t">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1aa404aec736c98fda9466490f408d132c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cmd_twist_along_path</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../target.html#_CPPv4N9navground4core4PathE" title="navground::core::Path"><span class="n"><span class="pre">Path</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">speed</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior20cmd_twist_along_pathER4Path10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Compute a command to follow a path. </p>
-<p>Users may override it to specialize a <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>.</p>
+<p>Users may override it to specialize a Behavior.</p>
 <p>The base implementation uses a carrot planner to computes a target velocity, and then calls <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a9b974e268ecfaa586c85f6dc0421fd78"><span class="std std-ref">cmd_twist_towards_velocity</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1769,7 +1774,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Behavior22cmd_twist_towards_poseERK5Pose210ng_float_t7Radians10ng_float_t">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1a63271d9d85ce9996e440c72c59cfa0a4"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cmd_twist_towards_pose</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pose</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">speed</span></span>, <a class="reference internal" href="../common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">angular_speed</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior22cmd_twist_towards_poseERK5Pose210ng_float_t7Radians10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Computes a command to move towards a desired pose. </p>
-<p>Users may override it to specialize a <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>.</p>
+<p>Users may override it to specialize a Behavior.</p>
 <p>The base implementation ignores the orientation, calling call <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a4bc6589873de7ecabd041a2fb50fedc0"><span class="std std-ref">cmd_twist_towards_point</span></a>, to first reach the desired position and then rotate in place to reach the desired orientation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1790,7 +1795,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Behavior23cmd_twist_towards_pointERK7Vector210ng_float_t10ng_float_t">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1a4bc6589873de7ecabd041a2fb50fedc0"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cmd_twist_towards_point</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">speed</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior23cmd_twist_towards_pointERK7Vector210ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Computes a command to move towards a desired position. </p>
-<p>Users may override it to specialize a <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>.</p>
+<p>Users may override it to specialize a Behavior.</p>
 <p>The base implementation:</p>
 <p><ol class="lowerroman simple">
 <li><p>calls <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1ade5a9e48a459bedb2d8b355e9a6a0ec8"><span class="std std-ref">desired_velocity_towards_point</span></a> to compute a desired velocity</p></li>
@@ -1816,7 +1821,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Behavior26cmd_twist_towards_velocityERK7Vector210ng_float_t">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1a9b974e268ecfaa586c85f6dc0421fd78"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cmd_twist_towards_velocity</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">velocity</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior26cmd_twist_towards_velocityERK7Vector210ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Computes a command to turn towards a desired orientation. </p>
-<p>Users may override it to specialize a <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>.</p>
+<p>Users may override it to specialize a Behavior.</p>
 <p>The base implementation:</p>
 <p><ol class="lowerroman simple">
 <li><p>calls <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a7c809abfdfdf9fe286efc8c8cd21cdd9"><span class="std std-ref">desired_velocity_towards_velocity</span></a> to compute a desired velocity</p></li>
@@ -1841,7 +1846,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Behavior29cmd_twist_towards_orientationE7Radians10ng_float_t10ng_float_t">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1ad8fe73791fce87fea17849e01b7eeba2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cmd_twist_towards_orientation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">orientation</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">angular_speed</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior29cmd_twist_towards_orientationE7Radians10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Computes a command to turn towards a desired orientation. </p>
-<p>Users may override it to specialize a <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>.</p>
+<p>Users may override it to specialize a Behavior.</p>
 <p>The base implementation:</p>
 <p><ol class="lowerroman simple">
 <li><p>computes a desired angular speed to rotate in <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a08d57d42704c90e86d2d2bf485d9dae0"><span class="std std-ref">get_rotation_tau</span></a> time towards the desired orientation</p></li>
@@ -1866,7 +1871,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Behavior31cmd_twist_towards_angular_speedE10ng_float_t10ng_float_t">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1ac377734950ed98dfe113ca90aff3e7ec"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cmd_twist_towards_angular_speed</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">angular_speed</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior31cmd_twist_towards_angular_speedE10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Computes a command to turn at a desired angular speed. </p>
-<p>Users may override it to specialize a <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>.</p>
+<p>Users may override it to specialize a Behavior.</p>
 <p>The base implementation returns the nearest feasible twist to a twist with null velocity and desired angular speed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1885,7 +1890,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Behavior26cmd_twist_towards_stoppingE10ng_float_t">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1a0137f027349360568dde15fd793d825f"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cmd_twist_towards_stopping</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior26cmd_twist_towards_stoppingE10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Computes a command to stop. </p>
-<p>Users may override it to specialize a <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>.</p>
+<p>Users may override it to specialize a Behavior.</p>
 <p>The base implementation returns the null twist.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1901,7 +1906,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Behavior30desired_velocity_towards_pointERK7Vector210ng_float_t10ng_float_t">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1ade5a9e48a459bedb2d8b355e9a6a0ec8"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">desired_velocity_towards_point</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">speed</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior30desired_velocity_towards_pointERK7Vector210ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Computes a control velocity towards a desired position. </p>
-<p>Users may override it to specialize a <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>.</p>
+<p>Users may override it to specialize a Behavior.</p>
 <p>The base implementation returns a null vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1921,7 +1926,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Behavior33desired_velocity_towards_velocityERK7Vector210ng_float_t">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1a7c809abfdfdf9fe286efc8c8cd21cdd9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">desired_velocity_towards_velocity</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">velocity</span></span>, <a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior33desired_velocity_towards_velocityERK7Vector210ng_float_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Computes a control velocity towards a desired velocity. </p>
-<p>Users may override it to specialize a <a class="reference internal" href="#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>.</p>
+<p>Users may override it to specialize a Behavior.</p>
 <p>The base implementation returns a null vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2159,8 +2164,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>navground_sim_py &#8212; navground 0.3.3 documentation</title>
+    <title>navground_sim_py &#8212; navground 0.3.4 documentation</title>
   
   
   
@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,23 +27,23 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=94d292f4"></script>
+    <script src="../_static/documentation_options.js?v=01c71025"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.3 documentation</p>
+    <p class="title logo__title">navground 0.3.4 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -348,9 +348,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -580,7 +585,7 @@
 <ol class="arabic">
 <li><p>add the install path to <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code></p></li>
 <li><p>import the packge</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">navground</span> <span class="kn">import</span> <span class="n">sim</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim</span>
 </pre></div>
 </div>
 </li>
@@ -592,8 +597,8 @@
 <section id="info">
 <span id="info-sim-py"></span><span id="navground-main"></span><h3>info<a class="headerlink" href="#info" title="Link to this heading">#</a></h3>
 <p>Lists registered components (behaviors, kinematics, state estimations, tasks, and scenarios) implemented in C++ or Python.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">build</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">properties</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">description</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behaviors</span> <span class="p">[</span><span class="n">BEHAVIORS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">modulations</span> <span class="p">[</span><span class="n">MODULATIONS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">state_estimations</span> <span class="p">[</span><span class="n">STATE</span> <span class="n">ESTIMATIONS</span><span class="p">]]</span>
-            <span class="p">[</span><span class="o">--</span><span class="n">tasks</span> <span class="p">[</span><span class="n">TASKS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">scenarios</span> <span class="p">[</span><span class="n">SCENARIOS</span><span class="p">]]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">build</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">properties</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">description</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behaviors</span> <span class="p">[</span><span class="n">BEHAVIORS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span>
+            <span class="p">[</span><span class="o">--</span><span class="n">modulations</span> <span class="p">[</span><span class="n">MODULATIONS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">state_estimations</span> <span class="p">[</span><span class="n">STATE</span> <span class="n">ESTIMATIONS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">tasks</span> <span class="p">[</span><span class="n">TASKS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">scenarios</span> <span class="p">[</span><span class="n">SCENARIOS</span><span class="p">]]</span>
 </pre></div>
 </div>
 <section id="navground.sim.info-parser-named-arguments">
@@ -639,22 +644,22 @@
 <span class="go">====================</span>
 <span class="go">Behaviors</span>
 <span class="go">---------</span>
+<span class="go">CppPolicy</span>
+<span class="go">    flat: False (bool)</span>
+<span class="go">    include_angular_speed: False (bool)</span>
+<span class="go">    include_target_direction: False (bool)</span>
+<span class="go">    include_target_distance: False (bool)</span>
+<span class="go">    include_target_speed: False (bool)</span>
+<span class="go">    include_velocity: False (bool)</span>
+<span class="go">    max_acceleration: 10.0 (float)</span>
+<span class="go">    max_angular_acceleration: 0.0 (float)</span>
+<span class="go">    policy_path:  (str)</span>
+<span class="go">    shared: False (bool)</span>
+<span class="go">    use_acceleration_action: False (bool)</span>
 <span class="go">Dummy</span>
 <span class="go">    environment:  (str)</span>
 <span class="go">HL</span>
 <span class="go">    aperture: 3.1415927410125732 (float)</span>
-<span class="go">    barrier_angle: 1.5707963705062866 (float)</span>
-<span class="go">    epsilon: 0.0 (float)</span>
-<span class="go">    eta: 0.5 (float)</span>
-<span class="go">    resolution: 101 (int)</span>
-<span class="go">    tau: 0.125 (float)</span>
-<span class="go">HRVO</span>
-<span class="go">    max_neighbors: 1000 (int)</span>
-<span class="go">    uncertainty_offset: 0 (int)</span>
-<span class="go">Idle</span>
-<span class="go">    ignore_obstacles: False (bool)</span>
-<span class="go">ORCA</span>
-<span class="go">    effective_center: False (bool)</span>
 <span class="go">...</span>
 </pre></div>
 </div>
@@ -664,7 +669,7 @@
 <span id="echo-sim-py"></span><h3>echo<a class="headerlink" href="#echo" title="Link to this heading">#</a></h3>
 <p>Load and then print a YAML representation of an object (behavior, kinematic, behavior modulation, state estimation, task, scenarios, agent, world, experiment).
 It is equivalent to the <a class="reference internal" href="navground_sim.html#echo-sim"><span class="std std-ref">C++ version</span></a> but with additional components implemented in Python.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">echo</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="n">kind</span> <span class="n">YAML</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">echo</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">chdir</span><span class="p">]</span> <span class="n">kind</span> <span class="n">YAML</span>
 </pre></div>
 </div>
 <section id="navground.sim.echo-parser-positional-arguments">
@@ -683,6 +688,9 @@ It is equivalent to the <a class="reference internal" href="navground_sim.html#e
 <dl class="option-list">
 <dt><kbd>--no-plugins</kbd></dt>
 <dd><p>Do not load plugins</p>
+</dd>
+<dt><kbd>--chdir</kbd></dt>
+<dd><p>Whether to change working directory to the directory containing the file. Useful when the config contains relative paths.</p>
 </dd>
 </dl>
 </section>
@@ -706,14 +714,15 @@ It is equivalent to the <a class="reference internal" href="navground_sim.html#e
 <section id="schema">
 <span id="schema-sim-py"></span><h3>schema<a class="headerlink" href="#schema" title="Link to this heading">#</a></h3>
 <p>Print JSON-Schema of YAML-convertible navground sim classes. It is equivalent to the <a class="reference internal" href="navground_sim.html#schema-sim"><span class="std std-ref">C++ version</span></a> but with additional components implemented in Python.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">schema</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">register</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="n">TYPE</span><span class="p">]</span> <span class="p">[{</span><span class="n">world</span><span class="p">,</span><span class="n">scenario</span><span class="p">,</span><span class="n">core</span><span class="p">,</span><span class="n">behavior</span><span class="p">,</span><span class="n">kinematics</span><span class="p">,</span><span class="n">experiment</span><span class="p">,</span><span class="n">agent</span><span class="p">,</span><span class="n">sim</span><span class="p">,</span><span class="n">task</span><span class="p">,</span><span class="n">behavior_modulation</span><span class="p">,</span><span class="n">state_estimation</span><span class="p">}]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">schema</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">register</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="n">TYPE</span><span class="p">]</span>
+              <span class="p">[{</span><span class="n">agent</span><span class="p">,</span><span class="n">behavior_modulation</span><span class="p">,</span><span class="n">behavior</span><span class="p">,</span><span class="n">core</span><span class="p">,</span><span class="n">task</span><span class="p">,</span><span class="n">world</span><span class="p">,</span><span class="n">experiment</span><span class="p">,</span><span class="n">state_estimation</span><span class="p">,</span><span class="n">kinematics</span><span class="p">,</span><span class="n">sim</span><span class="p">,</span><span class="n">scenario</span><span class="p">}]</span>
 </pre></div>
 </div>
 <section id="navground.sim.print_schema-parser-positional-arguments">
 <h4>Positional Arguments<a class="headerlink" href="#navground.sim.print_schema-parser-positional-arguments" title="Link to this heading">#</a></h4>
 <dl class="option-list">
 <dt><kbd>kind</kbd></dt>
-<dd><p>Possible choices: world, scenario, core, behavior, kinematics, experiment, agent, sim, task, behavior_modulation, state_estimation</p>
+<dd><p>Possible choices: agent, behavior_modulation, behavior, core, task, world, experiment, state_estimation, kinematics, sim, scenario</p>
 <p>The target type of the scheme</p>
 </dd>
 </dl>
@@ -840,7 +849,7 @@ It is equivalent to the <a class="reference internal" href="navground_sim.html#e
 <section id="sample">
 <span id="sample-py"></span><h3>sample<a class="headerlink" href="#sample" title="Link to this heading">#</a></h3>
 <p>Samples a world from a scenario with components implemented in C++ or Python.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">sample</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="n">YAML</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">sample</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">chdir</span><span class="p">]</span> <span class="n">YAML</span>
 </pre></div>
 </div>
 <section id="navground.sim.sample-parser-positional-arguments">
@@ -856,6 +865,10 @@ It is equivalent to the <a class="reference internal" href="navground_sim.html#e
 <dl class="option-list">
 <dt><kbd>--no-plugins</kbd></dt>
 <dd><p>Do not load plugins</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+<dt><kbd>--chdir</kbd></dt>
+<dd><p>Whether to change working directory to the directory containing the file. Useful when the config contains relative paths.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 </dl>
@@ -892,7 +905,9 @@ It is equivalent to the <a class="reference internal" href="navground_sim.html#e
 <section id="run">
 <span id="run-py"></span><h3>run<a class="headerlink" href="#run" title="Link to this heading">#</a></h3>
 <p>Run an experiment using a Python interpreter. It may be slightly slower than the C++ implementation, but has access to components implemented in Python.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">tqdm</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">run_index</span> <span class="n">RUN_INDEX</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">runs</span> <span class="n">RUNS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">threads</span> <span class="n">THREADS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">processes</span> <span class="n">PROCESSES</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">save_single_hdf5</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">use_multiprocess</span><span class="p">]</span> <span class="n">YAML</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">tqdm</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">run_index</span> <span class="n">RUN_INDEX</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">runs</span> <span class="n">RUNS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">threads</span> <span class="n">THREADS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">processes</span> <span class="n">PROCESSES</span><span class="p">]</span>
+           <span class="p">[</span><span class="o">--</span><span class="n">save_directory</span> <span class="n">SAVE_DIRECTORY</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">save_single_hdf5</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">use_multiprocess</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">chdir</span><span class="p">]</span>
+           <span class="n">YAML</span>
 </pre></div>
 </div>
 <section id="navground.sim.run-parser-positional-arguments">
@@ -930,12 +945,19 @@ It is equivalent to the <a class="reference internal" href="navground_sim.html#e
 <dd><p>Number of processes</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
 </dd>
+<dt><kbd>--save_directory</kbd></dt>
+<dd><p>Where to save the experiment. If not specified, it reads the value from the configuration</p>
+</dd>
 <dt><kbd>--save_single_hdf5</kbd></dt>
 <dd><p>Whether to store a single HDF5 file when using multiple processes</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 <dt><kbd>--use_multiprocess</kbd></dt>
 <dd><p>Whether to use the multiprocess package instead of multiprocessings</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+<dt><kbd>--chdir</kbd></dt>
+<dd><p>Whether to change working directory to the directory containing the file. Useful when the config contains relative paths.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 </dl>
@@ -951,8 +973,8 @@ It is equivalent to the <a class="reference internal" href="navground_sim.html#e
 
 <span class="go">Performing experiment using Python ...</span>
 <span class="go">Experiment done</span>
-<span class="go">Duration:  0.027 s</span>
-<span class="go">Saved to: /tmp/experiment_7081522542856016128_2024-12-16_16-32-13/data.h5</span>
+<span class="go">Duration:  0.026 s</span>
+<span class="go">Saved to: /tmp/experiment_7081522542856016128_2025-01-09_14-51-22/data.h5</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -964,8 +986,9 @@ It is equivalent to the <a class="reference internal" href="navground_sim.html#e
 <section id="run-rt">
 <span id="id7"></span><h3>run_rt<a class="headerlink" href="#run-rt" title="Link to this heading">#</a></h3>
 <p>Run an experiment using Python in real time. You can visualize the world in a browser view.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run_rt</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">port</span> <span class="n">PORT</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">width</span> <span class="n">WIDTH</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span>
-              <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">shape</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">deadlocks</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">collisions</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">html</span> <span class="n">HTML</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run_rt</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">port</span> <span class="n">PORT</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">width</span> <span class="n">WIDTH</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span>
+              <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">shape</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">deadlocks</span><span class="p">]</span>
+              <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">collisions</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">html</span> <span class="n">HTML</span><span class="p">]</span>
               <span class="n">YAML</span>
 </pre></div>
 </div>
@@ -1047,8 +1070,9 @@ It is equivalent to the <a class="reference internal" href="navground_sim.html#e
 <section id="record-video">
 <span id="id9"></span><h3>record video<a class="headerlink" href="#record-video" title="Link to this heading">#</a></h3>
 <p>Record a video from an experiment.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">record_video</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">width</span> <span class="n">WIDTH</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">fps</span> <span class="n">FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">relative_margin</span> <span class="n">RELATIVE_MARGIN</span><span class="p">]</span>
-                    <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">shape</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">follow</span> <span class="n">FOLLOW</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">grid</span> <span class="n">GRID</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">record_video</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">width</span> <span class="n">WIDTH</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">fps</span> <span class="n">FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span>
+                    <span class="p">[</span><span class="o">--</span><span class="n">area</span> <span class="n">MIN_X</span> <span class="n">MIN_Y</span> <span class="n">MAX_X</span> <span class="n">MAX_Y</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">relative_margin</span> <span class="n">RELATIVE_MARGIN</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">display</span><span class="o">-</span><span class="n">shape</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">follow</span> <span class="n">FOLLOW</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">grid</span> <span class="n">GRID</span><span class="p">]</span>
+                    <span class="p">[</span><span class="o">--</span><span class="n">chdir</span><span class="p">]</span>
                     <span class="nb">input</span> <span class="n">output</span>
 </pre></div>
 </div>
@@ -1109,6 +1133,10 @@ It is equivalent to the <a class="reference internal" href="navground_sim.html#e
 <dd><p>The size of the grid</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
 </dd>
+<dt><kbd>--chdir</kbd></dt>
+<dd><p>Whether to change working directory to the directory containing the file. Useful when the config contains relative paths.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
 </dl>
 </section>
 <section id="id10">
@@ -1121,7 +1149,9 @@ It is equivalent to the <a class="reference internal" href="navground_sim.html#e
 <section id="replay">
 <span id="id11"></span><h3>replay<a class="headerlink" href="#replay" title="Link to this heading">#</a></h3>
 <p>Replays an experiment in real-time. You can visualize the world in a browser view, similarly to <a class="reference internal" href="#run-rt">run_rt</a> but for recorded experiment, or create a video from it.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">replay</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">record_video</span> <span class="n">RECORD_VIDEO</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">html</span> <span class="n">HTML</span><span class="p">]</span> <span class="n">path</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">replay</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">factor</span> <span class="n">FACTOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ui</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">record_video</span> <span class="n">RECORD_VIDEO</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">ui</span><span class="o">-</span><span class="n">fps</span> <span class="n">UI_FPS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span>
+              <span class="p">[</span><span class="o">--</span><span class="n">background</span><span class="o">-</span><span class="n">color</span> <span class="n">BACKGROUND_COLOR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">html</span> <span class="n">HTML</span><span class="p">]</span>
+              <span class="n">path</span>
 </pre></div>
 </div>
 <section id="navground.sim.replay-parser-positional-arguments">
@@ -1195,8 +1225,9 @@ It is equivalent to the <a class="reference internal" href="navground_sim.html#e
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ navground_py run --help
 usage: navground_py run [-h] [--no-plugins] [--tqdm] [--run_index RUN_INDEX]
                         [--runs RUNS] [--threads THREADS]
-                        [--processes PROCESSES] [--save_single_hdf5]
-                        [--use_multiprocess]
+                        [--processes PROCESSES]
+                        [--save_directory SAVE_DIRECTORY] [--save_single_hdf5]
+                        [--use_multiprocess] [--chdir]
                         YAML
 
 Runs an experiment using the Python interpreter
@@ -1212,7 +1243,6 @@ options:
   --run_index RUN_INDEX
                         Will overwrite the experiment own run_index if
                         positive.
-  --runs RUNS           Will overwrite the experiment own runs if positive.
 ...
 </pre></div>
 </div>
@@ -1385,8 +1415,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

@@ -76,6 +76,7 @@ void World::update(ng_float_t time_step) {
     a->update(time_step, time, this);
   }
   for (auto &a : agents) {
+    a->update_control(time_step, time);
     a->actuate(time_step);
   }
   update_agents_strtree();
@@ -124,6 +125,9 @@ void World::update_dry(ng_float_t time_step, bool advance_time) {
   update_agents_strtree();
   for (auto &a : agents) {
     a->update(time_step, time, this);
+  }
+  for (auto &a : agents) {
+    a->update_control(time_step, time);
   }
   if (advance_time) {
     time += time_step;

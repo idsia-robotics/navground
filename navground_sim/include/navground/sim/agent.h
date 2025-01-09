@@ -439,7 +439,18 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   Twist2 actuated_cmd;
 
   /**
-   * @brief      Tick the agent for a time step.
+   * @brief      Updates the agent controller for a time step 
+   *
+   * @param[in]  dt    The time step
+   * @param[in]  time    The current time
+   */
+  void update_control(ng_float_t dt, ng_float_t time);
+
+  /**
+   * @brief      Updates the agent state for a time step 
+   * 
+   * It syncs the behavior ego state and call the state estimation and the task
+   * updates.
    *
    * @param[in]  dt    The time step
    * @param[in]  time    The current time

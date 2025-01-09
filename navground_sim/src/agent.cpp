@@ -36,7 +36,6 @@ void Agent::update(ng_float_t dt, ng_float_t time, World *world) {
   if (control_deadline > 0) {
     return;
   }
-  control_deadline += control_period;
   if (behavior) {
     behavior->set_actuated_twist(last_cmd);
     behavior->set_twist(twist);
@@ -46,6 +45,15 @@ void Agent::update(ng_float_t dt, ng_float_t time, World *world) {
     state_estimation->update(this, world);
   if (task)
     task->update(this, world, time);
+}
+
+void Agent::update_control(ng_float_t dt, ng_float_t time) {
+  if (external)
+    return;
+  if (control_deadline > 0) {
+    return;
+  }
+  control_deadline += control_period;
   last_cmd = controller.update(std::max(control_period, dt));
   if (behavior) {
     if (behavior->is_stuck() && time > 0) {
@@ -56,7 +64,6 @@ void Agent::update(ng_float_t dt, ng_float_t time, World *world) {
       is_stuck_since_time = -1.0;
     }
   }
-  // last_cmd = behavior->get_actuated_twist(true);
 }
 
 void Agent::actuate(ng_float_t dt) {

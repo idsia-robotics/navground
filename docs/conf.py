@@ -249,6 +249,13 @@ from sphinx.ext.intersphinx import missing_reference
 from sphinx.addnodes import pending_xref
 
 
+core_cpp_classes = [
+    'Behavior', 'Kinematics', 'Neighbor',
+    'Vector2', 'Twist2', 'Pose2', 'Controller',
+    'Disc', 'LineSegment', 'EnvironmentState',
+    'BehaviorModulation', 'Properties'
+]
+
 _types = ['navground.core.Vector2', 'core.Vector2', 'Vector2', 'Vector2Like', 'PropertyField',
           'T', 'Curve',
           'Projection', 'TaskCallback', 'Decorate', 'Rect']
@@ -264,14 +271,32 @@ def resolve_internal_aliases(app, doctree):
     for node in pending_xrefs:
         alias = node.get('reftarget', None)
         d = node.get('refdomain', '')
+        if d == 'cpp':
+            if node['reftype'] == 'identifier':
+                if 'navground::' in node['reftarget']:
+                    node['reftarget'] = node['reftarget'][11:]
+                if node['reftarget'] in core_cpp_classes:
+                    node['reftarget'] = "core::" + node['reftarget']
+            else:
+                if node['reftarget'] in core_cpp_classes:
+                    node['reftarget'] = "navground::core::" + node['reftarget']
+            continue
+            # elif node['reftarget'] != 'navground':
+            #     node['reftarget'] = "core::" + node['reftarget']
+
         rs = reftarget_aliases.get(d, {})
         if alias is not None and alias in rs:
             node['reftarget'] = rs[alias]
 
 
+def missing_reference(app, env, node, contnode):
+    ...
+
+
 def setup(app):
     app.connect('autodoc-process-docstring', f);
     app.connect('autodoc-process-signature', g);
+    # app.connect('missing-reference', missing_reference)
     app.connect('doctree-read', resolve_internal_aliases)
     app.add_directive('schema', SchemaDirective)
     app.add_directive('ng-command-output', NGCommandDirective)

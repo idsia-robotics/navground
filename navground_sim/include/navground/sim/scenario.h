@@ -64,7 +64,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
    */
   explicit Scenario(const Inits &inits = {})
       : groups(), obstacles(), walls(), property_samplers(),
-        initializers(inits), init_count(0) {}
+        initializers(inits) {}
 
   /**
    * @brief      Initializes the world.
@@ -180,9 +180,15 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
 
 private:
   Inits initializers;
-  unsigned init_count;
 
-  std::string key_for_next_init() { return std::to_string(init_count++); }
+  std::string key_for_next_init() {
+    for (size_t i = 0; i <= initializers.size(); i++) {
+      const auto key = std::to_string(i);
+      if (!initializers.count(key)) {
+        return key;
+      }
+    }
+  }
 };
 
 } // namespace navground::sim

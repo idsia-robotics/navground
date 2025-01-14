@@ -45,7 +45,7 @@ Virtual methods
      - :py:meth:`get_log_size <navground.sim.Task.get_log_size>` 
      - should
 
-Class skelethon
+Class skeleton
 ===============
 
 .. tabs::

@@ -344,7 +344,7 @@ In the example above, we add the appropriate schema
        "MyName", {{"my_param", core::Property::make(...)}}, &schema);
 
 
-Class skelethon
+Class skeleton
 ================
 
 Using the appropriate macro, the class skeleton simplifies to

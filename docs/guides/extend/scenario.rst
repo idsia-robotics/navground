@@ -21,7 +21,7 @@ Virtual methods
      - should
 
 
-Class skelethon
+Class skeleton
 ===============
 
 .. tabs::

@@ -41,7 +41,7 @@ Virtual methods
      - :py:meth:`get_max_angular_speed <navground.core.Kinematics.get_max_angular_speed>` 
      - can
 
-Class skelethon
+Class skeleton
 ===============
 
 .. tabs::

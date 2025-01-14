@@ -30,7 +30,7 @@ Virtual methods
      - :py:meth:`update <navground.sim.StateEstimation.update>` 
      - can
 
-Class skelethon
+Class skeleton
 ===============
 
 .. tabs::
@@ -68,7 +68,7 @@ Additional virtual methods
      - :py:meth:`get_description <navground.sim.Sensor.get_description>` 
      - must
 
-Class skelethon
+Class skeleton
 ===============
 
 .. tabs::

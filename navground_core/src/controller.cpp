@@ -35,6 +35,7 @@ void Action::abort() {
 ng_float_t MoveAction::tick(Controller *controller, ng_float_t dt) {
   ng_float_t time = Action::tick(controller, dt);
   if (time == 0 && controller->is_still()) {
+    controller->get_behavior()->set_target(Target::Stop());
     state = State::success;
   }
   return time;

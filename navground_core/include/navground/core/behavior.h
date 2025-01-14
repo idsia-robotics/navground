@@ -691,6 +691,14 @@ public:
     target = value;
     change(TARGET);
   }
+
+  /**
+   * @brief      Returns whether the current target is valid.
+   */
+  bool has_target() const {
+    return target.valid();
+  }
+
   /**
    * @brief      Query the behavior to get a control command
    *

@@ -1196,6 +1196,8 @@ Constructs a navground property from a Python property.
       .def_property("heading_behavior", &Behavior::get_heading_behavior,
                     &Behavior::set_heading_behavior,
                     DOC(navground, core, Behavior, property_heading_behavior))
+      .def_property("has_target", &Behavior::has_target, nullptr,
+                    DOC(navground, core, Behavior, property_has_target))
       .def_property("target", &Behavior::get_target, &Behavior::set_target,
                     DOC(navground, core, Behavior, property_target))
       .def_property("target_ref", &Behavior::get_target_ref, nullptr,

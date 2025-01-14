@@ -94,7 +94,8 @@ void Agent::set_behavior(const std::shared_ptr<Behavior> &value) {
 }
 
 bool Agent::idle() const {
-  return (!task || task->done()) && controller.idle();
+  return (!task || task->done()) && controller.idle() &&
+         (!behavior || !behavior->has_target());
 }
 
 Twist2 Agent::get_last_cmd(core::Frame frame) const {

@@ -219,6 +219,18 @@ struct PySensor : public Sensor, public PyStateEstimation {
   Sensor::Description get_description() const override {
     PYBIND11_OVERRIDE_PURE(Sensor::Description, Sensor, get_description);
   }
+
+  void update(Agent *agent, World *world, EnvironmentState *state) override {
+    PYBIND11_OVERRIDE(void, Sensor, update, agent, world, state);
+  }
+
+  void prepare(Agent *agent, World *world) override {
+    PYBIND11_OVERRIDE(void, Sensor, prepare, agent, world);
+  }
+
+  OVERRIDE_DECODE
+  OVERRIDE_ENCODE
+
 };
 
 class PyAgent : public Agent {

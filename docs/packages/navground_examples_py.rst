@@ -30,6 +30,13 @@ Controller
 How to use the controller API to move to a target point.
 See the equivalent :ref:`C++ example <basics_controller>`.
 
+Custom YAML 
+-----------
+
+:module:  `custom_yaml.py <https://github.com/idsia-robotics/navground/tree/main/navground_examples_py/navground_examples_py/custom_yaml.py>`_
+
+How to add a custom YAML encoder/decoder/scheme to a navground component (in this case a Behavior).
+
 .. _custom_recordings_py:
 
 Custom recordings 

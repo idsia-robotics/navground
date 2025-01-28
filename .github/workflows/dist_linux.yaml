@@ -20,7 +20,7 @@ jobs:
           cd src/navground/distribution/cpp
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DSTANDALONE=ON -DCPACK_SYSTEM_NAME=ubuntu_24_04_arm64 ..
+          cmake -DCMAKE_BUILD_TYPE=Release -DSTANDALONE=OFF -DCPACK_SYSTEM_NAME=ubuntu_24_04_arm64 ..
           cmake --build . --config Release --parallel 10
           cpack
       - name: archive install

@@ -15,7 +15,7 @@ This patch release corrects the documentation on custom YAML conversions.
 ### Added
 
 - Added an example of custom YAML conversion in Python.
-- `Behavior::has_target`
+- Added `Behavior::has_target`
 
 ## [0.3.4] 2025-01-09
 

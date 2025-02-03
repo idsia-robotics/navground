@@ -1,8 +1,8 @@
 name: Build
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '*'
 env:
   COLCON_DEFAULTS_FILE: src/navground/colcon/defaults.yaml
 jobs:

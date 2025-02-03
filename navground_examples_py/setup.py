@@ -4,7 +4,7 @@ package_name = 'navground_examples_py'
 
 setup(
     name=package_name,
-    version='0.0.6',
+    version='0.3.5',
     packages=[package_name],
     data_files=[
         ('share/ament_index/resource_index/packages',

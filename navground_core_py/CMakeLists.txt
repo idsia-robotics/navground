@@ -112,7 +112,7 @@ else()
     NAMESPACE
     navground
     VERSION
-    "0.3.4"
+    "0.3.5"
     TARGET
     _navground)
 

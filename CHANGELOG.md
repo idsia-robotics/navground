@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.3.5] 2025-02-03
+
+This patch release corrects the documentation on custom YAML conversions.
+
+### Fixed
+
+- `Scenario::add_init` does not anymore overwrite initializers added with `Scenario::set_init`.
+- `Agent::idle` now check that the behavior has no valid target.
+- `Controller` invalidate the behavior target at the end of a move action.
+- Corrected guide about custom YAML conversion in Python.
+- Exposed all virtual methods in the trampoline `PySensor`.
+
+### Added
+
+- Added an example of custom YAML conversion in Python.
+- `Behavior::has_target`
+
 ## [0.3.4] 2025-01-09
 
 This patch release adds a few arguments to Navground CLI and fixes some issues when running an experiment over multiple processes.

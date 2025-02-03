@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How to integrate a Python component &#8212; navground 0.3.4 documentation</title>
+    <title>How to integrate a Python component &#8212; navground 0.3.5 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../_static/documentation_options.js?v=01c71025"></script>
+    <script src="../../_static/documentation_options.js?v=ba3b9238"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.4 documentation</p>
+    <p class="title logo__title">navground 0.3.5 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -494,7 +494,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#class-schema">Class Schema</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-skelethon">Class skelethon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-skeleton">Class skeleton</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-as-a-plugin">Install as a plugin</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-example">Complete example</a></li>
 </ul>
@@ -659,9 +659,9 @@ with the default value and an optional description</p>
 
    <span class="c1"># ... properties</span>
 
-   <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+   <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
       <span class="o">...</span>
-   <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yaml</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+   <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
       <span class="o">...</span>
 </pre></div>
 </div>
@@ -674,11 +674,12 @@ with the default value and an optional description</p>
 <p>if you implement the custom logic in the decoder and the encoder, for example, like</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
         <span class="n">node</span><span class="p">[</span><span class="s1">&#39;my_complex_param&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">my_int_a</span><span class="p">,</span>
             <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">my_bool_b</span>
         <span class="p">}</span>
+        <span class="k">return</span> <span class="n">node</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="s1">&#39;my_complex_param&#39;</span> <span class="ow">in</span> <span class="n">node</span><span class="p">:</span>
@@ -716,7 +717,8 @@ the treatment as random variable for free.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
 
     <span class="nd">@core</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">register</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">schema</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_schema</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">my_complex_param</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span>
             <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span>
@@ -736,8 +738,8 @@ the treatment as random variable for free.</p>
 </div>
 </section>
 </section>
-<section id="class-skelethon">
-<h2>Class skelethon<a class="headerlink" href="#class-skelethon" title="Link to this heading">#</a></h2>
+<section id="class-skeleton">
+<h2>Class skeleton<a class="headerlink" href="#class-skeleton" title="Link to this heading">#</a></h2>
 <p>Using the appropriate macro, the class skeleton simplifies to</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
 
@@ -750,12 +752,13 @@ the treatment as random variable for free.</p>
    <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
        <span class="o">...</span>
 
-   <span class="c1"># def encode(self) -&gt; str: ...</span>
+   <span class="c1"># def encode(self, value: dict[str, typing.Any]) -&gt; dict[str, typing.Any]: ...</span>
 
-   <span class="c1"># def decode(self, yaml: str) -&gt; None: ...</span>
+   <span class="c1"># def decode(self, value: dict[str, typing.Any]) -&gt; None: ...</span>
 
-   <span class="c1"># @core.schemaregister</span>
-   <span class="c1"># def schema(node: dict[str, typing.Any]) -&gt; None: ...</span>
+   <span class="c1"># @core.schema.register</span>
+   <span class="c1"># @staticmethod</span>
+   <span class="c1"># def my_schema(node: dict[str, typing.Any]) -&gt; None: ...</span>
 </pre></div>
 </div>
 </section>
@@ -852,7 +855,7 @@ the treatment as random variable for free.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#class-schema">Class Schema</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-skelethon">Class skelethon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-skeleton">Class skeleton</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-as-a-plugin">Install as a plugin</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-example">Complete example</a></li>
 </ul>

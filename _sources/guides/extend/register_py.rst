@@ -186,9 +186,9 @@ In case the conversion from/to YAML provided by navground is not sufficient, spe
       
       # ... properties
 
-      def encode(self) -> str:
+      def encode(self, value: dict[str, typing.Any]) -> dict[str, typing.Any]:
          ...
-      def decode(self, yaml: str) -> None:
+      def decode(self, value: dict[str, typing.Any]) -> None:
          ...
 
 Through these methods you can read more complex parameters from the YAML than :py:type:`navground.core.PropertyField`. For example, you can configure a value of type ``dict[str, int]`` from a YAML such as
@@ -205,11 +205,12 @@ if you implement the custom logic in the decoder and the encoder, for example, l
 
    class MyComponent(Component, name="MyName"):
       
-       def encode(node: dict[str, typing.Any]) -> None:
+       def encode(node: dict[str, typing.Any]) -> dict[str, typing.Any]:
            node['my_complex_param'] = {
                'a': self.my_int_a, 
                'b': self.my_bool_b
            }
+           return node
          
        def decode(node: dict[str, typing.Any]) -> None:
            if 'my_complex_param' in node:
@@ -256,7 +257,8 @@ In the example above, we add the appropriate schema
    class MyComponent(Component, name="MyName"):
       
        @core.schema.register
-       def schema(node: dict[str, typing.Any]) -> None:
+       @staticmethod
+       def my_schema(node: dict[str, typing.Any]) -> None:
            my_complex_param = {
                'type': 'object',
                'properties': {
@@ -274,7 +276,7 @@ In the example above, we add the appropriate schema
            node["properties"]["my_complex_param"] = my_complex_param
 
 
-Class skelethon
+Class skeleton
 ================
 
 Using the appropriate macro, the class skeleton simplifies to
@@ -293,12 +295,13 @@ Using the appropriate macro, the class skeleton simplifies to
       def name(self, value: Type) -> None:
           ...       
 
-      # def encode(self) -> str: ...
+      # def encode(self, value: dict[str, typing.Any]) -> dict[str, typing.Any]: ...
 
-      # def decode(self, yaml: str) -> None: ...
+      # def decode(self, value: dict[str, typing.Any]) -> None: ...
       
-      # @core.schemaregister
-      # def schema(node: dict[str, typing.Any]) -> None: ...
+      # @core.schema.register
+      # @staticmethod
+      # def my_schema(node: dict[str, typing.Any]) -> None: ...
 
 
 .. _Py Plugin: 

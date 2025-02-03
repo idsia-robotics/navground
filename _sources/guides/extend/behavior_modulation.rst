@@ -43,7 +43,7 @@ Virtual methods
      - can
 
 
-Class skelethon
+Class skeleton
 ===============
 
 .. tabs::

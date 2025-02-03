@@ -1,0 +1,66 @@
+name: Dist Linux
+on:
+  workflow_dispatch:
+jobs:
+  build_cpp:
+    name: Build C++ 📦
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+          # else it does not fetch the tags
+          # fetch-depth: 0
+      - name: install deps
+        run: |
+          sudo apt update
+          sudo apt install -y libgeos++-dev libhdf5-dev libyaml-cpp-dev libargparse-dev libeigen3-dev
+      - name: build
+        run: |
+          cd src/navground/distribution/cpp
+          mkdir build
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DSTANDALONE=OFF -DCPACK_SYSTEM_NAME=ubuntu_24_04_arm64 ..
+          cmake --build . --config Release --parallel 10
+          cpack
+      - name: archive install
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: src/navground/distribution/cpp/build/packages
+          if-no-files-found: error
+  build_py:
+    needs: build_cpp
+    name: Build Python 📦
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+          # else it does not fetch the tags
+          # fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: 'pip'
+      - name: download navground cpp installer
+        uses: actions/download-artifact@v4
+        with:
+          name: packages
+          path: packages
+      - name: install navground cpp
+        run: |
+          sudo apt update
+          sudo apt install -y packages/*.deb
+      - name: install build deps
+        run: pip install colcon-common-extensions wheel setuptools setuptools_git_versioning git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+      - name: build
+        run: |
+          cd src/navground/distribution/py
+          python setup.py bdist_wheel
+      - name: archive wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: src/navground/distribution/py/dist
+          if-no-files-found: error

@@ -1,0 +1,146 @@
+FROM ubuntu:22.04 AS deps
+
+SHELL ["/bin/bash", "-c"]
+
+RUN apt-get update && apt-get install -y \
+    # libgeos++-dev \ broken in 22.04
+    libhdf5-dev \
+    libyaml-cpp-dev \
+    # libargparse-dev \
+    libeigen3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+FROM deps AS build
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    file \
+    # python3-setuptools \
+    pybind11-dev \
+    python3-pip \
+    python3-dev \
+    python3-all-dev \
+    dh-python \
+    debhelper \
+    # python3-stdeb \
+    # python3-wheel \
+    # python3-build \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install -U pip
+RUN pip install -U colcon-common-extensions
+RUN pip install git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+RUN pip install git+https://github.com/astraw/stdeb 
+RUN pip install -U setuptools
+
+ENV COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+
+COPY cmake /ws/src/navground/cmake
+COPY colcon /ws/src/navground/colcon
+COPY navground_core /ws/src/navground/navground_core
+COPY navground_core_py /ws/src/navground/navground_core_py
+COPY navground_sim /ws/src/navground/navground_sim
+COPY navground_sim_py /ws/src/navground/navground_sim_py
+
+# COPY navground_py/pyproject.toml /ws/src/navground/navground_py/pyproject.toml
+# COPY navground_py/setup.py /ws/src/navground/navground_py/setup.py
+# COPY navground_py/README.md /ws/src/navground/navground_py/README.md
+# COPY navground_py/LICENSE /ws/src/navground/navground_py/LICENSE
+
+RUN cd /ws/src \
+    && git clone --depth 1 --branch 3.13.0 https://github.com/libgeos/geos.git \
+    && cd /ws \
+    && colcon build --metas src/navground/colcon/navground.meta --packages-up-to GEOS
+
+RUN cd /ws/build/GEOS \
+    && cpack -G DEB -D CPACK_DEBIAN_PACKAGE_MAINTAINER=libgeos
+
+# RUN cd /ws \
+#     && colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_core navground_core_py navground_sim navground_sim_py --cmake-args " -DFETCH_HIGHFIVE=ON" " -DFETCH_ARGPARSE=ON"
+
+RUN cd /ws \
+    && colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core --cmake-args " -DFETCH_ARGPARSE=ON"
+
+RUN cd /ws/build/navground_core \
+    && cpack -G DEB
+
+RUN cd /ws \
+    && colcon build --metas src/navground/colcon/navground.meta --packages-select navground_sim --cmake-args " -DFETCH_HIGHFIVE=ON"
+
+RUN . /ws/install/setup.bash \
+    && cd /ws/build/navground_sim \
+    && cpack -G DEB
+
+RUN cd /ws/src \
+    && git clone --depth 1 --branch v2.13.6 https://github.com/pybind/pybind11.git \
+    && cd /ws \
+    && colcon build --metas src/navground/colcon/navground.meta --packages-select pybind11
+
+RUN cd /ws \
+    && colcon build --metas src/navground/colcon/navground.meta --packages-select navground_core_py
+
+
+RUN . /ws/install/setup.bash \
+    && export PYTHONPATH=/ws/install/local/lib/python3.10/dist-packages \
+    && cd /ws/src/navground/navground_core_py \
+    && mv setup.cfg setup.cfg.disabled \
+    && python3 setup.py --command-packages=stdeb.command bdist_deb
+
+RUN cd /ws \
+    && colcon build --metas src/navground/colcon/navground.meta --packages-select navground_sim_py
+
+RUN . /ws/install/setup.bash \
+    && export PYTHONPATH=/ws/install/local/lib/python3.10/dist-packages \
+    && cd /ws/src/navground/navground_sim_py \
+    && mv setup.cfg setup.cfg.disabled \
+    && python3 setup.py --command-packages=stdeb.command bdist_deb
+
+
+FROM ubuntu:22.04 AS test
+
+COPY --from=build /ws/build/GEOS/_CPack_Packages/Linux/DEB/*.deb /tmp
+COPY --from=build /ws/build/navground_core/_CPack_Packages/Linux/DEB/*.deb /tmp
+COPY --from=build /ws/build/navground_sim/_CPack_Packages/Linux/DEB/*.deb /tmp
+COPY --from=build /ws/src/navground/navground_core_py/deb_dist/*.deb /tmp
+COPY --from=build /ws/src/navground/navground_sim_py/deb_dist/*.deb /tmp
+
+RUN apt-get update && apt-get install -y \
+    ./tmp/*.deb \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install -U pip colcon-common-extensions setuptools
+
+COPY navground_examples /ws/src/navground/navground_examples
+COPY navground_examples_py /ws/src/navground/navground_examples_py
+COPY navground_examples_yaml /ws/src/navground/navground_examples_yaml
+
+RUN cd /ws \
+    && colcon build --merge-install --packages-select navground_examples navground_examples_py navground_examples_yaml
+
+ENV NAVGROUND_PLUGINS_PREFIX /ws/install 
+
+ENV DEBIAN_FRONTEND noninteractive
+
+# # To run all the cli
+RUN apt-get update && apt-get install -y \
+    python3-h5py \
+    python3-tqdm \
+    python3-websockets \
+    python3-jinja2 \
+    python3-shapely \
+    python3-cairosvg \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install -U moviepy jsonschema numpy
+
+# molto lento ... forse non mi prende i cmake-args di default
+# se no non me lo spiego perché su github mi sembrano più o meno tutti uguali nei test

@@ -53,7 +53,6 @@ function(python_install_namespace_package package_name)
 
   set(build_dir "${CMAKE_CURRENT_BINARY_DIR}")
 
-  
   list(TRANSFORM ARG_DATA APPEND "'")
   list(TRANSFORM ARG_DATA PREPEND "'")
   list(JOIN ARG_DATA ", " DATA)
@@ -79,7 +78,7 @@ setup(
   file(REMOVE_RECURSE ${build_dir}/build)
 
   add_custom_target(
-    python_copy
+    ${package_name}_python_copy
     COMMAND ${CMAKE_COMMAND} -E copy_directory
       "${ABS_PACKAGE_DIR}" "${build_dir}/${ARG_NAMESPACE}"
   )
@@ -88,20 +87,25 @@ setup(
 
   # message("Will run '${Python3_EXECUTABLE} -m pip install . --prefix ${CMAKE_INSTALL_PREFIX}' in ${CMAKE_CURRENT_BINARY_DIR}")
 
+  # set(PYTHON_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages)
+
+  # message("PYTHON_INSTALL_DIR: ${PYTHON_INSTALL_DIR}")
+  # message("Python3_VERSION: ${Python3_VERSION}")
+
   add_custom_target(
-    pip_install ALL
+    ${package_name}_pip_install ALL
     COMMAND "${Python3_EXECUTABLE}" -m pip install . --prefix "${CMAKE_INSTALL_PREFIX}"
   )
 
-  add_dependencies(pip_install python_copy "${ARG_TARGET}")
+  add_dependencies(${package_name}_pip_install ${package_name}_python_copy "${ARG_TARGET}")
 
   set(setup_cfg "${CMAKE_CURRENT_LIST_DIR}/setup.cfg")
   if(EXISTS "${setup_cfg}")
     add_custom_target(
-      setup_cfg_copy
+      ${package_name}_setup_cfg_copy
       COMMAND ${CMAKE_COMMAND} -E copy "${setup_cfg}" "${build_dir}"
     )
-    add_dependencies(pip_install setup_cfg_copy)
+    add_dependencies(${package_name}_pip_install ${package_name}_setup_cfg_copy)
   endif()
 
 endfunction()

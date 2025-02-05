@@ -46,7 +46,7 @@ int main() {
     return 1;
   }
   auto world = std::make_shared<sim::World>(node.as<sim::World>());
-  sim::ExperimentalRun run(world, sim::RunConfig{0.1, 20, true},
+  sim::ExperimentalRun run(world, sim::RunConfig{(ng_float_t)0.1, 20, true},
                            sim::RecordConfig::all(false));
   run.add_probe(std::make_shared<CheckIfMoving>());
   run.add_record_probe<IsMovingProbe>("is_moving");

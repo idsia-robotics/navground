@@ -146,8 +146,8 @@ inline size_t get_size(const BufferShape &shape) {
   if (!shape.size()) {
     return 0;
   }
-  return static_cast<size_t>(std::accumulate(std::begin(shape), std::end(shape),
-                                             1, std::multiplies<ssize_t>{}));
+  return std::accumulate(std::begin(shape), std::end(shape),
+                         static_cast<size_t>(1), std::multiplies<ssize_t>{});
 }
 
 /**
@@ -234,7 +234,7 @@ struct BufferDescription {
   std::vector<size_t> get_strides() const {
     std::vector<size_t> strides(shape.size());
     size_t size = get_scalar_size(type);
-    const int e = shape.size() - 1;
+    const int e = static_cast<int>(shape.size()) - 1;
     for (int i = 0; i <= e; ++i) {
       strides[e - i] = size;
       size *= shape[e - i];

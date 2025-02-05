@@ -1,3 +1,8 @@
+import os
+
+if hasattr(os, "add_dll_directory") and "NAVGROUND_DLL_PATH" in os.environ:
+    os.add_dll_directory(os.environ["NAVGROUND_DLL_PATH"])
+
 import functools
 from collections.abc import Callable, Iterable
 from typing import TYPE_CHECKING, Any, TypeAlias

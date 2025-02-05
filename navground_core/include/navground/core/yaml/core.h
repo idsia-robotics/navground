@@ -351,9 +351,9 @@ template <> struct convert<SocialMargin> {
 template <> struct convert<std::shared_ptr<SocialMargin::Modulation>> {
   static Node encode(const std::shared_ptr<SocialMargin::Modulation> &rhs) {
     Node node;
-    if (auto m = dynamic_cast<SocialMargin::ZeroModulation *>(rhs.get())) {
+    if (dynamic_cast<SocialMargin::ZeroModulation *>(rhs.get())) {
       node["type"] = "zero";
-    } else if (auto m = dynamic_cast<SocialMargin::ConstantModulation *>(
+    } else if (dynamic_cast<SocialMargin::ConstantModulation *>(
                    rhs.get())) {
       node["type"] = "constant";
     } else if (auto m =
@@ -364,7 +364,7 @@ template <> struct convert<std::shared_ptr<SocialMargin::Modulation>> {
                    rhs.get())) {
       node["type"] = "quadratic";
       node["upper"] = m->get_upper_distance();
-    } else if (auto m = dynamic_cast<SocialMargin::LogisticModulation *>(
+    } else if (dynamic_cast<SocialMargin::LogisticModulation *>(
                    rhs.get())) {
       node["type"] = "logistic";
     }

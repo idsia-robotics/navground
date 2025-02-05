@@ -30,34 +30,36 @@ static void show_usage(const std::string &name) {
       << "  --save=<PATH>\t\t\tSave the trajectories to <PATH>" << std::endl;
 }
 
-void run(const char *behavior = "HL", const char *path_ = "", float radius = 4,
-         unsigned number = 5, float margin = 1.0, float dt = 0.1, size_t steps = 10000) {
+void run(const char *behavior = "HL", const char *path_ = "",
+         ng_float_t radius = 4, unsigned number = 5, ng_float_t margin = 1,
+         ng_float_t dt = 0.1, size_t steps = 10000) {
   std::vector<std::shared_ptr<Behavior>> agents;
-  float x = radius - margin;
+  auto x = radius - margin;
   std::vector<std::tuple<Vector2, std::function<Vector2(int)>>> task = {
-      {Vector2(x, 0.0),
+      {Vector2(x, 0),
        [x, number](int i) {
          return Vector2(-x + 2 * x * i / (number - 1), 0.52);
        }},
-      {Vector2(-x, 0.0),
+      {Vector2(-x, 0),
        [x, number](int i) {
          return Vector2(-x + 2 * x * i / (number - 1), -0.51);
        }},
-      {Vector2(0.0, x),
+      {Vector2(0, x),
        [x, number](int i) {
          return Vector2(0.53, -x + 2 * x * i / (number - 1));
        }},
-      {Vector2(0.0, -x), [x, number](int i) {
+      {Vector2(0, -x), [x, number](int i) {
          return Vector2(-0.54, -x + 2 * x * i / (number - 1));
        }}};
 
   for (auto &[target, position] : task) {
     for (size_t i = 0; i < number; i++) {
       auto agent = Behavior::make_type(behavior);
-      agent->set_kinematics(std::make_shared<OmnidirectionalKinematics>(1.0, 1.0));
-      agent->set_radius(0.1);
-      agent->set_horizon(1.0);
-      agent->set_position(position(i));
+      agent->set_kinematics(std::make_shared<OmnidirectionalKinematics>(
+          static_cast<ng_float_t>(1), static_cast<ng_float_t>(1)));
+      agent->set_radius(static_cast<ng_float_t>(0.1));
+      agent->set_horizon(1);
+      agent->set_position(position(static_cast<int>(i)));
       agent->set_target(Target::Point(target));
       // agent->social_margin.set_modulation(SocialMargin::LinearModulation(1.0f));
       // agent->social_margin.set(0, 0.25f);
@@ -68,7 +70,8 @@ void run(const char *behavior = "HL", const char *path_ = "", float radius = 4,
   std::vector<Neighbor> neighbors;
   std::transform(agents.cbegin(), agents.cend(), std::back_inserter(neighbors),
                  [](auto &agent) {
-                   return Neighbor(agent->get_position(), 0.1,
+                   return Neighbor(agent->get_position(),
+                                   static_cast<ng_float_t>(0.1),
                                    agent->get_velocity(Frame::absolute), 0);
                  });
 
@@ -76,7 +79,8 @@ void run(const char *behavior = "HL", const char *path_ = "", float radius = 4,
   if (strlen(path_)) {
     stream.open(path_);
   }
-  if (stream.is_open()) stream << "[";
+  if (stream.is_open())
+    stream << "[";
   auto begin = std::chrono::high_resolution_clock::now();
   for (size_t i = 0; i < steps; i++) {
     size_t j = 0;
@@ -93,7 +97,8 @@ void run(const char *behavior = "HL", const char *path_ = "", float radius = 4,
           (g[1] == 0 && p[0] / g[0] > 0.75)) {
         agent->set_target(Target::Point(-g));
       }
-      if (GeometricState *state = dynamic_cast<GeometricState *>(agent->get_environment_state())) {
+      if (GeometricState *state =
+              dynamic_cast<GeometricState *>(agent->get_environment_state())) {
         std::vector<Neighbor> agent_neighbors;
         std::copy(neighbors.begin(), neighbors.begin() + j,
                   std::back_inserter(agent_neighbors));
@@ -108,17 +113,19 @@ void run(const char *behavior = "HL", const char *path_ = "", float radius = 4,
       agent->actuate(twist, dt);
       if (stream.is_open()) {
         const auto p = agent->get_position();
-        if (i || j) stream << ", ";
+        if (i || j)
+          stream << ", ";
         stream << p[0] << ", " << p[1];
       }
       j++;
     }
   }
-  auto end = std::chrono::high_resolution_clock::now();
-  unsigned ns =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count();
-  printf("%s: total %.1f ms, per agent and step: %lu ns \n", behavior,
-         ns / 1e6, ns / (agents.size() * steps));
+  const auto end = std::chrono::high_resolution_clock::now();
+  const auto ns = static_cast<long unsigned>(
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin)
+          .count());
+  printf("%s: total %.1f ms, per agent and step: %lu ns \n", behavior, ns / 1e6,
+         ns / (agents.size() * steps));
   // for (auto & agent : agents) {
   //   std::cout << agent->position[0] << "," << agent->position[1] << ",";
   // }

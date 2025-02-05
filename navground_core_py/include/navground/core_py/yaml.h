@@ -113,7 +113,7 @@ template <typename T> py::object load_string_py(const std::string &value) {
   try {
     Node node = Load(value);
     return load_node_py<T>(node);
-  } catch (const ParserException &ex) {
+  } catch (const ParserException &) {
     return py::none();
   }
 }
@@ -125,7 +125,7 @@ py::object load_string_unique_py(const std::string &value) {
     auto obj = std::make_unique<T>();
     convert<T>::decode(node, *obj);
     return py::cast(std::move(obj));
-  } catch (const ParserException &ex) {
+  } catch (const ParserException &) {
     return py::none();
   }
 }

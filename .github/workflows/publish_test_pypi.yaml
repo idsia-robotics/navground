@@ -1,0 +1,25 @@
+name: Publish to TestPyPi
+on:
+  workflow_call:
+jobs:
+  publish-to-testpypi:
+    name: Publish wheels to TestPyPI
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/navground
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: repaired-wheel-*
+          path: dist
+          merge-multiple: true
+      - run: |
+          echo "Ignore generic linux wheels:" $(find dist -type f | grep linux_x86_64)
+          rm -f dist/*linux_x86_64*
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true

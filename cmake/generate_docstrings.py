@@ -14,7 +14,8 @@ def ref(_renamed_classes, _methods, _force_properties):
                 namespace = namespace.split("::")[-2]
                 owner = _renamed_classes.get(namespace, namespace)
             else:
-                print(f"Unexpected namespace {namespace}", sys.stderr)
+                pass
+                # print(f"Unexpected namespace {namespace}", sys.stderr)
         if owner:
             owner += "."
 

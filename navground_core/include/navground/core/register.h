@@ -260,17 +260,17 @@ struct
   template <> PropertyRegister &HasRegister<Class>::type_properties() {        \
     static PropertyRegister p;                                                 \
     return p;                                                                  \
-  };                                                                           \
+  }                                                                           \
   template <> SchemaRegister &HasRegister<Class>::type_schema() {              \
     static SchemaRegister r;                                                   \
     return r;                                                                  \
-  };                                                                           \
+  }                                                                           \
   template <>                                                                  \
   std::map<std::string, HasRegister<Class>::Factory> &                         \
   HasRegister<Class>::factory() {                                              \
     static std::map<std::string, HasRegister<Class>::Factory> f;               \
     return f;                                                                  \
-  };                                                                           \
+  }                                                                           \
   template <>                                                                  \
   std::map<std::type_index, std::string> &HasRegister<Class>::type_names() {   \
     static std::map<std::type_index, std::string> _r;                          \

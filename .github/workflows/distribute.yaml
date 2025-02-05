@@ -1,0 +1,35 @@
+name: Distribute 📦
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '*'
+jobs:
+  build_cpp:
+    uses: ./.github/workflows/build_cpp.yaml
+  test_cpp:
+    uses: ./.github/workflows/test_cpp.yaml
+    needs:
+      - build_cpp
+  build_py:
+    uses: ./.github/workflows/build_py.yaml
+    needs:
+      - build_cpp
+  test_py:
+    uses: ./.github/workflows/test_py.yaml
+    needs:
+      - build_py
+  publish_to_test_pypi:
+    uses: ./.github/workflows/publish_test_pypi.yaml
+    needs:
+      - test_py
+  publish_to_pypi:
+    uses: ./.github/workflows/publish_pypi.yaml
+    if: startsWith(github.ref, 'refs/tags/')
+    needs:
+      - test_py
+  release:
+    uses: ./.github/workflows/release.yaml
+    if: startsWith(github.ref, 'refs/tags/')
+    needs:
+      - publish_to_pypi

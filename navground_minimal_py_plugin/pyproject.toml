@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "navground_minimal_py_plugin"
+dependencies = [
+  "navground"
+]
+version = "0.4.0"
+
+authors = [
+  {name = "Jerome Guzzi", email = "jerome@idsia.ch"},
+]
+maintainers = [
+  {name = "Jerome Guzzi", email = "jerome@idsia.ch"}
+]
+description = "A minimal example of a Python plugin"
+
+
+[project.entry-points.navground_behaviors]
+minimal = "navground_minimal_py_plugin:MinimalBehavior"
+
+[tool.setuptools.packages.find]
+where = ["."]

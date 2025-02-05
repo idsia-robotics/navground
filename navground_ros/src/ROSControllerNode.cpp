@@ -62,9 +62,10 @@ template <>
 struct is_ros_param_type<std::vector<std::string>> : std::true_type {};
 
 static std::shared_ptr<Kinematics>
-make_kinematics(const std::string &name, float max_speed,
-                float max_angular_speed, float axis, float max_acceleration,
-                float max_angular_acceleration) {
+make_kinematics(const std::string &name, ng_float_t max_speed,
+                ng_float_t max_angular_speed, ng_float_t axis,
+                ng_float_t max_acceleration,
+                ng_float_t max_angular_acceleration) {
   auto kinematics = Kinematics::make_type(name);
   if (kinematics) {
     kinematics->set_max_speed(max_speed);
@@ -103,31 +104,41 @@ static Behavior::Heading heading_from_string(const std::string &name) {
 }
 
 static Vector3 vector_from(const geometry_msgs::msg::Vector3 &v) {
-  return {v.x, v.y, v.z};
+  return {static_cast<ng_float_t>(v.x), static_cast<ng_float_t>(v.y),
+          static_cast<ng_float_t>(v.z)};
 }
 
 static Vector3 point_from(const geometry_msgs::msg::Point &v) {
-  return {v.x, v.y, v.z};
+  return {static_cast<ng_float_t>(v.x), static_cast<ng_float_t>(v.y),
+          static_cast<ng_float_t>(v.z)};
 }
 
 using Transform = Eigen::Transform<ng_float_t, 3, Eigen::Isometry>;
 
 static Transform transform_from(const geometry_msgs::msg::Transform &t) {
-  return Transform(Eigen::Translation<ng_float_t, 3>(
-                       t.translation.x, t.translation.y, t.translation.z) *
-                   Eigen::Quaternion<ng_float_t>(t.rotation.w, t.rotation.x,
-                                                 t.rotation.y, t.rotation.z));
+  return Transform(
+      Eigen::Translation<ng_float_t, 3>(
+          static_cast<ng_float_t>(t.translation.x),
+          static_cast<ng_float_t>(t.translation.y),
+          static_cast<ng_float_t>(t.translation.z)) *
+      Eigen::Quaternion<ng_float_t>(static_cast<ng_float_t>(t.rotation.w),
+                                    static_cast<ng_float_t>(t.rotation.x),
+                                    static_cast<ng_float_t>(t.rotation.y),
+                                    static_cast<ng_float_t>(t.rotation.z)));
 }
 
 static Transform transform_from(const geometry_msgs::msg::Pose &t) {
   return Transform(
-      Eigen::Translation<ng_float_t, 3>(t.position.x, t.position.y,
-                                        t.position.z) *
-      Eigen::Quaternion<ng_float_t>(t.orientation.w, t.orientation.x,
-                                    t.orientation.y, t.orientation.z));
+      Eigen::Translation<ng_float_t, 3>(static_cast<ng_float_t>(t.position.x),
+                                        static_cast<ng_float_t>(t.position.y),
+                                        static_cast<ng_float_t>(t.position.z)) *
+      Eigen::Quaternion<ng_float_t>(static_cast<ng_float_t>(t.orientation.w),
+                                    static_cast<ng_float_t>(t.orientation.x),
+                                    static_cast<ng_float_t>(t.orientation.y),
+                                    static_cast<ng_float_t>(t.orientation.z)));
 }
 
-static float yaw_from(const geometry_msgs::msg::Quaternion &q) {
+static ng_float_t yaw_from(const geometry_msgs::msg::Quaternion &q) {
   return std::atan2(2 * (q.w * q.z + q.x * q.y),
                     1 - 2 * (q.y * q.y + q.z * q.z));
 }
@@ -137,7 +148,7 @@ static float yaw_from(const geometry_msgs::msg::Quaternion &q) {
 //                     1 - 2 * (q.y() * q.y() + q.z() * q.z()));
 // }
 
-static float yaw_from(const Transform &t) {
+static ng_float_t yaw_from(const Transform &t) {
   const auto rpy = t.linear().eulerAngles(2, 1, 0);
   if (std::abs(rpy[1]) > HALF_PI && std::abs(rpy[2]) > HALF_PI) {
     return rpy[0] + M_PI;
@@ -317,7 +328,7 @@ private:
     }
   }
 
-  void running(float time_remaining) {
+  void running(ng_float_t time_remaining) {
     if (goal_handle) {
       auto f = std::make_shared<GoToTarget::Feedback>();
       // TODO(J): Modify interface
@@ -341,7 +352,7 @@ private:
 
   std::optional<Transform> get_transform(const std::string &from,
                                          const std::string &to,
-                                         const tf2::TimePoint &tp) {
+                                         const tf2::TimePoint &) {
     try {
       return transform_from(
           tf_buffer->lookupTransform(from, to, tf2::TimePointZero).transform);
@@ -358,12 +369,12 @@ private:
     if (frame_id == msg.header.frame_id) {
       return twist_from(msg.twist);
     }
-    auto t = get_transform(frame_id, msg.header.frame_id,
-                           tf2_ros::fromMsg(msg.header.stamp));
+    const auto t = get_transform(frame_id, msg.header.frame_id,
+                                 tf2_ros::fromMsg(msg.header.stamp));
     if (!t)
       return std::nullopt;
-    auto linear = t->linear() * vector_from(msg.twist.linear);
-    auto angular = t->linear() * vector_from(msg.twist.angular);
+    const Vector3 linear = t->linear() * vector_from(msg.twist.linear);
+    const Vector3 angular = t->linear() * vector_from(msg.twist.angular);
     return Twist3{linear, angular.z()};
   }
 
@@ -373,8 +384,8 @@ private:
     if (frame_id == msg.header.frame_id) {
       return vector_from(msg.vector);
     }
-    auto t = get_transform(frame_id, msg.header.frame_id,
-                           tf2_ros::fromMsg(msg.header.stamp));
+    const auto t = get_transform(frame_id, msg.header.frame_id,
+                                 tf2_ros::fromMsg(msg.header.stamp));
     if (!t)
       return std::nullopt;
     return t->linear() * vector_from(msg.vector);
@@ -386,8 +397,8 @@ private:
     if (frame_id == msg.header.frame_id) {
       return point_from(msg.point);
     }
-    auto t = get_transform(frame_id, msg.header.frame_id,
-                           tf2_ros::fromMsg(msg.header.stamp));
+    const auto t = get_transform(frame_id, msg.header.frame_id,
+                                 tf2_ros::fromMsg(msg.header.stamp));
     if (!t)
       return std::nullopt;
     return *t * point_from(msg.point);
@@ -398,8 +409,8 @@ private:
     if (frame_id == msg.header.frame_id) {
       return pose_from(msg.pose);
     }
-    auto t = get_transform(frame_id, msg.header.frame_id,
-                           tf2_ros::fromMsg(msg.header.stamp));
+    const auto t = get_transform(frame_id, msg.header.frame_id,
+                                 tf2_ros::fromMsg(msg.header.stamp));
     if (!t)
       return std::nullopt;
     return pose_from(*t * transform_from(msg.pose));
@@ -429,8 +440,8 @@ private:
         if (!t)
           return std::nullopt;
       }
-      auto linear = t->linear() * vector_from(msg.twist.twist.linear);
-      auto angular = t->linear() * vector_from(msg.twist.twist.angular);
+      const auto linear = t->linear() * vector_from(msg.twist.twist.linear);
+      const auto angular = t->linear() * vector_from(msg.twist.twist.angular);
       twist = {linear, angular.z()};
     }
     return std::make_tuple(pose, twist);
@@ -438,7 +449,7 @@ private:
 
   void odom_cb(const nav_msgs::msg::Odometry &msg) {
     last_localization_stamp = now();
-    auto odom = odom_from_msg(msg, fixed_frame);
+    const auto odom = odom_from_msg(msg, fixed_frame);
     if (!odom)
       return;
     const auto &[pose, twist] = *odom;
@@ -454,7 +465,7 @@ private:
   void target_point_cb(const geometry_msgs::msg::PointStamped &msg) {
     if (goal_handle)
       return;
-    auto target = point_from_msg(msg, fixed_frame);
+    const auto target = point_from_msg(msg, fixed_frame);
     if (target) {
       controller.follow_point(*target);
       if (markers_pub.enabled) {
@@ -466,7 +477,7 @@ private:
   void target_pose_cb(const geometry_msgs::msg::PoseStamped &msg) {
     if (goal_handle)
       return;
-    auto target = pose_from_msg(msg, fixed_frame);
+    const auto target = pose_from_msg(msg, fixed_frame);
     if (target) {
       controller.follow_pose(*target);
       if (markers_pub.enabled) {
@@ -478,7 +489,7 @@ private:
   void target_twist_cb(const geometry_msgs::msg::TwistStamped &msg) {
     if (goal_handle)
       return;
-    auto target = twist_from_msg(msg, fixed_frame);
+    const auto target = twist_from_msg(msg, fixed_frame);
     if (target) {
       controller.follow_twist(*target);
     }
@@ -497,8 +508,8 @@ private:
   void stop_cb([[maybe_unused]] const std_msgs::msg::Empty &msg) { stop(); }
 
   rclcpp_action::GoalResponse
-  handle_goal(const rclcpp_action::GoalUUID &uuid,
-              std::shared_ptr<const GoToTarget::Goal> goal) {
+  handle_goal([[maybe_unused]] const rclcpp_action::GoalUUID &uuid,
+              [[maybe_unused]] std::shared_ptr<const GoToTarget::Goal> goal) {
     RCLCPP_INFO(get_logger(), "Received goal request");
     if (!goal_handle && controller.get_behavior())
       return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
@@ -597,16 +608,17 @@ private:
 
   void neighbors_cb(const navground_msgs::msg::Neighbors &msg) {
     std::vector<Neighbor3> neighbors;
-    for (auto msg : msg.neighbors) {
-      auto position = point_from_msg(msg.obstacle.top_position, fixed_frame);
+    for (const auto &nmsg : msg.neighbors) {
+      auto position = point_from_msg(nmsg.obstacle.top_position, fixed_frame);
       if (!position)
         return;
-      auto velocity = vector_from_msg(msg.velocity, fixed_frame);
+      const auto velocity = vector_from_msg(nmsg.velocity, fixed_frame);
       if (!velocity)
         return;
-      *position -= Vector3(0, 0, msg.obstacle.height);
-      neighbors.emplace_back(*position, msg.obstacle.radius,
-                             msg.obstacle.height, velocity->head<2>(), msg.id);
+      *position -= Vector3(0, 0, nmsg.obstacle.height);
+      neighbors.emplace_back(*position, nmsg.obstacle.radius,
+                             nmsg.obstacle.height, velocity->head<2>(),
+                             nmsg.id);
     }
     controller.set_neighbors(neighbors);
     if (markers_pub.enabled) {
@@ -616,12 +628,12 @@ private:
 
   void obstacles_cb(const navground_msgs::msg::Obstacles &msg) {
     std::vector<Cylinder> obstacles;
-    for (auto msg : msg.obstacles) {
-      auto position = point_from_msg(msg.top_position, fixed_frame);
+    for (const auto &omsg : msg.obstacles) {
+      auto position = point_from_msg(omsg.top_position, fixed_frame);
       if (!position)
         return;
-      *position -= Vector3(0, 0, msg.height);
-      obstacles.emplace_back(*position, msg.radius, msg.height);
+      *position -= Vector3(0, 0, omsg.height);
+      obstacles.emplace_back(*position, omsg.radius, omsg.height);
     }
     controller.set_static_obstacles(obstacles);
     if (markers_pub.enabled) {
@@ -640,7 +652,7 @@ private:
         declare_parameter("kinematics.max_acceleration", 1.0, param_desc),
         declare_parameter("kinematics.max_angular_acceleration", 0.0,
                           param_desc));
-    const float radius = declare_parameter("radius", 0.0, param_desc);
+    declare_parameter("radius", 0.0, param_desc);
     should_publish_cmd_stamped =
         declare_parameter("publish_cmd_stamped", false, param_desc);
     controller.set_cmd_frame(should_publish_cmd_stamped ? Frame::absolute
@@ -659,7 +671,7 @@ private:
     declare_parameter("drawing", false);
     for (const auto &[type, properties] : Behavior::type_properties()) {
       const std::string prefix = tolower(type) + ".";
-      for (const auto [name, property] : properties) {
+      for (const auto &[name, property] : properties) {
         const std::string param_name = prefix + name;
         std::visit(
             [&param_name, this](auto &&arg) {
@@ -711,7 +723,7 @@ private:
 
     const auto &properties = type_properties.at(type);
     const std::string prefix = tolower(type) + ".";
-    for (const auto [name, property] : properties) {
+    for (const auto &[name, property] : properties) {
       const std::string param_name = prefix + name;
       const auto param = get_parameter(param_name);
       const auto value = get_from_param(property, param);
@@ -764,7 +776,7 @@ private:
         if (name.find(prefix) != std::string::npos) {
           name = name.substr(prefix.size());
           if (properties.count(name)) {
-            auto value = get_from_param(properties.at(name), param);
+            const auto value = get_from_param(properties.at(name), param);
             if (value) {
               b->set(name, *value);
             }

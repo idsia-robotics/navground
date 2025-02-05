@@ -714,7 +714,7 @@ template <> struct convert<std::shared_ptr<PyAgent>> {
 
 template <> py::object load_node_py<PyAgent>(const Node &node) {
   return py::cast(node.as<PyAgent>());
-};
+}
 
 // PyWorld load_world(const Node &node) {
 //   PyWorld world;
@@ -726,7 +726,7 @@ template <> py::object load_node_py<PyWorld>(const Node &node) {
   auto world = std::make_shared<PyWorld>();
   convert_world<PyAgent>::decode(node, *world);
   return py::cast(world);
-};
+}
 
 template <> py::object load_node_py<PyScenario>(const Node &node) {
   auto obj = make_type_from_yaml_py<PyScenario>(node);
@@ -736,11 +736,11 @@ template <> py::object load_node_py<PyScenario>(const Node &node) {
   }
   convert_scenario<PyWorld>::decode(node, obj.cast<Scenario &>());
   return obj;
-};
+}
 
 void update_scenario(Scenario &scenario, const Node &node) {
   convert_scenario<PyWorld>::decode(node, scenario);
-};
+}
 
 template <> std::string dump(const Scenario *sampler) {
   if (!sampler)
@@ -749,7 +749,7 @@ template <> std::string dump(const Scenario *sampler) {
   Emitter out;
   out << node;
   return std::string(out.c_str());
-};
+}
 
 // TODO(move to PyExperiment that creates a PyWorld instead of a World)
 // Experiment load_experiment(const Node &node) {

@@ -1,0 +1,43 @@
+{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 navground\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 navground, short for {\b Nav}igation Play{\b ground}, is a playground to experiment with navigation algorithms.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 This distribution provides the C++ {\f1 navground::core} and {\f1 navground::simulation} libraries and a CLI, to use but also extend navground.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Core\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 At its core there is a library of two-dimensional navigation algorithms implemented in C++, which provides a common API to interact with dynamic obstacle avoidance behaviors for multi-agent systems. Some behaviors are already implemented, more will be. Behaviors take the current state of environment and agent together with a target, and output a control command.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Features\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab navigation behaviors and modulations\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab environment states\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab targets\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab kinematics\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab 2D and 2.5D controllers with an event-based interface\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab collisions computation\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab YAML serialization\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Users can add their components (behaviors and kinematics) which are then auto-discovered by the rest of the system.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 The core library is designed to be integrated in real-time run-times of real or simulated robots or of other kind of agents. We already integrated it into the following run-times.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Simulation\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 The simulation complements the navigation behaviors of the core library with: - tasks that generate targets for behaviors, and - state estimation components that feed a potentially noisy and partial representation of the environment state to the behaviors.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 It also provides all the infrastructure to run offline experiments.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Features\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab very fast kinematic simulation\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab extensible tasks and state estimations\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab generating world with agents and static obstacles from scenarios\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab running experiments/benchmarks and recording data in HFD5 files\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab using YAML to specify experiments\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Documentation\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 For more information, we refer to the {\field{\*\fldinst{HYPERLINK "https://idsia-robotics.github.io/navground"}}{\fldrslt{\ul
+project documentation
+}}}
+ that contains also detailed installation instructions.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 License and copyright\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 This software is free for reuse according to the attached MIT license.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Acknowledgement and disclaimer\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 The work was supported in part by {\field{\*\fldinst{HYPERLINK "https://rexasi-pro.spindoxlabs.com"}}{\fldrslt{\ul
+REXASI-PRO
+}}}
+ H-EU project, call HORIZON-CL4-2021-HUMAN-01-01, Grant agreement no. 101070028.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \par}
+{\pard \ql \f0 \sa180 \li0 \fi0 The work has been partially funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Commission. Neither the European Union nor the European Commission can be held responsible for them.\par}
+}

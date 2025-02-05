@@ -50,7 +50,7 @@ static navground::core::BuildDependencies build_dependencies_core_py() {
            {navground::core::build_info(), navground::core::get_build_info()}}};
 }
 
-PYBIND11_MAKE_OPAQUE(std::map<std::string, Buffer>);
+PYBIND11_MAKE_OPAQUE(std::map<std::string, Buffer>)
 
 template <typename T> static std::string to_string(const T &value) {
   return std::to_string(value);
@@ -687,11 +687,6 @@ Constructs a navground property from a Python property.
       .def("is_wheeled", &Kinematics::is_wheeled,
            DOC(navground, core, Kinematics, is_wheeled))
       .def("dof", &Kinematics::dof, DOC(navground, core, Kinematics, dof))
-      // .def_property(
-      //     "type", [](Kinematics *obj) { return obj->get_type(); }, nullptr,
-      //     DOC(navground, core, HasRegister, property_type))
-      // .def_property("cmd_frame", &Kinematics::cmd_frame, nullptr,
-      //               DOC(navground, core, Kinematics, property_cmd_frame))
       .def("feasible", &Kinematics::feasible, py::arg("twist"),
            DOC(navground, core, Kinematics, feasible))
       .def("feasible_from_current", &Kinematics::feasible_from_current,
@@ -1129,9 +1124,6 @@ Constructs a navground property from a Python property.
       .def_property("orientation", &Behavior::get_orientation,
                     &Behavior::set_orientation,
                     DOC(navground, core, Behavior, property_orientation))
-      // .def_property("default_cmd_frame", &Behavior::default_cmd_frame,
-      // nullptr,
-      //               DOC(navground, core, Behavior, default_cmd_frame))
       .def_property(
           "assume_cmd_is_actuated", &Behavior::get_assume_cmd_is_actuated,
           &Behavior::set_assume_cmd_is_actuated,
@@ -1142,8 +1134,6 @@ Constructs a navground property from a Python property.
       .def_property(
           "twist", [](const Behavior &self) { return self.get_twist(); },
           &Behavior::set_twist, DOC(navground, core, Behavior, property_twist))
-      // .def_property("twist_ref", &Behavior::get_twist_ref, nullptr,
-      //               DOC(navground, core, Behavior, property_twist_ref))
       .def("get_twist", &Behavior::get_twist,
            py::arg_v("frame", Frame::absolute,
                      "navground.core._navground.Frame.absolute"),

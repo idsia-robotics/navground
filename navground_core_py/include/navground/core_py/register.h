@@ -229,7 +229,7 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
     try {
       auto value = py::cast(this).attr("_type");
       return value.template cast<std::string>();
-    } catch (const std::exception &e) {
+    } catch (const std::exception &) {
       return "";
     }
   }

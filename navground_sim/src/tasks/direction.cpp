@@ -16,7 +16,7 @@ void DirectionTask::prepare(Agent *agent, World *world) {
   if (_direction.norm()) {
     agent->get_controller()->follow_direction(_direction);
   }
-};
+}
 
 bool DirectionTask::done() const { return _stop; }
 

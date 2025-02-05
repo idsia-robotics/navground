@@ -1,0 +1,75 @@
+FROM ubuntu:latest AS deps
+
+SHELL ["/bin/bash", "-c"]
+
+RUN apt-get update && apt-get install -y \
+    libgeos++-dev \
+    libhdf5-dev \
+    libyaml-cpp-dev \
+    libargparse-dev \
+    libeigen3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+FROM deps AS build
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    vcstool \
+    colcon \
+    file \
+    python3-setuptools \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+
+COPY cmake /ws/src/navground/cmake
+COPY colcon /ws/src/navground/colcon
+COPY installation /ws/src/navground/installation
+COPY navground_core /ws/src/navground/navground_core
+COPY navground_sim /ws/src/navground/navground_sim
+
+# RUN mkdir -p /ws/src \
+#     && cd /ws \
+#     && vcs import --shallow --input src/navground/installation/deps-slim.repos
+
+RUN cd /ws \
+    && colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_core navground_sim
+
+RUN cd /ws/build/navground_core \
+    && cpack -G DEB
+
+RUN cd /ws/build/navground_sim \
+    && cpack -G DEB
+
+FROM ubuntu:latest AS test
+
+COPY --from=build /ws/build/navground_core/_CPack_Packages/Linux/DEB/*.deb /tmp
+COPY --from=build /ws/build/navground_sim/_CPack_Packages/Linux/DEB/*.deb /tmp
+
+
+RUN apt-get update && apt-get install -y \
+    ./tmp/navground-*.deb \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    colcon \
+    python3-setuptools \
+    && rm -rf /var/lib/apt/lists/*
+
+
+COPY navground_examples /ws/src/navground/navground_examples
+COPY navground_examples_yaml /ws/src/navground/navground_examples_yaml
+
+RUN cd /ws \
+    && colcon build --packages-select navground_examples navground_examples_yaml
+
+
+
+
+
+
+

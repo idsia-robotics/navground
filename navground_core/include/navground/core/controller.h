@@ -159,7 +159,8 @@ public:
    * @param[in]  behavior                  The navigation behavior
    */
   explicit Controller(std::shared_ptr<Behavior> behavior = nullptr)
-      : behavior(behavior), speed_tolerance(1e-2), cmd_frame(std::nullopt) {}
+      : behavior(behavior), speed_tolerance(static_cast<ng_float_t>(1e-2)),
+        cmd_frame(std::nullopt) {}
 
   virtual ~Controller() = default;
 

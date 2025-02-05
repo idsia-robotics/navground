@@ -2,15 +2,15 @@
 
 include(CMakeFindDependencyMacro)
 
-include("${CMAKE_CURRENT_LIST_DIR}/navground_simTargets.cmake")
-
-# these are needed to export dependencies
-# similar to ament_export_dependencies
+# these are needed to export dependencies similar to ament_export_dependencies
 
 find_dependency(navground_core)
 find_dependency(GEOS)
 find_dependency(HighFive)
-if (UNIX)
+
+include("${CMAKE_CURRENT_LIST_DIR}/navground_simTargets.cmake")
+
+if(UNIX)
   find_dependency(Threads)
 endif()
 

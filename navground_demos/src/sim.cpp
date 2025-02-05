@@ -21,7 +21,7 @@ static void show_usage(std::string name) {
             << "  --behavior=<BEHAVIOR>\tNavigation behavior" << std::endl;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   char behavior_name[10] = "HL";
   for (int i = 0; i < argc; i++) {
     if (sscanf(argv[i], "--behavior=%9s", behavior_name)) {
@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
       return 0;
     }
   }
-  Experiment demo(0.02, 50 * 60);
+  Experiment demo((ng_float_t)0.02, 50 * 60);
   demo.record_config.pose = true;
   demo.save_directory = ".";
   demo.scenario = std::make_shared<ThymioDemo>(behavior_name);

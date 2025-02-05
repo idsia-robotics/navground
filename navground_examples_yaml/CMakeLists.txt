@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.11)
 project(navground_examples_yaml)
 
 find_package(ament_cmake QUIET)

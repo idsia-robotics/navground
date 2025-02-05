@@ -1,0 +1,50 @@
+name: Build C++ 📦
+on:
+  workflow_call:
+  workflow_dispatch:
+jobs:
+  build_cpp:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-20.04
+          - ubuntu-22.04-arm
+          - windows-latest
+          - macos-latest
+          - macos-13
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: src/navground
+      - run: mkdir src/navground/distribution/cpp/build
+      - name: cache build/_deps directory
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: src/navground/distribution/cpp/build/_deps
+          key: build-deps-${{ matrix.os }}-${{ hashFiles('src/navground/distribution/cpp/deps.cmake') }}
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: build package
+        if: runner.os == 'Windows'
+        run: |
+          cd src/navground/distribution/cpp/build
+          cmake.exe -DCMAKE_BUILD_TYPE=Release ..
+          cmake.exe --build . --config Release --parallel 4
+          cmake.exe --install . --config Release --prefix ..\install
+          cpack
+      - name: build package
+        if: runner.os != 'Windows'
+        run: |
+          cd src/navground/distribution/cpp/build
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          cmake --build . --config Release --parallel 4
+          sudo cmake --install . --config Release
+          sudo rm -r install_manifest.txt
+          cpack
+      - name: archive package
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages-${{ runner.os }}-${{ runner.arch }}
+          path: src/navground/distribution/cpp/build/packages
+          if-no-files-found: error

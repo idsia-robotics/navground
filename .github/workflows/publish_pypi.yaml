@@ -1,0 +1,25 @@
+name: Publish to PyPi
+on:
+  workflow_call:
+jobs:
+  publish-to-pypi:
+    name: Publish wheels to PyPI
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/navground  # Replace <package-name> with your PyPI project name
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: repaired-wheel-*
+          path: dist
+          merge-multiple: true
+      - run: |
+          echo "Ignore generic linux wheels:" $(find dist -type f | grep linux_x86_64)
+          rm -f dist/*linux_x86_64*
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true

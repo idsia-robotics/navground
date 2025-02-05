@@ -27,19 +27,21 @@ struct ThymioDemo : public sim::Scenario {
   void
   init_world(sim::World *world,
              [[maybe_unused]] std::optional<int> seed = std::nullopt) override {
-    const std::vector<Vector2> targets{{1, 0}, {-1.0, 0}};
+    const std::vector<Vector2> targets{{1, 0}, {-1, 0}};
     for (size_t i = 0; i < 2; i++) {
-      auto task = std::make_shared<sim::WaypointsTask>(targets, true, 0.2);
-      auto se = std::make_shared<sim::BoundedStateEstimation>(1.0);
+      auto task =
+          std::make_shared<sim::WaypointsTask>(targets, true, (ng_float_t)0.2);
+      auto se = std::make_shared<sim::BoundedStateEstimation>(1);
       auto kinematics =
-          std::make_shared<core::TwoWheelsDifferentialDriveKinematics>(0.166,
-                                                                       0.094);
+          std::make_shared<core::TwoWheelsDifferentialDriveKinematics>(
+              (ng_float_t)0.166, (ng_float_t)0.094);
       auto behavior = core::Behavior::make_type(behavior_type);
-      auto agent = sim::Agent::make(0.08, behavior, kinematics, task, se, 0.02);
-      behavior->set_optimal_speed(0.12);
-      behavior->set_horizon(1.0);
-      behavior->set_safety_margin(0.02);
-      agent->get_controller()->set_speed_tolerance(0.01);
+      auto agent = sim::Agent::make((ng_float_t)0.08, behavior, kinematics,
+                                    task, se, (ng_float_t)0.02);
+      behavior->set_optimal_speed((ng_float_t)0.12);
+      behavior->set_horizon(1);
+      behavior->set_safety_margin((ng_float_t)0.02);
+      agent->get_controller()->set_speed_tolerance((ng_float_t)0.01);
       agent->pose = {{i ? -0.5 : 0.5, 0.5}, 0};
       agent->type = "thymio";
       world->add_agent(agent);

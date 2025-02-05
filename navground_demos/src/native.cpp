@@ -17,13 +17,12 @@ using navground::core::Action;
 using navground::core::Behavior;
 using navground::core::Controller;
 using navground::core::Disc;
+using navground::core::Frame;
 using navground::core::GeometricState;
 using navground::core::Neighbor;
 using navground::core::Twist2;
 using navground::core::TwoWheelsDifferentialDriveKinematics;
 using navground::core::Vector2;
-using navground::core::Frame;
-
 
 static void show_usage(std::string name) {
   std::vector<std::string> keys = Behavior::types();
@@ -54,18 +53,20 @@ static void run(const char *behavior = "HL") {
   // invalid an alternative could be to use shared pointers
   controllers.reserve(2);
   std::vector<Behavior *> agents;
-  std::vector<Disc> obstacles = {Disc({0, 0}, 0.1)};
+  std::vector<Disc> obstacles = {Disc({0, 0}, (ng_float_t)0.1)};
   Vector2 target{1, 0};
   for (size_t i = 0; i < 2; i++) {
-    auto kinematics = std::make_shared<TwoWheelsDifferentialDriveKinematics>(0.166, 0.094);
+    auto kinematics = std::make_shared<TwoWheelsDifferentialDriveKinematics>(
+        (ng_float_t)0.166, (ng_float_t)0.094);
     auto agent = Behavior::make_type(behavior);
     agent->set_kinematics(kinematics);
-    agent->set_radius(0.08);
-    agent->set_horizon(1.0);
-    agent->set_safety_margin(0.02);
-    agent->set_optimal_speed(0.12);
+    agent->set_radius((ng_float_t)0.08);
+    agent->set_horizon(1);
+    agent->set_safety_margin((ng_float_t)0.02);
+    agent->set_optimal_speed((ng_float_t)0.12);
     agent->set_position(Vector2(i ? -0.5 : 0.5, 0));
-    if (GeometricState *state = dynamic_cast<GeometricState *>(agent->get_environment_state())) {
+    if (GeometricState *state =
+            dynamic_cast<GeometricState *>(agent->get_environment_state())) {
       state->set_static_obstacles(obstacles);
     }
     agents.push_back(agent.get());
@@ -73,17 +74,19 @@ static void run(const char *behavior = "HL") {
     controller.set_speed_tolerance(0.01f);
     go_to(&controller, target);
   }
-  const float dt = 0.02f;
+  const ng_float_t dt = static_cast<ng_float_t>(0.02);
   printf("Start simulating 1 minute at 50 ticks per second\n");
   auto begin = std::chrono::high_resolution_clock::now();
   for (size_t i = 0; i < 3000; i++) {
     for (auto &controller : controllers) {
       auto agent = controller.get_behavior().get();
-      if (GeometricState *state = dynamic_cast<GeometricState *>(agent->get_environment_state())) {
+      if (GeometricState *state =
+              dynamic_cast<GeometricState *>(agent->get_environment_state())) {
         std::vector<Neighbor> neighbors;
         for (auto &neighbor : agents) {
-          if (neighbor == agent) continue;
-          neighbors.emplace_back(neighbor->get_position(), 0.08,
+          if (neighbor == agent)
+            continue;
+          neighbors.emplace_back(neighbor->get_position(), (ng_float_t)0.08,
                                  neighbor->get_velocity(Frame::absolute), 0);
         }
         state->set_neighbors(neighbors);
@@ -94,10 +97,10 @@ static void run(const char *behavior = "HL") {
       controller.get_behavior()->actuate(cmd, dt);
     }
   }
-  auto end = std::chrono::high_resolution_clock::now();
-  unsigned us =
+  const auto end = std::chrono::high_resolution_clock::now();
+  const auto us =
       std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count();
-  printf("Done simulating in %.1f ms\n", us * 1e-6);
+  printf("Done simulating in %.1f ms\n", static_cast<double>(us) * 1e-6);
 }
 
 int main(int argc, char *argv[]) {

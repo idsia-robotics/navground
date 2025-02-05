@@ -14,10 +14,10 @@ macro(configure_build_info input output)
   endif()
 
   if(GIT_COMMIT STREQUAL "")
-    set(GIT_COMMIT 0.0.0-unknown)
+    set(GIT_COMMIT ${CMAKE_PROJECT_VERSION}-unknown)
     message(
       WARNING
-        "Failed to determine version from Git tags. Using default version \"${GIT_VERSION}\"."
+        "Failed to determine version from Git tags. Using default version \"${CMAKE_PROJECT_VERSION}\"."
     )
   endif()
 

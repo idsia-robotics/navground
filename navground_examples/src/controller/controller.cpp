@@ -12,10 +12,10 @@
 using navground::core::Action;
 using navground::core::Behavior;
 using navground::core::Controller;
-using navground::core::TwoWheelsDifferentialDriveKinematics;
 using navground::core::Twist2;
+using navground::core::TwoWheelsDifferentialDriveKinematics;
 
-static void show_usage(const std::string & name) {
+static void show_usage(const std::string &name) {
   std::vector<std::string> keys = Behavior::types();
   std::ostringstream behaviors;
   // Dump all keys
@@ -31,7 +31,7 @@ static void show_usage(const std::string & name) {
 
 int main(int argc, char *argv[]) {
   Controller controller;
-  float dt = 0.1;
+  const auto dt = static_cast<ng_float_t>(0.1);
   char behavior_name[10] = "HL";
   for (int i = 0; i < argc; i++) {
     if (sscanf(argv[i], "--behavior=%9s", behavior_name)) {
@@ -47,10 +47,12 @@ int main(int argc, char *argv[]) {
     printf("No behavior with name %s\n", behavior_name);
     exit(1);
   }
-  behavior->set_kinematics(std::make_shared<TwoWheelsDifferentialDriveKinematics>(1.0, 0.1));
-  behavior->set_radius(0.1);
+  behavior->set_kinematics(
+      std::make_shared<TwoWheelsDifferentialDriveKinematics>(
+          static_cast<ng_float_t>(1), static_cast<ng_float_t>(0)));
+  behavior->set_radius(static_cast<ng_float_t>(0.1));
   controller.set_behavior(behavior);
-  controller.set_speed_tolerance(0.05);
+  controller.set_speed_tolerance(static_cast<ng_float_t>(0.05));
   controller.set_cmd_cb(
       [&, behavior, dt](const Twist2 &cmd) { behavior->actuate(cmd, dt); });
   behavior->set_horizon(1.0);
@@ -59,16 +61,16 @@ int main(int argc, char *argv[]) {
   behavior->set_position({0, 0});
   // behavior->set_orientation(0.5f);
   // Go to 1, 0, -1.5
-  const auto action = controller.go_to_position({-1.0, 0.0}, 0.1f);
+  const auto action = controller.go_to_position({-1, 0}, static_cast<ng_float_t>(0.1));
   action->done_cb = [](Action::State state) {
     if (state == Action::State::success) {
       printf("Arrived\n");
     }
   };
-  action->running_cb = [](float time) {
+  action->running_cb = [](ng_float_t time) {
     printf("In progress ... expected to last at least %.2f s\n", time);
   };
-  float t = 0.0;
+  ng_float_t t = 0;
   auto p = behavior->get_position();
   printf("Start loop @ (%.3f, %.3f)\n", p.x(), p.y());
   while (!action->done()) {

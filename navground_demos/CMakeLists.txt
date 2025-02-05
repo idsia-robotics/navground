@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.11)
 project(navground_demos)
 
 # Default to C++14
@@ -15,6 +15,8 @@ endif()
 
 find_package(navground_core REQUIRED)
 find_package(navground_sim REQUIRED)
+find_package(ament_cmake)
+find_package(ament_cmake_python REQUIRED)
 
 add_executable(native_cpp src/native.cpp)
 target_link_libraries(native_cpp navground_core::navground_core)

@@ -51,16 +51,16 @@ struct RecordNeighborsConfig {
   /**
    * Whether to record neighbors or not
    */
-  bool enabled;
+  bool enabled = false;
   /**
    * The number of neighbors to record. If more, it will record
    * the nearest `number` record. If fewer, it will pads with zeros.
    */
-  int number;
+  int number = 0;
   /**
    * Whether to use a frame relative to the agent or the absolute frame.
    */
-  bool relative;
+  bool relative = false;
 };
 
 /**

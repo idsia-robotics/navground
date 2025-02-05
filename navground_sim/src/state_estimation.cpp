@@ -14,6 +14,6 @@ void StateEstimation::update(Agent *agent, World *world) {
       update(agent, world, behavior->get_environment_state());
     }
   }
-};
+}
 
 }  // namespace navground::sim

@@ -73,7 +73,7 @@ std::string BuildInfo::get_date_string() const {
 
 BuildInfo::BuildInfo(const std::string &git_describe, const std::string &date)
     : BuildInfo(parse_version(git_describe), git_describe, parse_date(date),
-                std::string(get_type_name<ng_float_t>())) {};
+                std::string(get_type_name<ng_float_t>())) {}
 
 BuildInfo get_build_info() { return build_info(); }
 BuildDependencies get_build_dependencies() { return {}; }

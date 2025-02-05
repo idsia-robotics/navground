@@ -28,7 +28,7 @@ int main() {
   world.add_agent(std::move(a));
   std::cout << "\nLoaded world\n====================" << std::endl;
   std::cout << YAML::dump<sim::World>(&world) << std::endl;
-  world.run(100, 0.1);
+  world.run(100, (ng_float_t)0.1);
   std::cout
       << "\nAfter simulating for 10 s at 0.1 s steps\n===================="
       << std::endl;

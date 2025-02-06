@@ -1,0 +1,13 @@
+name: Test Python 📦
+on:
+  workflow_call:
+    inputs:
+      run-id:
+        type: string
+        default: ${{github.run_id}}
+  workflow_dispatch:
+    inputs:
+      run-id:
+        type: string
+        description: The run id
+jobs: {}

@@ -3,7 +3,7 @@ requires = ["setuptools >= 61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "navground_minimal_py_plugin"
+name = "navground_minimal_plugin_py"
 dependencies = [
   "navground"
 ]
@@ -19,7 +19,7 @@ description = "A minimal example of a Python plugin"
 
 
 [project.entry-points.navground_behaviors]
-minimal = "navground_minimal_py_plugin:MinimalBehavior"
+minimal = "navground_minimal_plugin_py:MinimalBehavior"
 
 [tool.setuptools.packages.find]
 where = ["."]

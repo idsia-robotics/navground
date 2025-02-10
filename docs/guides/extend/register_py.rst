@@ -352,3 +352,22 @@ Complete example
 ================
 
 See :ref:`Python example <py_component_example>` for an example where we implement and register a new (dummy) navigation behavior in Python.
+
+Distribute
+==========
+
+If you want to distribute your Python plugin, you can build a wheel:
+
+1. build the wheel
+
+   .. code-block:: console
+
+      cd <my package>
+      python -m build
+ 
+3. share the file(s) built in ``dist``.
+
+See :ref:`Minimal Python plugin skeleton<minimal_py>` for a minimal skeleton of a ready to be distributed Python plugin.
+
+
+

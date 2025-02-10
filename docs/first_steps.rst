@@ -28,7 +28,44 @@ If you built navground from source, you need to source the workspace.
         
          $ install\setup.bat
 
-Run ``navground_py``, which is installed for any type of installations. 
+You also need perform a similar command if you installed a binary release from Github 
+
+.. tabs::
+
+   .. tab:: macOS (zhs)
+
+      .. code-block:: console
+
+         $ . /opt/install/setup.zsh
+
+   .. tab:: Linux (bash)
+
+      .. code-block:: console
+         
+         $ . /opt/install/setup.bash
+
+
+   .. tab:: Windows (command prompt)
+
+      .. code-block:: console
+        
+         $ "C:\Program Files\navground\setup.bat"
+
+   .. tab:: Windows (power shell)
+
+      First, you may need to increase the privilege of the shell, for instance by running
+
+      .. code-block:: console
+
+         $ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process -Force
+
+      Then execute the script
+
+      .. code-block:: console
+        
+         $ & "C:\Program Files\install\setup.ps1"
+
+Once configured, run ``navground_py``, which is installed for any type of installations. 
 
 .. tabs::
 

@@ -21,7 +21,7 @@ from navground import sim
 if TYPE_CHECKING:
     import tqdm
 
-ScenarioInitCallback = Callable[['sim._navground_sim.Scenario', int], None]
+ScenarioInitCallback = Callable[[sim.Scenario, int], None]
 
 
 def _load_and_run_experiment(

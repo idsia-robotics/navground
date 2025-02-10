@@ -151,7 +151,8 @@ class Experiment:
                callback: Callable[[int], None] | None = ...,
                bar: tqdm.tqdm[Any] | None = ...,
                scenario_init_callback: ScenarioInitCallback | None = ...,
-               use_multiprocess: bool = ...) -> None:  ...
+               use_multiprocess: bool = ...,
+               load_plugins: bool = True) -> None:  ...
     def setup_tqdm(self, bar: tqdm.tqdm[Any], number_of_runs: int | None = ...) -> None: ...
     _group_record_probes: dict[str, Callable[[], GroupRecordProbe]]
     _probes: list[Callable[[], Probe]]

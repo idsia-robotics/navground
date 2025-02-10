@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any
 
 from IPython.display import HTML, SVG, display_html

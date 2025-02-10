@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import Callable, Collection
 from typing import (Any, Literal, TypeAlias, TypeVar, cast, get_args,
                     get_origin, get_type_hints)

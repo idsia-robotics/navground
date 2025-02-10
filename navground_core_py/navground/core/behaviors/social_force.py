@@ -11,6 +11,7 @@
     - cit. "potentials with a hard core that would be more realistic"
     - gradient in case of divergence
 """
+from __future__ import annotations
 
 from typing import cast
 from collections.abc import Callable

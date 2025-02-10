@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 
 if hasattr(os, "add_dll_directory") and "NAVGROUND_DLL_PATH" in os.environ:

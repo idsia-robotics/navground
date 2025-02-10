@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 from types import ModuleType
 from typing import Any

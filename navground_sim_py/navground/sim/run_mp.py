@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import itertools
 import multiprocessing
 from multiprocessing.queues import Queue

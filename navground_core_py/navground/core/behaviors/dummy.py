@@ -1,3 +1,4 @@
+from __future__ import annotations
 
 import numpy as np
 from navground.core import Behavior, Kinematics, Vector2, register

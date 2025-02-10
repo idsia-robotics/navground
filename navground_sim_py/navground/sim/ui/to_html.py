@@ -6,18 +6,11 @@ import shutil
 import tempfile
 import webbrowser
 from collections import ChainMap
-from typing import Any
 from collections.abc import Mapping
-
-import jinja2
+from typing import Any
 
 from .. import World
 from .to_svg import _svg_for_world
-
-folder = os.path.dirname(os.path.realpath(__file__))
-template_folder = os.path.join(folder, 'templates')
-jinjia_env = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(template_folder))
 
 
 def open_html(width: int = 640,
@@ -49,10 +42,11 @@ def save(world: World | None = None,
          simulation: bool = False,
          **kwargs: Any) -> None:
     if simulation:
-        kw: Mapping[str, Any] = ChainMap({
-            'interactive': True,
-            'with_websocket': True
-        }, kwargs)
+        kw: Mapping[str, Any] = ChainMap(
+            {
+                'interactive': True,
+                'with_websocket': True
+            }, kwargs)
     else:
         kw = kwargs
     paths: list[str] = []
@@ -107,6 +101,13 @@ def html_for_world(world: World | None = None,
 
     :returns:   An HTML string
     """
+
+    import jinja2
+
+    folder = os.path.dirname(os.path.realpath(__file__))
+    template_folder = os.path.join(folder, 'templates')
+    jinjia_env = jinja2.Environment(
+        loader=jinja2.FileSystemLoader(template_folder))
 
     if notebook:
         global notebook_count

@@ -6,7 +6,6 @@ from collections import ChainMap
 from collections.abc import Callable, Collection, MutableMapping
 from typing import Any
 
-import jinja2
 import numpy as np
 import numpy.typing
 from navground import core
@@ -18,11 +17,6 @@ Rect = Bounds | np.typing.NDArray[np.floating[Any]]
 Attributes = MutableMapping[str, str]
 Point = core.Vector2
 Decorate = Callable[[Entity], Attributes]
-
-folder = os.path.dirname(os.path.realpath(__file__))
-template_folder = os.path.join(folder, 'templates')
-jinjia_env = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(template_folder))
 
 
 def rect_around(center: core.Vector2, width: float | None,
@@ -257,6 +251,8 @@ def _svg_for_world(
     rotation: tuple[core.Vector2, float] | float | None = None,
     extras: Collection[Callable[[World], str]] = [],
 ) -> tuple[str, dict[str, str]]:
+    import jinja2
+
     g = ""
     if world:
         if bounds is None:
@@ -347,6 +343,10 @@ def _svg_for_world(
         epilog = '\n'.join([e(world) for e in extras])
     else:
         epilog = ''
+    folder = os.path.dirname(os.path.realpath(__file__))
+    template_folder = os.path.join(folder, 'templates')
+    jinjia_env = jinja2.Environment(
+        loader=jinja2.FileSystemLoader(template_folder))
     return jinjia_env.get_template('world.svg').render(
         svg_world=g,
         prefix=prefix,

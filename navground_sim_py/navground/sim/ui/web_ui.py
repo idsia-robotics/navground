@@ -6,15 +6,15 @@ import json
 import logging
 import sys
 import time
-from typing import Any
+from typing import Any, TYPE_CHECKING
 from collections.abc import Callable
-
-import websockets
-from websockets.legacy.server import (Serve, WebSocketServer,
-                                      WebSocketServerProtocol)
 
 from .. import Agent, Entity, Obstacle, Wall, World, bounds_for_world
 from .to_svg import Attributes, Decorate, Rect, flat_dict, size
+
+if TYPE_CHECKING:
+    from websockets.legacy.server import (WebSocketServer,
+                                          WebSocketServerProtocol)
 
 PoseMsg = tuple[float, float, float]
 EntityMsg = dict[str, Any]
@@ -22,9 +22,9 @@ EntityMsg = dict[str, Any]
 Callback = Callable[[Any], None]
 
 
-async def consumer_handler(
-        websocket: WebSocketServerProtocol,
-        callbacks: list[Callback]) -> None:
+async def consumer_handler(websocket: WebSocketServerProtocol,
+                           callbacks: list[Callback]) -> None:
+    import websockets
     try:
         async for msg in websocket:
             data = json.loads(msg)
@@ -34,9 +34,9 @@ async def consumer_handler(
         pass
 
 
-async def producer_handler(
-        websocket: WebSocketServerProtocol,
-        queue: asyncio.Queue[str]) -> None:
+async def producer_handler(websocket: WebSocketServerProtocol,
+                           queue: asyncio.Queue[str]) -> None:
+    import websockets
     while True:
         msg = await queue.get()
         try:
@@ -157,6 +157,7 @@ class WebUI:
 
         :returns:   If the server could be initialized
         """
+        from websockets.legacy.server import Serve
         if not self._prepared:
             try:
                 self.server = await Serve(self.handle_ws, self.host, self.port)
@@ -173,11 +174,10 @@ class WebUI:
         """
         return len(self.queues)
 
-    async def handle_ws(
-            self,
-            websocket: WebSocketServerProtocol,
-            path: str,
-            port: int = 8000) -> None:
+    async def handle_ws(self,
+                        websocket: WebSocketServerProtocol,
+                        path: str,
+                        port: int = 8000) -> None:
         logging.info('Websocket connection opened')
         queue: asyncio.Queue[str] = asyncio.Queue()
         self.queues.append(queue)

@@ -5,7 +5,7 @@ import pathlib
 import re
 import sys
 import warnings
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import numpy.typing
@@ -22,8 +22,7 @@ def _timedelta_from_ns(ns: int) -> datetime.timedelta:
     return datetime.timedelta(microseconds=ns / 1e3)
 
 
-def _get_all_datasets(group: 'h5py.Group',
-                      ns: str) -> dict[str, 'h5py.Dataset']:
+def _get_all_datasets(group: h5py.Group, ns: str) -> dict[str, h5py.Dataset]:
     import h5py
     rs: dict[str, h5py.Dataset] = {}
     for _, v in group.items():
@@ -58,7 +57,7 @@ class RecordedExperimentalRun:
     """The world that has been simulated"""
 
     def __init__(self,
-                 group: 'h5py.Group',
+                 group: h5py.Group,
                  scenario: Scenario | None = None,
                  record_config: RecordConfig | None = None):
         """
@@ -70,33 +69,33 @@ class RecordedExperimentalRun:
         self._group = group
         self._scenario = scenario
         self.reset()
-        self.collisions: 'h5py.Dataset' | None = group.get('collisions')
+        self.collisions: h5py.Dataset | None = group.get('collisions')
         """The recorded collisions"""
-        self.deadlocks: 'h5py.Dataset' | None = group.get('deadlocks')
+        self.deadlocks: h5py.Dataset | None = group.get('deadlocks')
         """The recorded deadlocks"""
-        self.efficacy: 'h5py.Dataset' | None = group.get('efficacy')
+        self.efficacy: h5py.Dataset | None = group.get('efficacy')
         """The recorded efficacy"""
-        self.commands: 'h5py.Dataset' | None = group.get('cmds')
+        self.commands: h5py.Dataset | None = group.get('cmds')
         """The recorded commands"""
-        self.poses: 'h5py.Dataset' | None = group.get('poses')
+        self.poses: h5py.Dataset | None = group.get('poses')
         """The recorded poses"""
-        self.twists: 'h5py.Dataset' | None = group.get('twists')
+        self.twists: h5py.Dataset | None = group.get('twists')
         """The recorded twists"""
-        self.times: 'h5py.Dataset' | None = group.get('times')
+        self.times: h5py.Dataset | None = group.get('times')
         """The recorded times"""
-        self.targets: 'h5py.Dataset' | None = group.get('targets')
+        self.targets: h5py.Dataset | None = group.get('targets')
         """The recorded targets"""
-        self.task_events: dict[int, 'h5py.Dataset'] = {
+        self.task_events: dict[int, h5py.Dataset] = {
             int(k): v
             for k, v in group.get('task_events', {}).items()
         }
         """The sensing state"""
-        self.sensing: dict[int, 'h5py.Group'] = {
+        self.sensing: dict[int, h5py.Group] = {
             int(k): v
             for k, v in group.get('sensing', {}).items()
         }
         """The recorded task events"""
-        self.safety_violations: 'h5py.Dataset' | None = group.get(
+        self.safety_violations: h5py.Dataset | None = group.get(
             'safety_violations')
         """The recorded safety violations"""
         self.seed: int = group.attrs['seed']
@@ -145,12 +144,12 @@ class RecordedExperimentalRun:
         self._step = -1
 
     @property
-    def root(self) -> 'h5py.Group':
+    def root(self) -> h5py.Group:
         """The run root HDF5 group"""
         return self._group
 
     @property
-    def records(self) -> dict[str, 'h5py.Dataset']:
+    def records(self) -> dict[str, h5py.Dataset]:
         """All recorded datasets"""
         return self.get_records()
 
@@ -172,7 +171,7 @@ class RecordedExperimentalRun:
         """
         return set(self.get_records(group=group).keys())
 
-    def get_record(self, key: str = '') -> Optional['h5py.Dataset']:
+    def get_record(self, key: str = '') -> h5py.Dataset | None:
         """
         Gets recorded data.
 
@@ -188,7 +187,7 @@ class RecordedExperimentalRun:
             return value
         return None
 
-    def get_records(self, group: str = '') -> dict[str, 'h5py.Dataset']:
+    def get_records(self, group: str = '') -> dict[str, h5py.Dataset]:
         """
         Gets recorded data map.
 
@@ -205,7 +204,7 @@ class RecordedExperimentalRun:
 
     def get_task_events(
             self, agent: Agent
-    ) -> Union['h5py.Dataset', np.typing.NDArray[np.floating[Any]]]:
+    ) -> h5py.Dataset | np.typing.NDArray[np.floating[Any]]:
         """
         The recorded events logged by the task of an agent
         as a HDF5 dataset of shape
@@ -452,7 +451,7 @@ class RecordedExperiment:
 
     def __init__(self,
                  path: str | pathlib.Path = '',
-                 file: Optional['h5py.File'] = None):
+                 file: h5py.File | None = None):
         """
         Constructs a new instance.
 

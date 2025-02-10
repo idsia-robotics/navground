@@ -206,7 +206,7 @@ def _(experiment: Experiment) -> bool:
 
 
 def setup_tqdm(self: Experiment,
-               bar: 'tqdm.tqdm[Any]',
+               bar: tqdm.tqdm[Any],
                number_of_runs: int | None = None) -> None:
     """
         Configure a tqdm object that displays the progress of an experiment

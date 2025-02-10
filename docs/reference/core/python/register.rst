@@ -42,7 +42,7 @@ will register type ``SubClassOfT`` under the name ``"SubClassOfT"``.
 
    .. py:property:: types
       :classmethod:
-      :type: List[str]
+      :type: list[str]
 
       The names of all registered behaviors
 
@@ -71,7 +71,7 @@ will register type ``SubClassOfT`` under the name ``"SubClassOfT"``.
 
    .. py:property:: types
       :classmethod:
-      :type: List[str]
+      :type: list[str]
 
       The names of all registered kinematics.
 
@@ -100,7 +100,7 @@ will register type ``SubClassOfT`` under the name ``"SubClassOfT"``.
 
    .. py:property:: types
       :classmethod:
-      :type: List[str]
+      :type: list[str]
 
       The names of all registered modulations.
 

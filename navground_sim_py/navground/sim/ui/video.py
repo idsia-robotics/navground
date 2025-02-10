@@ -32,7 +32,7 @@ def make_video(world: World,
                bounds: Rect | None = None,
                terminate_when_all_idle_or_stuck: bool = True,
                rotation: tuple[core.Vector2, float] | float | None = None,
-               **kwargs: Any) -> 'mpy.VideoClip':
+               **kwargs: Any) -> mpy.VideoClip:
     t0 = world.time
     theta = 0.0
 
@@ -77,7 +77,7 @@ def make_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
                         to_time: float | None = None,
                         rotation: tuple[core.Vector2, float] | float
                         | None = None,
-                        **kwargs: Any) -> 'mpy.VideoClip':
+                        **kwargs: Any) -> mpy.VideoClip:
 
     frame = None
     step = -1

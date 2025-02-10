@@ -5,7 +5,7 @@ import asyncio
 import logging
 import pathlib
 import sys
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from .real_time import RealTimeSimulation
 from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
@@ -30,8 +30,8 @@ class RealTimeReplay(RealTimeSimulation):
     def __init__(self,
                  run: RecordedExperimentalRun,
                  factor: float = 1.0,
-                 web_ui: Optional['WebUI'] = None,
-                 bounds: Optional['Rect'] = None):
+                 web_ui: WebUI | None = None,
+                 bounds: Rect | None = None):
         """
         Constructs a new instance.
 
@@ -113,7 +113,7 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
         default='')
 
 
-async def run(file: 'h5py.File',
+async def run(file: h5py.File,
               with_ui: bool = True,
               factor: float = 1.0,
               ui_fps: float = 25.0,

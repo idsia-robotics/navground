@@ -4,7 +4,7 @@ import asyncio
 import logging
 import threading
 import time
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 from collections.abc import Callable
 
 from . import World
@@ -31,8 +31,8 @@ class RealTimeSimulation:
                  world: World,
                  time_step: float,
                  factor: float = 1.0,
-                 web_ui: Optional['WebUI'] = None,
-                 bounds: Optional['Rect'] = None):
+                 web_ui: WebUI | None = None,
+                 bounds: Rect | None = None):
         """
         Constructs a new instance.
 

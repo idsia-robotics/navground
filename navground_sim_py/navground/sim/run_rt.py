@@ -7,7 +7,7 @@ import os
 import pathlib
 import random
 import sys
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 from collections.abc import Callable
 
 from navground.core import command
@@ -37,11 +37,11 @@ async def run(scenario: Scenario,
               max_duration: float = -1,
               port: int = 8000,
               background_color: str = 'lightgray',
-              bounds: Optional['Rect'] = None,
+              bounds: Rect | None = None,
               display_deadlocks: bool = False,
               display_collisions: bool = False,
               seed: int = -1,
-              decorate: Optional['Decorate'] = None) -> None:
+              decorate: Decorate | None = None) -> None:
     world = World()
     if seed < 0:
         seed = random.randint(0, 2**31)
@@ -146,7 +146,7 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
 
 
 def _main(arg: argparse.Namespace,
-          decorate: Optional['Decorate'] = None) -> None:
+          decorate: Decorate | None = None) -> None:
     command._main(arg, load_plugins)
     logging.basicConfig(level=logging.INFO)
     if os.path.exists(arg.YAML) and os.path.isfile(arg.YAML):

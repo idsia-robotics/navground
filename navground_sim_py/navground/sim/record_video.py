@@ -5,7 +5,7 @@ import logging
 import os
 import random
 import sys
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 import pathlib
 from navground.core import command
 from navground.core.utils import chdir
@@ -22,7 +22,7 @@ def run(path: str,
         factor: float = 1.0,
         fps: int = 24,
         seed: int = -1,
-        decorate: Optional['Decorate'] = None,
+        decorate: Decorate | None = None,
         follow_index: int = -1,
         **kwargs: Any) -> None:
 
@@ -159,13 +159,13 @@ def _load_experiment(value: str,
         return None
 
 
-def main(decorate: Optional['Decorate'] = None) -> None:
+def main(decorate: Decorate | None = None) -> None:
     arg = parser().parse_args()
     _main(arg, decorate=decorate)
 
 
 def _main(arg: argparse.Namespace,
-          decorate: Optional['Decorate'] = None) -> None:
+          decorate: Decorate | None = None) -> None:
     command._main(arg, load_plugins)
     logging.basicConfig(level=logging.INFO)
     experiment = _load_recorded_experiment(arg.input) or _load_experiment(

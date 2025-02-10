@@ -13,7 +13,7 @@ import pathlib
 import warnings
 from collections.abc import Callable, Iterable
 from queue import Empty
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 from navground import sim
@@ -30,7 +30,7 @@ def _load_and_run_experiment(
     start_index: int,
     number_of_runs: int,
     data_path: pathlib.Path | None,
-    queue: 'Queue[int] | None' = None,
+    queue: Queue[int] | None = None,
     scenario_init_callback: ScenarioInitCallback | None = None
 ) -> dict[int, sim.ExperimentalRun]:
     experiment.save_directory = ''  # type: ignore
@@ -59,7 +59,7 @@ def run_mp(experiment: sim.Experiment,
            number_of_runs: int | None = None,
            start_index: int | None = None,
            callback: Callable[[int], None] | None = None,
-           bar: Optional['tqdm.tqdm[Any]'] = None,
+           bar: tqdm.tqdm[Any] | None = None,
            scenario_init_callback: ScenarioInitCallback | None = None,
            use_multiprocess: bool = False,
            load_plugins: bool = True) -> None:

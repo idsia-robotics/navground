@@ -111,7 +111,7 @@ class WebUI:
     >>> await sim.run()
     """
 
-    _instances: dict[int, 'WebUI'] = {}
+    _instances: dict[int, WebUI] = {}
 
     def __init__(self,
                  host: str = '0.0.0.0',
@@ -192,7 +192,7 @@ class WebUI:
         self.queues.remove(queue)
         logging.info('Websocket connection closed')
 
-    def __new__(cls, *args: Any, **kwargs: Any) -> 'WebUI':
+    def __new__(cls, *args: Any, **kwargs: Any) -> WebUI:
         # Is a singleton
         port = kwargs.get('port', 8000)
         if port not in cls._instances:

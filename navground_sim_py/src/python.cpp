@@ -1944,7 +1944,7 @@ Instantiate a dataset with a type and the shape of an item.
 
 :param item_shape: The shape of all axis except the first.
                    Leave empty to instantiate a flat dataset.
-:type item_shape:  List[int]
+:type item_shape:  list[int]
 
 )doc")
 #endif
@@ -2158,7 +2158,7 @@ Adds a record.
 :type dtype: :py:data:`numpy.typing.DTypeLike` | None.
 :param item_shape: Set the shape of all axis except the first (only if ``data`` is None ).
                    Set to an empty list to instantiate a flat dataset.
-:type item_shape:  List[int]
+:type item_shape:  list[int]
 
 )doc")
 #if 0
@@ -2200,7 +2200,7 @@ Adds a record.
 
 :param item_shape: The shape of all axis except the first.
                    Leave empty to instantiate a flat dataset.
-:type item_shape:  List[int]
+:type item_shape:  list[int]
 
 )doc")
 #endif

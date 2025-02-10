@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.11)
-project(navground_sim_py VERSION 0.3.4)
+project(navground_sim_py VERSION 0.4.0)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../cmake)
 

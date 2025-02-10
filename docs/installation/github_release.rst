@@ -7,8 +7,8 @@ Check the `latest release <https://github.com/idsia-robotics/navground/releases>
 C++ library `navground::{core|sim}`
 ===================================
 
-Download the appropriate installer, which is a ``.deb`` or a ``.rpm`` package Linux, a ``.pkg`` installer for macOs, or a ``.exe`` installer for Windows. 
-Pay attention to download the file for the correct architecture. Installers are named like ``navground_<version>_<os>_<architecture>.{exe|pkg|deb|rpm}``.
+Download the appropriate installer, which is a ``.deb`` package for (Debian-based) Linux, a ``.pkg`` installer for macOs, or a ``.exe`` installer for Windows. 
+Pay attention to download the file for the correct architecture. Installers are named like ``navground_<version>_<os>_<architecture>.{exe|pkg|deb}``.
 
 
 Run the installer. By default, on macOs and Linux, it will install navground in ``/opt/navground``, while on Windows in ``C:\Program Files\navground``.

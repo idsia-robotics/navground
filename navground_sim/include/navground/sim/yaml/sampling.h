@@ -176,7 +176,7 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node &node) {
     }
   }
   // !std::is_void_v<uniform_distribution<T>>
-  if constexpr (is_number<T>) {
+  if constexpr (is_number<T> || std::is_same_v<T, Vector2>) {
     if (sampler == "uniform") {
       if (node["from"] && node["to"]) {
         const auto min = node["from"].as<T>();
@@ -470,11 +470,13 @@ template <typename T> struct convert<Sampler<T> *> {
         return Node(*sampler);
       }
     }
-    if constexpr (is_number<T>) {
+    if constexpr (is_number<T> || std::is_same_v<T, Vector2>) {
       if (const UniformSampler<T> *sampler =
               dynamic_cast<const UniformSampler<T> *>(rhs)) {
         return Node(*sampler);
       }
+    }
+    if constexpr (is_number<T>) {
       if (const NormalSampler<T> *sampler =
               dynamic_cast<const NormalSampler<T> *>(rhs)) {
         return Node(*sampler);
@@ -547,7 +549,7 @@ template <> struct type_t<VectorSampler> {
     node["anyOf"] = std::vector<Node>{
         ref<ConstantSampler<void>>(), ref<SequenceSampler<void>>(),
         ref<ChoiceSampler<void>>(), ref<GridSampler>(),
-        ref<RegularSampler<void>>()};
+        ref<RegularSampler<void>>(), ref<UniformSampler<void>>()};
     return node;
   }
 };

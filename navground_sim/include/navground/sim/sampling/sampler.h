@@ -418,10 +418,10 @@ using uniform_distribution = typename std::conditional<
 /**
  * @brief      Sample randomly from a uniform distribution.
  *
- * Only defined if T is a number.
+ * Only defined if T is a number or a \ref core::Vector2.
  *
  * @tparam     T     The sampled type
- * @param[in]  once   Whether to repeat the first sample (until reset)
+ * @param[in]  once  Whether to repeat the first sample (until reset)
  */
 template <typename T> struct UniformSampler final : public Sampler<T> {
   using Sampler<T>::_index;
@@ -436,6 +436,28 @@ protected:
   T s(RandomGenerator &rg) override { return dist(rg); }
 
   uniform_distribution<T> dist;
+};
+
+/**
+ * @brief      Sample vectors randomly from a uniform distribution.
+ *
+ * @param[in]  once  Whether to repeat the first sample (until reset)
+ */
+template <> struct UniformSampler<Vector2> final : public Sampler<Vector2> {
+  using Sampler<Vector2>::_index;
+
+  UniformSampler(Vector2 min, Vector2 max, bool once = false)
+      : Sampler<Vector2>(once), min{min}, max{max}, dist_x{min[0], max[0]},
+        dist_y{min[1], max[1]} {}
+
+  Vector2 min;
+  Vector2 max;
+
+protected:
+  Vector2 s(RandomGenerator &rg) override { return {dist_x(rg), dist_y(rg)}; }
+
+  uniform_distribution<ng_float_t> dist_x;
+  uniform_distribution<ng_float_t> dist_y;
 };
 
 /**

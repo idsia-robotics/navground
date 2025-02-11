@@ -9,14 +9,16 @@ We provide installation instruction for macOS, Linux, and Windows.
    You can also `try navground on binder <https://mybinder.org/v2/gh/idsia-robotics/navground/HEAD?labpath=docs%2Ftutorials>`_ without installing anything. 
 
 
-Building navground from source let you customize and install everything you need, but there are also pre-built Python wheels that may be more suitable in some cases. The different ways to install/run navground, cover the following cases:
+There are several ways to build/install navground, either from source or from binary distribution. Building navground from source let you customize and install everything you need, but pre-built may be more suitable (easier, faster) in some cases. The different ways to install/run navground, cover the following cases:
 
 - to extend (and run) navground:
 
-  - only from Python: :doc:`install a pre-built wheel using pip <pip>`
-  - also from C++: :doc:`build from source<from_source>`
+  - only from Python: :doc:`install a pre-built wheel from PyPi<pip>`
+  - only from C++: :doc:`install the cpp library released on github<github_release>`
+  - from C++ and Python: :doc:`install github release<github_release>`
+  - or :doc:`build from source<from_source>`
 
-- to only run navground (e.g., to perform experiments in simulation): :doc:`install a pre-built wheel using pip <pip>`
+- to just run navground (e.g., to perform experiments in simulation): :doc:`install a pre-built wheel from PyPi<pip>`
 - to run navground in ROS 2: :doc:`build from source<from_source>`
 - to use docker: :doc:`build or pull one of the docker images<docker>`
 
@@ -45,8 +47,10 @@ In this case, start by creating and activating the virtual environment.
    :maxdepth: 1
 
    pip
+   github_release
    docker
    from_source
    step_by_step
+   setup_dev
    troubleshooting
 

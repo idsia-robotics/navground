@@ -20,15 +20,6 @@ Basics
 
 How to instantiate and apply a behavior to avoid a circular obstacle.
 
-.. _component_example:
-
-Component 
----------
-
-:file: `my_behavior.h <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/behavior/my_behavior.h>`_
-
-How to define and register a new behavior.
-
 Benchmark 
 ---------
 
@@ -44,6 +35,15 @@ YAML
 
 
 How to load a behavior from YAML and how to dump it to YAML back.
+
+.. _component_example:
+
+Behavior component
+==================
+
+:directory: `behavior_plugin <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/behavior_plugin>`_
+
+Shows how to define and register a new behavior.
 
 
 Collisions
@@ -107,13 +107,6 @@ Scenarios
 
 Rely on ``navground_core`` and ``navground_sim``. 
 
-Component
----------
-
-:file: `my_scenario.h <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/my_scenario.h>`_
-
-How to register a new scenario.
-
 Register
 --------
 
@@ -143,6 +136,13 @@ Benchmark
 
 Measures the computation time is requires to move 20 agents in a crossings for 1000 steps in simulation.
 
+
+Scenario component
+===================
+
+:directory: `scenario_plugin <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario_plugin>`_
+
+Shows how to register a new scenario.
 
 World
 =====

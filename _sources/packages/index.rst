@@ -16,3 +16,6 @@ Packages
    navground_examples_py
    navground_examples_yaml
    navground_demos
+   navground_minimal_plugin_cpp
+   navground_minimal_plugin_py
+   

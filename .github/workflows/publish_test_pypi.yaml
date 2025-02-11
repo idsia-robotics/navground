@@ -1,6 +1,15 @@
 name: Publish to TestPyPi
 on:
   workflow_call:
+    inputs:
+      run-id:
+        type: string
+        default: ${{github.run_id}}
+  workflow_dispatch:
+    inputs:
+      run-id:
+        type: string
+        description: The run id
 jobs:
   publish-to-testpypi:
     name: Publish wheels to TestPyPI
@@ -16,10 +25,14 @@ jobs:
           pattern: repaired-wheel-*
           path: dist
           merge-multiple: true
+          github-token: ${{ secrets.GH_PAT }}
+          run-id: ${{ inputs.run-id }}
       - run: |
           echo "Ignore generic linux wheels:" $(find dist -type f | grep linux_x86_64)
           rm -f dist/*linux_x86_64*
+          ls -lah dist
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
           skip-existing: true
+          verbose: true

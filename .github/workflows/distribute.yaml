@@ -19,15 +19,54 @@ jobs:
     uses: ./.github/workflows/test_py.yaml
     needs:
       - build_py
-  publish_to_test_pypi:
-    uses: ./.github/workflows/publish_test_pypi.yaml
+  publish_to_testpypi:
+    name: Publish wheels to TestPyPI
     needs:
       - test_py
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/navground
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: repaired-wheel-*
+          path: dist
+          merge-multiple: true
+      - run: |
+          echo "Ignore generic linux wheels:" $(find dist -type f | grep linux_x86_64)
+          rm -f dist/*linux_x86_64*
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true
+          verbose: true
   publish_to_pypi:
-    uses: ./.github/workflows/publish_pypi.yaml
-    if: startsWith(github.ref, 'refs/tags/')
+    name: Publish wheels to PyPI
     needs:
       - test_py
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/navground  # Replace <package-name> with your PyPI project name
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: repaired-wheel-*
+          path: dist
+          merge-multiple: true
+      - run: |
+          echo "Ignore generic linux wheels:" $(find dist -type f | grep linux_x86_64)
+          rm -f dist/*linux_x86_64*
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
   release:
     uses: ./.github/workflows/release.yaml
     if: startsWith(github.ref, 'refs/tags/')

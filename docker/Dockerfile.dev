@@ -1,49 +1,18 @@
-FROM ubuntu:latest AS deps
-
-SHELL ["/bin/bash", "-c"]
-
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-h5py \
-    python3-numpy \
-    python3-yaml \
-    && rm -rf /var/lib/apt/lists/*
+FROM jeguzzi/navground:latest
 
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
-    git \
-    python3-pip \
-    python3-dev \
-    vcstool \
-    colcon \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --break-system-packages git+https://github.com/jeguzzi/pybind11_mkdoc@rst
-
-ENV COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
+RUN source "/navground_venv/bin/activate" \
+    && pip install colcon-common-extensions
 
 RUN mkdir -p /ws/src \
     && cd /ws \
-    && git clone https://github.com/idsia-robotics/navground.git src/navground
+    && colcon --merge-install build
 
-FROM deps AS build
-
-RUN cd /ws \
-    && vcs import --shallow --input src/navground/installation/deps.repos \
-    && vcs import --shallow --input src/navground/installation/ament.repos 
-
-RUN cd /ws \
-    && colcon build --metas src/navground/colcon/navground.meta --packages-up-to ament_cmake ament_package ament_index_cpp \
-    && . install/setup.bash \
-    && colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_examples navground_examples_py navground_examples_yaml
-
-FROM deps AS install
-
-WORKDIR /ws
-
-COPY --from=build /ws/install /ws/install
-COPY ./entrypoint.sh /entrypoint.sh
+COPY ./entrypoint_dev.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["bash"]

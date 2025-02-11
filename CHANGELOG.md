@@ -2,43 +2,33 @@
 
 ## [0.4.0] 2025-02-11
 
-This is the first release with binary installation packages for the navground C++ library. To support them, we slightly modified how we build the project. In particular, we added directories `distribution/{core|sim}` to build installers using `CPack` (C++) and `setuptools` (Python). 
+This is the first release that includes binary installation packages for the navground C++ library. To support them, we slightly modified how we build the project. In particular, we added directories `distribution/{core|sim}` to build installers using `CPack` (C++) and `setuptools` (Python). 
 
 Using the updated workflow, we still release self-contained wheels on PyPi, to which we add 
 
 - DEB packages in Linux, an installer package for macOS, and a NSIS installer for Windows to install the C++ library (both core and sim);
-- Python wheels to install a Python packages that loads shared libraries from the installed distribution, instead of containing all shared libraries like the versions available on PyPi do. Users should install one of these wheels if they want to build C++ plugins against the released C++ library and use them from Python.
+- Python wheels to install a Python packages that loads shared libraries from the installed distribution, instead of containing all shared libraries like the versions available on PyPi. Users should install one of these wheels if they want to build C++ plugins against the released C++ library and use them from Python.
 
 ### Fixed
 
-- Fixed several warning raise by the supported C++ compilers.
-
-- `navground_sim_py`: moved importing dependency inside function so to allow executing `navground_py` without installing them.
+- Fixed several warnings raised by all tested C++ compilers (clang, gcc, msvc).
+- `navground_sim_py`: moved importing dependency inside functions to allow executing `navground_py` without installing extra dependencies.
 
 ### Added
 
-- Packages `navground_minimal_{cpp|py}_plugin` with a minimal skeleton to write, build, install, and distribute a plugin (in these cases a `Behavior`).
-
-- Added docker files that install navground using the last released versions.
-
-- `navground_sim`: added support to uniform samplers of type `Vector2`.
-
+- Added packages `navground_minimal_{cpp|py}_plugin` with a minimal skeleton to write, build, install, and distribute a plugin (in this case a `Behavior`).
+- Added docker files that install navground using the latest release.
+- Added support to uniform samplers of type `Vector2` in `navground_sim`.
 - Added option to `navground_{core|sim}` `CMakeLists.txt` to build executables.
-
 - Added options to `navground_{core|sim}_py` `CMakeLists.txt` to install Python files and build python extension in custom directories.
 
 ### Changed
 
-- Adapted `navground_{core|sim}{_py}` `CMakeLists.txt` to support inclusion in another project. Added projects' version which are used as a fallback when git is not available when building. Increased required cmake version to 3.17.
-
-- Restructured release workflow, splitting in several workflow to be called from main workflow.
-
+- Adapted `navground_{core|sim}{_py}` `CMakeLists.txt` to support inclusion in other projects. Added projects' version which are used, when building the projects, as a fallback when git is not available. Increased the required cmake version to 3.17.
+- Restructured release workflow, splitting it in several workflow to be called from main workflow.
 - Moved plugins to separate sub-directory in `navground_examples_cpp`.
-
-- `navground_{core|sim}_py`: added support to include DLL directories in Windows by exporting `NAVGROUND_DLL_PATH`, so we don't need to copy shared libraries inside the Python package anymore. Added exporting `
-
-- Moved `plugins.dsv` from `navground_core` to packages installing plugins. `navground_core` still export a default `NAVGROUND_PLUGINS_PREFIX` set to the location where it is installed but now plugins packages can add the path where they are installed too.
-
+- Added support in `navground_{core|sim}_py` to include DLL directories in Windows by exporting `NAVGROUND_DLL_PATH`: we don't need to copy shared libraries inside the Python package anymore.
+- Moved `plugins.dsv` from `navground_core` to packages installing plugins. `navground_core` still exports a default `NAVGROUND_PLUGINS_PREFIX` set to the location where it is installed but now plugins packages can add the path where they are installed too if `ament_cmake` is available.
 - Added `from __future__ import annotations`
 
 ## [0.3.5] 2025-02-03

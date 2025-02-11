@@ -1,6 +1,15 @@
 name: Publish to PyPi
 on:
   workflow_call:
+    inputs:
+      run-id:
+        type: string
+        default: ${{github.run_id}}
+  workflow_dispatch:
+    inputs:
+      run-id:
+        type: string
+        description: The run id
 jobs:
   publish-to-pypi:
     name: Publish wheels to PyPI
@@ -16,6 +25,8 @@ jobs:
           pattern: repaired-wheel-*
           path: dist
           merge-multiple: true
+          github-token: ${{ secrets.GH_PAT }}
+          run-id: ${{ inputs.run-id }}
       - run: |
           echo "Ignore generic linux wheels:" $(find dist -type f | grep linux_x86_64)
           rm -f dist/*linux_x86_64*

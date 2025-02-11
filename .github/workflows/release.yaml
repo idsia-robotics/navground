@@ -1,6 +1,15 @@
 name: Create a release
 on:
   workflow_call:
+    inputs:
+      run-id:
+        type: string
+        default: ${{github.run_id}}
+  workflow_dispatch:
+    inputs:
+      run-id:
+        type: string
+        description: The run id
 jobs:
   github-release:
     name: >-
@@ -19,6 +28,15 @@ jobs:
           pattern: wheel-*
           path: dist
           merge-multiple: true
+          github-token: ${{ secrets.GH_PAT }}
+          run-id: ${{ inputs.run-id }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: packages-*
+          path: packages
+          merge-multiple: true
+          github-token: ${{ secrets.GH_PAT }}
+          run-id: ${{ inputs.run-id }}
       - name: Sign the dists with Sigstore
         uses: sigstore/gh-action-sigstore-python@v3.0.0
         with:

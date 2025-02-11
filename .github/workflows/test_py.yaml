@@ -1,4 +1,4 @@
-name: Test Python 📦
+name: Test Python
 on:
   workflow_call:
     inputs:
@@ -11,7 +11,105 @@ on:
         type: string
         description: The run id
 jobs:
-  empty:
-    runs-on: ubuntu-latest
+  test_py:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-20.04
+          - ubuntu-22.04
+          - ubuntu-22.04-arm
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+          - windows-latest
+          - macos-latest
+          - macos-13
+        python-version:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
+    runs-on: ${{ matrix.os }}
     steps:
-      - run: echo 'done'
+      - uses: actions/checkout@v4
+        with:
+          path: src
+          sparse-checkout: |
+            navground_examples_yaml
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: download self-contained navground wheel
+        uses: actions/download-artifact@v4
+        with:
+          name: repaired-wheel-${{ runner.os }}-${{ runner.arch }}-py${{ matrix.python-version }}
+          path: dist
+          github-token: ${{ secrets.GH_PAT }}
+          run-id: ${{ inputs.run-id }}
+      - name: install navground wheel
+        if: runner.os == 'Windows'
+        run: |
+          $wheels = Get-ChildItem -Path dist -Recurse -Include *.whl
+          pip install "$($wheels[0])[all]"
+      - name: install navground
+        if: runner.os != 'Windows'
+        run: |
+          wheels=( dist/*.whl )
+          pip install ${wheels[0]}[all]
+      - name: test load
+        run: |
+          python -c "from navground import core, sim"
+      - name: test info
+        run: |
+          navground_py info --build --properties
+      - name: test plugins
+        run: |
+          navground_py plugins --dependencies
+      - name: test schema
+        run: |
+          navground_py schema sim
+      - name: test validate
+        run: |
+          navground_py validate experiment src/navground_examples_yaml/experiment/cross.yaml
+      - name: test echo
+        run: |
+          navground_py echo behavior "{type: Dummy}"
+          navground_py echo behavior "{type: PyDummy}"
+      - name: test sample
+        run: |
+          navground_py sample "{type: Cross, groups: [{number: 10, behavior: {type: PyDummy}}]}"
+      - name: test run
+        run: |
+          navground_py run src/navground_examples_yaml/experiment/cross.yaml
+          navground_py run src/navground_examples_yaml/experiment/corridor.yaml    --save_directory "."
+          navground_py run src/navground_examples_yaml/experiment/cross_torus.yaml --runs 2 --run_index 1001 --chdir
+          navground_py run src/navground_examples_yaml/experiment/antipodal.yaml   --processes 2 --runs 10 --tqdm
+      - name: test video (mac)
+        if: runner.os == 'macOS'
+        run: |
+          brew install ffmpeg cairo
+          export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/lib:/opt/homebrew/lib:$DYLD_FALLBACK_LIBRARY_PATH
+          navground_py record_video src/navground_examples_yaml/experiment/cross.yaml video.mp4 --factor 25 --seed 1
+      - name: test video (linux)
+        if: runner.os == 'Linux'
+        run: |
+           navground_py record_video src/navground_examples_yaml/experiment/cross.yaml video.mp4 --factor 25 --seed 1
+      - name: install cairo (win)
+        if: runner.os == 'Windows'
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: preshing/cairo-windows
+          tag: with-tee
+          fileName: cairo-windows-1.17.2.zip
+          extract: true
+      - name: test video (win)
+        if: runner.os == 'Windows'
+        run: |
+          Copy-Item "cairo-windows-1.17.2\lib\x64\cairo.dll" -Destination "libcairo-2.dll"
+          choco install -y ffmpeg
+          navground_py record_video src/navground_examples_yaml/experiment/cross.yaml video.mp4 --factor 25 --seed 1
+      - name: upload video
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: video.mp4
+          if-no-files-found: error

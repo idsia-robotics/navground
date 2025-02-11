@@ -9,9 +9,9 @@ We provide the following `docker files <https://github.com/idsia-robotics/navgro
    :widths: auto
 
    * - ``Dockerfile``
-     - Install the latest pre-build Github release in``ubuntu:latest``
+     - Install the latest pre-build Github release in ``ubuntu:latest``
    * - ``Dockerfile.dev``
-     - Install the latest pre-build Github release in``ubuntu:latest`` and all requirements to develop plugins (cmake, colcon, ...) in a workspace   
+     - Install the latest pre-build Github release in ``ubuntu:latest`` and all requirements to develop plugins (``cmake``, ``colcon``, ...) in a workspace   
    * - ``Dockerfile.source-deps``
      - Build from source navground and all dependencies in ``ubuntu:latest``
    * - ``Dockerfile.binary-deps``

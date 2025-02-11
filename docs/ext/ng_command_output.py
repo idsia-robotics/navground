@@ -30,7 +30,13 @@ class NGCommandDirective(SphinxDirective):
     optional_arguments = 100
 
     def run(self) -> list[nodes.Node]:
-        wd = pl.Path(os.environ["NAVGROUND_PLUGINS_PREFIX"].split(":")[0])
+        if "NAVGROUND_PLUGINS_PREFIX" in os.environ:
+            ps = os.environ["NAVGROUND_PLUGINS_PREFIX"]
+        elif "AMENT_PREFIX_PATH" in os.environ:
+            ps = os.environ["AMENT_PREFIX_PATH"]
+        else:
+            ps = ""
+        wd = pl.Path(ps.split(":")[0])
         wd = wd / "lib"
         if 'package' in self.options:
             wd = wd / pl.Path(self.options['package'])

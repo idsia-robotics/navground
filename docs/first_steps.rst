@@ -28,7 +28,7 @@ If you built navground from source, you need to source the workspace.
         
          $ install\setup.bat
 
-You also need perform a similar command if you installed a binary release from Github 
+Call a similar command if you installed a binary release from Github:
 
 .. tabs::
 

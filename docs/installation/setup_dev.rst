@@ -70,7 +70,7 @@ If you have installed navground from a binary release, just source the installat
       $ cd ws
       $ colcon build --merge-install
 
-5. If you build navground C++ plugins but don't have `ament_cmake` installed, export ``NAVGROUND_PLUGINS_PREFIX``
+5. If you build navground C++ plugins but don't have ``ament_cmake`` installed, export ``NAVGROUND_PLUGINS_PREFIX``
 
    .. tabs::
    
@@ -78,7 +78,7 @@ If you have installed navground from a binary release, just source the installat
    
          .. code-block:: console
    
-            $ export NAVGROUND_PLUGINS_PREFIX=`pwd`/$NAVGROUND_PLUGINS_PREFIX
+            $ export NAVGROUND_PLUGINS_PREFIX=`pwd`/install:$NAVGROUND_PLUGINS_PREFIX
    
       .. tab:: Windows
    
@@ -104,7 +104,7 @@ In case you are developing a C++ plugin, you also need to export the location wh
 
       .. code-block:: console
 
-         $ export NAVGROUND_PLUGINS_PREFIX=<root directory of the plugin installation>;$NAVGROUND_PLUGINS_PREFIX
+         $ export NAVGROUND_PLUGINS_PREFIX=<root directory of the plugin installation>:$NAVGROUND_PLUGINS_PREFIX
 
    .. tab:: Linux
 

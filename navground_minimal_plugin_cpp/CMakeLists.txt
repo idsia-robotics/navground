@@ -10,6 +10,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(navground_core REQUIRED)
+find_package(ament_cmake QUIET)
 
 add_library(plugin SHARED src/plugin.cpp)
 target_link_libraries(plugin navground_core::navground_core)
@@ -30,4 +31,3 @@ set(CPACK_PACKAGE_VENDOR "IDSIA")
 set(CPACK_PACKAGE_CONTACT "Jérôme Guzzi, jerome@idsia.ch")
 
 cpack_navground_plugins()
-

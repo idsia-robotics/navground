@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>navground_examples &#8212; navground 0.3.5 documentation</title>
+    <title>navground_examples &#8212; navground 0.4.0 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=ba3b9238"></script>
+    <script src="../_static/documentation_options.js?v=183391d5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.5 documentation</p>
+    <p class="title logo__title">navground 0.4.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -149,10 +149,12 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../installation/index.html">Installation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../installation/pip.html">Pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/pip.html">PyPi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/github_release.html">Github release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation/docker.html">Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation/from_source.html">Building from source</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation/step_by_step.html">Step-by-step Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/setup_dev.html">Setup a development environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
 </ul>
 </details></li>
@@ -171,6 +173,8 @@
 <li class="toctree-l2"><a class="reference internal" href="navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_examples_yaml.html">navground_examples_yaml</a></li>
 <li class="toctree-l2"><a class="reference internal" href="navground_demos.html">navground_demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="navground_minimal_plugin_cpp.html">navground_minimal_plugin_cpp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="navground_minimal_plugin_py.html">navground_minimal_plugin_py</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -487,11 +491,11 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#behaviors">Behaviors</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basics">Basics</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#component">Component</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark">Benchmark</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yaml">YAML</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#behavior-component">Behavior component</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisions">Collisions</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Basics</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cache">Cache</a></li>
@@ -504,17 +508,17 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scenarios">Scenarios</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Component</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register">Register</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">YAML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">YAML</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#groups">Groups</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Benchmark</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Benchmark</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario-component">Scenario component</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#world">World</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Component</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Register</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">YAML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#component">Component</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Register</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">YAML</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-recordings">Custom recordings</a></li>
@@ -549,15 +553,6 @@
 </dl>
 <p>How to instantiate and apply a behavior to avoid a circular obstacle.</p>
 </section>
-<section id="component">
-<span id="component-example"></span><h3>Component<a class="headerlink" href="#component" title="Link to this heading">#</a></h3>
-<dl class="field-list simple">
-<dt class="field-odd">file<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/behavior/my_behavior.h">my_behavior.h</a></p>
-</dd>
-</dl>
-<p>How to define and register a new behavior.</p>
-</section>
 <section id="benchmark">
 <h3>Benchmark<a class="headerlink" href="#benchmark" title="Link to this heading">#</a></h3>
 <dl class="field-list simple">
@@ -576,6 +571,15 @@
 </dl>
 <p>How to load a behavior from YAML and how to dump it to YAML back.</p>
 </section>
+</section>
+<section id="behavior-component">
+<span id="component-example"></span><h2>Behavior component<a class="headerlink" href="#behavior-component" title="Link to this heading">#</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">directory<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/behavior_plugin">behavior_plugin</a></p>
+</dd>
+</dl>
+<p>Shows how to define and register a new behavior.</p>
 </section>
 <section id="collisions">
 <h2>Collisions<a class="headerlink" href="#collisions" title="Link to this heading">#</a></h2>
@@ -648,15 +652,6 @@
 </dd>
 </dl>
 <p>Rely on <code class="docutils literal notranslate"><span class="pre">navground_core</span></code> and <code class="docutils literal notranslate"><span class="pre">navground_sim</span></code>.</p>
-<section id="id3">
-<h3>Component<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
-<dl class="field-list simple">
-<dt class="field-odd">file<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/my_scenario.h">my_scenario.h</a></p>
-</dd>
-</dl>
-<p>How to register a new scenario.</p>
-</section>
 <section id="register">
 <h3>Register<a class="headerlink" href="#register" title="Link to this heading">#</a></h3>
 <dl class="field-list simple">
@@ -666,8 +661,8 @@
 </dl>
 <p>How to list registered scenarios and load one of them, and use it to sample a world.</p>
 </section>
-<section id="id4">
-<h3>YAML<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<section id="id3">
+<h3>YAML<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <dl class="field-list simple">
 <dt class="field-odd">file<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/scenario_from_yaml.cpp">scenario_from_yaml.cpp</a></p>
@@ -684,8 +679,8 @@
 </dl>
 <p>How to define a scenario with groups.</p>
 </section>
-<section id="id5">
-<h3>Benchmark<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<section id="id4">
+<h3>Benchmark<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
 <dl class="field-list simple">
 <dt class="field-odd">file<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario/benchmark_sim.cpp">benchmark_sim.cpp</a></p>
@@ -693,6 +688,15 @@
 </dl>
 <p>Measures the computation time is requires to move 20 agents in a crossings for 1000 steps in simulation.</p>
 </section>
+</section>
+<section id="scenario-component">
+<h2>Scenario component<a class="headerlink" href="#scenario-component" title="Link to this heading">#</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">directory<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/scenario_plugin">scenario_plugin</a></p>
+</dd>
+</dl>
+<p>Shows how to register a new scenario.</p>
 </section>
 <section id="world">
 <h2>World<a class="headerlink" href="#world" title="Link to this heading">#</a></h2>
@@ -702,8 +706,8 @@
 </dd>
 </dl>
 <p>Rely on <code class="docutils literal notranslate"><span class="pre">navground_core</span></code> and <code class="docutils literal notranslate"><span class="pre">navground_sim</span></code>.</p>
-<section id="id7">
-<h3>Component<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<section id="component">
+<h3>Component<a class="headerlink" href="#component" title="Link to this heading">#</a></h3>
 <dl class="field-list simple">
 <dt class="field-odd">file<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/world/world.cpp">world.cpp</a></p>
@@ -711,8 +715,8 @@
 </dl>
 <p>How to instantiate a world with walls, obstacles and agents, and perform some simulation steps.</p>
 </section>
-<section id="id8">
-<h3>Register<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<section id="id6">
+<h3>Register<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <dl class="field-list simple">
 <dt class="field-odd">file<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/world/world_from_yaml.cpp">world_from_yaml.cpp</a></p>
@@ -720,8 +724,8 @@
 </dl>
 <p>How to load a world from YAML and perform some simulation steps.</p>
 </section>
-<section id="id9">
-<h3>YAML<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<section id="id7">
+<h3>YAML<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <dl class="field-list simple">
 <dt class="field-odd">file<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/world/world_with_groups.cpp">world_with_groups.cpp</a></p>
@@ -731,7 +735,7 @@
 </section>
 </section>
 <section id="custom-recordings">
-<span id="id10"></span><h2>Custom recordings<a class="headerlink" href="#custom-recordings" title="Link to this heading">#</a></h2>
+<span id="id8"></span><h2>Custom recordings<a class="headerlink" href="#custom-recordings" title="Link to this heading">#</a></h2>
 <dl class="field-list simple">
 <dt class="field-odd">file<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/experiment/experiment_with_custom_probes.cpp">experiment_with_custom_probes.cpp</a></p>
@@ -792,11 +796,11 @@
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#behaviors">Behaviors</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basics">Basics</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#component">Component</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark">Benchmark</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yaml">YAML</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#behavior-component">Behavior component</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisions">Collisions</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Basics</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cache">Cache</a></li>
@@ -809,17 +813,17 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scenarios">Scenarios</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Component</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register">Register</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">YAML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">YAML</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#groups">Groups</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Benchmark</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Benchmark</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario-component">Scenario component</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#world">World</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Component</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Register</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">YAML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#component">Component</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Register</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">YAML</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-recordings">Custom recordings</a></li>

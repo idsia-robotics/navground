@@ -1,8 +1,8 @@
-===
-Pip
-===
+====
+PyPi
+====
 
-You can install the navground via pip.
+You can install the navground from PyPi via pip.
 
 .. code-block:: console
 
@@ -18,4 +18,6 @@ Add ``[all]`` to install all optional dependencies.
 .. warning::
 
    This will install just the Python interface of navground, through which you can use and extend navground from Python but not from C++.
+
+The wheel will also install all shared libraries from dependencies inside the package, without polluting your system.
 

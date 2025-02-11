@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How to integrate a C++ component &#8212; navground 0.3.5 documentation</title>
+    <title>How to integrate a C++ component &#8212; navground 0.4.0 documentation</title>
   
   
   
@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=a5c4661c" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -43,7 +44,7 @@
 
     <script src="../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../_static/documentation_options.js?v=ba3b9238"></script>
+    <script src="../../_static/documentation_options.js?v=183391d5"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -51,6 +52,7 @@
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/tabs.js?v=3030b3cb"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'guides/extend/register_cpp';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -133,7 +135,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.5 documentation</p>
+    <p class="title logo__title">navground 0.4.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -149,10 +151,12 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../installation/index.html">Installation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../installation/pip.html">Pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation/pip.html">PyPi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation/github_release.html">Github release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation/docker.html">Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation/from_source.html">Building from source</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation/step_by_step.html">Step-by-step Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation/setup_dev.html">Setup a development environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation/troubleshooting.html">Troubleshooting</a></li>
 </ul>
 </details></li>
@@ -171,6 +175,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../packages/navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../packages/navground_examples_yaml.html">navground_examples_yaml</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../packages/navground_demos.html">navground_demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../packages/navground_minimal_plugin_cpp.html">navground_minimal_plugin_cpp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../packages/navground_minimal_plugin_py.html">navground_minimal_plugin_py</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -497,6 +503,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-skeleton">Class skeleton</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-as-a-plugin">Install as a plugin</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-example">Complete example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribute">Distribute</a></li>
 </ul>
             </nav>
         </div>
@@ -875,6 +882,53 @@ provided that the option <code class="docutils literal notranslate"><span class=
 <h2>Complete example<a class="headerlink" href="#complete-example" title="Link to this heading">#</a></h2>
 <p>See <a class="reference internal" href="../../packages/navground_examples.html#component-example"><span class="std std-ref">C++ example</span></a> for an example where we implement and register a new (dummy) navigation behavior in C++.</p>
 </section>
+<section id="distribute">
+<h2>Distribute<a class="headerlink" href="#distribute" title="Link to this heading">#</a></h2>
+<p>If you want to distribute your compiled plugin:</p>
+<ol class="arabic">
+<li><p>add and complete the following to the project <cite>CMakeLists.txt</cite></p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">CPACK_PRODUCTBUILD_IDENTIFIER</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CPACK_PACKAGE_DESCRIPTION</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CPACK_PACKAGE_VENDOR</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CPACK_PACKAGE_CONTACT</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
+
+<span class="nb">cpack_navground_plugins</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>to configure the installer. The <code class="docutils literal notranslate"><span class="pre">cpack_navground_plugins</span></code> macro includes <code class="docutils literal notranslate"><span class="pre">CPack</span></code> and makes sure that the plugin will be installed at the appropriate location.</p>
+</li>
+<li><p>build the project, without colcon, and by linking against a <em>released</em> version of navground</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Linux</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>/opt/navground/setup.zsh
+<span class="gp">$ </span>mkdir<span class="w"> </span>build
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>build
+<span class="gp">$ </span>cmake<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span>..
+<span class="gp">$ </span>cmake<span class="w"> </span>--build<span class="w"> </span>.
+<span class="gp">$ </span>cpack
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>/opt/navground/setup.bash
+<span class="gp">$ </span>mkdir<span class="w"> </span>build
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>build
+<span class="gp">$ </span>cmake<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span>..
+<span class="gp">$ </span>cmake<span class="w"> </span>--build<span class="w"> </span>.
+<span class="gp">$ </span>cpack
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-2" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-2" name="0-2" role="tabpanel" tabindex="0"><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="s2">&quot;C:\Program Files\navground\setup.bat&quot;</span>
+<span class="gp">$ </span>mkdir<span class="w"> </span>build
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>build
+<span class="gp">$ </span>cmake.exe<span class="w"> </span>..
+<span class="gp">$ </span>cmake.exe<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--config<span class="w"> </span>Release
+<span class="gp">$ </span>cpack
+</pre></div>
+</div>
+</div></div>
+</li>
+<li><p>share the file(s) built in <code class="docutils literal notranslate"><span class="pre">packages</span></code>.</p></li>
+</ol>
+<p>See <a class="reference internal" href="../../packages/navground_minimal_plugin_cpp.html#minimal-cpp"><span class="std std-ref">Minimal C++ plugin skeleton</span></a> for a minimal skeleton of a ready to be distributed C++ plugin.</p>
+</section>
 </section>
 
 
@@ -935,6 +989,7 @@ provided that the option <code class="docutils literal notranslate"><span class=
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-skeleton">Class skeleton</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-as-a-plugin">Install as a plugin</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-example">Complete example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribute">Distribute</a></li>
 </ul>
   </nav></div>
 

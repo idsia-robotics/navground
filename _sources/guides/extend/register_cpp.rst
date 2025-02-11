@@ -436,3 +436,63 @@ Complete example
 ================
 
 See :ref:`C++ example <component_example>` for an example where we implement and register a new (dummy) navigation behavior in C++.
+
+
+Distribute
+==========
+
+If you want to distribute your compiled plugin:
+
+1. add and complete the following to the project `CMakeLists.txt` 
+
+   .. code-block:: cmake
+
+      set(CPACK_PRODUCTBUILD_IDENTIFIER "...")
+      set(CPACK_PACKAGE_DESCRIPTION "...")
+      set(CPACK_PACKAGE_VENDOR "...")
+      set(CPACK_PACKAGE_CONTACT "...")
+      
+      cpack_navground_plugins()
+
+   to configure the installer. The ``cpack_navground_plugins`` macro includes ``CPack`` and makes sure that the plugin will be installed at the appropriate location.
+
+2. build the project, without colcon, and by linking against a *released* version of navground
+
+   .. tabs::
+
+      .. tab:: macOS
+   
+         .. code-block:: console
+   
+            $ source /opt/navground/setup.zsh
+            $ mkdir build
+            $ cd build
+            $ cmake -DCMAKE_BUILD_TYPE=Release ..
+            $ cmake --build .
+            $ cpack
+   
+      .. tab:: Linux
+   
+         .. code-block:: console
+   
+            $ source /opt/navground/setup.bash
+            $ mkdir build
+            $ cd build
+            $ cmake -DCMAKE_BUILD_TYPE=Release ..
+            $ cmake --build .
+            $ cpack
+   
+      .. tab:: Windows
+   
+         .. code-block:: console
+   
+            $ "C:\Program Files\navground\setup.bat"
+            $ mkdir build
+            $ cd build
+            $ cmake.exe ..
+            $ cmake.exe --build . --config Release
+            $ cpack
+   
+3. share the file(s) built in ``packages``.
+
+See :ref:`Minimal C++ plugin skeleton<minimal_cpp>` for a minimal skeleton of a ready to be distributed C++ plugin.

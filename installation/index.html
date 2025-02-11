@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Installation &#8212; navground 0.3.5 documentation</title>
+    <title>Installation &#8212; navground 0.4.0 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=ba3b9238"></script>
+    <script src="../_static/documentation_options.js?v=183391d5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'installation/index';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Pip" href="pip.html" />
+    <link rel="next" title="PyPi" href="pip.html" />
     <link rel="prev" title="Introduction" href="../introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -135,7 +135,7 @@
   
   
   
-    <p class="title logo__title">navground 0.3.5 documentation</p>
+    <p class="title logo__title">navground 0.4.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -151,10 +151,12 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Installation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="pip.html">Pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pip.html">PyPi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="github_release.html">Github release</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docker.html">Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="from_source.html">Building from source</a></li>
 <li class="toctree-l2"><a class="reference internal" href="step_by_step.html">Step-by-step Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup_dev.html">Setup a development environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
 </ul>
 </details></li>
@@ -173,6 +175,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples_yaml.html">navground_examples_yaml</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../packages/navground_demos.html">navground_demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_minimal_plugin_cpp.html">navground_minimal_plugin_cpp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_minimal_plugin_py.html">navground_minimal_plugin_py</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -496,15 +500,17 @@
 <p class="admonition-title">Note</p>
 <p>You can also <a class="reference external" href="https://mybinder.org/v2/gh/idsia-robotics/navground/HEAD?labpath=docs%2Ftutorials">try navground on binder</a> without installing anything.</p>
 </div>
-<p>Building navground from source let you customize and install everything you need, but there are also pre-built Python wheels that may be more suitable in some cases. The different ways to install/run navground, cover the following cases:</p>
+<p>There are several ways to build/install navground, either from source or from binary distribution. Building navground from source let you customize and install everything you need, but pre-built may be more suitable (easier, faster) in some cases. The different ways to install/run navground, cover the following cases:</p>
 <ul class="simple">
 <li><p>to extend (and run) navground:</p>
 <ul>
-<li><p>only from Python: <a class="reference internal" href="pip.html"><span class="doc">install a pre-built wheel using pip</span></a></p></li>
-<li><p>also from C++: <a class="reference internal" href="from_source.html"><span class="doc">build from source</span></a></p></li>
+<li><p>only from Python: <a class="reference internal" href="pip.html"><span class="doc">install a pre-built wheel from PyPi</span></a></p></li>
+<li><p>only from C++: <a class="reference internal" href="github_release.html"><span class="doc">install the cpp library released on github</span></a></p></li>
+<li><p>from C++ and Python: <a class="reference internal" href="github_release.html"><span class="doc">install github release</span></a></p></li>
+<li><p>or <a class="reference internal" href="from_source.html"><span class="doc">build from source</span></a></p></li>
 </ul>
 </li>
-<li><p>to only run navground (e.g., to perform experiments in simulation): <a class="reference internal" href="pip.html"><span class="doc">install a pre-built wheel using pip</span></a></p></li>
+<li><p>to just run navground (e.g., to perform experiments in simulation): <a class="reference internal" href="pip.html"><span class="doc">install a pre-built wheel from PyPi</span></a></p></li>
 <li><p>to run navground in ROS 2: <a class="reference internal" href="from_source.html"><span class="doc">build from source</span></a></p></li>
 <li><p>to use docker: <a class="reference internal" href="docker.html"><span class="doc">build or pull one of the docker images</span></a></p></li>
 </ul>
@@ -525,10 +531,12 @@ In this case, start by creating and activating the virtual environment.</p>
 </div></blockquote>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pip.html">Pip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pip.html">PyPi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github_release.html">Github release</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docker.html">Docker</a></li>
 <li class="toctree-l1"><a class="reference internal" href="from_source.html">Building from source</a></li>
 <li class="toctree-l1"><a class="reference internal" href="step_by_step.html">Step-by-step Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_dev.html">Setup a development environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
 </ul>
 </div>
@@ -559,7 +567,7 @@ In this case, start by creating and activating the virtual environment.</p>
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Pip</p>
+        <p class="prev-next-title">PyPi</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

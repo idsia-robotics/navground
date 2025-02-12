@@ -85,11 +85,20 @@ protected:
 
   /**
    * @brief      Setup the task.
+   * 
    * Called before starting a simulation.
+   * 
    * @param      agent  The agent owning the task
    * @param[in]  world  The world the agent is part of
    */
   virtual void prepare(Agent *agent, World *world) {};
+
+  /**
+   * @brief      Clean-up the task.
+   * 
+   * Called after finishing a simulation.
+   */
+  virtual void close() {};
 
   std::vector<TaskCallback> callbacks;
 

@@ -33,6 +33,14 @@ Therefore, if your behavior needs a new type of environment state, start by defi
              def __init__(self):
                  super().__init()
 
+Preparation/Termination
+=======================
+
+Override ``prepare``  (:cpp:func:`C++ <navground::core::Behavior::prepare>`, :py:meth:`Python <navground.core.Behavior.prepare>`) with any custom logic to initialize the behavior: it should be called before the first command is computed. For instance, specialize this function to setup a centralized group behavior that explicitly coordinates multiple individual behaviors, or to load a resource that requires the behavior being configured (e.g., to load an environment from a file path stored in a behavior property).
+
+Clean-up any step you perform by overriding ``close`` (:cpp:func:`C++ <navground::core::Behavior::prepare>`, :py:meth:`Python <navground.core.Behavior.prepare>`) which should be called once the behavior stop being evaluated.
+
+
 Compute a command
 =================
 
@@ -73,6 +81,12 @@ Virtual methods
    * - :cpp:func:`get_environment_state <navground::core::Behavior::get_environment_state>` 
      - :py:meth:`get_environment_state <navground.core.Behavior.get_environment_state>` 
      - must
+   * - :cpp:func:`prepare <navground::core::Behavior::prepare>` 
+     - :py:meth:`prepare <navground.core.Behavior.prepare>` 
+     - can
+   * - :cpp:func:`close <navground::core::Behavior::close>` 
+     - :py:meth:`close <navground.core.Behavior.close>` 
+     - can
    * - :cpp:func:`compute_cmd_internal <navground::core::Behavior::compute_cmd_internal>` 
      - :py:meth:`compute_cmd_internal <navground.core.Behavior.compute_cmd_internal>` 
      - can

@@ -9,6 +9,10 @@ struct MyStateEstimation : public sim::StateEstimation {
   // void prepare(sim::Agent * agent, sim::World * world) override;
 
   // CAN override
+  // executed at the end of the simulation
+  // void close() override;
+
+  // CAN override
   // executed during the the simulation
   // update the environment state according to the agent and world
   void update(sim::Agent *agent, sim::World *world,

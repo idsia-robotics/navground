@@ -238,6 +238,13 @@ void World::prepare() {
   ready = true;
 }
 
+void World::close() {
+  for (auto &a : agents) {
+    a->close();
+  }
+  ready = false;
+}
+
 void World::run(unsigned steps, ng_float_t time_step) {
   for (size_t i = 0; i < steps; i++) {
     if (should_terminate()) return;

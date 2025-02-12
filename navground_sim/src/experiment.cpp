@@ -128,7 +128,8 @@ ExperimentalRun &Experiment::init_run(int index, std::shared_ptr<World> world) {
       scenario->init_world(world.get(), index);
     }
   }
-  world->prepare();
+  // CHANGED: World will be prepared only when starting run
+  // world->prepare();
   runs.try_emplace(index, world, run_config, record_config, index);
   auto &run = runs.at(index);
   for (const auto &cb : run_callbacks[true]) {

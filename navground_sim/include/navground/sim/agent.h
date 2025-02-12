@@ -471,6 +471,11 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    * @param      world  The world
    */
   void prepare(World *world);
+
+  /**
+   * @brief      Clean-up the agent once the simulation has finished (only called by world)
+   */
+  void close();
 };
 
 }  // namespace navground::sim

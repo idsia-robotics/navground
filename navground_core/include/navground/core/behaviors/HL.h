@@ -273,7 +273,7 @@ protected:
   Vector2 desired_velocity_towards_velocity(const Vector2 &value,
                                             ng_float_t time_step) override;
 
-  void prepare(ng_float_t speed);
+  void prepare_eval(ng_float_t speed);
   Vector2 compute_repulsive_force(bool &inside_obstacle);
   Twist2 relax(const Twist2 &current_twist, const Twist2 &twist,
                ng_float_t dt) const;

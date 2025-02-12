@@ -6,7 +6,15 @@ struct MyBehavior : public core::Behavior {
   MyEnvironmentState _env_state;
   // MUST override ... the base returns an null pointer.
   EnvironmentState *get_environment_state() const {return &_env_state; }
-  
+
+  // CAN override
+  // executed before the first evaluation
+  // void prepare() override;
+
+  // CAN override
+  // executed after the last evaluation
+  // void close() override;
+
   // CAN override
   // core::Twist2 compute_cmd_internal(ng_float_t time_step) override;
   

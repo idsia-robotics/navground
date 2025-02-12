@@ -548,8 +548,8 @@ template <> struct type_t<VectorSampler> {
     Node node;
     node["anyOf"] = std::vector<Node>{
         ref<ConstantSampler<void>>(), ref<SequenceSampler<void>>(),
-        ref<ChoiceSampler<void>>(), ref<GridSampler>(),
-        ref<RegularSampler<void>>(), ref<UniformSampler<void>>()};
+        ref<ChoiceSampler<void>>(),   ref<GridSampler>(),
+        ref<RegularSampler<void>>(),  ref<UniformSampler<void>>()};
     return node;
   }
 };
@@ -876,8 +876,11 @@ template <typename W> struct convert<AgentSampler<W>> {
     if (rhs.task.is_valid()) {
       node["task"] = rhs.task;
     }
-    if (rhs.state_estimation.is_valid()) {
-      node["state_estimation"] = rhs.state_estimation;
+    const auto & ses = rhs.get_valid_state_estimations();
+    if (ses.size() == 1) {
+      node["state_estimation"] = ses[0];
+    } else if (ses.size() > 1) {
+      node["state_estimations"] = ses;
     }
     if (rhs.position) {
       node["position"] = rhs.position;
@@ -928,8 +931,12 @@ template <typename W> struct convert<AgentSampler<W>> {
       rhs.task = node["task"].as<TaskSampler<T>>();
     }
     if (node["state_estimation"]) {
-      rhs.state_estimation =
-          node["state_estimation"].as<StateEstimationSampler<S>>();
+      rhs.state_estimations = {
+          node["state_estimation"].as<StateEstimationSampler<S>>()};
+    }
+    if (node["state_estimations"]) {
+      rhs.state_estimations = node["state_estimations"]
+                                  .as<std::vector<StateEstimationSampler<S>>>();
     }
     if (node["position"]) {
       rhs.position = read_sampler<Vector2>(node["position"]);
@@ -972,6 +979,9 @@ template <typename W> struct convert<AgentSampler<W>> {
     node["properties"]["behavior"] = schema::ref<BehaviorSampler<B>>();
     node["properties"]["kinematics"] = schema::ref<KinematicsSampler<K>>();
     node["properties"]["state_estimation"] =
+        schema::ref<StateEstimationSampler<S>>();
+    node["properties"]["state_estimations"]["type"] = "array";
+    node["properties"]["state_estimations"]["items"] =
         schema::ref<StateEstimationSampler<S>>();
     node["properties"]["task"] = schema::ref<TaskSampler<T>>();
     schema::add_sampler<Vector2>(node, "position");

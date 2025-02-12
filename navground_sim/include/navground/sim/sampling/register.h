@@ -333,6 +333,7 @@ template <typename T = StateEstimation>
 struct StateEstimationSampler : public SamplerFromRegister<T> {
   using Type = T;
   using SamplerFromRegister<T>::SamplerFromRegister;
+  // using SamplerFromRegister<T>::is_valid;
 };
 
 }  // namespace navground::sim

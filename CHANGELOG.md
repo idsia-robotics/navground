@@ -1,5 +1,18 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- Added `bidirectional` property to `Corridor` scenario to select unidirectional or bidirectional flows.
+
+### Fixed
+
+### Changed
+
+### Removed
+
+
 ## [0.4.0] 2025-02-11
 
 This is the first release that includes binary installation packages for the navground C++ library. To support them, we slightly modified how we build the project. In particular, we added directories `distribution/{core|sim}` to build installers using `CPack` (C++) and `setuptools` (Python). 

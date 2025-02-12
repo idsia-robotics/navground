@@ -40,7 +40,7 @@ void CorridorScenario::init_world(World *world,
   for (const auto &agent : world->get_agents()) {
     ng_float_t orientation = 0;
     Vector2 direction{1.0, 0.0};
-    if (index % 2) {
+    if (bidirectional && index % 2) {
       orientation = static_cast<ng_float_t>(PI);
       direction *= -1;
     }

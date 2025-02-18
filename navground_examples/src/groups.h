@@ -96,9 +96,9 @@ inline sim::AgentSampler<sim::World> robots() {
   group.kinematics.max_speed = make_const<ng_float_t>(1);
   group.kinematics.properties["wheel_axis"] =
       make_const_property(static_cast<ng_float_t>(0.12));
-  group.state_estimation = sim::StateEstimationSampler<>("Bounded");
-  group.state_estimation.properties["range"] =
-      make_const_property<ng_float_t>(10);
+  auto se = sim::StateEstimationSampler<>("Bounded");
+  se.properties["range"] = make_const_property<ng_float_t>(10);
+  group.state_estimations = {se};
   group.task = sim::TaskSampler<>("Waypoints");
   group.task.properties["loop"] = make_const_property<bool>(true);
   group.task.properties["waypoints"] =
@@ -121,9 +121,9 @@ inline sim::AgentSampler<sim::World> group(const std::string &behavior,
   group.behavior.horizon = make_const<ng_float_t>(10);
   group.kinematics = sim::KinematicsSampler<>("Omni");
   group.kinematics.max_speed = make_const<ng_float_t>(1);
-  group.state_estimation = sim::StateEstimationSampler<>("Bounded");
-  group.state_estimation.properties["range"] =
-      make_const_property<ng_float_t>(10);
+  auto se = sim::StateEstimationSampler<>("Bounded");
+  se.properties["range"] = make_const_property<ng_float_t>(10);
+  group.state_estimations = {se};
   group.radius = make_const(static_cast<ng_float_t>(0.1));
   group.control_period = make_const(static_cast<ng_float_t>(0.1));
   return group;

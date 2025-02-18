@@ -4,9 +4,12 @@
 Corridor
 ========
 
+In this scenario, agents travel along a straight corridor, whose ends are wrapped together, i.e., where agents exiting from one side are teleported to the other side. State estimation and collisions both conform to this lattice. 
 
-In this scenario, half of the agents need to travel towards one end of a straight corridor, and the other half towards the other end. The two ends are wrapped together, i.e., agents exiting from on side are reintroduced on the other side. State estimation and collisions both conform to this lattice. 
-The scenario tests opposing flows of agents. Some behavior let the agents spontaneously organize in lanes of opposing flow.
+In a *bidirectional* corridor, half of the agents need to travel towards one end of a straight corridor, and the other half towards the other end. This scenario tests opposing flows of agents, where some behaviors let the agents spontaneously organize in lanes of opposing flow.
+
+Instead, in an *unidirectional* corridor, all agents travel towards the same direction.
+
 
 Initialization
 ==============
@@ -36,6 +39,11 @@ Parameters
 
 	the width of the corridor.
 	(float, default = ``1.0``)
+
+:bidirectional:
+  
+  whether agents are divided into two half traveling in opposite directions.
+  (bool, default = ``true``)
 
 
 Example

@@ -30,10 +30,12 @@ namespace navground::sim {
  *   - `agent_margin` (float, \ref get_agent_margin)
  *
  *   - `add_safety_to_agent_margin` (bool, \ref get_add_safety_to_agent_margin)
+ *
+ *   - `bidirectional` (bool, \ref bidirectional)
  */
 struct NAVGROUND_SIM_EXPORT CorridorScenario : public Scenario {
   static const std::string type;
-  
+
   // corridor width
   ng_float_t width;
   inline static ng_float_t default_width = 1;
@@ -46,13 +48,17 @@ struct NAVGROUND_SIM_EXPORT CorridorScenario : public Scenario {
   // whether to add the safety margin to the agent margin;
   bool add_safety_to_agent_margin;
   inline static bool default_add_safety_to_agent_margin = true;
+  bool bidirectional;
+  inline static bool default_bidirectional = true;
 
   explicit CorridorScenario(
       ng_float_t width = default_width, ng_float_t length = default_length,
       ng_float_t agent_margin = default_agent_margin,
-      bool add_safety_to_agent_margin = default_add_safety_to_agent_margin)
+      bool add_safety_to_agent_margin = default_add_safety_to_agent_margin,
+      bool bidirectional = default_bidirectional)
       : Scenario(), width(width), length(length), agent_margin(agent_margin),
-        add_safety_to_agent_margin(add_safety_to_agent_margin) {}
+        add_safety_to_agent_margin(add_safety_to_agent_margin),
+        bidirectional(bidirectional) {}
 
   /**
    * @brief      Gets the width of the corridor.
@@ -104,7 +110,7 @@ struct NAVGROUND_SIM_EXPORT CorridorScenario : public Scenario {
    * @brief      Whenever the agent's safety margin should be considered in
    * addition to \ref get_agent_margin when initializing the agents' poses.
    *
-   * @return     The add safety to agent margin.
+   * @return     True if safety margin margin is added to agent margin.
    */
   bool get_add_safety_to_agent_margin() const {
     return add_safety_to_agent_margin;
@@ -119,6 +125,22 @@ struct NAVGROUND_SIM_EXPORT CorridorScenario : public Scenario {
   void set_add_safety_to_agent_margin(bool value) {
     add_safety_to_agent_margin = value;
   }
+
+  /**
+   * @brief      Whenever the agents are divided into two groups
+   *             moving in opposite directions.
+   *
+   * @return     True if the agents moves in opposite directions.
+   */
+  bool get_bidirectional() const { return bidirectional; }
+
+  /**
+   * @brief      Sets the agents are divided into two groups
+   *             moving in opposite directions.
+   *
+   * @param[in]  value  Whenever agents moves in opposite directions or not.
+   */
+  void set_bidirectional(bool value) { bidirectional = value; }
 
   /**
    * @private

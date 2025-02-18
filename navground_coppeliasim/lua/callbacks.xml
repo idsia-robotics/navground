@@ -81,6 +81,9 @@
           <param name="owner" type="int" default="-1">
             <description>See `PropertyOwner`. Set to negative to get all properties</description>
           </param>
+          <param name="index" type="int" default="0">
+            <description>Array-index of the owner (applies only to state estimations)</description>
+          </param>
         </params>
         <return>
           <param name="properties" type="table" item-type="property_t">
@@ -100,6 +103,9 @@
           </param>
           <param name="name" type="string">
             <description>The property name</description>
+          </param>
+          <param name="index" type="int" default="0">
+            <description>Array-index of the owner (applies only to state estimations)</description>
           </param>
         </params>
         <return>
@@ -123,6 +129,9 @@
           </param>
           <param name="value" type="property_field_t">
             <description>The property value</description>
+          </param>
+          <param name="index" type="int" default="0">
+            <description>Array-index of the owner (applies only to state estimations)</description>
           </param>
         </params>
         <return>

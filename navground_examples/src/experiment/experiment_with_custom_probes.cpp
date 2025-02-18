@@ -18,7 +18,7 @@ namespace sim = navground::sim;
 static const char yaml[] = R"YAML(
 steps: 300
 time_step: 0.1
-save_directory: '.'
+save_directory: ''
 record_time: true
 runs: 2
 name: custom_probes

@@ -35,9 +35,26 @@ include(FetchContent)
 FetchContent_Declare(
   cpptqdm
   GIT_REPOSITORY https://github.com/aminnj/cpptqdm.git
+  GIT_SHALLOW TRUE
   GIT_TAG master)
 
 FetchContent_MakeAvailable(cpptqdm)
+
+find_package(HighFive QUIET)
+if(NOT HighFive_FOUND)
+  FetchContent_Declare(
+    HighFive
+    GIT_REPOSITORY https://github.com/BlueBrain/HighFive.git
+    GIT_TAG v2.10.1
+    GIT_SHALLOW TRUE
+    OVERRIDE_FIND_PACKAGE)
+  set(HIGHFIVE_USE_BOOST OFF)
+  set(HIGHFIVE_BUILD_DOCS OFF)
+  set(HIGHFIVE_EXAMPLES OFF)
+  set(HIGHFIVE_USE_INSTALL_DEPS OFF)
+  set(HIGHFIVE_STATIC_HDF5 OFF)
+  FetchContent_MakeAvailable(HighFive)
+endif()
 
 option(BUILD_STANDALONE_CMDS "Whether to build commands"
        ${PROJECT_IS_TOP_LEVEL})
@@ -219,4 +236,16 @@ else()
   install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
           DESTINATION share/${PROJECT_NAME}/cmake)
 
+endif()
+
+
+if(PROJECT_IS_TOP_LEVEL AND BUILD_TESTING)
+  include(CTest)
+  if (BUILD_TESTING)
+    add_subdirectory(tests)
+  endif()
+endif()
+
+if (PROJECT_IS_TOP_LEVEL)
+  include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/cpack.cmake)
 endif()

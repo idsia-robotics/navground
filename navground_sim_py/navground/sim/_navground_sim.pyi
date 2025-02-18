@@ -12,8 +12,9 @@ class Agent(NativeAgent):
     behavior: navground.core._navground.Behavior | None
     kinematics: navground.core._navground.Kinematics | None
     state_estimation: StateEstimation | None
+    state_estimations: list[StateEstimation]
     task: Task | None
-    def __init__(self, radius: float = ..., behavior: navground.core._navground.Behavior | None = ..., kinematics: navground.core._navground.Kinematics | None = ..., task: Task | None = ..., state_estimation: StateEstimation | None = ..., control_period: float = ..., id: int = ...) -> None: ...
+    def __init__(self, radius: float = ..., behavior: navground.core._navground.Behavior | None = ..., kinematics: navground.core._navground.Kinematics | None = ..., task: Task | None = ..., state_estimations: list[StateEstimation] = ..., control_period: float = ..., id: int = ...) -> None: ...
     def _pybind11_conduit_v1_(self, *args: Any, **kwargs: Any) -> Any: ...
     def dump(self) -> str: ...
     @staticmethod
@@ -73,7 +74,8 @@ class CorridorScenario(Scenario):
     agent_margin: float
     length: float
     width: float
-    def __init__(self, width: float = ..., length: float = ..., agent_margin: float = ..., add_safety_to_agent_margin: bool = ...) -> None: ...
+    bidirectional: bool
+    def __init__(self, width: float = ..., length: float = ..., agent_margin: float = ..., add_safety_to_agent_margin: bool = ..., bidirectional: bool = ...) -> None: ...
     def _pybind11_conduit_v1_(self, *args: Any, **kwargs: Any) -> Any: ...
 
 class CrossScenario(Scenario):
@@ -321,6 +323,7 @@ class NativeAgent(Entity):
     position: Vector2
     radius: float
     state_estimation: StateEstimation | None
+    state_estimations: list[StateEstimation]
     tags: set[str]
     task: Task | None
     twist: navground.core._navground.Twist2

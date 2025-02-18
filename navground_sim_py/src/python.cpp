@@ -238,7 +238,6 @@ struct PySensor : public Sensor, public PyStateEstimation {
 
   OVERRIDE_DECODE
   OVERRIDE_ENCODE
-
 };
 
 class PyAgent : public Agent {
@@ -254,15 +253,17 @@ public:
 
   using C = py::object;
 
-  PyAgent(ng_float_t radius = 0, const py::object &behavior = py::none(),
+  explicit PyAgent(ng_float_t radius = 0, const py::object &behavior = py::none(),
           const py::object &kinematics = py::none(),
           const py::object &task = py::none(),
-          const py::object &estimation = py::none(),
+          const std::vector<py::object> &estimations = {},
           ng_float_t control_period = 0, unsigned id = 0)
-      : Agent(radius, nullptr, nullptr, nullptr, nullptr, control_period, id) {
+      : Agent(radius, nullptr, nullptr, nullptr,
+              std::vector<std::shared_ptr<StateEstimation>>{}, control_period,
+              id) {
     set_kinematics(kinematics);
     set_behavior(behavior);
-    set_state_estimation(estimation);
+    set_state_estimations(estimations);
     set_task(task);
   }
 
@@ -270,10 +271,10 @@ public:
                          const py::object &behavior = py::none(),
                          const py::object &kinematics = py::none(),
                          const py::object &task = py::none(),
-                         const py::object &estimation = py::none(),
+                         const std::vector<py::object> &estimations = {},
                          ng_float_t control_period = 0, unsigned id = 0) {
     auto a = std::make_shared<PyAgent>(radius, behavior, kinematics, task,
-                                       estimation, control_period, id);
+                                       estimations, control_period, id);
 #if 0
     auto a = std::make_shared<PyAgent>(radius, nullptr, nullptr, nullptr,
                                        nullptr, control_period, id);
@@ -296,8 +297,18 @@ public:
   }
 
   void set_state_estimation(const py::object &obj) {
-    py_state_estimation = obj;
+    py_state_estimations = {obj};
     Agent::set_state_estimation(obj.cast<std::shared_ptr<StateEstimation>>());
+  }
+
+  void set_state_estimations(const std::vector<py::object> &objs) {
+    py_state_estimations = objs;
+    std::vector<std::shared_ptr<StateEstimation>> ses(objs.size());
+    std::transform(objs.cbegin(), objs.cend(), ses.begin(),
+                   [](const py::object &obj) {
+                     return obj.cast<std::shared_ptr<StateEstimation>>();
+                   });
+    Agent::set_state_estimations(ses);
   }
 
   void set_task(const py::object &obj) {
@@ -316,7 +327,7 @@ public:
 private:
   py::object py_kinematics;
   py::object py_behavior;
-  py::object py_state_estimation;
+  std::vector<py::object> py_state_estimations;
   py::object py_task;
 };
 
@@ -693,9 +704,19 @@ template <> struct convert<PyAgent> {
         auto value = load_node_py<PyTask>(node["task"]);
         rhs.set_task(value);
       }
-      if (!rhs.get_state_estimation() && node["state_estimation"]) {
-        auto value = load_node_py<PyStateEstimation>(node["state_estimation"]);
-        rhs.set_state_estimation(value);
+      if (rhs.get_state_estimations().size() == 0) {
+        if (node["state_estimation"]) {
+          auto value =
+              load_node_py<PyStateEstimation>(node["state_estimation"]);
+          rhs.set_state_estimation(value);
+        }
+        if (node["state_estimations"]) {
+          std::vector<py::object> ses;
+          for (const auto &c : node["state_estimations"]) {
+            ses.push_back(load_node_py<PyStateEstimation>(c));
+          }
+          rhs.set_state_estimations(ses);
+        }
       }
       return true;
     }
@@ -1170,6 +1191,12 @@ Creates a rectangular region
                     py::cpp_function(&Agent::set_state_estimation,
                                      py::keep_alive<1, 2>()),
                     DOC(navground, sim, Agent, property_state_estimation))
+      .def_property("state_estimations",
+                    py::cpp_function(&Agent::get_state_estimations,
+                                     py::return_value_policy::reference),
+                    py::cpp_function(&Agent::set_state_estimations,
+                                     py::keep_alive<1, 2>()),
+                    DOC(navground, sim, Agent, property_state_estimations))
       // .def_readwrite("behavior", &Agent::behavior)
       .def_property(
           "behavior",
@@ -1199,11 +1226,11 @@ Creates a rectangular region
       m, "Agent", py::dynamic_attr(), DOC(navground, sim, Agent));
   agent
       .def(py::init<ng_float_t, const py::object &, const py::object &,
-                    const py::object &, const py::object &, ng_float_t,
-                    unsigned>(),
+                    const py::object &, const std::vector<py::object> &,
+                    ng_float_t, unsigned>(),
            py::arg("radius") = 0, py::arg("behavior") = py::none(),
            py::arg("kinematics") = py::none(), py::arg("task") = py::none(),
-           py::arg("state_estimation") = py::none(),
+           py::arg("state_estimations") = std::vector<py::object>(),
            py::arg("control_period") = 0, py::arg("id") = 0,
            DOC(navground, sim, Agent, Agent))
 #if 0
@@ -1220,6 +1247,9 @@ Creates a rectangular region
       .def_property("state_estimation", &PyAgent::get_state_estimation,
                     &PyAgent::set_state_estimation,
                     DOC(navground, sim, Agent, property, state_estimation))
+      .def_property("state_estimations", &PyAgent::get_state_estimations,
+                    &PyAgent::set_state_estimations,
+                    DOC(navground, sim, Agent, property, state_estimations))
       .def_property("behavior", &PyAgent::get_behavior, &PyAgent::set_behavior,
                     DOC(navground, sim, Agent, property, behavior))
       .def_property("kinematics", &PyAgent::get_kinematics,
@@ -3071,12 +3101,13 @@ Register a probe to record a group of data to during all runs.
   py::class_<CorridorScenario, Scenario, std::shared_ptr<CorridorScenario>>
       corridor(m, "CorridorScenario", DOC(navground, sim, CorridorScenario));
   corridor
-      .def(py::init<ng_float_t, ng_float_t, ng_float_t, bool>(),
+      .def(py::init<ng_float_t, ng_float_t, ng_float_t, bool, bool>(),
            py::arg("width") = CorridorScenario::default_width,
            py::arg("length") = CorridorScenario::default_length,
            py::arg("agent_margin") = CorridorScenario::default_agent_margin,
            py::arg("add_safety_to_agent_margin") =
                CorridorScenario::default_add_safety_to_agent_margin,
+           py::arg("bidirectional") = CorridorScenario::default_bidirectional,
            DOC(navground, sim, CorridorScenario, CorridorScenario))
       .def_property("width", &CorridorScenario::get_width,
                     &CorridorScenario::set_width,
@@ -3092,7 +3123,11 @@ Register a probe to record a group of data to during all runs.
                     &CorridorScenario::get_add_safety_to_agent_margin,
                     &CorridorScenario::set_add_safety_to_agent_margin,
                     DOC(navground, sim, CorridorScenario,
-                        property_add_safety_to_agent_margin));
+                        property_add_safety_to_agent_margin))
+      .def_property(
+          "bidirectional", &CorridorScenario::get_bidirectional,
+          &CorridorScenario::set_bidirectional,
+          DOC(navground, sim, CorridorScenario, property_bidirectional));
 
   py::class_<CrossTorusScenario, Scenario, std::shared_ptr<CrossTorusScenario>>
       cross_torus(m, "CrossTorusScenario",

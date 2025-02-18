@@ -9,8 +9,7 @@ namespace navground::sim {
 void Agent::prepare(World *world) {
   if (ready)
     return;
-  if (state_estimation) {
-    // state_estimation->world = this;
+  for(auto & state_estimation : state_estimations) {
     state_estimation->prepare(this, world);
   }
   collision_correction = Vector2::Zero();
@@ -57,8 +56,9 @@ void Agent::update(ng_float_t dt, ng_float_t time, World *world) {
     behavior->set_twist(twist);
     behavior->set_pose(pose);
   }
-  if (state_estimation)
+  for(auto & state_estimation : state_estimations) {
     state_estimation->update(this, world);
+  }
   if (task)
     task->update(this, world, time);
 }

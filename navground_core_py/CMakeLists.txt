@@ -21,6 +21,9 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 option(INSTALL_PYTHON_PKG "Whether to install the Python package"
        ${PROJECT_IS_TOP_LEVEL})
+option(BUILD_PYTHON_PKG "Whether to build the Python package"
+       ${PROJECT_IS_TOP_LEVEL})
+
 set(BUILD_PKG_DIRECTORY
     "${CMAKE_CURRENT_BINARY_DIR}"
     CACHE STRING "Where to build the extension")
@@ -29,7 +32,20 @@ set(Python3_FIND_STRATEGY LOCATION)
 
 find_package(navground_core REQUIRED)
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
-find_package(pybind11 REQUIRED)
+find_package(pybind11 QUIET)
+if(NOT pybind11_FOUND)
+  include(FetchContent)
+  FetchContent_Declare(
+    pybind11
+    GIT_REPOSITORY https://github.com/pybind/pybind11.git
+    GIT_TAG v2.13.6
+    GIT_SHALLOW TRUE
+    OVERRIDE_FIND_PACKAGE)
+  set(PYBIND11_INSTALL ON)
+  set(INCLUDE_PYBIND11 true)
+  FetchContent_MakeAvailable(pybind11)
+  find_package(pybind11 REQUIRED)
+endif()
 
 add_library(navground_core_py INTERFACE)
 target_include_directories(
@@ -40,6 +56,8 @@ target_include_directories(
 set(BUILD_INCLUDE_DIRECTORY ${PROJECT_BINARY_DIR}/include)
 target_include_directories(
   navground_core_py INTERFACE "$<BUILD_INTERFACE:${BUILD_INCLUDE_DIRECTORY}>")
+
+target_link_libraries(navground_core_py INTERFACE pybind11::pybind11)
 
 pybind11_add_module(_navground src/python.cpp)
 
@@ -157,7 +175,9 @@ else()
       VERSION
       "${CMAKE_PROJECT_VERSION}"
       TARGET
-      _navground)
+      _navground
+      CONSOLE_SCRIPTS 
+      )
 
   endif()
 
@@ -183,3 +203,16 @@ else()
   install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
           DESTINATION share/${PROJECT_NAME}/cmake)
 endif()
+
+if(PROJECT_IS_TOP_LEVEL AND BUILD_TESTING)
+  include(CTest)
+  if (BUILD_TESTING)
+    add_subdirectory(tests)
+  endif()
+endif()
+
+if(PROJECT_IS_TOP_LEVEL)
+  include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/cpack.cmake)
+endif()
+
+

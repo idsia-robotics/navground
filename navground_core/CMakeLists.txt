@@ -193,3 +193,14 @@ else()
           DESTINATION share/${PROJECT_NAME}/cmake)
 
 endif()
+
+if(PROJECT_IS_TOP_LEVEL AND BUILD_TESTING)
+  include(CTest)
+  if (BUILD_TESTING)
+    add_subdirectory(tests)
+  endif()
+endif()
+
+if (PROJECT_IS_TOP_LEVEL)
+  include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/cpack.cmake)
+endif()

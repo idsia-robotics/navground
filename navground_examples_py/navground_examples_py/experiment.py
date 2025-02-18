@@ -7,7 +7,7 @@ def main():
     experiment = sim.load_experiment("""
 steps: 300
 time_step: 0.1
-save_directory: '.'
+save_directory: ''
 record_time: true
 runs: 2
 name: custom_probes

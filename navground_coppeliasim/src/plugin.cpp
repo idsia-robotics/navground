@@ -34,6 +34,16 @@ typedef double simFloat;
 typedef float simFloat;
 #endif
 
+template <typename T, typename V>
+static std::vector<T> convert_vector(const std::vector<V> &ns) {
+  if constexpr (std::is_same_v<T, V>) {
+    return ns;
+  }
+  std::vector<T> cs(ns.size());
+  std::copy(ns.cbegin(), ns.cend(), cs.begin());
+  return cs;
+}
+
 static std::shared_ptr<core::Kinematics>
 make_kinematics(const kinematics_t &k) {
   auto kinematics = core::Kinematics::make_type(k.type);
@@ -75,7 +85,7 @@ from_property_field_t(const property_field_t &value) {
   case 1:
     return value.int_value;
   case 2:
-    return value.float_value;
+    return static_cast<ng_float_t>(value.float_value);
   case 3:
     return value.string_value;
   case 4:
@@ -85,7 +95,7 @@ from_property_field_t(const property_field_t &value) {
   case 6:
     return value.int_list;
   case 7:
-    return value.float_list;
+    return convert_vector<ng_float_t, simFloat>(value.float_list);
   case 8:
     return value.string_list;
   case 9:
@@ -129,7 +139,8 @@ static property_field_t to_property_field_t(const core::Property::Field &v) {
     value.int_list = std::get<std::vector<int>>(v);
     break;
   case 7:
-    value.float_list = std::get<std::vector<ng_float_t>>(v);
+    value.float_list = convert_vector<simFloat, ng_float_t>(
+        std::get<std::vector<ng_float_t>>(v));
     break;
   case 8:
     value.string_list = std::get<std::vector<std::string>>(v);
@@ -306,7 +317,7 @@ public:
     if (controller) {
       controller->go_to_pose(
           core::Pose3{{in->position[0], in->position[1], in->position[2]},
-                      in->orientation},
+                      static_cast<ng_float_t>(in->orientation)},
           in->position_tolerance, in->orientation_tolerance);
     }
   }
@@ -324,7 +335,7 @@ public:
     if (controller) {
       controller->follow_pose(
           core::Pose3{{in->position[0], in->position[1], in->position[2]},
-                      in->orientation});
+                      static_cast<ng_float_t>(in->orientation)});
     }
   }
 
@@ -349,7 +360,7 @@ public:
     if (controller) {
       controller->set_pose(
           core::Pose3{{in->position[0], in->position[1], in->position[2]},
-                      in->orientation});
+                      static_cast<ng_float_t>(in->orientation)});
     }
   }
 
@@ -504,8 +515,8 @@ public:
   void set_twist(set_twist_in *in, set_twist_out *out) {
     auto agent = agent_with_handle(in->handle);
     if (agent) {
-      agent->twist =
-          core::Twist2{{in->velocity[0], in->velocity[1]}, in->angular_speed};
+      agent->twist = core::Twist2{{in->velocity[0], in->velocity[1]},
+                                  static_cast<ng_float_t>(in->angular_speed)};
       has_set_twist[in->handle] = true;
       return;
     }
@@ -513,7 +524,7 @@ public:
     if (controller) {
       controller->set_twist(
           core::Twist3{{in->velocity[0], in->velocity[1], in->velocity[2]},
-                       in->angular_speed});
+                       static_cast<ng_float_t>(in->angular_speed)});
     }
   }
 
@@ -687,7 +698,8 @@ public:
                                  get_actuated_wheel_speeds_out *out) {
     auto behavior = behavior_with_handle(in->handle);
     if (behavior) {
-      out->speeds = behavior->get_actuated_wheel_speeds();
+      out->speeds = convert_vector<simFloat, ng_float_t>(
+          behavior->get_actuated_wheel_speeds());
     }
   }
 
@@ -727,7 +739,7 @@ public:
           agent->get_kinematics()->set(in->name, *value);
           break;
         case 2:
-          agent->get_state_estimation()->set(in->name, *value);
+          agent->get_state_estimations()[in->index]->set(in->name, *value);
           break;
         case 3:
           agent->get_task()->set(in->name, *value);
@@ -749,7 +761,7 @@ public:
         properties = agent->get_kinematics()->get_properties();
         break;
       case 2:
-        properties = agent->get_state_estimation()->get_properties();
+        properties = agent->get_state_estimations()[in->index]->get_properties();
         break;
       case 3:
         properties = agent->get_task()->get_properties();
@@ -776,7 +788,7 @@ public:
         value = agent->get_kinematics()->get(in->name);
         break;
       case 2:
-        value = agent->get_state_estimation()->get(in->name);
+        value = agent->get_state_estimations()[in->index]->get(in->name);
         break;
       case 3:
         value = agent->get_task()->get(in->name);
@@ -796,8 +808,8 @@ public:
     int r = simGetObjectPosition(in->handle, frame, ps);
     if (r == -1)
       return;
-    get_world()->add_obstacle(
-        nsim::Obstacle{core::Vector2{ps[0], ps[1]}, in->radius});
+    get_world()->add_obstacle(nsim::Obstacle{
+        core::Vector2{ps[0], ps[1]}, static_cast<ng_float_t>(in->radius)});
   }
 
   void add_wall(add_wall_in *in, add_wall_out *out) {
@@ -883,7 +895,8 @@ public:
       if (kinematics && kinematics->is_wheeled()) {
         core::WheeledKinematics *wk =
             dynamic_cast<core::WheeledKinematics *>(kinematics);
-        out->speeds = wk->feasible_wheel_speeds(twist);
+        out->speeds = convert_vector<simFloat, ng_float_t>(
+            wk->feasible_wheel_speeds(twist));
       }
     }
   }

@@ -19,6 +19,7 @@ runs:
     - if: steps.cache_navground_core.outputs.cache-hit != 'true'
       name: build and test
       working-directory: ${{inputs.package}}/build
+      shell: bash
       run: |
         cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON ..
         cmake --build . -j 8
@@ -26,10 +27,12 @@ runs:
         mv dist ${{github.workspace}}/packages/${{inputs.package}}
     - name: cpack
       working-directory: ${{inputs.package}}/build
+      shell: bash
       run: |
         cpack
         mv packages/* ${{github.workspace}}/packages/${{inputs.package}}
     - name: install
+      shell: bash
       run: |
         find packages/${{inputs.package}} -name '*.whl' -exec pip install {}[all] \;
-        find packages/${{inputs.package}} -name '*.deb' -exec apt install {} \;
+        find packages/${{inputs.package}} -name '*.deb' -exec sudo apt-get install {} \;

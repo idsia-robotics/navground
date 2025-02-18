@@ -17,6 +17,7 @@ runs:
     - if: steps.cache_package.outputs.cache-hit != 'true'
       name: build and test
       working-directory: ${{inputs.package}}/build
+      shell: bash
       run: |
         cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON ..
         cmake --build . -j 8
@@ -24,5 +25,6 @@ runs:
         cpack
         mv packages ${{github.workspace}}/packages/${{inputs.package}}
     - name: install
+      shell: bash
       run: |
-        apt install ./packages/${{inputs.package}}/*.deb
+        sudo apt-get install ./packages/${{inputs.package}}/*.deb

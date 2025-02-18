@@ -44,7 +44,7 @@ jobs:
               - 'minimal_plugin_py/**'
       - name: install apt deps
         run: |
-          apt-get update
+          sudo apt-get update
           sudo apt-get install libargparse-dev libeigen3-dev libyaml-cpp-dev libgeos++-dev libhdf5-dev
       - run: |
           mkdir packages

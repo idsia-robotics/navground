@@ -45,9 +45,8 @@ runs:
     - name: Upload test logs
       uses: actions/upload-artifact@v4
       if: failure() && steps.test.outcome == 'failure'
-      working-directory: ${{inputs.package}}/build
       with:
         name: ${{inputs.package}}-LastTest.log
-        path: Testing/Temporary/LastTest.log
+        path: ${{inputs.package}}/build/Testing/Temporary/LastTest.log
         if-no-files-found: ignore
         retention-days: 5

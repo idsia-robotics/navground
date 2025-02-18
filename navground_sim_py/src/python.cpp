@@ -3080,12 +3080,13 @@ Register a probe to record a group of data to during all runs.
   py::class_<CorridorScenario, Scenario, std::shared_ptr<CorridorScenario>>
       corridor(m, "CorridorScenario", DOC(navground, sim, CorridorScenario));
   corridor
-      .def(py::init<ng_float_t, ng_float_t, ng_float_t, bool>(),
+      .def(py::init<ng_float_t, ng_float_t, ng_float_t, bool, bool>(),
            py::arg("width") = CorridorScenario::default_width,
            py::arg("length") = CorridorScenario::default_length,
            py::arg("agent_margin") = CorridorScenario::default_agent_margin,
            py::arg("add_safety_to_agent_margin") =
                CorridorScenario::default_add_safety_to_agent_margin,
+           py::arg("bidirectional") = CorridorScenario::default_bidirectional,
            DOC(navground, sim, CorridorScenario, CorridorScenario))
       .def_property("width", &CorridorScenario::get_width,
                     &CorridorScenario::set_width,
@@ -3101,7 +3102,11 @@ Register a probe to record a group of data to during all runs.
                     &CorridorScenario::get_add_safety_to_agent_margin,
                     &CorridorScenario::set_add_safety_to_agent_margin,
                     DOC(navground, sim, CorridorScenario,
-                        property_add_safety_to_agent_margin));
+                        property_add_safety_to_agent_margin))
+      .def_property(
+          "bidirectional", &CorridorScenario::get_bidirectional,
+          &CorridorScenario::set_bidirectional,
+          DOC(navground, sim, CorridorScenario, property_bidirectional));
 
   py::class_<CrossTorusScenario, Scenario, std::shared_ptr<CrossTorusScenario>>
       cross_torus(m, "CrossTorusScenario",

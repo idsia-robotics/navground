@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
   }
   behavior->set_kinematics(
       std::make_shared<TwoWheelsDifferentialDriveKinematics>(
-          static_cast<ng_float_t>(1), static_cast<ng_float_t>(0)));
+          static_cast<ng_float_t>(1)));
   behavior->set_radius(static_cast<ng_float_t>(0.1));
   controller.set_behavior(behavior);
   controller.set_speed_tolerance(static_cast<ng_float_t>(0.05));

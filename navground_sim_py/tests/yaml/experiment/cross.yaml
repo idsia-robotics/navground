@@ -1,16 +1,8 @@
-from navground import sim
-
-from .probes import CheckIfMoving, IsMovingProbe, IsMovingSparseProbe
-
-
-def main():
-    experiment = sim.load_experiment("""
-steps: 300
+---
+steps: 1000
 time_step: 0.1
 save_directory: ''
-record_time: true
-runs: 2
-name: custom_probes
+record_pose: true
 scenario:
   type: Cross
   agent_margin: 0.1
@@ -36,8 +28,3 @@ scenario:
       state_estimation:
         type: Bounded
         range: 5.0
-""")
-    experiment.add_probe(CheckIfMoving)
-    experiment.add_record_probe("is_moving", IsMovingProbe)
-    experiment.add_group_record_probe("still_times", IsMovingSparseProbe)
-    experiment.run()

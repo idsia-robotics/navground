@@ -74,7 +74,8 @@ class CorridorScenario(Scenario):
     agent_margin: float
     length: float
     width: float
-    def __init__(self, width: float = ..., length: float = ..., agent_margin: float = ..., add_safety_to_agent_margin: bool = ...) -> None: ...
+    bidirectional: bool
+    def __init__(self, width: float = ..., length: float = ..., agent_margin: float = ..., add_safety_to_agent_margin: bool = ..., bidirectional: bool = ...) -> None: ...
     def _pybind11_conduit_v1_(self, *args: Any, **kwargs: Any) -> Any: ...
 
 class CrossScenario(Scenario):

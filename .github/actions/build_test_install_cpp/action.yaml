@@ -1,0 +1,50 @@
+name: install-cpp
+description: 'Build, test, and install a cpp package, caching the installer.'
+inputs:
+  package:
+    required: true
+  hash:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: load cache
+      uses: actions/cache/restore@v4
+      id: load_cache
+      with:
+        path: packages/${{inputs.package}}
+        key: packages-${{inputs.package}}-${{ runner.os }}-${{ runner.arch }}-${{ inputs.hash }}
+    - if: steps.load_cache.outputs.cache-hit != 'true'
+      name: build and test
+      id: test
+      shell: bash
+      run: |
+        mkdir -p ${{inputs.package}}/build
+        cd ${{inputs.package}}/build
+        cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON ..
+        cmake --build . -j 4
+        ctest
+        cpack
+        mv packages ${{github.workspace}}/packages/${{inputs.package}}
+    - name: Upload test logs
+      uses: actions/upload-artifact@v4
+      if: steps.load_cache.outputs.cache-hit != 'true' && failure() && steps.test.outcome == 'failure'
+      with:
+        name: ${{inputs.package}}-LastTest.log
+        path: ${{inputs.package}}/build/Testing/Temporary/LastTest.log
+        if-no-files-found: ignore
+        retention-days: 5
+    - name: install
+      shell: bash
+      run: |
+        sudo apt-get install ./packages/${{inputs.package}}/*.deb
+    - if: steps.load_cache.outputs.cache-hit != 'true'
+      name: save cache
+      uses: actions/cache/save@v4
+      with:
+        path: packages/${{inputs.package}}
+        key: ${{ steps.load_cache.outputs.cache-primary-key }}
+    - name: clean
+      if: steps.load_cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: rm -r ${{inputs.package}}/build

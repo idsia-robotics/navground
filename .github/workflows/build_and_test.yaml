@@ -77,9 +77,10 @@ jobs:
           package: navground_sim_py
           cpack: false
       - name: examples_cpp
-        working-directory: navground_examples_cpp/build
         if: steps.changes.outputs.examples == 'true'
         run: |
+          mkdir -p navground_examples_cpp/build
+          cd navground_examples_cpp/build
           cmake -DBUILD_TESTING=ON ..
           cmake --build . -j 8
           ctest
@@ -90,11 +91,12 @@ jobs:
           pip install .
           pytest tests
       - name: plugin_cpp
-        working-directory: navground_minimal_plugin_cpp/build
         if: steps.changes.outputs.minimal_plugin_cpp == 'true'
         env: 
           NAVGROUND_PLUGINS_PREFIX: ${{github.workspace}}/navground_minimal_plugin_cpp/install
         run: |
+          mkdir -p navground_minimal_plugin_cpp/build
+          cd navground_minimal_plugin_cpp/build
           cmake -DBUILD_TESTING=ON ..
           cmake --build . -j 8
           cmake --install . --prefix ../install

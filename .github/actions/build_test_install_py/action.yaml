@@ -18,9 +18,10 @@ runs:
         key: packages-${{inputs.package}}-${{ runner.os }}-${{ runner.arch }}-${{ inputs.hash }}
     - if: steps.cache_navground_core.outputs.cache-hit != 'true'
       name: build and test
-      working-directory: ${{inputs.package}}/build
       shell: bash
       run: |
+        mkdir -p ${{inputs.package}}/build
+        cd ${{inputs.package}}/build
         cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON ..
         cmake --build . -j 8
         ctest

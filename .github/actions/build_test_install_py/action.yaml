@@ -23,10 +23,10 @@ runs:
         mkdir -p ${{inputs.package}}/build
         cd ${{inputs.package}}/build
         cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON ..
-        cmake --build . -j 8
-        ctest
+        cmake --build . -j 4
         mv dist ${{github.workspace}}/packages/${{inputs.package}}
     - name: cpack
+      if: ${{steps.cache_navground_core.outputs.cache-hit != 'true' && inputs.cpack == 'true'}}
       working-directory: ${{inputs.package}}/build
       shell: bash
       run: |
@@ -37,3 +37,17 @@ runs:
       run: |
         find packages/${{inputs.package}} -name '*.whl' -exec pip install {}[all] \;
         find packages/${{inputs.package}} -name '*.deb' -exec sudo apt-get install {} \;
+    - name: test
+      if: ${{steps.cache_navground_core.outputs.cache-hit != 'true'}}
+      working-directory: ${{inputs.package}}/build
+      shell: bash
+      run: ctest
+    - name: Upload test logs
+      uses: actions/upload-artifact@v4
+      if: failure() && steps.test.outcome == 'failure'
+      working-directory: ${{inputs.package}}/build
+      with:
+        name: ${{inputs.package}}-LastTest.log
+        path: Testing/Temporary/LastTest.log
+        if-no-files-found: ignore
+        retention-days: 5

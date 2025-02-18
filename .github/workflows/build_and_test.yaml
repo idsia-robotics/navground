@@ -82,7 +82,7 @@ jobs:
           mkdir -p navground_examples_cpp/build
           cd navground_examples_cpp/build
           cmake -DBUILD_TESTING=ON ..
-          cmake --build . -j 8
+          cmake --build . -j 4
           ctest
       - name: examples_py
         working-directory: navground_examples_cpp
@@ -98,7 +98,7 @@ jobs:
           mkdir -p navground_minimal_plugin_cpp/build
           cd navground_minimal_plugin_cpp/build
           cmake -DBUILD_TESTING=ON ..
-          cmake --build . -j 8
+          cmake --build . -j 4
           cmake --install . --prefix ../install
           ctest
       - name: plugin_py

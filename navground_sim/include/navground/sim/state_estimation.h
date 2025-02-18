@@ -53,13 +53,13 @@ struct NAVGROUND_SIM_EXPORT StateEstimation
    * @param[in]  world  The world that the agent is part of
    * @param      state  The environment state to be updated
    */
-  virtual void update(Agent *agent, World *world,
-                      EnvironmentState *state) {};
+  virtual void update(Agent *agent, World *world, EnvironmentState *state) {};
 
- protected:
+protected:
   /**
    * @brief      Updates the state of a given agent \ref
    * navground::core::Behavior
+   *
    * @param      agent  The agent owning the state estimation
    * @param[in]  world  The world the agent is part of
    */
@@ -67,13 +67,22 @@ struct NAVGROUND_SIM_EXPORT StateEstimation
 
   /**
    * @brief      Setup the state estimation.
+   *
    * Called before starting a simulation.
+   *
    * @param      agent  The agent owning the state estimation
    * @param[in]  world    The world the agent is part of
    */
   virtual void prepare(Agent *agent, World *world) {};
+
+  /**
+   * @brief      Clean-up the state estimation.
+   *
+   * Called after finishing a simulation.
+   */
+  virtual void close() {};
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_STATE_ESTIMATION_H_ */

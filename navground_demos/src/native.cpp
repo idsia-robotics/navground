@@ -69,6 +69,7 @@ static void run(const char *behavior = "HL") {
             dynamic_cast<GeometricState *>(agent->get_environment_state())) {
       state->set_static_obstacles(obstacles);
     }
+    agent->prepare();
     agents.push_back(agent.get());
     auto &controller = controllers.emplace_back(agent);
     controller.set_speed_tolerance(0.01f);
@@ -96,6 +97,10 @@ static void run(const char *behavior = "HL") {
       auto cmd = controller.update(dt);
       controller.get_behavior()->actuate(cmd, dt);
     }
+  }
+  for (auto &controller : controllers) {
+    auto agent = controller.get_behavior().get();
+    agent->close();
   }
   const auto end = std::chrono::high_resolution_clock::now();
   const auto us =

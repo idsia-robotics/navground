@@ -64,6 +64,7 @@ void run(const char *behavior = "HL", const char *path_ = "",
       // agent->social_margin.set_modulation(SocialMargin::LinearModulation(1.0f));
       // agent->social_margin.set(0, 0.25f);
       agents.push_back(agent);
+      agent->prepare();
     }
   }
 
@@ -119,6 +120,9 @@ void run(const char *behavior = "HL", const char *path_ = "",
       }
       j++;
     }
+  }
+  for (auto &agent : agents) {
+    agent->close();
   }
   const auto end = std::chrono::high_resolution_clock::now();
   const auto ns = static_cast<long unsigned>(

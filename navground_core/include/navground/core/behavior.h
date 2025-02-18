@@ -47,6 +47,8 @@ namespace navground::core {
  *
  * 3. configure the specific parameters of the concrete behavior.
  *
+ * 4. call \ref prepare to finalize the initialization
+ *
  * *At regular time intervals*
  *
  * 1. update the agent's state with \ref set_pose and \ref set_twist (or other
@@ -59,6 +61,10 @@ namespace navground::core {
  * 4. ask for a control commands by calling \ref compute_cmd
  *
  * 5. actuate the control commands through user code
+ *
+ * *At the termination*
+ *
+ * 1. call \ref close
  */
 class NAVGROUND_CORE_EXPORT Behavior : virtual public HasRegister<Behavior>,
                                        protected TrackChanges {
@@ -162,6 +168,27 @@ public:
         modulations() {}
 
   virtual ~Behavior() = default;
+  /**
+   * @brief  Finalizes the behavior initialization.
+   *
+   * Call it after configuring the behavior parameters, before starting using
+   * it.
+   *
+   * The base class implementation does nothing.
+   * Override it to add any logic that to finalizes the concrete behavior before
+   * using it. For instance, it can be used to load resources or configure the
+   * coordination with other behaviors.
+   */
+  virtual void prepare() {};
+  /**
+   * @brief Clean-up the behavior before termination.
+   *
+   * Call it once the behavior is not used anymore.
+   *
+   * The base class implementation does nothing.
+   * Override it to add any logic to clean-up steps performed in \prepare.
+   */
+  virtual void close() {};
 
   //------------ AGENT PARAMETERS
 
@@ -632,7 +659,8 @@ public:
    * @param[in]  enforce_feasibility  Whether to enforce that the command is
    * kinematically feasible
    */
-  void actuate(const Twist2 &twist_cmd, ng_float_t time_step, bool enforce_feasibility = false);
+  void actuate(const Twist2 &twist_cmd, ng_float_t time_step,
+               bool enforce_feasibility = false);
   /**
    * @brief      Convenience method to actuate the stored actuated twist
    * command,
@@ -695,9 +723,7 @@ public:
   /**
    * @brief      Returns whether the current target is valid.
    */
-  bool has_target() const {
-    return target.valid();
-  }
+  bool has_target() const { return target.valid(); }
 
   /**
    * @brief      Query the behavior to get a control command

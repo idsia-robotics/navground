@@ -422,6 +422,7 @@ public:
 };
 
 void ExperimentalRun::prepare() {
+  _world->prepare();
   if (_record_config.world) {
     _world_yaml = YAML::dump<World>(_world.get());
   } else {
@@ -528,6 +529,7 @@ void ExperimentalRun::finalize() {
   for (auto &probe : _probes) {
     probe->finalize(this);
   }
+  _world->close();
 }
 
 void ExperimentalRun::save(HighFive::Group &group) const {

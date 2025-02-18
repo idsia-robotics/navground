@@ -19,7 +19,7 @@ HRVOBehavior::HRVOBehavior(std::shared_ptr<Kinematics> kinematics,
 }
 HRVOBehavior::~HRVOBehavior() = default;
 
-void HRVOBehavior::prepare(const Vector2 &target_velocity) {
+void HRVOBehavior::prepare_eval(const Vector2 &target_velocity) {
   _HRVOAgent->radius_ = radius;
   _HRVOAgent->velocity_ = HRVO::Vector2(twist.velocity.x(), twist.velocity.y());
   _HRVOAgent->orientation_ = normalize_angle(pose.orientation);
@@ -146,7 +146,7 @@ Vector2 HRVOBehavior::desired_velocity_towards_point(const Vector2 &point,
 
 Vector2 HRVOBehavior::desired_velocity_towards_velocity(
     const Vector2 &velocity, [[maybe_unused]] ng_float_t dt) {
-  prepare(velocity);
+  prepare_eval(velocity);
   _HRVOAgent->computeNewVelocity();
   return {_HRVOAgent->newVelocity_.x(), _HRVOAgent->newVelocity_.y()};
 }

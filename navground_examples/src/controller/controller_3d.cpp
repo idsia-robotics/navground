@@ -57,6 +57,7 @@ int main(int argc, char *argv[]) {
   controller.set_cmd_cb(
       [&, behavior, dt](const Twist3 &cmd) { controller.actuate(cmd, dt); });
   behavior->set_horizon(1);
+  behavior->prepare();
   const auto &r = *behavior.get();
   printf("Use behavior %s - %s\n", behavior_name, typeid(r).name());
   controller.set_pose({Vector3{0, 0, 0}, 0});
@@ -82,5 +83,6 @@ int main(int argc, char *argv[]) {
   const auto v = controller.get_twist().velocity;
   printf("\nEnd loop after %.1f s @ (%.3f, %.3f, %.3f), (%.3f, %.3f, %.3f)\n",
          t, p.x(), p.y(), p.z(), v.x(), v.y(), v.z());
+  behavior->close();
   return 0;
 }

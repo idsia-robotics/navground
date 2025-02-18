@@ -177,6 +177,10 @@ struct PyTask : public Task, public PyHasRegister<Task> {
     PYBIND11_OVERRIDE(void, Task, prepare, agent, world);
   }
 
+  void close() override {
+    PYBIND11_OVERRIDE(void, Task, close);
+  }
+
   size_t get_log_size() const override {
     PYBIND11_OVERRIDE(size_t, Task, get_log_size);
   }
@@ -203,6 +207,10 @@ struct PyStateEstimation : public StateEstimation,
 
   void prepare(Agent *agent, World *world) override {
     PYBIND11_OVERRIDE(void, StateEstimation, prepare, agent, world);
+  }
+
+  void close() override {
+    PYBIND11_OVERRIDE(void, StateEstimation, close);
   }
 
   OVERRIDE_DECODE
@@ -1360,6 +1368,7 @@ Creates a rectangular region
            py::return_value_policy::reference,
            DOC(navground, sim, World, get_entity))
       .def("_prepare", &World::prepare)
+      .def("_close", &World::close)
       .def("agents_are_idle_or_stuck", &World::agents_are_idle_or_stuck,
            DOC(navground, sim, World, agents_are_idle_or_stuck))
       .def("in_collision", &World::in_collision, py::arg("e1"), py::arg("e2"),
@@ -1420,6 +1429,12 @@ The random generator.
           },
           py::arg("agent"), py::arg("world"),
           DOC(navground, sim, StateEstimation, prepare))
+      .def(
+          "close",
+          [](PyStateEstimation *se) {
+            se->close();
+          },
+          DOC(navground, sim, StateEstimation, close))
       .def_static(
           "load", &YAML::load_string_py<PyStateEstimation>, py::arg("value"),
           YAML::load_string_py_doc("state estimation", "StateEstimation")
@@ -1650,6 +1665,12 @@ The random generator.
           },
           py::arg("agent"), py::arg("world"),
           DOC(navground, sim, Task, prepare))
+      .def(
+          "close",
+          [](PyTask *task) {
+            task->close();
+          },
+          DOC(navground, sim, Task, close))
       .def(
           "update",
           [](PyTask *task, Agent *agent, World *world, ng_float_t time) {

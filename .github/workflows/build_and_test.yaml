@@ -91,7 +91,8 @@ jobs:
       - name: plugin_cpp
         working-directory: navground_minimal_plugin_cpp/build
         if: steps.changes.outputs.minimal_plugin_cpp == 'true'
-        env: NAVGROUND_PLUGINS_PREFIX={{github.workspace}}/navground_minimal_plugin_cpp/install
+        env: 
+          NAVGROUND_PLUGINS_PREFIX: ${{github.workspace}}/navground_minimal_plugin_cpp/install
         run: |
           cmake -DBUILD_TESTING=ON ..
           cmake --build . -j 8

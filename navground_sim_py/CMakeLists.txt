@@ -136,7 +136,10 @@ else()
       TARGET
       _navground_sim
       DATA
-      ui/templates/*)
+      ui/templates/*
+      CONSOLE_SCRIPTS
+      "navground_py = navground.sim.main:main"
+      )
   endif()
 
 endif()
@@ -144,3 +147,11 @@ endif()
 if(ament_cmake_FOUND)
   ament_package()
 endif()
+
+if(PROJECT_IS_TOP_LEVEL AND BUILD_TESTING)
+  include(CTest)
+  if (BUILD_TESTING)
+    add_subdirectory(tests)
+  endif()
+endif()
+

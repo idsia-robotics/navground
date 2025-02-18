@@ -16,11 +16,7 @@ add_library(plugin SHARED src/plugin.cpp)
 target_link_libraries(plugin navground_core::navground_core)
 set_target_properties(plugin PROPERTIES LINKER_LANGUAGE CXX)
 
-install(
-  TARGETS plugin
-  LIBRARY DESTINATION lib
-  COMPONENT plugins
-)
+install(TARGETS plugin LIBRARY DESTINATION lib COMPONENT plugins)
 
 register_navground_plugins(TARGETS plugin DESTINATION
                            $<IF:$<BOOL:${WIN32}>,bin,lib>)
@@ -30,4 +26,13 @@ set(CPACK_PACKAGE_DESCRIPTION "A minimal example of a navground C++ plugin")
 set(CPACK_PACKAGE_VENDOR "IDSIA")
 set(CPACK_PACKAGE_CONTACT "Jérôme Guzzi, jerome@idsia.ch")
 
-cpack_navground_plugins()
+if(PROJECT_IS_TOP_LEVEL AND BUILD_TESTING)
+  include(CTest)
+  if(BUILD_TESTING)
+    add_subdirectory(tests)
+  endif()
+endif()
+
+if(PROJECT_IS_TOP_LEVEL)
+  cpack_navground_plugins()
+endif()

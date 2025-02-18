@@ -20,7 +20,14 @@ find_package(navground_core REQUIRED)
 find_package(navground_sim REQUIRED)
 find_package(ament_cmake QUIET)
 
-if(EXECUTABLES)
+if(PROJECT_IS_TOP_LEVEL)
+  include(CTest)
+  if(BUILD_TESTING)
+    add_subdirectory(tests)
+  endif()
+endif()
+
+if(EXECUTABLES OR BUILD_TESTING)
   add_subdirectory(src/behavior)
   add_subdirectory(src/controller)
   add_subdirectory(src/collision)
@@ -43,3 +50,5 @@ if(ament_cmake_FOUND)
   # ament_export_targets(my_behaviorTargets HAS_LIBRARY_TARGET)
   ament_package()
 endif()
+
+

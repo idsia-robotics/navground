@@ -1,0 +1,35 @@
+name: install-py
+description: 'Build, test, and install a pybind11 package, caching the installers.'
+inputs:
+  package:
+    required: true
+  hash:
+    required: true
+  cpack:
+    default: false
+runs:
+  using: "composite"
+  steps:
+    - name: cache
+      uses: actions/cache@v4
+      id: cache_wheel
+      with:
+        path: packages/${{inputs.package}}
+        key: packages-${{inputs.package}}-${{ runner.os }}-${{ runner.arch }}-${{ inputs.hash }}
+    - if: steps.cache_navground_core.outputs.cache-hit != 'true'
+      name: build and test
+      working-directory: ${{inputs.package}}/build
+      run: |
+        cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON ..
+        cmake --build . -j 8
+        ctest
+        mv dist ${{github.workspace}}/packages/${{inputs.package}}
+    - name: cpack
+      working-directory: ${{inputs.package}}/build
+      run: |
+        cpack
+        mv packages/* ${{github.workspace}}/packages/${{inputs.package}}
+    - name: install
+      run: |
+        find packages/${{inputs.package}} -name '*.whl' -exec pip install {}[all] \;
+        find packages/${{inputs.package}} -name '*.deb' -exec apt install {} \;

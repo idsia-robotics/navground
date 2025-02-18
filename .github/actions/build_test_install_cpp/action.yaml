@@ -1,0 +1,28 @@
+name: install-cpp
+description: 'Build, test, and install a cpp package, caching the installer.'
+inputs:
+  package:
+    required: true
+  hash:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: cache
+      uses: actions/cache@v4
+      id: cache_package
+      with:
+        path: packages/${{inputs.package}}
+        key: packages-${{inputs.package}}-${{ runner.os }}-${{ runner.arch }}-${{ inputs.hash }}
+    - if: steps.cache_package.outputs.cache-hit != 'true'
+      name: build and test
+      working-directory: ${{inputs.package}}/build
+      run: |
+        cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON ..
+        cmake --build . -j 8
+        ctest
+        cpack
+        mv packages ${{github.workspace}}/packages/${{inputs.package}}
+    - name: install
+      run: |
+        apt install ./packages/${{inputs.package}}/*.deb

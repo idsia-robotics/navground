@@ -1,0 +1,105 @@
+name: Build and Test
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - cmake
+      - navground_core
+      - navground_core_py
+      - navground_sim
+      - navground_sim_py
+      - navground_examples
+      - navground_examples_py
+      - navground_minimal_plugin_cpp
+      - navground_minimal_plugin_py
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3.0.2
+        id: changes
+        with:
+          filters: |
+            examples:
+              - 'cmake/build_info.cmake'
+              - 'navground_core/**'
+              - 'navground_sim/**'
+              - 'navground_examples/**'
+            examples_py:
+              - 'cmake/**'
+              - 'navground_core/**'
+              - 'navground_sim/**'
+              - 'navground_core_py/**'
+              - 'navground_sim_py/**'
+              - 'navground_examples_py/**'
+            minimal_plugin_cpp:
+              - 'cmake/build_info.cmake'
+              - 'navground_core/**'
+              - 'navground_minimal_plugin_cpp/**'
+            minimal_plugin_py:
+              - 'cmake/**'
+              - 'navground_core/**'
+              - 'navground_core_py/**'
+              - 'minimal_plugin_py/**'
+      - name: install apt deps
+        run: |
+          apt install libargparse-dev libeigen3-dev libyaml-cpp-dev libgeos++-dev libhdf5-dev
+      - run: |
+          mkdir packages
+      - name: navground_core
+        uses: ./.github/actions/build_test_install_cpp
+        with:
+          hash: ${{ hashFiles('navground_core/**', cmake/build_info.cmake) }}
+          package: navground_core
+      - name: navground_sim
+        uses: ./.github/actions/build_test_install_cpp
+        with:
+          hash: ${{ hashFiles('navground_core/**', 'navground_sim/**', cmake/build_info.cmake) }}
+          package: navground_sim
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install pip deps
+        run: |
+          pip install pytest wheel setuptools setuptools_git_versioning git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+      - name: navground_core_py
+        uses: ./.github/actions/build_test_install_py
+        with:
+          hash: ${{ hashFiles('navground_core/**', 'navground_core_py/**', 'cmake/**') }}
+          package: navground_core_py
+          cpack: true
+      - name: navground_sim_py
+        uses: ./.github/actions/build_test_install_py
+        with:
+          hash: ${{ hashFiles('navground_core/**', 'navground_sim/**', 'navground_core_py/**', 'navground_sim_py/**', 'cmake/**') }}
+          package: navground_sim_py
+          cpack: false
+      - name: examples_cpp
+        working-directory: navground_examples_cpp/build
+        if: steps.changes.outputs.examples == 'true'
+        run: |
+          cmake -DBUILD_TESTING=ON ..
+          cmake --build . -j 8
+          ctest
+      - name: examples_py
+        working-directory: navground_examples_cpp
+        if: steps.changes.outputs.examples_py == 'true'
+        run: |
+          pip install .
+          pytest tests
+      - name: plugin_cpp
+        working-directory: navground_minimal_plugin_cpp/build
+        if: steps.changes.outputs.minimal_plugin_cpp == 'true'
+        env: NAVGROUND_PLUGINS_PREFIX={{github.workspace}}/navground_minimal_plugin_cpp/install
+        run: |
+          cmake -DBUILD_TESTING=ON ..
+          cmake --build . -j 8
+          cmake --install . --prefix ../install
+          ctest
+      - name: plugin_py
+        working-directory: navground_minimal_plugin_py
+        if: steps.changes.outputs.minimal_plugin_py == 'true'
+        run: |
+          pip install .
+          pytest tests

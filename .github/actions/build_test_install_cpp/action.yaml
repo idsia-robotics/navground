@@ -45,5 +45,6 @@ runs:
         path: packages/${{inputs.package}}
         key: ${{ steps.load_cache.outputs.cache-primary-key }}
     - name: clean
+      if: steps.load_cache.outputs.cache-hit != 'true'
       shell: bash
       run: rm -r ${{inputs.package}}/build

@@ -37,7 +37,7 @@ struct ThymioDemo : public sim::Scenario {
               (ng_float_t)0.166, (ng_float_t)0.094);
       auto behavior = core::Behavior::make_type(behavior_type);
       auto agent = sim::Agent::make((ng_float_t)0.08, behavior, kinematics,
-                                    task, se, (ng_float_t)0.02);
+                                    task, {se}, (ng_float_t)0.02);
       behavior->set_optimal_speed((ng_float_t)0.12);
       behavior->set_horizon(1);
       behavior->set_safety_margin((ng_float_t)0.02);

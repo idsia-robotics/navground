@@ -9,8 +9,8 @@
 #include "navground/core/behaviors/dummy.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/yaml/yaml.h"
-#include "navground/sim/yaml/world.h"
 #include "navground/sim/tasks/waypoints.h"
+#include "navground/sim/yaml/world.h"
 
 using navground::core::DummyBehavior;
 using navground::core::OmnidirectionalKinematics;
@@ -22,9 +22,10 @@ int main() {
   world.add_wall(sim::Wall{Vector2{-1.0, -1.0}, Vector2{-1.0, 1.0}});
   world.add_obstacle(sim::Obstacle{Vector2{2.0, 0.0}, 0.5});
   auto a = std::make_shared<sim::Agent>(
-      0.1, std::make_shared<DummyBehavior>(), std::make_shared<OmnidirectionalKinematics>(1.0),
+      0.1, std::make_shared<DummyBehavior>(),
+      std::make_shared<OmnidirectionalKinematics>(1.0),
       std::make_shared<sim::WaypointsTask>(sim::Waypoints{{1, 0}}, false, 0.1),
-      nullptr, 0.1);
+      std::vector<std::shared_ptr<sim::StateEstimation>>(), 0.1);
   world.add_agent(std::move(a));
   std::cout << "\nLoaded world\n====================" << std::endl;
   std::cout << YAML::dump<sim::World>(&world) << std::endl;

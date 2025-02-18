@@ -26,14 +26,13 @@ using navground::sim::World;
 
 namespace YAML {
 
-template <>
-struct convert<Obstacle> {
-  static Node encode(const Obstacle& rhs) {
+template <> struct convert<Obstacle> {
+  static Node encode(const Obstacle &rhs) {
     Node node = convert<Disc>::encode(rhs.disc);
     node["uid"] = rhs.uid;
     return node;
   }
-  static bool decode(const Node& node, Obstacle& rhs) {
+  static bool decode(const Node &node, Obstacle &rhs) {
     if (node["uid"]) {
       rhs.uid = node["uid"].as<unsigned>();
     }
@@ -47,15 +46,14 @@ struct convert<Obstacle> {
   static constexpr const char name[] = "obstacle";
 };
 
-template <>
-struct convert<std::shared_ptr<Obstacle>> {
-  static Node encode(const std::shared_ptr<Obstacle>& rhs) {
+template <> struct convert<std::shared_ptr<Obstacle>> {
+  static Node encode(const std::shared_ptr<Obstacle> &rhs) {
     if (rhs) {
       return convert<Obstacle>::encode(*rhs);
     }
     return Node();
   }
-  static bool decode(const Node& node, std::shared_ptr<Obstacle>& rhs) {
+  static bool decode(const Node &node, std::shared_ptr<Obstacle> &rhs) {
     rhs = std::make_shared<Obstacle>();
     if (convert<Obstacle>::decode(node, *rhs)) {
       return true;
@@ -65,15 +63,14 @@ struct convert<std::shared_ptr<Obstacle>> {
   }
 };
 
-template <>
-struct convert<Wall> {
-  static Node encode(const Wall& rhs) {
+template <> struct convert<Wall> {
+  static Node encode(const Wall &rhs) {
     Node node;
     node["line"] = convert<LineSegment>::encode(rhs.line);
     node["uid"] = rhs.uid;
     return node;
   }
-  static bool decode(const Node& node, Wall& rhs) {
+  static bool decode(const Node &node, Wall &rhs) {
     if (node["uid"]) {
       rhs.uid = node["uid"].as<unsigned>();
     }
@@ -94,15 +91,14 @@ struct convert<Wall> {
   static constexpr const char name[] = "wall";
 };
 
-template <>
-struct convert<std::shared_ptr<Wall>> {
-  static Node encode(const std::shared_ptr<Wall>& rhs) {
+template <> struct convert<std::shared_ptr<Wall>> {
+  static Node encode(const std::shared_ptr<Wall> &rhs) {
     if (rhs) {
       return convert<Wall>::encode(*rhs);
     }
     return Node();
   }
-  static bool decode(const Node& node, std::shared_ptr<Wall>& rhs) {
+  static bool decode(const Node &node, std::shared_ptr<Wall> &rhs) {
     rhs = std::make_shared<Wall>();
     if (convert<Wall>::decode(node, *rhs)) {
       return true;
@@ -112,9 +108,8 @@ struct convert<std::shared_ptr<Wall>> {
   }
 };
 
-template <>
-struct convert<BoundingBox> {
-  static Node encode(const BoundingBox& rhs) {
+template <> struct convert<BoundingBox> {
+  static Node encode(const BoundingBox &rhs) {
     Node node;
     if (!rhs.isNull()) {
       node["min_x"] = rhs.getMinX();
@@ -124,7 +119,7 @@ struct convert<BoundingBox> {
     }
     return node;
   }
-  static bool decode(const Node& node, BoundingBox& rhs) {
+  static bool decode(const Node &node, BoundingBox &rhs) {
     ng_float_t x, y, X, Y;
     if (node["min_x"]) {
       x = node["min_x"].as<ng_float_t>();
@@ -162,9 +157,8 @@ struct convert<BoundingBox> {
   static constexpr const char name[] = "bounding_box";
 };
 
-template <>
-struct convert<World::Lattice> {
-  static Node encode(const World::Lattice& rhs) {
+template <> struct convert<World::Lattice> {
+  static Node encode(const World::Lattice &rhs) {
     Node node;
     if (rhs.has_value()) {
       auto [x, y] = *rhs;
@@ -173,7 +167,7 @@ struct convert<World::Lattice> {
     }
     return node;
   }
-  static bool decode(const Node& node, World::Lattice& rhs) {
+  static bool decode(const Node &node, World::Lattice &rhs) {
     if (!node.IsSequence() || node.size() != 2) {
       return true;
     }
@@ -192,14 +186,13 @@ struct convert<World::Lattice> {
   static constexpr const char name[] = "lattice";
 };
 
-template <>
-struct convert<Task> {
-  static Node encode(const Task& rhs) {
+template <> struct convert<Task> {
+  static Node encode(const Task &rhs) {
     Node node;
     encode_type_and_properties<Task>(node, rhs);
     return node;
   }
-  static bool decode(const Node& node, Task& rhs) {
+  static bool decode(const Node &node, Task &rhs) {
     decode_properties(node, rhs);
     return true;
   }
@@ -212,12 +205,11 @@ struct convert<Task> {
   static constexpr const char name[] = "task";
 };
 
-template <>
-struct convert<std::shared_ptr<Task>> {
-  static Node encode(const std::shared_ptr<Task>& rhs) {
+template <> struct convert<std::shared_ptr<Task>> {
+  static Node encode(const std::shared_ptr<Task> &rhs) {
     return convert<Task>::encode(*rhs);
   }
-  static bool decode(const Node& node, std::shared_ptr<Task>& rhs) {
+  static bool decode(const Node &node, std::shared_ptr<Task> &rhs) {
     rhs = make_type_from_yaml<Task>(node);
     if (rhs) {
       convert<Task>::decode(node, *rhs);
@@ -226,14 +218,13 @@ struct convert<std::shared_ptr<Task>> {
   }
 };
 
-template <>
-struct convert<StateEstimation> {
-  static Node encode(const StateEstimation& rhs) {
+template <> struct convert<StateEstimation> {
+  static Node encode(const StateEstimation &rhs) {
     Node node;
     encode_type_and_properties<StateEstimation>(node, rhs);
     return node;
   }
-  static bool decode(const Node& node, StateEstimation& rhs) {
+  static bool decode(const Node &node, StateEstimation &rhs) {
     decode_properties(node, rhs);
     return true;
   }
@@ -246,12 +237,11 @@ struct convert<StateEstimation> {
   static constexpr const char name[] = "state_estimation";
 };
 
-template <>
-struct convert<std::shared_ptr<StateEstimation>> {
-  static Node encode(const std::shared_ptr<StateEstimation>& rhs) {
+template <> struct convert<std::shared_ptr<StateEstimation>> {
+  static Node encode(const std::shared_ptr<StateEstimation> &rhs) {
     return convert<StateEstimation>::encode(*rhs);
   }
-  static bool decode(const Node& node, std::shared_ptr<StateEstimation>& rhs) {
+  static bool decode(const Node &node, std::shared_ptr<StateEstimation> &rhs) {
     rhs = make_type_from_yaml<StateEstimation>(node);
     if (rhs) {
       convert<StateEstimation>::decode(node, *rhs);
@@ -260,9 +250,8 @@ struct convert<std::shared_ptr<StateEstimation>> {
   }
 };
 
-template <>
-struct convert<Agent> {
-  static Node encode(const Agent& rhs) {
+template <> struct convert<Agent> {
+  static Node encode(const Agent &rhs) {
     Node node;
     if (const auto b = rhs.get_behavior()) {
       node["behavior"] = *b;
@@ -273,8 +262,11 @@ struct convert<Agent> {
     if (const auto t = rhs.get_task()) {
       node["task"] = *t;
     }
-    if (const auto s = rhs.get_state_estimation()) {
-      node["state_estimation"] = *s;
+    const auto &ses = rhs.get_state_estimations();
+    if (ses.size() == 1) {
+      node["state_estimation"] = ses[0];
+    } else if (ses.size() > 1) {
+      node["state_estimations"] = ses;
     }
     node["position"] = rhs.pose.position;
     node["orientation"] = rhs.pose.orientation;
@@ -291,13 +283,13 @@ struct convert<Agent> {
       node["external"] = true;
     }
     if (rhs.tags.size()) {
-      for (const auto& tag : rhs.tags) {
+      for (const auto &tag : rhs.tags) {
         node["tags"].push_back(tag);
       }
     }
     return node;
   }
-  static bool decode(const Node& node, Agent& rhs) {
+  static bool decode(const Node &node, Agent &rhs) {
     if (!node.IsMap()) {
       return false;
     }
@@ -313,6 +305,11 @@ struct convert<Agent> {
     if (node["state_estimation"]) {
       rhs.set_state_estimation(
           node["state_estimation"].as<std::shared_ptr<StateEstimation>>());
+    }
+    if (node["state_estimations"]) {
+      rhs.set_state_estimations(
+          node["state_estimations"]
+              .as<std::vector<std::shared_ptr<StateEstimation>>>());
     }
     if (node["position"]) {
       rhs.pose.position = node["position"].as<Vector2>();
@@ -333,7 +330,8 @@ struct convert<Agent> {
       rhs.control_period = node["control_period"].as<ng_float_t>();
     }
     if (node["speed_tolerance"]) {
-      rhs.get_controller()->set_speed_tolerance(node["speed_tolerance"].as<ng_float_t>());
+      rhs.get_controller()->set_speed_tolerance(
+          node["speed_tolerance"].as<ng_float_t>());
     }
     if (node["type"]) {
       rhs.type = node["type"].as<std::string>();
@@ -363,13 +361,18 @@ struct convert<Agent> {
     node["properties"]["kinematics"] = schema::ref<Kinematics>();
     node["properties"]["task"] = schema::ref<Task>();
     node["properties"]["state_estimation"] = schema::ref<StateEstimation>();
+    node["properties"]["state_estimations"]["type"] = "array";
+    node["properties"]["state_estimations"]["items"] =
+        schema::ref<StateEstimation>();
     node["properties"]["position"] = schema::ref<Vector2>();
     node["properties"]["orientation"] = schema::type<ng_float_t>();
     node["properties"]["velocity"] = schema::ref<Vector2>();
     node["properties"]["angular_speed"] = schema::type<ng_float_t>();
     node["properties"]["radius"] = schema::type<ng_float_t>();
-    node["properties"]["control_period"] = schema::type<schema::positive_float>();
-    node["properties"]["speed_tolerance"] = schema::type<schema::positive_float>();
+    node["properties"]["control_period"] =
+        schema::type<schema::positive_float>();
+    node["properties"]["speed_tolerance"] =
+        schema::type<schema::positive_float>();
     node["properties"]["type"] = schema::type<std::string>();
     node["properties"]["color"] = schema::type<std::string>();
     node["properties"]["id"] = schema::type<unsigned>();
@@ -383,15 +386,14 @@ struct convert<Agent> {
   static constexpr const char name[] = "agent";
 };
 
-template <>
-struct convert<std::shared_ptr<Agent>> {
-  static Node encode(const std::shared_ptr<Agent>& rhs) {
+template <> struct convert<std::shared_ptr<Agent>> {
+  static Node encode(const std::shared_ptr<Agent> &rhs) {
     if (rhs) {
       return convert<Agent>::encode(*rhs);
     }
     return Node();
   }
-  static bool decode(const Node& node, std::shared_ptr<Agent>& rhs) {
+  static bool decode(const Node &node, std::shared_ptr<Agent> &rhs) {
     rhs = std::make_shared<Agent>();
     if (convert<Agent>::decode(node, *rhs)) {
       return true;
@@ -401,9 +403,8 @@ struct convert<std::shared_ptr<Agent>> {
   }
 };
 
-template <typename T = Agent>
-struct convert_world {
-  static Node encode(const World& rhs) {
+template <typename T = Agent> struct convert_world {
+  static Node encode(const World &rhs) {
     // HACK(Jerome): To avoid issues with serializing the world
     // when there are very small components
     rhs.snap_twists_to_zero();
@@ -425,24 +426,24 @@ struct convert_world {
     }
     return node;
   }
-  static bool decode(const Node& node, World& rhs) {
+  static bool decode(const Node &node, World &rhs) {
     if (!node.IsMap()) {
       return false;
     }
     if (node["agents"]) {
       if (node["agents"].IsSequence()) {
-        for (const auto& c : node["agents"]) {
+        for (const auto &c : node["agents"]) {
           rhs.add_agent(c.as<std::shared_ptr<T>>());
         }
       }
     }
     if (node["obstacles"]) {
-      for (const auto& c : node["obstacles"]) {
+      for (const auto &c : node["obstacles"]) {
         rhs.add_obstacle(c.as<Obstacle>());
       }
     }
     if (node["walls"]) {
-      for (const auto& c : node["walls"]) {
+      for (const auto &c : node["walls"]) {
         rhs.add_wall(c.as<Wall>());
       }
     }
@@ -462,10 +463,9 @@ struct convert_world {
   }
 };
 
-template <>
-struct convert<World> {
-  static Node encode(const World& rhs) { return convert_world<>::encode(rhs); }
-  static bool decode(const Node& node, World& rhs) {
+template <> struct convert<World> {
+  static Node encode(const World &rhs) { return convert_world<>::encode(rhs); }
+  static bool decode(const Node &node, World &rhs) {
     return convert_world<>::decode(node, rhs);
   }
   static Node schema() {
@@ -476,17 +476,19 @@ struct convert<World> {
     node["properties"]["obstacles"]["type"] = "array";
     node["properties"]["obstacles"]["items"] = schema::ref<Obstacle>();
     node["properties"]["walls"]["type"] = "array";
-    node["properties"]["walls"]["items"] = schema::ref<Wall>();    
-    node["properties"]["bounding_box"] = schema::type<BoundingBox>(); 
+    node["properties"]["walls"]["items"] = schema::ref<Wall>();
+    node["properties"]["bounding_box"] = schema::type<BoundingBox>();
     node["properties"]["lattice"]["type"] = "object";
-    node["properties"]["lattice"]["properties"]["x"] = schema::type<World::Lattice>();
-    node["properties"]["lattice"]["properties"]["y"] = schema::type<World::Lattice>();
+    node["properties"]["lattice"]["properties"]["x"] =
+        schema::type<World::Lattice>();
+    node["properties"]["lattice"]["properties"]["y"] =
+        schema::type<World::Lattice>();
     node["additionalProperties"] = false;
     return node;
   }
   static constexpr const char name[] = "world";
 };
 
-}  // namespace YAML
+} // namespace YAML
 
-#endif  // NAVGROUND_SIM_YAML_WORLD_H
+#endif // NAVGROUND_SIM_YAML_WORLD_H

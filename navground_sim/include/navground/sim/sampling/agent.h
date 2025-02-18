@@ -54,7 +54,8 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
   void add_to_world(World *world,
                     std::optional<unsigned> index = std::nullopt) override {
     reset(index);
-    if (!number) return;
+    if (!number)
+      return;
     RandomGenerator &rg = world->get_random_generator();
     unsigned num = number->sample(rg);
     if (W *w = dynamic_cast<W *>(world)) {
@@ -75,7 +76,9 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
     behavior.reset(index);
     kinematics.reset(index);
     task.reset(index);
-    state_estimation.reset(index);
+    for (auto &state_estimation : state_estimations) {
+      state_estimation.reset(index);
+    }
     if (position)
       position->reset(index);
     if (orientation)
@@ -98,11 +101,19 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
       tags->reset(index);
   }
 
+  std::vector<StateEstimationSampler<S>> get_valid_state_estimations() const {
+    std::vector<StateEstimationSampler<S>> valid_ses;
+    std::copy_if(state_estimations.cbegin(), state_estimations.cend(),
+                 std::back_inserter(valid_ses),
+                 [](const auto &se) { return se.is_valid(); });
+    return valid_ses;
+  }
+
   std::string name;
   BehaviorSampler<B, M> behavior;
   KinematicsSampler<K> kinematics;
   TaskSampler<T> task;
-  StateEstimationSampler<S> state_estimation;
+  std::vector<StateEstimationSampler<S>> state_estimations;
   // SamplerFromRegister<T> task;
   // SamplerFromRegister<S> state_estimation;
   std::shared_ptr<Sampler<Vector2>> position;
@@ -118,9 +129,12 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
 
 protected:
   C s(RandomGenerator &rg) override {
+    std::vector<typename S::C> ses(state_estimations.size());
+    std::transform(
+        state_estimations.begin(), state_estimations.end(), ses.begin(),
+        [&rg](auto &state_estimation) { return state_estimation.sample(rg); });
     C c = A::make(radius ? radius->sample(rg) : 0, behavior.sample(rg),
-                  kinematics.sample(rg), task.sample(rg),
-                  state_estimation.sample(rg),
+                  kinematics.sample(rg), task.sample(rg), ses,
                   control_period ? control_period->sample(rg) : 0);
     A *agent = get<A, C>::ptr(c);
     if (position) {

@@ -40,7 +40,7 @@ struct NAVGROUND_SIM_EXPORT SimpleScenario : public Scenario {
         std::make_shared<OmnidirectionalKinematics>(1.0),
         std::make_shared<WaypointsTask>(Waypoints{Vector2(1.0, 0.0)}, false,
                                         0.1),
-        nullptr, 0.1);
+        std::vector<std::shared_ptr<StateEstimation>>{}, 0.1);
     agent->get_behavior()->set_optimal_speed(1.0);
     world->add_agent(agent);
   }

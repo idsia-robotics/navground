@@ -739,7 +739,7 @@ public:
           agent->get_kinematics()->set(in->name, *value);
           break;
         case 2:
-          agent->get_state_estimation()->set(in->name, *value);
+          agent->get_state_estimations()[in->index]->set(in->name, *value);
           break;
         case 3:
           agent->get_task()->set(in->name, *value);
@@ -761,7 +761,7 @@ public:
         properties = agent->get_kinematics()->get_properties();
         break;
       case 2:
-        properties = agent->get_state_estimation()->get_properties();
+        properties = agent->get_state_estimations()[in->index]->get_properties();
         break;
       case 3:
         properties = agent->get_task()->get_properties();
@@ -788,7 +788,7 @@ public:
         value = agent->get_kinematics()->get(in->name);
         break;
       case 2:
-        value = agent->get_state_estimation()->get(in->name);
+        value = agent->get_state_estimations()[in->index]->get(in->name);
         break;
       case 3:
         value = agent->get_task()->get(in->name);

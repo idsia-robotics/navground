@@ -17,9 +17,9 @@
 #include "navground/core/states/geometric.h"
 #include "navground/core/types.h"
 #include "navground/sim/entity.h"
+#include "navground/sim/export.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/task.h"
-#include "navground/sim/export.h"
 
 using navground::core::Behavior;
 using navground::core::BehaviorModulation;
@@ -37,15 +37,25 @@ namespace navground::sim {
  * @brief      This class describes an agent.
  *
  * The agent navigates in the environment using
- * a task, a state estimation, a kinematic and a behavior,
- * and a controller.
+ * a task, a vector (or list in Python) of state estimations, 
+ * a kinematic and a behavior, and a controller.
  *
  * Agents have a circular shape which should match the shape of their navigation
  * \ref navground::core::Behavior.
  *
- * The role of task and state estimation is to provide goals and
- * environment state (perception) to the behavior.
- *
+ * The role of task and state estimations is to provide goals and
+ * environment state (perception) to the behavior. 
+ * 
+ * State estimations are evaluated in the order, each updating 
+ * the same behavior environment state. For example, if an agent has two state 
+ * estimations SE1 and SE2, when \ref World::update is called, it updates
+ * the behavior environment state S as
+ * 
+ * \code
+ *  SE1(S)
+ *  SE2(S)
+ * \endcode
+ * 
  * Agents have a public identifies \ref id that is accessible by the
  * other agents' state estimation and may be passed to their behavior as \ref
  * navground::core::Neighbor::id. This identifier may not be unique (e.g., may
@@ -55,7 +65,7 @@ namespace navground::sim {
  * the world is updated at a faster rate.
  */
 class NAVGROUND_SIM_EXPORT Agent : public Entity {
- public:
+public:
   using C = std::shared_ptr<Agent>;
   using B = Behavior;
   using M = BehaviorModulation;
@@ -76,37 +86,22 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    * @param[in]  behavior        The behavior
    * @param[in]  kinematics      The kinematics
    * @param[in]  task            The task
-   * @param[in]  estimation      The estimation
+   * @param[in]  estimations     The state estimations
    * @param[in]  control_period  The control period
    * @param[in]  id              The public identifier
    */
-  Agent(ng_float_t radius = 0, std::shared_ptr<Behavior> behavior = nullptr,
-        std::shared_ptr<Kinematics> kinematics = nullptr,
-        std::shared_ptr<Task> task = nullptr,
-        std::shared_ptr<StateEstimation> estimation = nullptr,
-        ng_float_t control_period = 0, unsigned id = 0)
-      : Entity(),
-        id(id),
-        radius(radius),
-        control_period(control_period),
-        pose(),
-        twist(),
-        last_cmd(),
-        type(""),
-        color(""),
-        tags(),
-        external(false),
-        task(task),
-        state_estimation(estimation),
-        behavior(behavior),
-        kinematics(kinematics),
-        controller(behavior),
-        control_deadline(0.0),
-        collision_correction(),
-        is_stuck_since_time(-1),
-        ready(false),
-        enabled(true),
-        actuated_cmd() {}
+  explicit Agent(ng_float_t radius = 0,
+                 std::shared_ptr<Behavior> behavior = nullptr,
+                 std::shared_ptr<Kinematics> kinematics = nullptr,
+                 std::shared_ptr<Task> task = nullptr,
+                 std::vector<std::shared_ptr<StateEstimation>> estimations = {},
+                 ng_float_t control_period = 0, unsigned id = 0)
+      : Entity(), id(id), radius(radius), control_period(control_period),
+        pose(), twist(), last_cmd(), type(""), color(""), tags(),
+        external(false), task(task), state_estimations(estimations),
+        behavior(behavior), kinematics(kinematics), controller(behavior),
+        control_deadline(0.0), collision_correction(), is_stuck_since_time(-1),
+        ready(false), enabled(true), actuated_cmd() {}
 
   /**
    * @brief      Factory method to build an agent
@@ -115,20 +110,20 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    * @param[in]  behavior        The behavior
    * @param[in]  kinematics      The kinematics
    * @param[in]  task            The task
-   * @param[in]  estimation      The estimation
+   * @param[in]  estimations     The state estimations
    * @param[in]  control_period  The control period
    * @param[in]  id              The public identifier
    *
    * @return     A new agent
    */
-  static std::shared_ptr<Agent> make(
-      ng_float_t radius = 0, std::shared_ptr<Behavior> behavior = nullptr,
-      std::shared_ptr<Kinematics> kinematics = nullptr,
-      std::shared_ptr<Task> task = nullptr,
-      std::shared_ptr<StateEstimation> estimation = nullptr,
-      ng_float_t control_period = 0, unsigned id = 0) {
+  static std::shared_ptr<Agent>
+  make(ng_float_t radius = 0, std::shared_ptr<Behavior> behavior = nullptr,
+       std::shared_ptr<Kinematics> kinematics = nullptr,
+       std::shared_ptr<Task> task = nullptr,
+       std::vector<std::shared_ptr<StateEstimation>> estimations = {},
+       ng_float_t control_period = 0, unsigned id = 0) {
     return std::make_shared<Agent>(radius, behavior, kinematics, task,
-                                   estimation, control_period, id);
+                                   estimations, control_period, id);
   }
 
   /**
@@ -154,21 +149,44 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   }
 
   /**
-   * @brief      Sets the state estimation.
+   * @brief      Sets a single state estimation.
    *
    * @param[in]  value  The desired value
    */
   void set_state_estimation(const std::shared_ptr<StateEstimation> &value) {
-    state_estimation = value;
+    state_estimations = {value};
   }
 
   /**
-   * @brief      Gets the state estimation.
+   * @brief      Gets the first state estimation.
    *
-   * @return     The state estimation.
+   * @return     The first state estimation or null if none is set.
    */
   StateEstimation *get_state_estimation() const {
-    return state_estimation.get();
+    if (state_estimations.size()) {
+      return state_estimations[0].get();
+    }
+    return nullptr;
+  }
+
+  /**
+   * @brief      Sets the state estimations.
+   *
+   * @param[in]  value  The desired values
+   */
+  void set_state_estimations(
+      const std::vector<std::shared_ptr<StateEstimation>> &value) {
+    state_estimations = value;
+  }
+
+  /**
+   * @brief      Gets the state estimations.
+   *
+   * @return     The state estimations.
+   */
+  const std::vector<std::shared_ptr<StateEstimation>> &
+  get_state_estimations() const {
+    return state_estimations;
   }
 
   /**
@@ -265,14 +283,12 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
 
   /**
    * @brief      Gets the last actuated command.
-   * 
+   *
    *             The actuated command is always kinematically feasible
    *
    * @return     The command.
    */
-  Twist2 get_actuated_cmd() const {
-    return actuated_cmd;
-  }
+  Twist2 get_actuated_cmd() const { return actuated_cmd; }
 
   /**
    * @brief      Gets the current pose.
@@ -304,7 +320,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    */
   void set_twist(const Twist2 &value) { twist = value; }
 
- public:
+public:
   /**
    * The agent public identifier
    */
@@ -358,17 +374,13 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
    *
    * @param[in]  tag   The tag
    */
-  void add_tag(const std::string & tag) {
-    tags.insert(tag);
-  }
+  void add_tag(const std::string &tag) { tags.insert(tag); }
   /**
    * @brief      Removes a tag.
    *
    * @param[in]  tag   The tag
    */
-  void remove_tag(const std::string & tag) {
-    tags.erase(tag);
-  }
+  void remove_tag(const std::string &tag) { tags.erase(tag); }
 
   /**
    * @brief Whether the agent is controlled externally.
@@ -406,24 +418,24 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
 
   /**
    * @brief      Gets whether the agent is enabled.
-   * 
+   *
    *             Disabled agents are ignored in the simulation.
    *
    * @return     True if enabled.
    */
-  bool get_enabled() const { return enabled;}
+  bool get_enabled() const { return enabled; }
   /**
    * @brief      Sets whether the agent is enabled.
-   * 
+   *
    *             Disabled agents are ignored in the simulation.
    *
    * @param[in]  value  The desired value
    */
-  void set_enabled(bool value) { enabled = value;}
+  void set_enabled(bool value) { enabled = value; }
 
- private:
+private:
   std::shared_ptr<Task> task;
-  std::shared_ptr<StateEstimation> state_estimation;
+  std::vector<std::shared_ptr<StateEstimation>> state_estimations;
   std::shared_ptr<Behavior> behavior;
   std::shared_ptr<Kinematics> kinematics;
   Controller controller;
@@ -439,7 +451,7 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   Twist2 actuated_cmd;
 
   /**
-   * @brief      Updates the agent controller for a time step 
+   * @brief      Updates the agent controller for a time step
    *
    * @param[in]  dt    The time step
    * @param[in]  time    The current time
@@ -447,8 +459,8 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   void update_control(ng_float_t dt, ng_float_t time);
 
   /**
-   * @brief      Updates the agent state for a time step 
-   * 
+   * @brief      Updates the agent state for a time step
+   *
    * It syncs the behavior ego state and call the state estimation and the task
    * updates.
    *
@@ -473,6 +485,6 @@ class NAVGROUND_SIM_EXPORT Agent : public Entity {
   void prepare(World *world);
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_AGENT_H_ */

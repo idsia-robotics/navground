@@ -37,7 +37,7 @@ void Agent::close() {
   if (behavior) {
     behavior->close();
   }
-  if (state_estimation) {
+  for (auto & state_estimation: state_estimations) {
     state_estimation->close();
   }
   ready = false;

@@ -10,13 +10,13 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: cache
-      uses: actions/cache@v4
-      id: cache_wheel
+    - name: load cache
+      uses: actions/restore@v4
+      id: load_cache
       with:
         path: packages/${{inputs.package}}
         key: packages-${{inputs.package}}-${{ runner.os }}-${{ runner.arch }}-${{ inputs.hash }}
-    - if: steps.cache_navground_core.outputs.cache-hit != 'true'
+    - if: steps.load_cache.outputs.cache-hit != 'true'
       name: build and test
       shell: bash
       run: |
@@ -26,7 +26,7 @@ runs:
         cmake --build . -j 4
         mv dist ${{github.workspace}}/packages/${{inputs.package}}
     - name: cpack
-      if: ${{steps.cache_navground_core.outputs.cache-hit != 'true' && inputs.cpack == 'true'}}
+      if: ${{steps.load_cache.outputs.cache-hit != 'true' && inputs.cpack == 'true'}}
       working-directory: ${{inputs.package}}/build
       shell: bash
       run: |
@@ -38,7 +38,7 @@ runs:
         find packages/${{inputs.package}} -name '*.whl' -exec pip install {}[all] \;
         find packages/${{inputs.package}} -name '*.deb' -exec sudo apt-get install {} \;
     - name: test
-      if: ${{steps.cache_navground_core.outputs.cache-hit != 'true'}}
+      if: ${{steps.load_cache.outputs.cache-hit != 'true'}}
       working-directory: ${{inputs.package}}/build
       shell: bash
       run: ctest
@@ -50,3 +50,9 @@ runs:
         path: ${{inputs.package}}/build/Testing/Temporary/LastTest.log
         if-no-files-found: ignore
         retention-days: 5
+    - if: steps.load_cache.outputs.cache-hit != 'true'
+      name: save cache
+      uses: actions/cache/save@v4
+      with:
+        path: packages/${{inputs.package}}
+        key: ${{ steps.load_cache.outputs.cache-primary-key }}

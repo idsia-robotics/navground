@@ -5,13 +5,25 @@
 ### Added
 
 - Added `bidirectional` property to `Corridor` scenario to select unidirectional or bidirectional flows.
+- Added virtual methods `prepare` and `close` to `Behavior`
+- Added virtual method `close` to `StateEstimation`, `Task` and `World`
+- Added index to CoppeliaSim properties callbacks
+- Added tests and cpack and/or wheels to `navground_{core,sim,core_py,sim_py,examples,examples_py,minimal_plugin_cpp,minimal_plugin_py`.
+- Added options to `python_install_namespace_package` to overwrite `setup.cfg`.
+- Added wheel build/install to `python_install_namespace_package`.
+- Added source dependencies to generate_docstrings to avoid rebuilding docstrings.h.
 
 ### Fixed
 
+- Corrected conversion between `simFloat` and `ng_float_t`  in `navground_coppelia_sim`.
+
 ### Changed
 
-### Removed
+- Moved calling `world->prepare` from experiment to experimental run.
+- Deprecated `SensorCombination`
+- Switched from a single to a sequence of state estimations. Single state estimation are still supported (YAML and API).
 
+### Removed
 
 ## [0.4.0] 2025-02-11
 

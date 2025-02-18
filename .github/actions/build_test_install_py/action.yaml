@@ -32,11 +32,10 @@ runs:
       run: |
         cpack
         mv packages/* ${{github.workspace}}/packages/${{inputs.package}}
-    - name: install
+    - name: install wheel
       shell: bash
       run: |
         find packages/${{inputs.package}} -name '*.whl' -exec pip install {}[all] \;
-        sudo apt-get install ./packages/${{inputs.package}}/*.deb
     - name: test
       if: ${{steps.load_cache.outputs.cache-hit != 'true'}}
       working-directory: ${{inputs.package}}/build
@@ -50,6 +49,11 @@ runs:
         path: ${{inputs.package}}/build/Testing/Temporary/LastTest.log
         if-no-files-found: ignore
         retention-days: 5
+    - name: install deb
+      shell: bash
+      if: inputs.cpack == 'true'
+      run: |
+        sudo apt-get install ./packages/${{inputs.package}}/*.deb
     - if: steps.load_cache.outputs.cache-hit != 'true'
       name: save cache
       uses: actions/cache/save@v4

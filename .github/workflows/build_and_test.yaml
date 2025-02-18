@@ -50,12 +50,12 @@ jobs:
       - name: navground_core
         uses: ./.github/actions/build_test_install_cpp
         with:
-          hash: ${{ hashFiles('navground_core/**', cmake/build_info.cmake) }}
+          hash: ${{ hashFiles('navground_core/**', 'cmake/build_info.cmake') }}
           package: navground_core
       - name: navground_sim
         uses: ./.github/actions/build_test_install_cpp
         with:
-          hash: ${{ hashFiles('navground_core/**', 'navground_sim/**', cmake/build_info.cmake) }}
+          hash: ${{ hashFiles('navground_core/**', 'navground_sim/**', 'cmake/build_info.cmake') }}
           package: navground_sim
       - uses: actions/setup-python@v5
         with:

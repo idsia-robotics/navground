@@ -15,6 +15,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3.0.2
@@ -92,7 +94,7 @@ jobs:
           pytest tests
       - name: plugin_cpp
         if: steps.changes.outputs.minimal_plugin_cpp == 'true'
-        env: 
+        env:
           NAVGROUND_PLUGINS_PREFIX: ${{github.workspace}}/navground_minimal_plugin_cpp/install
         run: |
           mkdir -p navground_minimal_plugin_cpp/build

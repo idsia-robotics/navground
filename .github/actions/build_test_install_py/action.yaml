@@ -56,3 +56,6 @@ runs:
       with:
         path: packages/${{inputs.package}}
         key: ${{ steps.load_cache.outputs.cache-primary-key }}
+    - name: clean
+      shell: bash
+      run: rm -r ${{inputs.package}}/build

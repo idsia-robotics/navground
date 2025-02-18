@@ -85,7 +85,7 @@ jobs:
           cmake --build . -j 4
           ctest
       - name: examples_py
-        working-directory: navground_examples_cpp
+        working-directory: navground_examples_py
         if: steps.changes.outputs.examples_py == 'true'
         run: |
           pip install .

@@ -36,7 +36,7 @@ runs:
       shell: bash
       run: |
         find packages/${{inputs.package}} -name '*.whl' -exec pip install {}[all] \;
-        find packages/${{inputs.package}} -name '*.deb' -exec sudo apt-get install {} \;
+        sudo apt-get install ./packages/${{inputs.package}}/*.deb
     - name: test
       if: ${{steps.load_cache.outputs.cache-hit != 'true'}}
       working-directory: ${{inputs.package}}/build

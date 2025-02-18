@@ -37,6 +37,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
       std::make_shared<OmnidirectionalKinematics>(static_cast<ng_float_t>(1),
                                                   static_cast<ng_float_t>(1)),
       static_cast<ng_float_t>(0.1));
+  behavior->prepare();
   Controller controller(behavior);
   controller.set_speed_tolerance(static_cast<ng_float_t>(0.05));
   const auto dt = static_cast<ng_float_t>(0.03);
@@ -46,5 +47,6 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   for (int i = 0; i < 1000; ++i) {
     controller.update(dt);
   }
+  behavior->close();
   return 0;
 }

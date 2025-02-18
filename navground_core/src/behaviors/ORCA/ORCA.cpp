@@ -178,7 +178,7 @@ Vector2 ORCABehavior::effective_position() const {
   return pose.position;
 }
 
-void ORCABehavior::prepare(const Vector2 &target_velocity) {
+void ORCABehavior::prepare_eval(const Vector2 &target_velocity) {
   // TODO(Jerome): check if maxSpeed_ should be set to target or to max
   // TODO(Jerome): avoid repetitions (effective_position vs this function)
   if (is_using_effective_center()) {
@@ -268,7 +268,7 @@ void ORCABehavior::prepare(const Vector2 &target_velocity) {
 
 Vector2 ORCABehavior::desired_velocity_towards_velocity(const Vector2 &velocity,
                                                         ng_float_t dt) {
-  prepare(velocity);
+  prepare_eval(velocity);
   _RVOAgent->computeNewVelocity(dt);
   return vector_from(_RVOAgent->newVelocity_);
 }

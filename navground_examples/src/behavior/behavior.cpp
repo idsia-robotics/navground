@@ -64,6 +64,7 @@ int main(int argc, char *argv[]) {
   if (geometric_state) {
     geometric_state->set_static_obstacles({Disc({1.5, 0}, 0.5)});
   }
+  behavior->prepare();
 
   // std::cout << *geometric_state << std::endl;
 
@@ -79,6 +80,7 @@ int main(int argc, char *argv[]) {
   }
   pose = behavior->get_pose();
   twist = behavior->get_twist();
+  behavior->close();
   std::cout << "End loop @ " << pose << " - " << twist << std::endl;
   return 0;
 }

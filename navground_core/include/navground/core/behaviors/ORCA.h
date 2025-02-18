@@ -203,7 +203,7 @@ class NAVGROUND_CORE_EXPORT ORCABehavior : public Behavior {
   void add_obstacle_as_square(const Disc& disc, bool push_away = false,
                               ng_float_t epsilon = 2e-3);
   void prepare_line_obstacles();
-  void prepare(const Vector2& target_velocity);
+  void prepare_eval(const Vector2& target_velocity);
 
   Vector2 effective_position() const;
 };

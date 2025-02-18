@@ -15,6 +15,8 @@ The base implementation is empty, therefore it is not required to call it.
 
 To let the simulation know that it can terminates, you should override ``done`` (:cpp:func:`C++ <navground::sim::Task::done>`, :py:meth:`Python <navground.sim.Task.done>`) returning whether the task has finished. The base implementation returns ``false``, resulting in a never-ending task.
 
+At the end of the simulation, ``close``  (:cpp:func:`C++ <navground::sim::Task::close>`, :py:meth:`Python <navground.sim.Task.close>`) is called: override it to clean-up any step performed during ``prepare``.
+
 When events meaningful for the task happens, they can be logged using ``log_event`` (:cpp:func:`C++ <navground::sim::Task::log_event>`, :py:meth:`Python <navground.sim.Task.log_event>`), passing a sequence of float as payload. In case you want to log data, you should override ``get_log_size (:cpp:func:`C++ <navground::sim::Task::get_log_size>`, :py:meth:`Python <navground.sim.Task.get_log_size>`), returning the size of the payload, which should not change between events. The base implementation returns ``0``, signalling that it won't log data.
 
 .. warning::
@@ -38,6 +40,9 @@ Virtual methods
    * - :cpp:func:`update <navground::sim::Task::update>` 
      - :py:meth:`update <navground.sim.Task.update>` 
      - should
+   * - :cpp:func:`update <navground::sim::Task::close>` 
+     - :py:meth:`update <navground.sim.Task.close>` 
+     - can
    * - :cpp:func:`done <navground::sim::Task::done>` 
      - :py:meth:`done <navground.sim.Task.done>` 
      - should

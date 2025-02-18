@@ -77,7 +77,7 @@ std::valarray<ng_float_t>
 HLBehavior::get_collision_distance(bool assuming_static,
                                    std::optional<ng_float_t> speed) {
   ng_float_t target_speed = speed.value_or(cached_target_speed);
-  prepare(target_speed);
+  prepare_eval(target_speed);
   return collision_computation.get_free_distance_for_sector(
       pose.orientation - aperture, 2 * aperture, resolution, effective_horizon,
       !assuming_static, target_speed);
@@ -105,7 +105,7 @@ Vector2
 HLBehavior::desired_velocity_towards_point(const Vector2 &point,
                                            ng_float_t target_speed,
                                            [[maybe_unused]] ng_float_t dt) {
-  prepare(target_speed);
+  prepare_eval(target_speed);
   const Vector2 delta_target = point - pose.position;
   const Radians start_angle = orientation_of(delta_target);
   const Radians relative_start_angle = start_angle - pose.orientation;
@@ -175,7 +175,7 @@ HLBehavior::desired_velocity_towards_velocity(const Vector2 &target_velocity,
   return Vector2::Zero();
 }
 
-void HLBehavior::prepare(ng_float_t target_speed) {
+void HLBehavior::prepare_eval(ng_float_t target_speed) {
   effective_horizon = horizon;
   if (state.changed() ||
       Behavior::changed(POSITION | ORIENTATION | RADIUS | HORIZON |

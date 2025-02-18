@@ -96,7 +96,7 @@ class NAVGROUND_CORE_EXPORT HRVOBehavior : public Behavior {
                     bool push_away = false, ng_float_t epsilon = 2e-3);
   void add_obstacle(const Disc& disc, float rangeSq, bool push_away = false,
                     ng_float_t epsilon = 2e-3);
-  void prepare(const Vector2& target_velocity);
+  void prepare_eval(const Vector2& target_velocity);
 };
 
 }  // namespace navground::core

@@ -16,6 +16,7 @@ void Agent::prepare(World *world) {
   if (behavior) {
     behavior->set_kinematics(kinematics);
     behavior->set_radius(radius);
+    behavior->prepare();
     controller.set_behavior(behavior);
     // TODO(J): should be optional now that we added support for external
     // run-loops
@@ -25,6 +26,21 @@ void Agent::prepare(World *world) {
     task->prepare(this, world);
   }
   ready = true;
+}
+
+void Agent::close() {
+  if (!ready)
+    return;
+  if (task) {
+    task->close();
+  }
+  if (behavior) {
+    behavior->close();
+  }
+  for (auto & state_estimation: state_estimations) {
+    state_estimation->close();
+  }
+  ready = false;
 }
 
 void Agent::update(ng_float_t dt, ng_float_t time, World *world) {

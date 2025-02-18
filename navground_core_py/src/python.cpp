@@ -213,6 +213,11 @@ public:
   using PyHasRegister<Behavior>::make_type;
 
   /* Trampolines (need one for each virtual function) */
+
+  void prepare() override { PYBIND11_OVERRIDE(void, Behavior, prepare); }
+
+  void close() override { PYBIND11_OVERRIDE(void, Behavior, close); }
+
   Twist2 compute_cmd_internal(ng_float_t time_step) override {
     PYBIND11_OVERRIDE(Twist2, Behavior, compute_cmd_internal, time_step);
   }
@@ -1194,6 +1199,8 @@ Constructs a navground property from a Python property.
                     DOC(navground, core, Behavior, property_target_ref))
       .def("check_if_target_satisfied", &Behavior::check_if_target_satisfied,
            DOC(navground, core, Behavior, check_if_target_satisfied))
+      .def("prepare", &Behavior::prepare, DOC(navground, core, Behavior, prepare))
+      .def("close", &Behavior::close, DOC(navground, core, Behavior, close))
       .def("compute_cmd", &Behavior::compute_cmd, py::arg("time_step"),
            py::arg("frame") = py::none(),
            py::arg("enforce_feasibility") = false,

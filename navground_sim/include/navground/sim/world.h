@@ -561,6 +561,9 @@ public:
   // that the controller is correctly set.
   void prepare();
 
+  // TODO(Jerome): private or public?
+  void close();
+
   /**
    * @brief      Determines if this world uses a lattice.
    *

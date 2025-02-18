@@ -7,6 +7,8 @@ The base implementation is empty, therefore it is not required to call it.
 
 During the simulation, ``update``  (:cpp:func:`C++ <navground::sim::StateEstimation::update>`, :py:meth:`Python <navground.sim.StateEstimation.update>`) is called before a behavior is executed: override it to update the environment state of the agent's behavior (:cpp:func:`C++ <navground::sim::Agent::get_behavior>`, :py:data:`Python <navground.sim.Agent.behavior>`).
 
+At the end of the simulation, ``close``  (:cpp:func:`C++ <navground::sim::StateEstimation::close>`, :py:meth:`Python <navground.sim.StateEstimation.close>`) is called: override it to clean-up any step performed during ``prepare``.
+
 As the behavior may have any type of environment state, you should check that is support the interface your state estimation requires.
 
 In case your behavior uses an new type of environment state, you will need to define at least one state estimation supporting it.
@@ -28,6 +30,9 @@ Virtual methods
      - can
    * - :cpp:func:`update <navground::sim::StateEstimation::update>` 
      - :py:meth:`update <navground.sim.StateEstimation.update>` 
+     - can
+   * - :cpp:func:`update <navground::sim::StateEstimation::close>` 
+     - :py:meth:`update <navground.sim.StateEstimation.close>` 
      - can
 
 Class skeleton

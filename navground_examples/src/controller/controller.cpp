@@ -59,9 +59,11 @@ int main(int argc, char *argv[]) {
   const auto &r = *behavior.get();
   printf("Use behavior %s - %s\n", behavior_name, typeid(r).name());
   behavior->set_position({0, 0});
+  behavior->prepare();
   // behavior->set_orientation(0.5f);
   // Go to 1, 0, -1.5
-  const auto action = controller.go_to_position({-1, 0}, static_cast<ng_float_t>(0.1));
+  const auto action =
+      controller.go_to_position({-1, 0}, static_cast<ng_float_t>(0.1));
   action->done_cb = [](Action::State state) {
     if (state == Action::State::success) {
       printf("Arrived\n");
@@ -81,5 +83,6 @@ int main(int argc, char *argv[]) {
   const auto v = behavior->get_velocity();
   printf("\nEnd loop after %.1f s @ (%.3f, %.3f), (%.3f, %.3f)\n", t, p.x(),
          p.y(), v.x(), v.y());
+  behavior->close();
   return 0;
 }

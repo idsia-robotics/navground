@@ -10,6 +10,14 @@ class MyBehavior(core.PyBehavior):
         return self._env_state
 
     # CAN override
+    # executed before the first evaluation
+    # def prepare(self) -> None: ...
+
+    # CAN override
+    # executed after the last evaluation
+    # def close(self) -> None: ...
+
+    # CAN override
     # def compute_cmd_internal(time_step: float) -> core.Twist2: ...
 
     # CAN override

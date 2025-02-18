@@ -8,6 +8,10 @@ struct MyTask : public sim::Task {
   // void prepare(sim::Agent *agent, sim::World *world) override;
 
   // CAN override
+  // executed at the end of the simulation
+  // void close() override;
+
+  // CAN override
   // executed during the the simulation, should update the target
   // or call the controller
   void update(sim::Agent *agent, sim::World *world, ng_float_t time) override;

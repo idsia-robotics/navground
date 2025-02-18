@@ -8,11 +8,12 @@
 #include <algorithm>
 #include <memory>
 #include <vector>
+#include <iostream>
 
 #include "navground/core/types.h"
+#include "navground/sim/export.h"
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/world.h"
-#include "navground/sim/export.h"
 
 namespace navground::sim {
 
@@ -20,9 +21,9 @@ namespace navground::sim {
  * @brief      A combination of sensors
  *
  */
-struct NAVGROUND_SIM_EXPORT SensorCombination : public Sensor {
+struct NAVGROUND_SIM_DEPRECATED_EXPORT SensorCombination : public Sensor {
   static const std::string type;
-  
+
   /**
    * @brief      Constructs a new instance.
    *
@@ -30,7 +31,11 @@ struct NAVGROUND_SIM_EXPORT SensorCombination : public Sensor {
    */
   explicit SensorCombination(
       const std::vector<std::shared_ptr<Sensor>> &sensors = {})
-      : Sensor(), _sensors(sensors) {}
+      : Sensor(), _sensors(sensors) {
+    std::cerr
+        << "SensorCombination is deprecated. Use instead a list of sensors."
+        << std::endl;
+  }
 
   virtual ~SensorCombination() = default;
 
@@ -66,17 +71,17 @@ struct NAVGROUND_SIM_EXPORT SensorCombination : public Sensor {
   /**
    * @private
    */
-  void encode(YAML::Node& node) const override;
+  void encode(YAML::Node &node) const override;
   /**
    * @private
    */
-  void decode(const YAML::Node& node) override;
+  void decode(const YAML::Node &node) override;
 
- private:
+private:
   std::vector<std::shared_ptr<Sensor>> _sensors;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
-#endif /* end of include guard: \
+#endif /* end of include guard:                                                \
           NAVGROUND_SIM_STATE_ESTIMATIONS_SENSOR_COMBINE_H_ */

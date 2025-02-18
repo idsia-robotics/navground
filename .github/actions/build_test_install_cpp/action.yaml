@@ -9,7 +9,7 @@ runs:
   using: "composite"
   steps:
     - name: load cache
-      uses: actions/restore@v4
+      uses: actions/cache/restore@v4
       id: load_cache
       with:
         path: packages/${{inputs.package}}

@@ -3,15 +3,15 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - cmake
-      - navground_core
-      - navground_core_py
-      - navground_sim
-      - navground_sim_py
-      - navground_examples
-      - navground_examples_py
-      - navground_minimal_plugin_cpp
-      - navground_minimal_plugin_py
+      - 'cmake/**'
+      - 'navground_core/**'
+      - 'navground_core_py/**'
+      - 'navground_sim/**'
+      - 'navground_sim_py/**'
+      - 'navground_examples/**'
+      - 'navground_examples_py/**'
+      - 'navground_minimal_plugin_cpp/**'
+      - 'navground_minimal_plugin_py/**'
 jobs:
   test:
     runs-on: ubuntu-latest

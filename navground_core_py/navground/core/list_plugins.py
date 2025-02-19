@@ -9,11 +9,17 @@ def description() -> str:
     return "Load and list plugins."
 
 
-def init_parser(parser: argparse.ArgumentParser) -> None:
+def init_parser_with_version(parser: argparse.ArgumentParser,
+                             version: str) -> None:
     parser.description = description()
+    parser.add_argument('-v', '--version', action='version', version=version)
     parser.add_argument('--dependencies',
                         help="Display dependencies of C++ plugins",
                         action='store_true')
+
+
+def init_parser(parser: argparse.ArgumentParser) -> None:
+    init_parser_with_version(parser, core.get_build_info().version_string)
 
 
 def parser() -> argparse.ArgumentParser:

@@ -18,7 +18,8 @@ description = echo.description
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    echo.init_parser_with_echos(parser, echos)
+    echo.init_parser_with_echos(parser,
+                                sim.get_build_info().version_string, echos)
 
 
 def parser() -> argparse.ArgumentParser:

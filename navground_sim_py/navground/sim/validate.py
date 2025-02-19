@@ -13,7 +13,8 @@ description = validate.description
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    validate.init_parser_with_kinds(parser, kinds)
+    validate.init_parser_with_kinds(parser,
+                                    sim.get_build_info().version_string, kinds)
 
 
 def parser() -> argparse.ArgumentParser:

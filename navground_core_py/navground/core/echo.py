@@ -24,9 +24,9 @@ def description() -> str:
     return "Load an object from YAML and print its YAML representation."
 
 
-def init_parser_with_echos(parser: argparse.ArgumentParser,
+def init_parser_with_echos(parser: argparse.ArgumentParser, version: str,
                            echos: Echos) -> None:
-    command.init_parser(parser)
+    command.init_parser(parser, version)
     kinds = ", ".join(echos.keys())
     parser.add_argument("kind",
                         type=str,
@@ -44,7 +44,7 @@ def init_parser_with_echos(parser: argparse.ArgumentParser,
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    init_parser_with_echos(parser, echos)
+    init_parser_with_echos(parser, core.get_build_info().version_string, echos)
 
 
 def parser() -> argparse.ArgumentParser:

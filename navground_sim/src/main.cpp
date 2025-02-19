@@ -12,6 +12,7 @@
 #include "navground/core/yaml/core.h"
 #include "navground/sim/build_info.h"
 #include "navground/sim/schema.h"
+#include "navground/sim/version.h"
 #include "navground/sim/yaml/world.h"
 #include "run_command.h"
 #include "sample_command.h"
@@ -25,9 +26,16 @@ namespace core = navground::core;
 struct MainCommand : Command<MainCommand> {
 
   explicit MainCommand(const std::string &name)
-      : Command<MainCommand>(name), _rp("run"), _sp("sample"), _ip("info"),
-        _ep("echo"), _xp("schema"), _pp("plugins"), _run(), _sample(),
-        _info("",
+      : Command<MainCommand>(name,
+                             navground::sim::build_info().get_version_string()),
+        _rp("run", navground::sim::build_info().get_version_string()),
+        _sp("sample", navground::sim::build_info().get_version_string()),
+        _ip("info", navground::sim::build_info().get_version_string()),
+        _ep("echo", navground::sim::build_info().get_version_string()),
+        _xp("schema", navground::sim::build_info().get_version_string()),
+        _pp("plugins", navground::sim::build_info().get_version_string()),
+        _run(), _sample(),
+        _info("", "",
               {{"Behaviors", navground::core::Behavior::type_properties},
                {"Kinematics", navground::core::Kinematics::type_properties},
                {"Modulations",
@@ -38,7 +46,7 @@ struct MainCommand : Command<MainCommand> {
                {"Scenarios", navground::sim::Scenario::type_properties}},
               navground::sim::get_build_info(),
               navground::sim::get_build_dependencies()),
-        _echo("",
+        _echo("", "",
               {
                   {"behavior", &core::echo<core::Behavior>},
                   {"modulation", &core::echo<core::BehaviorModulation>},
@@ -50,9 +58,10 @@ struct MainCommand : Command<MainCommand> {
                   {"agent", &core::echo_s<sim::Agent>},
                   {"experiment", &core::echo_s<sim::Experiment>},
               }),
-        _schema("", "sim", schemas()),
-        _list_plugins("", {"behaviors", "kinematics", "modulations",
-                           "state_estimations", "tasks", "scenarios"}) {}
+        _schema("", "", "sim", schemas()),
+        _list_plugins("", "",
+                      {"behaviors", "kinematics", "modulations",
+                       "state_estimations", "tasks", "scenarios"}) {}
 
   void setup(argparse::ArgumentParser &parser) {
     _run.setup(_rp);

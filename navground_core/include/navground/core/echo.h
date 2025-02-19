@@ -31,8 +31,9 @@ struct EchoCommand : Command<EchoCommand> {
 
   using Echos = std::map<std::string, std::function<bool(const YAML::Node &)>>;
 
-  explicit EchoCommand(const std::string &name, const Echos &echos)
-      : Command<EchoCommand>(name), echos(echos) {}
+  explicit EchoCommand(const std::string &name, const std::string &version,
+                       const Echos &echos)
+      : Command<EchoCommand>(name, version), echos(echos) {}
 
   void setup(argparse::ArgumentParser &parser) {
     parser.add_description(

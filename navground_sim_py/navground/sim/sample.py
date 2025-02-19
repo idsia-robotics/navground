@@ -3,8 +3,8 @@ from __future__ import annotations
 import argparse
 import logging
 import os
-import sys
 import pathlib
+import sys
 
 from navground import sim
 from navground.core import command
@@ -16,7 +16,7 @@ def description() -> str:
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    command.init_parser(parser)
+    command.init_parser(parser, sim.get_build_info().version_string)
     parser.description = description()
     parser.add_argument(
         'YAML',

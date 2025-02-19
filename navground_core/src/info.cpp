@@ -7,10 +7,11 @@
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/build_info.h"
 #include "navground/core/kinematics.h"
+#include "navground/core/version.h"
 
 int main(int argc, char *argv[]) {
   navground::core::InfoCommand cmd(
-      "info",
+      "info", navground::core::build_info().get_version_string(),
       {{"Behaviors", navground::core::Behavior::type_properties},
        {"Kinematics", navground::core::Kinematics::type_properties},
        {"Modulations", navground::core::BehaviorModulation::type_properties}},

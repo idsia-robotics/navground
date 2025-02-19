@@ -29,9 +29,9 @@ def add_arg_for_register(parser: argparse.ArgumentParser, title: str) -> None:
                         metavar=title.upper())
 
 
-def init_parser_with_registers(parser: argparse.ArgumentParser,
+def init_parser_with_registers(parser: argparse.ArgumentParser, version: str,
                                registers: Registers) -> None:
-    command.init_parser(parser)
+    command.init_parser(parser, version)
     parser.description = description()
     parser.add_argument('--build',
                         help="Include build infos",
@@ -47,7 +47,8 @@ def init_parser_with_registers(parser: argparse.ArgumentParser,
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    init_parser_with_registers(parser, registers)
+    init_parser_with_registers(parser,
+                               core.get_build_info().version_string, registers)
 
 
 def parser() -> argparse.ArgumentParser:

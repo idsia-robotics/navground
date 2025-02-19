@@ -22,7 +22,9 @@ description = print_schema.description
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    print_schema.init_parser_with_schemas(parser, 'sim', schemas, components)
+    print_schema.init_parser_with_schemas(parser,
+                                          sim.get_build_info().version_string,
+                                          'sim', schemas, components)
 
 
 def parser() -> argparse.ArgumentParser:

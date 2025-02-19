@@ -36,10 +36,10 @@ struct SchemaCommand : Command<SchemaCommand> {
       {"behavior_modulation", &component<core::BehaviorModulation>},
       {"kinematics", &component<core::Kinematics>}};
 
-  explicit SchemaCommand(const std::string &name,
+  explicit SchemaCommand(const std::string &name, const std::string &version,
                          const std::string &default_schema,
                          const Schemas &extra_schemas = {})
-      : Command<SchemaCommand>(name), schemas(core_schemas),
+      : Command<SchemaCommand>(name, version), schemas(core_schemas),
         default_schema(default_schema) {
     schemas.insert(extra_schemas.begin(), extra_schemas.end());
   }

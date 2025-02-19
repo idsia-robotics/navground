@@ -24,8 +24,9 @@ inline std::string title(const std::string &name) {
 struct ListPluginsCommand : Command<ListPluginsCommand> {
 
   explicit ListPluginsCommand(const std::string &name,
+                              const std::string &version,
                               const std::vector<std::string> &kinds)
-      : Command<ListPluginsCommand>(name), kinds(kinds) {}
+      : Command<ListPluginsCommand>(name, version), kinds(kinds) {}
 
   void setup(argparse::ArgumentParser &parser) {
     parser.add_description("Load and list plugins");

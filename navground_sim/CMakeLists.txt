@@ -100,6 +100,7 @@ add_library(
   src/state_estimations/sensor_boundary.cpp
   src/state_estimations/sensor_combination.cpp
   src/state_estimations/sensor_odometry.cpp
+  src/state_estimations/gridmap_state_estimation.cpp
   src/tasks/waypoints.cpp
   src/tasks/direction.cpp
   src/scenarios/antipodal.cpp

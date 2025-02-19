@@ -12,10 +12,12 @@
 - Added options to `python_install_namespace_package` to overwrite `setup.cfg`.
 - Added wheel build/install to `python_install_namespace_package`.
 - Added source dependencies to generate_docstrings to avoid rebuilding docstrings.h.
+- Added "--version" to Python CLI.
 
 ### Fixed
 
 - Corrected conversion between `simFloat` and `ng_float_t`  in `navground_coppelia_sim`.
+- Fixed version returned by C++ CLI.
 
 ### Changed
 

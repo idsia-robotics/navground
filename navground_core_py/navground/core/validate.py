@@ -17,9 +17,9 @@ def description() -> str:
     return "Validate YAML."
 
 
-def init_parser_with_kinds(parser: argparse.ArgumentParser,
+def init_parser_with_kinds(parser: argparse.ArgumentParser, version: str,
                            kinds: list[str]) -> None:
-    command.init_parser(parser)
+    command.init_parser(parser, version)
     parser.add_argument("kind",
                         type=str,
                         help="The kind of object to validate",
@@ -31,7 +31,7 @@ def init_parser_with_kinds(parser: argparse.ArgumentParser,
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    init_parser_with_kinds(parser, kinds)
+    init_parser_with_kinds(parser, core.get_build_info().version_string, kinds)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -40,7 +40,8 @@ def parser() -> argparse.ArgumentParser:
     return p
 
 
-def validate(arg: argparse.Namespace, kinds: list[str], schema: dict[str, Any]) -> None:
+def validate(arg: argparse.Namespace, kinds: list[str],
+             schema: dict[str, Any]) -> None:
     import jsonschema
 
     if arg.kind not in kinds:

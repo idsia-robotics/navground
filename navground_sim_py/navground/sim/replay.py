@@ -7,12 +7,15 @@ import pathlib
 import sys
 from typing import TYPE_CHECKING
 
+from navground import sim
+
 from .real_time import RealTimeSimulation
 from .recorded_experiment import RecordedExperiment, RecordedExperimentalRun
 
 if TYPE_CHECKING:
-    from .ui import Rect, WebUI
     import h5py  # type: ignore[import-untyped]
+
+    from .ui import Rect, WebUI
 
 
 class RealTimeReplay(RealTimeSimulation):
@@ -68,6 +71,10 @@ def description() -> str:
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
     parser.description = description()
+    parser.add_argument('-v',
+                        '--version',
+                        action='version',
+                        version=sim.get_build_info().version_string)
     parser.add_argument('path',
                         help='The path an HDF5 file that store an experiment',
                         type=str)

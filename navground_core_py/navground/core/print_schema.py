@@ -28,10 +28,10 @@ def description() -> str:
     return "Prints the YAML schema"
 
 
-def init_parser_with_schemas(parser: argparse.ArgumentParser,
+def init_parser_with_schemas(parser: argparse.ArgumentParser, version: str,
                              default_schema: str, schemas: Schemas,
                              components: Components) -> None:
-    command.init_parser(parser)
+    command.init_parser(parser, version)
     kinds = list(set(schemas.keys()) | set(components.keys()))
     parser.add_argument("kind",
                         type=str,
@@ -53,7 +53,9 @@ def init_parser_with_schemas(parser: argparse.ArgumentParser,
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    init_parser_with_schemas(parser, 'core', schemas, components)
+    init_parser_with_schemas(parser,
+                             core.get_build_info().version_string, 'core',
+                             schemas, components)
 
 
 def parser() -> argparse.ArgumentParser:

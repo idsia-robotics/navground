@@ -13,7 +13,8 @@ registers = core_registers + [(sim.StateEstimation, "State Estimations"),
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    init_parser_with_registers(parser, registers)
+    init_parser_with_registers(parser,
+                               sim.get_build_info().version_string, registers)
 
 
 def parser() -> argparse.ArgumentParser:

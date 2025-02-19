@@ -4,7 +4,7 @@ import argparse
 from types import ModuleType
 from typing import Any
 
-from . import echo, info, list_plugins, print_schema, validate
+from . import echo, info, list_plugins, print_schema, validate, get_build_info
 
 
 def config_parser(parsers: Any, name: str, module: ModuleType) -> None:
@@ -14,6 +14,10 @@ def config_parser(parsers: Any, name: str, module: ModuleType) -> None:
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument('-v',
+                        '--version',
+                        action='version',
+                        version=get_build_info().version_string)
     parsers = parser.add_subparsers(dest='cmd', title='Subcommands')
     config_parser(parsers, 'info', info)
     config_parser(parsers, 'echo', echo)

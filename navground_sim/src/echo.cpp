@@ -3,6 +3,7 @@
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/yaml/core.h"
+#include "navground/sim/version.h"
 #include "navground/sim/yaml/experiment.h"
 #include "navground/sim/yaml/scenario.h"
 #include "navground/sim/yaml/world.h"
@@ -13,7 +14,7 @@ using core::EchoCommand;
 
 int main(int argc, char *argv[]) {
   return core::EchoCommand(
-             "echo",
+             "echo", navground::sim::build_info().get_version_string(),
              {
                  {"behavior", &core::echo<core::Behavior>},
                  {"modulation", &core::echo<core::BehaviorModulation>},

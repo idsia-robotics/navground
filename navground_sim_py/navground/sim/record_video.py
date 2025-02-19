@@ -7,6 +7,7 @@ import random
 import sys
 from typing import TYPE_CHECKING, Any
 import pathlib
+from navground import sim
 from navground.core import command
 from navground.core.utils import chdir
 
@@ -56,7 +57,7 @@ def description() -> str:
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    command.init_parser(parser)
+    command.init_parser(parser, sim.get_build_info().version_string)
     parser.description = description()
     parser.add_argument(
         'input',
@@ -164,8 +165,7 @@ def main(decorate: Decorate | None = None) -> None:
     _main(arg, decorate=decorate)
 
 
-def _main(arg: argparse.Namespace,
-          decorate: Decorate | None = None) -> None:
+def _main(arg: argparse.Namespace, decorate: Decorate | None = None) -> None:
     command._main(arg, load_plugins)
     logging.basicConfig(level=logging.INFO)
     experiment = _load_recorded_experiment(arg.input) or _load_experiment(

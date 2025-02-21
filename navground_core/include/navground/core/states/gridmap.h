@@ -90,8 +90,8 @@ public:
   Cell get_clamped_cell_at_position(const Vector2 &position) const;
   bool contains_point(const Vector2 &point) const;
 
-  void move_center(const Vector2 &position);
-  void move_origin(const Vector2 &position);
+  void move_center(const Vector2 &position, uint8_t value=128);
+  void move_origin(const Vector2 &position, uint8_t value=128);
 
   // unsigned int cell_distance(ng_float_t world_distance);
   // void reset_to_unknown();
@@ -123,7 +123,7 @@ private:
   void bresenham2D(ActionType at, unsigned abs_da, unsigned abs_db, int error,
                    GridMap::Cell da, GridMap::Cell db, GridMap::Cell cell,
                    unsigned length);
-  void move(const Cell &delta);
+  void move(const Cell &delta, uint8_t value=128);
   Map _map;
   ExternalMap _e_map;
   ng_float_t _width;

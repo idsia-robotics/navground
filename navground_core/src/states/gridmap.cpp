@@ -111,21 +111,21 @@ GridMap::get_clamped_cell_at_position(const Vector2 &position) const {
 
 // void GridMap::reset_to_unknown() { set_value(128); }
 
-void GridMap::move_center(const Vector2 &position) {
+void GridMap::move_center(const Vector2 &position, uint8_t value) {
   const GridMap::Cell delta =
       ((position - get_center()) / _resolution).array().rint().cast<int>();
-  move(delta);
+  move(delta, value);
   set_center(position);
 }
 
-void GridMap::move_origin(const Vector2 &position) {
+void GridMap::move_origin(const Vector2 &position, uint8_t value) {
   const GridMap::Cell delta =
       ((position - get_origin()) / _resolution).array().rint().cast<int>();
-  move(delta);
+  move(delta, value);
   set_origin(position);
 }
 
-void GridMap::move(const GridMap::Cell &delta) {
+void GridMap::move(const GridMap::Cell &delta, uint8_t value) {
   if (delta == GridMap::Cell::Zero())
     return;
   const int w = _width - abs(delta[0]);
@@ -136,23 +136,23 @@ void GridMap::move(const GridMap::Cell &delta) {
     if (delta[0] < 0 && delta[1] < 0) {
       // std::cerr << "A" << std::endl;
       m.bottomRightCorner(h, w) = m.topLeftCorner(h, w).eval();
-      m.topRows(-delta[1]) = 128;
-      m.leftCols(-delta[0]) = 128;
+      m.topRows(-delta[1]) = value;
+      m.leftCols(-delta[0]) = value;
     } else if (delta[0] < 0) {
       // std::cerr << "B" << std::endl;
       m.topRightCorner(h, w) = m.bottomLeftCorner(h, w).eval();
-      m.bottomRows(delta[1]) = 128;
-      m.leftCols(-delta[0]) = 128;
+      m.bottomRows(delta[1]) = value;
+      m.leftCols(-delta[0]) = value;
     } else if (delta[1] < 0) {
       // std::cerr << "C" << std::endl;
       m.bottomLeftCorner(h, w) = m.topRightCorner(h, w).eval();
-      m.topRows(-delta[1]) = 128;
-      m.rightCols(delta[0]) = 128;
+      m.topRows(-delta[1]) = value;
+      m.rightCols(delta[0]) = value;
     } else {
       // std::cerr << "D" << std::endl;
       m.topLeftCorner(h, w) = m.bottomRightCorner(h, w).eval();
-      m.bottomRows(delta[1]) = 128;
-      m.rightCols(delta[0]) = 128;
+      m.bottomRows(delta[1]) = value;
+      m.rightCols(delta[0]) = value;
     }
   }
 }

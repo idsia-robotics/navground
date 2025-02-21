@@ -11,88 +11,189 @@ namespace navground::sim {
 using navground::core::Properties;
 using navground::core::Property;
 
-std::optional<core::GridMap> get_gridmap(core::SensingState &state,
-                                         unsigned width, unsigned height,
-                                         ng_float_t resolution) {
-  const auto data = state.get_buffer("local_gridmap")->get_data<uint8_t>();
-  const auto origin = state.get_buffer("origin")->get_data<ng_float_t>();
-  if (!data || !origin) {
-    // std::cerr << "ERROR\n";
+std::optional<core::GridMap>
+LocalGridMapStateEstimation::read_gridmap(core::SensingState &state,
+                                          const std::string &name) {
+  const auto map_buffer =
+      state.get_buffer(Sensor::get_field_name("local_gridmap", name));
+  if (!map_buffer) {
+    return std::nullopt;
+  }
+  const auto data = map_buffer->get_data<uint8_t>();
+  if (!data) {
+    return std::nullopt;
+  }
+  const auto origin_buffer =
+      state.get_buffer(Sensor::get_field_name("origin", name));
+  if (!origin_buffer) {
+    return std::nullopt;
+  }
+  const auto origin = origin_buffer->get_data<ng_float_t>();
+  if (!origin) {
+    return std::nullopt;
+  }
+  const auto resolution_buffer =
+      state.get_buffer(Sensor::get_field_name("resolution", name));
+  if (!resolution_buffer) {
+    return std::nullopt;
+  }
+  const auto resolution = resolution_buffer->get_data<ng_float_t>();
+  if (!resolution) {
+    return std::nullopt;
+  }
+  const auto shape = map_buffer->get_shape();
+  if (shape.size() != 2) {
     return std::nullopt;
   }
   const Vector2 p((*origin)[0], (*origin)[1]);
-  return core::GridMap(const_cast<uint8_t *>(&(*data)[0]), width, height,
-                       resolution, p);
+  return core::GridMap(const_cast<uint8_t *>(&(*data)[0]), shape[0], shape[1],
+                       (*resolution)[0], p);
+}
+
+std::optional<core::GridMap>
+LocalGridMapStateEstimation::read_gridmap(core::SensingState &state) const {
+  const auto map_buffer =
+      state.get_buffer(Sensor::get_field_name("local_gridmap", get_name()));
+  if (!map_buffer) {
+    return std::nullopt;
+  }
+  const auto data = map_buffer->get_data<uint8_t>();
+  if (!data) {
+    return std::nullopt;
+  }
+  const auto origin_buffer =
+      state.get_buffer(Sensor::get_field_name("origin", get_name()));
+  if (!origin_buffer) {
+    return std::nullopt;
+  }
+  const auto origin = origin_buffer->get_data<ng_float_t>();
+  if (!origin) {
+    return std::nullopt;
+  }
+  const Vector2 p((*origin)[0], (*origin)[1]);
+  return core::GridMap(const_cast<uint8_t *>(&(*data)[0]), _width, _height,
+                       _resolution, p);
 }
 
 void LocalGridMapStateEstimation::encode(YAML::Node &node) const {
-  // node["lidars"] = std::map<std::string, StateEstimation>();
-  for (const auto &[name, lidar] : _lidars) {
-    node["lidars"][name] = *std::static_pointer_cast<StateEstimation>(lidar);
+  for (const auto &lidar : _internal_lidars) {
+    node["lidars"].push_back(*std::static_pointer_cast<StateEstimation>(lidar));
+  }
+  if (_internal_odometry) {
+    node["odometry"] =
+        *std::static_pointer_cast<StateEstimation>(_internal_odometry);
   }
 }
 
 void LocalGridMapStateEstimation::decode(const YAML::Node &node) {
-  _lidars.clear();
+  _internal_lidars.clear();
+  _internal_odometry = nullptr;
   if (node["lidars"]) {
-    auto candidates =
-        node["lidars"]
-            .as<std::map<std::string, std::shared_ptr<StateEstimation>>>();
-    for (const auto &[name, se] : candidates) {
+    for (auto c : node["lidars"]) {
+      auto se = c.as<std::shared_ptr<StateEstimation>>();
       if (auto lidar = std::dynamic_pointer_cast<LidarStateEstimation>(se)) {
-        _lidars.emplace(name, lidar);
-        lidar->set_name(name);
+        _internal_lidars.push_back(lidar);
       }
     }
   }
+  if (node["odometry"]) {
+    auto se = node["odometry"].as<std::shared_ptr<StateEstimation>>();
+    _internal_odometry = std::dynamic_pointer_cast<OdometryStateEstimation>(se);
+  }
 }
 
-void LocalGridMapStateEstimation::prepare(Agent *agent, World *world) {
-  Sensor::prepare(agent, world);
-  if (core::SensingState *_state = get_state(agent)) {
-    auto gridmap = get_gridmap(*_state, _width, _height, _resolution);
-    gridmap->set_value(128);
-  }
-  // for (const auto &lidar : _lidars) {
-  //   core::SensingState state;
-  //   lidar->prepare(state);
-  //   _lidar_states.push_back(state);
-  // }
+void LocalGridMapStateEstimation::prepare_state(
+    core::SensingState &state) const {
+  Sensor::prepare_state(state);
+  read_gridmap(state)->set_value(128);
+  std::cerr << "LocalGridMapStateEstimation::prepare_state" << std::endl;
 }
 
 void LocalGridMapStateEstimation::update(Agent *agent, World *world,
                                          EnvironmentState *state) {
 
-  if (_lidars.empty()) {
-    return;
-  }
+  // if (_internal_lidars.empty() && _external_lidars.empty()) {
+  //   std::cerr << "No lidars" << std::endl;
+  //   return;
+  // }
   if (core::SensingState *_state = dynamic_cast<core::SensingState *>(state)) {
-    bool should_init = _state->get_buffer(field_name) == nullptr;
-    if (should_init) {
-      Sensor::prepare_state(*_state);
+    if (_state->get_buffer(get_field_name(field_name)) == nullptr) {
+      prepare_state(*_state);
     }
-    auto gridmap = get_gridmap(*_state, _width, _height, _resolution);
-    if (should_init) {
-      gridmap->set_value(128);
+    auto gridmap = read_gridmap(*_state);
+    const Pose2 pose_world = agent->get_pose();
+    Pose2 pose = pose_world;
+    bool in_odom = false;
+    if (_internal_odometry) {
+      _internal_odometry->update_odom(agent, world);
+      pose = _internal_odometry->get_pose();
+      in_odom = true;
+    } else if (!_external_odometry.empty()) {
+      const auto maybe_pose =
+          OdometryStateEstimation::read_pose(*_state, _external_odometry);
+      if (maybe_pose) {
+        pose = *maybe_pose;
+      }
+      in_odom = true;
     }
-    const auto pose = agent->get_pose();
-    gridmap->move_center(pose.position);
+
+    // const auto pose = agent->get_pose();
+    gridmap->move_center(pose.position, 128);
+    if (_include_transformation) {
+      if (in_odom) {
+        const Pose2 pose_map{gridmap->get_center(), 0};
+        const auto transformation = pose_world * pose_map.inverse();
+        get_or_init_buffer(*_state, "transformation")
+            ->set_data(std::valarray<ng_float_t>({transformation.position[0],
+                                                  transformation.position[1],
+                                                  transformation.orientation}));
+      } else {
+        get_or_init_buffer(*_state, "transformation")
+            ->set_data(std::valarray<ng_float_t>({0, 0, 0}));
+      }
+    }
     const auto origin = gridmap->get_origin();
-    _state->get_buffer("origin")->set_data(
-        std::valarray<ng_float_t>{origin[0], origin[1]});
+    get_or_init_buffer(*_state, "origin")
+        ->set_data(std::valarray<ng_float_t>({origin[0], origin[1]}));
+    get_or_init_buffer(*_state, "resolution")
+        ->set_data(std::valarray<ng_float_t>{_resolution});
     gridmap->set_value_in_rectangle(pose.position -
                                         Vector2{agent->radius, agent->radius},
                                     2 * agent->radius, 2 * agent->radius, 255);
+
     // gridmap->set_footprint_as_freespace(agent->radius);
     // gridmap->set_values_in_disc(agent->radius, 255);
     //
     // size_t i = 0;
-    for (const auto &[name, lidar] : _lidars) {
+    for (const auto &name : _external_lidars) {
+      auto data = LidarStateEstimation::read_measure(*_state, name);
+      if (!data)
+        continue;
+      // std::string prefix = name.empty() ? "" : name + "/";
+      // const auto ranges =
+      //     _state->get_buffer(prefix + "range")->get_data<ng_float_t>();
+      // const auto start_angle =
+      //     _state->get_buffer(prefix +
+      //     "start_angle")->get_data<ng_float_t>();
+      // const auto fov =
+      //     _state->get_buffer(prefix + "fov")->get_data<ng_float_t>();
+      // const auto range =
+      //     _state->get_buffer(prefix + "max_range")->get_data<ng_float_t>();
+      // const auto begin = pose.orientation + (*start_angle)[0];
+      // const auto delta = (*fov)[0] / (ranges->size() - 1);
+      const auto begin = pose.orientation + data->start_angle;
+      const auto delta = data->get_angular_increment();
+      raycast_freespace(*gridmap, pose.position, data->ranges, begin, delta);
+      add_obstacles(*gridmap, pose.position, data->ranges, begin, delta,
+                    data->max_range - 1e-3);
+    }
+
+    for (const auto &lidar : _internal_lidars) {
       // lidar->update(agent, world, &_lidar_states[i]);
-      lidar->update(agent, world, _state);
+      // lidar->update(agent, world, _state);
       // const auto ranges =
       //     _lidar_states[i].get_buffer("range")->get_data<ng_float_t>();
-      const auto ranges = lidar->read_ranges(*_state);
+      const auto ranges = lidar->measure_ranges(agent, world);
       const auto begin = pose.orientation + lidar->get_start_angle();
       const auto delta = lidar->get_angular_increment();
       raycast_freespace(*gridmap, pose.position, ranges, begin, delta);
@@ -149,7 +250,8 @@ void LocalGridMapStateEstimation::raycast_freespace(
       }
     }
 
-    // std::cerr << "=> raycast_freespace " << x0 << " -- " << x1 << std::endl;
+    // std::cerr << "=> raycast_freespace " << x0 << " -- " << x1 <<
+    // std::endl;
 
     const auto c1 = gridmap.get_cell_at_position(x1);
     if (!c1) {
@@ -193,6 +295,23 @@ const std::string LocalGridMapStateEstimation::type =
     register_type<LocalGridMapStateEstimation>(
         "LocalGridMap",
         Properties{
+            {"external_lidars",
+             Property::make(&LocalGridMapStateEstimation::get_external_lidars,
+                            &LocalGridMapStateEstimation::set_external_lidars,
+                            std::vector<std::string>{},
+                            "Name of [external] lidar sensors")},
+            {"external_odometry",
+             Property::make(&LocalGridMapStateEstimation::get_external_odometry,
+                            &LocalGridMapStateEstimation::set_external_odometry,
+                            std::string(),
+                            "Name of [external] odometry sensor")},
+            {"include_transformation",
+             Property::make(
+                 &LocalGridMapStateEstimation::get_include_transformation,
+                 &LocalGridMapStateEstimation::set_include_transformation,
+                 false,
+                 "Whether to include the transformation between map and world "
+                 "frame")},
             {"resolution",
              Property::make(&LocalGridMapStateEstimation::get_resolution,
                             &LocalGridMapStateEstimation::set_resolution,

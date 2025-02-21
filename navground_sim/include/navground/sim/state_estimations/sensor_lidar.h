@@ -15,7 +15,6 @@
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/world.h"
 
-
 namespace navground::sim {
 
 /**
@@ -71,6 +70,58 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
    * The name of the buffer set by the sensor
    */
   inline static const std::string field_name = "range";
+
+  struct Data {
+    const std::valarray<ng_float_t> &ranges;
+    ng_float_t start_angle;
+    ng_float_t fov;
+    ng_float_t max_range;
+    ng_float_t get_angular_increment() const {
+      return compute_angular_increment(fov, ranges.size());
+    }
+  };
+  // TODO(Jerome): are we copying ranges?
+  static std::optional<Data> read_measure(core::SensingState &state,
+                                          const std::string &name = "") {
+    std::string prefix = name.empty() ? "" : name + "/";
+    auto buffer = state.get_buffer(prefix + "range");
+    if (!buffer)
+      return std::nullopt;
+    const auto ranges = buffer->get_data<ng_float_t>();
+    if (!ranges)
+      return std::nullopt;
+    // data.ranges = *ranges;
+    buffer = state.get_buffer(prefix + "start_angle");
+    if (!buffer)
+      return std::nullopt;
+    const auto start_angle = buffer->get_data<ng_float_t>();
+    if (!start_angle)
+      return std::nullopt;
+    // data.start_angle = *start_angle;
+    buffer = state.get_buffer(prefix + "fov");
+    if (!buffer)
+      return std::nullopt;
+    const auto fov = buffer->get_data<ng_float_t>();
+    if (!fov)
+      return std::nullopt;
+    // data.fov = *fov;
+    buffer = state.get_buffer(prefix + "max_range");
+    if (!buffer)
+      return std::nullopt;
+    const auto max_range = buffer->get_data<ng_float_t>();
+    if (!max_range)
+      return std::nullopt;
+    // data.max_range = *max_range;
+    return Data{*ranges, (*start_angle)[0], (*fov)[0], (*max_range)[0]};
+  }
+
+  static ng_float_t compute_angular_increment(ng_float_t field_of_view,
+                                              ng_float_t resolution) {
+    if (resolution > 1) {
+      return field_of_view / (resolution - 1);
+    }
+    return 0;
+  }
 
   /**
    * @brief      Constructs a new instance.
@@ -218,9 +269,12 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
         {get_field_name(field_name),
          core::BufferDescription::make<ng_float_t>({_resolution}, 0.0, _range)},
         {get_field_name("start_angle"),
-         core::BufferDescription::make<ng_float_t>({1}, -core::TWO_PI, core::TWO_PI)},
+         core::BufferDescription::make<ng_float_t>({1}, -core::TWO_PI,
+                                                   core::TWO_PI)},
         {get_field_name("fov"),
-         core::BufferDescription::make<ng_float_t>({1}, 0.0, core::TWO_PI)}};
+         core::BufferDescription::make<ng_float_t>({1}, 0.0, core::TWO_PI)},
+        {get_field_name("max_range"),
+         core::BufferDescription::make<ng_float_t>({1}, 0.0, 10.0)}};
   }
 
   /**
@@ -236,6 +290,16 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
    * @return     The angles.
    */
   std::valarray<ng_float_t> get_angles() const;
+
+  /**
+   * @brief      Compute ranges assuming the sensor is attached to an agent
+   *
+   * @param      agent  The agent
+   * @param      world  The world
+   *
+   * @return     The array of ranges
+   */
+  std::valarray<ng_float_t> measure_ranges(Agent *agent, World *world);
 
   /**
    * @brief      Reads the ranges stored in a sensing state

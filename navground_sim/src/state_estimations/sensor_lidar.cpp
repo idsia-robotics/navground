@@ -12,28 +12,32 @@ namespace navground::sim {
 using navground::core::Properties;
 using navground::core::Property;
 
+std::valarray<ng_float_t> LidarStateEstimation::measure_ranges(Agent *agent,
+                                                               World *world) {
+  auto &c = const_cast<core::CollisionComputation &>(_cc);
+  const auto neighbors = world->get_neighbors(agent, _range);
+  const auto pose = core::Pose2(_position, 0).absolute(agent->pose);
+  c.setup(pose, 0.0, world->get_line_obstacles(), world->get_discs(),
+          neighbors);
+  auto ranges = c.get_free_distance_for_sector(
+      agent->pose.orientation + _start_angle, _field_of_view, _resolution - 1,
+      _range, false);
+  if (has_error()) {
+    auto &rg = world->get_random_generator();
+    for (size_t i = 0; i < ranges.size(); ++i) {
+      ranges[i] = std::clamp<ng_float_t>(ranges[i] + _error(rg), 0, _range);
+    }
+  }
+  return ranges;
+}
+
 void LidarStateEstimation::update(Agent *agent, World *world,
                                   EnvironmentState *state) {
   if (core::SensingState *_state = dynamic_cast<core::SensingState *>(state)) {
-    auto &c = const_cast<core::CollisionComputation &>(_cc);
-    const auto neighbors = world->get_neighbors(agent, _range);
-    const auto pose = core::Pose2(_position, 0).absolute(agent->pose);
-    c.setup(pose, 0.0, world->get_line_obstacles(), world->get_discs(),
-            neighbors);
-    auto ranges = c.get_free_distance_for_sector(
-        agent->pose.orientation + _start_angle, _field_of_view, _resolution - 1,
-        _range, false);
     auto buffer = get_or_init_buffer(*_state, field_name);
     if (buffer) {
-      if (has_error()) {
-        auto &rg = world->get_random_generator();
-        for (size_t i = 0; i < ranges.size(); ++i) {
-          ranges[i] = std::clamp<ng_float_t>(ranges[i] + _error(rg), 0, _range);
-        }
-      }
-      buffer->set_data(ranges);
+      buffer->set_data(measure_ranges(agent, world));
     }
-
     buffer = get_or_init_buffer(*_state, "start_angle");
     if (buffer) {
       buffer->set_data(std::valarray<ng_float_t>{_start_angle});
@@ -42,6 +46,11 @@ void LidarStateEstimation::update(Agent *agent, World *world,
     buffer = get_or_init_buffer(*_state, "fov");
     if (buffer) {
       buffer->set_data(std::valarray<ng_float_t>{_field_of_view});
+    }
+
+    buffer = get_or_init_buffer(*_state, "max_range");
+    if (buffer) {
+      buffer->set_data(std::valarray<ng_float_t>{_range});
     }
   }
 }

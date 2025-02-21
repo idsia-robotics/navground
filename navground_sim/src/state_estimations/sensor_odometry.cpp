@@ -12,8 +12,7 @@ namespace navground::sim {
 using navground::core::Properties;
 using navground::core::Property;
 
-void OdometryStateEstimation::update(Agent *agent, World *world,
-                                     EnvironmentState *state) {
+void OdometryStateEstimation::update_odom(Agent *agent, World *world) {
   auto &rg = world->get_random_generator();
   _twist = agent->twist.relative(agent->pose);
   _twist.velocity[0] += _twist.velocity[0] * _longitudinal_speed_error(rg);
@@ -22,6 +21,11 @@ void OdometryStateEstimation::update(Agent *agent, World *world,
   ng_float_t dt = std::max<ng_float_t>(0, world->get_time() - _time);
   _time = world->get_time();
   _pose = _pose.integrate(_twist.absolute(_pose), dt);
+}
+
+void OdometryStateEstimation::update(Agent *agent, World *world,
+                                     EnvironmentState *state) {
+  update_odom(agent, world);
   Behavior *b = agent->get_behavior();
   if (get_update_ego_state() && b) {
     b->set_pose(_pose);
@@ -41,6 +45,20 @@ void OdometryStateEstimation::update(Agent *agent, World *world,
       }
     }
   }
+}
+
+std::optional<core::Pose2>
+OdometryStateEstimation::read_pose(core::SensingState &state,
+                                   const std::string &name) {
+  const auto buffer = state.get_buffer(Sensor::get_field_name("pose", name));
+  if (!buffer) {
+    return std::nullopt;
+  }
+  const auto data = buffer->get_data<uint8_t>();
+  if (!data || data->size() != 3) {
+    return std::nullopt;
+  }
+  return core::Pose2({(*data)[0], (*data)[1]}, (*data)[2]);
 }
 
 const std::string OdometryStateEstimation::type = register_type<

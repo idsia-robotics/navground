@@ -233,6 +233,10 @@ struct NAVGROUND_SIM_EXPORT OdometryStateEstimation : public Sensor {
   virtual void update(Agent *agent, World *world,
                       EnvironmentState *state) override;
 
+  void update_odom(Agent *agent, World *world);
+
+  static std::optional<core::Pose2> read_pose(core::SensingState &state, const std::string & name);
+
   /**
    * @brief      Gets the current pose.
    *

@@ -11,6 +11,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.lines import Line2D
 from matplotlib.patches import Arrow, Circle
+from matplotlib.transforms import Affine2D, Bbox
 from navground import core, sim
 
 Indices = list[int] | slice
@@ -26,7 +27,8 @@ def plot_agent(ax: Axes,
                alpha: float = 1.0,
                dot_color: str = "k",
                dot_radius: float = 0.25,
-               with_safety_margin: bool = False) -> None:
+               with_safety_margin: bool = False,
+               transform: Affine2D | None = None) -> None:
     """
     Plots an agent as a disc together with:
     - a smaller dot to indicate the direction
@@ -44,7 +46,12 @@ def plot_agent(ax: Axes,
     :param      dot_radius:           The relative radius of the dot
                                       as fraction of the radius
     :param      with_safety_margin:   Whether to display the safety margin
+    :param      transform:            An optional affine transformation to apply to the plot
     """
+    if transform:
+        kwargs = {'transform': transform}
+    else:
+        kwargs = {}
     if pose is None:
         pose = agent.pose
     position = pose.position
@@ -52,14 +59,19 @@ def plot_agent(ax: Axes,
         velocity = agent.velocity
     if not color:
         color = agent.color or 'b'
-    circle = Circle(tuple(position), agent.radius, color=color, alpha=alpha)
+    circle = Circle(tuple(position),
+                    agent.radius,
+                    color=color,
+                    alpha=alpha,
+                    **kwargs)
     ax.add_patch(circle)
     dot_center = position + core.unit(
         pose.orientation) * agent.radius * (1 - dot_radius)
     dot = Circle(tuple(dot_center),
                  dot_radius * agent.radius,
                  color=dot_color,
-                 alpha=alpha)
+                 alpha=alpha,
+                 **kwargs)
     ax.add_patch(dot)
 
     if velocity_arrow_width > 0 and np.any(velocity):
@@ -70,7 +82,8 @@ def plot_agent(ax: Axes,
                     width=velocity_arrow_width * agent.radius,
                     color=color,
                     edgecolor=velocity_arrow_color,
-                    alpha=0.5)
+                    alpha=0.5,
+                    **kwargs)
         ax.add_patch(vel)
     if with_safety_margin and agent.behavior:
         safety_margin = agent.behavior.safety_margin
@@ -80,16 +93,19 @@ def plot_agent(ax: Axes,
                        color=color,
                        alpha=alpha,
                        fill=False,
-                       linestyle='--')
+                       linestyle='--',
+                       **kwargs)
             ax.add_patch(c)
 
 
 def plot_world(ax: Axes,
                world: sim.World,
                obstacles_color: str = 'k',
+               obstacles_alpha: float = 1.0,
                in_box: bool = False,
                no_ticks: bool = False,
                with_agents: bool = False,
+               transform: Affine2D | None = None,
                **kwargs: Any) -> None:
     """
     Plots a world.
@@ -97,25 +113,42 @@ def plot_world(ax: Axes,
     :param      ax:              The pyplot axes
     :param      world:           The world
     :param      obstacles_color: The color of obstacles and walls
+    :param      obstacles_alpha: The opacity of obstacles and walls
     :param      in_box:          Whether to restrict the plot within the world bounding box
     :param      no_ticks:        Whether to remove the axis ticks
     :param      with_agents:     Whether to plot agents
+    :param      transform:       An optional affine transformation to apply to the plot
     :param      kwargs:          Keywords passed to :py:func:`plot_agent`
     """
+    if transform:
+        patch_kwargs = {'transform': transform}
+    else:
+        patch_kwargs = {}
     for obstacle in world.obstacles:
         disc = obstacle.disc
-        c = Circle(tuple(disc.position), disc.radius, color=obstacles_color)
+        c = Circle(tuple(disc.position),
+                   disc.radius,
+                   color=obstacles_color,
+                   alpha=obstacles_alpha,
+                   **patch_kwargs)
         ax.add_patch(c)
     if with_agents:
         for agent in world.agents:
-            plot_agent(ax, agent, **kwargs)
+            plot_agent(ax, agent, transform=transform, **kwargs)
     for wall in world.walls:
         line = wall.line
         x, y = np.asarray((line.p1, line.p2)).T
-        ax.add_line(Line2D(x, y, color=obstacles_color))
+        ax.add_line(Line2D(x, y, color=obstacles_color, **patch_kwargs))
     bb = world.bounding_box
     ax.set_aspect('equal')
     if in_box:
+        if transform:
+            mbb = Bbox([(bb.min_x, bb.min_y), (bb.max_x, bb.max_y)])
+            mbb = transform.transform_bbox(mbb)
+            bb = sim.BoundingBox(min_x=mbb.xmin,
+                                 max_x=mbb.xmax,
+                                 min_y=mbb.ymin,
+                                 max_y=mbb.ymax)
         ax.set_ylim(bb.min_y, bb.max_y)
         ax.set_xlim(bb.min_x, bb.max_x)
     if no_ticks:

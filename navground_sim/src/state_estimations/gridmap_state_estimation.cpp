@@ -177,11 +177,11 @@ void LocalGridMapStateEstimation::update(Agent *agent, World *world,
     get_or_init_buffer(*_state, "resolution")
         ->set_data(std::valarray<ng_float_t>{_resolution});
 
-    if (_footprint == "rectangular") {
+    if (_footprint == FootprintType::rectangular) {
       gridmap->set_value_in_rectangle(
           pose.position - Vector2{agent->radius, agent->radius},
           2 * agent->radius, 2 * agent->radius, 255);
-    } else if (_footprint == "circular") {
+    } else if (_footprint == FootprintType::circular) {
       gridmap->set_value_in_disc(pose.position, agent->radius, 255);
     }
 
@@ -336,9 +336,15 @@ const std::string LocalGridMapStateEstimation::type = register_type<
              "frame")},
         {"footprint",
          Property::make(
-             &LocalGridMapStateEstimation::get_footprint,
-             &LocalGridMapStateEstimation::set_footprint, default_footprint,
-             "Footprint type: one of \"rectangular\", \"circular\", \"none\"")},
+             &LocalGridMapStateEstimation::get_footprint_as_string,
+             &LocalGridMapStateEstimation::set_footprint_from_string,
+             std::string("rectangular"),
+             "Footprint type: one of \"rectangular\", \"circular\", \"none\"",
+             [](YAML::Node &node) {
+               YAML::schema::set_enum(
+                   node,
+                   std::vector<std::string>{"rectangular", "circular", "none"});
+             })},
         {"resolution",
          Property::make(&LocalGridMapStateEstimation::get_resolution,
                         &LocalGridMapStateEstimation::set_resolution,

@@ -69,7 +69,21 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
    * The name of the buffer set by the sensor
    */
   inline static const std::string field_name = "local_gridmap";
-  inline static const std::string default_footprint = "rectangular";
+
+  /**
+   * @brief      The type of footprint to use
+   */
+  enum struct FootprintType {
+    /** a rectangular area */
+    rectangular,
+    /** a circular are */
+    circular,
+    /** no footprint */
+    none
+  };
+
+  inline static const FootprintType default_footprint =
+      FootprintType::rectangular;
 
   /**
    * @brief      Constructs a new instance.
@@ -83,8 +97,7 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
    * @param[in]  resolution  The size of a cell in meters
    * @param[in]  include_transformation Whether to include
    *             the transformation between map and world frames.
-   * @param[in]  footprint Which type of footprint to use:
-   *             one of "circular", "rectangular", "none"
+   * @param[in]  footprint Which type of footprint to use.
    * @param[in]  name     The name to use as a prefix
    */
   explicit LocalGridMapStateEstimation(
@@ -95,8 +108,7 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
       unsigned height = default_height,
       ng_float_t resolution = default_resolution,
       bool include_transformation = false,
-      const std::string &footprint = default_footprint,
-      const std::string &name = "")
+      FootprintType footprint = default_footprint, const std::string &name = "")
       : Sensor(name), _internal_lidars(lidars),
         _external_lidars(external_lidars), _internal_odometry(odometry),
         _external_odometry(external_odometry), _width(width), _height(height),
@@ -286,16 +298,48 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
   /**
    * @brief      Sets footprint type.
    *
-   * @param[in]  value  The value: one of "circular", "rectangular", "none"
+   * @param[in]  value  The desired value
    */
-  void set_footprint(const std::string &value) { _footprint = value; };
+  void set_footprint(FootprintType value) { _footprint = value; };
 
   /**
    * @brief      Gets the footprint type
    *
    * @return     The footprint type
    */
-  const std::string & get_footprint() const { return _footprint; }
+  FootprintType get_footprint() const { return _footprint; }
+
+  /**
+   * @brief      Sets footprint type.
+   *
+   * @param[in]  value  The value: one of "circular", "rectangular", "none"
+   */
+  void set_footprint_from_string(const std::string &value) {
+    if (value == "rectangular") {
+      _footprint = FootprintType::rectangular;
+    } else if (value == "circular") {
+      _footprint = FootprintType::circular;
+    } else {
+      _footprint = FootprintType::none;
+    }
+  };
+
+  /**
+   * @brief      Gets the footprint type:
+   * one of "circular", "rectangular", "none".
+   *
+   * @return     The footprint type
+   */
+  std::string get_footprint_as_string() const {
+    switch (_footprint) {
+    case FootprintType::rectangular:
+      return "rectangular";
+    case FootprintType::circular:
+      return "circular";
+    default:
+      return "none";
+    }
+  }
 
   /**
    * @private
@@ -349,7 +393,7 @@ private:
   unsigned _height;
   ng_float_t _resolution;
   bool _include_transformation;
-  std::string _footprint;
+  FootprintType _footprint;
 
   void raycast_freespace(core::GridMap &gridmap, const Vector2 &x0,
                          const std::valarray<ng_float_t> &ranges,

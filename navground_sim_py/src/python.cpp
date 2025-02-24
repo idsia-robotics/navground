@@ -233,6 +233,10 @@ struct PySensor : public Sensor, public PyStateEstimation {
     PYBIND11_OVERRIDE(void, Sensor, prepare, agent, world);
   }
 
+  void prepare_state(navground::core::SensingState &state) const override {
+    PYBIND11_OVERRIDE(void, Sensor, prepare_state, state);
+  }
+
   OVERRIDE_DECODE
   OVERRIDE_ENCODE
 };
@@ -1015,6 +1019,11 @@ static void init_scenario(Scenario *scenario, py::dict *state) {
 }
 
 PYBIND11_MODULE(_navground_sim, m) {
+  py::options options;
+#if PYBIND11_VERSION_MAJOR >= 2 && PYBIND11_VERSION_MINOR >= 10
+  options.disable_enum_members_docstring();
+#endif
+
   declare_register<StateEstimation>(m, "StateEstimation");
   declare_register<Task>(m, "Task");
   declare_register<Scenario>(m, "Scenario");
@@ -1619,10 +1628,26 @@ The random generator.
              std::shared_ptr<LocalGridMapStateEstimation>>
       gmse(m, "LocalGridMapStateEstimation",
            DOC(navground, sim, LocalGridMapStateEstimation));
+
+  py::enum_<LocalGridMapStateEstimation::FootprintType>(
+      gmse, "FootprintType",
+      DOC(navground, core, LocalGridMapStateEstimation, FootprintType))
+      .value("rectangular",
+             LocalGridMapStateEstimation::FootprintType::rectangular,
+             DOC(navground, core, LocalGridMapStateEstimation, FootprintType,
+                 rectangular))
+      .value("circular", LocalGridMapStateEstimation::FootprintType::circular,
+             DOC(navground, core, LocalGridMapStateEstimation, FootprintType,
+                 circular))
+      .value("none", LocalGridMapStateEstimation::FootprintType::none,
+             DOC(navground, core, LocalGridMapStateEstimation, FootprintType,
+                 none));
+
   gmse.def(py::init<const std::vector<std::shared_ptr<LidarStateEstimation>> &,
                     const std::vector<std::string> &,
                     const std::shared_ptr<OdometryStateEstimation> &,
                     const std::string &, unsigned, unsigned, ng_float_t, bool,
+                    LocalGridMapStateEstimation::FootprintType,
                     const std::string &>(),
            py::arg("lidars") =
                std::vector<std::shared_ptr<LidarStateEstimation>>(),
@@ -1633,7 +1658,10 @@ The random generator.
            py::arg("height") = LocalGridMapStateEstimation::default_height,
            py::arg("resolution") =
                LocalGridMapStateEstimation::default_resolution,
-           py::arg("include_transformation") = false, py::arg("name") = "",
+           py::arg("include_transformation") = false,
+           py::arg("footprint") =
+               LocalGridMapStateEstimation::FootprintType::rectangular,
+           py::arg("name") = "",
            DOC(navground, sim, LocalGridMapStateEstimation,
                LocalGridMapStateEstimation))
       .def_property(
@@ -1666,6 +1694,10 @@ The random generator.
           "resolution", &LocalGridMapStateEstimation::get_resolution,
           &LocalGridMapStateEstimation::set_resolution,
           DOC(navground, sim, LocalGridMapStateEstimation, property_resolution))
+      .def_property(
+          "footprint", &LocalGridMapStateEstimation::get_footprint,
+          &LocalGridMapStateEstimation::set_footprint,
+          DOC(navground, sim, LocalGridMapStateEstimation, property_footprint))
       .def_property("include_transformation",
                     &LocalGridMapStateEstimation::get_include_transformation,
                     &LocalGridMapStateEstimation::set_include_transformation,

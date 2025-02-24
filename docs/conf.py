@@ -189,6 +189,9 @@ def l(app, domain, objtype, contentnode):
 
 reftarget_aliases = {}
 reftarget_aliases['py'] = {
+    'navground.sim.LocalGridMapStateEstimation.FootprintType': 'navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType',
+    'navground.sim.OdometryStateEstimation': 'navground.sim.state_estimations.OdometryStateEstimation',
+    'navground.sim.LidarStateEstimation': 'navground.sim.state_estimations.LidarStateEstimation',
     'navground.core._navground.Behavior': 'navground.core.Behavior',
     'navground.core._navground.Kinematics': 'navground.core.Kinematics',
     'Behavior': 'navground.core.Behavior',

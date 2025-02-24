@@ -48,13 +48,13 @@ void OdometryStateEstimation::update(Agent *agent, World *world,
 }
 
 std::optional<core::Pose2>
-OdometryStateEstimation::read_pose(core::SensingState &state,
-                                   const std::string &name) {
+OdometryStateEstimation::read_pose_with_name(core::SensingState &state,
+                                             const std::string &name) {
   const auto buffer = state.get_buffer(Sensor::get_field_name("pose", name));
   if (!buffer) {
     return std::nullopt;
   }
-  const auto data = buffer->get_data<uint8_t>();
+  const auto data = buffer->get_data<ng_float_t>();
   if (!data || data->size() != 3) {
     return std::nullopt;
   }

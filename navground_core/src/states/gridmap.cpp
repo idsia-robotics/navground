@@ -1,5 +1,4 @@
 #include "navground/core/states/gridmap.h"
-
 #include <cmath>
 #include <iostream>
 #include <limits>
@@ -72,7 +71,7 @@ Vector2 GridMap::get_position_of_cell(const GridMap::Cell &cell) const {
 }
 
 std::optional<GridMap::Cell>
-GridMap::get_cell_at_position(const Vector2 &position) const {
+GridMap::get_possible_cell_at_position(const Vector2 &position) const {
   if (position[0] < _origin[0] || position[1] < _origin[1]) {
     return std::nullopt;
   }
@@ -84,16 +83,13 @@ GridMap::get_cell_at_position(const Vector2 &position) const {
   return std::nullopt;
 }
 
-GridMap::Cell
-GridMap::get_cell_at_position_no_bounds(const Vector2 &position) const {
-  return ((position - _origin) / _resolution).cast<int>();
-}
-
-GridMap::Cell
-GridMap::get_clamped_cell_at_position(const Vector2 &position) const {
-  GridMap::Cell cell = get_cell_at_position_no_bounds(position);
-  cell[0] = std::clamp<int>(cell[0], 0, _width);
-  cell[1] = std::clamp<int>(cell[1], 0, _height);
+GridMap::Cell GridMap::get_cell_at_position(const Vector2 &position,
+                                            bool clamp) const {
+  GridMap::Cell cell = ((position - _origin) / _resolution).cast<int>();
+  if (clamp) {
+    cell[0] = std::clamp<int>(cell[0], 0, _width);
+    cell[1] = std::clamp<int>(cell[1], 0, _height);
+  }
   return cell;
 }
 
@@ -111,23 +107,28 @@ GridMap::get_clamped_cell_at_position(const Vector2 &position) const {
 
 // void GridMap::reset_to_unknown() { set_value(128); }
 
-void GridMap::move_center(const Vector2 &position, uint8_t value) {
+void GridMap::move_center(const Vector2 &position, uint8_t value, bool snap) {
   const GridMap::Cell delta =
       ((position - get_center()) / _resolution).array().rint().cast<int>();
   move(delta, value);
-  set_center(position);
+  if (!snap) {
+    set_center(position);
+  }
 }
 
-void GridMap::move_origin(const Vector2 &position, uint8_t value) {
+void GridMap::move_origin(const Vector2 &position, uint8_t value, bool snap) {
   const GridMap::Cell delta =
       ((position - get_origin()) / _resolution).array().rint().cast<int>();
   move(delta, value);
-  set_origin(position);
+  if (!snap) {
+    set_origin(position);
+  }
 }
 
 void GridMap::move(const GridMap::Cell &delta, uint8_t value) {
   if (delta == GridMap::Cell::Zero())
     return;
+  _origin += delta.cast<ng_float_t>() * _resolution;
   const int w = _width - abs(delta[0]);
   const int h = _height - abs(delta[1]);
   // std::cerr << "w " << w << ", h " << h << std::endl;
@@ -183,16 +184,16 @@ void GridMap::set_value_in_rectangle(const Vector2 &bottom_left,
                                      ng_float_t width, ng_float_t height,
                                      uint8_t value) {
   auto map = get_map();
-  const auto c0 = get_clamped_cell_at_position(bottom_left);
+  const auto c0 = get_cell_at_position(bottom_left, true);
   const auto c1 =
-      get_clamped_cell_at_position(bottom_left + Vector2{width, height});
+      get_cell_at_position(bottom_left + Vector2{width, height}, true);
   const auto d = c1 - c0;
   map.block(c0[1], c0[0], d[1], d[0]) = value;
 }
 
 void GridMap::set_value_in_disc(const Vector2 &center, ng_float_t radius,
                                 uint8_t value) {
-  const auto a = get_cell_at_position(center);
+  const auto a = get_possible_cell_at_position(center);
   if (!a)
     return;
   const auto center_cell = *a;
@@ -216,7 +217,7 @@ void GridMap::set_value_of_cell(const GridMap::Cell &cell, uint8_t value) {
 }
 
 void GridMap::set_value_at_point(const Vector2 &point, uint8_t value) {
-  const auto cell = get_cell_at_position(point);
+  const auto cell = get_possible_cell_at_position(point);
   if (cell) {
     set_value_of_cell(*cell, value);
   }
@@ -226,8 +227,8 @@ void GridMap::set_value(uint8_t value) { get_map() = value; }
 
 void GridMap::set_value_on_line(const Vector2 &p1, const Vector2 &p2,
                                 uint8_t value) {
-  const auto c1 = get_cell_at_position(p1);
-  const auto c2 = get_cell_at_position(p2);
+  const auto c1 = get_possible_cell_at_position(p1);
+  const auto c2 = get_possible_cell_at_position(p2);
   if (c1 && c2) {
     set_value_between_cells(*c1, *c2, value);
   }

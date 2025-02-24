@@ -71,18 +71,54 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
    */
   inline static const std::string field_name = "range";
 
-  struct Data {
+  /**
+   * @brief      Holds a Lidar scan
+   */
+  struct Scan {
+    /**
+     * The range readings.
+     */
     const std::valarray<ng_float_t> &ranges;
+    /**
+     * The starting angle
+     */
     ng_float_t start_angle;
+    /**
+     * The field of view
+     */
     ng_float_t fov;
+    /**
+     * The maximal range
+     */
     ng_float_t max_range;
+    /**
+     * @brief      Gets the angular increment between consecutive ranging.
+     *
+     * @return     The angular increment in radians.
+     */
     ng_float_t get_angular_increment() const {
       return compute_angular_increment(fov, ranges.size());
     }
+    /**
+     * @brief      Gets the angles of the ranging measurements
+     *
+     * @return     The angles in radians
+     */
+    std::valarray<ng_float_t> get_angles() const {
+      return compute_angles(start_angle, fov, ranges.size());
+    }
   };
-  // TODO(Jerome): are we copying ranges?
-  static std::optional<Data> read_measure(core::SensingState &state,
-                                          const std::string &name = "") {
+
+  /**
+   * @brief      Reads a scan from a \ref core::SensingState
+   *
+   * @param      state  The state
+   * @param[in]  name   The namespace of the scan
+   *
+   * @return     A scan or null if none was found.
+   */
+  static std::optional<Scan> read_scan_with_name(core::SensingState &state,
+                                                 const std::string &name = "") {
     std::string prefix = name.empty() ? "" : name + "/";
     auto buffer = state.get_buffer(prefix + "range");
     if (!buffer)
@@ -112,9 +148,30 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
     if (!max_range)
       return std::nullopt;
     // data.max_range = *max_range;
-    return Data{*ranges, (*start_angle)[0], (*fov)[0], (*max_range)[0]};
+    return Scan{*ranges, (*start_angle)[0], (*fov)[0], (*max_range)[0]};
   }
 
+  /**
+   * @brief      Reads a scan from a \ref core::SensingState
+   * 
+   * Call \ref read_scan_with_name, passing \ref get_name.
+   *
+   * @param      state  The state
+   *
+   * @return     A scan or null if none was found.
+   */
+  std::optional<Scan> read_scan(core::SensingState &state) const {
+    return read_scan_with_name(state, get_name());
+  }
+
+  /**
+   * @brief      Calculates the angular increment
+   *
+   * @param[in]  field_of_view  The field of view
+   * @param[in]  resolution     The resolution
+   *
+   * @return     The angular increment.
+   */
   static ng_float_t compute_angular_increment(ng_float_t field_of_view,
                                               ng_float_t resolution) {
     if (resolution > 1) {
@@ -122,6 +179,19 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
     }
     return 0;
   }
+
+  /**
+   * @brief      Calculates the angles of a scan
+   *
+   * @param[in]  start          The starting angle in radians
+   * @param[in]  field_of_view  The field of view in radians
+   * @param[in]  resolution     The number of ranging measurements.
+   *
+   * @return     The angles in radians
+   */
+  static std::valarray<ng_float_t> compute_angles(ng_float_t start,
+                                                  ng_float_t field_of_view,
+                                                  unsigned resolution);
 
   /**
    * @brief      Constructs a new instance.
@@ -303,13 +373,34 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
 
   /**
    * @brief      Reads the ranges stored in a sensing state
+   * 
+   * Calls \ref read_ranges_with_name, passing \ref get_name.
    *
    * @param      state  The state
    *
    * @return     The array of ranges
    */
-  const std::valarray<ng_float_t> &read_ranges(core::SensingState &state) const;
+  const std::valarray<ng_float_t> &
+  read_ranges(core::SensingState &state) const {
+    return read_ranges_with_name(state, get_name());
+  }
 
+  /**
+   * @brief      Reads a ranges stored in a sensing state
+   *
+   * @param      state  The state
+   * @param[in]  name   The namespace of the ranges
+   *
+   * @return     An array of ranges or null if none were found.
+   */
+  static const std::valarray<ng_float_t> &
+  read_ranges_with_name(core::SensingState &state, const std::string &name);
+
+  /**
+   * @brief      Whether the Lidar is affected by errors.
+   *
+   * @return     True if affected by errors.
+   */
   bool has_error() const {
     return get_error_bias() != 0 || get_error_std_dev() != 0;
   }

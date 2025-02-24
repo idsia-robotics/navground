@@ -11,9 +11,29 @@ namespace navground::sim {
 using navground::core::Properties;
 using navground::core::Property;
 
+std::optional<core::Pose2>
+LocalGridMapStateEstimation::read_transform_with_name(core::SensingState &state,
+                                                      const std::string &name) {
+  const auto buffer =
+      state.get_buffer(Sensor::get_field_name("transformation", name));
+  if (!buffer) {
+    return std::nullopt;
+  }
+  const auto data = buffer->get_data<ng_float_t>();
+  if (!data || data->size() != 3) {
+    return std::nullopt;
+  }
+  return core::Pose2{{(*data)[0], (*data)[1]}, (*data)[2]};
+}
+
+std::optional<core::Pose2>
+LocalGridMapStateEstimation::read_transform(core::SensingState &state) const {
+  return read_transform_with_name(state, get_name());
+}
+
 std::optional<core::GridMap>
-LocalGridMapStateEstimation::read_gridmap(core::SensingState &state,
-                                          const std::string &name) {
+LocalGridMapStateEstimation::read_gridmap_with_name(core::SensingState &state,
+                                                    const std::string &name) {
   const auto map_buffer =
       state.get_buffer(Sensor::get_field_name("local_gridmap", name));
   if (!map_buffer) {
@@ -106,7 +126,6 @@ void LocalGridMapStateEstimation::prepare_state(
     core::SensingState &state) const {
   Sensor::prepare_state(state);
   read_gridmap(state)->set_value(128);
-  std::cerr << "LocalGridMapStateEstimation::prepare_state" << std::endl;
 }
 
 void LocalGridMapStateEstimation::update(Agent *agent, World *world,
@@ -129,8 +148,8 @@ void LocalGridMapStateEstimation::update(Agent *agent, World *world,
       pose = _internal_odometry->get_pose();
       in_odom = true;
     } else if (!_external_odometry.empty()) {
-      const auto maybe_pose =
-          OdometryStateEstimation::read_pose(*_state, _external_odometry);
+      const auto maybe_pose = OdometryStateEstimation::read_pose_with_name(
+          *_state, _external_odometry);
       if (maybe_pose) {
         pose = *maybe_pose;
       }
@@ -157,16 +176,21 @@ void LocalGridMapStateEstimation::update(Agent *agent, World *world,
         ->set_data(std::valarray<ng_float_t>({origin[0], origin[1]}));
     get_or_init_buffer(*_state, "resolution")
         ->set_data(std::valarray<ng_float_t>{_resolution});
-    gridmap->set_value_in_rectangle(pose.position -
-                                        Vector2{agent->radius, agent->radius},
-                                    2 * agent->radius, 2 * agent->radius, 255);
+
+    if (_footprint == "rectangular") {
+      gridmap->set_value_in_rectangle(
+          pose.position - Vector2{agent->radius, agent->radius},
+          2 * agent->radius, 2 * agent->radius, 255);
+    } else if (_footprint == "circular") {
+      gridmap->set_value_in_disc(pose.position, agent->radius, 255);
+    }
 
     // gridmap->set_footprint_as_freespace(agent->radius);
     // gridmap->set_values_in_disc(agent->radius, 255);
     //
     // size_t i = 0;
     for (const auto &name : _external_lidars) {
-      auto data = LidarStateEstimation::read_measure(*_state, name);
+      auto data = LidarStateEstimation::read_scan_with_name(*_state, name);
       if (!data)
         continue;
       // std::string prefix = name.empty() ? "" : name + "/";
@@ -212,7 +236,7 @@ void LocalGridMapStateEstimation::raycast_freespace(
   // const Vector2 x0 = Vector2::Zero();
   const Vector2 a = gridmap.get_bottom_left();
   const Vector2 b = gridmap.get_top_right();
-  const auto c0 = gridmap.get_cell_at_position(x0);
+  const auto c0 = gridmap.get_possible_cell_at_position(x0);
   const size_t n = ranges.size();
   Eigen::Map<Array> rs(const_cast<ng_float_t *>(&ranges[0]), n);
 
@@ -253,7 +277,7 @@ void LocalGridMapStateEstimation::raycast_freespace(
     // std::cerr << "=> raycast_freespace " << x0 << " -- " << x1 <<
     // std::endl;
 
-    const auto c1 = gridmap.get_cell_at_position(x1);
+    const auto c1 = gridmap.get_possible_cell_at_position(x1);
     if (!c1) {
       // std::cerr << "ERROR\n";
       continue;
@@ -291,40 +315,43 @@ void LocalGridMapStateEstimation::add_obstacles(
   }
 }
 
-const std::string LocalGridMapStateEstimation::type =
-    register_type<LocalGridMapStateEstimation>(
-        "LocalGridMap",
-        Properties{
-            {"external_lidars",
-             Property::make(&LocalGridMapStateEstimation::get_external_lidars,
-                            &LocalGridMapStateEstimation::set_external_lidars,
-                            std::vector<std::string>{},
-                            "Name of [external] lidar sensors")},
-            {"external_odometry",
-             Property::make(&LocalGridMapStateEstimation::get_external_odometry,
-                            &LocalGridMapStateEstimation::set_external_odometry,
-                            std::string(),
-                            "Name of [external] odometry sensor")},
-            {"include_transformation",
-             Property::make(
-                 &LocalGridMapStateEstimation::get_include_transformation,
-                 &LocalGridMapStateEstimation::set_include_transformation,
-                 false,
-                 "Whether to include the transformation between map and world "
-                 "frame")},
-            {"resolution",
-             Property::make(&LocalGridMapStateEstimation::get_resolution,
-                            &LocalGridMapStateEstimation::set_resolution,
-                            default_resolution, "Resolution [meter/cell]",
-                            &YAML::schema::strict_positive)},
-            {"width", Property::make(&LocalGridMapStateEstimation::get_width,
-                                     &LocalGridMapStateEstimation::set_width,
-                                     default_width, "Width [meter]",
-                                     &YAML::schema::strict_positive)},
-            {"height", Property::make(&LocalGridMapStateEstimation::get_height,
-                                      &LocalGridMapStateEstimation::set_height,
-                                      default_height, "Height [meter]",
-                                      &YAML::schema::strict_positive)}} +
-            Sensor::properties);
+const std::string LocalGridMapStateEstimation::type = register_type<
+    LocalGridMapStateEstimation>(
+    "LocalGridMap",
+    Properties{
+        {"external_lidars",
+         Property::make(&LocalGridMapStateEstimation::get_external_lidars,
+                        &LocalGridMapStateEstimation::set_external_lidars,
+                        std::vector<std::string>{},
+                        "Name of [external] lidar sensors")},
+        {"external_odometry",
+         Property::make(&LocalGridMapStateEstimation::get_external_odometry,
+                        &LocalGridMapStateEstimation::set_external_odometry,
+                        std::string(), "Name of [external] odometry sensor")},
+        {"include_transformation",
+         Property::make(
+             &LocalGridMapStateEstimation::get_include_transformation,
+             &LocalGridMapStateEstimation::set_include_transformation, false,
+             "Whether to include the transformation between map and world "
+             "frame")},
+        {"footprint",
+         Property::make(
+             &LocalGridMapStateEstimation::get_footprint,
+             &LocalGridMapStateEstimation::set_footprint, default_footprint,
+             "Footprint type: one of \"rectangular\", \"circular\", \"none\"")},
+        {"resolution",
+         Property::make(&LocalGridMapStateEstimation::get_resolution,
+                        &LocalGridMapStateEstimation::set_resolution,
+                        default_resolution, "Resolution [meter/cell]",
+                        &YAML::schema::strict_positive)},
+        {"width",
+         Property::make(&LocalGridMapStateEstimation::get_width,
+                        &LocalGridMapStateEstimation::set_width, default_width,
+                        "Width [meter]", &YAML::schema::strict_positive)},
+        {"height", Property::make(&LocalGridMapStateEstimation::get_height,
+                                  &LocalGridMapStateEstimation::set_height,
+                                  default_height, "Height [meter]",
+                                  &YAML::schema::strict_positive)}} +
+        Sensor::properties);
 
 } // namespace navground::sim

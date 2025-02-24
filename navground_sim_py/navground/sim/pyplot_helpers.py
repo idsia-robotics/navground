@@ -49,7 +49,7 @@ def plot_agent(ax: Axes,
     :param      transform:            An optional affine transformation to apply to the plot
     """
     if transform:
-        kwargs = {'transform': transform}
+        kwargs = {'transform': transform + ax.transData}
     else:
         kwargs = {}
     if pose is None:
@@ -121,7 +121,7 @@ def plot_world(ax: Axes,
     :param      kwargs:          Keywords passed to :py:func:`plot_agent`
     """
     if transform:
-        patch_kwargs = {'transform': transform}
+        patch_kwargs = {'transform': transform + ax.transData}
     else:
         patch_kwargs = {}
     for obstacle in world.obstacles:
@@ -138,7 +138,8 @@ def plot_world(ax: Axes,
     for wall in world.walls:
         line = wall.line
         x, y = np.asarray((line.p1, line.p2)).T
-        ax.add_line(Line2D(x, y, color=obstacles_color, **patch_kwargs))
+        ax.add_line(Line2D(x, y, color=obstacles_color,
+                           **patch_kwargs))  # type: ignore[arg-type]
     bb = world.bounding_box
     ax.set_aspect('equal')
     if in_box:
@@ -281,3 +282,70 @@ def plot_runs(runs: Sequence[sim.ExperimentalRun],
         height = float(np.median(hs) * width * rows / columns)
         fig.set_size_inches(width, height)
     return fig
+
+
+def transform_from_pose(pose: core.Pose2) -> Affine2D:
+    """
+    Compute an affine transform from a pose
+
+    :param      pose:  The pose
+
+    :returns:   The corresponding affine transformation
+    """
+    return Affine2D().rotate(pose.orientation).translate(*pose.position)
+
+
+def plot_grid_map(ax: Axes,
+                  gridmap: core.GridMap,
+                  cmap='gray',
+                  vmin: int = 0,
+                  vmax: int = 255,
+                  transform: Affine2D | None = None) -> None:
+    """
+    Plot a grid map
+
+    :param      ax:         The axes
+    :param      gridmap:    The gridmap
+    :param      cmap:       The color map
+    :param      vmin:       The minimal value of the grid map
+    :param      vmax:       The maximal value of the grid map
+    :param      transform:  An optional transform to apply to the gridmap
+    """
+    kwargs = {}
+    if transform:
+        kwargs['transform'] = transform + ax.transData
+    image = gridmap.map
+    height, width = image.shape
+    resolution = gridmap.resolution
+    x0, y0 = gridmap.origin
+    x1 = x0 + width * resolution
+    y1 = y0 + height * resolution
+    ax.imshow(image,
+              cmap=cmap,
+              vmin=vmin,
+              vmax=vmax,
+              interpolation='nearest',
+              extent=(x0, x1, y0, y1),
+              origin="lower",
+              **kwargs)  # type: ignore[arg-type]
+
+
+def plot_scan(ax: Axes,
+              scan: sim.state_estimations.LidarScan,
+              pose: core.Pose2 = core.Pose2(),
+              color: str = 'r',
+              alpha: float = 0.5) -> None:
+    """
+    Plot a Lidar scan
+
+    :param      ax:     The axes
+    :param      scan:   The scan
+    :param      pose:   The pose of reference frame of the scan
+    :param      color:  The color
+    :param      alpha:  The opacity
+    """
+    a = np.asarray(scan.angles) + pose.orientation
+    ps = pose.position
+    x = np.cos(a) * scan.ranges + ps[0]
+    y = np.sin(a) * scan.ranges + ps[1]
+    ax.plot(x, y, '.', alpha=alpha, color=color)

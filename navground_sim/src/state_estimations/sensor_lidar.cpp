@@ -65,28 +65,31 @@ void LidarStateEstimation::update(Agent *agent, World *world,
 // }
 
 const std::valarray<ng_float_t> &
-LidarStateEstimation::read_ranges(core::SensingState &state) const {
-  const auto buffer = get_or_init_buffer(state, field_name);
+LidarStateEstimation::read_ranges_with_name(core::SensingState &state, const std::string & name) {
+  const auto buffer = state.get_buffer(Sensor::get_field_name(field_name, name));
   return *(buffer->get_data<ng_float_t>());
 }
 
 ng_float_t LidarStateEstimation::get_angular_increment() const {
-  if (_resolution > 1) {
-    return _field_of_view / (_resolution - 1);
-  }
-  return 0;
+  return compute_angular_increment(_field_of_view, _resolution);
 }
 
-std::valarray<ng_float_t> LidarStateEstimation::get_angles() const {
-  std::valarray<ng_float_t> vs(_resolution);
-  ng_float_t angle = _start_angle;
-  const ng_float_t delta = get_angular_increment();
+std::valarray<ng_float_t>
+LidarStateEstimation::compute_angles(ng_float_t start, ng_float_t field_of_view,
+                                     unsigned resolution) {
+  std::valarray<ng_float_t> vs(resolution);
+  ng_float_t angle = start;
+  const ng_float_t delta = compute_angular_increment(field_of_view, resolution);
   for (size_t i = 0; i < vs.size() - 1; ++i) {
     vs[i] = angle;
     angle += delta;
   }
-  vs[vs.size() - 1] = _start_angle + _field_of_view;
+  vs[vs.size() - 1] = start + field_of_view;
   return vs;
+}
+
+std::valarray<ng_float_t> LidarStateEstimation::get_angles() const {
+  return compute_angles(_start_angle, _field_of_view, _resolution);
 }
 
 const std::string LidarStateEstimation::type =

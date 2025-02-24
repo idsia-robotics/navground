@@ -14,3 +14,4 @@ State estimations
    sensor_boundary
    sensor_combination
    sensor_odometry
+   local_gridmap

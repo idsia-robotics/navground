@@ -15,7 +15,7 @@ from ._navground import (
     Action, Behavior, BehaviorModulation, BehaviorModulationRegister,
     BehaviorRegister, Buffer, BufferDescription, BufferMap, BuildInfo,
     CachedCollisionComputation, CollisionComputation, Controller,
-    DependencyInfo, Disc, EnvironmentState, Frame, GeometricState,
+    DependencyInfo, Disc, EnvironmentState, Frame, GeometricState, GridMap,
     HasProperties, Kinematics, KinematicsRegister, LineSegment, Neighbor, Path,
     Pose2, Property, SensingState, SocialMargin,
     SocialMarginConstantModulation, SocialMarginLinearModulation,
@@ -28,7 +28,7 @@ from ._navground import load_plugins as load_cpp_plugins
 from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
                          to_absolute_point, to_relative, to_relative_point,
                          unit, uses_doubles)
-from .property import PropertyField, Vector2, Vector2Like, FloatType, register
+from .property import FloatType, PropertyField, Vector2, Vector2Like, register
 
 # isort: split
 
@@ -185,5 +185,6 @@ __all__ = [
     "PropertyField", "Vector2", "Vector2Like", "register", "get_build_info",
     "BuildInfo", "get_build_dependencies", "get_plugins_dependencies",
     "DependencyInfo", "load_cpp_plugins", "BehaviorModulationRegister",
-    "BehaviorRegister", "HasProperties", "KinematicsRegister", "FloatType"
+    "BehaviorRegister", "HasProperties", "KinematicsRegister", "FloatType",
+    "GridMap"
 ]

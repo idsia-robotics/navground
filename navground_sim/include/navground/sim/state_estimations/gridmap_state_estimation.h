@@ -24,7 +24,21 @@ namespace navground::sim {
 using Array = Eigen::Array<ng_float_t, Eigen::Dynamic, 1>;
 
 /**
- * @brief      A local grid map that integrates scans.
+ * @brief      A state estimation that integrates scans and optional odometry in
+ * a local grid map.
+ *
+ * Uses one of the simplest mapping algorithms, following the implementation of
+ * the obstacle layer in nav2 local costmap, see
+ * https://github.com/ros-navigation/navigation2/blob/main/nav2_costmap_2d/include/nav2_costmap_2d/obstacle_layer.hpp.
+ *
+ * 1. recenter the map at the agent, setting new cells to 128 (= unknown)
+ *
+ * 2. set the footprint of the agent to 255 (= free)
+ *
+ * 3. using raycasting, for each lidar ranging measurement,
+ *    sets the internal cells of the ray to 255 (= free),
+ *    and the vertex of the ray (if contained in the map) to 0 (= occupied)
+ *
  *
  * *Registered properties*:
  *
@@ -39,6 +53,8 @@ using Array = Eigen::Array<ng_float_t, Eigen::Dynamic, 1>;
  *   - `external_lidars` (list[str], \ref get_external_lidars)
  *
  *   - `external_odometry` (str, \ref get_external_odometry)
+ *
+ *   - `footprint` (str, \ref set_footprint)
  */
 struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
   static const std::string type;
@@ -53,6 +69,7 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
    * The name of the buffer set by the sensor
    */
   inline static const std::string field_name = "local_gridmap";
+  inline static const std::string default_footprint = "rectangular";
 
   /**
    * @brief      Constructs a new instance.
@@ -66,6 +83,8 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
    * @param[in]  resolution  The size of a cell in meters
    * @param[in]  include_transformation Whether to include
    *             the transformation between map and world frames.
+   * @param[in]  footprint Which type of footprint to use:
+   *             one of "circular", "rectangular", "none"
    * @param[in]  name     The name to use as a prefix
    */
   explicit LocalGridMapStateEstimation(
@@ -75,19 +94,61 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
       std::string external_odometry = "", unsigned width = default_width,
       unsigned height = default_height,
       ng_float_t resolution = default_resolution,
-      bool include_transformation = false, const std::string &name = "")
+      bool include_transformation = false,
+      const std::string &footprint = default_footprint,
+      const std::string &name = "")
       : Sensor(name), _internal_lidars(lidars),
         _external_lidars(external_lidars), _internal_odometry(odometry),
         _external_odometry(external_odometry), _width(width), _height(height),
         _resolution(resolution),
-        _include_transformation(include_transformation) {}
+        _include_transformation(include_transformation), _footprint(footprint) {
+  }
 
   virtual ~LocalGridMapStateEstimation() = default;
 
-  static std::optional<core::GridMap> read_gridmap(core::SensingState &state,
-                                                   const std::string &name);
+  /**
+   * @brief      Reads a grid map from a \ref core::SensingState
+   *
+   * @param      state  The state
+   * @param[in]  name   The namespace of the map
+   *
+   * @return     A grid map or null if none was found.
+   */
+  static std::optional<core::GridMap>
+  read_gridmap_with_name(core::SensingState &state, const std::string &name);
 
+  /**
+   * @brief      Reads a grid map from a \ref core::SensingState
+   *
+   * Calls \ref read_gridmap_with_name, passing \ref get_name.
+   *
+   * @param      state  The state
+   *
+   * @return     A grid map or null if none was found.
+   */
   std::optional<core::GridMap> read_gridmap(core::SensingState &state) const;
+
+  /**
+   * @brief      Reads a transformation from a \ref core::SensingState
+   *
+   * @param      state  The state
+   * @param[in]  name   The namespace of the transformation
+   *
+   * @return     A pose or null if none was found.
+   */
+  static std::optional<core::Pose2>
+  read_transform_with_name(core::SensingState &state, const std::string &name);
+
+  /**
+   * @brief      Reads a transformation from a \ref core::SensingState
+   *
+   * Calls \ref read_transform_with_name, passing \ref get_name.
+   *
+   * @param      state  The state
+   *
+   * @return     A pose or null if none was found.
+   */
+  std::optional<core::Pose2> read_transform(core::SensingState &state) const;
 
   /**
    * @brief      Sets the size of a cell.
@@ -223,6 +284,20 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
   bool get_include_transformation() const { return _include_transformation; }
 
   /**
+   * @brief      Sets footprint type.
+   *
+   * @param[in]  value  The value: one of "circular", "rectangular", "none"
+   */
+  void set_footprint(const std::string &value) { _footprint = value; };
+
+  /**
+   * @brief      Gets the footprint type
+   *
+   * @return     The footprint type
+   */
+  const std::string & get_footprint() const { return _footprint; }
+
+  /**
    * @private
    */
   void update(Agent *agent, World *world, EnvironmentState *state) override;
@@ -232,6 +307,9 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
    */
   void prepare_state(core::SensingState &state) const override;
 
+  /**
+   * @private
+   */
   Description get_description() const override {
     Description ds{
         {get_field_name(field_name),
@@ -271,6 +349,7 @@ private:
   unsigned _height;
   ng_float_t _resolution;
   bool _include_transformation;
+  std::string _footprint;
 
   void raycast_freespace(core::GridMap &gridmap, const Vector2 &x0,
                          const std::valarray<ng_float_t> &ranges,

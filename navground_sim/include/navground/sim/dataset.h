@@ -305,6 +305,42 @@ public:
     return true;
   }
 
+  /**
+   * @brief      Copy one dataset entry to a new buffer
+   *
+   * @param[in]  index   The index of the entry. Set to -1 to add all entries.
+   *
+   * @return     The buffer
+   */
+  core::Buffer get_buffer(int index) const {
+    core::BufferShape buffer_shape;
+    size_t n = 0;
+    size_t d = 0;
+    const auto i = get_number_of_items();
+    if (i) {
+      buffer_shape = core::BufferShape(_item_shape.size());
+      std::copy(_item_shape.cbegin(), _item_shape.cend(), buffer_shape.begin());
+      index = std::min<int>(index, i);
+      if (index < 0) {
+        buffer_shape.insert(buffer_shape.begin(), i);
+        n = i * _item_size;
+      } else {
+        n = _item_size;
+        d = _item_size * index;
+      }
+    }
+    return std::visit(
+        [d, n, buffer_shape](auto &&arg) {
+          using T = std::remove_reference_t<decltype(arg[0])>;
+          using U = std::remove_const_t<T>;
+          return core::Buffer(core::BufferDescription::make<U>(buffer_shape),
+                              std::valarray<U>(arg.data() + d, n));
+        },
+        _data);
+  }
+
+  size_t get_number_of_items() const { return _item_size ? size() / _item_size : 0; }
+
 private:
   Data _data;
   Shape _item_shape;

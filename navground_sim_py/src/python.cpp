@@ -177,9 +177,7 @@ struct PyTask : public Task, public PyHasRegister<Task> {
     PYBIND11_OVERRIDE(void, Task, prepare, agent, world);
   }
 
-  void close() override {
-    PYBIND11_OVERRIDE(void, Task, close);
-  }
+  void close() override { PYBIND11_OVERRIDE(void, Task, close); }
 
   size_t get_log_size() const override {
     PYBIND11_OVERRIDE(size_t, Task, get_log_size);
@@ -209,9 +207,7 @@ struct PyStateEstimation : public StateEstimation,
     PYBIND11_OVERRIDE(void, StateEstimation, prepare, agent, world);
   }
 
-  void close() override {
-    PYBIND11_OVERRIDE(void, StateEstimation, close);
-  }
+  void close() override { PYBIND11_OVERRIDE(void, StateEstimation, close); }
 
   OVERRIDE_DECODE
   OVERRIDE_ENCODE
@@ -253,11 +249,12 @@ public:
 
   using C = py::object;
 
-  explicit PyAgent(ng_float_t radius = 0, const py::object &behavior = py::none(),
-          const py::object &kinematics = py::none(),
-          const py::object &task = py::none(),
-          const std::vector<py::object> &estimations = {},
-          ng_float_t control_period = 0, unsigned id = 0)
+  explicit PyAgent(ng_float_t radius = 0,
+                   const py::object &behavior = py::none(),
+                   const py::object &kinematics = py::none(),
+                   const py::object &task = py::none(),
+                   const std::vector<py::object> &estimations = {},
+                   ng_float_t control_period = 0, unsigned id = 0)
       : Agent(radius, nullptr, nullptr, nullptr,
               std::vector<std::shared_ptr<StateEstimation>>{}, control_period,
               id) {
@@ -1084,6 +1081,18 @@ Creates a rectangular region
 :param p1: Bottom-left corner
 :param p2: Top-right corner
            )doc")
+      .def(
+          "__eq__",
+          [](const BoundingBox &bb, const py::object &obj) {
+            try {
+              auto other = obj.cast<BoundingBox>();
+              return bb.equals(&other);
+            } catch (py::cast_error &) {
+              return false;
+            }
+          },
+          py::arg("other"))
+      .def("__hash__", &BoundingBox::hashCode)
       .def("__repr__",
            [](const BoundingBox &bb) -> py::str {
              py::str r("BoundingBox(min_x=");
@@ -1098,19 +1107,115 @@ Creates a rectangular region
       .def_property("min_y", &BoundingBox::getMinY, nullptr)
       .def_property("max_x", &BoundingBox::getMaxX, nullptr)
       .def_property("max_y", &BoundingBox::getMaxY, nullptr)
+      .def_property("width", &BoundingBox::getWidth, nullptr)
+      .def_property("height", &BoundingBox::getHeight, nullptr)
       .def_property(
           "p1",
           [](const BoundingBox &bb) {
             return Vector2(bb.getMinX(), bb.getMinY());
           },
-          nullptr)
+          nullptr, R"doc(
+Returns the bottom-left corner
+           )doc")
       .def_property(
           "p2",
           [](const BoundingBox &bb) {
             return Vector2(bb.getMaxX(), bb.getMaxY());
           },
-          nullptr)
-      .def_static("schema", &YAML::schema_py<BoundingBox>);
+          nullptr, R"doc(
+Returns the top-right corner
+           )doc")
+      .def("distance",
+           py::overload_cast<const BoundingBox &>(&BoundingBox::distance,
+                                                  py::const_),
+           py::arg("other"), R"doc(
+Computes the distance to another bounding box
+
+:param other: The other bounding box
+:type other: :py:class:`navground.sim.BoundingBox`
+:returns: The distance
+          )doc")
+      .def(
+          "intersection",
+          [](const BoundingBox &bb,
+             const BoundingBox &other) -> std::optional<BoundingBox> {
+            BoundingBox r;
+            if (bb.intersection(other, r)) {
+              return r;
+            }
+            return std::nullopt;
+          },
+          py::arg("other"), R"doc(
+Computes the intersection with another bounding box
+
+:param other: The other bounding box
+:type other: :py:class:`navground.sim.BoundingBox`
+:returns: The intersection or ``None`` if the bounding boxes do not overlap.
+                 )doc")
+      .def("intersects",
+           py::overload_cast<const BoundingBox &>(&BoundingBox::intersects,
+                                                  py::const_),
+           py::arg("other"), R"doc(
+Checks whether it intersects with another bounding box
+
+:param other: The other bounding box
+:type other: :py:class:`navground.sim.BoundingBox`
+:returns: ``True`` if the two bounding boxes overlaps
+                 )doc")
+      .def("covers",
+           py::overload_cast<const BoundingBox &>(&BoundingBox::covers,
+                                                  py::const_),
+           py::arg("other"), R"doc(
+Checks whether the bounding box covers another bounding box
+
+:param other: The other bounding box
+:type other: :py:class:`navground.sim.BoundingBox`
+:returns: ``True`` if the bounding box covers the other bounding box
+                 )doc")
+      .def(
+          "expand_to_include",
+          py::overload_cast<const BoundingBox &>(&BoundingBox::expandToInclude),
+          py::arg("other"), R"doc(
+Expands the bounding box to include another bounding box
+
+:param other: The other bounding box
+:type other: :py:class:`navground.sim.BoundingBox`
+           )doc")
+      .def(
+          "contains",
+          [](const BoundingBox &bb, const Vector2 &p) {
+            return bb.contains(p[0], p[1]);
+          },
+          py::arg("point"), R"doc(
+Checks whether the bounding box includes a point
+
+:param point: The point
+:type other: :py:class:`navground.core.Vector2`
+:returns: ``True`` if the bounding box contains the point.
+           )doc")
+      .def(
+          "translate",
+          [](BoundingBox &bb, const Vector2 &p) { bb.translate(p[0], p[1]); },
+          py::arg("delta"), R"doc(
+Translates the bounding box by a vector
+
+:param delta: The displacement vector
+:type delta: :py:class:`navground.core.Vector2`
+           )doc")
+      .def(
+          "expand_by",
+          [](BoundingBox &bb, const Vector2 &p) { bb.expandBy(p[0], p[1]); },
+          py::arg("delta"), R"doc(
+Expands the bounding box by a vector
+
+:param delta: The expansion vector
+:type delta: :py:class:`navground.core.Vector2`
+           )doc")
+      .def_static("schema", &YAML::schema_py<BoundingBox>, R"doc(
+Returns the YAML schema.
+
+:returns: The YAML schema
+           )doc");
 
   py::class_<StateEstimation, PyStateEstimation, HasRegister<StateEstimation>,
              HasProperties, std::shared_ptr<StateEstimation>>
@@ -1430,10 +1535,7 @@ The random generator.
           py::arg("agent"), py::arg("world"),
           DOC(navground, sim, StateEstimation, prepare))
       .def(
-          "close",
-          [](PyStateEstimation *se) {
-            se->close();
-          },
+          "close", [](PyStateEstimation *se) { se->close(); },
           DOC(navground, sim, StateEstimation, close))
       .def_static(
           "load", &YAML::load_string_py<PyStateEstimation>, py::arg("value"),
@@ -1666,10 +1768,7 @@ The random generator.
           py::arg("agent"), py::arg("world"),
           DOC(navground, sim, Task, prepare))
       .def(
-          "close",
-          [](PyTask *task) {
-            task->close();
-          },
+          "close", [](PyTask *task) { task->close(); },
           DOC(navground, sim, Task, close))
       .def(
           "update",

@@ -677,7 +677,9 @@ class WaypointsTask(Task):
     loop: bool
     random: bool
     tolerance: float
+    angular_tolerance: float
     waypoints: list[Vector2]
+    orientations: list[float]
     def __init__(self, waypoints: Sequence[Vector2Like] = ..., loop: bool = ..., tolerance: float = ...) -> None: ...
     def _pybind11_conduit_v1_(self, *args: Any, **kwargs: Any) -> Any: ...
     @property

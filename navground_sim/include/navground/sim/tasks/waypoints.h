@@ -5,6 +5,7 @@
 #ifndef NAVGROUND_SIM_TASKS_WAYPOINTS_H_
 #define NAVGROUND_SIM_TASKS_WAYPOINTS_H_
 
+#include <limits>
 #include <vector>
 
 #include "navground/core/common.h"
@@ -38,15 +39,20 @@ using Waypoints = std::vector<core::Vector2>;
  */
 struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   static const std::string type;
-  
+
   /**
    * Whether by default the task loops.
    */
   inline static const bool default_loop = true;
   /**
-   * The default goal tolerance.
+   * The default goal spatial tolerance.
    */
   inline static const ng_float_t default_tolerance = 1;
+  /**
+   * The default goal orientation tolerance.
+   */
+  inline static const ng_float_t default_angular_tolerance =
+      std::numeric_limits<ng_float_t>::infinity();
   /**
    * By default moves in sequence.
    */
@@ -60,11 +66,16 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    *                        the last waypoint
    * @param[in]  tolerance  The goal tolerance applied to each waypoint.
    * @param[in]  random     Whether to pick the next waypoint randomly
+   * @param[in]  orientations  The goal orientation at the waypoints. 
+   * @param[in]  angular_tolerance  The goal angular tolerance applied to each waypoint.
    */
-  explicit WaypointsTask(Waypoints waypoints = {}, bool loop = default_loop,
-                         ng_float_t tolerance = default_tolerance,
-                         bool random = default_random)
-      : Task(), _waypoints(waypoints), _loop(loop), _tolerance(tolerance),
+  explicit WaypointsTask(
+      const Waypoints &waypoints = {}, bool loop = default_loop,
+      ng_float_t tolerance = default_tolerance, bool random = default_random,
+      const std::vector<ng_float_t> &orientations = {},
+      ng_float_t angular_tolerance = default_angular_tolerance)
+      : Task(), _waypoints(waypoints), _orientations(orientations), _loop(loop),
+        _tolerance(tolerance), _angular_tolerance(angular_tolerance),
         _random(random), _first(true), _index(-1), _running(false) {}
 
   virtual ~WaypointsTask() = default;
@@ -95,6 +106,14 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
     _first = true;
   }
   /**
+   * @brief      Sets the goal orientations at the waypoints.
+   *
+   * @param[in]  value  The desired orientations (in radians)
+   */
+  void set_orientations(const std::vector<ng_float_t> &values) {
+    _orientations = values;
+  }
+  /**
    * @brief      Sets the goal tolerance applied to each waypoint.
    *
    * @param[in]  value  The desired value
@@ -102,6 +121,13 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   void set_tolerance(ng_float_t value) {
     _tolerance = std::max<ng_float_t>(value, 0);
   }
+  /**
+   * @brief      Sets the goal angular tolerance applied to each waypoint.
+   *
+   * @param[in]  value  The desired value. A negative values equals to infinite
+   * tolerance.
+   */
+  void set_angular_tolerance(ng_float_t value) { _angular_tolerance = value; }
   /**
    * @brief      Sets whether it should start from begin after reaching the last
    * waypoint
@@ -116,11 +142,27 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    */
   Waypoints get_waypoints() const { return _waypoints; }
   /**
-   * @brief      Gets the goal tolerance applied to each waypoint.
+   * @brief      Gets the goal orientations at the waypoints.
+   *
+   * @return     The orientations (in radians).
+   */
+  const std::vector<ng_float_t> &get_orientations() const {
+    return _orientations;
+  }
+  /**
+   * @brief      Gets the goal spatial tolerance applied to each waypoint.
    *
    * @return     The tolerance.
    */
   ng_float_t get_tolerance() const { return _tolerance; }
+  /**
+   * @brief      Gets the goal angular tolerance applied to each waypoint.
+   *
+   * Negative values equals infinite tolerance.
+   *
+   * @return     The tolerance.
+   */
+  ng_float_t get_angular_tolerance() const { return _angular_tolerance; }
   /**
    * @brief      Gets whether it should start from begin after reaching the last
    * waypoint.
@@ -148,16 +190,20 @@ protected:
   void update(Agent *agent, World *world, ng_float_t time) override;
   void prepare(Agent *agent, World *world) override;
 
-
 private:
   Waypoints _waypoints;
+  std::vector<ng_float_t> _orientations;
   bool _loop;
   ng_float_t _tolerance;
+  ng_float_t _angular_tolerance;
+  std::vector<ng_float_t> _tolerances;
+  std::vector<ng_float_t> _angular_tolerances;
   bool _random;
   bool _first;
   int _index;
   bool _running;
   std::optional<core::Vector2> next_waypoint(World *world);
+  std::optional<ng_float_t> next_goal_orientation() const;
 };
 
 } // namespace navground::sim

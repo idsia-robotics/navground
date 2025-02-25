@@ -20,7 +20,13 @@ void WaypointsTask::update(Agent *agent, World *world, ng_float_t time) {
   if (c->idle()) {
     auto waypoint = next_waypoint(world);
     if (waypoint) {
-      c->go_to_position(*waypoint, _tolerance);
+      auto o = next_goal_orientation();
+      if (o) {
+        c->go_to_pose(core::Pose2{*waypoint, *o}, _tolerance,
+                      _angular_tolerance);
+      } else {
+        c->go_to_position(*waypoint, _tolerance);
+      }
       _running = true;
       log_event({time, 1.0, waypoint->x(), waypoint->y()});
     } else if (_running) {
@@ -61,6 +67,17 @@ WaypointsTask::next_waypoint(World *world) {
   return std::nullopt;
 }
 
+std::optional<ng_float_t> WaypointsTask::next_goal_orientation() const {
+  if (_angular_tolerance < 0 || _angular_tolerance > core::PI) {
+    return std::nullopt;
+  }
+  int index = std::min<int>(_index, _orientations.size() - 1);
+  if (index >= 0) {
+    return _orientations[index];
+  }
+  return std::nullopt;
+}
+
 bool WaypointsTask::done() const {
   // return waypoint == waypoints.end();
   return !_running;
@@ -71,12 +88,20 @@ const std::string WaypointsTask::type = register_type<WaypointsTask>(
     {{"waypoints", Property::make(&WaypointsTask::get_waypoints,
                                   &WaypointsTask::set_waypoints, Waypoints{},
                                   "waypoints", &YAML::schema::not_empty)},
+     {"orientations",
+      Property::make(&WaypointsTask::get_orientations,
+                     &WaypointsTask::set_orientations,
+                     std::vector<ng_float_t>{}, "orientations")},
      {"loop", Property::make(&WaypointsTask::get_loop, &WaypointsTask::set_loop,
                              default_loop, "loop")},
      {"tolerance",
       Property::make(&WaypointsTask::get_tolerance,
                      &WaypointsTask::set_tolerance, default_tolerance,
                      "tolerance", &YAML::schema::positive)},
+     {"angular_tolerance",
+      Property::make(&WaypointsTask::get_angular_tolerance,
+                     &WaypointsTask::set_angular_tolerance,
+                     default_angular_tolerance, "tolerance")},
      {"random", Property::make(&WaypointsTask::get_random,
                                &WaypointsTask::set_random, default_random,
                                "Whether to pick the next waypoint randomly")}});

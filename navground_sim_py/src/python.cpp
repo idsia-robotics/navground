@@ -1805,19 +1805,31 @@ The random generator.
   py::class_<WaypointsTask, Task, std::shared_ptr<WaypointsTask>> waypoints(
       m, "WaypointsTask", DOC(navground, sim, WaypointsTask));
   waypoints
-      .def(py::init<Waypoints, bool, ng_float_t>(),
+      .def(py::init<const Waypoints &, bool, ng_float_t, bool,
+                    const std::vector<ng_float_t> &, ng_float_t>(),
            py::arg("waypoints") = Waypoints{},
            py::arg("loop") = WaypointsTask::default_loop,
            py::arg("tolerance") = WaypointsTask::default_tolerance,
+           py::arg("random") = WaypointsTask::default_random,
+           py::arg("orientations") = std::vector<ng_float_t>(),
+           py::arg("angular_tolerance") =
+               WaypointsTask::default_angular_tolerance,
            DOC(navground, sim, WaypointsTask, WaypointsTask))
       .def_property("log_size", &WaypointsTask::get_log_size, nullptr,
                     DOC(navground, sim, WaypointsTask, property, log_size))
       .def_property("waypoints", &WaypointsTask::get_waypoints,
                     &WaypointsTask::set_waypoints,
                     DOC(navground, sim, WaypointsTask, property_waypoints))
+      .def_property("orientations", &WaypointsTask::get_orientations,
+                    &WaypointsTask::set_orientations,
+                    DOC(navground, sim, WaypointsTask, property_orientations))
       .def_property("tolerance", &WaypointsTask::get_tolerance,
                     &WaypointsTask::set_tolerance,
                     DOC(navground, sim, WaypointsTask, property_tolerance))
+      .def_property(
+          "angular_tolerance", &WaypointsTask::get_angular_tolerance,
+          &WaypointsTask::set_angular_tolerance,
+          DOC(navground, sim, WaypointsTask, property_angular_tolerance))
       .def_property("random", &WaypointsTask::get_random,
                     &WaypointsTask::set_random,
                     DOC(navground, sim, WaypointsTask, property_random))

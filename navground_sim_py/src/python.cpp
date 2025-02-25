@@ -2205,6 +2205,10 @@ Can be set to any object that is convertible to :py:class:`numpy.dtype`.
           }))
       .def("write_buffer", &Dataset::write_buffer, py::arg("buffer"),
            py::arg("index"), DOC(navground, sim, Dataset, write_buffer))
+      .def("get_buffer", &Dataset::get_buffer, py::arg("index"),
+           DOC(navground, sim, Dataset, get_buffer))
+      .def_property("number_of_items", &Dataset::get_number_of_items, nullptr,
+                    DOC(navground, sim, Dataset, property_number_of_items))
       .def("__len__",
            [](Dataset &ds) -> size_t {
              const auto shape = ds.get_shape();

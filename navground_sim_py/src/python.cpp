@@ -48,6 +48,7 @@
 #include "navground/sim/state_estimations/sensor_odometry.h"
 #include "navground/sim/task.h"
 #include "navground/sim/tasks/direction.h"
+#include "navground/sim/tasks/go_to_pose.h"
 #include "navground/sim/tasks/waypoints.h"
 #include "navground/sim/version.h"
 #include "navground/sim/world.h"
@@ -1805,24 +1806,69 @@ The random generator.
   py::class_<WaypointsTask, Task, std::shared_ptr<WaypointsTask>> waypoints(
       m, "WaypointsTask", DOC(navground, sim, WaypointsTask));
   waypoints
-      .def(py::init<Waypoints, bool, ng_float_t>(),
+      .def(py::init<const Waypoints &, bool, ng_float_t, bool,
+                    const std::vector<ng_float_t> &,
+                    const std::vector<ng_float_t> &, ng_float_t,
+                    const std::vector<ng_float_t> &>(),
            py::arg("waypoints") = Waypoints{},
            py::arg("loop") = WaypointsTask::default_loop,
            py::arg("tolerance") = WaypointsTask::default_tolerance,
+           py::arg("random") = WaypointsTask::default_random,
+           py::arg("tolerances") = std::vector<ng_float_t>(),
+           py::arg("orientations") = std::vector<ng_float_t>(),
+           py::arg("angular_tolerance") =
+               WaypointsTask::default_angular_tolerance,
+           py::arg("angular_tolerances") = std::vector<ng_float_t>(),
            DOC(navground, sim, WaypointsTask, WaypointsTask))
       .def_property("log_size", &WaypointsTask::get_log_size, nullptr,
                     DOC(navground, sim, WaypointsTask, property, log_size))
       .def_property("waypoints", &WaypointsTask::get_waypoints,
                     &WaypointsTask::set_waypoints,
                     DOC(navground, sim, WaypointsTask, property_waypoints))
+      .def_property("orientations", &WaypointsTask::get_orientations,
+                    &WaypointsTask::set_orientations,
+                    DOC(navground, sim, WaypointsTask, property_orientations))
+      .def("get_effective_tolerance", &WaypointsTask::get_effective_tolerance,
+           py::arg("index"),
+           DOC(navground, sim, WaypointsTask, get_effective_tolerance))
+      .def("get_effective_angular_tolerance",
+           &WaypointsTask::get_effective_angular_tolerance, py::arg("index"),
+           DOC(navground, sim, WaypointsTask, get_effective_angular_tolerance))
       .def_property("tolerance", &WaypointsTask::get_tolerance,
                     &WaypointsTask::set_tolerance,
                     DOC(navground, sim, WaypointsTask, property_tolerance))
+      .def_property(
+          "angular_tolerance", &WaypointsTask::get_angular_tolerance,
+          &WaypointsTask::set_angular_tolerance,
+          DOC(navground, sim, WaypointsTask, property_angular_tolerance))
+      .def_property("tolerances", &WaypointsTask::get_tolerances,
+                    &WaypointsTask::set_tolerances,
+                    DOC(navground, sim, WaypointsTask, property_tolerances))
+      .def_property(
+          "angular_tolerances", &WaypointsTask::get_angular_tolerances,
+          &WaypointsTask::set_angular_tolerances,
+          DOC(navground, sim, WaypointsTask, property_angular_tolerances))
       .def_property("random", &WaypointsTask::get_random,
                     &WaypointsTask::set_random,
                     DOC(navground, sim, WaypointsTask, property_random))
       .def_property("loop", &WaypointsTask::get_loop, &WaypointsTask::set_loop,
                     DOC(navground, sim, WaypointsTask, property_loop));
+
+  py::class_<GoToPoseTask, WaypointsTask, Task, std::shared_ptr<GoToPoseTask>>
+      gotopose(m, "GoToPoseTask", DOC(navground, sim, GoToPoseTask));
+  gotopose
+      .def(py::init<const Vector2 &, ng_float_t, ng_float_t, ng_float_t>(),
+           py::arg("point") = GoToPoseTask::default_point,
+           py::arg("orientation") = 0,
+           py::arg("tolerance") = GoToPoseTask::default_tolerance,
+           py::arg("angular_tolerance") =
+               GoToPoseTask::default_angular_tolerance,
+           DOC(navground, sim, GoToPoseTask, GoToPoseTask))
+      .def_property("point", &GoToPoseTask::get_point, &GoToPoseTask::set_point,
+                    DOC(navground, sim, GoToPoseTask, property_point))
+      .def_property("orientation", &GoToPoseTask::get_orientation,
+                    &GoToPoseTask::set_orientation,
+                    DOC(navground, sim, GoToPoseTask, property_orientation));
 
   py::class_<RecordNeighborsConfig>(m, "RecordNeighborsConfig",
                                     DOC(navground, sim, RecordNeighborsConfig))
@@ -2205,6 +2251,10 @@ Can be set to any object that is convertible to :py:class:`numpy.dtype`.
           }))
       .def("write_buffer", &Dataset::write_buffer, py::arg("buffer"),
            py::arg("index"), DOC(navground, sim, Dataset, write_buffer))
+      .def("get_buffer", &Dataset::get_buffer, py::arg("index"),
+           DOC(navground, sim, Dataset, get_buffer))
+      .def_property("number_of_items", &Dataset::get_number_of_items, nullptr,
+                    DOC(navground, sim, Dataset, property_number_of_items))
       .def("__len__",
            [](Dataset &ds) -> size_t {
              const auto shape = ds.get_shape();
@@ -3267,6 +3317,7 @@ Register a probe to record a group of data to during all runs.
   pickle_via_yaml<PyTask>(task);
   pickle_via_yaml<PyTask>(waypoints);
   pickle_via_yaml<PyTask>(direction);
+  pickle_via_yaml<PyTask>(gotopose);
   pickle_via_yaml<PyScenario>(scenario, init_scenario);
   pickle_via_yaml<PyScenario>(simple, init_scenario);
   pickle_via_yaml<PyScenario>(antipodal, init_scenario);

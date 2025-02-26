@@ -8,4 +8,5 @@ Tasks
    task
    direction
    waypoints
+   go_to_pose
    path

@@ -22,8 +22,10 @@ using Waypoints = std::vector<core::Vector2>;
 
 /**
  * @brief      This class implement a task that makes the agent reach a sequence
- * of waypoints, calling \ref navground::core::Controller::go_to_position for
- * the next waypoint after the current has been reached within a tolerance.
+ * of waypoints, calling \ref navground::core::Controller::go_to_pose or 
+ * \ref navground::core::Controller::go_to_position for
+ * the next waypoint after the current has been reached within a tolerance, depending
+ * if a goal orientation has been specified using \ref \set_orientation or not.
  *
  * The task notifies when a new waypoint is set by calling a callback.
  *
@@ -37,13 +39,13 @@ using Waypoints = std::vector<core::Vector2>;
  *
  *   - `tolerance` (bool, \ref get_tolerance)
  *
- *   - `tolerances` (list[float], \ref get_tolerances)
+ *   - `tolerances` (list of float, \ref get_tolerances)
  *
  *   - `angular_tolerance` (float, \ref get_angular_tolerance)
  *
- *   - `angular_tolerances` (list[float], \ref get_angular_tolerances)
+ *   - `angular_tolerances` (list of float, \ref get_angular_tolerances)
  *
- *   - `orientations` (list[float], \ref get_orientations)
+ *   - `orientations` (list of float, \ref get_orientations)
  */
 struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   static const std::string type;
@@ -126,6 +128,16 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   }
   /**
    * @brief      Sets the goal orientations at the waypoints.
+   * 
+   * If there are more orientations specified than waypoints, 
+   * those extra orientation are ignore. 
+   * 
+   * If there are less  orientations specified than waypoints,
+   * the missing orientation are effectively filled with 
+   * the last orientation during control.
+   * 
+   * To ignore the orientation at a specific  waypoint index,
+   * set the related angular tolerance above PI.
    *
    * @param[in]  value  The desired orientations (in radians)
    */
@@ -147,6 +159,13 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   Waypoints get_waypoints() const { return _waypoints; }
   /**
    * @brief      Gets the goal orientations at the waypoints.
+   *
+   * If there are more orientations specified than waypoints, 
+   * those extra orientation are ignore. 
+   * 
+   * If there are less orientations specified than waypoints,
+   * the missing orientation are effectively filled with 
+   * the last orientation during control.
    *
    * @return     The orientations (in radians).
    */

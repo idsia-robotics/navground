@@ -1,5 +1,5 @@
-from .._navground_sim import DirectionTask, WaypointsTask
+from .._navground_sim import DirectionTask, GoToPoseTask, WaypointsTask
 from .path import PathTask
 
 
-__all__ = ["DirectionTask", "WaypointsTask", "PathTask"]
+__all__ = ["DirectionTask", "GoToPoseTask", "WaypointsTask", "PathTask"]

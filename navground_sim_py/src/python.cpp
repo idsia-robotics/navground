@@ -48,6 +48,7 @@
 #include "navground/sim/state_estimations/sensor_odometry.h"
 #include "navground/sim/task.h"
 #include "navground/sim/tasks/direction.h"
+#include "navground/sim/tasks/go_to_pose.h"
 #include "navground/sim/tasks/waypoints.h"
 #include "navground/sim/version.h"
 #include "navground/sim/world.h"
@@ -1853,6 +1854,22 @@ The random generator.
       .def_property("loop", &WaypointsTask::get_loop, &WaypointsTask::set_loop,
                     DOC(navground, sim, WaypointsTask, property_loop));
 
+  py::class_<GoToPoseTask, WaypointsTask, Task, std::shared_ptr<GoToPoseTask>>
+      gotopose(m, "GoToPoseTask", DOC(navground, sim, GoToPoseTask));
+  gotopose
+      .def(py::init<const Vector2 &, ng_float_t, ng_float_t, ng_float_t>(),
+           py::arg("point") = GoToPoseTask::default_point,
+           py::arg("orientation") = 0,
+           py::arg("tolerance") = GoToPoseTask::default_tolerance,
+           py::arg("angular_tolerance") =
+               GoToPoseTask::default_angular_tolerance,
+           DOC(navground, sim, GoToPoseTask, GoToPoseTask))
+      .def_property("point", &GoToPoseTask::get_point, &GoToPoseTask::set_point,
+                    DOC(navground, sim, GoToPoseTask, property_point))
+      .def_property("orientation", &GoToPoseTask::get_orientation,
+                    &GoToPoseTask::set_orientation,
+                    DOC(navground, sim, GoToPoseTask, property_orientation));
+
   py::class_<RecordNeighborsConfig>(m, "RecordNeighborsConfig",
                                     DOC(navground, sim, RecordNeighborsConfig))
       .def(py::init([](bool enabled, int number, bool relative) {
@@ -3300,6 +3317,7 @@ Register a probe to record a group of data to during all runs.
   pickle_via_yaml<PyTask>(task);
   pickle_via_yaml<PyTask>(waypoints);
   pickle_via_yaml<PyTask>(direction);
+  pickle_via_yaml<PyTask>(gotopose);
   pickle_via_yaml<PyScenario>(scenario, init_scenario);
   pickle_via_yaml<PyScenario>(simple, init_scenario);
   pickle_via_yaml<PyScenario>(antipodal, init_scenario);

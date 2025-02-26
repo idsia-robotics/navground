@@ -9,9 +9,6 @@ Packages
    navground_core_py
    navground_sim
    navground_sim_py
-   navground_ros
-   navground_msgs
-   navground_coppeliasim
    navground_examples
    navground_examples_py
    navground_examples_yaml

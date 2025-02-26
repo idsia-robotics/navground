@@ -35,7 +35,7 @@ void Dataset::set_item_shape(const Shape &value) {
 bool Dataset::is_valid() const { return size() % _item_size == 0; }
 
 Dataset::Shape Dataset::get_shape() const {
-  Dataset::Shape shape = {_item_size ? size() / _item_size : 0};
+  Dataset::Shape shape = {get_number_of_items()};
   shape.insert(std::end(shape), std::begin(_item_shape), std::end(_item_shape));
   return shape;
 }
@@ -69,7 +69,8 @@ void Dataset::push(const Dataset::Scalar &data) {
       [this](auto &&arg) {
         using T = std::decay_t<decltype(arg)>;
         // TODO(Jerome): Xcode analyser is complaining that
-        // this is an implicit conversion that may lead to losing integer precision
+        // this is an implicit conversion that may lead to losing integer
+        // precision
         push<T>(arg);
       },
       data);

@@ -32,7 +32,6 @@ extensions = [
     'nbsphinx',
     'sphinx_tabs.tabs',
     'sphinxarg.ext',
-    'sphinx_ros',
     'sphinx_design',
     'sphinx_toolbox.collapse',
     'sphinxcontrib.luadomain',

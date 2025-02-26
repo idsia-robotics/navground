@@ -36,13 +36,13 @@ Call a similar command if you installed a binary release from Github:
 
       .. code-block:: console
 
-         $ . /opt/install/setup.zsh
+         $ . /opt/navground/setup.zsh
 
    .. tab:: Linux (bash)
 
       .. code-block:: console
          
-         $ . /opt/install/setup.bash
+         $ . /opt/navground/setup.bash
 
 
    .. tab:: Windows (command prompt)

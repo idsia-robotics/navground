@@ -103,6 +103,7 @@ add_library(
   src/state_estimations/gridmap_state_estimation.cpp
   src/tasks/waypoints.cpp
   src/tasks/direction.cpp
+  src/tasks/go_to_pose.cpp
   src/scenarios/antipodal.cpp
   src/scenarios/corridor.cpp
   src/scenarios/cross.cpp

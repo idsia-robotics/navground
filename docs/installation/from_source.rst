@@ -115,7 +115,7 @@ The following script installs everything needed to run navground simulations and
 ROS 2
 =====
 
-If you `have installed ROS 2 <https://docs.ros.org/en/jazzy/Installation.html>`_, you will need to build fewer dependencies, you can add ``navground_ros`` to the list of packages, and source the ROS 2 workspace.
+If you `have installed ROS 2 <https://docs.ros.org/en/jazzy/Installation.html>`_, you will need to build fewer dependencies but source the ROS 2 workspace.
 
 .. tabs::
 
@@ -138,6 +138,15 @@ If you `have installed ROS 2 <https://docs.ros.org/en/jazzy/Installation.html>`_
          \dev\ros2_<ROS_VERSION>\local_setup.bat
          set COLCON_DEFAULTS_FILE=src/navground/colcon/defaults.yaml
          colcon build --metas src/navground/colcon/navground.meta --packages-up-to navground_ros navground_examples navground_examples_py navground_examples_yaml
+
+.. note::
+
+   You can build `navground_ros <https://github.com/idsia-robotics/navground_ros>`_ in the same colcon workspace:
+
+   .. code-block:: console
+   
+      colcon build --packages-up-to navground_ros
+
 
 Update
 ======

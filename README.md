@@ -21,14 +21,6 @@ Users can add their components (behaviors and kinematics) which are then auto-di
 
 The core library is designed to be integrated in real-time run-times of real or simulated robots or of other kind of agents. We already integrated it into the following run-times.
 
-### ROS 
-
-We provide a ROS 2 node to perform 2.5D obstacle avoidance. The node wraps the core C++ library with a ROS2 compliant interface.
-
-### CoppeliaSim 
-
-We also provide a coppaliaSim plugin that exposes a lua interface to the core library.
-
 ## Core Python library
 
 All core elements are also exposed as a Python 3 library. Components can be extended from Python;
@@ -69,6 +61,23 @@ For more information, we refer to the [project documentation](https://idsia-robo
 ## License and copyright
 
 This software is free for reuse according to the attached MIT license.
+
+
+## Extensions
+
+### ROS 
+
+[**navground_ros**](https://github.com/idsia-robotics/navground_ros): A ROS 2 node to perform 2.5D obstacle avoidance, wrapping the core C++ library with a ROS 2 compliant interface.
+
+### Simulators 
+
+[**navground_coppeliasim**](https://github.com/idsia-robotics/navground_coppeliasim): A CoppeliaSim plugin that exposes a lua interface to the C++ library.
+
+### Machine-Learning
+
+[**navground_learning**](https://github.com/idsia-robotics/navground_learning): A Python package that interfaces navground with Gymnasium and PetttingZoo to apply IL and RL to navigation.
+
+[**navground_onnx**](https://github.com/idsia-robotics/navground_onnx): A C++ package to speed up inference of ML policies in navground using ONNX. 
 
 ## Acknowledgement and disclaimer
 

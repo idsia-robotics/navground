@@ -7,7 +7,7 @@ Here we describe the instructions to build dependencies and packages one-by-one.
 Build tools
 ===========
 
-ROS is not required (except for ROS-specific components, see below) but we do use build tools from ROS which you can install even without ROS:
+ROS is not required (except for ROS-specific components, like `navground_ros <https://github.com/idsia-robotics/navground_ros>`_) but we do use build tools from ROS which you can install even without ROS:
 
 - `colcon <https://colcon.readthedocs.io/en/released/>`_ to coordinate the installation from source of different packages [and `vcstool <https://github.com/dirk-thomas/vcstool>`_ to simplify managing source code]
 

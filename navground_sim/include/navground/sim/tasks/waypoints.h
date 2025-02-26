@@ -36,6 +36,14 @@ using Waypoints = std::vector<core::Vector2>;
  *   - `random` (bool, \ref get_random)
  *
  *   - `tolerance` (bool, \ref get_tolerance)
+ *
+ *   - `tolerances` (list[float], \ref get_tolerances)
+ *
+ *   - `angular_tolerance` (float, \ref get_angular_tolerance)
+ *
+ *   - `angular_tolerances` (list[float], \ref get_angular_tolerances)
+ *
+ *   - `orientations` (list[float], \ref get_orientations)
  */
 struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   static const std::string type;
@@ -61,22 +69,33 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Constructs a new instance.
    *
-   * @param[in]  waypoints  The waypoints
-   * @param[in]  loop       Whether it should start from begin after reaching
-   *                        the last waypoint
-   * @param[in]  tolerance  The goal tolerance applied to each waypoint.
-   * @param[in]  random     Whether to pick the next waypoint randomly
-   * @param[in]  orientations  The goal orientation at the waypoints. 
-   * @param[in]  angular_tolerance  The goal angular tolerance applied to each waypoint.
+   * @param[in]  waypoints          The waypoints
+   * @param[in]  loop               Whether it should start from begin after
+   *                                reaching the last waypoint
+   * @param[in]  tolerance          The default goal tolerance applied to each
+   *                                waypoint.
+   * @param[in]  random             Whether to pick the next waypoint randomly
+   * @param[in]  tolerances         The goal tolerance applied to individual
+   *                                waypoints.
+   * @param[in]  orientations       The goal orientation at the waypoints.
+   * @param[in]  angular_tolerance  The default goal angular tolerance applied
+   *                                to each waypoint.
+   * @param[in]  angular_tolerance  The goal angular tolerance applied to
+   *                                individual waypoints.
    */
   explicit WaypointsTask(
       const Waypoints &waypoints = {}, bool loop = default_loop,
       ng_float_t tolerance = default_tolerance, bool random = default_random,
+      const std::vector<ng_float_t> &tolerances = std::vector<ng_float_t>{},
       const std::vector<ng_float_t> &orientations = {},
-      ng_float_t angular_tolerance = default_angular_tolerance)
+      ng_float_t angular_tolerance = default_angular_tolerance,
+      const std::vector<ng_float_t> &angular_tolerances =
+          std::vector<ng_float_t>{})
       : Task(), _waypoints(waypoints), _orientations(orientations), _loop(loop),
-        _tolerance(tolerance), _angular_tolerance(angular_tolerance),
-        _random(random), _first(true), _index(-1), _running(false) {}
+        _tolerance(tolerance), _tolerances(tolerances),
+        _angular_tolerance(angular_tolerance),
+        _angular_tolerances(angular_tolerances), _random(random), _first(true),
+        _index(-1), _running(false) {}
 
   virtual ~WaypointsTask() = default;
 
@@ -114,21 +133,6 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
     _orientations = values;
   }
   /**
-   * @brief      Sets the goal tolerance applied to each waypoint.
-   *
-   * @param[in]  value  The desired value
-   */
-  void set_tolerance(ng_float_t value) {
-    _tolerance = std::max<ng_float_t>(value, 0);
-  }
-  /**
-   * @brief      Sets the goal angular tolerance applied to each waypoint.
-   *
-   * @param[in]  value  The desired value. A negative values equals to infinite
-   * tolerance.
-   */
-  void set_angular_tolerance(ng_float_t value) { _angular_tolerance = value; }
-  /**
    * @brief      Sets whether it should start from begin after reaching the last
    * waypoint
    *
@@ -150,20 +154,6 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
     return _orientations;
   }
   /**
-   * @brief      Gets the goal spatial tolerance applied to each waypoint.
-   *
-   * @return     The tolerance.
-   */
-  ng_float_t get_tolerance() const { return _tolerance; }
-  /**
-   * @brief      Gets the goal angular tolerance applied to each waypoint.
-   *
-   * Negative values equals infinite tolerance.
-   *
-   * @return     The tolerance.
-   */
-  ng_float_t get_angular_tolerance() const { return _angular_tolerance; }
-  /**
    * @brief      Gets whether it should start from begin after reaching the last
    * waypoint.
    *
@@ -182,6 +172,157 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @param[in]  value  The desired value
    */
   void set_random(bool value) { _random = value; }
+  /**
+   * @brief      Returns the spatial tolerance applied to
+   * the waypoint at a given index.
+   *
+   * If a specific positive value is present at the same index in \ref
+   * get_tolerances, it returns it.
+   * Else it returns the default value from \ref get_tolerance.
+   *
+   * For example, if there are three waypoints,
+   * the specific tolerances are set to ``-1, 0.2``,
+   * and the default tolerance is set to ``0.25``,
+   * the effective tolerances will be ``0.25, 0.2, 0.25``.
+   *
+   * @param[in]  index  The waypoint index
+   *
+   * @return     The tolerance in meters.
+   */
+  ng_float_t get_effective_tolerance(unsigned index) const {
+    if (index < _tolerances.size() && _tolerances[index] > 0) {
+      return _tolerances[index];
+    }
+    return _tolerance;
+  }
+  /**
+   * @brief      Gets the default goal spatial tolerance.
+   *
+   * This value is used in \ref get_effective_tolerance to compute
+   * the effective tolerance applied to a selected waypoint, where
+   * specific (positive) tolerances returned by
+   * \ref get_tolerances will overwrites this default value.
+   *
+   * @return     The default spatial tolerance in meters.
+   */
+  ng_float_t get_tolerance() const { return _tolerance; }
+  /**
+   * @brief      Gets the specific goal spatial tolerances.
+   *
+   * This values are used in \ref get_effective_tolerance to compute
+   * the effective tolerance applied to a selected waypoint:
+   * negative values are ignored and replaced by the default value
+   * \ref get_tolerance.
+   * Extra items (not paired to \get_waypoints) are also ignored.
+   *
+   * @return     The spatial tolerances of waypoints at specific indices in
+   * meters
+   */
+  const std::vector<ng_float_t> &get_tolerances() const { return _tolerances; }
+  /**
+   * @brief      Sets the default goal spatial tolerance.
+   *
+   * This value is used in \ref get_effective_tolerance to compute
+   * the effective tolerance applied to a selected waypoint, where
+   * specific (positive) tolerances set by
+   * \ref set_tolerances will overwrites this default value.
+   *
+   * @param[in]  value  The desired positive value in meters.
+   */
+  void set_tolerance(ng_float_t value) {
+    _tolerance = std::max<ng_float_t>(value, 0);
+  }
+  /**
+   * @brief      Sets the specific goal spatial tolerances.
+   *
+   * This values are used in \ref get_effective_tolerance to compute
+   * the effective tolerance applied to a selected waypoint:
+   * negative values are ignored and replaced by the default value set with
+   * \ref set_tolerance.
+   * Extra items (not paired to \get_waypoints) are also ignored.
+   *
+   * @param[in]  values  The desired values at specific indices in
+   * meters
+   */
+  void set_tolerances(const std::vector<ng_float_t> &values) {
+    _tolerances = values;
+  }
+  /**
+   * @brief      Returns the angular tolerance applied to
+   * the waypoint at a given index.
+   *
+   * If a specific positive value is present at the same index in \ref
+   * get_angular_tolerances, it returns it.
+   * Else it returns the default value from \ref get_angular_tolerance.
+   *
+   * For example, if there are three waypoints,
+   * the specific angular tolerances are set to ``-1, 0.2``,
+   * and the default angular tolerance is set to ``0.25``,
+   * the effective angular tolerances will be ``0.25, 0.2, 0.25``.
+   *
+   * @param[in]  index  The waypoint index
+   *
+   * @return     The angular tolerance in radians.
+   */
+  ng_float_t get_effective_angular_tolerance(unsigned index) const {
+    if (index < _angular_tolerances.size() && _angular_tolerances[index] > 0) {
+      return _angular_tolerances[index];
+    }
+    return _angular_tolerance;
+  }
+  /**
+   * @brief      Gets the default goal angular tolerance
+   *
+   * This value is used in \ref get_effective_angular_tolerance to compute
+   * the effective angular tolerance applied to a selected waypoint, where
+   * specific (positive) angular tolerances returned by
+   * \ref get_angular_tolerances will overwrites this default value.
+   *
+   * @return     The default angular tolerances in meters
+   */
+  ng_float_t get_angular_tolerance() const { return _angular_tolerance; }
+  /**
+   * @brief      Gets the specific goal angular tolerances.
+   *
+   * This values are used in \ref get_effective_angular_tolerance to compute
+   * the effective tolerance applied to a selected waypoint:
+   * negative values are ignored and replaced by the default value
+   * \ref get_angular_tolerance.
+   * Extra items (not paired to \get_waypoints) are also ignored.
+   *
+   * @return     The individual waypoints angular tolerances.
+   */
+  const std::vector<ng_float_t> &get_angular_tolerances() const {
+    return _angular_tolerances;
+  }
+  /**
+   * @brief      Sets the goal angular tolerance applied to each waypoint.
+   *
+   * This value is used in \ref get_effective_angular_tolerance to compute
+   * the effective angular tolerance applied to a selected waypoint, where
+   * specific (positive) angular tolerances set by
+   * \ref set_angular_tolerances will overwrites this default value.
+   *
+   * @param[in]  value  The desired positive value.
+   */
+  void set_angular_tolerance(ng_float_t value) {
+    _angular_tolerance = std::max<ng_float_t>(value, 0);
+  }
+  /**
+   * @brief      Sets the specific goal angular tolerances.
+   *
+   * This values are used in \ref get_effective_angular_tolerance to compute
+   * the effective angular tolerance applied to a selected waypoint:
+   * negative values are ignored and replaced by the default value set with
+   * \ref set_angular_tolerance.
+   * Extra items (not paired to \get_waypoints) are also ignored.
+   *
+   * @param[in]  values  The desired values at specific indices in
+   * radians.
+   */
+  void set_angular_tolerances(const std::vector<ng_float_t> &values) {
+    _angular_tolerances = values;
+  }
 
 protected:
   /**
@@ -195,8 +336,8 @@ private:
   std::vector<ng_float_t> _orientations;
   bool _loop;
   ng_float_t _tolerance;
-  ng_float_t _angular_tolerance;
   std::vector<ng_float_t> _tolerances;
+  ng_float_t _angular_tolerance;
   std::vector<ng_float_t> _angular_tolerances;
   bool _random;
   bool _first;

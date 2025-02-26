@@ -67,7 +67,7 @@ This software is free for reuse according to the attached MIT license.
 
 ### ROS 
 
-[**navground_ros**](https://github.com/idsia-robotics/navground_ros): A ROS 2 node to perform 2.5D obstacle avoidance, wrapping the core C++ library with a ROS2 compliant interface.
+[**navground_ros**](https://github.com/idsia-robotics/navground_ros): A ROS 2 node to perform 2.5D obstacle avoidance, wrapping the core C++ library with a ROS 2 compliant interface.
 
 ### Simulators 
 

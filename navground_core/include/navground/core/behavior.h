@@ -300,7 +300,8 @@ public:
    * @return the nearest feasible value
    */
   ng_float_t feasible_speed(ng_float_t value) const {
-    return std::clamp<ng_float_t>(value, 0, get_max_speed());
+    const auto max_value = get_max_speed();
+    return std::clamp<ng_float_t>(value, -max_value, max_value);
   }
 
   /**
@@ -312,7 +313,8 @@ public:
    * @return the nearest feasible value
    */
   ng_float_t feasible_angular_speed(ng_float_t value) const {
-    return std::clamp<ng_float_t>(value, 0, get_max_angular_speed());
+    const auto max_value = get_max_angular_speed();
+    return std::clamp<ng_float_t>(value, -max_value, max_value);
   }
 
   /**

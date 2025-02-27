@@ -89,6 +89,8 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
       control_period->reset(index);
     if (speed_tolerance)
       speed_tolerance->reset(index);
+    if (angular_speed_tolerance)
+      angular_speed_tolerance->reset(index);
     if (id)
       id->reset(index);
     if (type)
@@ -121,6 +123,7 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
   std::shared_ptr<Sampler<ng_float_t>> radius;
   std::shared_ptr<Sampler<ng_float_t>> control_period;
   std::shared_ptr<Sampler<ng_float_t>> speed_tolerance;
+  std::shared_ptr<Sampler<ng_float_t>> angular_speed_tolerance;
   std::shared_ptr<Sampler<int>> id;
   std::shared_ptr<Sampler<std::string>> type;
   std::shared_ptr<Sampler<std::string>> color;
@@ -161,6 +164,10 @@ protected:
     }
     if (speed_tolerance) {
       agent->get_controller()->set_speed_tolerance(speed_tolerance->sample(rg));
+    }
+    if (angular_speed_tolerance) {
+      agent->get_controller()->set_angular_speed_tolerance(
+          angular_speed_tolerance->sample(rg));
     }
     return c;
   }

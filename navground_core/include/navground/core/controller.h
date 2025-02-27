@@ -160,6 +160,7 @@ public:
    */
   explicit Controller(std::shared_ptr<Behavior> behavior = nullptr)
       : behavior(behavior), speed_tolerance(static_cast<ng_float_t>(1e-2)),
+        angular_speed_tolerance(static_cast<ng_float_t>(1e-2)),
         cmd_frame(std::nullopt) {}
 
   virtual ~Controller() = default;
@@ -179,7 +180,7 @@ public:
    */
   virtual bool is_still() const {
     if (behavior) {
-      return behavior->get_speed() < speed_tolerance;
+      return behavior->is_stopped(speed_tolerance, angular_speed_tolerance);
     }
     return true;
   }
@@ -224,7 +225,22 @@ public:
   void set_speed_tolerance(ng_float_t value) {
     speed_tolerance = std::max<ng_float_t>(0, value);
   }
-
+  /**
+   * @brief      Gets the maximal angular speed to consider the agent as stopped.
+   *
+   * The default is 0.01 rad/s.
+   *
+   * @return     The angular speed tolerance.
+   */
+  ng_float_t get_angular_speed_tolerance() const { return angular_speed_tolerance; }
+  /**
+   * @brief      Sets the maximal angular speed to consider the agent as stopped.
+   *
+   * @param[in]  value  The angular speed tolerance
+   */
+  void set_angular_speed_tolerance(ng_float_t value) {
+    angular_speed_tolerance = std::max<ng_float_t>(0, value);
+  }
   /**
    * @brief      Gets the frame of reference for the command.
    *
@@ -386,6 +402,7 @@ protected:
    * Speed tolerance to transition to idle
    */
   ng_float_t speed_tolerance;
+  ng_float_t angular_speed_tolerance;
   std::optional<Frame> cmd_frame;
 
 private:

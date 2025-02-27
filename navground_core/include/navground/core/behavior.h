@@ -1020,6 +1020,17 @@ public:
    */
   ng_float_t get_target_angular_speed() const;
 
+  /**
+   * @brief      Determines if the behavior twist is small enough.
+   *
+   * @param[in]  epsilon_speed          The maximal speed to be at stop
+   * @param[in]  epsilon_angular_speed  The maximal angular speed to be at stop
+   *
+   * @return     True if stopped, False otherwise.
+   */
+  bool is_stopped(ng_float_t epsilon_speed = 1e-6,
+                  ng_float_t epsilon_angular_speed = 1e-6) const;
+
 protected:
   enum {
     POSITION = 1 << 0,
@@ -1053,8 +1064,6 @@ protected:
   std::vector<std::shared_ptr<BehaviorModulation>> modulations;
 
   bool should_stop() const;
-  bool is_stopped(ng_float_t epsilon_speed = 1e-6,
-                  ng_float_t epsilon_angular_speed = 1e-6) const;
 
   /**
    * @brief      Computes the control command.

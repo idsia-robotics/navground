@@ -897,6 +897,9 @@ template <typename W> struct convert<AgentSampler<W>> {
     if (rhs.speed_tolerance) {
       node["speed_tolerance"] = rhs.speed_tolerance;
     }
+    if (rhs.angular_speed_tolerance) {
+      node["angular_speed_tolerance"] = rhs.angular_speed_tolerance;
+    }
     if (rhs.number) {
       node["number"] = rhs.number;
     }
@@ -953,6 +956,9 @@ template <typename W> struct convert<AgentSampler<W>> {
     if (node["speed_tolerance"]) {
       rhs.speed_tolerance = read_sampler<ng_float_t>(node["speed_tolerance"]);
     }
+    if (node["angular_speed_tolerance"]) {
+      rhs.angular_speed_tolerance = read_sampler<ng_float_t>(node["angular_speed_tolerance"]);
+    }
     if (node["number"]) {
       rhs.number = read_sampler<unsigned>(node["number"]);
     }
@@ -990,6 +996,7 @@ template <typename W> struct convert<AgentSampler<W>> {
     schema::add_sampler<schema::positive_float>(node, "radius");
     schema::add_sampler<schema::positive_float>(node, "control_period");
     schema::add_sampler<schema::positive_float>(node, "speed_tolerance");
+    schema::add_sampler<schema::positive_float>(node, "angular_speed_tolerance");
     schema::add_sampler<unsigned>(node, "number");
     schema::add_sampler<std::string>(node, "type");
     schema::add_sampler<std::string>(node, "tags");

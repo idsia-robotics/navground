@@ -1199,7 +1199,8 @@ Constructs a navground property from a Python property.
                     DOC(navground, core, Behavior, property_target_ref))
       .def("check_if_target_satisfied", &Behavior::check_if_target_satisfied,
            DOC(navground, core, Behavior, check_if_target_satisfied))
-      .def("prepare", &Behavior::prepare, DOC(navground, core, Behavior, prepare))
+      .def("prepare", &Behavior::prepare,
+           DOC(navground, core, Behavior, prepare))
       .def("close", &Behavior::close, DOC(navground, core, Behavior, close))
       .def("compute_cmd", &Behavior::compute_cmd, py::arg("time_step"),
            py::arg("frame") = py::none(),
@@ -1361,6 +1362,9 @@ Constructs a navground property from a Python property.
            DOC(navground, core, Behavior, get_target_speed))
       .def("get_target_angular_speed", &Behavior::get_target_angular_speed,
            DOC(navground, core, Behavior, get_target_angular_speed))
+      .def("is_stopped", &Behavior::is_stopped, py::arg("epsilon_speed") = 1e-6,
+           py::arg("epsilon_angular_speed") = 1e-6,
+           DOC(navground, core, Behavior, is_stopped))
       .def_static("load", &YAML::load_string_py<PyBehavior>, py::arg("value"),
                   YAML::load_string_py_doc("behavior", "Behavior").c_str());
 
@@ -1754,6 +1758,10 @@ Initializes a buffer.
       .def_property("speed_tolerance", &Controller::get_speed_tolerance,
                     &Controller::set_speed_tolerance,
                     DOC(navground, core, Controller, property_speed_tolerance))
+      .def_property(
+          "angular_speed_tolerance", &Controller::get_angular_speed_tolerance,
+          &Controller::set_angular_speed_tolerance,
+          DOC(navground, core, Controller, property_angular_speed_tolerance))
       .def_property("cmd_frame", &Controller::get_cmd_frame,
                     &Controller::set_cmd_frame,
                     DOC(navground, core, Controller, property_cmd_frame))

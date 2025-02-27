@@ -275,6 +275,8 @@ template <> struct convert<Agent> {
     node["radius"] = rhs.radius;
     node["control_period"] = rhs.control_period;
     node["speed_tolerance"] = rhs.get_controller()->get_speed_tolerance();
+    node["angular_speed_tolerance"] =
+        rhs.get_controller()->get_angular_speed_tolerance();
     node["type"] = rhs.type;
     node["color"] = rhs.color;
     node["id"] = rhs.id;
@@ -333,6 +335,10 @@ template <> struct convert<Agent> {
       rhs.get_controller()->set_speed_tolerance(
           node["speed_tolerance"].as<ng_float_t>());
     }
+    if (node["angular_speed_tolerance"]) {
+      rhs.get_controller()->set_angular_speed_tolerance(
+          node["angular_speed_tolerance"].as<ng_float_t>());
+    }
     if (node["type"]) {
       rhs.type = node["type"].as<std::string>();
     }
@@ -372,6 +378,8 @@ template <> struct convert<Agent> {
     node["properties"]["control_period"] =
         schema::type<schema::positive_float>();
     node["properties"]["speed_tolerance"] =
+        schema::type<schema::positive_float>();
+    node["properties"]["angular_speed_tolerance"] =
         schema::type<schema::positive_float>();
     node["properties"]["type"] = schema::type<std::string>();
     node["properties"]["color"] = schema::type<std::string>();

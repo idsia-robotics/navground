@@ -16,6 +16,8 @@ void Agent::prepare(World *world) {
   if (behavior) {
     behavior->set_kinematics(kinematics);
     behavior->set_radius(radius);
+    behavior->set_twist(twist);
+    behavior->set_pose(pose);
     behavior->prepare();
     controller.set_behavior(behavior);
     // TODO(J): should be optional now that we added support for external

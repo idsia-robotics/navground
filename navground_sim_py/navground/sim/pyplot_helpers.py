@@ -57,14 +57,19 @@ def plot_agent(ax: Axes,
         velocity = agent.velocity
     if not color:
         color = agent.color or 'b'
-    circle = Circle(tuple(position), agent.radius, color=color, alpha=alpha, zorder=zorder)
+    circle = Circle(tuple(position),
+                    agent.radius,
+                    color=color,
+                    alpha=alpha,
+                    zorder=zorder)
     ax.add_patch(circle)
     dot_center = position + core.unit(
         pose.orientation) * agent.radius * (1 - dot_radius)
     dot = Circle(tuple(dot_center),
                  dot_radius * agent.radius,
                  color=dot_color,
-                 alpha=alpha, zorder=zorder)
+                 alpha=alpha,
+                 zorder=zorder)
     ax.add_patch(dot)
 
     if velocity_arrow_width > 0 and np.any(velocity):
@@ -75,7 +80,8 @@ def plot_agent(ax: Axes,
                     width=velocity_arrow_width * agent.radius,
                     facecolor=color,
                     edgecolor=velocity_arrow_edge_color,
-                    alpha=velocity_arrow_alpha, zorder=zorder)
+                    alpha=velocity_arrow_alpha,
+                    zorder=zorder)
         ax.add_patch(vel)
     if with_safety_margin and agent.behavior:
         safety_margin = agent.behavior.safety_margin
@@ -85,7 +91,8 @@ def plot_agent(ax: Axes,
                        color=color,
                        alpha=alpha,
                        fill=False,
-                       linestyle='--', zorder=zorder)
+                       linestyle='--',
+                       zorder=zorder)
             ax.add_patch(c)
 
 
@@ -111,7 +118,10 @@ def plot_world(ax: Axes,
     """
     for obstacle in world.obstacles:
         disc = obstacle.disc
-        c = Circle(tuple(disc.position), disc.radius, color=obstacles_color, zorder=zorder)
+        c = Circle(tuple(disc.position),
+                   disc.radius,
+                   color=obstacles_color,
+                   zorder=zorder)
         ax.add_patch(c)
     if with_agents:
         for agent in world.agents:
@@ -168,7 +178,8 @@ def plot_trajectory(ax: Axes,
                            velocity=np.zeros(2),
                            zorder=zorder,
                            **kwargs)
-            if plot_last_pose and (empty or not np.isclose(pose, poses[-1]).all()):
+            if plot_last_pose and (empty
+                                   or not np.isclose(pose, poses[-1]).all()):
                 x, y, theta = poses[-1]
                 plot_agent(ax,
                            agent,
@@ -212,7 +223,11 @@ def plot_run(
     :param      world_kwargs:   Keywords arguments passed to :py:func:`plot_world`
     """
     if with_world:
-        plot_world(ax, world=run.world, with_agents=False, zorder=zorder, **world_kwargs)
+        plot_world(ax,
+                   world=run.world,
+                   with_agents=False,
+                   zorder=zorder,
+                   **world_kwargs)
     lia = list(enumerate(run.world.agents))
     if isinstance(agent_indices, slice):
         lia = lia[agent_indices]

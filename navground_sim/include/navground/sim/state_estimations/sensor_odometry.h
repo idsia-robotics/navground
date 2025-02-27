@@ -234,6 +234,39 @@ struct NAVGROUND_SIM_EXPORT OdometryStateEstimation : public Sensor {
                       EnvironmentState *state) override;
 
   /**
+   * @brief      Runs an update
+   *
+   * Like \ref update but without writing a \ref core::SensingState.
+   *
+   * @param      agent  The agent
+   * @param      world  The world
+   */
+  void update_odom(Agent *agent, World *world);
+
+  /**
+   * @brief      Reads an (odometry) pose from a \ref core::SensingState
+   *
+   * @param      state  The state
+   * @param[in]  name   The namespace of the odometry
+   *
+   * @return     A pose or null if none was found.
+   */
+  static std::optional<core::Pose2>
+  read_pose_with_name(core::SensingState &state, const std::string &name);
+  /**
+   * @brief      Reads an (odometry) pose from a \ref core::SensingState
+   *
+   * Calls \ref read_pose_with_name, passing \ref get_name.
+   *
+   * @param      state  The state
+   *
+   * @return     A pose or null if none was found.
+   */
+  std::optional<core::Pose2> read_pose(core::SensingState &state) const {
+    return read_pose_with_name(state, get_name());
+  }
+
+  /**
    * @brief      Gets the current pose.
    *
    * @return     The pose.

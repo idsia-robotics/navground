@@ -21,3 +21,4 @@ Sensors can be combined together, each updating their part of the environment st
    odometry
    lidar
    boundary
+   local_gridmap

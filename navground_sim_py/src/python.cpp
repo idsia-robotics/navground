@@ -40,6 +40,7 @@
 #include "navground/sim/scenarios/simple.h"
 #include "navground/sim/state_estimation.h"
 #include "navground/sim/state_estimations/geometric_bounded.h"
+#include "navground/sim/state_estimations/gridmap_state_estimation.h"
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/state_estimations/sensor_boundary.h"
 #include "navground/sim/state_estimations/sensor_combination.h"
@@ -231,6 +232,10 @@ struct PySensor : public Sensor, public PyStateEstimation {
 
   void prepare(Agent *agent, World *world) override {
     PYBIND11_OVERRIDE(void, Sensor, prepare, agent, world);
+  }
+
+  void prepare_state(navground::core::SensingState &state) const override {
+    PYBIND11_OVERRIDE(void, Sensor, prepare_state, state);
   }
 
   OVERRIDE_DECODE
@@ -1015,6 +1020,11 @@ static void init_scenario(Scenario *scenario, py::dict *state) {
 }
 
 PYBIND11_MODULE(_navground_sim, m) {
+  py::options options;
+#if PYBIND11_VERSION_MAJOR >= 2 && PYBIND11_VERSION_MINOR >= 10
+  options.disable_enum_members_docstring();
+#endif
+
   declare_register<StateEstimation>(m, "StateEstimation");
   declare_register<Task>(m, "Task");
   declare_register<Scenario>(m, "Scenario");
@@ -1579,6 +1589,26 @@ The random generator.
       .def("prepare_state", &Sensor::prepare_state, py::arg("state"),
            DOC(navground, sim, Sensor, prepare_state));
 
+  py::class_<LidarStateEstimation::Scan>(
+      m, "LidarScan", DOC(navground, sim, LidarStateEstimation, Scan))
+      .def_property(
+          "ranges",
+          [](const LidarStateEstimation::Scan &scan) { return scan.ranges; },
+          nullptr, DOC(navground, sim, LidarStateEstimation, Scan, ranges))
+      .def_readwrite(
+          "start_angle", &LidarStateEstimation::Scan::start_angle,
+          DOC(navground, sim, LidarStateEstimation, Scan, start_angle))
+      .def_readwrite("fov", &LidarStateEstimation::Scan::fov,
+                     DOC(navground, sim, LidarStateEstimation, Scan, fov))
+      .def_readwrite("max_range", &LidarStateEstimation::Scan::max_range,
+                     DOC(navground, sim, LidarStateEstimation, Scan, max_range))
+      .def_property(
+          "angular_increment",
+          &LidarStateEstimation::Scan::get_angular_increment, nullptr,
+          DOC(navground, sim, LidarStateEstimation, Scan, angular_increment))
+      .def_property("angles", &LidarStateEstimation::Scan::get_angles, nullptr,
+                    DOC(navground, sim, LidarStateEstimation, Scan, angles));
+
   py::class_<LidarStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<LidarStateEstimation>>
       lse(m, "LidarStateEstimation", DOC(navground, sim, LidarStateEstimation));
@@ -1622,7 +1652,19 @@ The random generator.
           nullptr,
           DOC(navground, sim, LidarStateEstimation, property_angular_increment))
       .def_property("angles", &LidarStateEstimation::get_angles, nullptr,
-                    DOC(navground, sim, LidarStateEstimation, property_angles));
+                    DOC(navground, sim, LidarStateEstimation, property_angles))
+      .def_static(
+          "read_scan_with_name", &LidarStateEstimation::read_scan_with_name,
+          py::arg("state"), py::arg("name"),
+          DOC(navground, sim, LidarStateEstimation, read_scan_with_name))
+      .def("read_scan", &LidarStateEstimation::read_scan, py::arg("state"),
+           DOC(navground, sim, LidarStateEstimation, read_scan))
+      .def_static(
+          "read_ranges_with_name", &LidarStateEstimation::read_ranges_with_name,
+          py::arg("state"), py::arg("name"),
+          DOC(navground, sim, LidarStateEstimation, read_ranges_with_name))
+      .def("read_ranges", &LidarStateEstimation::read_ranges, py::arg("state"),
+           DOC(navground, sim, LidarStateEstimation, read_ranges));
 
   py::class_<OdometryStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<OdometryStateEstimation>>
@@ -1683,7 +1725,109 @@ The random generator.
                     DOC(navground, sim, OdometryStateEstimation, property_pose))
       .def_property(
           "twist", &OdometryStateEstimation::get_twist, nullptr,
-          DOC(navground, sim, OdometryStateEstimation, property_twist));
+          DOC(navground, sim, OdometryStateEstimation, property_twist))
+      .def_static(
+          "read_pose_with_name", &OdometryStateEstimation::read_pose_with_name,
+          py::arg("state"), py::arg("name"),
+          DOC(navground, sim, OdometryStateEstimation, read_pose_with_name))
+      .def("read_pose", &OdometryStateEstimation::read_pose, py::arg("state"),
+           DOC(navground, sim, OdometryStateEstimation, read_pose));
+
+  py::class_<LocalGridMapStateEstimation, Sensor, StateEstimation,
+             std::shared_ptr<LocalGridMapStateEstimation>>
+      gmse(m, "LocalGridMapStateEstimation",
+           DOC(navground, sim, LocalGridMapStateEstimation));
+
+  py::enum_<LocalGridMapStateEstimation::FootprintType>(
+      gmse, "FootprintType",
+      DOC(navground, core, LocalGridMapStateEstimation, FootprintType))
+      .value("rectangular",
+             LocalGridMapStateEstimation::FootprintType::rectangular,
+             DOC(navground, core, LocalGridMapStateEstimation, FootprintType,
+                 rectangular))
+      .value("circular", LocalGridMapStateEstimation::FootprintType::circular,
+             DOC(navground, core, LocalGridMapStateEstimation, FootprintType,
+                 circular))
+      .value("none", LocalGridMapStateEstimation::FootprintType::none,
+             DOC(navground, core, LocalGridMapStateEstimation, FootprintType,
+                 none));
+
+  gmse.def(py::init<const std::vector<std::shared_ptr<LidarStateEstimation>> &,
+                    const std::vector<std::string> &,
+                    const std::shared_ptr<OdometryStateEstimation> &,
+                    const std::string &, unsigned, unsigned, ng_float_t, bool,
+                    LocalGridMapStateEstimation::FootprintType,
+                    const std::string &>(),
+           py::arg("lidars") =
+               std::vector<std::shared_ptr<LidarStateEstimation>>(),
+           py::arg("external_lidars") = std::vector<std::string>(),
+           py::arg("odometry") = nullptr,
+           py::arg("external_odometry") = std::string(),
+           py::arg("width") = LocalGridMapStateEstimation::default_width,
+           py::arg("height") = LocalGridMapStateEstimation::default_height,
+           py::arg("resolution") =
+               LocalGridMapStateEstimation::default_resolution,
+           py::arg("include_transformation") = false,
+           py::arg("footprint") =
+               LocalGridMapStateEstimation::FootprintType::rectangular,
+           py::arg("name") = "",
+           DOC(navground, sim, LocalGridMapStateEstimation,
+               LocalGridMapStateEstimation))
+      .def_property(
+          "lidars", &LocalGridMapStateEstimation::get_lidars,
+          &LocalGridMapStateEstimation::set_lidars,
+          DOC(navground, sim, LocalGridMapStateEstimation, property_lidars))
+      .def_property("external_lidars",
+                    &LocalGridMapStateEstimation::get_external_lidars,
+                    &LocalGridMapStateEstimation::set_external_lidars,
+                    DOC(navground, sim, LocalGridMapStateEstimation,
+                        property_external_lidars))
+      .def_property(
+          "odometry", &LocalGridMapStateEstimation::get_odometry,
+          &LocalGridMapStateEstimation::set_odometry,
+          DOC(navground, sim, LocalGridMapStateEstimation, property_odometry))
+      .def_property("external_odometry",
+                    &LocalGridMapStateEstimation::get_external_odometry,
+                    &LocalGridMapStateEstimation::set_external_odometry,
+                    DOC(navground, sim, LocalGridMapStateEstimation,
+                        property_external_odometry))
+      .def_property(
+          "width", &LocalGridMapStateEstimation::get_width,
+          &LocalGridMapStateEstimation::set_width,
+          DOC(navground, sim, LocalGridMapStateEstimation, property_width))
+      .def_property(
+          "height", &LocalGridMapStateEstimation::get_height,
+          &LocalGridMapStateEstimation::set_height,
+          DOC(navground, sim, LocalGridMapStateEstimation, property_height))
+      .def_property(
+          "resolution", &LocalGridMapStateEstimation::get_resolution,
+          &LocalGridMapStateEstimation::set_resolution,
+          DOC(navground, sim, LocalGridMapStateEstimation, property_resolution))
+      .def_property(
+          "footprint", &LocalGridMapStateEstimation::get_footprint,
+          &LocalGridMapStateEstimation::set_footprint,
+          DOC(navground, sim, LocalGridMapStateEstimation, property_footprint))
+      .def_property("include_transformation",
+                    &LocalGridMapStateEstimation::get_include_transformation,
+                    &LocalGridMapStateEstimation::set_include_transformation,
+                    DOC(navground, sim, LocalGridMapStateEstimation,
+                        property_include_transformation))
+      .def_static("read_transform_with_name",
+                  &LocalGridMapStateEstimation::read_transform_with_name,
+                  py::arg("state"), py::arg("name"),
+                  DOC(navground, sim, LocalGridMapStateEstimation,
+                      read_transform_with_name))
+      .def("read_transform", &LocalGridMapStateEstimation::read_transform,
+           py::arg("state"),
+           DOC(navground, sim, LocalGridMapStateEstimation, read_transform))
+      .def_static("read_gridmap_with_name",
+                  &LocalGridMapStateEstimation::read_gridmap_with_name,
+                  py::arg("state"), py::arg("name"),
+                  DOC(navground, sim, LocalGridMapStateEstimation,
+                      read_gridmap_with_name))
+      .def("read_gridmap", &LocalGridMapStateEstimation::read_gridmap,
+           py::arg("state"),
+           DOC(navground, sim, LocalGridMapStateEstimation, read_gridmap));
 
   py::class_<DiscsStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<DiscsStateEstimation>>
@@ -3313,6 +3457,7 @@ Register a probe to record a group of data to during all runs.
   pickle_via_yaml<PyStateEstimation>(dse);
   pickle_via_yaml<PyStateEstimation>(cse);
   pickle_via_yaml<PyStateEstimation>(sse);
+  pickle_via_yaml<PyStateEstimation>(gmse);
   pickle_via_yaml<PyStateEstimation>(boundary_sensor);
   pickle_via_yaml<PyTask>(task);
   pickle_via_yaml<PyTask>(waypoints);

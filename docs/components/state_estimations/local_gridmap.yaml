@@ -1,0 +1,72 @@
+steps: 600
+time_step: 0.033
+record_pose: true
+record_sensing:
+  - agent_indices: [0]
+scenario:
+  walls:
+    - line: [[-10, -6], [10, -6]]
+    - line: [[-10, -6], [-10, 6]]
+    - line: [[10, -6], [10, 6]]
+    - line: [[-10, 6], [10, 6]]
+    - line: [[-8, -4], [8, -4]]
+    - line: [[-8, -4], [-8, 4]]
+    - line: [[8, -4], [8, 4]]
+    - line: [[-8, 4], [8, 4]]
+    - line: [[-5, 6], [-6, 5.5]]
+    - line: [[-6, 5.5], [-7, 6]]
+  groups:
+    - type: wheelchair
+      color: darkorange
+      number: 1
+      radius: 0.25
+      orientation: 3.14
+      position: [0, 5]
+      kinematics:
+        type: 2WDiff
+        max_speed: 1
+        wheel_axis: 0.5
+      behavior:
+        type: Dummy
+        environment: Sensing
+      task:
+        type: Path
+        points: [[-9, -5], [9, -5], [9, 5], [-9, 5], [-9, -5]]
+        tolerance: -1
+      state_estimations:
+        - type: Lidar
+          name: lidar
+          resolution: 1001
+          range: 10
+          start_angle: {-np.pi}
+          field_of_view: {2 * np.pi}
+          error_std_dev: 0.02
+        - type: Odometry
+          name: odom
+        - type: LocalGridMap
+          height: 300
+          width: 300
+          resolution: 0.02
+          name: gridmap
+          external_lidars: [lidar]
+          external_odometry: odom
+    - type: human
+      color: red
+      number: 5
+      radius: 0.2
+      orientation: 3.14
+      position: [[8, -5], [5, -5], [2, -5], [-1, -5], [-4, -5]]
+      kinematics:
+        type: Ahead
+        max_speed: 1
+        max_angular_speed: 10.0
+      behavior:
+        type: HL
+        horizon: 10
+      task:
+        type: Path
+        points: [[-9, 5], [9, 5], [9, -5], [-9, -5], [-9, 5]]
+        tolerance: -1
+      state_estimation:
+        type: Bounded
+        range: 10

@@ -15,6 +15,17 @@ namespace schema {
 using Modifier = std::function<void(YAML::Node &)>;
 
 /**
+ * @brief      Set enum options
+ *
+ * @param      node    The node
+ * @param      values  The possible values
+ */
+template<typename T>
+inline void set_enum(Node &node, const std::vector<T> & values) { 
+  node["enum"] = values;
+}
+
+/**
  * @brief      Constrains to >= 0
  *
  * @param      node  The node

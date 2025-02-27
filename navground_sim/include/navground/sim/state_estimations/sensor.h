@@ -66,7 +66,7 @@ struct NAVGROUND_SIM_EXPORT Sensor : public StateEstimation {
    *
    * @param      state  The state
    */
-  void prepare_state(core::SensingState &state) const {
+  virtual void prepare_state(core::SensingState &state) const {
     for (const auto &[k, v] : get_description()) {
       state.init_buffer(k, v);
     }
@@ -94,17 +94,29 @@ struct NAVGROUND_SIM_EXPORT Sensor : public StateEstimation {
   const std::string &get_name() const { return _name; }
 
   /**
+   * @brief      Returns the field prefixed by a sensor name.
+   *
+   * @param[in]  field  The field
+   * @param[in]  name  The sensor name
+   *
+   * @return     The prefixed field name.
+   */
+  static std::string get_field_name(const std::string &field, const std::string &name) {
+    if (name.empty()) {
+      return field;
+    }
+    return name + "/" + field;
+  }
+
+  /**
    * @brief      Returns the field prefixed by the sensor name if set.
    *
    * @param[in]  field  The field
    *
-   * @return     The name.
+   * @return     The prefixed field name.
    */
   std::string get_field_name(const std::string &field) const {
-    if (_name.empty()) {
-      return field;
-    }
-    return _name + "/" + field;
+    return Sensor::get_field_name(field, _name);
   }
 
   core::Buffer *get_or_init_buffer(core::SensingState &state,

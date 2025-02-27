@@ -9,3 +9,4 @@ Environment State
    base
    geometric
    sensing
+   gridmap

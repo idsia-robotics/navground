@@ -21,12 +21,14 @@ def plot_agent(ax: Axes,
                pose: core.Pose2 | None = None,
                velocity: core.Vector2 | None = None,
                velocity_arrow_width: float = 0,
-               velocity_arrow_color: str = 'k',
+               velocity_arrow_edge_color: str = 'k',
+               velocity_arrow_alpha: float = 0.5,
                color: str = "",
                alpha: float = 1.0,
                dot_color: str = "k",
                dot_radius: float = 0.25,
-               with_safety_margin: bool = False) -> None:
+               with_safety_margin: bool = False,
+               zorder: int = 1) -> None:
     """
     Plots an agent as a disc together with:
     - a smaller dot to indicate the direction
@@ -38,12 +40,15 @@ def plot_agent(ax: Axes,
     :param      pose:                 A pose that override the agent own pose.
     :param      velocity:             A velocity that override the agent own velocity.
     :param      velocity_arrow_width: The width of the velocity arrow
+    :param      velocity_arrow_edge_color: The stroke color of the velocity arrow
+    :param      velocity_arrow_alpha: The opacity of the velocity arrow
     :param      color:                The color
     :param      alpha:                The opacity
     :param      dot_color:            The color of the dot
     :param      dot_radius:           The relative radius of the dot
                                       as fraction of the radius
     :param      with_safety_margin:   Whether to display the safety margin
+    :param      zorder:               The Z-order
     """
     if pose is None:
         pose = agent.pose
@@ -52,14 +57,19 @@ def plot_agent(ax: Axes,
         velocity = agent.velocity
     if not color:
         color = agent.color or 'b'
-    circle = Circle(tuple(position), agent.radius, color=color, alpha=alpha)
+    circle = Circle(tuple(position),
+                    agent.radius,
+                    color=color,
+                    alpha=alpha,
+                    zorder=zorder)
     ax.add_patch(circle)
     dot_center = position + core.unit(
         pose.orientation) * agent.radius * (1 - dot_radius)
     dot = Circle(tuple(dot_center),
                  dot_radius * agent.radius,
                  color=dot_color,
-                 alpha=alpha)
+                 alpha=alpha,
+                 zorder=zorder)
     ax.add_patch(dot)
 
     if velocity_arrow_width > 0 and np.any(velocity):
@@ -68,9 +78,10 @@ def plot_agent(ax: Axes,
                     velocity[0],
                     velocity[1],
                     width=velocity_arrow_width * agent.radius,
-                    color=color,
-                    edgecolor=velocity_arrow_color,
-                    alpha=0.5)
+                    facecolor=color,
+                    edgecolor=velocity_arrow_edge_color,
+                    alpha=velocity_arrow_alpha,
+                    zorder=zorder)
         ax.add_patch(vel)
     if with_safety_margin and agent.behavior:
         safety_margin = agent.behavior.safety_margin
@@ -80,7 +91,8 @@ def plot_agent(ax: Axes,
                        color=color,
                        alpha=alpha,
                        fill=False,
-                       linestyle='--')
+                       linestyle='--',
+                       zorder=zorder)
             ax.add_patch(c)
 
 
@@ -90,6 +102,7 @@ def plot_world(ax: Axes,
                in_box: bool = False,
                no_ticks: bool = False,
                with_agents: bool = False,
+               zorder: int = 1,
                **kwargs: Any) -> None:
     """
     Plots a world.
@@ -100,19 +113,23 @@ def plot_world(ax: Axes,
     :param      in_box:          Whether to restrict the plot within the world bounding box
     :param      no_ticks:        Whether to remove the axis ticks
     :param      with_agents:     Whether to plot agents
+    :param      zorder:          The Z-order
     :param      kwargs:          Keywords passed to :py:func:`plot_agent`
     """
     for obstacle in world.obstacles:
         disc = obstacle.disc
-        c = Circle(tuple(disc.position), disc.radius, color=obstacles_color)
+        c = Circle(tuple(disc.position),
+                   disc.radius,
+                   color=obstacles_color,
+                   zorder=zorder)
         ax.add_patch(c)
     if with_agents:
         for agent in world.agents:
-            plot_agent(ax, agent, **kwargs)
+            plot_agent(ax, agent, **kwargs, zorder=zorder)
     for wall in world.walls:
         line = wall.line
         x, y = np.asarray((line.p1, line.p2)).T
-        ax.add_line(Line2D(x, y, color=obstacles_color))
+        ax.add_line(Line2D(x, y, color=obstacles_color, zorder=zorder))
     bb = world.bounding_box
     ax.set_aspect('equal')
     if in_box:
@@ -130,6 +147,8 @@ def plot_trajectory(ax: Axes,
                     agent: sim.Agent | None = None,
                     step: int = 0,
                     label: str = '',
+                    plot_last_pose: bool = False,
+                    zorder: int = 1,
                     **kwargs: Any) -> None:
     """
     Plots a trajectory composed by an array of poses ``(x, y, theta)``
@@ -141,20 +160,36 @@ def plot_trajectory(ax: Axes,
     :param      step:     The regular step at which to display the agent
                           if provided or a dot
     :param      label:    The label
+    :param      plot_last_pose: Whether to force plotting the last agent pose
+    :param      zorder:   The Z-order
     :param      kwargs:   Keywords passed to :py:func:`plot_agent`
     """
+    ax.plot(*poses[::, :2].T, '-', color=color, label=label, zorder=zorder)
     if step > 0:
         if agent:
-            for x, y, theta in poses[::step]:
+            empty = True
+            for pose in poses[::step]:
+                x, y, theta = pose
+                empty = False
                 plot_agent(ax,
                            agent,
                            color=color,
                            pose=core.Pose2((x, y), theta),
                            velocity=np.zeros(2),
+                           zorder=zorder,
+                           **kwargs)
+            if plot_last_pose and (empty
+                                   or not np.isclose(pose, poses[-1]).all()):
+                x, y, theta = poses[-1]
+                plot_agent(ax,
+                           agent,
+                           color=color,
+                           pose=core.Pose2((x, y), theta),
+                           velocity=np.zeros(2),
+                           zorder=zorder,
                            **kwargs)
         else:
-            ax.plot(*poses[::step, :2].T, '.', color=color)
-    ax.plot(*poses[::, :2].T, '-', color=color, label=label)
+            ax.plot(*poses[::step, :2].T, '.', color=color, zorder=zorder)
 
 
 def plot_run(
@@ -165,6 +200,7 @@ def plot_run(
     label: str = '',
     with_agent: bool = False,
     color: Callable[[sim.Agent], str] | None = None,
+    zorder: int = 1,
     agent_kwargs: Mapping[str, Any] = {},
     with_world: bool = True,
     world_kwargs: Mapping[str, Any] = {},
@@ -187,7 +223,11 @@ def plot_run(
     :param      world_kwargs:   Keywords arguments passed to :py:func:`plot_world`
     """
     if with_world:
-        plot_world(ax, world=run.world, with_agents=False, **world_kwargs)
+        plot_world(ax,
+                   world=run.world,
+                   with_agents=False,
+                   zorder=zorder,
+                   **world_kwargs)
     lia = list(enumerate(run.world.agents))
     if isinstance(agent_indices, slice):
         lia = lia[agent_indices]
@@ -207,6 +247,7 @@ def plot_run(
                         step=step,
                         agent=agent if with_agent else None,
                         label=label,
+                        zorder=zorder,
                         **agent_kwargs)
 
 

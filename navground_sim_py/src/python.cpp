@@ -1953,6 +1953,7 @@ The random generator.
       .def(py::init<const Waypoints &, bool, ng_float_t, bool,
                     const std::vector<ng_float_t> &,
                     const std::vector<ng_float_t> &, ng_float_t,
+                    const std::vector<ng_float_t> &, ng_float_t,
                     const std::vector<ng_float_t> &>(),
            py::arg("waypoints") = Waypoints{},
            py::arg("loop") = WaypointsTask::default_loop,
@@ -1963,6 +1964,8 @@ The random generator.
            py::arg("angular_tolerance") =
                WaypointsTask::default_angular_tolerance,
            py::arg("angular_tolerances") = std::vector<ng_float_t>(),
+           py::arg("wait_time") = 0,
+           py::arg("wait_times") = std::vector<ng_float_t>(),
            DOC(navground, sim, WaypointsTask, WaypointsTask))
       .def_property("log_size", &WaypointsTask::get_log_size, nullptr,
                     DOC(navground, sim, WaypointsTask, property, log_size))
@@ -1992,6 +1995,12 @@ The random generator.
           "angular_tolerances", &WaypointsTask::get_angular_tolerances,
           &WaypointsTask::set_angular_tolerances,
           DOC(navground, sim, WaypointsTask, property_angular_tolerances))
+      .def_property("wait_time", &WaypointsTask::get_wait_time,
+                    &WaypointsTask::set_wait_time,
+                    DOC(navground, sim, WaypointsTask, property_wait_time))
+      .def_property("wait_times", &WaypointsTask::get_wait_times,
+                    &WaypointsTask::set_wait_times,
+                    DOC(navground, sim, WaypointsTask, property_wait_times))
       .def_property("random", &WaypointsTask::get_random,
                     &WaypointsTask::set_random,
                     DOC(navground, sim, WaypointsTask, property_random))

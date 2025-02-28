@@ -1,29 +1,48 @@
 # Changelog
 
-## [Unreleased]
+## [0.5.0] 2025-02-28
+
+In this release we add support for multiple state estimations, something that previously had limited support through `SensorCombination` (limited to sensors and not exposed to samplers). We keep backward-compatibility in the API and YAML: we can still configure agents to use a single state estimation using the old API and keywords. Agents with multiple state estimations evaluate them in constant order: subsequent state estimations evaluations have access to the state written by the previous state estimations. For example, we can use this to add noise to an otherwise perfect sensor or to combine the perception of two sensors into an higher level state estimation, like `LocalGridMap` does with odometry and lidar scans.
+
+The second small but important addition are `prepare/close` virtual methods (called when a simulation starts and finishes) to `Behavior`, `StateEstimation`, and `Task`. The later two classes already had `prepare` but missed `close`. Users can specialize these methods to setup/teardown their classes after being initialized, for example to load a resource whose path is exposed as YAML property (i.e., only filled after initialization), or to setup coordination between group of objects, like when registering behaviors to a centralized group behavior to be evaluated at once for all agents.
+
+The last set of important changes are structural: we moved packages to separate repositories to keep the focus on the navground libraries and CLI, which we are also the being tested and documented; we switched from push to pull-request & merge to update the main branch, running smoke tests before merging; and we now support building separated installers for `navground_core` and `navground_sim` and wheels for `navground_core_py` and `navground_sim_py`.
+
 
 ### Added
 
 - Added `bidirectional` property to `Corridor` scenario to select unidirectional or bidirectional flows.
 - Added virtual methods `prepare` and `close` to `Behavior`
 - Added virtual method `close` to `StateEstimation`, `Task` and `World`
-- Added index to CoppeliaSim properties callbacks
 - Added tests and cpack and/or wheels to `navground_{core,sim,core_py,sim_py,examples,examples_py,minimal_plugin_cpp,minimal_plugin_py`.
 - Added options to `python_install_namespace_package` to overwrite `setup.cfg`.
 - Added wheel build/install to `python_install_namespace_package`.
-- Added source dependencies to generate_docstrings to avoid rebuilding docstrings.h.
+- Added source dependencies to `generate_docstrings` to avoid rebuilding docstrings.h.
 - Added "--version" to Python CLI.
+- Added several methods/properties to Python `BoundingBox` wrapping `geos::geom::Envelope` methods: `__eq__`, `__hash__`, `contains`, `covers`, `distance`, `expand_by`, `expand_to_include`, `intersection`, `intersects`, `translate`, `height` , `width`.
+- Added methods `get_buffer` and `get_number_of_items` to `Dataset`.
+- Added options to `WaypointTask`: goal orientations and specific tolerances for different waypoints.
+- Added task `GoToPose` as simplified interface to a `Waypoint` task with a single waypoint.
+- Added argument `plot_last_pose` to `plot_trajectory` to force plotting the last pose.
+- Added `zorder` argument to `plot_agent`, `plot_world`, `plot_trajectory` and `plot_run`.
+- Added `velocity_arrow_alpha` in `plot_agent`.
+- Added `angular_speed_tolerance` to `Controller`.
 
 ### Fixed
 
-- Corrected conversion between `simFloat` and `ng_float_t`  in `navground_coppelia_sim`.
 - Fixed version returned by C++ CLI.
+- Fixed `Behavior::feasible_speed` and `Behavior::feasible_angular_speed`to clamp between `[-max, max]` (vs previous `[0, max]`).
 
 ### Changed
 
 - Moved calling `world->prepare` from experiment to experimental run.
-- Deprecated `SensorCombination`
 - Switched from a single to a sequence of state estimations. Single state estimation are still supported (YAML and API).
+- Deprecated `SensorCombination`
+- Renamed `velocity_arrow_color` to `velocity_arrow_edge_color` in `plot_agent`.
+- `Controller::is_still` now uses `Behavior::is_stopped`.
+- `Behavior::is_stopped` is now public and exposed to Python.
+- In `Agent::prepare`, we now set the behavior pose and twist too.
+
 
 ### Removed
 

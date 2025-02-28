@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(navground_py VERSION 0.5.0)
+project(navground_py VERSION 0.6.0)
 
 set(Python_FIND_VIRTUALENV FIRST)
 

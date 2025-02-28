@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.6.0] Unreleased
+
+### Added
+
+### Fixed
+
+### Changed
+
+### Removed
+
 ## [0.5.0] 2025-02-28
 
 In this release we add support for multiple state estimations, something that previously had limited support through `SensorCombination` (limited to sensors and not exposed to samplers). We keep backward-compatibility in the API and YAML: we can still configure agents to use a single state estimation using the old API and keywords. Agents with multiple state estimations evaluate them in constant order: subsequent state estimations evaluations have access to the state written by the previous state estimations. For example, we can use this to add noise to an otherwise perfect sensor or to combine the perception of two sensors into an higher level state estimation, like `LocalGridMap` does with odometry and lidar scans.

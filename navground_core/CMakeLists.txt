@@ -77,6 +77,7 @@ add_library(
   src/behavior_modulations/limit_acceleration.cpp
   src/behavior_modulations/limit_twist.cpp
   src/behavior_modulations/motor_pid.cpp
+  src/states/gridmap.cpp
   src/controller.cpp
   src/controller_3d.cpp
   src/kinematics.cpp

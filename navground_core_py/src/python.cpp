@@ -27,6 +27,7 @@
 #include "navground/core/controller.h"
 #include "navground/core/kinematics.h"
 #include "navground/core/plugins.h"
+#include "navground/core/states/gridmap.h"
 #include "navground/core/states/sensing.h"
 #include "navground/core/types.h"
 #include "navground/core/version.h"
@@ -1625,6 +1626,69 @@ Initializes a buffer.
             };
             return state;
           }));
+
+  py::class_<GridMap, std::shared_ptr<GridMap>>(m, "GridMap",
+                                                DOC(navground, core, GridMap))
+      .def(py::init<unsigned, unsigned, double, const Vector2 &>(),
+           py::arg("width"), py::arg("height"), py::arg("resolution"),
+           py::arg("origin") = Vector2::Zero(),
+           DOC(navground, core, GridMap, GridMap))
+      .def_property("origin", &GridMap::get_origin, &GridMap::set_origin,
+                    DOC(navground, core, GridMap, property_origin))
+      .def_property("center", &GridMap::get_center, &GridMap::set_center,
+                    DOC(navground, core, GridMap, property_center))
+      .def_property("resolution", &GridMap::get_resolution,
+                    &GridMap::set_resolution,
+                    DOC(navground, core, GridMap, property_resolution))
+      .def_property("width", &GridMap::get_width, &GridMap::set_width,
+                    DOC(navground, core, GridMap, property_width))
+      .def_property("height", &GridMap::get_height, &GridMap::set_height,
+                    DOC(navground, core, GridMap, property_height))
+      .def_property("top_right", &GridMap::get_top_right, nullptr,
+                    DOC(navground, core, GridMap, property_top_right))
+      .def_property("bottom_left", &GridMap::get_bottom_left, nullptr,
+                    DOC(navground, core, GridMap, property_bottom_left))
+      // Non const map
+      .def_property("map", py::overload_cast<>(&GridMap::get_map), nullptr,
+                    DOC(navground, core, GridMap, property_map))
+      .def("get_position_of_cell", &GridMap::get_position_of_cell,
+           py::arg("cell"), DOC(navground, core, GridMap, get_position_of_cell))
+      .def("get_possible_cell_at_position", &GridMap::get_possible_cell_at_position,
+           py::arg("position"),
+           DOC(navground, core, GridMap, get_possible_cell_at_position))
+      .def("contains_point", &GridMap::contains_point, py::arg("point"),
+           DOC(navground, core, GridMap, contains_point))
+      .def("move_center", &GridMap::move_center, py::arg("position"),
+           py::arg("value") = 128, py::arg("snap")=true, DOC(navground, core, GridMap, move_center))
+      .def("move_origin", &GridMap::move_origin, py::arg("position"),
+           py::arg("value") = 128, py::arg("snap")=true, DOC(navground, core, GridMap, move_origin))
+      .def("set_value", &GridMap::set_value, py::arg("value"),
+           DOC(navground, core, GridMap, set_value))
+      .def("set_value_of_cell", &GridMap::set_value_of_cell, py::arg("cell"),
+           py::arg("value"), DOC(navground, core, GridMap, set_value_of_cell))
+      .def("set_value_at_point", &GridMap::set_value_at_point, py::arg("point"),
+           py::arg("value"), DOC(navground, core, GridMap, set_value_at_point))
+      .def("set_value_in_rectangle", &GridMap::set_value_in_rectangle,
+           py::arg("bottom_left"), py::arg("width"), py::arg("height"),
+           py::arg("value"),
+           DOC(navground, core, GridMap, set_value_in_rectangle))
+      .def("set_value_in_disc", &GridMap::set_value_in_disc, py::arg("center"),
+           py::arg("radius"), py::arg("value"),
+           DOC(navground, core, GridMap, set_value_in_disc))
+      .def("set_value_on_line", &GridMap::set_value_on_line, py::arg("p1"),
+           py::arg("p2"), py::arg("value"),
+           DOC(navground, core, GridMap, set_value_on_line))
+      .def("set_value_between_cells", &GridMap::set_value_between_cells,
+           py::arg("c1"), py::arg("c2"), py::arg("value"),
+           DOC(navground, core, GridMap, set_value_between_cells))
+      .def("get_cell_at_position",
+           &GridMap::get_cell_at_position, py::arg("position"), py::arg("clamp"),
+           DOC(navground, core, GridMap, get_cell_at_position))
+      .def("raytrace_between_cells", &GridMap::raytrace_between_cells,
+           py::arg("at"), py::arg("c1"), py::arg("c2"),
+           py::arg("max_length") = std::numeric_limits<unsigned int>::max(),
+           py::arg("min_length") = 0,
+           DOC(navground, core, GridMap, raytrace_between_cells));
 
   py::class_<HLBehavior, Behavior, std::shared_ptr<HLBehavior>> hl(
       m, "HLBehavior", DOC(navground, core, HLBehavior));

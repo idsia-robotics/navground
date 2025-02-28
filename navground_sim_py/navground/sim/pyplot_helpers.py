@@ -11,6 +11,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.lines import Line2D
 from matplotlib.patches import Arrow, Circle
+from matplotlib.transforms import Affine2D, Bbox
 from navground import core, sim
 
 Indices = list[int] | slice
@@ -28,6 +29,7 @@ def plot_agent(ax: Axes,
                dot_color: str = "k",
                dot_radius: float = 0.25,
                with_safety_margin: bool = False,
+               transform: Affine2D | None = None,
                zorder: int = 1) -> None:
     """
     Plots an agent as a disc together with:
@@ -48,8 +50,13 @@ def plot_agent(ax: Axes,
     :param      dot_radius:           The relative radius of the dot
                                       as fraction of the radius
     :param      with_safety_margin:   Whether to display the safety margin
+    :param      transform:            An optional affine transformation to apply to the plot
     :param      zorder:               The Z-order
     """
+    if transform:
+        kwargs = {'transform': transform + ax.transData}
+    else:
+        kwargs = {}
     if pose is None:
         pose = agent.pose
     position = pose.position
@@ -61,7 +68,8 @@ def plot_agent(ax: Axes,
                     agent.radius,
                     color=color,
                     alpha=alpha,
-                    zorder=zorder)
+                    zorder=zorder,
+                    **kwargs)
     ax.add_patch(circle)
     dot_center = position + core.unit(
         pose.orientation) * agent.radius * (1 - dot_radius)
@@ -69,7 +77,8 @@ def plot_agent(ax: Axes,
                  dot_radius * agent.radius,
                  color=dot_color,
                  alpha=alpha,
-                 zorder=zorder)
+                 zorder=zorder,
+                 **kwargs)
     ax.add_patch(dot)
 
     if velocity_arrow_width > 0 and np.any(velocity):
@@ -81,7 +90,8 @@ def plot_agent(ax: Axes,
                     facecolor=color,
                     edgecolor=velocity_arrow_edge_color,
                     alpha=velocity_arrow_alpha,
-                    zorder=zorder)
+                    zorder=zorder,
+                    **kwargs)
         ax.add_patch(vel)
     if with_safety_margin and agent.behavior:
         safety_margin = agent.behavior.safety_margin
@@ -92,16 +102,19 @@ def plot_agent(ax: Axes,
                        alpha=alpha,
                        fill=False,
                        linestyle='--',
-                       zorder=zorder)
+                       zorder=zorder,
+                       **kwargs)
             ax.add_patch(c)
 
 
 def plot_world(ax: Axes,
                world: sim.World,
                obstacles_color: str = 'k',
+               obstacles_alpha: float = 1.0,
                in_box: bool = False,
                no_ticks: bool = False,
                with_agents: bool = False,
+               transform: Affine2D | None = None,
                zorder: int = 1,
                **kwargs: Any) -> None:
     """
@@ -110,18 +123,35 @@ def plot_world(ax: Axes,
     :param      ax:              The pyplot axes
     :param      world:           The world
     :param      obstacles_color: The color of obstacles and walls
+    :param      obstacles_alpha: The opacity of obstacles and walls
     :param      in_box:          Whether to restrict the plot within the world bounding box
     :param      no_ticks:        Whether to remove the axis ticks
     :param      with_agents:     Whether to plot agents
+    :param      transform:       An optional affine transformation to apply to the plot
     :param      zorder:          The Z-order
     :param      kwargs:          Keywords passed to :py:func:`plot_agent`
     """
+    if transform:
+        patch_kwargs = {'transform': transform + ax.transData}
+    else:
+        patch_kwargs = {}
     for obstacle in world.obstacles:
         disc = obstacle.disc
         c = Circle(tuple(disc.position),
                    disc.radius,
                    color=obstacles_color,
-                   zorder=zorder)
+                   alpha=obstacles_alpha,
+                   **patch_kwargs)
+        ax.add_patch(c)
+    if with_agents:
+        for agent in world.agents:
+            plot_agent(ax, agent, transform=transform, **kwargs)
+    for wall in world.walls:
+        line = wall.line
+        x, y = np.asarray((line.p1, line.p2)).T
+        ax.add_line(
+            Line2D(x, y, color=obstacles_color, zorder=zorder,
+                   **patch_kwargs))  # type: ignore[arg-type]
         ax.add_patch(c)
     if with_agents:
         for agent in world.agents:
@@ -133,6 +163,13 @@ def plot_world(ax: Axes,
     bb = world.bounding_box
     ax.set_aspect('equal')
     if in_box:
+        if transform:
+            mbb = Bbox([(bb.min_x, bb.min_y), (bb.max_x, bb.max_y)])
+            mbb = transform.transform_bbox(mbb)
+            bb = sim.BoundingBox(min_x=mbb.xmin,
+                                 max_x=mbb.xmax,
+                                 min_y=mbb.ymin,
+                                 max_y=mbb.ymax)
         ax.set_ylim(bb.min_y, bb.max_y)
         ax.set_xlim(bb.min_x, bb.max_x)
     if no_ticks:
@@ -289,3 +326,70 @@ def plot_runs(runs: Sequence[sim.ExperimentalRun],
         height = float(np.median(hs) * width * rows / columns)
         fig.set_size_inches(width, height)
     return fig
+
+
+def transform_from_pose(pose: core.Pose2) -> Affine2D:
+    """
+    Compute an affine transform from a pose
+
+    :param      pose:  The pose
+
+    :returns:   The corresponding affine transformation
+    """
+    return Affine2D().rotate(pose.orientation).translate(*pose.position)
+
+
+def plot_grid_map(ax: Axes,
+                  gridmap: core.GridMap,
+                  cmap='gray',
+                  vmin: int = 0,
+                  vmax: int = 255,
+                  transform: Affine2D | None = None) -> None:
+    """
+    Plot a grid map
+
+    :param      ax:         The axes
+    :param      gridmap:    The gridmap
+    :param      cmap:       The color map
+    :param      vmin:       The minimal value of the grid map
+    :param      vmax:       The maximal value of the grid map
+    :param      transform:  An optional transform to apply to the gridmap
+    """
+    kwargs = {}
+    if transform:
+        kwargs['transform'] = transform + ax.transData
+    image = gridmap.map
+    height, width = image.shape
+    resolution = gridmap.resolution
+    x0, y0 = gridmap.origin
+    x1 = x0 + width * resolution
+    y1 = y0 + height * resolution
+    ax.imshow(image,
+              cmap=cmap,
+              vmin=vmin,
+              vmax=vmax,
+              interpolation='nearest',
+              extent=(x0, x1, y0, y1),
+              origin="lower",
+              **kwargs)  # type: ignore[arg-type]
+
+
+def plot_scan(ax: Axes,
+              scan: sim.state_estimations.LidarScan,
+              pose: core.Pose2 = core.Pose2(),
+              color: str = 'r',
+              alpha: float = 0.5) -> None:
+    """
+    Plot a Lidar scan
+
+    :param      ax:     The axes
+    :param      scan:   The scan
+    :param      pose:   The pose of reference frame of the scan
+    :param      color:  The color
+    :param      alpha:  The opacity
+    """
+    a = np.asarray(scan.angles) + pose.orientation
+    ps = pose.position
+    x = np.cos(a) * scan.ranges + ps[0]
+    y = np.sin(a) * scan.ranges + ps[1]
+    ax.plot(x, y, '.', alpha=alpha, color=color)

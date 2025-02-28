@@ -12,28 +12,32 @@ namespace navground::sim {
 using navground::core::Properties;
 using navground::core::Property;
 
+std::valarray<ng_float_t> LidarStateEstimation::measure_ranges(Agent *agent,
+                                                               World *world) {
+  auto &c = const_cast<core::CollisionComputation &>(_cc);
+  const auto neighbors = world->get_neighbors(agent, _range);
+  const auto pose = core::Pose2(_position, 0).absolute(agent->pose);
+  c.setup(pose, 0.0, world->get_line_obstacles(), world->get_discs(),
+          neighbors);
+  auto ranges = c.get_free_distance_for_sector(
+      agent->pose.orientation + _start_angle, _field_of_view, _resolution - 1,
+      _range, false);
+  if (has_error()) {
+    auto &rg = world->get_random_generator();
+    for (size_t i = 0; i < ranges.size(); ++i) {
+      ranges[i] = std::clamp<ng_float_t>(ranges[i] + _error(rg), 0, _range);
+    }
+  }
+  return ranges;
+}
+
 void LidarStateEstimation::update(Agent *agent, World *world,
                                   EnvironmentState *state) {
   if (core::SensingState *_state = dynamic_cast<core::SensingState *>(state)) {
-    auto &c = const_cast<core::CollisionComputation &>(_cc);
-    const auto neighbors = world->get_neighbors(agent, _range);
-    const auto pose = core::Pose2(_position, 0).absolute(agent->pose);
-    c.setup(pose, 0.0, world->get_line_obstacles(), world->get_discs(),
-            neighbors);
-    auto ranges = c.get_free_distance_for_sector(
-        agent->pose.orientation + _start_angle, _field_of_view, _resolution - 1,
-        _range, false);
     auto buffer = get_or_init_buffer(*_state, field_name);
     if (buffer) {
-      if (has_error()) {
-        auto &rg = world->get_random_generator();
-        for (size_t i = 0; i < ranges.size(); ++i) {
-          ranges[i] = std::clamp<ng_float_t>(ranges[i] + _error(rg), 0, _range);
-        }
-      }
-      buffer->set_data(ranges);
+      buffer->set_data(measure_ranges(agent, world));
     }
-
     buffer = get_or_init_buffer(*_state, "start_angle");
     if (buffer) {
       buffer->set_data(std::valarray<ng_float_t>{_start_angle});
@@ -42,6 +46,11 @@ void LidarStateEstimation::update(Agent *agent, World *world,
     buffer = get_or_init_buffer(*_state, "fov");
     if (buffer) {
       buffer->set_data(std::valarray<ng_float_t>{_field_of_view});
+    }
+
+    buffer = get_or_init_buffer(*_state, "max_range");
+    if (buffer) {
+      buffer->set_data(std::valarray<ng_float_t>{_range});
     }
   }
 }
@@ -56,28 +65,31 @@ void LidarStateEstimation::update(Agent *agent, World *world,
 // }
 
 const std::valarray<ng_float_t> &
-LidarStateEstimation::read_ranges(core::SensingState &state) const {
-  const auto buffer = get_or_init_buffer(state, field_name);
+LidarStateEstimation::read_ranges_with_name(core::SensingState &state, const std::string & name) {
+  const auto buffer = state.get_buffer(Sensor::get_field_name(field_name, name));
   return *(buffer->get_data<ng_float_t>());
 }
 
 ng_float_t LidarStateEstimation::get_angular_increment() const {
-  if (_resolution > 1) {
-    return _field_of_view / (_resolution - 1);
-  }
-  return 0;
+  return compute_angular_increment(_field_of_view, _resolution);
 }
 
-std::valarray<ng_float_t> LidarStateEstimation::get_angles() const {
-  std::valarray<ng_float_t> vs(_resolution);
-  ng_float_t angle = _start_angle;
-  const ng_float_t delta = get_angular_increment();
+std::valarray<ng_float_t>
+LidarStateEstimation::compute_angles(ng_float_t start, ng_float_t field_of_view,
+                                     unsigned resolution) {
+  std::valarray<ng_float_t> vs(resolution);
+  ng_float_t angle = start;
+  const ng_float_t delta = compute_angular_increment(field_of_view, resolution);
   for (size_t i = 0; i < vs.size() - 1; ++i) {
     vs[i] = angle;
     angle += delta;
   }
-  vs[vs.size() - 1] = _start_angle + _field_of_view;
+  vs[vs.size() - 1] = start + field_of_view;
   return vs;
+}
+
+std::valarray<ng_float_t> LidarStateEstimation::get_angles() const {
+  return compute_angles(_start_angle, _field_of_view, _resolution);
 }
 
 const std::string LidarStateEstimation::type =

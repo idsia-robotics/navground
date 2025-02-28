@@ -152,7 +152,6 @@ def plot_world(ax: Axes,
         ax.add_line(
             Line2D(x, y, color=obstacles_color, zorder=zorder,
                    **patch_kwargs))  # type: ignore[arg-type]
-        ax.add_patch(c)
     if with_agents:
         for agent in world.agents:
             plot_agent(ax, agent, **kwargs, zorder=zorder)

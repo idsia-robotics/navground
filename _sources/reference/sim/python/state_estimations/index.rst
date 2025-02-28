@@ -15,4 +15,5 @@ State estimations
    sensor_combination
    sensor_pylidar
    sensor_odometry
+   local_gridmap
 

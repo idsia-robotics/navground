@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Waypoints &#8212; navground 0.4.0 documentation</title>
+    <title>Waypoints &#8212; navground 0.5.0 documentation</title>
   
   
   
@@ -16,34 +16,32 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=183391d5"></script>
+    <script src="../../../../_static/documentation_options.js?v=e4e9a439"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -54,11 +52,10 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/python/tasks/waypoints';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Path" href="path.html" />
+    <link rel="next" title="GoToPose" href="go_to_pose.html" />
     <link rel="prev" title="Direction" href="direction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -74,8 +71,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../../../../search.html"
       method="get">
@@ -83,6 +91,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -90,8 +99,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -107,8 +116,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -133,16 +141,20 @@
   
   
   
-    <p class="title logo__title">navground 0.4.0 documentation</p>
+    <p class="title logo__title">navground 0.5.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
@@ -166,9 +178,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_core_py.html">navground_core_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_sim.html">navground_sim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_sim_py.html">navground_sim_py</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_ros.html">navground_ros</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_msgs.html">navground_msgs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_coppeliasim.html">navground_coppeliasim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_examples.html">navground_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../packages/navground_examples_yaml.html">navground_examples_yaml</a></li>
@@ -237,11 +246,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/odometry.html">Odometry</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/lidar.html">Lidar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/boundary.html">Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/local_gridmap.html">Local GridMap</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/tasks/direction.html">Direction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/tasks/waypoints.html">Waypoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/tasks/go_to_pose.html">GoToPose</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/tasks/path.html">Path</a></li>
 </ul>
 </details></li>
@@ -352,14 +363,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -456,16 +462,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -491,10 +505,16 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask"><code class="docutils literal notranslate"><span class="pre">WaypointsTask</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance"><code class="docutils literal notranslate"><span class="pre">get_effective_angular_tolerance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.get_effective_tolerance"><code class="docutils literal notranslate"><span class="pre">get_effective_tolerance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.angular_tolerance"><code class="docutils literal notranslate"><span class="pre">angular_tolerance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.angular_tolerances"><code class="docutils literal notranslate"><span class="pre">angular_tolerances</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.log_size"><code class="docutils literal notranslate"><span class="pre">log_size</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.loop"><code class="docutils literal notranslate"><span class="pre">loop</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.orientations"><code class="docutils literal notranslate"><span class="pre">orientations</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.random"><code class="docutils literal notranslate"><span class="pre">random</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.tolerance"><code class="docutils literal notranslate"><span class="pre">tolerance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.tolerances"><code class="docutils literal notranslate"><span class="pre">tolerances</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.waypoints"><code class="docutils literal notranslate"><span class="pre">waypoints</span></code></a></li>
 </ul>
 </li>
@@ -515,9 +535,11 @@
 <dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">WaypointsTask</span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask" title="Link to this definition">#</a></dt>
 <dd><p>This class implement a task that makes the agent reach a sequence of
-waypoints, calling <a class="reference internal" href="../../../core/python/controller.html#navground.core.Controller.go_to_position" title="navground.core.Controller.go_to_position"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Controller.go_to_position</span></code></a>
-for the next waypoint after the current has been reached within a
-tolerance.</p>
+waypoints, calling <code class="xref py py-attr docutils literal notranslate"><span class="pre">Controller.go_to_pose</span></code> or
+<a class="reference internal" href="../../../core/python/controller.html#navground.core.Controller.go_to_position" title="navground.core.Controller.go_to_position"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Controller.go_to_position</span></code></a> for the next waypoint
+after the current has been reached within a tolerance, depending if a
+goal orientation has been specified using ref set_orientation or
+not.</p>
 <p>The task notifies when a new waypoint is set by calling a callback.</p>
 <p><em>Registered properties</em>:</p>
 <ul class="simple">
@@ -525,10 +547,14 @@ tolerance.</p>
 <li><p><cite>loop</cite> (bool, <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.loop" title="navground.sim.tasks.WaypointsTask.loop"><code class="xref py py-attr docutils literal notranslate"><span class="pre">loop</span></code></a>)</p></li>
 <li><p><cite>random</cite> (bool, <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.random" title="navground.sim.tasks.WaypointsTask.random"><code class="xref py py-attr docutils literal notranslate"><span class="pre">random</span></code></a>)</p></li>
 <li><p><cite>tolerance</cite> (bool, <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.tolerance" title="navground.sim.tasks.WaypointsTask.tolerance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tolerance</span></code></a>)</p></li>
+<li><p><cite>tolerances</cite> (list of float, <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.tolerances" title="navground.sim.tasks.WaypointsTask.tolerances"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tolerances</span></code></a>)</p></li>
+<li><p><cite>angular_tolerance</cite> (float, <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.angular_tolerance" title="navground.sim.tasks.WaypointsTask.angular_tolerance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_tolerance</span></code></a>)</p></li>
+<li><p><cite>angular_tolerances</cite> (list of float, <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.angular_tolerances" title="navground.sim.tasks.WaypointsTask.angular_tolerances"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_tolerances</span></code></a>)</p></li>
+<li><p><cite>orientations</cite> (list of float, <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.orientations" title="navground.sim.tasks.WaypointsTask.orientations"><code class="xref py py-attr docutils literal notranslate"><span class="pre">orientations</span></code></a>)</p></li>
 </ul>
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waypoints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../../core/python/common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waypoints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../../core/python/common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angular_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angular_tolerances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Constructs a new instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -536,11 +562,85 @@ tolerance.</p>
 <li><p><strong>waypoints</strong> – The waypoints</p></li>
 <li><p><strong>loop</strong> – Whether it should start from begin after reaching the last
 waypoint</p></li>
-<li><p><strong>tolerance</strong> – The goal tolerance applied to each waypoint.</p></li>
+<li><p><strong>tolerance</strong> – The default goal tolerance applied to each waypoint.</p></li>
 <li><p><strong>random</strong> – Whether to pick the next waypoint randomly</p></li>
+<li><p><strong>tolerances</strong> – The goal tolerance applied to individual waypoints.</p></li>
+<li><p><strong>orientations</strong> – The goal orientation at the waypoints.</p></li>
+<li><p><strong>angular_tolerance</strong> – The default goal angular tolerance applied to each waypoint.</p></li>
+<li><p><strong>angular_tolerance</strong> – The goal angular tolerance applied to individual waypoints.</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance">
+<span class="sig-name descname"><span class="pre">get_effective_angular_tolerance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance" title="Link to this definition">#</a></dt>
+<dd><p>Returns the angular tolerance applied to the waypoint at a given
+index.</p>
+<p>If a specific positive value is present at the same index in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.angular_tolerances" title="navground.sim.tasks.WaypointsTask.angular_tolerances"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_tolerances</span></code></a>, it returns it. Else it returns the default
+value from <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.angular_tolerance" title="navground.sim.tasks.WaypointsTask.angular_tolerance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_tolerance</span></code></a>.</p>
+<p>For example, if there are three waypoints, the specific angular
+tolerances are set to <code class="docutils literal notranslate"><span class="pre">-1,</span> <span class="pre">0.2</span></code>, and the default angular tolerance
+is set to <code class="docutils literal notranslate"><span class="pre">0.25</span></code>, the effective angular tolerances will be <code class="docutils literal notranslate"><span class="pre">0.25,</span>
+<span class="pre">0.2,</span> <span class="pre">0.25</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> – The waypoint index</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The angular tolerance in radians.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.get_effective_tolerance">
+<span class="sig-name descname"><span class="pre">get_effective_tolerance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.get_effective_tolerance" title="Link to this definition">#</a></dt>
+<dd><p>Returns the spatial tolerance applied to the waypoint at a given
+index.</p>
+<p>If a specific positive value is present at the same index in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.tolerances" title="navground.sim.tasks.WaypointsTask.tolerances"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tolerances</span></code></a>, it returns it. Else it returns the default value from
+<a class="reference internal" href="#navground.sim.tasks.WaypointsTask.tolerance" title="navground.sim.tasks.WaypointsTask.tolerance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tolerance</span></code></a>.</p>
+<p>For example, if there are three waypoints, the specific tolerances are
+set to <code class="docutils literal notranslate"><span class="pre">-1,</span> <span class="pre">0.2</span></code>, and the default tolerance is set to <code class="docutils literal notranslate"><span class="pre">0.25</span></code>, the
+effective tolerances will be <code class="docutils literal notranslate"><span class="pre">0.25,</span> <span class="pre">0.2,</span> <span class="pre">0.25</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> – The waypoint index</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The tolerance in meters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.angular_tolerance">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">angular_tolerance</span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.angular_tolerance" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
+</dd>
+</dl>
+<p>The default goal angular tolerance</p>
+<p>this value is used in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance" title="navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_effective_angular_tolerance()</span></code></a> to compute
+the effective angular tolerance applied to a selected waypoint, where
+specific (positive) angular tolerances returned by <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.angular_tolerances" title="navground.sim.tasks.WaypointsTask.angular_tolerances"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_tolerances</span></code></a> will overwrites this default value.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.angular_tolerances">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">angular_tolerances</span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.angular_tolerances" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a>]</p>
+</dd>
+</dl>
+<p>The specific goal angular tolerances.</p>
+<p>this values are used in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance" title="navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_effective_angular_tolerance()</span></code></a> to
+compute the effective tolerance applied to a selected waypoint:
+negative values are ignored and replaced by the default value <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.angular_tolerance" title="navground.sim.tasks.WaypointsTask.angular_tolerance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_tolerance</span></code></a>. extra items (not paired to get_waypoints) are
+also ignored.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -569,6 +669,22 @@ waypoint.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.orientations">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">orientations</span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.orientations" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a>]</p>
+</dd>
+</dl>
+<p>The goal orientations at the waypoints.</p>
+<p>if there are more orientations specified than waypoints, those extra
+orientation are ignore.</p>
+<p>if there are less orientations specified than waypoints, the missing
+orientation are effectively filled with the last orientation during
+control.</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.random">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random</span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.random" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
@@ -587,7 +703,26 @@ waypoint.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
 </dd>
 </dl>
-<p>The goal tolerance applied to each waypoint.</p>
+<p>The default goal spatial tolerance.</p>
+<p>this value is used in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.get_effective_tolerance" title="navground.sim.tasks.WaypointsTask.get_effective_tolerance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_effective_tolerance()</span></code></a> to compute the
+effective tolerance applied to a selected waypoint, where specific
+(positive) tolerances returned by <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.tolerances" title="navground.sim.tasks.WaypointsTask.tolerances"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tolerances</span></code></a> will overwrites
+this default value.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.tolerances">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tolerances</span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.tolerances" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a>]</p>
+</dd>
+</dl>
+<p>The specific goal spatial tolerances.</p>
+<p>this values are used in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.get_effective_tolerance" title="navground.sim.tasks.WaypointsTask.get_effective_tolerance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_effective_tolerance()</span></code></a> to compute the
+effective tolerance applied to a selected waypoint: negative values
+are ignored and replaced by the default value <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.tolerance" title="navground.sim.tasks.WaypointsTask.tolerance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tolerance</span></code></a>.
+extra items (not paired to get_waypoints) are also ignored.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -626,11 +761,11 @@ waypoint.</p>
       </div>
     </a>
     <a class="right-next"
-       href="path.html"
+       href="go_to_pose.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Path</p>
+        <p class="prev-next-title">GoToPose</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -641,8 +776,7 @@ waypoint.</p>
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -653,10 +787,16 @@ waypoint.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask"><code class="docutils literal notranslate"><span class="pre">WaypointsTask</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance"><code class="docutils literal notranslate"><span class="pre">get_effective_angular_tolerance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.get_effective_tolerance"><code class="docutils literal notranslate"><span class="pre">get_effective_tolerance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.angular_tolerance"><code class="docutils literal notranslate"><span class="pre">angular_tolerance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.angular_tolerances"><code class="docutils literal notranslate"><span class="pre">angular_tolerances</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.log_size"><code class="docutils literal notranslate"><span class="pre">log_size</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.loop"><code class="docutils literal notranslate"><span class="pre">loop</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.orientations"><code class="docutils literal notranslate"><span class="pre">orientations</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.random"><code class="docutils literal notranslate"><span class="pre">random</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.tolerance"><code class="docutils literal notranslate"><span class="pre">tolerance</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.tolerances"><code class="docutils literal notranslate"><span class="pre">tolerances</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.waypoints"><code class="docutils literal notranslate"><span class="pre">waypoints</span></code></a></li>
 </ul>
 </li>
@@ -708,8 +848,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

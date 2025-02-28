@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; navground 0.4.0 documentation</title>
+    <title>Index &#8212; navground 0.5.0 documentation</title>
   
   
   
@@ -15,38 +15,37 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="_static/jquery.js?v=5d32c60e"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="_static/documentation_options.js?v=183391d5"></script>
+    <script src="_static/documentation_options.js?v=e4e9a439"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/tabs.js?v=3030b3cb"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -55,7 +54,6 @@
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -71,8 +69,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -80,6 +89,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -87,8 +97,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -106,8 +116,7 @@
       
         
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -132,16 +141,20 @@
   
   
   
-    <p class="title logo__title">navground 0.4.0 documentation</p>
+    <p class="title logo__title">navground 0.5.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
@@ -165,9 +178,6 @@
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_core_py.html">navground_core_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_sim.html">navground_sim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_sim_py.html">navground_sim_py</a></li>
-<li class="toctree-l2"><a class="reference internal" href="packages/navground_ros.html">navground_ros</a></li>
-<li class="toctree-l2"><a class="reference internal" href="packages/navground_msgs.html">navground_msgs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="packages/navground_coppeliasim.html">navground_coppeliasim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_examples.html">navground_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="packages/navground_examples_yaml.html">navground_examples_yaml</a></li>
@@ -236,11 +246,13 @@
 <li class="toctree-l3"><a class="reference internal" href="components/state_estimations/odometry.html">Odometry</a></li>
 <li class="toctree-l3"><a class="reference internal" href="components/state_estimations/lidar.html">Lidar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="components/state_estimations/boundary.html">Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="components/state_estimations/local_gridmap.html">Local GridMap</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="components/tasks/direction.html">Direction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="components/tasks/waypoints.html">Waypoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="components/tasks/go_to_pose.html">GoToPose</a></li>
 <li class="toctree-l3"><a class="reference internal" href="components/tasks/path.html">Path</a></li>
 </ul>
 </details></li>
@@ -351,14 +363,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -407,16 +414,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 
 </div></div>
       
@@ -525,11 +540,17 @@
 </li>
         <li><a href="reference/sim/python/experiment/experiment.html#navground.sim.Experiment.__init__">(Experiment method)</a>
 </li>
+        <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType.__init__">(FootprintType method)</a>
+</li>
         <li><a href="reference/core/python/kinematics/4wdiff.html#navground.core.kinematics.FourWheelsOmniDriveKinematics.__init__">(FourWheelsOmniDriveKinematics method)</a>
 </li>
         <li><a href="reference/core/python/common.html#navground.core.Frame.__init__">(Frame method)</a>
 </li>
         <li><a href="reference/core/python/state/geometric.html#navground.core.GeometricState.__init__">(GeometricState method)</a>
+</li>
+        <li><a href="reference/sim/python/tasks/go_to_pose.html#navground.sim.tasks.GoToPoseTask.__init__">(GoToPoseTask method)</a>
+</li>
+        <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.__init__">(GridMap method)</a>
 </li>
         <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.__init__">(Heading method)</a>
 </li>
@@ -546,6 +567,8 @@
         <li><a href="reference/core/python/behavior_modulations/limit_twist.html#navground.core.behavior_modulations.LimitTwistModulation.__init__">(LimitTwistModulation method)</a>
 </li>
         <li><a href="reference/core/python/state/geometric.html#navground.core.LineSegment.__init__">(LineSegment method)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.__init__">(LocalGridMapStateEstimation method)</a>
 </li>
         <li><a href="reference/core/python/behavior_modulations/motor_pid.html#navground.core.behavior_modulations.MotorPIDModulation.__init__">(MotorPIDModulation method)</a>
 </li>
@@ -698,8 +721,6 @@
 </li>
       <li><a href="reference/sim/python/experiment/experiment.html#navground.sim.Experiment.add_run_callback">add_run_callback() (Experiment method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.add_safety_to_agent_margin">add_safety_to_agent_margin (CorridorScenario property)</a>
 
       <ul>
@@ -708,6 +729,8 @@
         <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.add_safety_to_agent_margin">(CrossTorusScenario property)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.add_tag">add_tag() (Agent method)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.Group.add_to_world">add_to_world() (Scenario.Group method)</a>
@@ -756,6 +779,16 @@
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor_odometry.html#navground.sim.state_estimations.OdometryStateEstimation.angular_speed_std_dev">angular_speed_std_dev (OdometryStateEstimation property)</a>
 </li>
+      <li><a href="reference/core/python/controller.html#navground.core.Controller.angular_speed_tolerance">angular_speed_tolerance (Controller property)</a>
+</li>
+      <li><a href="reference/sim/python/tasks/go_to_pose.html#navground.sim.tasks.GoToPoseTask.angular_tolerance">angular_tolerance (GoToPoseTask property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.angular_tolerance">(WaypointsTask property)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.angular_tolerances">angular_tolerances (WaypointsTask property)</a>
+</li>
       <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario">AntipodalScenario (class in navground.sim.scenarios)</a>
 </li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.aperture">aperture (HLBehavior property)</a>
@@ -790,6 +823,10 @@
 </li>
       <li><a href="reference/core/python/register.html#navground.core.BehaviorRegister">BehaviorRegister (class in navground.core)</a>
 </li>
+      <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.bidirectional">bidirectional (CorridorScenario property)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.bottom_left">bottom_left (GridMap property)</a>
+</li>
       <li><a href="reference/sim/python/state_estimations/sensor_boundary.html#navground.sim.state_estimations.BoundarySensor">BoundarySensor (class in navground.sim.state_estimations)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/geometric_bounded.html#navground.sim.state_estimations.BoundedStateEstimation">BoundedStateEstimation (class in navground.sim.state_estimations)</a>
@@ -804,10 +841,10 @@
         <li><a href="reference/sim/python/world.html#navground.sim.World.bounding_box">(World property)</a>
 </li>
       </ul></li>
-      <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox">BoundingBox (class in navground.sim)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox">BoundingBox (class in navground.sim)</a>
+</li>
       <li><a href="reference/sim/python/experiment/recorded_experiment.html#navground.sim.RecordedExperimentalRun.bounds">bounds (RecordedExperimentalRun property)</a>
 </li>
       <li><a href="reference/core/python/state/sensing.html#navground.core.Buffer">Buffer (class in navground.core)</a>
@@ -867,7 +904,11 @@
         <li><a href="reference/core/python/state/sensing.html#navground.core.BufferDescription.categorical">(BufferDescription property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.center">center (GridMap property)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.check_if_target_satisfied">check_if_target_satisfied() (Behavior method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType.circular">circular (FootprintType attribute)</a>
 </li>
       <li><a href="reference/core/python/common.html#navground.core.clamp_norm">clamp_norm() (in module navground.core)</a>
 </li>
@@ -879,6 +920,16 @@
 </li>
       <li><a href="reference/sim/python/experiment/experiment.html#navground.sim.Experiment.clear_run_callbacks">clear_run_callbacks() (Experiment method)</a>
 </li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.close">close() (Behavior method)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/state_estimations/sensor.html#navground.sim.Sensor.close">(Sensor method)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/state_estimation.html#navground.sim.StateEstimation.close">(StateEstimation method)</a>
+</li>
+        <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.close">(Task method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/experiment/run.html#navground.sim.RecordConfig.cmd">cmd (RecordConfig property)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.cmd_frame">cmd_frame (Controller property)</a>
@@ -893,12 +944,12 @@
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.cmd_twist_towards_pose">cmd_twist_towards_pose() (Behavior method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.cmd_twist_towards_stopping">cmd_twist_towards_stopping() (Behavior method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.cmd_twist_towards_velocity">cmd_twist_towards_velocity() (Behavior method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation">CollisionComputation (class in navground.core)</a>
 </li>
       <li><a href="reference/sim/python/experiment/run.html#navground.sim.ExperimentalRun.collisions">collisions (ExperimentalRun property)</a>
@@ -925,6 +976,10 @@
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.compute_safety_violation">compute_safety_violation() (World method)</a>
 </li>
+      <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox.contains">contains() (BoundingBox method)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.contains_point">contains_point() (GridMap method)</a>
+</li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.control_period">control_period (Agent property)</a>
 </li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.controller">controller (Agent property)</a>
@@ -936,6 +991,8 @@
       <li><a href="reference/sim/python/world.html#navground.sim.World.copy_random_generator">copy_random_generator() (World method)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario">CorridorScenario (class in navground.sim.scenarios)</a>
+</li>
+      <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox.covers">covers() (BoundingBox method)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario">CrossScenario (class in navground.sim.scenarios)</a>
 </li>
@@ -1041,8 +1098,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/visualization/video.html#navground.sim.ui.video.display_video_from_run">display_video_from_run() (in module navground.sim.ui.video)</a>
 </li>
-      <li><a href="reference/core/python/state/geometric.html#navground.core.Disc.distance">distance() (Disc method)</a>
+      <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox.distance">distance() (BoundingBox method)</a>
+
+      <ul>
+        <li><a href="reference/core/python/state/geometric.html#navground.core.Disc.distance">(Disc method)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/state/geometric.html#navground.core.LineSegment.distance_along">distance_along() (LineSegment method)</a>
 </li>
       <li><a href="reference/core/python/state/geometric.html#navground.core.LineSegment.distance_from_disc">distance_from_disc() (LineSegment method)</a>
@@ -1149,12 +1210,12 @@
       </ul></li>
       <li><a href="reference/sim/python/world.html#navground.sim.Entity">Entity (class in navground.sim)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.environment_state">environment_state (Behavior property)</a>
 </li>
       <li><a href="reference/core/python/behaviors/dummy.html#navground.core.behaviors.DummyBehavior.environment_state_type">environment_state_type (DummyBehavior property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/state/base.html#navground.core.EnvironmentState">EnvironmentState (class in navground.core)</a>
 </li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.epsilon">epsilon (HLBehavior property)</a>
@@ -1167,9 +1228,17 @@
 </li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.eta">eta (HLBehavior property)</a>
 </li>
+      <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox.expand_by">expand_by() (BoundingBox method)</a>
+</li>
+      <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox.expand_to_include">expand_to_include() (BoundingBox method)</a>
+</li>
       <li><a href="reference/sim/python/experiment/experiment.html#navground.sim.Experiment">Experiment (class in navground.sim)</a>
 </li>
       <li><a href="reference/sim/python/experiment/run.html#navground.sim.ExperimentalRun">ExperimentalRun (class in navground.sim)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.external_lidars">external_lidars (LocalGridMapStateEstimation property)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.external_odometry">external_odometry (LocalGridMapStateEstimation property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1201,10 +1270,10 @@
       </ul></li>
       <li><a href="reference/sim/python/experiment/run.html#navground.sim.ExperimentalRun.final_sim_time">final_sim_time (ExperimentalRun property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/experiment/probes.html#navground.sim.Probe.finalize">finalize() (Probe method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/build.html#navground.core.BuildInfo.floating_point_type">floating_point_type (BuildInfo property)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_direction">follow_direction() (Controller method)</a>
@@ -1220,6 +1289,10 @@
       <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_twist">follow_twist() (Controller method)</a>
 </li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.follow_velocity">follow_velocity() (Controller method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.footprint">footprint (LocalGridMapStateEstimation property)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType">FootprintType (class in navground.sim.state_estimations.LocalGridMapStateEstimation)</a>
 </li>
       <li><a href="reference/core/python/kinematics/4wdiff.html#navground.core.kinematics.FourWheelsOmniDriveKinematics">FourWheelsOmniDriveKinematics (class in navground.core.kinematics)</a>
 </li>
@@ -1265,11 +1338,17 @@
 </li>
       <li><a href="reference/core/python/collision_computation.html#navground.core.CollisionComputation.get_angles_for_sector">get_angles_for_sector() (CollisionComputation method)</a>
 </li>
-      <li><a href="reference/core/python/state/sensing.html#navground.core.SensingState.get_buffer">get_buffer() (SensingState method)</a>
+      <li><a href="reference/sim/python/experiment/dataset.html#navground.sim.Dataset.get_buffer">get_buffer() (Dataset method)</a>
+
+      <ul>
+        <li><a href="reference/core/python/state/sensing.html#navground.core.SensingState.get_buffer">(SensingState method)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/build.html#navground.core.get_build_dependencies">get_build_dependencies() (in module navground.core)</a>
 </li>
       <li><a href="reference/core/python/build.html#navground.core.get_build_info">get_build_info() (in module navground.core)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.get_cell_at_position">get_cell_at_position() (GridMap method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.get_collision_distance">get_collision_distance() (HLBehavior method)</a>
 </li>
@@ -1292,6 +1371,10 @@
 </li>
       </ul></li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_discs_in_region">get_discs_in_region() (World method)</a>
+</li>
+      <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance">get_effective_angular_tolerance() (WaypointsTask method)</a>
+</li>
+      <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.get_effective_tolerance">get_effective_tolerance() (WaypointsTask method)</a>
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.get_entity">get_entity() (World method)</a>
 </li>
@@ -1334,6 +1417,10 @@
       <li><a href="reference/core/python/build.html#navground.core.get_plugins_dependencies">get_plugins_dependencies() (in module navground.core)</a>
 </li>
       <li><a href="reference/core/python/target.html#navground.core.Path.get_point">get_point() (Path method)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.get_position_of_cell">get_position_of_cell() (GridMap method)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.get_possible_cell_at_position">get_possible_cell_at_position() (GridMap method)</a>
 </li>
       <li><a href="reference/sim/python/experiment/run.html#navground.sim.ExperimentalRun.get_record">get_record() (ExperimentalRun method)</a>
 
@@ -1405,6 +1492,10 @@
         <li><a href="reference/sim/python/experiment/recorded_experiment.html#navground.sim.RecordedExperimentalRun.go_to_step">(RecordedExperimentalRun method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/tasks/go_to_pose.html#navground.sim.tasks.GoToPoseTask">GoToPoseTask (class in navground.sim.tasks)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap">GridMap (class in navground.core)</a>
+</li>
       <li><a href="reference/sim/python/experiment/probes.html#navground.sim.GroupRecordProbe">GroupRecordProbe (class in navground.sim)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.groups">groups (Scenario property)</a>
@@ -1461,6 +1552,12 @@
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.heading_behavior">heading_behavior (Behavior property)</a>
 </li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.height">height (GridMap property)</a>
+
+      <ul>
+        <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.height">(LocalGridMapStateEstimation property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/core/python/state/sensing.html#navground.core.Buffer.high">high (Buffer property)</a>
 
       <ul>
@@ -1503,6 +1600,8 @@
 </li>
       <li><a href="reference/core/python/behaviors/social_force.html#navground.core.behaviors.SocialForceBehavior.in_sight">in_sight() (SocialForceBehavior method)</a>
 </li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.include_transformation">include_transformation (LocalGridMapStateEstimation property)</a>
+</li>
       <li><a href="reference/sim/python/state_estimations/sensor_discs.html#navground.sim.state_estimations.DiscsStateEstimation.include_valid">include_valid (DiscsStateEstimation property)</a>
 </li>
       <li><a href="reference/sim/python/experiment/run.html#navground.sim.ExperimentalRun.index_of_agent">index_of_agent() (ExperimentalRun method)</a>
@@ -1519,10 +1618,10 @@
         <li><a href="reference/sim/python/visualization/real_time.html#navground.sim.ui.WebUI.init">(WebUI method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/state/sensing.html#navground.core.SensingState.init_buffer">init_buffer() (SensingState method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/experiment/experiment.html#navground.sim.Experiment.init_run">init_run() (Experiment method)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.init_world">init_world() (Scenario method)</a>
@@ -1532,6 +1631,10 @@
       <li><a href="reference/core/python/common.html#navground.core.Pose2.integrate">integrate() (Pose2 method)</a>
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Twist2.interpolate">interpolate() (Twist2 method)</a>
+</li>
+      <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox.intersection">intersection() (BoundingBox method)</a>
+</li>
+      <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox.intersects">intersects() (BoundingBox method)</a>
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Pose2.inverse">inverse() (Pose2 method)</a>
 </li>
@@ -1544,6 +1647,8 @@
 </li>
       </ul></li>
       <li><a href="reference/core/python/controller.html#navground.core.Controller.is_still">is_still (Controller property)</a>
+</li>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.is_stopped">is_stopped() (Behavior method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.is_stuck">is_stuck (Behavior property)</a>
 </li>
@@ -1603,6 +1708,8 @@
         <li><a href="reference/core/python/target.html#navground.core.Path.length">(Path property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.lidars">lidars (LocalGridMapStateEstimation property)</a>
+</li>
       <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation">LidarStateEstimation (class in navground.sim.state_estimations)</a>
 </li>
       <li><a href="reference/core/python/behavior_modulations/limit_acceleration.html#navground.core.behavior_modulations.LimitAccelerationModulation">LimitAccelerationModulation (class in navground.core.behavior_modulations)</a>
@@ -1709,6 +1816,8 @@
         <li><a href="reference/sim/python/yaml.html#load_world">built-in function</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation">LocalGridMapStateEstimation (class in navground.sim.state_estimations)</a>
+</li>
       <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.log_event">log_event() (Task method)</a>
 </li>
       <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.log_size">log_size (Task property)</a>
@@ -1758,6 +1867,8 @@
 </li>
       </ul></li>
       <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.make_world">make_world() (Scenario method)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.map">map (GridMap property)</a>
 </li>
       <li><a href="reference/core/python/kinematics/2wdiffdyn.html#navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics.max_acceleration">max_acceleration (DynamicTwoWheelsDifferentialDriveKinematics property)</a>
 
@@ -1878,6 +1989,10 @@
 </li>
       <li><a href="reference/core/python/behavior_modulations/motor_pid.html#navground.core.behavior_modulations.MotorPIDModulation">MotorPIDModulation (class in navground.core.behavior_modulations)</a>
 </li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.move_center">move_center() (GridMap method)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.move_origin">move_origin() (GridMap method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1887,6 +2002,8 @@
       <li><a href="reference/sim/python/experiment/experiment.html#navground.sim.Experiment.name">name (Experiment property)</a>
 
       <ul>
+        <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType.name">(FootprintType property)</a>
+</li>
         <li><a href="reference/core/python/common.html#navground.core.Frame.name">(Frame property)</a>
 </li>
         <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.name">(Heading property)</a>
@@ -2037,6 +2154,8 @@
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior17clear_modulationsEv">navground::core::Behavior::clear_modulations (C++ function)</a>
 </li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior5closeEv">navground::core::Behavior::close (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior20cmd_twist_along_pathER4Path10ng_float_t10ng_float_t">navground::core::Behavior::cmd_twist_along_path (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior31cmd_twist_towards_angular_speedE10ng_float_t10ng_float_t">navground::core::Behavior::cmd_twist_towards_angular_speed (C++ function)</a>
@@ -2151,6 +2270,8 @@
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior16get_wheel_speedsEv">navground::core::Behavior::get_wheel_speeds (C++ function)</a>
 </li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior10has_targetEv">navground::core::Behavior::has_target (C++ function)</a>
+</li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior7HeadingE">navground::core::Behavior::Heading (C++ enum)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior7Heading4idleE">navground::core::Behavior::Heading::idle (C++ enumerator)</a>
@@ -2168,6 +2289,8 @@
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior17heading_to_stringERK7Heading">navground::core::Behavior::heading_to_string (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4NK9navground4core8Behavior8is_stuckEv">navground::core::Behavior::is_stuck (C++ function)</a>
+</li>
+      <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior7prepareEv">navground::core::Behavior::prepare (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/behaviors/behavior.html#_CPPv4N9navground4core8Behavior17remove_modulationERKNSt10shared_ptrI18BehaviorModulationEE">navground::core::Behavior::remove_modulation (C++ function)</a>
 </li>
@@ -3143,8 +3266,6 @@
 </li>
       <li><a href="reference/core/cpp/kinematics/2wdiff.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics22get_max_backward_speedEv">navground::core::TwoWheelsDifferentialDriveKinematics::get_max_backward_speed (C++ function)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/cpp/kinematics/2wdiff.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics21get_max_forward_speedEv">navground::core::TwoWheelsDifferentialDriveKinematics::get_max_forward_speed (C++ function)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics/2wdiff.html#_CPPv4NK9navground4core36TwoWheelsDifferentialDriveKinematics14get_wheel_axisEv">navground::core::TwoWheelsDifferentialDriveKinematics::get_wheel_axis (C++ function)</a>
@@ -3169,6 +3290,8 @@
 </li>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core7Vector2E">navground::core::Vector2 (C++ type)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/cpp/common.html#_CPPv4N9navground4core7Vector3E">navground::core::Vector3 (C++ type)</a>
 </li>
       <li><a href="reference/core/cpp/kinematics/wheeled.html#_CPPv4N9navground4core17WheeledKinematicsE">navground::core::WheeledKinematics (C++ class)</a>
@@ -3191,7 +3314,7 @@
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent7add_tagERKNSt6stringE">navground::sim::Agent::add_tag (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent5AgentE10ng_float_tNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEE10ng_float_tj">navground::sim::Agent::Agent (C++ function)</a>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent5AgentE10ng_float_tNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt6vectorINSt10shared_ptrI15StateEstimationEEEE10ng_float_tj">navground::sim::Agent::Agent (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent11as_neighborEv">navground::sim::Agent::as_neighbor (C++ function)</a>
 </li>
@@ -3219,6 +3342,8 @@
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent20get_state_estimationEv">navground::sim::Agent::get_state_estimation (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent21get_state_estimationsEv">navground::sim::Agent::get_state_estimations (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent8get_taskEv">navground::sim::Agent::get_task (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4NK9navground3sim5Agent20get_time_since_stuckEv">navground::sim::Agent::get_time_since_stuck (C++ function)</a>
@@ -3233,7 +3358,7 @@
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent8last_cmdE">navground::sim::Agent::last_cmd (C++ member)</a>
 </li>
-      <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent4makeE10ng_float_tNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt10shared_ptrI15StateEstimationEE10ng_float_tj">navground::sim::Agent::make (C++ function)</a>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent4makeE10ng_float_tNSt10shared_ptrI8BehaviorEENSt10shared_ptrI10KinematicsEENSt10shared_ptrI4TaskEENSt6vectorINSt10shared_ptrI15StateEstimationEEEE10ng_float_tj">navground::sim::Agent::make (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent4poseE">navground::sim::Agent::pose (C++ member)</a>
 </li>
@@ -3252,6 +3377,8 @@
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent8set_poseERK5Pose2">navground::sim::Agent::set_pose (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent20set_state_estimationERKNSt10shared_ptrI15StateEstimationEE">navground::sim::Agent::set_state_estimation (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent21set_state_estimationsERKNSt6vectorINSt10shared_ptrI15StateEstimationEEEE">navground::sim::Agent::set_state_estimations (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/agent.html#_CPPv4N9navground3sim5Agent8set_taskERKNSt10shared_ptrI4TaskEE">navground::sim::Agent::set_task (C++ function)</a>
 </li>
@@ -3273,6 +3400,8 @@
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim12AgentSampler14control_periodE">navground::sim::AgentSampler::control_period (C++ member)</a>
 </li>
+      <li><a href="reference/sim/cpp/sampling.html#_CPPv4NK9navground3sim12AgentSampler27get_valid_state_estimationsEv">navground::sim::AgentSampler::get_valid_state_estimations (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim12AgentSampler2idE">navground::sim::AgentSampler::id (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim12AgentSampler10kinematicsE">navground::sim::AgentSampler::kinematics (C++ member)</a>
@@ -3289,7 +3418,7 @@
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim12AgentSampler15speed_toleranceE">navground::sim::AgentSampler::speed_tolerance (C++ member)</a>
 </li>
-      <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim12AgentSampler16state_estimationE">navground::sim::AgentSampler::state_estimation (C++ member)</a>
+      <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim12AgentSampler17state_estimationsE">navground::sim::AgentSampler::state_estimations (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim12AgentSampler4tagsE">navground::sim::AgentSampler::tags (C++ member)</a>
 </li>
@@ -3419,6 +3548,8 @@
 </li>
       <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4NK9navground3sim16CorridorScenario16get_agent_marginEv">navground::sim::CorridorScenario::get_agent_margin (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4NK9navground3sim16CorridorScenario17get_bidirectionalEv">navground::sim::CorridorScenario::get_bidirectional (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4NK9navground3sim16CorridorScenario10get_lengthEv">navground::sim::CorridorScenario::get_length (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4NK9navground3sim16CorridorScenario9get_widthEv">navground::sim::CorridorScenario::get_width (C++ function)</a>
@@ -3426,6 +3557,8 @@
       <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4N9navground3sim16CorridorScenario30set_add_safety_to_agent_marginEb">navground::sim::CorridorScenario::set_add_safety_to_agent_margin (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4N9navground3sim16CorridorScenario16set_agent_marginE10ng_float_t">navground::sim::CorridorScenario::set_agent_margin (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4N9navground3sim16CorridorScenario17set_bidirectionalEb">navground::sim::CorridorScenario::set_bidirectional (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/scenarios/corridor.html#_CPPv4N9navground3sim16CorridorScenario10set_lengthE10ng_float_t">navground::sim::CorridorScenario::set_length (C++ function)</a>
 </li>
@@ -3476,6 +3609,8 @@
       <li><a href="reference/sim/cpp/experiment/dataset.html#_CPPv4N9navground3sim7Dataset21config_to_hold_bufferERKN9navground4core6BufferE">navground::sim::Dataset::config_to_hold_buffer (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment/dataset.html#_CPPv4N9navground3sim7Dataset4DataE">navground::sim::Dataset::Data (C++ type)</a>
+</li>
+      <li><a href="reference/sim/cpp/experiment/dataset.html#_CPPv4NK9navground3sim7Dataset10get_bufferEi">navground::sim::Dataset::get_buffer (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment/dataset.html#_CPPv4NK9navground3sim7Dataset8get_dataEv">navground::sim::Dataset::get_data (C++ function)</a>
 </li>
@@ -3788,6 +3923,22 @@
       <li><a href="reference/sim/cpp/experiment/run.html#_CPPv4N9navground3sim15ExperimentalRun2tpE">navground::sim::ExperimentalRun::tp (C++ type)</a>
 </li>
       <li><a href="reference/sim/cpp/experiment/run.html#_CPPv4N9navground3sim15ExperimentalRun6updateEv">navground::sim::ExperimentalRun::update (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/go_to_pose.html#_CPPv4N9navground3sim12GoToPoseTaskE">navground::sim::GoToPoseTask (C++ struct)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/go_to_pose.html#_CPPv4N9navground3sim12GoToPoseTask25default_angular_toleranceE">navground::sim::GoToPoseTask::default_angular_tolerance (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/go_to_pose.html#_CPPv4N9navground3sim12GoToPoseTask17default_toleranceE">navground::sim::GoToPoseTask::default_tolerance (C++ member)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/go_to_pose.html#_CPPv4NK9navground3sim12GoToPoseTask15get_orientationEv">navground::sim::GoToPoseTask::get_orientation (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/go_to_pose.html#_CPPv4NK9navground3sim12GoToPoseTask9get_pointEv">navground::sim::GoToPoseTask::get_point (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/go_to_pose.html#_CPPv4N9navground3sim12GoToPoseTask12GoToPoseTaskERKN4core7Vector2E10ng_float_t10ng_float_t10ng_float_t">navground::sim::GoToPoseTask::GoToPoseTask (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/go_to_pose.html#_CPPv4N9navground3sim12GoToPoseTask15set_orientationE10ng_float_t">navground::sim::GoToPoseTask::set_orientation (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/go_to_pose.html#_CPPv4N9navground3sim12GoToPoseTask9set_pointERKN4core7Vector2E">navground::sim::GoToPoseTask::set_point (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/sampling.html#_CPPv4N9navground3sim11GridSamplerE">navground::sim::GridSampler (C++ struct)</a>
 </li>
@@ -4125,6 +4276,8 @@
 </li>
       <li><a href="reference/sim/cpp/state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimationE">navground::sim::StateEstimation (C++ struct)</a>
 </li>
+      <li><a href="reference/sim/cpp/state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimation5closeEv">navground::sim::StateEstimation::close (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimation7prepareEP5AgentP5World">navground::sim::StateEstimation::prepare (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimation6updateEP5AgentP5World">navground::sim::StateEstimation::update (C++ function)</a>, <a href="reference/sim/cpp/state_estimations/state_estimation.html#_CPPv4N9navground3sim15StateEstimation6updateEP5AgentP5WorldP16EnvironmentState">[1]</a>
@@ -4138,6 +4291,8 @@
       <li><a href="reference/sim/cpp/tasks/task.html#_CPPv4N9navground3sim4Task12add_callbackERK12TaskCallback">navground::sim::Task::add_callback (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/tasks/task.html#_CPPv4N9navground3sim4Task15clear_callbacksEv">navground::sim::Task::clear_callbacks (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/task.html#_CPPv4N9navground3sim4Task5closeEv">navground::sim::Task::close (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/tasks/task.html#_CPPv4NK9navground3sim4Task4doneEv">navground::sim::Task::done (C++ function)</a>
 </li>
@@ -4169,31 +4324,53 @@
 </li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTaskE">navground::sim::WaypointsTask (C++ struct)</a>
 </li>
+      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask25default_angular_toleranceE">navground::sim::WaypointsTask::default_angular_tolerance (C++ member)</a>
+</li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask12default_loopE">navground::sim::WaypointsTask::default_loop (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask14default_randomE">navground::sim::WaypointsTask::default_random (C++ member)</a>
 </li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask17default_toleranceE">navground::sim::WaypointsTask::default_tolerance (C++ member)</a>
 </li>
+      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4NK9navground3sim13WaypointsTask21get_angular_toleranceEv">navground::sim::WaypointsTask::get_angular_tolerance (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4NK9navground3sim13WaypointsTask22get_angular_tolerancesEv">navground::sim::WaypointsTask::get_angular_tolerances (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4NK9navground3sim13WaypointsTask31get_effective_angular_toleranceEj">navground::sim::WaypointsTask::get_effective_angular_tolerance (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4NK9navground3sim13WaypointsTask23get_effective_toleranceEj">navground::sim::WaypointsTask::get_effective_tolerance (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4NK9navground3sim13WaypointsTask12get_log_sizeEv">navground::sim::WaypointsTask::get_log_size (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4NK9navground3sim13WaypointsTask8get_loopEv">navground::sim::WaypointsTask::get_loop (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4NK9navground3sim13WaypointsTask16get_orientationsEv">navground::sim::WaypointsTask::get_orientations (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4NK9navground3sim13WaypointsTask10get_randomEv">navground::sim::WaypointsTask::get_random (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4NK9navground3sim13WaypointsTask13get_toleranceEv">navground::sim::WaypointsTask::get_tolerance (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4NK9navground3sim13WaypointsTask14get_tolerancesEv">navground::sim::WaypointsTask::get_tolerances (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4NK9navground3sim13WaypointsTask13get_waypointsEv">navground::sim::WaypointsTask::get_waypoints (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask21set_angular_toleranceE10ng_float_t">navground::sim::WaypointsTask::set_angular_tolerance (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask22set_angular_tolerancesERKNSt6vectorI10ng_float_tEE">navground::sim::WaypointsTask::set_angular_tolerances (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask8set_loopEb">navground::sim::WaypointsTask::set_loop (C++ function)</a>
+</li>
+      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask16set_orientationsERKNSt6vectorI10ng_float_tEE">navground::sim::WaypointsTask::set_orientations (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask10set_randomEb">navground::sim::WaypointsTask::set_random (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask13set_toleranceE10ng_float_t">navground::sim::WaypointsTask::set_tolerance (C++ function)</a>
 </li>
+      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask14set_tolerancesERKNSt6vectorI10ng_float_tEE">navground::sim::WaypointsTask::set_tolerances (C++ function)</a>
+</li>
       <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask13set_waypointsERK9Waypoints">navground::sim::WaypointsTask::set_waypoints (C++ function)</a>
 </li>
-      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask13WaypointsTaskE9Waypointsb10ng_float_tb">navground::sim::WaypointsTask::WaypointsTask (C++ function)</a>
+      <li><a href="reference/sim/cpp/tasks/waypoints.html#_CPPv4N9navground3sim13WaypointsTask13WaypointsTaskERK9Waypointsb10ng_float_tbRKNSt6vectorI10ng_float_tEERKNSt6vectorI10ng_float_tEE10ng_float_tRKNSt6vectorI10ng_float_tEE">navground::sim::WaypointsTask::WaypointsTask (C++ function)</a>
 </li>
       <li><a href="reference/sim/cpp/world.html#_CPPv4N9navground3sim5WorldE">navground::sim::World (C++ class)</a>
 </li>
@@ -4349,6 +4526,8 @@
       </ul></li>
       <li><a href="reference/core/cpp/types.html#_CPPv410ng_float_t">ng_float_t (C++ type)</a>
 </li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType.none">none (FootprintType attribute)</a>
+</li>
       <li><a href="reference/core/python/common.html#navground.core.normalize_angle">normalize_angle() (in module navground.core)</a>
 </li>
       <li><a href="reference/sim/python/visualization/notebook.html#navground.sim.notebook.notebook_view">notebook_view() (in module navground.sim.notebook)</a>
@@ -4387,6 +4566,8 @@
         <li><a href="reference/sim/python/world.html#navground.sim.World.obstacles">(World property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.odometry">odometry (LocalGridMapStateEstimation property)</a>
+</li>
       <li><a href="reference/sim/python/state_estimations/sensor_odometry.html#navground.sim.state_estimations.OdometryStateEstimation">OdometryStateEstimation (class in navground.sim.state_estimations)</a>
 </li>
       <li><a href="reference/core/python/kinematics/omni.html#navground.core.kinematics.OmnidirectionalKinematics">OmnidirectionalKinematics (class in navground.core.kinematics)</a>
@@ -4397,14 +4578,16 @@
 </li>
       <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCABehavior">ORCABehavior (class in navground.core.behaviors)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCALine">ORCALine (class in navground.core.behaviors)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.orientation">orientation (Agent property)</a>
 
       <ul>
         <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.orientation">(Behavior property)</a>
+</li>
+        <li><a href="reference/sim/python/tasks/go_to_pose.html#navground.sim.tasks.GoToPoseTask.orientation">(GoToPoseTask property)</a>
 </li>
         <li><a href="reference/core/python/common.html#navground.core.Pose2.orientation">(Pose2 property)</a>
 </li>
@@ -4419,6 +4602,10 @@
 </li>
       <li><a href="reference/core/python/target.html#navground.core.Target.orientation_tolerance">orientation_tolerance (Target property)</a>
 </li>
+      <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.orientations">orientations (WaypointsTask property)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.origin">origin (GridMap property)</a>
+</li>
       <li><a href="reference/core/python/property.html#navground.core.Property.owner_type_name">owner_type_name (Property property)</a>
 </li>
   </ul></td>
@@ -4427,10 +4614,18 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/core/python/state/geometric.html#navground.core.LineSegment.p1">p1 (LineSegment property)</a>
+      <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox.p1">p1 (BoundingBox property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/state/geometric.html#navground.core.LineSegment.p1">(LineSegment property)</a>
 </li>
-      <li><a href="reference/core/python/state/geometric.html#navground.core.LineSegment.p2">p2 (LineSegment property)</a>
+      </ul></li>
+      <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox.p2">p2 (BoundingBox property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/state/geometric.html#navground.core.LineSegment.p2">(LineSegment property)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/target.html#navground.core.Path">Path (class in navground.core)</a>
 </li>
       <li><a href="reference/sim/python/experiment/experiment.html#navground.sim.Experiment.path">path (Experiment property)</a>
@@ -4465,8 +4660,12 @@
 </li>
       <li><a href="reference/sim/python/visualization/image.html#navground.sim.ui.render.png_for_world">png_for_world() (in module navground.sim.ui.render)</a>
 </li>
-      <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCALine.point">point (ORCALine property)</a>
+      <li><a href="reference/sim/python/tasks/go_to_pose.html#navground.sim.tasks.GoToPoseTask.point">point (GoToPoseTask property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/behaviors/ORCA.html#navground.core.behaviors.ORCALine.point">(ORCALine property)</a>
 </li>
+      </ul></li>
       <li><a href="reference/core/python/target.html#navground.core.Target.Point">Point() (Target static method)</a>
 </li>
       <li><a href="reference/sim/python/tasks/path.html#navground.sim.tasks.PathTask.points">points (PathTask property)</a>
@@ -4517,9 +4716,11 @@
 </li>
       <li><a href="reference/core/python/behavior_modulations/behavior_modulation.html#navground.core.BehaviorModulation.pre">pre() (BehaviorModulation method)</a>
 </li>
-      <li><a href="reference/sim/python/tasks/path.html#navground.sim.tasks.PathTask.prepare">prepare() (PathTask method)</a>
+      <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.prepare">prepare() (Behavior method)</a>
 
       <ul>
+        <li><a href="reference/sim/python/tasks/path.html#navground.sim.tasks.PathTask.prepare">(PathTask method)</a>
+</li>
         <li><a href="reference/sim/python/experiment/probes.html#navground.sim.Probe.prepare">(Probe method)</a>
 </li>
         <li><a href="reference/sim/python/state_estimations/sensor.html#navground.sim.Sensor.prepare">(Sensor method)</a>
@@ -4599,6 +4800,28 @@
         <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.range">(PyLidarStateEstimation property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.raytrace_between_cells">raytrace_between_cells() (GridMap method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.read_gridmap">read_gridmap() (LocalGridMapStateEstimation method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.read_gridmap_with_name">read_gridmap_with_name() (LocalGridMapStateEstimation static method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_odometry.html#navground.sim.state_estimations.OdometryStateEstimation.read_pose">read_pose() (OdometryStateEstimation method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_odometry.html#navground.sim.state_estimations.OdometryStateEstimation.read_pose_with_name">read_pose_with_name() (OdometryStateEstimation static method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.read_ranges">read_ranges() (LidarStateEstimation method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.read_ranges_with_name">read_ranges_with_name() (LidarStateEstimation static method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.read_scan">read_scan() (LidarStateEstimation method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.read_scan_with_name">read_scan_with_name() (LidarStateEstimation static method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.read_transform">read_transform() (LocalGridMapStateEstimation method)</a>
+</li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.read_transform_with_name">read_transform_with_name() (LocalGridMapStateEstimation static method)</a>
+</li>
       <li><a href="reference/core/python/property.html#navground.core.Property.readonly">readonly (Property property)</a>
 </li>
       <li><a href="reference/sim/python/experiment/real_time.html#navground.sim.replay.RealTimeReplay">RealTimeReplay (class in navground.sim.replay)</a>
@@ -4653,6 +4876,8 @@
 </li>
       <li><a href="reference/sim/python/visualization/svg.html#navground.sim.ui.Rect">Rect (in module navground.sim.ui)</a>
 </li>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType.rectangular">rectangular (FootprintType attribute)</a>
+</li>
       <li><a href="reference/core/python/register.html#navground.core.register">register() (in module navground.core)</a>
 
       <ul>
@@ -4661,6 +4886,8 @@
         <li><a href="reference/sim/python/yaml.html#navground.sim.schema.register">(in module navground.sim.schema)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.register_schema">register_schema() (Behavior static method)</a>
 
       <ul>
@@ -4677,8 +4904,6 @@
         <li><a href="reference/sim/python/tasks/task.html#navground.sim.Task.register_schema">(Task static method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/common.html#navground.core.Frame.relative">relative (Frame attribute)</a>
 
       <ul>
@@ -4718,9 +4943,13 @@
       <li><a href="reference/core/python/collision_computation.html#navground.core.CachedCollisionComputation.resolution">resolution (CachedCollisionComputation property)</a>
 
       <ul>
+        <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.resolution">(GridMap property)</a>
+</li>
         <li><a href="reference/core/python/behaviors/HL.html#navground.core.behaviors.HLBehavior.resolution">(HLBehavior property)</a>
 </li>
         <li><a href="reference/sim/python/state_estimations/sensor_lidar.html#navground.sim.state_estimations.LidarStateEstimation.resolution">(LidarStateEstimation property)</a>
+</li>
+        <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.resolution">(LocalGridMapStateEstimation property)</a>
 </li>
         <li><a href="reference/sim/python/state_estimations/sensor_pylidar.html#navground.sim.state_estimations.PyLidarStateEstimation.resolution">(PyLidarStateEstimation property)</a>
 </li>
@@ -4933,6 +5162,22 @@
 </li>
       <li><a href="reference/sim/python/world.html#navground.sim.World.set_termination_condition">set_termination_condition() (World method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.set_value">set_value() (GridMap method)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.set_value_at_point">set_value_at_point() (GridMap method)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.set_value_between_cells">set_value_between_cells() (GridMap method)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.set_value_in_disc">set_value_in_disc() (GridMap method)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.set_value_in_rectangle">set_value_in_rectangle() (GridMap method)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.set_value_of_cell">set_value_of_cell() (GridMap method)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.set_value_on_line">set_value_on_line() (GridMap method)</a>
+</li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.set_velocity">set_velocity() (Behavior method)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/scenario.html#navground.sim.Scenario.set_yaml">set_yaml() (Scenario method)</a>
@@ -4959,96 +5204,6 @@
         <li><a href="reference/sim/python/scenarios/cross_torus.html#navground.sim.scenarios.CrossTorusScenario.side">(CrossTorusScenario property)</a>
 </li>
       </ul></li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground._get_property">simNavground._get_property() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground._set_property">simNavground._set_property() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.add_agent_from_yaml">simNavground.add_agent_from_yaml() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.add_obstacle">simNavground.add_obstacle() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.add_wall">simNavground.add_wall() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.enable_recording">simNavground.enable_recording() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.follow_point">simNavground.follow_point() (built-in function)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.follow_pose">simNavground.follow_pose() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.follow_velocity">simNavground.follow_velocity() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_actuated_wheel_speeds">simNavground.get_actuated_wheel_speeds() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_agents">simNavground.get_agents() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_behavior_property">simNavground.get_behavior_property() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_horizon">simNavground.get_horizon() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_last_cmd">simNavground.get_last_cmd() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_last_wheel_cmd">simNavground.get_last_wheel_cmd() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_lattice">simNavground.get_lattice() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_optimal_speed">simNavground.get_optimal_speed() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_pose">simNavground.get_pose() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_safety_margin">simNavground.get_safety_margin() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_state">simNavground.get_state() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_target">simNavground.get_target() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.get_twist">simNavground.get_twist() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.go_to_pose">simNavground.go_to_pose() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.go_to_position">simNavground.go_to_position() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.make_controller">simNavground.make_controller() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.properties">simNavground.properties() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.remove_agent">simNavground.remove_agent() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_behavior_property">simNavground.set_behavior_property() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_cmd_frame">simNavground.set_cmd_frame() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_frame">simNavground.set_frame() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_heading_behavior">simNavground.set_heading_behavior() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_horizon">simNavground.set_horizon() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_lattice">simNavground.set_lattice() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_line_obstacles">simNavground.set_line_obstacles() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_neighbors">simNavground.set_neighbors() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_optimal_speed">simNavground.set_optimal_speed() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_pose">simNavground.set_pose() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_rotation_tau">simNavground.set_rotation_tau() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_safety_margin">simNavground.set_safety_margin() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_speed_tolerance">simNavground.set_speed_tolerance() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_static_obstacles">simNavground.set_static_obstacles() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.set_twist">simNavground.set_twist() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.should_be_limited_to_2d">simNavground.should_be_limited_to_2d() (built-in function)</a>
-</li>
-      <li><a href="packages/navground_coppeliasim.html#simNavground.update">simNavground.update() (built-in function)</a>
-</li>
       <li><a href="reference/sim/python/scenarios/simple.html#navground.sim.scenarios.SimpleScenario">SimpleScenario (class in navground.sim.scenarios)</a>
 </li>
       <li><a href="reference/core/python/state/sensing.html#navground.core.Buffer.size">size (Buffer property)</a>
@@ -5108,6 +5263,8 @@
       <li><a href="reference/core/python/controller.html#navground.core.Controller.state">state (Controller property)</a>
 </li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.state_estimation">state_estimation (Agent property)</a>
+</li>
+      <li><a href="reference/sim/python/agent.html#navground.sim.Agent.state_estimations">state_estimations (Agent property)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/state_estimation.html#navground.sim.StateEstimation">StateEstimation (class in navground.sim)</a>
 </li>
@@ -5253,18 +5410,24 @@
 </li>
       <li><a href="reference/core/python/build.html#navground.core.BuildInfo.to_string_diff">to_string_diff() (BuildInfo method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/sim/python/scenarios/antipodal.html#navground.sim.scenarios.AntipodalScenario.tolerance">tolerance (AntipodalScenario property)</a>
 
       <ul>
         <li><a href="reference/sim/python/scenarios/cross.html#navground.sim.scenarios.CrossScenario.tolerance">(CrossScenario property)</a>
+</li>
+        <li><a href="reference/sim/python/tasks/go_to_pose.html#navground.sim.tasks.GoToPoseTask.tolerance">(GoToPoseTask property)</a>
 </li>
         <li><a href="reference/sim/python/tasks/path.html#navground.sim.tasks.PathTask.tolerance">(PathTask property)</a>
 </li>
         <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.tolerance">(WaypointsTask property)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/sim/python/tasks/waypoints.html#navground.sim.tasks.WaypointsTask.tolerances">tolerances (WaypointsTask property)</a>
+</li>
+      <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.top_right">top_right (GridMap property)</a>
+</li>
       <li><a href="reference/core/python/target.html#navground.core.Path.track">track() (Path method)</a>
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Pose2.transform_point">transform_point() (Pose2 method)</a>
@@ -5272,6 +5435,8 @@
       <li><a href="reference/core/python/common.html#navground.core.Pose2.transform_pose">transform_pose() (Pose2 method)</a>
 </li>
       <li><a href="reference/core/python/common.html#navground.core.Pose2.transform_vector">transform_vector() (Pose2 method)</a>
+</li>
+      <li><a href="reference/sim/python/world.html#navground.sim.BoundingBox.translate">translate() (BoundingBox method)</a>
 </li>
       <li><a href="reference/sim/python/state_estimations/sensor_odometry.html#navground.sim.state_estimations.OdometryStateEstimation.transversal_speed_bias">transversal_speed_bias (OdometryStateEstimation property)</a>
 </li>
@@ -5415,9 +5580,11 @@
 </li>
       <li><a href="reference/core/python/target.html#navground.core.Target.valid">valid (Target property)</a>
 </li>
-      <li><a href="reference/core/python/common.html#navground.core.Frame.value">value (Frame property)</a>
+      <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType.value">value (FootprintType property)</a>
 
       <ul>
+        <li><a href="reference/core/python/common.html#navground.core.Frame.value">(Frame property)</a>
+</li>
         <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.Heading.value">(Heading property)</a>
 </li>
         <li><a href="reference/core/python/controller.html#navground.core.Action.State.value">(State property)</a>
@@ -5425,10 +5592,10 @@
       </ul></li>
       <li><a href="reference/core/python/common.html#navground.core.Vector2">Vector2 (in module navground.core)</a>
 </li>
-      <li><a href="reference/core/python/common.html#navground.core.Vector2Like">Vector2Like (in module navground.core)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/core/python/common.html#navground.core.Vector2Like">Vector2Like (in module navground.core)</a>
+</li>
       <li><a href="reference/sim/python/agent.html#navground.sim.Agent.velocity">velocity (Agent property)</a>
 
       <ul>
@@ -5477,10 +5644,10 @@
         <li><a href="reference/core/python/kinematics/2wdiff.html#navground.core.kinematics.TwoWheelsDifferentialDriveKinematics.wheel_axis">(TwoWheelsDifferentialDriveKinematics property)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.wheel_speeds">wheel_speeds (Behavior property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/core/python/kinematics/wheeled.html#navground.core.kinematics.WheeledKinematics.wheel_speeds">wheel_speeds() (WheeledKinematics method)</a>
 </li>
       <li><a href="reference/core/python/behaviors/behavior.html#navground.core.Behavior.wheel_speeds_from_twist">wheel_speeds_from_twist() (Behavior method)</a>
@@ -5490,7 +5657,13 @@
       <li><a href="reference/core/python/kinematics/wheeled.html#navground.core.kinematics.WheeledKinematics">WheeledKinematics (class in navground.core.kinematics)</a>
 </li>
       <li><a href="reference/sim/python/scenarios/corridor.html#navground.sim.scenarios.CorridorScenario.width">width (CorridorScenario property)</a>
+
+      <ul>
+        <li><a href="reference/core/python/state/gridmap.html#navground.core.GridMap.width">(GridMap property)</a>
 </li>
+        <li><a href="reference/sim/python/state_estimations/local_gridmap.html#navground.sim.state_estimations.LocalGridMapStateEstimation.width">(LocalGridMapStateEstimation property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/sim/python/world.html#navground.sim.World">World (class in navground.sim)</a>
 </li>
       <li><a href="reference/sim/python/experiment/run.html#navground.sim.ExperimentalRun.world">world (ExperimentalRun property)</a>
@@ -5588,8 +5761,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

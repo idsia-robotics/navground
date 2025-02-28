@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sampling &#8212; navground 0.4.0 documentation</title>
+    <title>Sampling &#8212; navground 0.5.0 documentation</title>
   
   
   
@@ -16,34 +16,32 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=183391d5"></script>
+    <script src="../../../_static/documentation_options.js?v=e4e9a439"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,10 +53,9 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Scenarios" href="scenarios/index.html" />
-    <link rel="prev" title="Waypoints" href="tasks/waypoints.html" />
+    <link rel="prev" title="GoToPoseTask" href="tasks/go_to_pose.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -74,8 +71,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -83,6 +91,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -90,8 +99,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -107,8 +116,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -133,16 +141,20 @@
   
   
   
-    <p class="title logo__title">navground 0.4.0 documentation</p>
+    <p class="title logo__title">navground 0.5.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
@@ -166,9 +178,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_core_py.html">navground_core_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_sim.html">navground_sim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_sim_py.html">navground_sim_py</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_ros.html">navground_ros</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_msgs.html">navground_msgs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_coppeliasim.html">navground_coppeliasim</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples.html">navground_examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples_py.html">navground_examples_py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples_yaml.html">navground_examples_yaml</a></li>
@@ -237,11 +246,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/odometry.html">Odometry</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/lidar.html">Lidar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/boundary.html">Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/local_gridmap.html">Local GridMap</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/direction.html">Direction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/waypoints.html">Waypoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/go_to_pose.html">GoToPose</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/path.html">Path</a></li>
 </ul>
 </details></li>
@@ -352,14 +363,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -456,16 +462,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -491,7 +505,7 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#samplers">Samplers</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class">Base class</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim7SamplerE"><code class="docutils literal notranslate"><span class="pre">Sampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim7SamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Sampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7Sampler6sampleER15RandomGenerator"><code class="docutils literal notranslate"><span class="pre">sample()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim7Sampler5countEv"><code class="docutils literal notranslate"><span class="pre">count()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim7Sampler4doneEv"><code class="docutils literal notranslate"><span class="pre">done()</span></code></a></li>
@@ -508,22 +522,22 @@
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generic">Generic</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim15ConstantSamplerE"><code class="docutils literal notranslate"><span class="pre">ConstantSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim15ConstantSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::ConstantSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15ConstantSampler15ConstantSamplerE1Tb"><code class="docutils literal notranslate"><span class="pre">ConstantSampler()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim15SequenceSamplerE"><code class="docutils literal notranslate"><span class="pre">SequenceSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim15SequenceSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::SequenceSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15SequenceSampler15SequenceSamplerERKNSt6vectorI1TEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">SequenceSampler()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim13ChoiceSamplerE"><code class="docutils literal notranslate"><span class="pre">ChoiceSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim13ChoiceSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::ChoiceSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13ChoiceSampler13ChoiceSamplerERKNSt6vectorI1TEEb"><code class="docutils literal notranslate"><span class="pre">ChoiceSampler()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numbers-and-vectors">Numbers and Vectors</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14RegularSamplerE"><code class="docutils literal notranslate"><span class="pre">RegularSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14RegularSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::RegularSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler18make_with_intervalERK1TRK1Tj4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_interval()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler14make_with_stepERK1TRK1TNSt8optionalIjEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_step()</span></code></a></li>
 </ul>
@@ -531,22 +545,22 @@
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">Vectors</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSamplerE"><code class="docutils literal notranslate"><span class="pre">GridSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::GridSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSampler11GridSamplerERK7Vector2RK7Vector2NSt5arrayIjXL2EEEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">GridSampler()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numbers">Numbers</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14UniformSamplerE"><code class="docutils literal notranslate"><span class="pre">UniformSampler</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim13NormalSamplerE"><code class="docutils literal notranslate"><span class="pre">NormalSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14UniformSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::UniformSampler</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim13NormalSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::NormalSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13NormalSampler13NormalSamplerE10ng_float_t10ng_float_tNSt8optionalI1TEENSt8optionalI1TEEbb"><code class="docutils literal notranslate"><span class="pre">NormalSampler()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#properties">Properties</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15PropertySamplerE"><code class="docutils literal notranslate"><span class="pre">PropertySampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15PropertySamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::PropertySampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground3sim15PropertySampler15PropertySamplerENSt10unique_ptrI7SamplerI1TEEE"><code class="docutils literal notranslate"><span class="pre">PropertySampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground3sim15PropertySampler15PropertySamplerERR1S"><code class="docutils literal notranslate"><span class="pre">PropertySampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0Dp0EN9navground3sim15PropertySampler15PropertySamplerEDp5Targs"><code class="docutils literal notranslate"><span class="pre">PropertySampler()</span></code></a></li>
@@ -558,7 +572,7 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#registered-components">Registered components</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Base class</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim19SamplerFromRegisterE"><code class="docutils literal notranslate"><span class="pre">SamplerFromRegister</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim19SamplerFromRegisterE"><code class="docutils literal notranslate"><span class="pre">navground::sim::SamplerFromRegister</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim19SamplerFromRegister19SamplerFromRegisterERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">SamplerFromRegister()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim19SamplerFromRegister4typeE"><code class="docutils literal notranslate"><span class="pre">type</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim19SamplerFromRegister10propertiesE"><code class="docutils literal notranslate"><span class="pre">properties</span></code></a></li>
@@ -567,7 +581,7 @@
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#registers">Registers</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground3sim15BehaviorSamplerE"><code class="docutils literal notranslate"><span class="pre">BehaviorSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground3sim15BehaviorSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::BehaviorSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15BehaviorSampler4TypeE"><code class="docutils literal notranslate"><span class="pre">Type</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15BehaviorSampler15BehaviorSamplerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">BehaviorSampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15BehaviorSampler13optimal_speedE"><code class="docutils literal notranslate"><span class="pre">optimal_speed</span></code></a></li>
@@ -581,18 +595,18 @@
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15BehaviorSampler11modulationsE"><code class="docutils literal notranslate"><span class="pre">modulations</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim17KinematicsSamplerE"><code class="docutils literal notranslate"><span class="pre">KinematicsSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim17KinematicsSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::KinematicsSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler4TypeE"><code class="docutils literal notranslate"><span class="pre">Type</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler17KinematicsSamplerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">KinematicsSampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler9max_speedE"><code class="docutils literal notranslate"><span class="pre">max_speed</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler17max_angular_speedE"><code class="docutils literal notranslate"><span class="pre">max_angular_speed</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim11TaskSamplerE"><code class="docutils literal notranslate"><span class="pre">TaskSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim11TaskSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::TaskSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11TaskSampler4TypeE"><code class="docutils literal notranslate"><span class="pre">Type</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim22StateEstimationSamplerE"><code class="docutils literal notranslate"><span class="pre">StateEstimationSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim22StateEstimationSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::StateEstimationSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim22StateEstimationSampler4TypeE"><code class="docutils literal notranslate"><span class="pre">Type</span></code></a></li>
 </ul>
 </li>
@@ -601,13 +615,14 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agents">Agents</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim12AgentSamplerE"><code class="docutils literal notranslate"><span class="pre">AgentSampler</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim12AgentSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::AgentSampler</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler12AgentSamplerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">AgentSampler()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim12AgentSampler27get_valid_state_estimationsEv"><code class="docutils literal notranslate"><span class="pre">get_valid_state_estimations()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler4nameE"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler8behaviorE"><code class="docutils literal notranslate"><span class="pre">behavior</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler10kinematicsE"><code class="docutils literal notranslate"><span class="pre">kinematics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler4taskE"><code class="docutils literal notranslate"><span class="pre">task</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler16state_estimationE"><code class="docutils literal notranslate"><span class="pre">state_estimation</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler17state_estimationsE"><code class="docutils literal notranslate"><span class="pre">state_estimations</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler8positionE"><code class="docutils literal notranslate"><span class="pre">position</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler11orientationE"><code class="docutils literal notranslate"><span class="pre">orientation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler6radiusE"><code class="docutils literal notranslate"><span class="pre">radius</span></code></a></li>
@@ -928,7 +943,7 @@
 <dt class="sig sig-object cpp" id="_CPPv4I0EN9navground3sim14UniformSamplerE">
 <span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structnavground_1_1sim_1_1_uniform_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">UniformSampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim14UniformSamplerE" title="navground::sim::UniformSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN9navground3sim14UniformSamplerE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sample randomly from a uniform distribution. </p>
-<p>Only defined if T is a number.</p>
+<p>Only defined if T is a number or a <a class="reference internal" href="../../core/cpp/common.html#namespacenavground_1_1core_1a82a44dd38acd1d570ee8e3fbae07d39a"><span class="std std-ref">core::Vector2</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>T</strong> – The sampled type </p>
@@ -1274,6 +1289,11 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 <dd><p>Constructs a new instance. </p>
 </dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim12AgentSampler27get_valid_state_estimationsEv">
+<span class="target" id="structnavground_1_1sim_1_1_agent_sampler_1a37d382a517d49ec84cd1cfbe56609424"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim22StateEstimationSamplerE" title="navground::sim::StateEstimationSampler"><span class="n"><span class="pre">StateEstimationSampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">S</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_valid_state_estimations</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim12AgentSampler27get_valid_state_estimationsEv" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
@@ -1298,8 +1318,8 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 <dd></dd></dl>
 
 <dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim12AgentSampler16state_estimationE">
-<span class="target" id="structnavground_1_1sim_1_1_agent_sampler_1a87bbd442d23d3057c0857930b9d38c88"></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim22StateEstimationSamplerE" title="navground::sim::StateEstimationSampler"><span class="n"><span class="pre">StateEstimationSampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">S</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">state_estimation</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim12AgentSampler16state_estimationE" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim12AgentSampler17state_estimationsE">
+<span class="target" id="structnavground_1_1sim_1_1_agent_sampler_1ad31d2c7fb586eb71f8aa81511e7ada60"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim22StateEstimationSamplerE" title="navground::sim::StateEstimationSampler"><span class="n"><span class="pre">StateEstimationSampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">S</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">state_estimations</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim12AgentSampler17state_estimationsE" title="Link to this definition">#</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp var">
@@ -1402,12 +1422,12 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="tasks/waypoints.html"
+       href="tasks/go_to_pose.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Waypoints</p>
+        <p class="prev-next-title">GoToPoseTask</p>
       </div>
     </a>
     <a class="right-next"
@@ -1426,8 +1446,7 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1438,7 +1457,7 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#samplers">Samplers</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class">Base class</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim7SamplerE"><code class="docutils literal notranslate"><span class="pre">Sampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim7SamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Sampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7Sampler6sampleER15RandomGenerator"><code class="docutils literal notranslate"><span class="pre">sample()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim7Sampler5countEv"><code class="docutils literal notranslate"><span class="pre">count()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim7Sampler4doneEv"><code class="docutils literal notranslate"><span class="pre">done()</span></code></a></li>
@@ -1455,22 +1474,22 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generic">Generic</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim15ConstantSamplerE"><code class="docutils literal notranslate"><span class="pre">ConstantSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim15ConstantSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::ConstantSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15ConstantSampler15ConstantSamplerE1Tb"><code class="docutils literal notranslate"><span class="pre">ConstantSampler()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim15SequenceSamplerE"><code class="docutils literal notranslate"><span class="pre">SequenceSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim15SequenceSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::SequenceSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15SequenceSampler15SequenceSamplerERKNSt6vectorI1TEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">SequenceSampler()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim13ChoiceSamplerE"><code class="docutils literal notranslate"><span class="pre">ChoiceSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim13ChoiceSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::ChoiceSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13ChoiceSampler13ChoiceSamplerERKNSt6vectorI1TEEb"><code class="docutils literal notranslate"><span class="pre">ChoiceSampler()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numbers-and-vectors">Numbers and Vectors</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14RegularSamplerE"><code class="docutils literal notranslate"><span class="pre">RegularSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14RegularSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::RegularSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler18make_with_intervalERK1TRK1Tj4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_interval()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler14make_with_stepERK1TRK1TNSt8optionalIjEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_step()</span></code></a></li>
 </ul>
@@ -1478,22 +1497,22 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">Vectors</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSamplerE"><code class="docutils literal notranslate"><span class="pre">GridSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::GridSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSampler11GridSamplerERK7Vector2RK7Vector2NSt5arrayIjXL2EEEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">GridSampler()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numbers">Numbers</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14UniformSamplerE"><code class="docutils literal notranslate"><span class="pre">UniformSampler</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim13NormalSamplerE"><code class="docutils literal notranslate"><span class="pre">NormalSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14UniformSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::UniformSampler</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim13NormalSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::NormalSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13NormalSampler13NormalSamplerE10ng_float_t10ng_float_tNSt8optionalI1TEENSt8optionalI1TEEbb"><code class="docutils literal notranslate"><span class="pre">NormalSampler()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#properties">Properties</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15PropertySamplerE"><code class="docutils literal notranslate"><span class="pre">PropertySampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15PropertySamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::PropertySampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground3sim15PropertySampler15PropertySamplerENSt10unique_ptrI7SamplerI1TEEE"><code class="docutils literal notranslate"><span class="pre">PropertySampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground3sim15PropertySampler15PropertySamplerERR1S"><code class="docutils literal notranslate"><span class="pre">PropertySampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0Dp0EN9navground3sim15PropertySampler15PropertySamplerEDp5Targs"><code class="docutils literal notranslate"><span class="pre">PropertySampler()</span></code></a></li>
@@ -1505,7 +1524,7 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#registered-components">Registered components</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Base class</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim19SamplerFromRegisterE"><code class="docutils literal notranslate"><span class="pre">SamplerFromRegister</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim19SamplerFromRegisterE"><code class="docutils literal notranslate"><span class="pre">navground::sim::SamplerFromRegister</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim19SamplerFromRegister19SamplerFromRegisterERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">SamplerFromRegister()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim19SamplerFromRegister4typeE"><code class="docutils literal notranslate"><span class="pre">type</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim19SamplerFromRegister10propertiesE"><code class="docutils literal notranslate"><span class="pre">properties</span></code></a></li>
@@ -1514,7 +1533,7 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#registers">Registers</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground3sim15BehaviorSamplerE"><code class="docutils literal notranslate"><span class="pre">BehaviorSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground3sim15BehaviorSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::BehaviorSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15BehaviorSampler4TypeE"><code class="docutils literal notranslate"><span class="pre">Type</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15BehaviorSampler15BehaviorSamplerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">BehaviorSampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15BehaviorSampler13optimal_speedE"><code class="docutils literal notranslate"><span class="pre">optimal_speed</span></code></a></li>
@@ -1528,18 +1547,18 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15BehaviorSampler11modulationsE"><code class="docutils literal notranslate"><span class="pre">modulations</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim17KinematicsSamplerE"><code class="docutils literal notranslate"><span class="pre">KinematicsSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim17KinematicsSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::KinematicsSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler4TypeE"><code class="docutils literal notranslate"><span class="pre">Type</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler17KinematicsSamplerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">KinematicsSampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler9max_speedE"><code class="docutils literal notranslate"><span class="pre">max_speed</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler17max_angular_speedE"><code class="docutils literal notranslate"><span class="pre">max_angular_speed</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim11TaskSamplerE"><code class="docutils literal notranslate"><span class="pre">TaskSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim11TaskSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::TaskSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11TaskSampler4TypeE"><code class="docutils literal notranslate"><span class="pre">Type</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim22StateEstimationSamplerE"><code class="docutils literal notranslate"><span class="pre">StateEstimationSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim22StateEstimationSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::StateEstimationSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim22StateEstimationSampler4TypeE"><code class="docutils literal notranslate"><span class="pre">Type</span></code></a></li>
 </ul>
 </li>
@@ -1548,13 +1567,14 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agents">Agents</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim12AgentSamplerE"><code class="docutils literal notranslate"><span class="pre">AgentSampler</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim12AgentSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::AgentSampler</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler12AgentSamplerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">AgentSampler()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim12AgentSampler27get_valid_state_estimationsEv"><code class="docutils literal notranslate"><span class="pre">get_valid_state_estimations()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler4nameE"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler8behaviorE"><code class="docutils literal notranslate"><span class="pre">behavior</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler10kinematicsE"><code class="docutils literal notranslate"><span class="pre">kinematics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler4taskE"><code class="docutils literal notranslate"><span class="pre">task</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler16state_estimationE"><code class="docutils literal notranslate"><span class="pre">state_estimation</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler17state_estimationsE"><code class="docutils literal notranslate"><span class="pre">state_estimations</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler8positionE"><code class="docutils literal notranslate"><span class="pre">position</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler11orientationE"><code class="docutils literal notranslate"><span class="pre">orientation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler6radiusE"><code class="docutils literal notranslate"><span class="pre">radius</span></code></a></li>
@@ -1621,8 +1641,8 @@ By Jérôme Guzzi, IDSIA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

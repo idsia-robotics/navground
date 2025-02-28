@@ -2,7 +2,7 @@
 Waypoints
 =========
 
-Pass by a sequence of points. Use :doc:`path` instead when points are dense and you want to just pass by.
+Travel to a sequence of points (or poses). Use :doc:`path` instead when points are dense and you want to just pass by.
 
 Example
 =======

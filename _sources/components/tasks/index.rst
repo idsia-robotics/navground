@@ -14,4 +14,5 @@ for which it set targets. Some tasks may never finish, other may terminate. Once
 
    direction
    waypoints
+   go_to_pose
    path

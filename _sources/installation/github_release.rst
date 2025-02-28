@@ -4,8 +4,8 @@ Github release
 
 Check the `latest release <https://github.com/idsia-robotics/navground/releases>`_ from Github.
 
-C++ library `navground::{core|sim}`
-===================================
+C++ library ``navground::{core|sim}``
+=====================================
 
 Download the appropriate installer, which is a ``.deb`` package for (Debian-based) Linux, a ``.pkg`` installer for macOs, or a ``.exe`` installer for Windows. 
 Pay attention to download the file for the correct architecture. Installers are named like ``navground_<version>_<os>_<architecture>.{exe|pkg|deb}``.
@@ -13,23 +13,32 @@ Pay attention to download the file for the correct architecture. Installers are 
 
 Run the installer. By default, on macOs and Linux, it will install navground in ``/opt/navground``, while on Windows in ``C:\Program Files\navground``.
 
+.. note::
+
+   On Linux, the following command, which requires ``wget``, downloads and installs/updates navground automatically:
+
+   .. code-block:: console
+
+      wget -qO- https://api.github.com/repos/idsia-robotics/navground/releases/latest \
+        | grep "browser_download_url.*`dpkg --print-architecture`.deb" \
+        | cut -d : -f 2,3 | tr -d \" | wget -P ./tmp-navground  -qi - \
+      && sudo apt-get install -y ./tmp-navground/*.deb && rm -rf ./tmp-navground
+
 
 Python package ``navground.{core|sim}``
 =======================================
 
-After installing the C++ library, from the same release, download the corresponding wheel. Pay attention to download the file for the correct architecture and Python version, which you can infer from the names like ``navground_<version>_<python version>_<os>_<architecture>.whl``.
-
-Then run
+After installing the C++ library, from the same release, download and install the corresponding wheel. Pip is able to find it using ``--find-links``:
 
 .. code-block:: console
 
-   $ pip install <path to the wheel>
+   $ pip install --find-links https://api.github.com/repos/idsia-robotics/navground/releases/latest navground
 
 Add ``[all]`` to install all optional dependencies:
 
 .. code-block:: console
 
-   $ pip install <path to the wheel>[all]
+   $ pip install --find-links https://api.github.com/repos/idsia-robotics/navground/releases/latest navground[all]
 
 .. note::
 

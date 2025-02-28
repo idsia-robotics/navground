@@ -7,7 +7,7 @@ Here we describe the instructions to build dependencies and packages one-by-one.
 Build tools
 ===========
 
-ROS is not required (except for ROS-specific components, see below) but we do use build tools from ROS which you can install even without ROS:
+ROS is not required (except for ROS-specific components, like `navground_ros <https://github.com/idsia-robotics/navground_ros>`_) but we do use build tools from ROS which you can install even without ROS:
 
 - `colcon <https://colcon.readthedocs.io/en/released/>`_ to coordinate the installation from source of different packages [and `vcstool <https://github.com/dirk-thomas/vcstool>`_ to simplify managing source code]
 
@@ -440,25 +440,3 @@ Depend on `Core C++`_, `Core Python`_, `Simulation C++`_, `Simulation Python`_.
 .. code-block:: console
 
    $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_examples navground_examples_py navground_examples_yaml navground_demos
-
-
-Navground + ROS
-===============
-
-Depends on `Core C++`_. You also need to have ROS installed and to source its setup script.
-
-.. code-block:: console
-
-   $ colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_msgs navground_ros
-
-
-Navground + CoppeliaSim
-=======================
-
-Depends on `Simulation C++`_. You also need to install `coppeliaSim <https://www.coppeliarobotics.com>`_ (versions 4.3, 4.4, 4.5, 4.6 [latest]).
-
-
-.. code-block:: console
-
-   export COPPELIASIM_ROOT_DIR=<path to the folder containing the programming subfolder>
-   colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select navground_coppeliasim

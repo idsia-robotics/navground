@@ -10,5 +10,5 @@ __all__ = [
     "BoundarySensor", "BoundedStateEstimation", "SensorCombination",
     "DiscsStateEstimation", "LidarStateEstimation", "Sensor",
     "OdometryStateEstimation", "PyLidarStateEstimation",
-    "LocalGridMapStateEstimation"
+    "LocalGridMapStateEstimation", "LidarScan"
 ]

@@ -61,5 +61,9 @@ universal = false
 
 [tool.setuptools-git-versioning]
 enabled = true
-starting_version = "0.6.0"
+# starting_version = "0.6.0"
+version_file = "VERSION.txt"
+count_commits_from_version_file = true
+dev_template = "{tag}.{branch}{ccount}"  # <--- note {branch} here
+dirty_template = "{tag}.{branch}{ccount}"
 # dirty_template = "{tag}-{ccount}+{branch}"

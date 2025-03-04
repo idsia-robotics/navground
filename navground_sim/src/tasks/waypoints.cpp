@@ -50,7 +50,6 @@ void WaypointsTask::update(Agent *agent, World *world, ng_float_t time) {
     }
   }
   if (_state == State::idle || _state == State::waited) {
-    std::cerr << "Start Moving to " << _index << " @ " << time << std::endl;
     _state = State::moving;
     const auto waypoint = get_waypoint(_index);
     assert(waypoint);

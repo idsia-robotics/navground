@@ -1,0 +1,1805 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>World &#8212; navground 0.3.5 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=ba3b9238"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/cpp/world';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Agent" href="agent.html" />
+    <link rel="prev" title="C++ API" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">navground 0.3.5 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../installation/index.html">Installation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/pip.html">Pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/docker.html">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/from_source.html">Building from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/step_by_step.html">Step-by-step Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../first_steps.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tour.html">A tour of navground</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_core.html">navground_core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_core_py.html">navground_core_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_sim.html">navground_sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_sim_py.html">navground_sim_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_ros.html">navground_ros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_msgs.html">navground_msgs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_coppeliasim.html">navground_coppeliasim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples.html">navground_examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples_py.html">navground_examples_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples_yaml.html">navground_examples_yaml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_demos.html">navground_demos</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/display.html">Visualize a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/playback.html">Load and playing back recorded experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sensors.html">Sensors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../guides/extend/index.html">How to extend navground</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/register_cpp.html">How to integrate a C++ component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/register_py.html">How to integrate a Python component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior.html">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior_modulation.html">Behavior modulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/kinematics.html">Kinematics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/state_estimation.html">State Estimations</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/task.html">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/scenario.html">Scenarios</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/probes.html">How to record custom data in experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/install.html">How to build without the ROS build tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/validate.html">How to validate code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../components/index.html">Components</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/behaviors/index.html">Behaviors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/orca.html">Optimal Reciprocal Collision Avoidance (ORCA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/hrvo.html">Hybrid Velocity Obstacle (HRVO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/hl.html">Human-like (HL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/social_force.html">Social Force</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/behavior_modulations/index.html">Behavior Modulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/limit_acceleration.html">Limiting the acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/limit_twist.html">Limiting the twist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/motor_pid.html">Motorized Wheels PID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/relaxation.html">Relaxation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/kinematics/index.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/omni.html">Omni-directional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/ahead.html">Ahead</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/bounded.html">Geometric with limited range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/discs.html">Discs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/odometry.html">Odometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/lidar.html">Lidar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/boundary.html">Boundary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/direction.html">Direction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/waypoints.html">Waypoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/path.html">Path</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/scenarios/index.html">Scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/cross.html">Cross</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/cross_torus.html">Cross Torus</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/accessors.html">Accessors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../core/index.html">Core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../core/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/types.html">Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/kinematics/index.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/state/index.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/behavior_modulations/index.html">Behavior Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/helper.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/cpp/build.html">Build info</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../core/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/kinematics/index.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/state/index.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/behavior_modulations/index.html">Behavior Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/python/build.html">Build info</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../core/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../core/yaml/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/yaml/register.html">Registered components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/yaml/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/yaml/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/yaml/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/yaml/behavior.html">Behavior</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Simulation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">C++ API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sampling.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="experiment/index.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yaml.html">YAML</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../python/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/experiment/index.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/plugins.html">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/helpers.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/visualization/index.html">Visualization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/task.html">Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/samplers.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/scenario.html">Scenario</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/experiment.html">Experiment</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/reference/sim/cpp/world.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>World</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11BoundingBoxE"><code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6EntityE"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEv"><code class="docutils literal notranslate"><span class="pre">Entity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEj"><code class="docutils literal notranslate"><span class="pre">Entity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">has_been_in_collision_since()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity23get_last_collision_timeEv"><code class="docutils literal notranslate"><span class="pre">get_last_collision_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity5resetEv"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity3uidE"><code class="docutils literal notranslate"><span class="pre">uid</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity9reset_uidEv"><code class="docutils literal notranslate"><span class="pre">reset_uid()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8ObstacleE"><code class="docutils literal notranslate"><span class="pre">Obstacle</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleEv"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK4Disc"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Obstaclecv4DiscEv"><code class="docutils literal notranslate"><span class="pre">operator</span> <span class="pre">Disc()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle4discE"><code class="docutils literal notranslate"><span class="pre">disc</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4WallE"><code class="docutils literal notranslate"><span class="pre">Wall</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallERK7Vector2RK7Vector2"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallEv"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallERK11LineSegment"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim4Wallcv11LineSegmentEv"><code class="docutils literal notranslate"><span class="pre">operator</span> <span class="pre">LineSegment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4lineE"><code class="docutils literal notranslate"><span class="pre">line</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5WorldE"><code class="docutils literal notranslate"><span class="pre">World</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World7LatticeE"><code class="docutils literal notranslate"><span class="pre">Lattice</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8CallbackE"><code class="docutils literal notranslate"><span class="pre">Callback</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20TerminationConditionE"><code class="docutils literal notranslate"><span class="pre">TerminationCondition</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World5WorldEv"><code class="docutils literal notranslate"><span class="pre">World()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World6updateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10update_dryE10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">update_dry()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World7actuateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">actuate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World3runEj10ng_float_t"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9run_untilENSt8functionIFbvEEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">run_until()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_timeEv"><code class="docutils literal notranslate"><span class="pre">get_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_stepEv"><code class="docutils literal notranslate"><span class="pre">get_step()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9add_agentERKNSt10shared_ptrI5AgentEE"><code class="docutils literal notranslate"><span class="pre">add_agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12remove_agentEP5Agent"><code class="docutils literal notranslate"><span class="pre">remove_agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World21remove_agent_with_uidEj"><code class="docutils literal notranslate"><span class="pre">remove_agent_with_uid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8add_wallERK11LineSegment"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8add_wallERK4Wall"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_obstacleERK4Disc"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_obstacleERK8Obstacle"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20add_random_obstaclesEj10ng_float_t10ng_float_t10ng_float_tj"><code class="docutils literal notranslate"><span class="pre">add_random_obstacles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World10get_agentsEv"><code class="docutils literal notranslate"><span class="pre">get_agents()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World13get_neighborsEPK5Agent10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">get_neighbors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22subdivide_bounding_boxERK11BoundingBoxb"><code class="docutils literal notranslate"><span class="pre">subdivide_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20get_agents_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_agents_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World23get_obstacles_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_obstacles_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World13get_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_obstacles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World9get_discsEb"><code class="docutils literal notranslate"><span class="pre">get_discs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World19get_discs_in_regionERK11BoundingBoxb"><code class="docutils literal notranslate"><span class="pre">get_discs_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World9get_wallsEv"><code class="docutils literal notranslate"><span class="pre">get_walls()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World18get_line_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World28get_line_obstacles_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World13set_obstaclesERKNSt6vectorI4DiscEE"><code class="docutils literal notranslate"><span class="pre">set_obstacles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9set_wallsERKNSt6vectorI11LineSegmentEE"><code class="docutils literal notranslate"><span class="pre">set_walls()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14get_collisionsEv"><code class="docutils literal notranslate"><span class="pre">get_collisions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World24compute_safety_violationEPK5AgentNSt8optionalIfEE"><code class="docutils literal notranslate"><span class="pre">compute_safety_violation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20get_random_generatorEv"><code class="docutils literal notranslate"><span class="pre">get_random_generator()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20set_random_generatorER15RandomGenerator"><code class="docutils literal notranslate"><span class="pre">set_random_generator()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World21copy_random_generatorER5World"><code class="docutils literal notranslate"><span class="pre">copy_random_generator()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_seedEv"><code class="docutils literal notranslate"><span class="pre">get_seed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8set_seedEj"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World15agents_are_idleEv"><code class="docutils literal notranslate"><span class="pre">agents_are_idle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv"><code class="docutils literal notranslate"><span class="pre">agents_are_idle_or_stuck()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World18space_agents_apartE10ng_float_tbj"><code class="docutils literal notranslate"><span class="pre">space_agents_apart()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World11has_latticeEv"><code class="docutils literal notranslate"><span class="pre">has_lattice()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World11get_latticeEj"><code class="docutils literal notranslate"><span class="pre">get_lattice()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World11set_latticeEjRK7Lattice"><code class="docutils literal notranslate"><span class="pre">set_lattice()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_lattice_gridEbb"><code class="docutils literal notranslate"><span class="pre">get_lattice_grid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24get_lattice_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_lattice_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World12in_collisionEPK6EntityPK6Entity"><code class="docutils literal notranslate"><span class="pre">in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10get_entityEj"><code class="docutils literal notranslate"><span class="pre">get_entity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9get_agentEj"><code class="docutils literal notranslate"><span class="pre">get_agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">add_callback()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World15reset_callbacksEv"><code class="docutils literal notranslate"><span class="pre">reset_callbacks()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World25set_termination_conditionERKNSt8optionalI20TerminationConditionEE"><code class="docutils literal notranslate"><span class="pre">set_termination_condition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World25has_termination_conditionEv"><code class="docutils literal notranslate"><span class="pre">has_termination_condition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16should_terminateEv"><code class="docutils literal notranslate"><span class="pre">should_terminate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World23get_agents_in_collisionE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_agents_in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22get_agents_in_deadlockE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_agents_in_deadlock()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World19snap_twists_to_zeroE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">snap_twists_to_zero()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14index_of_agentEPK5Agent"><code class="docutils literal notranslate"><span class="pre">index_of_agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24get_minimal_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_minimal_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16set_bounding_boxERKNSt8optionalI11BoundingBoxEE"><code class="docutils literal notranslate"><span class="pre">set_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16has_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">has_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12agents_movedEv"><code class="docutils literal notranslate"><span class="pre">agents_moved()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16record_collisionEP6EntityP6Entity"><code class="docutils literal notranslate"><span class="pre">record_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16clear_collisionsEv"><code class="docutils literal notranslate"><span class="pre">clear_collisions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="world">
+<h1>World<a class="headerlink" href="#world" title="Link to this heading">#</a></h1>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/sim/world.h&quot;</span>
+</pre></div>
+</div>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim11BoundingBoxE">
+<span class="target" id="namespacenavground_1_1sim_1a9e7830ea8a949af7fba6ad1fe0b7b041"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">BoundingBox</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">geos</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">geom</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Envelope</span></span><a class="headerlink" href="#_CPPv4N9navground3sim11BoundingBoxE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A rectangulare region </p>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim6EntityE">
+<span class="target" id="structnavground_1_1sim_1_1_entity"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Entity</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim6EntityE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Super-class that adds a unique ID to world entities. </p>
+<p>This unique ID should not be fed to navigation behaviors, but only used internally by the simulation, for instance, to identify entities in a UI. </p>
+<p>Subclassed by <a class="reference internal" href="agent.html#classnavground_1_1sim_1_1_agent"><span class="std std-ref">navground::sim::Agent</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_obstacle"><span class="std std-ref">navground::sim::Obstacle</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_wall"><span class="std std-ref">navground::sim::Wall</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim6Entity6EntityEv">
+<span class="target" id="structnavground_1_1sim_1_1_entity_1a5643fdfc1f971bd05e3d7cbaca48324a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Entity</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim6Entity6EntityEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim6Entity6EntityEj">
+<span class="target" id="structnavground_1_1sim_1_1_entity_1a3e091ec4e0de65d8970ceac20e2fdf11"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Entity</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim6Entity6EntityEj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> – <strong>[in]</strong> The identifier </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceE10ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_entity_1a96956f24aa0fdad307d1f46c8de2fabe"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">has_been_in_collision_since</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Determines if the entity has been in collision at least once since the given time. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> – <strong>[in]</strong> The time</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if been in collision since, False otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim6Entity23get_last_collision_timeEv">
+<span class="target" id="structnavground_1_1sim_1_1_entity_1a0f1bd2f858785623a8b3c9cef61fb255"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_last_collision_time</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim6Entity23get_last_collision_timeEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the last collision time. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The time </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim6Entity5resetEv">
+<span class="target" id="structnavground_1_1sim_1_1_entity_1a0c145d16e7fc250fdae4a84b62347e36"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim6Entity5resetEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Resets the entity. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim6Entity3uidE">
+<span class="target" id="structnavground_1_1sim_1_1_entity_1a0278578e02560baca0467c2b34c62fad"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uid</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim6Entity3uidE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Unique identifier </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim6Entity9reset_uidEv">
+<span class="target" id="structnavground_1_1sim_1_1_entity_1a56f1ffbdf5ef2fb7652be108458beeb5"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset_uid</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim6Entity9reset_uidEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Reset the UID counter to zero. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8ObstacleE">
+<span class="target" id="structnavground_1_1sim_1_1_obstacle"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Obstacle</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><a class="headerlink" href="#_CPPv4N9navground3sim8ObstacleE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A static obstacle with circular shape. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Obstacle8ObstacleERK7Vector210ng_float_t">
+<span class="target" id="structnavground_1_1sim_1_1_obstacle_1ac10de9b8982a20da861c15249b53887f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Obstacle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span>, <a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK7Vector210ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – <strong>[in]</strong> The position of the circle </p></li>
+<li><p><strong>radius</strong> – <strong>[in]</strong> The radius of the circle </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Obstacle8ObstacleEv">
+<span class="target" id="structnavground_1_1sim_1_1_obstacle_1ad067ebf63fc84d7345704c27efcf366b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Obstacle</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim8Obstacle8ObstacleEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Obstacle8ObstacleERK4Disc">
+<span class="target" id="structnavground_1_1sim_1_1_obstacle_1acf48637349e4a3d44f3740312b812875"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Obstacle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><span class="n"><span class="pre">Disc</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">disc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK4Disc" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>disc</strong> – <strong>[in]</strong> A disc </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim8Obstaclecv4DiscEv">
+<span class="target" id="structnavground_1_1sim_1_1_obstacle_1a9e7cde01662769732696e2746e3fd9a7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><span class="n"><span class="pre">Disc</span></span></a></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim8Obstaclecv4DiscEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Disc conversion operator. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Obstacle4discE">
+<span class="target" id="structnavground_1_1sim_1_1_obstacle_1ae4532ce5e5818d3a86e32b55be5797c7"></span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><span class="n"><span class="pre">Disc</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">disc</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim8Obstacle4discE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The disc. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim4WallE">
+<span class="target" id="structnavground_1_1sim_1_1_wall"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Wall</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><a class="headerlink" href="#_CPPv4N9navground3sim4WallE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A static wall. </p>
+<p>Currently, only line segment are valid shapes of walls. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim4Wall4WallERK7Vector2RK7Vector2">
+<span class="target" id="structnavground_1_1sim_1_1_wall_1ac306499b1b223687471887090305c277"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Wall</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">p1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">p2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim4Wall4WallERK7Vector2RK7Vector2" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p1</strong> – <strong>[in]</strong> The line segment start vertex </p></li>
+<li><p><strong>p2</strong> – <strong>[in]</strong> The line segment end vertex </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim4Wall4WallEv">
+<span class="target" id="structnavground_1_1sim_1_1_wall_1a2473a9f465402ca591627474f83d6b2e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Wall</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim4Wall4WallEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim4Wall4WallERK11LineSegment">
+<span class="target" id="structnavground_1_1sim_1_1_wall_1aace5fd2f6f5896fa0692f6448692b706"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Wall</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ls</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim4Wall4WallERK11LineSegment" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ls</strong> – <strong>[in]</strong> A line segment </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim4Wallcv11LineSegmentEv">
+<span class="target" id="structnavground_1_1sim_1_1_wall_1ae7b8a38bb570ae0103272837c9e51803"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim4Wallcv11LineSegmentEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>LineSegment conversion operator. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim4Wall4lineE">
+<span class="target" id="structnavground_1_1sim_1_1_wall_1a90cca1a4745e994ecf8545298f13ebd5"></span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">line</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim4Wall4lineE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The line segment. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5WorldE">
+<span class="target" id="classnavground_1_1sim_1_1_world"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">World</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim5WorldE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Ghost agents used in worlds that have a lattice. </p>
+<p>This class describes a world.</p>
+<p>A world implements the core part of the simulation. It holds a collection of entities as walls, obstacles, and agents.</p>
+<p>After setting up the world entities, users call <a class="reference internal" href="#classnavground_1_1sim_1_1_world_1a0ae41bcf9dafc8ba98479f8a945f33c1"><span class="std std-ref">update</span></a> or <a class="reference internal" href="#classnavground_1_1sim_1_1_world_1a413929a8829ad734c5e403f08b21465e"><span class="std std-ref">run</span></a> to perform one or more simulation steps, where</p>
+<p><ol class="loweralpha simple">
+<li><p>each agent updates its control</p></li>
+<li><p>each agent perform actuate its control command</p></li>
+<li><p>collisions are checked and resolved</p></li>
+<li><p>time is advanced</p></li>
+</ol>
+</p>
+<p><a class="reference internal" href="#classnavground_1_1sim_1_1_world"><span class="std std-ref">World</span></a> simulation uses a simple collision model that does not attempt to be realistic but should be computationally efficient.</p>
+<p><ol class="loweralpha simple">
+<li><p>first runs a broad-phase using <code class="docutils literal notranslate"><span class="pre">libgeos</span> <span class="pre">STR</span> <span class="pre">Trees</span> <span class="pre">&lt;</span><span class="pre">&gt;</span></code>_ where potential collisions are found using rectangular bounding boxes.</p></li>
+<li><p>then it runs a narrow-phase using the simple exact geometric shape of the obstacles and record pairs of entities that are in collision.</p></li>
+<li><p>finally it resolves collisions by colliding moving minimally entities away from each other, setting to zero the component of their velocities that would attract them together. </p></li>
+</ol>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World7LatticeE">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a3420692b279e53f713d4516d77a1df70"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Lattice</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">tuple</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim5World7LatticeE" title="Link to this definition">#</a><br /></dt>
+<dd><p>An (optional) one dimensional lattice defined by the initial point and the size of the cell. </p>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World8CallbackE">
+<span class="target" id="classnavground_1_1sim_1_1_world_1ac8856586cd2263cff7685ccc791a45aa"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Callback</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim5World8CallbackE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A callback to be executed at each simulation step </p>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World20TerminationConditionE">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a4acf357618f5e489a5b008832d5f9817"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TerminationCondition</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim5WorldE" title="navground::sim::World"><span class="n"><span class="pre">World</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim5World20TerminationConditionE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A condition for the simulation to terminate </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World5WorldEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a9c9c6a35b040bdf092ed8a7d2f3195c1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">World</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World5WorldEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World6updateE10ng_float_t">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a0ae41bcf9dafc8ba98479f8a945f33c1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World6updateE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Updates world for a single time step. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time_step</strong> – <strong>[in]</strong> The time step </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World10update_dryE10ng_float_tb">
+<span class="target" id="classnavground_1_1sim_1_1_world_1af2336551fa1331465cf0dbd2db4aff63"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_dry</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">advance_time</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World10update_dryE10ng_float_tb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Updates world for a single time step without actuation and collisions resolution. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time_step</strong> – <strong>[in]</strong> The time step </p></li>
+<li><p><strong>advance_time</strong> – <strong>[in]</strong> Whenever to advance time too. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World7actuateE10ng_float_t">
+<span class="target" id="classnavground_1_1sim_1_1_world_1aeab022beaf62506c17474fd52e601545"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">actuate</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World7actuateE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Actuate then controllers and perform collisions resolutions. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time_step</strong> – <strong>[in]</strong> The duration of each time step </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World3runEj10ng_float_t">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a413929a8829ad734c5e403f08b21465e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">steps</span></span>, <a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World3runEj10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Updates the world for one or more time steps. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>steps</strong> – <strong>[in]</strong> The number of steps </p></li>
+<li><p><strong>time_step</strong> – <strong>[in]</strong> The duration of each time step </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World9run_untilENSt8functionIFbvEEE10ng_float_t">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a40db792bc220a9d9a893ba6cea2c63ee"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_until</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">condition</span></span>, <a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World9run_untilENSt8functionIFbvEEE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Updates the world until a condition is satisfied. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>condition</strong> – <strong>[in]</strong> The condition </p></li>
+<li><p><strong>time_step</strong> – <strong>[in]</strong> The duration of each time step </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World8get_timeEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a39e1f9f86884b1a0f3a2f1a0cad5b5e3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_time</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World8get_timeEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the simulation time. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The simulation time. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World8get_stepEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a7c985709225731a937d9c46ae40fec9b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_step</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World8get_stepEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the simulation step. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The simulation step. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World9add_agentERKNSt10shared_ptrI5AgentEE">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a474eab6f218061c8f8ace76c32c82b06"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_agent</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">agent</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World9add_agentERKNSt10shared_ptrI5AgentEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Adds an agent to the world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>agent</strong> – <strong>[in]</strong> The agent </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World12remove_agentEP5Agent">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a1a8f129c14c22ad0e1042d9927cc24c8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_agent</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">agent</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World12remove_agentEP5Agent" title="Link to this definition">#</a><br /></dt>
+<dd><p>Remove an agent from the world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>agent</strong> – <strong>[in]</strong> The agent </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World21remove_agent_with_uidEj">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a7900c59644784517e3870cb9459b785f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_agent_with_uid</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World21remove_agent_with_uidEj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Remove an agent from the world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>uid</strong> – <strong>[in]</strong> The uid of the agent </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World8add_wallERK11LineSegment">
+<span class="target" id="classnavground_1_1sim_1_1_world_1ae09601c55ee022ae4b6eff67cea81f83"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_wall</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">line</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World8add_wallERK11LineSegment" title="Link to this definition">#</a><br /></dt>
+<dd><p>Adds a line to the world as a wall. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line</strong> – <strong>[in]</strong> The line </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World8add_wallERK4Wall">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a31161d36569e91af509fee20f28595a5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_wall</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim4WallE" title="navground::sim::Wall"><span class="n"><span class="pre">Wall</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">wall</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World8add_wallERK4Wall" title="Link to this definition">#</a><br /></dt>
+<dd><p>Adds a wall to the world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>wall</strong> – <strong>[in]</strong> The wall </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World12add_obstacleERK4Disc">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a2b29cb084f021c98886928da335dde50"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_obstacle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><span class="n"><span class="pre">Disc</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">disc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World12add_obstacleERK4Disc" title="Link to this definition">#</a><br /></dt>
+<dd><p>Adds a disc the world as a static obstacle. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>disc</strong> – <strong>[in]</strong> The disc </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World12add_obstacleERK8Obstacle">
+<span class="target" id="classnavground_1_1sim_1_1_world_1af2795a630258ea384372536d7047d46e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_obstacle</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim8ObstacleE" title="navground::sim::Obstacle"><span class="n"><span class="pre">Obstacle</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">obstacle</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World12add_obstacleERK8Obstacle" title="Link to this definition">#</a><br /></dt>
+<dd><p>Adds a static obstacle the world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obstacle</strong> – <strong>[in]</strong> The obstacle </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World20add_random_obstaclesEj10ng_float_t10ng_float_t10ng_float_tj">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a102bec7eaf5e97605b1372356c5d8821"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_random_obstacles</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">number</span></span>, <a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">min_radius</span></span>, <a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_radius</span></span>, <a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">margin</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_tries</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1000</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World20add_random_obstaclesEj10ng_float_t10ng_float_t10ng_float_tj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Adds a random obstacles in the world bounding box. </p>
+<p>It iteratively try to sample a disc that is far enough of any other item. If the sampling fails, it counts as a try and the process stop after either enough obstacles have been added or enough tries performed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number</strong> – <strong>[in]</strong> The number of obstacles </p></li>
+<li><p><strong>min_radius</strong> – <strong>[in]</strong> The minimum radius of obstacles </p></li>
+<li><p><strong>max_radius</strong> – <strong>[in]</strong> The maximum radius of obstacles </p></li>
+<li><p><strong>margin</strong> – <strong>[in]</strong> The minimal distance to other obstacles or agents. For agents, it’s additional to their safety margin. </p></li>
+<li><p><strong>max_tries</strong> – <strong>[in]</strong> The maximum tries before terminating. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World10get_agentsEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1ab25550a5c83b08a043bb0235b7b82838"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_agents</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World10get_agentsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets all agents in this world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>All agents. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World13get_neighborsEPK5Agent10ng_float_tb">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a9a7247deee945dba5ecccb4a0e9d95e5"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core8NeighborE" title="navground::core::Neighbor"><span class="n"><span class="pre">Neighbor</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_neighbors</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">agent</span></span>, <a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">distance</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ignore_lattice</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World13get_neighborsEPK5Agent10ng_float_tb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets all neighbor of an agent. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agent</strong> – <strong>[in]</strong> The agent </p></li>
+<li><p><strong>distance</strong> – <strong>[in]</strong> The radius of the neighborhood </p></li>
+<li><p><strong>ignore_lattice</strong> – <strong>[in]</strong> Whether to ignore the lattice when computing neighbors</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>All neighbor within a circle of radius <code class="docutils literal notranslate"><span class="pre">radius</span></code> centered around the agent. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World22subdivide_bounding_boxERK11BoundingBoxb">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a8a5497a88e6398d8e40a43102ba9b438"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">tuple</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim11BoundingBoxE" title="navground::sim::BoundingBox"><span class="n"><span class="pre">BoundingBox</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">subdivide_bounding_box</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim11BoundingBoxE" title="navground::sim::BoundingBox"><span class="n"><span class="pre">BoundingBox</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bounding_box</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ignore_lattice</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World22subdivide_bounding_boxERK11BoundingBoxb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Split a bounding box by the lattice-induced grid. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bounding_box</strong> – <strong>[in]</strong> The bounding box </p></li>
+<li><p><strong>ignore_lattice</strong> – <strong>[in]</strong> Indicates if the lattice is to be ignored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A vector of pairs of translation (along the lattice) and subset of the bounding box that fit in that lattice cell. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World20get_agents_in_regionERK11BoundingBox">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a1549183fa417323e619b5bdf58f2b4d0"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_agents_in_region</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim11BoundingBoxE" title="navground::sim::BoundingBox"><span class="n"><span class="pre">BoundingBox</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World20get_agents_in_regionERK11BoundingBox" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets all agents in a bounding box. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bb</strong> – <strong>[in]</strong> The bounding box specified in world-fixed coordinates</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>All agents that lie in a bounding box. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World23get_obstacles_in_regionERK11BoundingBox">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a08c382acfdb133166dc209504209931d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim8ObstacleE" title="navground::sim::Obstacle"><span class="n"><span class="pre">Obstacle</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_obstacles_in_region</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim11BoundingBoxE" title="navground::sim::BoundingBox"><span class="n"><span class="pre">BoundingBox</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World23get_obstacles_in_regionERK11BoundingBox" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets all obstacles in a bounding box. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bb</strong> – <strong>[in]</strong> The bounding box specified in world-fixed coordinates</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>All obstacles that lie in a bounding box. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World13get_obstaclesEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1ab56ca26475322effb3e3c1b870ad2339"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim8ObstacleE" title="navground::sim::Obstacle"><span class="n"><span class="pre">Obstacle</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_obstacles</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World13get_obstaclesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets all obstacles in this world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>All obstacles. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World9get_discsEb">
+<span class="target" id="classnavground_1_1sim_1_1_world_1af8052050a3eec8cadc12e3059b00d38f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><span class="n"><span class="pre">Disc</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_discs</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ignore_lattice</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World9get_discsEb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets all disc shaped static obstacles in this world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ignore_lattice</strong> – <strong>[in]</strong> Whether to ignore the lattice</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>All obstacles. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World19get_discs_in_regionERK11BoundingBoxb">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a8b17149fa48e2c47feab5ce2735daff0"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><span class="n"><span class="pre">Disc</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_discs_in_region</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim11BoundingBoxE" title="navground::sim::BoundingBox"><span class="n"><span class="pre">BoundingBox</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bb</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ignore_lattice</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World19get_discs_in_regionERK11BoundingBoxb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets all agents in a bounding box. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bb</strong> – <strong>[in]</strong> The bounding box specified in world-fixed </p></li>
+<li><p><strong>ignore_lattice</strong> – <strong>[in]</strong> Whether to ignore the lattice when computing neighbors</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>All obstacles that lie in a bounding box </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World9get_wallsEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1ae8a71eebbea034393819d36d04c032e4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim4WallE" title="navground::sim::Wall"><span class="n"><span class="pre">Wall</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_walls</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World9get_wallsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets all walls in this world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>All walls. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World18get_line_obstaclesEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1abdf2e0572582d3c7a9f898272d676c71"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_line_obstacles</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World18get_line_obstaclesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets all line obstacles in this world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>All ine obstacles. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World28get_line_obstacles_in_regionERK11BoundingBox">
+<span class="target" id="classnavground_1_1sim_1_1_world_1af6c55a755bf24e1967209b595ec18459"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_line_obstacles_in_region</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim11BoundingBoxE" title="navground::sim::BoundingBox"><span class="n"><span class="pre">BoundingBox</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bb</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World28get_line_obstacles_in_regionERK11BoundingBox" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets all walls in a bounding box. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bb</strong> – <strong>[in]</strong> The bounding box specified in world-fixed</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>All walls that lie in a bounding box </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World13set_obstaclesERKNSt6vectorI4DiscEE">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a2c8c439a13cc9dee89b1ab31c945203c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_obstacles</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><span class="n"><span class="pre">Disc</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">obstacles</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World13set_obstaclesERKNSt6vectorI4DiscEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Replaces all obstacles. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obstacles</strong> – <strong>[in]</strong> The new obstacles </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World9set_wallsERKNSt6vectorI11LineSegmentEE">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a197f65ae46ceae9a1f18b4bfa25d5e19"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_walls</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/state/geometric.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">walls</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World9set_wallsERKNSt6vectorI11LineSegmentEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Replaces all walls. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>walls</strong> – <strong>[in]</strong> The new walls </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World14get_collisionsEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1ad4c8a15fd4d3f68d4498da8e4081125c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">set</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">tuple</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_collisions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World14get_collisionsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the colliding pairs computed during the last simulation step. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The colliding pair of entities. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World24compute_safety_violationEPK5AgentNSt8optionalIfEE">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a6e456239a5e3f3b676f4856aa8f1ea70"></span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_safety_violation</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">agent</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">float</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">safety_margin</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nullopt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World24compute_safety_violationEPK5AgentNSt8optionalIfEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Calculates the safety violation, i.e. the maximal penetration of a neighbor or obstacle in the safety margin of the agent. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agent</strong> – <strong>[in]</strong> The agent </p></li>
+<li><p><strong>safety_margin</strong> – <strong>[in]</strong> The safety margin. If not set, it will default to the agent’s behavior safety margin.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The safety violation or 0 if no violation. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World20get_random_generatorEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a5d9ec1c14cab705e20ccadc0843118d4"></span><a class="reference internal" href="../../core/cpp/types.html#_CPPv415RandomGenerator" title="RandomGenerator"><span class="n"><span class="pre">RandomGenerator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_random_generator</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World20get_random_generatorEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>The random generator shared by all distribution used to generate and simulate this world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The random generator </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World20set_random_generatorER15RandomGenerator">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a47d9538576a397fa48cb546b4a2a07db"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_random_generator</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/types.html#_CPPv415RandomGenerator" title="RandomGenerator"><span class="n"><span class="pre">RandomGenerator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World20set_random_generatorER15RandomGenerator" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the random generator shared by all distribution used to generate and simulate this world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired random generator </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World21copy_random_generatorER5World">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a318c9f889dab3e80c5e08e25d11a493f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">copy_random_generator</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N9navground3sim5WorldE" title="navground::sim::World"><span class="n"><span class="pre">World</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">world</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World21copy_random_generatorER5World" title="Link to this definition">#</a><br /></dt>
+<dd><p>Copy the random generator from another world. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>world</strong> – <strong>[in]</strong> The world </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World8get_seedEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1aea6d91a0282c51c3761aeeaf078b6b30"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_seed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World8get_seedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the random seed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The random seed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World8set_seedEj">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a99073aa4b4c69a3ff02a2101204330a1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_seed</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World8set_seedEj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the random seed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seed</strong> – <strong>[in]</strong> The random seed </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World15agents_are_idleEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1ab8cced3e3513d73bdcdb1cccb8e9da1f"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">agents_are_idle</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World15agents_are_idleEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check if all agents are idle (i.e., their tasks are done and their controller are idle). </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if all agents are idle </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a16b6a4100def30656dee2e980b1c9fd5"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">agents_are_idle_or_stuck</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check if all agents are idle or stuck (i.e., they are no moving because they task is done or they are deadlocked) </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if all agents are idle or stuck </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World18space_agents_apartE10ng_float_tbj">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a16087b4bc6d0261b26f5791fa5cc4e3e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">space_agents_apart</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">minimal_distance</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">with_safety_margin</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_iterations</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">10</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World18space_agents_apartE10ng_float_tbj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Move agents so that they do not overlap anymore with themselves or with any obstacle. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>minimal_distance</strong> – <strong>[in]</strong> The minimal distance </p></li>
+<li><p><strong>with_safety_margin</strong> – <strong>[in]</strong> Whether the safety margin should be added to the minimal distance </p></li>
+<li><p><strong>max_iterations</strong> – <strong>[in]</strong> The maximal number of iterations to perform. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World11has_latticeEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a920dc4b7aa8a671729d2f79d0b28a5d3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">has_lattice</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World11has_latticeEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Determines if this world uses a lattice. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if it uses a lattice, False otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World11get_latticeEj">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a6c9a51f63e8d3e529c7d2ce1137fd6f2"></span><a class="reference internal" href="#_CPPv4N9navground3sim5World7LatticeE" title="navground::sim::World::Lattice"><span class="n"><span class="pre">Lattice</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_lattice</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">axis</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World11get_latticeEj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the periodic lattice. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>axis</strong> – <strong>[in]</strong> The axis (0 for x, 1 for y)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An optional tuple of points that define a periodic lattice that wraps the selected axis. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World11set_latticeEjRK7Lattice">
+<span class="target" id="classnavground_1_1sim_1_1_world_1aab5191f57e494fc00fdbd75acd5b3c56"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_lattice</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">axis</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim5World7LatticeE" title="navground::sim::World::Lattice"><span class="n"><span class="pre">Lattice</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World11set_latticeEjRK7Lattice" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the periodic lattice. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>axis</strong> – <strong>[in]</strong> The axis (0 for x, 1 for y) </p></li>
+<li><p><strong>value</strong> – <strong>[in]</strong> An optional tuple of points that define a periodic lattice that wraps the selected axis. Pass none to unset the lattice and remove wrapping. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World16get_lattice_gridEbb">
+<span class="target" id="classnavground_1_1sim_1_1_world_1aa7257fb27d9e94a3f141780407be9cf6"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_lattice_grid</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">include_zero</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c8</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World16get_lattice_gridEbb" title="Link to this definition">#</a><br /></dt>
+<dd><p>The N=0, 1, or 2 vectors that define the lattice, e.g., <code class="docutils literal notranslate"><span class="pre">{delta_x,</span> <span class="pre">-delta_x}</span></code> if only the axis=0 lattice is set. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>include_zero</strong> – <strong>[in]</strong> Whether to include the zero vector </p></li>
+<li><p><strong>c8</strong> – <strong>[in]</strong> Whether to use 8-connectivity instead of 4-connectivity</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A vector of 2D vectors </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World24get_lattice_bounding_boxEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a27f2ab77eeca7b14e3d178ea5f8eb001"></span><a class="reference internal" href="#_CPPv4N9navground3sim11BoundingBoxE" title="navground::sim::BoundingBox"><span class="n"><span class="pre">BoundingBox</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_lattice_bounding_box</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World24get_lattice_bounding_boxEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the lattice cell. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The lattice cell. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World12in_collisionEPK6EntityPK6Entity">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a35a4ac71fa3c70252bd654e4bef252b7"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">in_collision</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">e1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">e2</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World12in_collisionEPK6EntityPK6Entity" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check if two entities are currently in collision. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>e1</strong> – <strong>[in]</strong> The first entity </p></li>
+<li><p><strong>e2</strong> – <strong>[in]</strong> The second entity</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if they are in collision. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World10get_entityEj">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a063614dcb6869edda45d8b1079f66072"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_entity</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World10get_entityEj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Find an entity by identifier. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>uid</strong> – <strong>[in]</strong> The entity uid</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The entity or nullptr if not found. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World9get_agentEj">
+<span class="target" id="classnavground_1_1sim_1_1_world_1abda3bd9ee7c502faedfcb126216884de"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_agent</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">uid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World9get_agentEj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Find an agent by identifier. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>uid</strong> – <strong>[in]</strong> The agent uid</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The agent or nullptr if not found. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World12add_callbackERK8Callback">
+<span class="target" id="classnavground_1_1sim_1_1_world_1add4e5b8e5077dacb017cba43d15f8837"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_callback</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim5World8CallbackE" title="navground::sim::World::Callback"><span class="n"><span class="pre">Callback</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World12add_callbackERK8Callback" title="Link to this definition">#</a><br /></dt>
+<dd><p>Adds a callback to be executed after each simulation step. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The callback </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World15reset_callbacksEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a976e03f3d8d12b09a87dd717c380cca2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset_callbacks</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World15reset_callbacksEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Clear all the callbacks. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World25set_termination_conditionERKNSt8optionalI20TerminationConditionEE">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a62e03088f808d3e1a0ed8c7674759783"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_termination_condition</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim5World20TerminationConditionE" title="navground::sim::World::TerminationCondition"><span class="n"><span class="pre">TerminationCondition</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World25set_termination_conditionERKNSt8optionalI20TerminationConditionEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets a condition to terminate simulations. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired condition. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World25has_termination_conditionEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a18fdfaf66d4fccf69e2aaacaeb1aba69"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">has_termination_condition</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World25has_termination_conditionEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns whether there is a termination condition set. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if a termination condition has been set. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World16should_terminateEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a290c9719db564b228fce3f2824e9bdae"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">should_terminate</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World16should_terminateEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Checks whether the simulation should terminate. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if a termination condition is set and evaluates to true. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World23get_agents_in_collisionE10ng_float_t">
+<span class="target" id="classnavground_1_1sim_1_1_world_1af018ab2b7e59e77471387777a3f0ffc9"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_agents_in_collision</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">duration</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World23get_agents_in_collisionE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the agents that had a collision after <code class="docutils literal notranslate"><span class="pre">now</span> <span class="pre">-</span> <span class="pre">duration</span></code>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>duration</strong> – <strong>[in]</strong> The duration</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The agents in collision. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World22get_agents_in_deadlockE10ng_float_t">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a6be5b865f6e9ec3171bbf7bcb111b5d5"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_agents_in_deadlock</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">duration</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World22get_agents_in_deadlockE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the agents that are in stuck since <code class="docutils literal notranslate"><span class="pre">now</span> <span class="pre">-</span> <span class="pre">duration</span></code>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>duration</strong> – <strong>[in]</strong> The duration</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The agents in deadlock. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World19snap_twists_to_zeroE10ng_float_t">
+<span class="target" id="classnavground_1_1sim_1_1_world_1ac055ca5a9ec4ae062cf53064c345c314"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">snap_twists_to_zero</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">epsilon</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1e-6</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World19snap_twists_to_zeroE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Snap agents’ twists smaller than epsilon to zero. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> – <strong>[in]</strong> The tolerance </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World14index_of_agentEPK5Agent">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a4aee0400bc346d06e72b414bd3ac1654"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">index_of_agent</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">agent</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World14index_of_agentEPK5Agent" title="Link to this definition">#</a><br /></dt>
+<dd><p>Searches for the index of an agent. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>agent</strong> – <strong>[in]</strong> The agent</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The index of this agent in the world agents list or null if not found. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World24get_minimal_bounding_boxEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a75d1ba6e9911b31692b190212bc4f90b"></span><a class="reference internal" href="#_CPPv4N9navground3sim11BoundingBoxE" title="navground::sim::BoundingBox"><span class="n"><span class="pre">BoundingBox</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_minimal_bounding_box</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World24get_minimal_bounding_boxEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the bounding box that contains all agents, obstacles and walls. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The computed bounding box. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World16set_bounding_boxERKNSt8optionalI11BoundingBoxEE">
+<span class="target" id="classnavground_1_1sim_1_1_world_1abd9cdc307dd5f83aa54dc49787067b13"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_bounding_box</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim11BoundingBoxE" title="navground::sim::BoundingBox"><span class="n"><span class="pre">BoundingBox</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World16set_bounding_boxERKNSt8optionalI11BoundingBoxEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the bounding box. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired value. Pass none to unset the bounding box. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World16get_bounding_boxEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a2dd52eabc3dcdb4ea8b87a184e812c84"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim11BoundingBoxE" title="navground::sim::BoundingBox"><span class="n"><span class="pre">BoundingBox</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_bounding_box</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World16get_bounding_boxEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the bounding box. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The bounding box that has been set with <a class="reference internal" href="#classnavground_1_1sim_1_1_world_1abd9cdc307dd5f83aa54dc49787067b13"><span class="std std-ref">set_bounding_box</span></a> or <a class="reference internal" href="#classnavground_1_1sim_1_1_world_1a75d1ba6e9911b31692b190212bc4f90b"><span class="std std-ref">get_minimal_bounding_box</span></a> in case none is set. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim5World16has_bounding_boxEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a04d346facb25c276d0ea032e954c9c22"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">has_bounding_box</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim5World16has_bounding_boxEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Determines if a bounding box is set. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if bounding box is set, False otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World12agents_movedEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1a512ae0f63a354d1477a9493ee34ba54b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">agents_moved</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World12agents_movedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Notify that some agents have moved, therefore the str tree need to be updated. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World16record_collisionEP6EntityP6Entity">
+<span class="target" id="classnavground_1_1sim_1_1_world_1ac05040285cbec440fe7beb94b6dbc96a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">record_collision</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">e1</span></span>, <a class="reference internal" href="#_CPPv4N9navground3sim6EntityE" title="navground::sim::Entity"><span class="n"><span class="pre">Entity</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">e2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World16record_collisionEP6EntityP6Entity" title="Link to this definition">#</a><br /></dt>
+<dd><p>Record the collision between two entities. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>e1</strong> – The first entity </p></li>
+<li><p><strong>e2</strong> – The second entity </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5World16clear_collisionsEv">
+<span class="target" id="classnavground_1_1sim_1_1_world_1ac074a4da2b88ba5eddb4e86a0b5be460"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clear_collisions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim5World16clear_collisionsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Clear collisions. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">C++ API</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="agent.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Agent</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11BoundingBoxE"><code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6EntityE"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEv"><code class="docutils literal notranslate"><span class="pre">Entity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEj"><code class="docutils literal notranslate"><span class="pre">Entity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">has_been_in_collision_since()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity23get_last_collision_timeEv"><code class="docutils literal notranslate"><span class="pre">get_last_collision_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity5resetEv"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity3uidE"><code class="docutils literal notranslate"><span class="pre">uid</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity9reset_uidEv"><code class="docutils literal notranslate"><span class="pre">reset_uid()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8ObstacleE"><code class="docutils literal notranslate"><span class="pre">Obstacle</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleEv"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK4Disc"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Obstaclecv4DiscEv"><code class="docutils literal notranslate"><span class="pre">operator</span> <span class="pre">Disc()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle4discE"><code class="docutils literal notranslate"><span class="pre">disc</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4WallE"><code class="docutils literal notranslate"><span class="pre">Wall</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallERK7Vector2RK7Vector2"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallEv"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallERK11LineSegment"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim4Wallcv11LineSegmentEv"><code class="docutils literal notranslate"><span class="pre">operator</span> <span class="pre">LineSegment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4lineE"><code class="docutils literal notranslate"><span class="pre">line</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5WorldE"><code class="docutils literal notranslate"><span class="pre">World</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World7LatticeE"><code class="docutils literal notranslate"><span class="pre">Lattice</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8CallbackE"><code class="docutils literal notranslate"><span class="pre">Callback</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20TerminationConditionE"><code class="docutils literal notranslate"><span class="pre">TerminationCondition</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World5WorldEv"><code class="docutils literal notranslate"><span class="pre">World()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World6updateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10update_dryE10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">update_dry()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World7actuateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">actuate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World3runEj10ng_float_t"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9run_untilENSt8functionIFbvEEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">run_until()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_timeEv"><code class="docutils literal notranslate"><span class="pre">get_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_stepEv"><code class="docutils literal notranslate"><span class="pre">get_step()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9add_agentERKNSt10shared_ptrI5AgentEE"><code class="docutils literal notranslate"><span class="pre">add_agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12remove_agentEP5Agent"><code class="docutils literal notranslate"><span class="pre">remove_agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World21remove_agent_with_uidEj"><code class="docutils literal notranslate"><span class="pre">remove_agent_with_uid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8add_wallERK11LineSegment"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8add_wallERK4Wall"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_obstacleERK4Disc"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_obstacleERK8Obstacle"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20add_random_obstaclesEj10ng_float_t10ng_float_t10ng_float_tj"><code class="docutils literal notranslate"><span class="pre">add_random_obstacles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World10get_agentsEv"><code class="docutils literal notranslate"><span class="pre">get_agents()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World13get_neighborsEPK5Agent10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">get_neighbors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22subdivide_bounding_boxERK11BoundingBoxb"><code class="docutils literal notranslate"><span class="pre">subdivide_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20get_agents_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_agents_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World23get_obstacles_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_obstacles_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World13get_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_obstacles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World9get_discsEb"><code class="docutils literal notranslate"><span class="pre">get_discs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World19get_discs_in_regionERK11BoundingBoxb"><code class="docutils literal notranslate"><span class="pre">get_discs_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World9get_wallsEv"><code class="docutils literal notranslate"><span class="pre">get_walls()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World18get_line_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World28get_line_obstacles_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles_in_region()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World13set_obstaclesERKNSt6vectorI4DiscEE"><code class="docutils literal notranslate"><span class="pre">set_obstacles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9set_wallsERKNSt6vectorI11LineSegmentEE"><code class="docutils literal notranslate"><span class="pre">set_walls()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14get_collisionsEv"><code class="docutils literal notranslate"><span class="pre">get_collisions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World24compute_safety_violationEPK5AgentNSt8optionalIfEE"><code class="docutils literal notranslate"><span class="pre">compute_safety_violation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20get_random_generatorEv"><code class="docutils literal notranslate"><span class="pre">get_random_generator()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20set_random_generatorER15RandomGenerator"><code class="docutils literal notranslate"><span class="pre">set_random_generator()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World21copy_random_generatorER5World"><code class="docutils literal notranslate"><span class="pre">copy_random_generator()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_seedEv"><code class="docutils literal notranslate"><span class="pre">get_seed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8set_seedEj"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World15agents_are_idleEv"><code class="docutils literal notranslate"><span class="pre">agents_are_idle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv"><code class="docutils literal notranslate"><span class="pre">agents_are_idle_or_stuck()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World18space_agents_apartE10ng_float_tbj"><code class="docutils literal notranslate"><span class="pre">space_agents_apart()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World11has_latticeEv"><code class="docutils literal notranslate"><span class="pre">has_lattice()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World11get_latticeEj"><code class="docutils literal notranslate"><span class="pre">get_lattice()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World11set_latticeEjRK7Lattice"><code class="docutils literal notranslate"><span class="pre">set_lattice()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_lattice_gridEbb"><code class="docutils literal notranslate"><span class="pre">get_lattice_grid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24get_lattice_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_lattice_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World12in_collisionEPK6EntityPK6Entity"><code class="docutils literal notranslate"><span class="pre">in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10get_entityEj"><code class="docutils literal notranslate"><span class="pre">get_entity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9get_agentEj"><code class="docutils literal notranslate"><span class="pre">get_agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">add_callback()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World15reset_callbacksEv"><code class="docutils literal notranslate"><span class="pre">reset_callbacks()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World25set_termination_conditionERKNSt8optionalI20TerminationConditionEE"><code class="docutils literal notranslate"><span class="pre">set_termination_condition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World25has_termination_conditionEv"><code class="docutils literal notranslate"><span class="pre">has_termination_condition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16should_terminateEv"><code class="docutils literal notranslate"><span class="pre">should_terminate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World23get_agents_in_collisionE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_agents_in_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22get_agents_in_deadlockE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_agents_in_deadlock()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World19snap_twists_to_zeroE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">snap_twists_to_zero()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14index_of_agentEPK5Agent"><code class="docutils literal notranslate"><span class="pre">index_of_agent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24get_minimal_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_minimal_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16set_bounding_boxERKNSt8optionalI11BoundingBoxEE"><code class="docutils literal notranslate"><span class="pre">set_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16has_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">has_bounding_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12agents_movedEv"><code class="docutils literal notranslate"><span class="pre">agents_moved()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16record_collisionEP6EntityP6Entity"><code class="docutils literal notranslate"><span class="pre">record_collision()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16clear_collisionsEv"><code class="docutils literal notranslate"><span class="pre">clear_collisions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jérôme Guzzi, IDSIA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Jérôme Guzzi, IDSIA.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

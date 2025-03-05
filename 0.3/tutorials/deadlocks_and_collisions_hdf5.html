@@ -1,0 +1,2406 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Deadlocks and Collisions &#8212; navground 0.3.5 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../_static/documentation_options.js?v=ba3b9238"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/deadlocks_and_collisions_hdf5';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">navground 0.3.5 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../installation/index.html">Installation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/pip.html">Pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/docker.html">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/from_source.html">Building from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/step_by_step.html">Step-by-step Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../first_steps.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tour.html">A tour of navground</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_core.html">navground_core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_core_py.html">navground_core_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_sim.html">navground_sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_sim_py.html">navground_sim_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_ros.html">navground_ros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_msgs.html">navground_msgs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_coppeliasim.html">navground_coppeliasim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples.html">navground_examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples_py.html">navground_examples_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples_yaml.html">navground_examples_yaml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_demos.html">navground_demos</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="designing_an_experiment.html">Designing an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html">Visualize a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="playback.html">Load and playing back recorded experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modulations.html">Behavior Modulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html">Sensors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../guides/extend/index.html">How to extend navground</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/register_cpp.html">How to integrate a C++ component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/register_py.html">How to integrate a Python component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/behavior.html">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/behavior_modulation.html">Behavior modulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/kinematics.html">Kinematics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/state_estimation.html">State Estimations</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/task.html">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/scenario.html">Scenarios</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/probes.html">How to record custom data in experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/install.html">How to build without the ROS build tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/validate.html">How to validate code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../components/index.html">Components</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/behaviors/index.html">Behaviors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/orca.html">Optimal Reciprocal Collision Avoidance (ORCA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/hrvo.html">Hybrid Velocity Obstacle (HRVO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/hl.html">Human-like (HL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/social_force.html">Social Force</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/behavior_modulations/index.html">Behavior Modulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/behavior_modulations/limit_acceleration.html">Limiting the acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behavior_modulations/limit_twist.html">Limiting the twist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behavior_modulations/motor_pid.html">Motorized Wheels PID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behavior_modulations/relaxation.html">Relaxation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/kinematics/index.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/omni.html">Omni-directional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/ahead.html">Ahead</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/bounded.html">Geometric with limited range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/discs.html">Discs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/odometry.html">Odometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/lidar.html">Lidar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/boundary.html">Boundary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/tasks/direction.html">Direction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/tasks/waypoints.html">Waypoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/tasks/path.html">Path</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/scenarios/index.html">Scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/scenarios/cross.html">Cross</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/scenarios/cross_torus.html">Cross Torus</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/accessors.html">Accessors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/types.html">Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/kinematics/index.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/state/index.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/behavior_modulations/index.html">Behavior Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/helper.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/build.html">Build info</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/kinematics/index.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/state/index.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/behavior_modulations/index.html">Behavior Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/build.html">Build info</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/register.html">Registered components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/behavior.html">Behavior</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/sampling.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/experiment/index.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/yaml.html">YAML</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment/index.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/plugins.html">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/visualization/index.html">Visualization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/task.html">Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/samplers.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/scenario.html">Scenario</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/experiment.html">Experiment</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/idsia-robotics/navground/main?urlpath=tree/tutorials/deadlocks_and_collisions_hdf5.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/tutorials/deadlocks_and_collisions_hdf5.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Deadlocks and Collisions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground.sim.ui.web_ui</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebUI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">navground.sim.notebook</span><span class="w"> </span><span class="kn">import</span> <span class="n">notebook_view</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">navground.sim.real_time</span><span class="w"> </span><span class="kn">import</span> <span class="n">RealTimeSimulation</span>
+
+<span class="n">web_ui</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">max_rate</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+               <span class="n">display_collisions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">display_deadlocks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">web_ui</span><span class="o">.</span><span class="n">prepare</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<section id="Deadlocks-and-Collisions">
+<h1>Deadlocks and Collisions<a class="headerlink" href="#Deadlocks-and-Collisions" title="Link to this heading">#</a></h1>
+<p>In this notebook, we will look at two negative events that may happen while navigating: collisions and deadlocks. We will first learn own to visualize them during a simulation, then how to perform many simulations to assess the impact of two parameters: the safety radius and barrier angle.</p>
+<p>We start by specifying an experiment with <code class="docutils literal notranslate"><span class="pre">safety_margin=0</span></code>, which is an unsafe setup that will lead to collisions.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim</span>
+
+<span class="n">yaml</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">type: Cross</span>
+<span class="s2">agent_margin: 0.1</span>
+<span class="s2">side: 4</span>
+<span class="s2">target_margin: 0.1</span>
+<span class="s2">tolerance: 0.5</span>
+<span class="s2">groups:</span>
+<span class="s2">  -</span>
+<span class="s2">    type: thymio</span>
+<span class="s2">    number: 20</span>
+<span class="s2">    radius: 0.08</span>
+<span class="s2">    control_period: 0.1</span>
+<span class="s2">    speed_tolerance: 0.02</span>
+<span class="s2">    kinematics:</span>
+<span class="s2">      type: 2WDiff</span>
+<span class="s2">      wheel_axis: 0.094</span>
+<span class="s2">      max_speed: 0.166</span>
+<span class="s2">    behavior:</span>
+<span class="s2">      type: HL</span>
+<span class="s2">      optimal_speed: 0.12</span>
+<span class="s2">      horizon: 5.0</span>
+<span class="s2">      tau: 0.5</span>
+<span class="s2">      eta: 0.25</span>
+<span class="s2">      safety_margin: 0.0</span>
+<span class="s2">    state_estimation:</span>
+<span class="s2">      type: Bounded</span>
+<span class="s2">      range: 5.0</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">notebook_view</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<!DOCTYPE html>
+
+<html>
+<head>
+  <!--  -->
+  <title></title>
+
+
+
+  <script type='text/javascript'>
+    var NS = "http://www.w3.org/2000/svg";
+
+class WebUIClient {
+  constructor(port='8000', prefix='', display_shape=false) {
+    this.agents = new Set();
+    this.entity = {};
+    this.prefix = prefix;
+    this.port = port;
+    this.display_shape = display_shape;
+    this.prototypes = {
+      '': `${prefix}agent`,
+      'thymio': `${prefix}thymio`,
+      'wheelchair': `${prefix}wheelchair`,
+      'human': `${prefix}human`
+    };
+  }
+
+  connect() {
+    var client = this;
+    var ws_address = `ws://127.0.0.1:${this.port}/`
+    console.log(`[${this.prefix}] Try to connect to ${ws_address}`)
+    var ws = new WebSocket(ws_address);
+    ws.onopen = function(event) {
+      console.log(`[${client.prefix}] Opened Web socket ${ws_address}`)
+      client.ws = ws;
+    };
+
+    ws.onmessage = function(event) {
+      var [type, data] = JSON.parse(event.data)
+      switch (type) {
+        case 'm':
+          client.move(data)
+          break;
+        case 'r':
+          client.reset(data)
+          break;
+        case 's':
+          client.set(data)
+          break;
+        case 'v':
+          client.view(data)
+          break;
+        case '+':
+          client.add(data)
+          break;
+        default:
+          break
+      }
+    }
+
+    ws.onclose = function(e) {
+      console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+      client.ws = null;
+      setTimeout(function(){client.connect();}, 1000);
+    };
+
+    ws.onerror = function(err) {
+      console.log('Socket encountered error ... closing socket');
+      ws.close();
+    };
+  }
+
+  add_wall(id, points) {
+    var e = document.createElementNS(NS,"polyline");
+    var ps = []
+    for (var i in points) {
+       ps.push(`${points[i][0]},${points[i][1]}`)
+    }
+    e.setAttribute("points", ps.join())
+    e.setAttribute("class", "wall");
+    e.setAttribute("id", id);
+    return e
+  }
+
+  add_obstacle(id, point, radius) {
+    var e = document.createElementNS(NS,"circle");
+    e.setAttribute("cx", `${point[0]}`)
+    e.setAttribute("cy", `${point[1]}`)
+    e.setAttribute("r", `${radius}`)
+    e.setAttribute("class", "obstacle");
+    e.setAttribute("id", id);
+    return e
+  }
+
+  add_agent(id, type, size, color)
+  {
+    var g = document.createElementNS(NS,"g");
+    var agent = document.createElementNS(NS,"use");
+    var uid = this.prototypes[type] || `${this.prefix}agent`;
+    agent.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "#" + uid);
+    agent.setAttribute("transform", `scale(${size}, ${size})`)
+    g.appendChild(agent)
+    g.setAttribute("class", type);
+    g.setAttribute("id", id);
+    if (color) {
+      g.setAttribute("style", `fill: ${color}`);
+    }
+    if (this.display_shape) {
+      var shape = document.createElementNS(NS,"circle");
+      shape.setAttribute("r", size);
+      shape.setAttribute("class", "shape");
+      g.appendChild(shape);
+    }
+    return g;
+  };
+
+  add_entity(uid, data) {
+    var id = this.prefix + uid
+    if (id in this.entity) {
+      console.warn(`Entity ${id} already present`)
+      return;
+    }
+    var kind = data['kind'];
+    var svg_world = document.getElementById(this.prefix + "world");
+    if (!svg_world) return;
+    var e = document.getElementById(id);
+    if (e) {
+      svg_world.removeChild(e);
+      e = null;
+    }
+    var state = null;
+    switch (kind) {
+      case 'w':
+        e = this.add_wall(id, data['points']);
+        break;
+      case 'o':
+        e = this.add_obstacle(id, data['point'], data['radius']);
+        break;
+      case 'a':
+        e = this.add_agent(id, data['type'], data['size'], data['color']);
+        state = data['pose']
+        var [x, y, theta] = state;
+        this.move_element(e, x, y, theta);
+        this.agents.add(id);
+        break;
+      default:
+        break
+    }
+    if (e) {
+      svg_world.appendChild(e);
+      this.entity[id] = {'svg': e, 'updated': true, 'state': state};
+    }
+  };
+
+  add(data) {
+    for (var _id in data) {
+      this.add_entity(_id, data[_id])
+    }
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  set_entity(_id, data) {
+    if(!(_id in this.entity)) {
+      console.warn(`Entity ${_id} unknown`)
+      return;
+    }
+    for (var a in data) {
+      this.entity[_id]['svg'].setAttribute(a, data[a])
+    }
+  };
+
+  set(data) {
+    for (var _id in data) {
+      var _nid = this.prefix + _id
+      if (_nid in this.entity) {
+        this.set_entity(_nid, data[_id])
+      } else {
+        var e = document.getElementById(_nid);
+        if (e) {
+          var e_data = data[_id];
+          for (var a in e_data) {
+            console.log(`Setting attributes ${a} of ${e} to ${e_data[a]}`)
+            e.setAttribute(a, e_data[a]);
+          }
+        }
+      }
+    }
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  move_entity(_id, data) {
+    if(!this.agents.has(_id)) {
+      console.warn(`Agent ${_id} unknown`)
+      return;
+    }
+    var [x, y, theta] = data;
+    this.entity[_id]['state'] = [x, y, theta]
+    this.entity[_id]['updated'] = true
+  };
+
+  move(data) {
+    for (var _id in data) {
+      this.move_entity(this.prefix + _id, data[_id])
+    }
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  reset() {
+    var svg_world = document.getElementById(this.prefix + "world");
+    if (!svg_world) return;
+    for (var _id in this.entity) {
+      svg_world.removeChild(this.entity[_id]['svg'])
+    }
+    console.log(`[${this.prefix}] reset`)
+    this.entity = {}
+    this.agents.clear()
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  view(data) {
+    var [x, y, width, height] = data;
+    var svg = document.getElementById(this.prefix + "svg");
+    if (!svg) return;
+    svg.setAttribute("viewBox", `${x} ${y} ${width} ${height}`)
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  update(step) {
+    var ids_to_be_removed = []
+    for (var id of this.agents) {
+      // if (!entity[id]['updated']) {
+      //   ids_to_be_removed.push(id)
+      // }
+      if (this.entity[id]['updated']) {
+        var [x, y, theta] = this.entity[id]['state']
+        this.move_element(this.entity[id]['svg'], x, y, theta)
+        this.entity[id]['updated'] = false;
+      }
+    }
+    // for (var _id of ids_to_be_removed) {
+    //   remove_entity(_id);
+    // }
+  };
+
+  remove_entity(_id) {
+      var svg_world = document.getElementById(this.prefix + "world");
+      if (!svg_world) return;
+      console.log(`remove ${_id}`)
+      svg_world.removeChild(this.entity[_id]['svg'])
+      this.agents.delete(_id);
+      delete this.entity[_id];
+  }
+
+  move_element(g, x, y, angle) {
+    var t = `translate(${x},${y}) rotate(${angle * 180 / 3.14159})`
+    g.setAttribute("transform", t)
+  };
+}
+
+  </script>
+
+  <script type='text/javascript'>
+    var N0client = new WebUIClient(8000, "N0", false)
+    N0client.connect();
+  </script>
+
+
+</head>
+<body>
+  <div>
+    <h1></h1>
+  </div>
+
+<svg id="N0svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="300" height="300" viewBox="0.0000 0.0000 1.0000 1.0000">
+<defs>
+  <g id="N0agent">
+   <circle class="body" cx="0" cy="0" r="1"/>
+   <circle opacity="0.5" stroke="none" fill="black" cx="0.75" cy="0" r="0.25"/>
+  </g>
+  <g id="N0robomaster_ep">
+    <path class="body" d="m -0.82233223,0.24 c -0.0391148,-0.15514519 -0.0391148,-0.32485481 0,-0.48 0.0120317,-0.0477227 0.07,-0.13 0.07,-0.13 h 0.45 l 0.09,-0.11 h 0.42 l 0.09,0.11 h 0.45 c 0,0 0.16467536,0.14929718 0.2,0.25 0.0264806,0.07549027 0.0264806,0.16450973 0,0.24 -0.0353246,0.10070282 -0.2,0.25 -0.2,0.25 h -0.45 l -0.09,0.11 h -0.42 l -0.09,-0.11 h -0.45 c 0,0 -0.0579683,-0.0822773 -0.07,-0.13 z"/>
+    <rect class="wheel" height="0.22774614" rx="0.073571824" ry="0.073361315" style="fill:#121212;fill-opacity:1;stroke:none;stroke-width:0.00979554;stroke-dasharray:none;stroke-opacity:1" transform="scale(-1,1)" width="0.53466278" x="0.2324958" y="-0.61387306"/>
+    <rect class="wheel" height="0.22774614" rx="0.073571824" ry="0.073361315" style="fill:#121212;stroke:none" width="0.53466278" x="0.23283984" y="-0.61387306"/>
+    <rect class="wheel" height="0.22774614" rx="0.073571824" ry="0.073361315" style="fill:#121212;stroke:none" width="0.53466278" x="0.23283984" y="0.38612694"/>
+    <rect class="wheel" height="0.22774614" rx="0.073571824" ry="0.073361315" style="fill:#121212;stroke:none" width="0.53466278" x="-0.76715857" y="0.38612694"/>
+    <rect class="motor" height="0.12521972" style="fill:#2a2a2a;stroke:none" width="0.22443947" x="-0.093881205" y="0.15738994"/>
+    <rect class="motor" height="0.12521972" style="fill:#2a2a2a;stroke:none" width="0.22443947" x="-0.093881205" y="-0.28260982"/>
+    <path class="arm" d="m 1.0576703,-0.39000203 -0.23000152,0.0700009 -0.0300033,0.1699999 H -0.14233403 V 0.1500012 H 0.79766546 L 0.82766878,0.3200011 1.0576703,0.390002 1.2276702,0.3200011 1.2576684,0.2599996 H 1.0518308 L 0.93766725,0.1199978 V -0.1199978 L 1.0624503,-0.2599996 h 0.1952181 l -0.029998,-0.0600015 z m -0.00814,0.0597017 -0.13185764,0.1502648 -0.052064,-0.0813749 z m -0.75185597,0.2503 H 0.54478682 V 0.0800003 H 0.29767013 Z M 0.91766846,0.1841076 1.0495261,0.3343724 0.86560445,0.2654825 Z" style="fill:#2a2a2a;stroke:none"/>
+  </g>
+  <g id="N0quadrotor">
+    <path class="camera" style="stroke:none;fill:#808080" d="M 0.25,0 0.75,0.25 0.75,-0.25 Z"/>
+    <g class="body">
+      <path d="M 0.06999986,0.07032032 0.49632602,-0.4605096 0.45935482,-0.492153 -0.07000004,-0.06968042 Z"/>
+      <path d="m -0.07000006,0.07032032 -0.42632616,-0.53082992 0.0369712,-0.0316434 0.52935486,0.42247258 z"/>
+      <path d="M 0.06999986,-0.07096132 0.49632602,0.4598686 0.45935482,0.4915121 -0.07000004,0.06903952 Z" />
+      <path d="M -0.07000006,-0.07096132 -0.49632622,0.4598686 -0.45935502,0.491512 0.06999984,0.06903942 Z"/>
+      <circle cx="0" cy="0" r="0.35" />
+    </g>
+    <g class="prop">
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="-0.14274563"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="rotate(-45)" />
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="0.14367317"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="rotate(-45)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0392596"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.28037018"
+         ry="0.28037015"  />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0574358"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.051282048"
+         ry="0.051282078" />
+    </g>
+    <g class="prop">
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="-0.14274563"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="matrix(-0.70710678,-0.70710678,-0.70710678,0.70710678,0,0)" />
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="0.14367317"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="matrix(-0.70710678,-0.70710678,-0.70710678,0.70710678,0,0)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0392596"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.28037018"
+         ry="0.28037015"
+         transform="scale(-1,1)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0574358"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.051282048"
+         ry="0.051282078"
+         transform="scale(-1,1)" />
+    </g>
+    <g class="prop">
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="-0.14274563"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="matrix(0.70710678,0.70710678,0.70710678,-0.70710678,0,0)" />
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="0.14367317"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="matrix(0.70710678,0.70710678,0.70710678,-0.70710678,0,0)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0392596"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.28037018"
+         ry="0.28037015"
+         transform="scale(1,-1)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0574358"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.051282048"
+         ry="0.051282078"
+         transform="scale(1,-1)" />
+    </g>
+    <g class="prop">
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="-0.14274563"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="rotate(135)" />
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="0.14367317"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="rotate(135)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0392596"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.28037018"
+         ry="0.28037015"
+         transform="scale(-1)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0574358"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.051282048"
+         ry="0.051282078"
+         transform="scale(-1)" />
+    </g>
+  </g>
+  <g id="N0thymio" transform="rotate(90)">
+      <path class="body"
+         d="M -0.6874903375 -0.7257309 L -0.6874903375 0.3749771125 L 0.6874903375 0.3749771125 L 0.6874903375 -0.726118475 A 1 1 0 0 0 0 -1 A 1 1 0 0 0 -0.6874903375 -0.7257309 z " />
+      <rect
+         style="fill:#333333;stroke:none"
+         width="0.1875"
+         height="0.525"
+         x="-0.675"
+         y="-0.2625"
+         rx="0.0625" />
+      <rect
+         style="fill:#333333;stroke:none"
+         width="0.1875"
+         height="0.525"
+         x="0.4875"
+         y="-0.2625"
+         rx="0.0625" />
+  </g>
+  <g id="N0wheelchair" transform="rotate(180) translate(-1.1,-3.46)">
+    <path
+       stroke="none"
+       style="fill:#c8beb7"
+       d="m 0.9612298,3.7966354 h -0.7778 v -0.6666 h 0.7778 z"/>
+    <path
+       stroke="none"
+       style="fill:#080808;"
+       d="m 1.62765948,2.970532 v -0.0823436 -0.084297 H 1.0722298 v 0.166640 z"/>
+    <path
+       stroke="none"
+       style="fill:#080808;"
+       d="m 1.62765948,4.081332 v -0.0823436 -0.084297 H1.0722298 v 0.1666406 z"/>
+    <path
+       class="body"
+       d="m 1.84994464,3.9982804 h -1 v -1.1112 h 1 z" />
+    <path
+       stroke="none"
+       style="fill:#917c6f;opacity:0.75;stroke:none"
+       d="m 1.84994464,3.9982664 v -0.0554296 -1.0557422 h -0.11117186 v 1.1111718 z"/>
+  </g>
+  <g id="N0human" transform="rotate(180) translate(-1,-3.5)">
+    <g class="body">
+    <ellipse
+       cx="0.80312774"
+       cy="2.6959574"
+       rx="0.46378762"
+       ry="0.1392307" />
+    <ellipse
+       cx="0.80312774"
+       cy="4.2229708"
+       rx="0.46378762"
+       ry="0.1392307" />
+    <ellipse
+       cx="1.08757424"
+       cy="3.4594642"
+       rx="0.39526176"
+       ry="0.86793068" />
+    </g>
+    <ellipse
+       style="fill:#1a1a1a;opacity:0.5;stroke:none"
+       cx="1.08757424"
+       cy="3.458025"
+       rx="0.3257516"
+       ry="0.33270264" />
+  </g>
+</defs>
+<style>
+<![CDATA[
+
+/*svg{
+  style=stroke-width: 0px;
+}
+*/
+circle.obstacle{
+  fill: gray;
+  stroke:none;
+}
+polyline.wall{
+  stroke:black;
+  stroke-width:0.01;
+}
+
+.shape {
+  fill: none;
+  stroke: black;
+  stroke-width: 0.01;
+  stroke-dasharray: 0.01;
+}
+
+.quadrotor {
+  fill: #A0A0A0;
+  stroke: none;
+  stroke-width: 0.05;
+}
+
+
+.robomaster_ep {
+  fill: #121212;
+  stroke: none;
+  stroke-width: 0.05;
+}
+
+
+.thymio {
+  fill: #e6e6e6;
+  stroke: none;
+  stroke-width: 0.05;
+}
+
+.human {
+  fill: #666666;
+  stroke: none;
+  stroke-width: 0.05;
+}
+
+.agent {
+  fill: gray;
+  stroke: none;
+  stroke-width: 0.05;
+}
+
+.wheelchair {
+  fill: #483e37;
+  stroke: none;
+  stroke-width: 0.05;
+}
+
+/*.body {
+    all: inherit;
+}
+*/
+
+
+
+
+
+svg {
+   background-color: snow;
+}
+
+.grid {
+  stroke: ;
+  stroke-width: ;
+}
+]]>
+</style>
+
+<g id="N0world" transform='scale(1, -1) '>
+
+
+
+
+
+
+
+</g>
+</svg>
+</body>
+</html></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
+<span class="n">world</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">()</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">init_world</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">world</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">rt_sim</span> <span class="o">=</span> <span class="n">RealTimeSimulation</span><span class="p">(</span><span class="n">world</span><span class="o">=</span><span class="n">world</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">web_ui</span><span class="o">=</span><span class="n">web_ui</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">rt_sim</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>Runs the simulation for some time. Colliding agents will be colored in red.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">until_time</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">120</span>
+<span class="k">await</span> <span class="n">rt_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">until</span><span class="o">=</span><span class="k">lambda</span> <span class="p">:</span> <span class="n">world</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;</span> <span class="n">until_time</span> <span class="ow">or</span> <span class="n">world</span><span class="o">.</span><span class="n">agents_are_idle_or_stuck</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<p>You should a similar outcome as in this video, with some agents collising shoulder-to-shoulder.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Video</span>
+
+<span class="n">Video</span><span class="p">(</span><span class="s2">&quot;collisions.mp4&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<video src="collisions.mp4" controls  width="300" >
+      Your browser does not support the <code>video</code> element.
+    </video></div>
+</div>
+<p>Try now to increase the safety margin to 0.5, which is so large that it will rapidly lead to deadlocked agents, which are colored in blue.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yaml</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">type: Cross</span>
+<span class="s2">agent_margin: 0.1</span>
+<span class="s2">side: 4</span>
+<span class="s2">target_margin: 0.1</span>
+<span class="s2">tolerance: 0.5</span>
+<span class="s2">groups:</span>
+<span class="s2">  -</span>
+<span class="s2">    type: thymio</span>
+<span class="s2">    number: 20</span>
+<span class="s2">    radius: 0.08</span>
+<span class="s2">    control_period: 0.1</span>
+<span class="s2">    speed_tolerance: 0.02</span>
+<span class="s2">    kinematics:</span>
+<span class="s2">      type: 2WDiff</span>
+<span class="s2">      wheel_axis: 0.094</span>
+<span class="s2">      max_speed: 0.166</span>
+<span class="s2">    behavior:</span>
+<span class="s2">      type: HL</span>
+<span class="s2">      optimal_speed: 0.12</span>
+<span class="s2">      horizon: 5.0</span>
+<span class="s2">      tau: 0.5</span>
+<span class="s2">      eta: 0.25</span>
+<span class="s2">      safety_margin: 0.5</span>
+<span class="s2">    state_estimation:</span>
+<span class="s2">      type: Bounded</span>
+<span class="s2">      range: 5.0</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">notebook_view</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<!DOCTYPE html>
+
+<html>
+<head>
+  <!--  -->
+  <title></title>
+
+
+
+  <script type='text/javascript'>
+    var NS = "http://www.w3.org/2000/svg";
+
+class WebUIClient {
+  constructor(port='8000', prefix='', display_shape=false) {
+    this.agents = new Set();
+    this.entity = {};
+    this.prefix = prefix;
+    this.port = port;
+    this.display_shape = display_shape;
+    this.prototypes = {
+      '': `${prefix}agent`,
+      'thymio': `${prefix}thymio`,
+      'wheelchair': `${prefix}wheelchair`,
+      'human': `${prefix}human`
+    };
+  }
+
+  connect() {
+    var client = this;
+    var ws_address = `ws://127.0.0.1:${this.port}/`
+    console.log(`[${this.prefix}] Try to connect to ${ws_address}`)
+    var ws = new WebSocket(ws_address);
+    ws.onopen = function(event) {
+      console.log(`[${client.prefix}] Opened Web socket ${ws_address}`)
+      client.ws = ws;
+    };
+
+    ws.onmessage = function(event) {
+      var [type, data] = JSON.parse(event.data)
+      switch (type) {
+        case 'm':
+          client.move(data)
+          break;
+        case 'r':
+          client.reset(data)
+          break;
+        case 's':
+          client.set(data)
+          break;
+        case 'v':
+          client.view(data)
+          break;
+        case '+':
+          client.add(data)
+          break;
+        default:
+          break
+      }
+    }
+
+    ws.onclose = function(e) {
+      console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+      client.ws = null;
+      setTimeout(function(){client.connect();}, 1000);
+    };
+
+    ws.onerror = function(err) {
+      console.log('Socket encountered error ... closing socket');
+      ws.close();
+    };
+  }
+
+  add_wall(id, points) {
+    var e = document.createElementNS(NS,"polyline");
+    var ps = []
+    for (var i in points) {
+       ps.push(`${points[i][0]},${points[i][1]}`)
+    }
+    e.setAttribute("points", ps.join())
+    e.setAttribute("class", "wall");
+    e.setAttribute("id", id);
+    return e
+  }
+
+  add_obstacle(id, point, radius) {
+    var e = document.createElementNS(NS,"circle");
+    e.setAttribute("cx", `${point[0]}`)
+    e.setAttribute("cy", `${point[1]}`)
+    e.setAttribute("r", `${radius}`)
+    e.setAttribute("class", "obstacle");
+    e.setAttribute("id", id);
+    return e
+  }
+
+  add_agent(id, type, size, color)
+  {
+    var g = document.createElementNS(NS,"g");
+    var agent = document.createElementNS(NS,"use");
+    var uid = this.prototypes[type] || `${this.prefix}agent`;
+    agent.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "#" + uid);
+    agent.setAttribute("transform", `scale(${size}, ${size})`)
+    g.appendChild(agent)
+    g.setAttribute("class", type);
+    g.setAttribute("id", id);
+    if (color) {
+      g.setAttribute("style", `fill: ${color}`);
+    }
+    if (this.display_shape) {
+      var shape = document.createElementNS(NS,"circle");
+      shape.setAttribute("r", size);
+      shape.setAttribute("class", "shape");
+      g.appendChild(shape);
+    }
+    return g;
+  };
+
+  add_entity(uid, data) {
+    var id = this.prefix + uid
+    if (id in this.entity) {
+      console.warn(`Entity ${id} already present`)
+      return;
+    }
+    var kind = data['kind'];
+    var svg_world = document.getElementById(this.prefix + "world");
+    if (!svg_world) return;
+    var e = document.getElementById(id);
+    if (e) {
+      svg_world.removeChild(e);
+      e = null;
+    }
+    var state = null;
+    switch (kind) {
+      case 'w':
+        e = this.add_wall(id, data['points']);
+        break;
+      case 'o':
+        e = this.add_obstacle(id, data['point'], data['radius']);
+        break;
+      case 'a':
+        e = this.add_agent(id, data['type'], data['size'], data['color']);
+        state = data['pose']
+        var [x, y, theta] = state;
+        this.move_element(e, x, y, theta);
+        this.agents.add(id);
+        break;
+      default:
+        break
+    }
+    if (e) {
+      svg_world.appendChild(e);
+      this.entity[id] = {'svg': e, 'updated': true, 'state': state};
+    }
+  };
+
+  add(data) {
+    for (var _id in data) {
+      this.add_entity(_id, data[_id])
+    }
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  set_entity(_id, data) {
+    if(!(_id in this.entity)) {
+      console.warn(`Entity ${_id} unknown`)
+      return;
+    }
+    for (var a in data) {
+      this.entity[_id]['svg'].setAttribute(a, data[a])
+    }
+  };
+
+  set(data) {
+    for (var _id in data) {
+      var _nid = this.prefix + _id
+      if (_nid in this.entity) {
+        this.set_entity(_nid, data[_id])
+      } else {
+        var e = document.getElementById(_nid);
+        if (e) {
+          var e_data = data[_id];
+          for (var a in e_data) {
+            console.log(`Setting attributes ${a} of ${e} to ${e_data[a]}`)
+            e.setAttribute(a, e_data[a]);
+          }
+        }
+      }
+    }
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  move_entity(_id, data) {
+    if(!this.agents.has(_id)) {
+      console.warn(`Agent ${_id} unknown`)
+      return;
+    }
+    var [x, y, theta] = data;
+    this.entity[_id]['state'] = [x, y, theta]
+    this.entity[_id]['updated'] = true
+  };
+
+  move(data) {
+    for (var _id in data) {
+      this.move_entity(this.prefix + _id, data[_id])
+    }
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  reset() {
+    var svg_world = document.getElementById(this.prefix + "world");
+    if (!svg_world) return;
+    for (var _id in this.entity) {
+      svg_world.removeChild(this.entity[_id]['svg'])
+    }
+    console.log(`[${this.prefix}] reset`)
+    this.entity = {}
+    this.agents.clear()
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  view(data) {
+    var [x, y, width, height] = data;
+    var svg = document.getElementById(this.prefix + "svg");
+    if (!svg) return;
+    svg.setAttribute("viewBox", `${x} ${y} ${width} ${height}`)
+    window.requestAnimationFrame(this.update.bind(this));
+  };
+
+  update(step) {
+    var ids_to_be_removed = []
+    for (var id of this.agents) {
+      // if (!entity[id]['updated']) {
+      //   ids_to_be_removed.push(id)
+      // }
+      if (this.entity[id]['updated']) {
+        var [x, y, theta] = this.entity[id]['state']
+        this.move_element(this.entity[id]['svg'], x, y, theta)
+        this.entity[id]['updated'] = false;
+      }
+    }
+    // for (var _id of ids_to_be_removed) {
+    //   remove_entity(_id);
+    // }
+  };
+
+  remove_entity(_id) {
+      var svg_world = document.getElementById(this.prefix + "world");
+      if (!svg_world) return;
+      console.log(`remove ${_id}`)
+      svg_world.removeChild(this.entity[_id]['svg'])
+      this.agents.delete(_id);
+      delete this.entity[_id];
+  }
+
+  move_element(g, x, y, angle) {
+    var t = `translate(${x},${y}) rotate(${angle * 180 / 3.14159})`
+    g.setAttribute("transform", t)
+  };
+}
+
+  </script>
+
+  <script type='text/javascript'>
+    var N1client = new WebUIClient(8000, "N1", false)
+    N1client.connect();
+  </script>
+
+
+</head>
+<body>
+  <div>
+    <h1></h1>
+  </div>
+
+<svg id="N1svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="300" height="300" viewBox="0.0000 0.0000 1.0000 1.0000">
+<defs>
+  <g id="N1agent">
+   <circle class="body" cx="0" cy="0" r="1"/>
+   <circle opacity="0.5" stroke="none" fill="black" cx="0.75" cy="0" r="0.25"/>
+  </g>
+  <g id="N1robomaster_ep">
+    <path class="body" d="m -0.82233223,0.24 c -0.0391148,-0.15514519 -0.0391148,-0.32485481 0,-0.48 0.0120317,-0.0477227 0.07,-0.13 0.07,-0.13 h 0.45 l 0.09,-0.11 h 0.42 l 0.09,0.11 h 0.45 c 0,0 0.16467536,0.14929718 0.2,0.25 0.0264806,0.07549027 0.0264806,0.16450973 0,0.24 -0.0353246,0.10070282 -0.2,0.25 -0.2,0.25 h -0.45 l -0.09,0.11 h -0.42 l -0.09,-0.11 h -0.45 c 0,0 -0.0579683,-0.0822773 -0.07,-0.13 z"/>
+    <rect class="wheel" height="0.22774614" rx="0.073571824" ry="0.073361315" style="fill:#121212;fill-opacity:1;stroke:none;stroke-width:0.00979554;stroke-dasharray:none;stroke-opacity:1" transform="scale(-1,1)" width="0.53466278" x="0.2324958" y="-0.61387306"/>
+    <rect class="wheel" height="0.22774614" rx="0.073571824" ry="0.073361315" style="fill:#121212;stroke:none" width="0.53466278" x="0.23283984" y="-0.61387306"/>
+    <rect class="wheel" height="0.22774614" rx="0.073571824" ry="0.073361315" style="fill:#121212;stroke:none" width="0.53466278" x="0.23283984" y="0.38612694"/>
+    <rect class="wheel" height="0.22774614" rx="0.073571824" ry="0.073361315" style="fill:#121212;stroke:none" width="0.53466278" x="-0.76715857" y="0.38612694"/>
+    <rect class="motor" height="0.12521972" style="fill:#2a2a2a;stroke:none" width="0.22443947" x="-0.093881205" y="0.15738994"/>
+    <rect class="motor" height="0.12521972" style="fill:#2a2a2a;stroke:none" width="0.22443947" x="-0.093881205" y="-0.28260982"/>
+    <path class="arm" d="m 1.0576703,-0.39000203 -0.23000152,0.0700009 -0.0300033,0.1699999 H -0.14233403 V 0.1500012 H 0.79766546 L 0.82766878,0.3200011 1.0576703,0.390002 1.2276702,0.3200011 1.2576684,0.2599996 H 1.0518308 L 0.93766725,0.1199978 V -0.1199978 L 1.0624503,-0.2599996 h 0.1952181 l -0.029998,-0.0600015 z m -0.00814,0.0597017 -0.13185764,0.1502648 -0.052064,-0.0813749 z m -0.75185597,0.2503 H 0.54478682 V 0.0800003 H 0.29767013 Z M 0.91766846,0.1841076 1.0495261,0.3343724 0.86560445,0.2654825 Z" style="fill:#2a2a2a;stroke:none"/>
+  </g>
+  <g id="N1quadrotor">
+    <path class="camera" style="stroke:none;fill:#808080" d="M 0.25,0 0.75,0.25 0.75,-0.25 Z"/>
+    <g class="body">
+      <path d="M 0.06999986,0.07032032 0.49632602,-0.4605096 0.45935482,-0.492153 -0.07000004,-0.06968042 Z"/>
+      <path d="m -0.07000006,0.07032032 -0.42632616,-0.53082992 0.0369712,-0.0316434 0.52935486,0.42247258 z"/>
+      <path d="M 0.06999986,-0.07096132 0.49632602,0.4598686 0.45935482,0.4915121 -0.07000004,0.06903952 Z" />
+      <path d="M -0.07000006,-0.07096132 -0.49632622,0.4598686 -0.45935502,0.491512 0.06999984,0.06903942 Z"/>
+      <circle cx="0" cy="0" r="0.35" />
+    </g>
+    <g class="prop">
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="-0.14274563"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="rotate(-45)" />
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="0.14367317"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="rotate(-45)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0392596"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.28037018"
+         ry="0.28037015"  />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0574358"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.051282048"
+         ry="0.051282078" />
+    </g>
+    <g class="prop">
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="-0.14274563"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="matrix(-0.70710678,-0.70710678,-0.70710678,0.70710678,0,0)" />
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="0.14367317"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="matrix(-0.70710678,-0.70710678,-0.70710678,0.70710678,0,0)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0392596"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.28037018"
+         ry="0.28037015"
+         transform="scale(-1,1)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0574358"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.051282048"
+         ry="0.051282078"
+         transform="scale(-1,1)" />
+    </g>
+    <g class="prop">
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="-0.14274563"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="matrix(0.70710678,0.70710678,0.70710678,-0.70710678,0,0)" />
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="0.14367317"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="matrix(0.70710678,0.70710678,0.70710678,-0.70710678,0,0)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0392596"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.28037018"
+         ry="0.28037015"
+         transform="scale(1,-1)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0574358"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.051282048"
+         ry="0.051282078"
+         transform="scale(1,-1)" />
+    </g>
+    <g class="prop">
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="-0.14274563"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="rotate(135)" />
+      <ellipse
+         style="fill:#0d0d0d;stroke:none;"
+         cx="0.69928879"
+         cy="0.14367317"
+         rx="0.024324713"
+         ry="0.11011158"
+         transform="rotate(135)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0392596"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.28037018"
+         ry="0.28037015"
+         transform="scale(-1)" />
+      <ellipse
+         style="fill:none;stroke:#000000;stroke-width:0.0574358"
+         cx="0.49399981"
+         cy="-0.49447966"
+         rx="0.051282048"
+         ry="0.051282078"
+         transform="scale(-1)" />
+    </g>
+  </g>
+  <g id="N1thymio" transform="rotate(90)">
+      <path class="body"
+         d="M -0.6874903375 -0.7257309 L -0.6874903375 0.3749771125 L 0.6874903375 0.3749771125 L 0.6874903375 -0.726118475 A 1 1 0 0 0 0 -1 A 1 1 0 0 0 -0.6874903375 -0.7257309 z " />
+      <rect
+         style="fill:#333333;stroke:none"
+         width="0.1875"
+         height="0.525"
+         x="-0.675"
+         y="-0.2625"
+         rx="0.0625" />
+      <rect
+         style="fill:#333333;stroke:none"
+         width="0.1875"
+         height="0.525"
+         x="0.4875"
+         y="-0.2625"
+         rx="0.0625" />
+  </g>
+  <g id="N1wheelchair" transform="rotate(180) translate(-1.1,-3.46)">
+    <path
+       stroke="none"
+       style="fill:#c8beb7"
+       d="m 0.9612298,3.7966354 h -0.7778 v -0.6666 h 0.7778 z"/>
+    <path
+       stroke="none"
+       style="fill:#080808;"
+       d="m 1.62765948,2.970532 v -0.0823436 -0.084297 H 1.0722298 v 0.166640 z"/>
+    <path
+       stroke="none"
+       style="fill:#080808;"
+       d="m 1.62765948,4.081332 v -0.0823436 -0.084297 H1.0722298 v 0.1666406 z"/>
+    <path
+       class="body"
+       d="m 1.84994464,3.9982804 h -1 v -1.1112 h 1 z" />
+    <path
+       stroke="none"
+       style="fill:#917c6f;opacity:0.75;stroke:none"
+       d="m 1.84994464,3.9982664 v -0.0554296 -1.0557422 h -0.11117186 v 1.1111718 z"/>
+  </g>
+  <g id="N1human" transform="rotate(180) translate(-1,-3.5)">
+    <g class="body">
+    <ellipse
+       cx="0.80312774"
+       cy="2.6959574"
+       rx="0.46378762"
+       ry="0.1392307" />
+    <ellipse
+       cx="0.80312774"
+       cy="4.2229708"
+       rx="0.46378762"
+       ry="0.1392307" />
+    <ellipse
+       cx="1.08757424"
+       cy="3.4594642"
+       rx="0.39526176"
+       ry="0.86793068" />
+    </g>
+    <ellipse
+       style="fill:#1a1a1a;opacity:0.5;stroke:none"
+       cx="1.08757424"
+       cy="3.458025"
+       rx="0.3257516"
+       ry="0.33270264" />
+  </g>
+</defs>
+<style>
+<![CDATA[
+
+/*svg{
+  style=stroke-width: 0px;
+}
+*/
+circle.obstacle{
+  fill: gray;
+  stroke:none;
+}
+polyline.wall{
+  stroke:black;
+  stroke-width:0.01;
+}
+
+.shape {
+  fill: none;
+  stroke: black;
+  stroke-width: 0.01;
+  stroke-dasharray: 0.01;
+}
+
+.quadrotor {
+  fill: #A0A0A0;
+  stroke: none;
+  stroke-width: 0.05;
+}
+
+
+.robomaster_ep {
+  fill: #121212;
+  stroke: none;
+  stroke-width: 0.05;
+}
+
+
+.thymio {
+  fill: #e6e6e6;
+  stroke: none;
+  stroke-width: 0.05;
+}
+
+.human {
+  fill: #666666;
+  stroke: none;
+  stroke-width: 0.05;
+}
+
+.agent {
+  fill: gray;
+  stroke: none;
+  stroke-width: 0.05;
+}
+
+.wheelchair {
+  fill: #483e37;
+  stroke: none;
+  stroke-width: 0.05;
+}
+
+/*.body {
+    all: inherit;
+}
+*/
+
+
+
+
+
+svg {
+   background-color: snow;
+}
+
+.grid {
+  stroke: ;
+  stroke-width: ;
+}
+]]>
+</style>
+
+<g id="N1world" transform='scale(1, -1) '>
+
+
+
+
+
+
+
+</g>
+</svg>
+</body>
+</html></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
+<span class="n">world</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">()</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">init_world</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">world</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">rt_sim</span> <span class="o">=</span> <span class="n">RealTimeSimulation</span><span class="p">(</span><span class="n">world</span><span class="o">=</span><span class="n">world</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">web_ui</span><span class="o">=</span><span class="n">web_ui</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">rt_sim</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">until_time</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">time</span> <span class="o">+</span> <span class="mi">120</span>
+<span class="k">await</span> <span class="n">rt_sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">until</span><span class="o">=</span><span class="k">lambda</span> <span class="p">:</span> <span class="n">world</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;</span> <span class="n">until_time</span> <span class="ow">or</span> <span class="n">world</span><span class="o">.</span><span class="n">agents_are_idle_or_stuck</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<p>You should a similar outcome has in this video</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Video</span>
+
+<span class="n">Video</span><span class="p">(</span><span class="s2">&quot;deadlocks.mp4&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<video src="deadlocks.mp4" controls  width="300" >
+      Your browser does not support the <code>video</code> element.
+    </video></div>
+</div>
+<p>In between these two extrema, there should be good trade-off with no collisions and no deadlocks. We invistigate it with an experiment where we vary the safety margin.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim</span>
+
+<span class="n">yaml</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">steps: 3000</span>
+<span class="s2">time_step: 0.1</span>
+<span class="s2">save_directory: &#39;.&#39;</span>
+<span class="s2">record_world: true</span>
+<span class="s2">record_collisions: true</span>
+<span class="s2">record_deadlocks: true</span>
+<span class="s2">record_safety_violation: true</span>
+<span class="s2">record_efficacy: true</span>
+<span class="s2">terminated_when_idle_or_stuck: true</span>
+<span class="s2">runs: 25</span>
+<span class="s2">scenario:</span>
+<span class="s2">  type: Cross</span>
+<span class="s2">  agent_margin: 0.1</span>
+<span class="s2">  side: 4</span>
+<span class="s2">  target_margin: 0.1</span>
+<span class="s2">  tolerance: 0.5</span>
+<span class="s2">  groups:</span>
+<span class="s2">    -</span>
+<span class="s2">      type: thymio</span>
+<span class="s2">      number: 20</span>
+<span class="s2">      radius: 0.08</span>
+<span class="s2">      control_period: 0.1</span>
+<span class="s2">      speed_tolerance: 0.02</span>
+<span class="s2">      kinematics:</span>
+<span class="s2">        type: 2WDiff</span>
+<span class="s2">        wheel_axis: 0.094</span>
+<span class="s2">        max_speed: 0.166</span>
+<span class="s2">      behavior:</span>
+<span class="s2">        type: HL</span>
+<span class="s2">        optimal_speed: 0.12</span>
+<span class="s2">        horizon: 5.0</span>
+<span class="s2">        tau: 0.5</span>
+<span class="s2">        eta: 0.5</span>
+<span class="s2">        safety_margin:</span>
+<span class="s2">          sampler: uniform</span>
+<span class="s2">          from: 0.0</span>
+<span class="s2">          to: 0.25</span>
+<span class="s2">          once: true</span>
+<span class="s2">      state_estimation:</span>
+<span class="s2">        type: Bounded</span>
+<span class="s2">        range: 5.0</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.notebook</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="n">experiment</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_experiment</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">runs</span><span class="p">)</span> <span class="k">as</span> <span class="n">bar</span><span class="p">:</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">setup_tqdm</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+    <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5bcbd2cfdad447b897de792d2a7b1590", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<p>We import all relevant data into a pandas frame where we also define</p>
+<ul class="simple">
+<li><p>“safe”: no collisions</p></li>
+<li><p>“fluid”: no deadlocks</p></li>
+<li><p>“ok”: when safe and fluid</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">count_deadlocks</span><span class="p">(</span><span class="n">deadlock_time</span><span class="p">,</span> <span class="n">final_time</span><span class="p">):</span>
+    <span class="n">is_deadlocked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">deadlock_time</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">deadlock_time</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">final_time</span> <span class="o">-</span> <span class="mf">5.0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">is_deadlocked</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_data</span><span class="p">(</span><span class="n">experiment</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">collisions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">deadlocks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">efficacy</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">sms</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">bas</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">seeds</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">world</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_world</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;world&#39;</span><span class="p">])</span>
+        <span class="n">sm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">behavior</span><span class="o">.</span><span class="n">safety_margin</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+        <span class="n">ba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">behavior</span><span class="o">.</span><span class="n">barrier_angle</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+        <span class="n">sms</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sm</span><span class="p">)</span>
+        <span class="n">bas</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ba</span><span class="p">)</span>
+        <span class="n">seeds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">])</span>
+        <span class="n">final_time</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;steps&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;time_step&#39;</span><span class="p">]</span>
+        <span class="n">deadlocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">count_deadlocks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;deadlocks&#39;</span><span class="p">]),</span> <span class="n">final_time</span><span class="p">))</span>
+        <span class="n">collisions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;collisions&#39;</span><span class="p">]))</span>
+        <span class="n">efficacy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;efficacy&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s1">&#39;seeds&#39;</span><span class="p">:</span> <span class="n">seeds</span><span class="p">,</span>
+        <span class="s1">&#39;safety_margin&#39;</span><span class="p">:</span> <span class="n">sms</span><span class="p">,</span>
+        <span class="s1">&#39;deadlocks&#39;</span><span class="p">:</span> <span class="n">deadlocks</span><span class="p">,</span>
+        <span class="s1">&#39;collisions&#39;</span><span class="p">:</span> <span class="n">collisions</span><span class="p">,</span>
+        <span class="s1">&#39;barrier_angle&#39;</span><span class="p">:</span> <span class="n">bas</span><span class="p">,</span>
+        <span class="s1">&#39;efficacy&#39;</span><span class="p">:</span> <span class="n">efficacy</span><span class="p">})</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;safe&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">collisions</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;fluid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">deadlocks</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">df</span><span class="o">.</span><span class="n">deadlocks</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">collisions</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">extract_data</span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seeds</th>
+      <th>safety_margin</th>
+      <th>deadlocks</th>
+      <th>collisions</th>
+      <th>barrier_angle</th>
+      <th>efficacy</th>
+      <th>safe</th>
+      <th>fluid</th>
+      <th>ok</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>25.000000</td>
+      <td>25.000000</td>
+      <td>25.000000</td>
+      <td>25.000000</td>
+      <td>25.000000</td>
+      <td>25.000000</td>
+      <td>25.00000</td>
+      <td>25.000000</td>
+      <td>25.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>12.000000</td>
+      <td>0.118752</td>
+      <td>3.760000</td>
+      <td>5.600000</td>
+      <td>1.570796</td>
+      <td>0.713534</td>
+      <td>0.76000</td>
+      <td>0.720000</td>
+      <td>0.480000</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>7.359801</td>
+      <td>0.082266</td>
+      <td>6.482541</td>
+      <td>16.580611</td>
+      <td>0.000000</td>
+      <td>0.195841</td>
+      <td>0.43589</td>
+      <td>0.458258</td>
+      <td>0.509902</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>0.002779</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.570796</td>
+      <td>0.210948</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>6.000000</td>
+      <td>0.046271</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.570796</td>
+      <td>0.728888</td>
+      <td>1.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>12.000000</td>
+      <td>0.107617</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.570796</td>
+      <td>0.811708</td>
+      <td>1.00000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>18.000000</td>
+      <td>0.199818</td>
+      <td>5.000000</td>
+      <td>0.000000</td>
+      <td>1.570796</td>
+      <td>0.833949</td>
+      <td>1.00000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>24.000000</td>
+      <td>0.249296</td>
+      <td>17.000000</td>
+      <td>80.000000</td>
+      <td>1.570796</td>
+      <td>0.859139</td>
+      <td>1.00000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>We plot the consequences of the safety margin on deadlocks and collisions. We see that</p>
+<ul class="simple">
+<li><p>for low safety margins, there are collisions</p></li>
+<li><p>for high safety margins, there are deadlocks</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;safety_margin&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;collisions&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">(),</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;safety_margin&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;deadlocks&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_deadlocks_and_collisions_hdf5_22_0.png" src="../_images/tutorials_deadlocks_and_collisions_hdf5_22_0.png" />
+</div>
+</div>
+<p>Efficacy measures how much agents are progressing towards their target (1 = ideal, 0 = stuck). Looking at efficacy gives a more fine-grained picture than deadlocks, which are still visible on the right (points lower than the slowing degrading line).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;safety_margin&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;efficacy&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_deadlocks_and_collisions_hdf5_24_0.png" src="../_images/tutorials_deadlocks_and_collisions_hdf5_24_0.png" />
+</div>
+</div>
+<p>Deadlocks can be mitigated by reducing the barrier angle but this may cause collisions. We investigate the effect of safety margin <em>and</em> barrier angle with a larger experiment where we vary both parameters.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim</span>
+
+<span class="n">yaml</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">steps: 3000</span>
+<span class="s2">time_step: 0.1</span>
+<span class="s2">save_directory: &#39;.&#39;</span>
+<span class="s2">record_world: true</span>
+<span class="s2">record_collisions: true</span>
+<span class="s2">record_deadlocks: true</span>
+<span class="s2">record_safety_violation: false</span>
+<span class="s2">record_efficacy: true</span>
+<span class="s2">terminated_when_idle_or_stuck: true</span>
+<span class="s2">runs: 20</span>
+<span class="s2">scenario:</span>
+<span class="s2">  type: Cross</span>
+<span class="s2">  agent_margin: 0.1</span>
+<span class="s2">  side: 4</span>
+<span class="s2">  target_margin: 0.1</span>
+<span class="s2">  tolerance: 0.5</span>
+<span class="s2">  groups:</span>
+<span class="s2">    -</span>
+<span class="s2">      type: thymio</span>
+<span class="s2">      number: 20</span>
+<span class="s2">      radius: 0.08</span>
+<span class="s2">      control_period: 0.1</span>
+<span class="s2">      speed_tolerance: 0.02</span>
+<span class="s2">      kinematics:</span>
+<span class="s2">        type: 2WDiff</span>
+<span class="s2">        wheel_axis: 0.094</span>
+<span class="s2">        max_speed: 0.166</span>
+<span class="s2">      behavior:</span>
+<span class="s2">        type: HL</span>
+<span class="s2">        optimal_speed: 0.12</span>
+<span class="s2">        horizon: 5.0</span>
+<span class="s2">        tau: 0.5</span>
+<span class="s2">        eta: 0.5</span>
+<span class="s2">        safety_margin:</span>
+<span class="s2">          sampler: uniform</span>
+<span class="s2">          from: 0.0</span>
+<span class="s2">          to: 0.25</span>
+<span class="s2">          once: true</span>
+<span class="s2">        barrier_angle:</span>
+<span class="s2">          sampler: uniform</span>
+<span class="s2">          from: 0.7854</span>
+<span class="s2">          to: 1.5708</span>
+<span class="s2">          once: true</span>
+<span class="s2">      state_estimation:</span>
+<span class="s2">        type: Bounded</span>
+<span class="s2">        range: 5.0</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>To speed up execution, we perform the runs in parallel, grouping together blocks of 500 runs.</p>
+<p>You need to install <code class="docutils literal notranslate"><span class="pre">multiprocess</span></code> to for this.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install multiprocess
+</pre></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocess</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pool</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_in_parallel</span><span class="p">(</span><span class="n">yaml</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">total_runs</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">processes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_run_experiment</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
+        <span class="n">experiment</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_experiment</span><span class="p">(</span><span class="n">yaml</span><span class="p">)</span>
+        <span class="n">experiment</span><span class="o">.</span><span class="n">number_of_runs</span> <span class="o">=</span> <span class="n">chunks</span>
+        <span class="n">experiment</span><span class="o">.</span><span class="n">run_index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">extract_data</span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_run_experiment</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">total_runs</span><span class="p">,</span> <span class="n">chunks</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">run_in_parallel</span><span class="p">(</span><span class="n">yaml</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>Lower barrier angles reduce safety:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;safety_margin&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;barrier_angle&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">&quot;safe&quot;</span><span class="p">,</span>
+                 <span class="n">reduce_C_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">gridsize</span><span class="o">=</span><span class="mi">15</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<p>Higher barrier angles increase the probability of deadlocks:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;safety_margin&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;barrier_angle&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">&quot;fluid&quot;</span><span class="p">,</span>
+                 <span class="n">reduce_C_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">gridsize</span><span class="o">=</span><span class="mi">15</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<p>For parameters in the dark green region below, agents are behaving well:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;safety_margin&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;barrier_angle&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+                 <span class="n">reduce_C_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">gridsize</span><span class="o">=</span><span class="mi">15</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<p>Finally, we also plot the efficacy:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;safety_margin&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;barrier_angle&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">&quot;efficacy&quot;</span><span class="p">,</span>
+                 <span class="n">reduce_C_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">gridsize</span><span class="o">=</span><span class="mi">15</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jérôme Guzzi, IDSIA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Jérôme Guzzi, IDSIA.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

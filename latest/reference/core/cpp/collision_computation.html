@@ -1,0 +1,1146 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Computing collisions &#8212; navground 0.6.0.dev documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/cpp/collision_computation';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Social margin" href="social_margin.html" />
+    <link rel="prev" title="GridMap" href="state/gridmap.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../installation/index.html">Installation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/pip.html">PyPi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/github_release.html">Github release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/docker.html">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/from_source.html">Building from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/step_by_step.html">Step-by-step Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/setup_dev.html">Setup a development environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../first_steps.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tour.html">A tour of navground</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_core.html">navground_core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_core_py.html">navground_core_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_sim.html">navground_sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_sim_py.html">navground_sim_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples.html">navground_examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples_py.html">navground_examples_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples_yaml.html">navground_examples_yaml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_demos.html">navground_demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_minimal_plugin_cpp.html">navground_minimal_plugin_cpp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_minimal_plugin_py.html">navground_minimal_plugin_py</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/display.html">Visualize a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/playback.html">Load and playing back recorded experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sensors.html">Sensors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../guides/extend/index.html">How to extend navground</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/register_cpp.html">How to integrate a C++ component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/register_py.html">How to integrate a Python component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior.html">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior_modulation.html">Behavior modulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/kinematics.html">Kinematics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/state_estimation.html">State Estimations</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/task.html">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/scenario.html">Scenarios</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/probes.html">How to record custom data in experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/install.html">How to build without the ROS build tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/validate.html">How to validate code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../components/index.html">Components</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/behaviors/index.html">Behaviors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/orca.html">Optimal Reciprocal Collision Avoidance (ORCA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/hrvo.html">Hybrid Velocity Obstacle (HRVO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/hl.html">Human-like (HL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behaviors/social_force.html">Social Force</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/behavior_modulations/index.html">Behavior Modulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/limit_acceleration.html">Limiting the acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/limit_twist.html">Limiting the twist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/motor_pid.html">Motorized Wheels PID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/behavior_modulations/relaxation.html">Relaxation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/kinematics/index.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/omni.html">Omni-directional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/ahead.html">Ahead</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/bounded.html">Geometric with limited range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/discs.html">Discs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/odometry.html">Odometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/lidar.html">Lidar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/boundary.html">Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/local_gridmap.html">Local GridMap</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/direction.html">Direction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/waypoints.html">Waypoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/go_to_pose.html">GoToPose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/tasks/path.html">Path</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/scenarios/index.html">Scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/cross.html">Cross</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/scenarios/cross_torus.html">Cross Torus</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/accessors.html">Accessors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">C++ API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="types.html">Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kinematics/index.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="state/index.html">Environment State</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="behavior_modulations/index.html">Behavior Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="helper.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build.html">Build info</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../python/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/kinematics/index.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/state/index.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/behavior_modulations/index.html">Behavior Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/build.html">Build info</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/register.html">Registered components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/behavior_modulation.html">Behavior Modulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/behavior.html">Behavior</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../sim/index.html">Simulation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/sampling.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/experiment/index.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/yaml.html">YAML</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/experiment/index.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/plugins.html">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/helpers.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/visualization/index.html">Visualization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/task.html">Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/samplers.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/scenario.html">Scenario</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/experiment.html">Experiment</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/reference/core/cpp/collision_computation.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Computing collisions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisioncomputation">CollisionComputation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCacheE"><code class="docutils literal notranslate"><span class="pre">navground::core::DiscCache</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache9DiscCacheE7Vector210ng_float_t7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">DiscCache()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache5deltaE"><code class="docutils literal notranslate"><span class="pre">delta</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache8velocityE"><code class="docutils literal notranslate"><span class="pre">velocity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache8distanceE"><code class="docutils literal notranslate"><span class="pre">distance</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputationE"><code class="docutils literal notranslate"><span class="pre">navground::core::CollisionComputation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation20CollisionComputationEv"><code class="docutils literal notranslate"><span class="pre">CollisionComputation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation28get_free_distance_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_free_distance_for_sector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20CollisionComputation21get_angles_for_sectorE7Radians7Radians6size_t"><code class="docutils literal notranslate"><span class="pre">get_angles_for_sector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation22get_contour_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_contour_for_sector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEENSt6vectorI9DiscCacheEENSt6vectorI9DiscCacheEE"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEERKNSt6vectorI4DiscEERKNSt6vectorI8NeighborEE"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation20static_free_distanceE7Radians10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">static_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation21dynamic_free_distanceE7Radians10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">dynamic_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation19dynamic_may_collideERK9DiscCache10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">dynamic_may_collide()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation18static_may_collideERK9DiscCache10ng_float_t"><code class="docutils literal notranslate"><span class="pre">static_may_collide()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cachedcollisioncomputation">CachedCollisionComputation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputationE"><code class="docutils literal notranslate"><span class="pre">navground::core::CachedCollisionComputation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation26CachedCollisionComputationEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation14set_resolutionE6size_t"><code class="docutils literal notranslate"><span class="pre">set_resolution()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">get_resolution()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation13set_min_angleE7Radians"><code class="docutils literal notranslate"><span class="pre">set_min_angle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation13get_min_angleEv"><code class="docutils literal notranslate"><span class="pre">get_min_angle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation10set_lengthE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_length()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation10get_lengthEv"><code class="docutils literal notranslate"><span class="pre">get_length()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation16set_max_distanceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_max_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation16get_max_distanceEv"><code class="docutils literal notranslate"><span class="pre">get_max_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation9set_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation9get_speedEv"><code class="docutils literal notranslate"><span class="pre">get_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation20static_free_distanceE7Radiansb"><code class="docutils literal notranslate"><span class="pre">static_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation21dynamic_free_distanceE7Radians"><code class="docutils literal notranslate"><span class="pre">dynamic_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation5resetEv"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation9get_cacheEbb"><code class="docutils literal notranslate"><span class="pre">get_cache()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation17get_free_distanceEb"><code class="docutils literal notranslate"><span class="pre">get_free_distance()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="computing-collisions">
+<h1>Computing collisions<a class="headerlink" href="#computing-collisions" title="Link to this heading">#</a></h1>
+<section id="collisioncomputation">
+<h2>CollisionComputation<a class="headerlink" href="#collisioncomputation" title="Link to this heading">#</a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/core/collision_computation.h&quot;</span>
+</pre></div>
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core9DiscCacheE">
+<span class="target" id="structnavground_1_1core_1_1_disc_cache"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DiscCache</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9DiscCacheE" title="Link to this definition">#</a><br /></dt>
+<dd><p>An struct that holds pre-computed values about a disc-shaped obstacle to speed up collision checking. For collision checking, the agent is considered point-like, i.e, the radius of the agent should be added to the disc-cache margin. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core9DiscCache9DiscCacheE7Vector210ng_float_t7Vector210ng_float_t">
+<span class="target" id="structnavground_1_1core_1_1_disc_cache_1a1eb3664f89165d28eed4274b19839421"></span><span class="sig-name descname"><span class="n"><span class="pre">DiscCache</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">delta</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">margin</span></span>, <a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">velocity</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Zero</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">visible_angle</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7HALF_PIE" title="navground::core::HALF_PI"><span class="n"><span class="pre">HALF_PI</span></span></a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core9DiscCache9DiscCacheE7Vector210ng_float_t7Vector210ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a disc cache. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delta</strong> – <strong>[in]</strong> The difference of positions (<code class="docutils literal notranslate"><span class="pre">obstacle</span> <span class="pre">-</span> <span class="pre">agent</span></code>) in absolute frame </p></li>
+<li><p><strong>margin</strong> – <strong>[in]</strong> The margin (sum of the radii and safety margin) </p></li>
+<li><p><strong>velocity</strong> – <strong>[in]</strong> The disc velocity </p></li>
+<li><p><strong>visible_angle</strong> – <strong>[in]</strong> When colliding, directions outside the sector defined by <code class="docutils literal notranslate"><span class="pre">[-visible_angle,</span> <span class="pre">visible_angle]</span></code> are considered safe. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core9DiscCache5deltaE">
+<span class="target" id="structnavground_1_1core_1_1_disc_cache_1a386a1f46b9cbc6d1042e3035cf2ae1ae"></span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">delta</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9DiscCache5deltaE" title="Link to this definition">#</a><br /></dt>
+<dd><p>the difference of positions (obstacle - agent) in absolute frame </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core9DiscCache8velocityE">
+<span class="target" id="structnavground_1_1core_1_1_disc_cache_1a01d5d3d228222f81debc1f06dc60dce6"></span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">velocity</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9DiscCache8velocityE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The disc velocity in absolute frame </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core9DiscCache8distanceE">
+<span class="target" id="structnavground_1_1core_1_1_disc_cache_1a46ff4b97ab1841c3467fd1fd60e32a8e"></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">distance</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9DiscCache8distanceE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The distance between disc and agent (computed) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputationE">
+<span class="target" id="classnavground_1_1core_1_1_collision_computation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CollisionComputation</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputationE" title="Link to this definition">#</a><br /></dt>
+<dd><p>This class compute collisions of moving points with lists of <a class="reference internal" href="#structnavground_1_1core_1_1_disc_cache"><span class="std std-ref">DiscCache</span></a> and LineSegment. </p>
+<p>Subclassed by <a class="reference internal" href="#classnavground_1_1core_1_1_cached_collision_computation"><span class="std std-ref">navground::core::CachedCollisionComputation</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputation20CollisionComputationEv">
+<span class="target" id="classnavground_1_1core_1_1_collision_computation_1ac7be19611fd7e26251ec2c53b70c803c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CollisionComputation</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation20CollisionComputationEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct an instance. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputation28get_free_distance_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_collision_computation_1a37ba7cfe96ef81a2afadf57879992994"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_free_distance_for_sector</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">from</span></span>, <a class="reference internal" href="common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">length</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">resolution</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_distance</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dynamic</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation28get_free_distance_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the free distance to collision for an interval of headings. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>from</strong> – <strong>[in]</strong> The interval lower bound </p></li>
+<li><p><strong>length</strong> – <strong>[in]</strong> The length of the interval </p></li>
+<li><p><strong>resolution</strong> – <strong>[in]</strong> The number of values in the interval </p></li>
+<li><p><strong>max_distance</strong> – <strong>[in]</strong> The maximum distance to consider (collision behind this distance are effectively ignored) </p></li>
+<li><p><strong>dynamic</strong> – <strong>[in]</strong> If the agent is moving </p></li>
+<li><p><strong>speed</strong> – <strong>[in]</strong> The speed at which the agent is moving</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The free distance for each angle in the interval [from, from + length]. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core20CollisionComputation21get_angles_for_sectorE7Radians7Radians6size_t">
+<span class="target" id="classnavground_1_1core_1_1_collision_computation_1afe30c5707973c70a845359e7b22b3d1c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_angles_for_sector</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">from</span></span>, <a class="reference internal" href="common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">length</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">resolution</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core20CollisionComputation21get_angles_for_sectorE7Radians7Radians6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return regularly sampled angles. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>from</strong> – <strong>[in]</strong> The interval lower bound </p></li>
+<li><p><strong>length</strong> – <strong>[in]</strong> The length of the interval </p></li>
+<li><p><strong>resolution</strong> – <strong>[in]</strong> The number of values in the interval</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Angles regularly sampled in the interval [from, from + length]. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputation22get_contour_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_collision_computation_1aa5fb7840313484c2b86e069360473448"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">tuple</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_contour_for_sector</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">from</span></span>, <a class="reference internal" href="common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">length</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">resolution</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_distance</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dynamic</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">speed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation22get_contour_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the polar contour for an interval of headings. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>from</strong> – <strong>[in]</strong> The interval lower bound </p></li>
+<li><p><strong>length</strong> – <strong>[in]</strong> The length of the interval </p></li>
+<li><p><strong>resolution</strong> – <strong>[in]</strong> The number of values in the interval </p></li>
+<li><p><strong>max_distance</strong> – <strong>[in]</strong> The maximum distance to consider (collision behind this distance are effectively ignored) </p></li>
+<li><p><strong>dynamic</strong> – <strong>[in]</strong> If the agent is moving </p></li>
+<li><p><strong>speed</strong> – <strong>[in]</strong> The speed at which the agent is moving</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An arrays of angles sampled regularly in the interval [from, from + length] and one array with the free distance in their direction. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEENSt6vectorI9DiscCacheEENSt6vectorI9DiscCacheEE">
+<span class="target" id="classnavground_1_1core_1_1_collision_computation_1ac7382316793bd054121eb2545e03db87"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setup</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">pose_</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">margin_</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state/geometric.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">line_segments</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core9DiscCacheE" title="navground::core::DiscCache"><span class="n"><span class="pre">DiscCache</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">static_discs</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core9DiscCacheE" title="navground::core::DiscCache"><span class="n"><span class="pre">DiscCache</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dynamic_discs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEENSt6vectorI9DiscCacheEENSt6vectorI9DiscCacheEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set the state from collections of LineSegment and <a class="reference internal" href="#structnavground_1_1core_1_1_disc_cache"><span class="std std-ref">DiscCache</span></a>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose_</strong> – <strong>[in]</strong> The pose of the agent </p></li>
+<li><p><strong>margin_</strong> – <strong>[in]</strong> The margin </p></li>
+<li><p><strong>line_segments</strong> – <strong>[in]</strong> The line segments </p></li>
+<li><p><strong>static_discs</strong> – <strong>[in]</strong> The static discs </p></li>
+<li><p><strong>dynamic_discs</strong> – <strong>[in]</strong> The dynamic discs </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEERKNSt6vectorI4DiscEERKNSt6vectorI8NeighborEE">
+<span class="target" id="classnavground_1_1core_1_1_collision_computation_1a48830c9028fbea912ff2b33ab784394b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setup</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">pose_</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">margin_</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state/geometric.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">line_segments</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state/geometric.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><span class="n"><span class="pre">Disc</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">static_discs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="state/geometric.html#_CPPv4N9navground4core8NeighborE" title="navground::core::Neighbor"><span class="n"><span class="pre">Neighbor</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dynamic_discs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEERKNSt6vectorI4DiscEERKNSt6vectorI8NeighborEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set the state from collections of LineSegment, Disc, and Neighbor. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose_</strong> – <strong>[in]</strong> The pose </p></li>
+<li><p><strong>margin_</strong> – <strong>[in]</strong> The margin </p></li>
+<li><p><strong>line_segments</strong> – <strong>[in]</strong> The line segments </p></li>
+<li><p><strong>static_discs</strong> – <strong>[in]</strong> The static discs </p></li>
+<li><p><strong>dynamic_discs</strong> – <strong>[in]</strong> The dynamic discs </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputation20static_free_distanceE7Radians10ng_float_tb">
+<span class="target" id="classnavground_1_1core_1_1_collision_computation_1af7c2d1bd633a3c0a605f33d75e15823d"></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">static_free_distance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">angle</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_distance</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">include_neighbors</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation20static_free_distanceE7Radians10ng_float_tb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the free distance if the agent will be static. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angle</strong> – <strong>[in]</strong> The angle (absolute) </p></li>
+<li><p><strong>max_distance</strong> – <strong>[in]</strong> The maximal distance to consider </p></li>
+<li><p><strong>include_neighbors</strong> – <strong>[in]</strong> Indicates if the neighbors should be included in the computation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The distance in direction <code class="docutils literal notranslate"><span class="pre">angle</span></code> before possibly colliding </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputation21dynamic_free_distanceE7Radians10ng_float_t10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_collision_computation_1acd03703f69a6dbad5f210ed1fa6c0910"></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dynamic_free_distance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">angle</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_distance</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">speed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation21dynamic_free_distanceE7Radians10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the free distance if the agent will be move. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angle</strong> – <strong>[in]</strong> The angle (absolute) </p></li>
+<li><p><strong>max_distance</strong> – <strong>[in]</strong> The maximal distance to consider </p></li>
+<li><p><strong>speed</strong> – <strong>[in]</strong> The speed of the agent</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The distance in direction <code class="docutils literal notranslate"><span class="pre">angle</span></code> before possibly colliding </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputation19dynamic_may_collideERK9DiscCache10ng_float_t10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_collision_computation_1a731d03cbb9570c64004d4f44beeee860"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dynamic_may_collide</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core9DiscCacheE" title="navground::core::DiscCache"><span class="n"><span class="pre">DiscCache</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">obstacle</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_distance</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">speed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation19dynamic_may_collideERK9DiscCache10ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Tentatively checks whenever a moving disc-cache may collide with the agent within an horizon. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obstacle</strong> – <strong>[in]</strong> The obstacle </p></li>
+<li><p><strong>max_distance</strong> – <strong>[in]</strong> The maximal distance to consider </p></li>
+<li><p><strong>speed</strong> – <strong>[in]</strong> The speed of the agent</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>False if it is impossible that the agent collides with the obstacle within <code class="docutils literal notranslate"><span class="pre">max_distance</span></code>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core20CollisionComputation18static_may_collideERK9DiscCache10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_collision_computation_1a5c7651a1a6ca9b0b47371d666d78fad5"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">static_may_collide</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core9DiscCacheE" title="navground::core::DiscCache"><span class="n"><span class="pre">DiscCache</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">obstacle</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_distance</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core20CollisionComputation18static_may_collideERK9DiscCache10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Tentatively checks whenever a static disc-cache may collide with the agent within an horizon. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obstacle</strong> – <strong>[in]</strong> The obstacle </p></li>
+<li><p><strong>max_distance</strong> – <strong>[in]</strong> The maximal distance to consider</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>False if it is impossible that the agent collides with the obstacle within <code class="docutils literal notranslate"><span class="pre">max_distance</span></code>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="cachedcollisioncomputation">
+<h2>CachedCollisionComputation<a class="headerlink" href="#cachedcollisioncomputation" title="Link to this heading">#</a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/core/cached_collision_computation.h&quot;</span>
+</pre></div>
+</div>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputationE">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CachedCollisionComputation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core20CollisionComputationE" title="navground::core::CollisionComputation"><span class="n"><span class="pre">CollisionComputation</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputationE" title="Link to this definition">#</a><br /></dt>
+<dd><p>This class extend <a class="reference internal" href="#classnavground_1_1core_1_1_collision_computation"><span class="std std-ref">CollisionComputation</span></a> to cache the results. </p>
+<p>It assumes that the agents is only interested in possible collisions when moving in directions comprised in an interval  <span class="math notranslate nohighlight">\([\alpha, \alpha +
+\Delta]\)</span>, represented by in <span class="math notranslate nohighlight">\(N\)</span> points at regular steps, only up to a maximal distance <span class="math notranslate nohighlight">\(D\)</span>, and that the agent moves at at given speed. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputation26CachedCollisionComputationEv">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1a06f937f602c80c215b9e5ffb1ec6d047"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CachedCollisionComputation</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputation26CachedCollisionComputationEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct an instance </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputation14set_resolutionE6size_t">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1a47c1ec239940b6646795e5074b907820"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_resolution</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputation14set_resolutionE6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the resolution: the number of discrete angles <span class="math notranslate nohighlight">\(N\)</span>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A positive value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core26CachedCollisionComputation14get_resolutionEv">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1a2f7ff06a4c1656c1112acddb1b18759e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_resolution</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core26CachedCollisionComputation14get_resolutionEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the resolution: the number of discrete angles <span class="math notranslate nohighlight">\(N\)</span>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The size of the cache. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputation13set_min_angleE7Radians">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1abc9885d32e62440eacb6885277e962ff"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_min_angle</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputation13set_min_angleE7Radians" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the cache interval lower bound <span class="math notranslate nohighlight">\(\alpha\)</span>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The lower bound </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core26CachedCollisionComputation13get_min_angleEv">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1a704710d7b9a05958d69a789c288b43cc"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_min_angle</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core26CachedCollisionComputation13get_min_angleEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the cache interval lower bound <span class="math notranslate nohighlight">\(\alpha\)</span>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The lower bound. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputation10set_lengthE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1ac24a3c452b66880bba4a932f7c7067ac"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_length</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputation10set_lengthE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the cache interval length <span class="math notranslate nohighlight">\(\Delta\)</span>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The interval length </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core26CachedCollisionComputation10get_lengthEv">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1a8b43860e78e6faf7be8f6d66bfab21f5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_length</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core26CachedCollisionComputation10get_lengthEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the cache interval length <span class="math notranslate nohighlight">\(\Delta\)</span>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The interval length </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputation16set_max_distanceE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1ae4a455bdb6b607867196f4d60f297c4c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_max_distance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputation16set_max_distanceE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the maximal distance <span class="math notranslate nohighlight">\(D\)</span> to consider. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The maximal distance </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core26CachedCollisionComputation16get_max_distanceEv">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1a5ad74d9cfa8db071e5e75be698778355"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_max_distance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core26CachedCollisionComputation16get_max_distanceEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the maximal distance <span class="math notranslate nohighlight">\(D\)</span> to consider. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The maximal distance </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputation9set_speedE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1a18cf39f4f47e28c8758fab9d8bcf4e83"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_speed</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputation9set_speedE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the agent speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The speed </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core26CachedCollisionComputation9get_speedEv">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1a9d785d067cf8b1a3ed361c8348720cae"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_speed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core26CachedCollisionComputation9get_speedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the agent speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The agent speed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputation20static_free_distanceE7Radiansb">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1a89f6bbd12758b8c85a97bcb5f8d70d22"></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">static_free_distance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">angle</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">include_neighbors</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputation20static_free_distanceE7Radiansb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the free distance if the agent will be static. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angle</strong> – <strong>[in]</strong> The angle (absolute) </p></li>
+<li><p><strong>include_neighbors</strong> – <strong>[in]</strong> Indicates if the neighbors should be included in the computation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The distance in direction <code class="docutils literal notranslate"><span class="pre">angle</span></code> before possibly colliding </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputation21dynamic_free_distanceE7Radians">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1a70eb78206f0aa18ad3063f373319a9f3"></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dynamic_free_distance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="common.html#_CPPv4N9navground4core7RadiansE" title="navground::core::Radians"><span class="n"><span class="pre">Radians</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">angle</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputation21dynamic_free_distanceE7Radians" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the free distance if the agent will be move. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>angle</strong> – <strong>[in]</strong> The angle (absolute)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The distance in direction <code class="docutils literal notranslate"><span class="pre">angle</span></code> before possibly colliding </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputation5resetEv">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1aac037e5c2239068184ac137345f8fbf1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputation5resetEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Resets the cache. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputation9get_cacheEbb">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1aee1558eec14dd1826e9688756864d444"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_cache</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">assuming_static</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">include_neighbors</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputation9get_cacheEbb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets a pointer where collision distances are cached. Negative entries mean distance not computed (-2) or no collision (-1). </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>assuming_static</strong> – <strong>[in]</strong> The assuming static </p></li>
+<li><p><strong>include_neighbors</strong> – <strong>[in]</strong> Indicates if the neighbors should be included in the computation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The collision distance cache. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core26CachedCollisionComputation17get_free_distanceEb">
+<span class="target" id="classnavground_1_1core_1_1_cached_collision_computation_1ad985462083b59cd7c840321d837d4109"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">valarray</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_free_distance</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dynamic</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core26CachedCollisionComputation17get_free_distanceEb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the free distance to collision for the cached interval of headings. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dynamic</strong> – <strong>[in]</strong> If the agent is moving</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The distance before possibly colliding for each direction in the interval <span class="math notranslate nohighlight">\([\alpha, \alpha + \Delta]\)</span>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="state/gridmap.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">GridMap</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="social_margin.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Social margin</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisioncomputation">CollisionComputation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCacheE"><code class="docutils literal notranslate"><span class="pre">navground::core::DiscCache</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache9DiscCacheE7Vector210ng_float_t7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">DiscCache()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache5deltaE"><code class="docutils literal notranslate"><span class="pre">delta</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache8velocityE"><code class="docutils literal notranslate"><span class="pre">velocity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9DiscCache8distanceE"><code class="docutils literal notranslate"><span class="pre">distance</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputationE"><code class="docutils literal notranslate"><span class="pre">navground::core::CollisionComputation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation20CollisionComputationEv"><code class="docutils literal notranslate"><span class="pre">CollisionComputation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation28get_free_distance_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_free_distance_for_sector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core20CollisionComputation21get_angles_for_sectorE7Radians7Radians6size_t"><code class="docutils literal notranslate"><span class="pre">get_angles_for_sector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation22get_contour_for_sectorE7Radians7Radians6size_t10ng_float_tb10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_contour_for_sector()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEENSt6vectorI9DiscCacheEENSt6vectorI9DiscCacheEE"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation5setupE5Pose210ng_float_tRKNSt6vectorI11LineSegmentEERKNSt6vectorI4DiscEERKNSt6vectorI8NeighborEE"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation20static_free_distanceE7Radians10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">static_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation21dynamic_free_distanceE7Radians10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">dynamic_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation19dynamic_may_collideERK9DiscCache10ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">dynamic_may_collide()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core20CollisionComputation18static_may_collideERK9DiscCache10ng_float_t"><code class="docutils literal notranslate"><span class="pre">static_may_collide()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cachedcollisioncomputation">CachedCollisionComputation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputationE"><code class="docutils literal notranslate"><span class="pre">navground::core::CachedCollisionComputation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation26CachedCollisionComputationEv"><code class="docutils literal notranslate"><span class="pre">CachedCollisionComputation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation14set_resolutionE6size_t"><code class="docutils literal notranslate"><span class="pre">set_resolution()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation14get_resolutionEv"><code class="docutils literal notranslate"><span class="pre">get_resolution()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation13set_min_angleE7Radians"><code class="docutils literal notranslate"><span class="pre">set_min_angle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation13get_min_angleEv"><code class="docutils literal notranslate"><span class="pre">get_min_angle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation10set_lengthE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_length()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation10get_lengthEv"><code class="docutils literal notranslate"><span class="pre">get_length()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation16set_max_distanceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_max_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation16get_max_distanceEv"><code class="docutils literal notranslate"><span class="pre">get_max_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation9set_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">set_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core26CachedCollisionComputation9get_speedEv"><code class="docutils literal notranslate"><span class="pre">get_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation20static_free_distanceE7Radiansb"><code class="docutils literal notranslate"><span class="pre">static_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation21dynamic_free_distanceE7Radians"><code class="docutils literal notranslate"><span class="pre">dynamic_free_distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation5resetEv"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation9get_cacheEbb"><code class="docutils literal notranslate"><span class="pre">get_cache()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core26CachedCollisionComputation17get_free_distanceEb"><code class="docutils literal notranslate"><span class="pre">get_free_distance()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jérôme Guzzi, IDSIA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Jérôme Guzzi, IDSIA.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

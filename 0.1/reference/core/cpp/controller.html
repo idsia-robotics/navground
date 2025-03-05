@@ -1,0 +1,1534 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Controller &#8212; navground 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/cpp/controller';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Helpers" href="helper.html" />
+    <link rel="prev" title="Social margin" href="social_margin.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">navground 0.1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../installation/index.html">Installation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/pip.html">Pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/docker.html">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/from_source.html">Building from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/step_by_step.html">Step-by-step Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../first_steps.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tour.html">A tour of navground</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_core.html">navground_core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_core_py.html">navground_core_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_sim.html">navground_sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_sim_py.html">navground_sim_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_ros.html">navground_ros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_msgs.html">navground_msgs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_coppeliasim.html">navground_coppeliasim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples.html">navground_examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples_py.html">navground_examples_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_examples_yaml.html">navground_examples_yaml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../packages/navground_demos.html">navground_demos</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/display.html">Visualize a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/playback.html">Load and playing back recorded experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/register.html">How to register a component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/probes.html">How to record custom data in experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/install.html">How to build without the ROS build tools</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../scenarios/index.html">Benchmark scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross.html">Cross</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../scenarios/cross_torus.html">Cross Torus</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">C++ API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="types.html">Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modulations.html">Modulations</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="helper.html">Helpers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../python/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/modulations.html">Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/controller.html">Controller</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/behavior.html">Behavior</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/behavior_modulation.html">Behavior Modulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/state.html">Environment State</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../sim/index.html">Simulation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/sampling.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/cpp/yaml.html">YAML</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/experiment.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/visualization.html">Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/recorded_experiment.html">Recorded Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/real_time.html">Real-time simulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/plugins.html">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/helpers.html">Helpers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/task.html">Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/samplers.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/scenario.html">Scenario</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/yaml/experiment.html">Experiment</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/reference/core/cpp/controller.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Controller</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-dimensional">Two-dimensional</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6ActionE"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5StateE"><code class="docutils literal notranslate"><span class="pre">Action::State</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5State4idleE"><code class="docutils literal notranslate"><span class="pre">Action::State::idle</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5State7runningE"><code class="docutils literal notranslate"><span class="pre">Action::State::running</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5State7failureE"><code class="docutils literal notranslate"><span class="pre">Action::State::failure</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5State7successE"><code class="docutils literal notranslate"><span class="pre">Action::State::success</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Action4doneEv"><code class="docutils literal notranslate"><span class="pre">Action::done()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Action7runningEv"><code class="docutils literal notranslate"><span class="pre">Action::running()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5abortEv"><code class="docutils literal notranslate"><span class="pre">Action::abort()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5stateE"><code class="docutils literal notranslate"><span class="pre">Action::state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action10running_cbE"><code class="docutils literal notranslate"><span class="pre">Action::running_cb</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action7done_cbE"><code class="docutils literal notranslate"><span class="pre">Action::done_cb</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10ControllerE"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller10ControllerENSt10shared_ptrI8BehaviorEE"><code class="docutils literal notranslate"><span class="pre">Controller::Controller()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10Controller9get_stateEv"><code class="docutils literal notranslate"><span class="pre">Controller::get_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10Controller12get_behaviorEv"><code class="docutils literal notranslate"><span class="pre">Controller::get_behavior()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller12set_behaviorENSt10shared_ptrI8BehaviorEE"><code class="docutils literal notranslate"><span class="pre">Controller::set_behavior()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10Controller19get_speed_toleranceEv"><code class="docutils literal notranslate"><span class="pre">Controller::get_speed_tolerance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller19set_speed_toleranceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller::set_speed_tolerance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10Controller13get_cmd_frameEv"><code class="docutils literal notranslate"><span class="pre">Controller::get_cmd_frame()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller13set_cmd_frameERKNSt8optionalI5FrameEE"><code class="docutils literal notranslate"><span class="pre">Controller::set_cmd_frame()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller14go_to_positionERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller::go_to_position()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller10go_to_poseERK5Pose210ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller::go_to_pose()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller12follow_pointERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Controller::follow_point()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller11follow_poseERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Controller::follow_pose()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller16follow_directionERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Controller::follow_direction()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller15follow_velocityERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Controller::follow_velocity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller12follow_twistERK6Twist2"><code class="docutils literal notranslate"><span class="pre">Controller::follow_twist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10Controller4idleEv"><code class="docutils literal notranslate"><span class="pre">Controller::idle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller4stopEv"><code class="docutils literal notranslate"><span class="pre">Controller::stop()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller6updateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller::update()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller10set_cmd_cbENSt8functionIFvRK6Twist2EEE"><code class="docutils literal notranslate"><span class="pre">Controller::set_cmd_cb()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#three-dimensional">Three-dimensional</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8CylinderE"><code class="docutils literal notranslate"><span class="pre">Cylinder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Cylinder8CylinderEK7Vector310ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Cylinder::Cylinder()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Cylinder4discEv"><code class="docutils literal notranslate"><span class="pre">Cylinder::disc()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Cylinder8positionE"><code class="docutils literal notranslate"><span class="pre">Cylinder::position</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Cylinder6radiusE"><code class="docutils literal notranslate"><span class="pre">Cylinder::radius</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Cylinder6heightE"><code class="docutils literal notranslate"><span class="pre">Cylinder::height</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9Neighbor3E"><code class="docutils literal notranslate"><span class="pre">Neighbor3</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9Neighbor39Neighbor3EK7Vector310ng_float_t10ng_float_t7Vector2j"><code class="docutils literal notranslate"><span class="pre">Neighbor3::Neighbor3()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core9Neighbor38neighborEv"><code class="docutils literal notranslate"><span class="pre">Neighbor3::neighbor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9Neighbor38velocityE"><code class="docutils literal notranslate"><span class="pre">Neighbor3::velocity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9Neighbor32idE"><code class="docutils literal notranslate"><span class="pre">Neighbor3::id</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller3E"><code class="docutils literal notranslate"><span class="pre">Controller3</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller311Controller3ENSt10shared_ptrI8BehaviorEEb"><code class="docutils literal notranslate"><span class="pre">Controller3::Controller3()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller313set_neighborsERKNSt6vectorI9Neighbor3EE"><code class="docutils literal notranslate"><span class="pre">Controller3::set_neighbors()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller320set_static_obstaclesERKNSt6vectorI8CylinderEE"><code class="docutils literal notranslate"><span class="pre">Controller3::set_static_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core11Controller38get_poseEv"><code class="docutils literal notranslate"><span class="pre">Controller3::get_pose()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller38set_poseERK5Pose3"><code class="docutils literal notranslate"><span class="pre">Controller3::set_pose()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core11Controller39get_twistEv"><code class="docutils literal notranslate"><span class="pre">Controller3::get_twist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller39set_twistERK6Twist3"><code class="docutils literal notranslate"><span class="pre">Controller3::set_twist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller37actuateERK6Twist310ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller3::actuate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core11Controller326get_altitude_optimal_speedEv"><code class="docutils literal notranslate"><span class="pre">Controller3::get_altitude_optimal_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller326set_altitude_optimal_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller3::set_altitude_optimal_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core11Controller316get_altitude_tauEv"><code class="docutils literal notranslate"><span class="pre">Controller3::get_altitude_tau()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller316set_altitude_tauE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller3::set_altitude_tau()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller314go_to_positionERK7Vector310ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller3::go_to_position()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller310go_to_poseERK5Pose310ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller3::go_to_pose()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller312follow_pointERK7Vector3"><code class="docutils literal notranslate"><span class="pre">Controller3::follow_point()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller311follow_poseERK5Pose3"><code class="docutils literal notranslate"><span class="pre">Controller3::follow_pose()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller315follow_velocityERK7Vector3"><code class="docutils literal notranslate"><span class="pre">Controller3::follow_velocity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller312follow_twistERK6Twist3"><code class="docutils literal notranslate"><span class="pre">Controller3::follow_twist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller39update_3dE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller3::update_3d()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller310set_cmd_cbENSt8functionIFvRK6Twist3EEE"><code class="docutils literal notranslate"><span class="pre">Controller3::set_cmd_cb()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core11Controller316is_limited_to_2dEv"><code class="docutils literal notranslate"><span class="pre">Controller3::is_limited_to_2d()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller323should_be_limited_to_2dEb"><code class="docutils literal notranslate"><span class="pre">Controller3::should_be_limited_to_2d()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="controller">
+<h1>Controller<a class="headerlink" href="#controller" title="Link to this heading">#</a></h1>
+<section id="two-dimensional">
+<h2>Two-dimensional<a class="headerlink" href="#two-dimensional" title="Link to this heading">#</a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/core/controller.h&quot;</span>
+</pre></div>
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core6ActionE">
+<span class="target" id="structnavground_1_1core_1_1_action"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Action</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core6ActionE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Holds the state of a long running task and notifies observers when it terminates. </p>
+<p>Subclassed by navground::core::FollowAction, navground::core::FollowTwistAction, navground::core::MoveAction</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core6Action5StateE">
+<span class="target" id="structnavground_1_1core_1_1_action_1a3f4c382882eaa2c7ab5450437055ceb6"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">State</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core6Action5StateE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The state of an action. </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core6Action5State4idleE">
+<span class="target" id="structnavground_1_1core_1_1_action_1a3f4c382882eaa2c7ab5450437055ceb6aec2f993aec2c27fc750119ab17b16cdb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">idle</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core6Action5State4idleE" title="Link to this definition">#</a><br /></dt>
+<dd><p>the action has not started </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core6Action5State7runningE">
+<span class="target" id="structnavground_1_1core_1_1_action_1a3f4c382882eaa2c7ab5450437055ceb6a75101dcdfc88455bcafc9e53e0b06689"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">running</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core6Action5State7runningE" title="Link to this definition">#</a><br /></dt>
+<dd><p>the action is running </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core6Action5State7failureE">
+<span class="target" id="structnavground_1_1core_1_1_action_1a3f4c382882eaa2c7ab5450437055ceb6a3ee28fe1a60c95b89d29317f122c7021"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">failure</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core6Action5State7failureE" title="Link to this definition">#</a><br /></dt>
+<dd><p>the action failed </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core6Action5State7successE">
+<span class="target" id="structnavground_1_1core_1_1_action_1a3f4c382882eaa2c7ab5450437055ceb6a260ca9dd8a4577fc00b7bd5810298076"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">success</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core6Action5State7successE" title="Link to this definition">#</a><br /></dt>
+<dd><p>the action succeeded </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core6Action4doneEv">
+<span class="target" id="structnavground_1_1core_1_1_action_1a9c81006975d288a6d063393fba41b4ce"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">done</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core6Action4doneEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return whenever the action is done or not. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the action failed or succeeded </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core6Action7runningEv">
+<span class="target" id="structnavground_1_1core_1_1_action_1a6386e328ddd6f908f5b2b817009b7264"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">running</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core6Action7runningEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return whenever the action is running. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the action is running </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core6Action5abortEv">
+<span class="target" id="structnavground_1_1core_1_1_action_1a2c50a139d35d8a44dae9a9b88444e1e6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">abort</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core6Action5abortEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Abort the action, calling the <a class="reference internal" href="#structnavground_1_1core_1_1_action_1aeaf0b22c35728a1b734805d061c962e5"><span class="std std-ref">done_cb</span></a> if set. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core6Action5stateE">
+<span class="target" id="structnavground_1_1core_1_1_action_1ada424832d3ea2d3fa25865d0810997c8"></span><a class="reference internal" href="#_CPPv4N9navground4core6Action5StateE" title="navground::core::Action::State"><span class="n"><span class="pre">State</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">state</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core6Action5stateE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The current state </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core6Action10running_cbE">
+<span class="target" id="structnavground_1_1core_1_1_action_1a89ff8199e0d03d8561b24e4b04678754"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">running_cb</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core6Action10running_cbE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A callback called when the action is running</p>
+<p>The callback argument is the minimal expected time to terminate the action. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core6Action7done_cbE">
+<span class="target" id="structnavground_1_1core_1_1_action_1aeaf0b22c35728a1b734805d061c962e5"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="#_CPPv4N9navground4core6Action5StateE" title="navground::core::Action::State"><span class="n"><span class="pre">State</span></span></a><span class="w"> </span><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">done_cb</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core6Action7done_cbE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A callback called when the action terminates</p>
+<p>The callback argument is the final state of the action. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10ControllerE">
+<span class="target" id="classnavground_1_1core_1_1_controller"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Controller</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core10ControllerE" title="Link to this definition">#</a><br /></dt>
+<dd><p>This class exposes a higher level, stateful interface to a behavior, to which it delegates 2D collision avoidance. </p>
+<p>The controller provides actions (event-based interfaces) to</p>
+<p><ul class="simple">
+<li><p>go to a point/pose, stopping once the target has been reached,</p></li>
+<li><p>follow a point/pose, which does not terminates once the target has been reached</p></li>
+<li><p>follow a velocity/twist</p></li>
+</ul>
+</p>
+<p><em>Typical usage of a controller</em></p>
+<p><ol class="loweralpha simple">
+<li><p>Pick and configure a <a class="reference internal" href="behaviors/behavior.html#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a></p></li>
+<li><p>Initialize and configure the controller</p></li>
+<li><p>At regular intervals, update the state, using the <a class="reference internal" href="behaviors/behavior.html#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a> API, and call <a class="reference internal" href="#classnavground_1_1core_1_1_controller_1a5c8eda60b71afacdfe5de5ac7daa977c"><span class="std std-ref">update</span></a>.</p></li>
+<li><p>When needed, trigger one of the actions.</p></li>
+<li><p>Either manually check the action’s <a class="reference internal" href="#classnavground_1_1core_1_1_controller_1a450e9eb0fac0612351056ffb5c5867d1"><span class="std std-ref">get_state</span></a> or set callbacks to be notified when the action terminates or updates.</p></li>
+<li><p>Actuate the target command by using the return value of <a class="reference internal" href="#classnavground_1_1core_1_1_controller_1a5c8eda60b71afacdfe5de5ac7daa977c"><span class="std std-ref">update</span></a> or by setting a callback <a class="reference internal" href="#classnavground_1_1core_1_1_controller_1a0b7df10d30e20e547f93111c1dbb588c"><span class="std std-ref">set_cmd_cb</span></a></p></li>
+</ol>
+</p>
+<p>Subclassed by <a class="reference internal" href="#classnavground_1_1core_1_1_controller3"><span class="std std-ref">navground::core::Controller3</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller10ControllerENSt10shared_ptrI8BehaviorEE">
+<span class="target" id="classnavground_1_1core_1_1_controller_1a17c4888fa377674bb8991ef6bfa8c9d7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Controller</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">behavior</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller10ControllerENSt10shared_ptrI8BehaviorEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>behavior</strong> – <strong>[in]</strong> The navigation behavior </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10Controller9get_stateEv">
+<span class="target" id="classnavground_1_1core_1_1_controller_1a450e9eb0fac0612351056ffb5c5867d1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core6Action5StateE" title="navground::core::Action::State"><span class="n"><span class="pre">State</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_state</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10Controller9get_stateEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the state of the control action. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The state. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10Controller12get_behaviorEv">
+<span class="target" id="classnavground_1_1core_1_1_controller_1ae60375df273b63a2bc4ab38b3aba9137"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_behavior</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10Controller12get_behaviorEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the navigation behavior used by the controller. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The navigation behavior. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller12set_behaviorENSt10shared_ptrI8BehaviorEE">
+<span class="target" id="classnavground_1_1core_1_1_controller_1a9f82a3dddab5602747fe3711be183b17"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_behavior</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller12set_behaviorENSt10shared_ptrI8BehaviorEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the navigation behavior used by the controller. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The navigation behavior </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10Controller19get_speed_toleranceEv">
+<span class="target" id="classnavground_1_1core_1_1_controller_1afc1dffd74486e7656552dbed6c30dda5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_speed_tolerance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10Controller19get_speed_toleranceEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the minimal speed to consider the agent as stopped. </p>
+<p>The default is 1 cm/s.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The speed tolerance. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller19set_speed_toleranceE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_controller_1a6a5a3ea11e306468d9306334316990e3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_speed_tolerance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller19set_speed_toleranceE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the minimal speed to consider the agent as stopped. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The speed tolerance </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10Controller13get_cmd_frameEv">
+<span class="target" id="classnavground_1_1core_1_1_controller_1aa120bceb39510eb743c7051d770cc0ca"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_cmd_frame</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10Controller13get_cmd_frameEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the frame of reference for the command. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The frame of reference. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller13set_cmd_frameERKNSt8optionalI5FrameEE">
+<span class="target" id="classnavground_1_1core_1_1_controller_1adcd457513ed556633c78f6f020ea5e2a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_cmd_frame</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">frame</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller13set_cmd_frameERKNSt8optionalI5FrameEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the frame of reference for the command. </p>
+<p>Leave empty to use the default frame of the kinematics, see <a class="reference internal" href="behaviors/behavior.html#classnavground_1_1core_1_1_behavior_1ad5a988a57b130076a39d807e8d150bed"><span class="std std-ref">Behavior::default_cmd_frame</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frame</strong> – <strong>[in]</strong> The desired value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller14go_to_positionERK7Vector210ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_controller_1af5b2a670c545db35a9f05581141f300c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">go_to_position</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">tolerance</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller14go_to_positionERK7Vector210ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to go to a point. </p>
+<p>The action succeed once the agent arrives within a tolerance from the target point and comes to a stop.</p>
+<p>If an action is already running, the controller aborts it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> – <strong>[in]</strong> The target point </p></li>
+<li><p><strong>tolerance</strong> – <strong>[in]</strong> The spatial tolerance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller10go_to_poseERK5Pose210ng_float_t10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_controller_1aa17cf99ffac2d54c2e1ee227e7689c65"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">go_to_pose</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pose</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">position_tolerance</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">orientation_tolerance</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller10go_to_poseERK5Pose210ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to go to a pose. </p>
+<p>The action succeed once the agent arrives within a tolerance from the target pose and comes to a stop.</p>
+<p>If an action is already running, the controller aborts it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose</strong> – <strong>[in]</strong> The target pose </p></li>
+<li><p><strong>position_tolerance</strong> – <strong>[in]</strong> The spatial tolerance </p></li>
+<li><p><strong>orientation_tolerance</strong> – <strong>[in]</strong> The spatial tolerance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller12follow_pointERK7Vector2">
+<span class="target" id="classnavground_1_1core_1_1_controller_1ac3ad89bb77dbad56493d54bebb290839"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">follow_point</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller12follow_pointERK7Vector2" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to follow a point. </p>
+<p>The action keeps running even after the agent arrive at the target.</p>
+<p>If an action is already running, the controller aborts it, unless it was following a point/pose, in which case it just updates the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>point</strong> – <strong>[in]</strong> The target point</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller11follow_poseERK5Pose2">
+<span class="target" id="classnavground_1_1core_1_1_controller_1a23085e82a5a2b0742f2f95e035fd2d81"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">follow_pose</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pose</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller11follow_poseERK5Pose2" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to follow a pose. </p>
+<p>The action keeps running even after the agent arrive at the target.</p>
+<p>If an action is already running, the controller aborts it, unless it was following a point/pose, in which case it just updates the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pose</strong> – <strong>[in]</strong> The target pose</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller16follow_directionERK7Vector2">
+<span class="target" id="classnavground_1_1core_1_1_controller_1ac5ab340b7c75363971c751ed0c0d8ad1"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">follow_direction</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">direction</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller16follow_directionERK7Vector2" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to follow a target direction. </p>
+<p>If an action is already running, the controller aborts it, unless it was following a velocity/twist, in which case it just updates the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>direction</strong> – <strong>[in]</strong> The target direction. Must have positive norm.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller15follow_velocityERK7Vector2">
+<span class="target" id="classnavground_1_1core_1_1_controller_1a4b70ca4ceaa735cc3e7afee78c736c21"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">follow_velocity</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">velocity</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller15follow_velocityERK7Vector2" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to follow a target velocity. </p>
+<p>If an action is already running, the controller aborts it, unless it was following a velocity/twist, in which case it just updates the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>velocity</strong> – <strong>[in]</strong> The target velocity</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller12follow_twistERK6Twist2">
+<span class="target" id="classnavground_1_1core_1_1_controller_1a7909606faf30b6fb3f58755c75368fda"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">follow_twist</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">twist</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller12follow_twistERK6Twist2" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to follow a target twist. </p>
+<p>If an action is already running, the controller aborts it, unless it was following a velocity/twist, in which case it just updates the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>twist</strong> – <strong>[in]</strong> The target twist</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core10Controller4idleEv">
+<span class="target" id="classnavground_1_1core_1_1_controller_1a958c95dcbfc8ce92dd0438cc540c888a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">idle</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core10Controller4idleEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns whether the control action is idle. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True only if the control action is not running. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller4stopEv">
+<span class="target" id="classnavground_1_1core_1_1_controller_1afe7a534beb76b5c9a2d8357bab377329"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stop</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller4stopEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Abort the running action. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller6updateE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_controller_1a5c8eda60b71afacdfe5de5ac7daa977c"></span><a class="reference internal" href="common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller6updateE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Updates the control for time step. </p>
+<p>Internally calls <a class="reference internal" href="behaviors/behavior.html#classnavground_1_1core_1_1_behavior_1a9c4c7b270e4115d4c5de2adbc96567db"><span class="std std-ref">Behavior::compute_cmd</span></a> for collision avoidance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time_step</strong> – <strong>[in]</strong> The time step</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The command twist to execute the current action </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core10Controller10set_cmd_cbENSt8functionIFvRK6Twist2EEE">
+<span class="target" id="classnavground_1_1core_1_1_controller_1a0b7df10d30e20e547f93111c1dbb588c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_cmd_cb</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core10Controller10set_cmd_cbENSt8functionIFvRK6Twist2EEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the callback called each time a command is computed for an active action. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> A callback that takes the command twist as argument. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="three-dimensional">
+<h2>Three-dimensional<a class="headerlink" href="#three-dimensional" title="Link to this heading">#</a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/core/controller_3d.h&quot;</span>
+</pre></div>
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core8CylinderE">
+<span class="target" id="structnavground_1_1core_1_1_cylinder"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Cylinder</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core8CylinderE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Three dimensional obstacles with a vertical cylindrical shape. </p>
+<p>Subclassed by <a class="reference internal" href="#structnavground_1_1core_1_1_neighbor3"><span class="std std-ref">navground::core::Neighbor3</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Cylinder8CylinderEK7Vector310ng_float_t10ng_float_t">
+<span class="target" id="structnavground_1_1core_1_1_cylinder_1a924a224a01b8efad79b556ae5bf9402a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Cylinder</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector3E" title="navground::core::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">position</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">height</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1.0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Cylinder8CylinderEK7Vector310ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – <strong>[in]</strong> Center of the <em>lower</em> face </p></li>
+<li><p><strong>radius</strong> – <strong>[in]</strong> Radius of the cylinder </p></li>
+<li><p><strong>height</strong> – <strong>[in]</strong> Height of the cylinder </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Cylinder4discEv">
+<span class="target" id="structnavground_1_1core_1_1_cylinder_1a94d140a64d3e5e5ad3d76069d2ef030c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="state.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><span class="n"><span class="pre">Disc</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">disc</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Cylinder4discEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Project the cylinder to the two dimensional plane. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The projected disc. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Cylinder8positionE">
+<span class="target" id="structnavground_1_1core_1_1_cylinder_1a320df4df143602f14da46a293473f5f6"></span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector3E" title="navground::core::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">position</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core8Cylinder8positionE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Center of the <em>lower</em> face. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Cylinder6radiusE">
+<span class="target" id="structnavground_1_1core_1_1_cylinder_1afa483b48475b24dc384d46719a5d6a07"></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">radius</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core8Cylinder6radiusE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Radius of the cylinder </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Cylinder6heightE">
+<span class="target" id="structnavground_1_1core_1_1_cylinder_1a6d0001a562527f987bcdea4023c1406d"></span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">height</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core8Cylinder6heightE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Height of the cylinder </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core9Neighbor3E">
+<span class="target" id="structnavground_1_1core_1_1_neighbor3"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Neighbor3</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core8CylinderE" title="navground::core::Cylinder"><span class="n"><span class="pre">Cylinder</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core9Neighbor3E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Three dimensional neighbor of a vertical cylindrical shape. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core9Neighbor39Neighbor3EK7Vector310ng_float_t10ng_float_t7Vector2j">
+<span class="target" id="structnavground_1_1core_1_1_neighbor3_1a54bfa84163dcbbbc569ff42cdc3ce53d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Neighbor3</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector3E" title="navground::core::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">position</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">radius</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">height</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1.0</span></span>, <a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">velocity</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Zero</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core9Neighbor39Neighbor3EK7Vector310ng_float_t10ng_float_t7Vector2j" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – <strong>[in]</strong> Center of the lower face </p></li>
+<li><p><strong>radius</strong> – <strong>[in]</strong> Radius of the cylinder </p></li>
+<li><p><strong>height</strong> – <strong>[in]</strong> Height of the cylinder </p></li>
+<li><p><strong>velocity</strong> – <strong>[in]</strong> Planar velocity </p></li>
+<li><p><strong>id</strong> – <strong>[in]</strong> <a class="reference internal" href="state.html#structnavground_1_1core_1_1_neighbor"><span class="std std-ref">Neighbor</span></a> identifier </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core9Neighbor38neighborEv">
+<span class="target" id="structnavground_1_1core_1_1_neighbor3_1a6ab24903fc5c042ba343e36d27424909"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="state.html#_CPPv4N9navground4core8NeighborE" title="navground::core::Neighbor"><span class="n"><span class="pre">Neighbor</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">neighbor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core9Neighbor38neighborEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Project to the two dimensional plane. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The projected neighbor. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core9Neighbor38velocityE">
+<span class="target" id="structnavground_1_1core_1_1_neighbor3_1ad994f4740121d9569c79096554313390"></span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">velocity</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9Neighbor38velocityE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The horizontal velocity </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core9Neighbor32idE">
+<span class="target" id="structnavground_1_1core_1_1_neighbor3_1a22b8705fe8fff4f456b6fc93c975828c"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9Neighbor32idE" title="Link to this definition">#</a><br /></dt>
+<dd><p>See <a class="reference internal" href="state.html#structnavground_1_1core_1_1_neighbor_1aab11a58745e8bf561728cfd472659775"><span class="std std-ref">Neighbor::id</span></a></p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller3E">
+<span class="target" id="classnavground_1_1core_1_1_controller3"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Controller3</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="index.html#_CPPv49navground" title="navground"><span class="n"><span class="pre">navground</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core10ControllerE" title="navground::core::Controller"><span class="n"><span class="pre">Controller</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core11Controller3E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Simplistic extension of <a class="reference internal" href="#classnavground_1_1core_1_1_controller"><span class="std std-ref">Controller</span></a> to 3D. </p>
+<p>Assumes that the agent has planar attitude and motion in 3D space.</p>
+<p>Relies on the 2D obstacle avoidance <a class="reference internal" href="behaviors/behavior.html#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>, when provided with all relevant state (i.e., vertical position, speed, and target position), it 1) considers only obstacles that may intersect in three dimensions 2) controls vertical speed with a proportional controller.</p>
+<p>Note that this is at best a 2.5D controller, making no attempt at 3D collision avoidance. It is best suited for planar motion at arbitrary altitudes, like when a drone flies above ground robots, effectively ignoring them.</p>
+<p><em>Typical usage</em></p>
+<p><ol class="loweralpha simple">
+<li><p>Pick, configure a <a class="reference internal" href="behaviors/behavior.html#classnavground_1_1core_1_1_behavior"><span class="std std-ref">Behavior</span></a>, set it to behavior</p></li>
+<li><p>Initialize and configure the controller</p></li>
+<li><p>At regular intervals update the state, using the <a class="reference internal" href="#classnavground_1_1core_1_1_controller3"><span class="std std-ref">Controller3</span></a> API, and call <a class="reference internal" href="#classnavground_1_1core_1_1_controller3_1adbaea4cb6c10d0e80623d22c8ad7697c"><span class="std std-ref">update_3d</span></a>.</p></li>
+<li><p>Trigger one of the actions.</p></li>
+<li><p>Either manually check the action’s <a class="reference internal" href="#classnavground_1_1core_1_1_controller_1a450e9eb0fac0612351056ffb5c5867d1"><span class="std std-ref">get_state</span></a> or set callbacks to be notified when the action terminates or updates.</p></li>
+<li><p>Actuate the target command by using the return value of <a class="reference internal" href="#classnavground_1_1core_1_1_controller3_1adbaea4cb6c10d0e80623d22c8ad7697c"><span class="std std-ref">update_3d</span></a> or by setting a callback <a class="reference internal" href="#classnavground_1_1core_1_1_controller3_1a8437f057d1d4d616ab2f3841830f1e1e"><span class="std std-ref">set_cmd_cb</span></a></p></li>
+</ol>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller311Controller3ENSt10shared_ptrI8BehaviorEEb">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1ad0cab2bdc9eedbc57b8274df57cad085"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Controller3</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="behaviors/behavior.html#_CPPv4N9navground4core8BehaviorE" title="navground::core::Behavior"><span class="n"><span class="pre">Behavior</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">behavior</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">limit_to_2d</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller311Controller3ENSt10shared_ptrI8BehaviorEEb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>behavior</strong> – <strong>[in]</strong> The navigation behavior </p></li>
+<li><p><strong>limit_to_2d</strong> – <strong>[in]</strong> Whether to limit the control to 2D </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller313set_neighborsERKNSt6vectorI9Neighbor3EE">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1a4551a7f8f2c1deaad5bace0c41c82325"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_neighbors</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core9Neighbor3E" title="navground::core::Neighbor3"><span class="n"><span class="pre">Neighbor3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">neighbors</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller313set_neighborsERKNSt6vectorI9Neighbor3EE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the neighbors. </p>
+<p>Filter relevant neighbors, project them to 2D and pass them to <a class="reference internal" href="state.html#classnavground_1_1core_1_1_geometric_state_1a8065d8db8a9eab80dd91c63089ad3c32"><span class="std std-ref">GeometricState::set_neighbors</span></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>neighbors</strong> – <strong>[in]</strong> The neighbors </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller320set_static_obstaclesERKNSt6vectorI8CylinderEE">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1a16947ccaa635bcace6bd920a6235bfdf"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_static_obstacles</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core8CylinderE" title="navground::core::Cylinder"><span class="n"><span class="pre">Cylinder</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">obstacles</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller320set_static_obstaclesERKNSt6vectorI8CylinderEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the static obstacles. </p>
+<p>Filter relevant obstacles, project them to 2D and pass them to <a class="reference internal" href="state.html#classnavground_1_1core_1_1_geometric_state_1a2ae5b698d2a65b034473d646274342ba"><span class="std std-ref">GeometricState::set_static_obstacles</span></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obstacles</strong> – <strong>[in]</strong> The obstacles </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core11Controller38get_poseEv">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1aa6b08983670357b35db9b60675102e4f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core5Pose3E" title="navground::core::Pose3"><span class="n"><span class="pre">Pose3</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_pose</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core11Controller38get_poseEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the pose. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The pose. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller38set_poseERK5Pose3">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1a0611fe43352211b1464b731538241ec6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_pose</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core5Pose3E" title="navground::core::Pose3"><span class="n"><span class="pre">Pose3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pose</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller38set_poseERK5Pose3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the pose. </p>
+<p>Automatically also set the behavior 2D pose.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pose</strong> – <strong>[in]</strong> The pose </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core11Controller39get_twistEv">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1a65e5d213510b7f3fd3f0b3d716d40fff"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core6Twist3E" title="navground::core::Twist3"><span class="n"><span class="pre">Twist3</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_twist</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core11Controller39get_twistEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the twist. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The twist. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller39set_twistERK6Twist3">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1ab6209de721539938492fb08f2593560f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_twist</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core6Twist3E" title="navground::core::Twist3"><span class="n"><span class="pre">Twist3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">twist</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller39set_twistERK6Twist3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the twist. </p>
+<p>Automatically set the behavior 2D twist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>twist</strong> – <strong>[in]</strong> The twist </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller37actuateERK6Twist310ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1a008a92413d9f8a65ace8718e98fbf4f6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">actuate</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core6Twist3E" title="navground::core::Twist3"><span class="n"><span class="pre">Twist3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">twist</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller37actuateERK6Twist310ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Actuate a twist command, integrating using <a class="reference internal" href="common.html#structnavground_1_1core_1_1_pose3_1acf28b178c811291ef4c77350ff3d8597"><span class="std std-ref">Pose3::integrate</span></a>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>twist</strong> – <strong>[in]</strong> The twist </p></li>
+<li><p><strong>time_step</strong> – <strong>[in]</strong> the time step </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core11Controller326get_altitude_optimal_speedEv">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1a127472efda7435d00e2abf294b2a8412"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_altitude_optimal_speed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core11Controller326get_altitude_optimal_speedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the altitude optimal speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The altitude optimal speed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller326set_altitude_optimal_speedE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1a8a2a3dbde5306e2e58f05ae66461dca7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_altitude_optimal_speed</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller326set_altitude_optimal_speedE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the altitude optimal speed. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core11Controller316get_altitude_tauEv">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1ab5a8df65804a52e989b84da51e00383b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_altitude_tau</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core11Controller316get_altitude_tauEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the altitude relaxation time. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The altitude relaxation time. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller316set_altitude_tauE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1abc09368fc40a210ad656a308d579a188"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_altitude_tau</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller316set_altitude_tauE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the altitude relaxation time. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller314go_to_positionERK7Vector310ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1ae9e15cb8611bee7444d14f3b7858f6de"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">go_to_position</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector3E" title="navground::core::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">tolerance</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller314go_to_positionERK7Vector310ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to go to a 3D point. </p>
+<p>The action succeed once the agent arrives within a tolerance from the target point and comes to a stop.</p>
+<p>If an action is already running, the controller aborts it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> – <strong>[in]</strong> The target point </p></li>
+<li><p><strong>tolerance</strong> – <strong>[in]</strong> The spatial tolerance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller310go_to_poseERK5Pose310ng_float_t10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1a38bf2d895895d3e153c5a447aedc1dee"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">go_to_pose</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core5Pose3E" title="navground::core::Pose3"><span class="n"><span class="pre">Pose3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pose</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">position_tolerance</span></span>, <a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">orientation_tolerance</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller310go_to_poseERK5Pose310ng_float_t10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to go to a 3D pose. </p>
+<p>The action succeed once the agent arrives within a tolerances from the target pose and comes to a stop.</p>
+<p>If an action is already running, the controller aborts it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose</strong> – <strong>[in]</strong> The target pose </p></li>
+<li><p><strong>position_tolerance</strong> – <strong>[in]</strong> The spatial tolerance </p></li>
+<li><p><strong>orientation_tolerance</strong> – <strong>[in]</strong> The spatial tolerance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller312follow_pointERK7Vector3">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1aec4894cc745094cba5c9226506feef8d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">follow_point</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector3E" title="navground::core::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller312follow_pointERK7Vector3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to follow a 3D point. </p>
+<p>The action keeps running even after the agent arrive at the target.</p>
+<p>If an action is already running, the controller aborts it, unless it was following a point/pose, in which case it just updates the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>point</strong> – <strong>[in]</strong> The target point</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller311follow_poseERK5Pose3">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1a6aab82ec51b799f9b3d6f8c56d4d8afa"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">follow_pose</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core5Pose3E" title="navground::core::Pose3"><span class="n"><span class="pre">Pose3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pose</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller311follow_poseERK5Pose3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to follow a 3D pose. </p>
+<p>The action keeps running even after the agent arrive at the target.</p>
+<p>If an action is already running, the controller aborts it, unless it was following a point/pose, in which case it just updates the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pose</strong> – <strong>[in]</strong> The target pose</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller315follow_velocityERK7Vector3">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1a8894e52489fa20b1b940a348e51abb11"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">follow_velocity</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core7Vector3E" title="navground::core::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">velocity</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller315follow_velocityERK7Vector3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to follow a 3D velocity. </p>
+<p>If an action is already running, the controller aborts it, unless it was following a velocity/twist, in which case it just updates the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>velocity</strong> – <strong>[in]</strong> The target velocity</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller312follow_twistERK6Twist3">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1ac0e5518e84d774243ee22022518c4772"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core6ActionE" title="navground::core::Action"><span class="n"><span class="pre">Action</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">follow_twist</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core6Twist3E" title="navground::core::Twist3"><span class="n"><span class="pre">Twist3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">twist</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller312follow_twistERK6Twist3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Starts an action to follow a 3D twist. </p>
+<p>If an action is already running, the controller aborts it, unless it was following a velocity/twist, in which case it just updates the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>twist</strong> – <strong>[in]</strong> The target twist</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new action. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller39update_3dE10ng_float_t">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1adbaea4cb6c10d0e80623d22c8ad7697c"></span><a class="reference internal" href="common.html#_CPPv4N9navground4core6Twist3E" title="navground::core::Twist3"><span class="n"><span class="pre">Twist3</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_3d</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller39update_3dE10ng_float_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Updates the control for time step, computing a 3D command. </p>
+<p>Internally calls <a class="reference internal" href="behaviors/behavior.html#classnavground_1_1core_1_1_behavior_1a9c4c7b270e4115d4c5de2adbc96567db"><span class="std std-ref">Behavior::compute_cmd</span></a> for collision avoidance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time_step</strong> – <strong>[in]</strong> The time step</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The command twist to execute the current action </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller310set_cmd_cbENSt8functionIFvRK6Twist3EEE">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1a8437f057d1d4d616ab2f3841830f1e1e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_cmd_cb</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="common.html#_CPPv4N9navground4core6Twist3E" title="navground::core::Twist3"><span class="n"><span class="pre">Twist3</span></span></a><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller310set_cmd_cbENSt8functionIFvRK6Twist3EEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets the callback called each time a command is computed for an active action. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The callback that takes the 3D command twist as argument. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core11Controller316is_limited_to_2dEv">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1a2f7f7457cb4c17b58aad7328584f13e8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_limited_to_2d</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core11Controller316is_limited_to_2dEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Determines if currently limited to 2D control. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if limited to 2D, False otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core11Controller323should_be_limited_to_2dEb">
+<span class="target" id="classnavground_1_1core_1_1_controller3_1abb352cb3db922c98898dd571ad308d39"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">should_be_limited_to_2d</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core11Controller323should_be_limited_to_2dEb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set if the control should ignore 3D information. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired value </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="social_margin.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Social margin</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="helper.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Helpers</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-dimensional">Two-dimensional</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6ActionE"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5StateE"><code class="docutils literal notranslate"><span class="pre">Action::State</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5State4idleE"><code class="docutils literal notranslate"><span class="pre">Action::State::idle</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5State7runningE"><code class="docutils literal notranslate"><span class="pre">Action::State::running</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5State7failureE"><code class="docutils literal notranslate"><span class="pre">Action::State::failure</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5State7successE"><code class="docutils literal notranslate"><span class="pre">Action::State::success</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Action4doneEv"><code class="docutils literal notranslate"><span class="pre">Action::done()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core6Action7runningEv"><code class="docutils literal notranslate"><span class="pre">Action::running()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5abortEv"><code class="docutils literal notranslate"><span class="pre">Action::abort()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action5stateE"><code class="docutils literal notranslate"><span class="pre">Action::state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action10running_cbE"><code class="docutils literal notranslate"><span class="pre">Action::running_cb</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core6Action7done_cbE"><code class="docutils literal notranslate"><span class="pre">Action::done_cb</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10ControllerE"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller10ControllerENSt10shared_ptrI8BehaviorEE"><code class="docutils literal notranslate"><span class="pre">Controller::Controller()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10Controller9get_stateEv"><code class="docutils literal notranslate"><span class="pre">Controller::get_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10Controller12get_behaviorEv"><code class="docutils literal notranslate"><span class="pre">Controller::get_behavior()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller12set_behaviorENSt10shared_ptrI8BehaviorEE"><code class="docutils literal notranslate"><span class="pre">Controller::set_behavior()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10Controller19get_speed_toleranceEv"><code class="docutils literal notranslate"><span class="pre">Controller::get_speed_tolerance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller19set_speed_toleranceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller::set_speed_tolerance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10Controller13get_cmd_frameEv"><code class="docutils literal notranslate"><span class="pre">Controller::get_cmd_frame()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller13set_cmd_frameERKNSt8optionalI5FrameEE"><code class="docutils literal notranslate"><span class="pre">Controller::set_cmd_frame()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller14go_to_positionERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller::go_to_position()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller10go_to_poseERK5Pose210ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller::go_to_pose()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller12follow_pointERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Controller::follow_point()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller11follow_poseERK5Pose2"><code class="docutils literal notranslate"><span class="pre">Controller::follow_pose()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller16follow_directionERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Controller::follow_direction()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller15follow_velocityERK7Vector2"><code class="docutils literal notranslate"><span class="pre">Controller::follow_velocity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller12follow_twistERK6Twist2"><code class="docutils literal notranslate"><span class="pre">Controller::follow_twist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core10Controller4idleEv"><code class="docutils literal notranslate"><span class="pre">Controller::idle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller4stopEv"><code class="docutils literal notranslate"><span class="pre">Controller::stop()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller6updateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller::update()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core10Controller10set_cmd_cbENSt8functionIFvRK6Twist2EEE"><code class="docutils literal notranslate"><span class="pre">Controller::set_cmd_cb()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#three-dimensional">Three-dimensional</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8CylinderE"><code class="docutils literal notranslate"><span class="pre">Cylinder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Cylinder8CylinderEK7Vector310ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Cylinder::Cylinder()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core8Cylinder4discEv"><code class="docutils literal notranslate"><span class="pre">Cylinder::disc()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Cylinder8positionE"><code class="docutils literal notranslate"><span class="pre">Cylinder::position</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Cylinder6radiusE"><code class="docutils literal notranslate"><span class="pre">Cylinder::radius</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Cylinder6heightE"><code class="docutils literal notranslate"><span class="pre">Cylinder::height</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9Neighbor3E"><code class="docutils literal notranslate"><span class="pre">Neighbor3</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9Neighbor39Neighbor3EK7Vector310ng_float_t10ng_float_t7Vector2j"><code class="docutils literal notranslate"><span class="pre">Neighbor3::Neighbor3()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core9Neighbor38neighborEv"><code class="docutils literal notranslate"><span class="pre">Neighbor3::neighbor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9Neighbor38velocityE"><code class="docutils literal notranslate"><span class="pre">Neighbor3::velocity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9Neighbor32idE"><code class="docutils literal notranslate"><span class="pre">Neighbor3::id</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller3E"><code class="docutils literal notranslate"><span class="pre">Controller3</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller311Controller3ENSt10shared_ptrI8BehaviorEEb"><code class="docutils literal notranslate"><span class="pre">Controller3::Controller3()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller313set_neighborsERKNSt6vectorI9Neighbor3EE"><code class="docutils literal notranslate"><span class="pre">Controller3::set_neighbors()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller320set_static_obstaclesERKNSt6vectorI8CylinderEE"><code class="docutils literal notranslate"><span class="pre">Controller3::set_static_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core11Controller38get_poseEv"><code class="docutils literal notranslate"><span class="pre">Controller3::get_pose()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller38set_poseERK5Pose3"><code class="docutils literal notranslate"><span class="pre">Controller3::set_pose()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core11Controller39get_twistEv"><code class="docutils literal notranslate"><span class="pre">Controller3::get_twist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller39set_twistERK6Twist3"><code class="docutils literal notranslate"><span class="pre">Controller3::set_twist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller37actuateERK6Twist310ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller3::actuate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core11Controller326get_altitude_optimal_speedEv"><code class="docutils literal notranslate"><span class="pre">Controller3::get_altitude_optimal_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller326set_altitude_optimal_speedE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller3::set_altitude_optimal_speed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core11Controller316get_altitude_tauEv"><code class="docutils literal notranslate"><span class="pre">Controller3::get_altitude_tau()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller316set_altitude_tauE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller3::set_altitude_tau()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller314go_to_positionERK7Vector310ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller3::go_to_position()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller310go_to_poseERK5Pose310ng_float_t10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller3::go_to_pose()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller312follow_pointERK7Vector3"><code class="docutils literal notranslate"><span class="pre">Controller3::follow_point()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller311follow_poseERK5Pose3"><code class="docutils literal notranslate"><span class="pre">Controller3::follow_pose()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller315follow_velocityERK7Vector3"><code class="docutils literal notranslate"><span class="pre">Controller3::follow_velocity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller312follow_twistERK6Twist3"><code class="docutils literal notranslate"><span class="pre">Controller3::follow_twist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller39update_3dE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">Controller3::update_3d()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller310set_cmd_cbENSt8functionIFvRK6Twist3EEE"><code class="docutils literal notranslate"><span class="pre">Controller3::set_cmd_cb()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core11Controller316is_limited_to_2dEv"><code class="docutils literal notranslate"><span class="pre">Controller3::is_limited_to_2d()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core11Controller323should_be_limited_to_2dEb"><code class="docutils literal notranslate"><span class="pre">Controller3::should_be_limited_to_2d()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jérôme Guzzi, IDSIA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Jérôme Guzzi, IDSIA.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

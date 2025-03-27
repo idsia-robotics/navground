@@ -172,6 +172,9 @@ Twist2 Behavior::compute_cmd_internal(ng_float_t dt) {
 }
 
 bool Behavior::check_if_target_satisfied() const {
+  if (target.direction && target.direction->norm() && get_target_speed()) {
+    return false;
+  }
   return target.satisfied(pose);
 }
 

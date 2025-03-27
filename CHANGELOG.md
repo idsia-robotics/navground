@@ -12,7 +12,17 @@
 
 ## [0.5.2] Unreleased
 
-Fixes few more bugs in `plot_world` and in  `DirectionTask`.
+Fixes few more bugs
+
+### Fixed
+
+- Fixes repetition in `plot_world`
+- Fixes stopping criteria in `DirectionTask` 
+- Fixes Computing collisions between walls and agents 
+
+### Changed
+
+- `Behavior.check_if_target_satisfied` now returns false when target direction is defined and target speed is not zero.
 
 ## [0.5.1] 2025-03-05
 

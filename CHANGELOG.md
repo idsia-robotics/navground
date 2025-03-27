@@ -10,6 +10,14 @@ Fixes few bugs went unnoticed when releasing 0.5.0.
 - Fixed notebook `running_an_experiment_no_hdf5.ipynb`
 - Fixed `LidarScan` import
 
+## [0.5.2] Unreleased
+
+Fixes few more bugs in `plot_world` and in  `DirectionTask`.
+
+## [0.5.1] 2025-03-05
+
+Fixes a bug in `plot_world`.
+
 ## [0.5.0] 2025-02-28
 
 In this release we add support for multiple state estimations, something that previously had limited support through `SensorCombination` (limited to sensors and not exposed to samplers). We keep backward-compatibility in the API and YAML: we can still configure agents to use a single state estimation using the old API and keywords. Agents with multiple state estimations evaluate them in constant order: subsequent state estimations evaluations have access to the state written by the previous state estimations. For example, we can use this to add noise to an otherwise perfect sensor or to combine the perception of two sensors into an higher level state estimation, like `LocalGridMap` does with odometry and lidar scans.

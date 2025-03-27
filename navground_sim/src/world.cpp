@@ -42,7 +42,7 @@ std::optional<Vector2> penetration_vector_inside_line(const LineSegment &line,
   ng_float_t y = (center - line.p1).dot(line.e2);
   if (std::abs(y) < radius) {
     ng_float_t x = (center - line.p1).dot(line.e1);
-    if (x < radius + 1e-3 || x > line.length - radius - 1e-3)
+    if (x < -radius + 1e-3 || x > line.length + radius - 1e-3)
       return std::nullopt;
     ng_float_t p = radius - std::abs(y);
     if (y < 0) p *= -1;

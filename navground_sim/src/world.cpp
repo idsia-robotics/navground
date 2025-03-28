@@ -36,16 +36,35 @@ static bool wrap_lattice(ng_float_t &x, ng_float_t from, ng_float_t length) {
   return false;
 }
 
+// Assume single line ... polygons/line strings should be handled differently
+// TODO(J): should extend 1e-3 tol to all cases.
 std::optional<Vector2> penetration_vector_inside_line(const LineSegment &line,
                                                       const Vector2 &center,
                                                       ng_float_t radius) {
-  ng_float_t y = (center - line.p1).dot(line.e2);
+  const Vector2 d1 = center - line.p1;
+  const ng_float_t y = d1.dot(line.e2);
   if (std::abs(y) < radius) {
-    ng_float_t x = (center - line.p1).dot(line.e1);
+    ng_float_t x = d1.dot(line.e1);
     if (x < -radius + 1e-3 || x > line.length + radius - 1e-3)
       return std::nullopt;
+    if (x < 0) {
+      const ng_float_t l = radius - d1.norm();
+      if (l > 0) {
+        return d1.normalized() * l;
+      }
+      return std::nullopt;
+    }
+    if (x > line.length) {
+      const Vector2 d2 = center - line.p2;
+      const ng_float_t l = radius - d2.norm();
+      if (l > 0) {
+        return d2.normalized() * l;
+      }
+      return std::nullopt;
+    }
     ng_float_t p = radius - std::abs(y);
-    if (y < 0) p *= -1;
+    if (y < 0)
+      p *= -1;
     return p * line.e2;
   }
   return std::nullopt;
@@ -53,19 +72,29 @@ std::optional<Vector2> penetration_vector_inside_line(const LineSegment &line,
 
 ng_float_t penetration_inside_line(const LineSegment &line,
                                    const Vector2 &center, ng_float_t radius) {
-  ng_float_t y = (center - line.p1).dot(line.e2);
-  if (std::abs(y) < radius) {
-    ng_float_t x = (center - line.p1).dot(line.e1);
-    if (x < radius + 1e-3 || x > line.length - radius - 1e-3) return 0.0;
-    return radius - std::abs(y);
+  const Vector2 d1 = center - line.p1;
+  const ng_float_t y = std::abs(d1.dot(line.e2));
+  if (y < radius) {
+    const ng_float_t x = d1.dot(line.e1);
+    if (x < -radius + 1e-3 || x > line.length + radius - 1e-3) {
+      return 0;
+    }
+    if (x < 0) {
+      return std::max<ng_float_t>(0, radius - d1.norm());
+    }
+    if (x > line.length) {
+      const Vector2 d2 = center - line.p2;
+      return std::max<ng_float_t>(0, radius - d2.norm());
+    }
+    return radius - y;
   }
   return 0;
 }
 
 ng_float_t penetration_inside_disc(const Disc &disc, const Vector2 &center,
                                    ng_float_t radius) {
-  return std::max<ng_float_t>(
-      0, radius + disc.radius - (disc.position - center).norm());
+  return std::max<ng_float_t>(0, radius + disc.radius -
+                                     (disc.position - center).norm());
 }
 
 void World::update(ng_float_t time_step) {
@@ -247,7 +276,8 @@ void World::close() {
 
 void World::run(unsigned steps, ng_float_t time_step) {
   for (size_t i = 0; i < steps; i++) {
-    if (should_terminate()) return;
+    if (should_terminate())
+      return;
     update(time_step);
   }
 }
@@ -348,8 +378,9 @@ BoundingBox World::get_lattice_bounding_box() const {
   return BoundingBox(x1, x2, y1, y2);
 }
 
-std::vector<std::tuple<Vector2, BoundingBox>> World::subdivide_bounding_box(
-    const BoundingBox &bounding_box, bool ignore_lattice) const {
+std::vector<std::tuple<Vector2, BoundingBox>>
+World::subdivide_bounding_box(const BoundingBox &bounding_box,
+                              bool ignore_lattice) const {
   if (!_has_lattice || ignore_lattice) {
     return {{Vector2::Zero(), bounding_box}};
   }
@@ -613,6 +644,7 @@ void World::update_static_strtree() {
   static_strtree_is_updated = true;
 }
 
+// TODO(J): check behavior for SM = 0 ... what about collisions?
 ng_float_t World::compute_safety_violation(const Agent *agent,
                                            std::optional<float> safety_margin) {
   float sm = 0.0;
@@ -838,9 +870,9 @@ void World::add_random_obstacles(unsigned number, ng_float_t min_radius,
 void World::reset() {
   step = 0;
   time = 0;
-  for (auto & [_, e] : entities) {
+  for (auto &[_, e] : entities) {
     e->reset();
   }
 }
 
-}  // namespace navground::sim
+} // namespace navground::sim

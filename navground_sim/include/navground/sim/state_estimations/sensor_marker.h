@@ -26,13 +26,13 @@ namespace navground::sim {
  *
  *   - `reference_orientation` (str, \ref get_reference_orientation)
  *
- *   - `min_x` (float, \ref get_bounds)
+ *   - `min_x` (float, \ref get_min_x)
  *
- *   - `min_y` (float, \ref get_bounds)
+ *   - `min_y` (float, \ref get_min_y)
  *
- *   - `max_x` (float, \ref get_bounds)
+ *   - `max_x` (float, \ref get_max_x)
  *
- *   - `max_y` (float, \ref get_bounds)
+ *   - `max_y` (float, \ref get_max_y)
  */
 struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
   static const std::string type;

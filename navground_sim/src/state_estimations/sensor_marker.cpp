@@ -27,7 +27,7 @@ void MarkerStateEstimation::update_marker(Agent *agent, World *world) {
       auto target = b->get_target_ref();
       if (target.direction) {
         const core::Vector2 e = *(target.direction);
-        const core::Vector2 n{e[1], -e[0]};
+        const core::Vector2 n{-e[1], e[0]};
         const core::Vector2 delta =
             _marker_position - agent->get_pose().position;
         // we assume that e is of norm 1

@@ -128,6 +128,21 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
     }
   }
 
+  template<typename S>
+  static py::object make_subtype(const std::string &name) {
+    if (factory.count(name)) {
+      return factory[name].attr("__call__")();
+    }
+    try {
+      const auto obj = std::dynamic_pointer_cast<S>(HasRegister<T>::make_type(name));
+
+      return py::cast(obj);
+    } catch (const std::exception &e) {
+      std::cerr << e.what() << std::endl;
+      return py::none();
+    }
+  }
+
   static bool has_type(const std::string &name) {
     return factory.count(name) || HasRegister<T>::has_type(name);
   }

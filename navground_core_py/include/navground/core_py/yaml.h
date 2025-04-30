@@ -13,7 +13,7 @@ namespace YAML {
 inline const std::string load_string_py_doc(const std::string &instance,
                                             const std::string &type) {
   std::string doc =
-      "Load a " + instance + " modulation from a YAML string.\n\n";
+      "Load a " + instance + " from a YAML string.\n\n";
   doc += ":return: The loaded " + instance + " or ``None`` if loading fails.\n";
   doc += ":rtype: " + type + "| None";
   return doc;
@@ -117,6 +117,33 @@ template <typename T> py::object load_string_py(const std::string &value) {
     return py::none();
   }
 }
+
+template <typename T, typename S> py::object make_subtype_from_yaml_py(const Node &node) {
+  if (node.IsMap()) {
+    std::string type = node["type"].as<std::string>("");
+    auto v = T::template make_subtype<S>(type);
+    return v;
+  }
+  return py::none();
+}
+
+template <typename T, typename S> py::object load_node_py(const Node &node) {
+  auto obj = make_subtype_from_yaml_py<T, S>(node);
+  if (!obj.is_none()) {
+    convert<typename T::Native>::decode(node, obj.template cast<T &>());
+  }
+  return obj;
+}
+
+template <typename T, typename S> py::object load_string_py(const std::string &value) {
+  try {
+    Node node = Load(value);
+    return load_node_py<T, S>(node);
+  } catch (const ParserException &) {
+    return py::none();
+  }
+}
+
 
 template <typename T>
 py::object load_string_unique_py(const std::string &value) {

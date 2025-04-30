@@ -6,11 +6,12 @@ import json
 import logging
 import sys
 import time
-from typing import Any, TYPE_CHECKING
 from collections.abc import Callable
+from typing import TYPE_CHECKING, Any
 
 from .. import Agent, Entity, Obstacle, Wall, World, bounds_for_world
-from .to_svg import Attributes, Decorate, Rect, flat_dict, size
+from .to_svg import (Attributes, Decorate, Rect, flat_dict, size,
+                     wrap_as_world_decorator)
 
 if TYPE_CHECKING:
     from websockets.legacy.server import (WebSocketServer,
@@ -144,7 +145,7 @@ class WebUI:
         self.display_deadlocks = display_deadlocks
         self.in_collision: set[int] = set()
         self.in_deadlock: set[int] = set()
-        self.decorate = decorate
+        self.decorate = wrap_as_world_decorator(decorate) if decorate else None
         self.server: WebSocketServer | None = None
 
     @property
@@ -266,7 +267,7 @@ class WebUI:
         if self.decorate:
             for e in itertools.chain(world.walls, world.obstacles,
                                      world.agents):
-                r = self.decorate(e)
+                r = self.decorate(e, world)
                 if r:
                     rs[e._uid] = r
         if self.display_collisions:

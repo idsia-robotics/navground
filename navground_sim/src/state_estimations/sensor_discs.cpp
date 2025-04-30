@@ -37,10 +37,12 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
 
     std::sort(distance.begin(), distance.end());
 
+    const size_t dim = get_dimensions();
+
     std::valarray<unsigned> id(static_cast<unsigned>(0), _number);
     std::valarray<ng_float_t> radius(0.0, _number);
-    std::valarray<ng_float_t> position(0.0, 2 * _number);
-    std::valarray<ng_float_t> velocity(0.0, 2 * _number);
+    std::valarray<ng_float_t> position(0.0, dim * _number);
+    std::valarray<ng_float_t> velocity(0.0, dim * _number);
     std::valarray<uint8_t> valid((uint8_t)0, _number);
 
     for (size_t i = 0; i < std::min<size_t>(_number, distance.size()); ++i) {
@@ -58,8 +60,13 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
           pn -= pn.normalized() * n.radius;
         }
         const auto vn = to_relative(n.velocity, p);
-        velocity[2 * i] = std::min(vn[0], _max_speed);
-        velocity[2 * i + 1] = std::min(vn[1], _max_speed);
+        size_t j = 2 * i;
+        if (_include_x) {
+          velocity[j++] = std::min(vn[0], _max_speed);
+        }
+        if (_include_y) {
+          velocity[j] = std::min(vn[1], _max_speed);
+        }
       } else {
         const auto &n = obstacles[index - num_neighbors];
         radius[i] = std::min(n.radius, _max_radius);
@@ -68,8 +75,13 @@ void DiscsStateEstimation::update(Agent *agent, World *world,
           pn -= pn.normalized() * n.radius;
         }
       }
-      position[2 * i] = pn[0];
-      position[2 * i + 1] = pn[1];
+      size_t j = 2 * i;
+      if (_include_x) {
+        position[j++] = pn[0];
+      }
+      if (_include_y) {
+        position[j] = pn[1];
+      }
     }
     if (include_radius()) {
       auto buffer = get_or_init_buffer(*_state, "radius");
@@ -132,6 +144,14 @@ const std::string DiscsStateEstimation::type =
                            &DiscsStateEstimation::get_max_id,
                            &DiscsStateEstimation::set_max_id, default_max_id,
                            "The maximal possible id", &YAML::schema::positive)},
+            {"include_x",
+             Property::make(&DiscsStateEstimation::get_include_x,
+                            &DiscsStateEstimation::set_include_x, true,
+                            "Whether to include the x-coordinate")},
+            {"include_y",
+             Property::make(&DiscsStateEstimation::get_include_y,
+                            &DiscsStateEstimation::set_include_y, true,
+                            "Whether to include the y-coordinate")},
         } + Sensor::properties);
 
 } // namespace navground::sim

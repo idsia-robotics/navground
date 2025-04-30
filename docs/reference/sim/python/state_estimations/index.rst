@@ -16,4 +16,5 @@ State estimations
    sensor_pylidar
    sensor_odometry
    local_gridmap
+   sensor_marker
 

@@ -13,6 +13,13 @@ In particular, you can load registered components
    :return:
        The loaded state estimation or ``None`` if loading fails.
 
+.. py:function:: load_sensor(value: str) -> Optional[Sensor]
+
+   Load a sensor from a YAML string.
+
+   :return:
+       The loaded state estimation or ``None`` if loading fails.
+
 .. py:function:: load_task(value: str) -> Optional[Task]
 
    Load a task from a YAML string.

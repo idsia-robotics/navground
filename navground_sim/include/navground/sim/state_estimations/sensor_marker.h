@@ -54,7 +54,10 @@ struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
    *
    * @param[in]  marker_position  The marker position in the world frame.
    * @param[in]  reference_orientation  The reference frame used for orientation
-   * @param[in]  min_x,min_y,max_x,max_y The bounding box
+   * @param[in]  min_x The minimal x-coordinate
+   * @param[in]  min_y The minimal y-coordinate
+   * @param[in]  max_x The maximal x-coordinate
+   * @param[in]  max_y The maximal y-coordinate
    * @param[in]  include_x  Whether to include the x-coordinate
    * @param[in]  include_y  Whether to include the y-coordinate
    * @param[in]  name  The name to use as a prefix

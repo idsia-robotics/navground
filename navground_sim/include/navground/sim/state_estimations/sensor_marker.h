@@ -26,13 +26,17 @@ namespace navground::sim {
  *
  *   - `reference_orientation` (str, \ref get_reference_orientation)
  *
- *   - `min_x` (float, \ref get_min_x)
+ *   - `min_x` (float, \ref get_bounds)
  *
- *   - `min_y` (float, \ref get_min_y)
+ *   - `min_y` (float, \ref get_bounds)
  *
- *   - `max_x` (float, \ref get_max_x)
+ *   - `max_x` (float, \ref get_bounds)
  *
- *   - `max_y` (float, \ref get_max_y)
+ *   - `max_y` (float, \ref get_bounds)
+ *
+ *   - `include_x` (int, \ref get_include_x)
+ *
+ *   - `include_y` (int, \ref get_include_y)
  */
 struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
   static const std::string type;
@@ -51,6 +55,8 @@ struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
    * @param[in]  marker_position  The marker position in the world frame.
    * @param[in]  reference_orientation  The reference frame used for orientation
    * @param[in]  min_x,min_y,max_x,max_y The bounding box
+   * @param[in]  include_x  Whether to include the x-coordinate
+   * @param[in]  include_y  Whether to include the y-coordinate
    * @param[in]  name  The name to use as a prefix
    */
   explicit MarkerStateEstimation(
@@ -60,10 +66,12 @@ struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
       ng_float_t min_y = -std::numeric_limits<ng_float_t>::infinity(),
       ng_float_t max_x = std::numeric_limits<ng_float_t>::infinity(),
       ng_float_t max_y = std::numeric_limits<ng_float_t>::infinity(),
+      bool include_x = true, bool include_y = true,
       const std::string &name = "")
       : Sensor(name), _marker_position(marker_position),
         _reference_orientation(reference_orientation), _min_x(min_x),
-        _min_y(min_y), _max_x(max_x), _max_y(max_y) {}
+        _min_y(min_y), _max_x(max_x), _max_y(max_y), _include_x(include_x),
+        _include_y(include_y) {}
 
   virtual ~MarkerStateEstimation() = default;
   /**
@@ -158,14 +166,79 @@ struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
     _max_y = value.getMaxY();
   }
 
+  /**
+   * @brief      Gets the lowest bound on the x-coordinate.
+   *
+   * @return     The lowest x-coordinate.
+   */
   ng_float_t get_min_x() const { return _min_x; }
+  /**
+   * @brief      Gets the lowest bound on the y-coordinate.
+   *
+   * @return     The lowest y-coordinate.
+   */
   ng_float_t get_min_y() const { return _min_y; }
+  /**
+   * @brief      Gets the highest bound on the x-coordinate.
+   *
+   * @return     The highest x-coordinate.
+   */
   ng_float_t get_max_x() const { return _max_x; }
+  /**
+   * @brief      Gets the highest bound on the y-coordinate.
+   *
+   * @return     The highest y-coordinate.
+   */
   ng_float_t get_max_y() const { return _max_y; }
+  /**
+   * @brief      Sets the lowest bound on the x-coordinate.
+   *
+   * @param[in]  value  The desired value
+   */
   void set_min_x(ng_float_t value) { _min_x = value; }
+  /**
+   * @brief      Sets the lowest bound on the y-coordinate.
+   *
+   * @param[in]  value  The desired value
+   */
   void set_min_y(ng_float_t value) { _min_y = value; }
+  /**
+   * @brief      Sets the highest bound on the x-coordinate.
+   *
+   * @param[in]  value  The desired value
+   */
   void set_max_x(ng_float_t value) { _max_x = value; }
+  /**
+   * @brief      Sets the highest bound on the y-coordinate.
+   *
+   * @param[in]  value  The desired value
+   */
   void set_max_y(ng_float_t value) { _max_y = value; }
+  /**
+   * @brief      Sets whether to include the x-coordinate.
+   *
+   * @param[in]  value  True to include it.
+   */
+  void set_include_x(bool value) { _include_x = value; }
+  /**
+   * @brief      Gets whether to include the x-coordinate.
+   *
+   * @return     True when including it.
+   */
+  bool get_include_x() const { return _include_x; }
+  /**
+   * @brief      Sets whether to include the y-coordinate.
+   *
+   * @param[in]  value  True to include it.
+   */
+  void set_include_y(bool value) { _include_y = value; }
+  /**
+   * @brief      Gets whether to include the y-coordinate.
+   *
+   * @return     True when including it.
+   */
+  bool get_include_y() const { return _include_y; }
+
   /*
    * @private
    */
@@ -210,10 +283,16 @@ struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
    * @private
    */
   Description get_description() const override {
-    return {{get_field_name("x"),
-             core::BufferDescription::make<ng_float_t>({1}, _min_x, _max_x)},
-            {get_field_name("y"),
-             core::BufferDescription::make<ng_float_t>({1}, _min_y, _max_y)}};
+    Description desc;
+    if (_include_x) {
+      desc[get_field_name("x")] =
+          core::BufferDescription::make<ng_float_t>({1}, _min_x, _max_x);
+    }
+    if (_include_y) {
+      desc[get_field_name("y")] =
+          core::BufferDescription::make<ng_float_t>({1}, _min_y, _max_y);
+    }
+    return desc;
   }
 
 private:
@@ -221,6 +300,8 @@ private:
   core::Vector2 _marker_position;
   ReferenceOrientation _reference_orientation;
   ng_float_t _min_x, _min_y, _max_x, _max_y;
+  bool _include_x;
+  bool _include_y;
 };
 
 } // namespace navground::sim

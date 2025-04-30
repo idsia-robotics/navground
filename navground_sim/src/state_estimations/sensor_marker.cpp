@@ -41,12 +41,18 @@ void MarkerStateEstimation::update(Agent *agent, World *world,
                                    EnvironmentState *state) {
   update_marker(agent, world);
   if (core::SensingState *_state = dynamic_cast<core::SensingState *>(state)) {
-    const std::array<std::string, 2> cs{"x", "y"};
-    for (size_t i = 0; i < cs.size(); ++i) {
-      auto buffer = get_or_init_buffer(*_state, cs[i]);
+    if (_include_x) {
+      auto buffer = get_or_init_buffer(*_state, "x");
       if (buffer) {
         buffer->set_data(
-            std::valarray<ng_float_t>{_measured_marker_position[i]});
+            std::valarray<ng_float_t>{_measured_marker_position[0]});
+      }
+    }
+    if (_include_y) {
+      auto buffer = get_or_init_buffer(*_state, "y");
+      if (buffer) {
+        buffer->set_data(
+            std::valarray<ng_float_t>{_measured_marker_position[1]});
       }
     }
   }
@@ -97,6 +103,12 @@ const std::string MarkerStateEstimation::type = register_type<
                                  &MarkerStateEstimation::set_max_y,
                                  std::numeric_limits<ng_float_t>::infinity(),
                                  "Measured position maximal y coordinate")},
+        {"include_x", Property::make(&MarkerStateEstimation::get_include_x,
+                                     &MarkerStateEstimation::set_include_x, true,
+                                     "Whether to include the x-coordinate")},
+        {"include_y", Property::make(&MarkerStateEstimation::get_include_y,
+                                     &MarkerStateEstimation::set_include_y, true,
+                                     "Whether to include the y-coordinate")},
         {"reference_orientation",
          Property::make(&MarkerStateEstimation::get_reference_orientation_name,
                         &MarkerStateEstimation::set_reference_orientation_name,

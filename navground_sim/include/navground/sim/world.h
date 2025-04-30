@@ -28,10 +28,86 @@ using navground::core::Vector2;
 namespace navground::sim {
 
 /**
- * A rectangulare region
+ * A rectangular region
  */
 using BoundingBox = geos::geom::Envelope;
 
+/**
+ * @brief      Sets the minimum x.
+ *
+ * @param[in]  bb     The bounding box
+ * @param[in]  value  The desired value
+ *
+ * @return     A copy of the bounding box with the new bound.
+ */
+inline BoundingBox bb_set_min_x(const BoundingBox &bb, ng_float_t value) {
+  return {value, bb.getMaxX(), bb.getMinY(), bb.getMaxY()};
+}
+/**
+ * @brief      Sets the minimum y.
+ *
+ * @param[in]  bb     The bounding box
+ * @param[in]  value  The desired value
+ *
+ * @return     A copy of the bounding box with the new bound.
+ */
+inline BoundingBox bb_set_min_y(const BoundingBox &bb, ng_float_t value) {
+  return {bb.getMinX(), bb.getMaxX(), value, bb.getMaxY()};
+}
+/**
+ * @brief      Sets the maximum x.
+ *
+ * @param[in]  bb     The bounding box
+ * @param[in]  value  The desired value
+ *
+ * @return     A copy of the bounding box with the new bound.
+ */
+inline BoundingBox bb_set_max_x(const BoundingBox &bb, ng_float_t value) {
+  return {bb.getMinX(), value, bb.getMinY(), bb.getMaxY()};
+}
+/**
+ * @brief      Sets the maximum y.
+ *
+ * @param[in]  bb     The bounding box
+ * @param[in]  value  The desired value
+ *
+ * @return     A copy of the bounding box with the new bound.
+ */
+inline BoundingBox bb_set_max_y(const BoundingBox &bb, ng_float_t value) {
+  return {bb.getMinX(), bb.getMaxX(), bb.getMinY(), value};
+}
+/**
+ * @brief      Convert a \ref BoundingBox to a tuple of floats
+ *
+ * @param[in]  bb    The bounding box
+ *
+ * @return     The tuple ``<min_x, max_x, min_y, max_y>``
+ */
+inline std::tuple<ng_float_t, ng_float_t, ng_float_t, ng_float_t>
+bb_to_tuple(const BoundingBox &bb) {
+  return {bb.getMinX(), bb.getMaxX(), bb.getMinY(), bb.getMaxY()};
+}
+/**
+ * @brief      Creates a \ref BoundingBox from a tuple of floats
+ *
+ * @param[in]  values    The tuple ``<min_x, max_x, min_y, max_y>``
+ *
+ * @return     The bounding box
+ */
+inline BoundingBox bb_from_tuple(
+    const std::tuple<ng_float_t, ng_float_t, ng_float_t, ng_float_t> &values) {
+  return {std::get<0>(values), std::get<1>(values), std::get<2>(values),
+          std::get<3>(values)};
+}
+
+/**
+ * @brief      Creates a \ref BoundingBox around a point.
+ *
+ * @param[in]  position  The position
+ * @param[in]  radius    The radius
+ *
+ * @return     The bounding box.
+ */
 inline BoundingBox envelop(const Vector2 &position, ng_float_t radius) {
   return {position[0] - radius, position[0] + radius, position[1] - radius,
           position[1] + radius};
@@ -176,7 +252,7 @@ public:
   friend struct Experiment;
 
   /**
-   * An (optional) one dimensional lattice defined by the initial point 
+   * An (optional) one dimensional lattice defined by the initial point
    * and the size of the cell.
    */
   using Lattice = std::optional<std::tuple<ng_float_t, ng_float_t>>;
@@ -185,7 +261,7 @@ public:
    */
   using Callback = std::function<void()>;
   /**
-   * A condition for the simulation to terminate 
+   * A condition for the simulation to terminate
    */
   using TerminationCondition = std::function<bool(const World *world)>;
 

@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.5.2] 2025-04-30
+
+Fixes few more bugs
+
+### Fixed
+
+- Fixes repetition in `plot_world`
+- Fixes stopping criteria in `DirectionTask` 
+- Fixes computing collisions between walls and agents 
+
+### Changed
+
+- `Behavior.check_if_target_satisfied` now returns false when target direction is defined and target speed is not zero.
+
 ## [0.5.1] 2025-02-28
 
 Fixes few bugs went unnoticed when releasing 0.5.0. 
@@ -9,24 +23,6 @@ Fixes few bugs went unnoticed when releasing 0.5.0.
 - Fixed typo in `plot_world`
 - Fixed notebook `running_an_experiment_no_hdf5.ipynb`
 - Fixed `LidarScan` import
-
-## [0.5.2] Unreleased
-
-Fixes few more bugs
-
-### Fixed
-
-- Fixes repetition in `plot_world`
-- Fixes stopping criteria in `DirectionTask` 
-- Fixes Computing collisions between walls and agents 
-
-### Changed
-
-- `Behavior.check_if_target_satisfied` now returns false when target direction is defined and target speed is not zero.
-
-## [0.5.1] 2025-03-05
-
-Fixes a bug in `plot_world`.
 
 ## [0.5.0] 2025-02-28
 

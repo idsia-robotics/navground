@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.11)
-project(navground_core VERSION 0.5.1)
+project(navground_core VERSION 0.5.2)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)

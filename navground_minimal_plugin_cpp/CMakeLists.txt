@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(navground_minimal_plugin_cpp VERSION 0.5.1)
+project(navground_minimal_plugin_cpp VERSION 0.5.2)
 
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)

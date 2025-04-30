@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import inspect
 import math
 import os
 from collections import ChainMap
 from collections.abc import Callable, Collection, MutableMapping
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 import numpy.typing
@@ -16,7 +17,20 @@ from .. import (Agent, BoundingBox, Bounds, Entity, Obstacle, Wall, World,
 Rect = Bounds | np.typing.NDArray[np.floating[Any]]
 Attributes = MutableMapping[str, str]
 Point = core.Vector2
-Decorate = Callable[[Entity], Attributes]
+EntityDecorator = Callable[[Entity], Attributes]
+WorldDecorator = Callable[[Entity, World], Attributes]
+Decorate = EntityDecorator | WorldDecorator
+
+
+def wrap_as_world_decorator(decorate: Decorate) -> WorldDecorator:
+    sig = inspect.signature(decorate)
+    if len(sig.parameters) == 1:
+
+        def f(e: Entity, w: World) -> Attributes:
+            return cast(EntityDecorator, decorate)(e)
+
+        return f
+    return cast(WorldDecorator, decorate)
 
 
 def rect_around(center: core.Vector2, width: float | None,
@@ -177,20 +191,22 @@ def svg_for_agent(
                      delta=delta)
 
 
-def svg_for_world(world: World | None = None,
-                  precision: int = 3,
-                  decorate: Decorate | None = None,
-                  bounds: Rect | None = None,
-                  width: int = 600,
-                  min_height: int = 100,
-                  relative_margin: float = 0.05,
-                  background_color: str = 'snow',
-                  display_shape: bool = False,
-                  grid: float = 0,
-                  grid_color: str = 'grey',
-                  grid_thickness: float = 0.01,
-                  rotation: tuple[core.Vector2, float] | float | None = None,
-                  extras: Collection[Callable[[World], str]] = []) -> str:
+def svg_for_world(
+        world: World | None = None,
+        precision: int = 3,
+        decorate: Decorate | None = None,
+        bounds: Rect | None = None,
+        width: int = 600,
+        min_height: int = 100,
+        relative_margin: float = 0.05,
+        background_color: str = 'snow',
+        display_shape: bool = False,
+        grid: float = 0,
+        grid_color: str = 'grey',
+        grid_thickness: float = 0.01,
+        rotation: tuple[core.Vector2, float] | float | None = None,
+        extras: Collection[Callable[[World], str]] = [],
+        background_extras: Collection[Callable[[World], str]] = []) -> str:
     """
     Draw the world as a SVG.
 
@@ -211,6 +227,7 @@ def svg_for_world(world: World | None = None,
     :param      grid_thickness:         The thickness of the grid
     :param      rotation:               A planar rotation applied before drawing [rad]
     :param      extras:                 Provides extras rendering added at the end of to the svg
+    :param      background_extras:                 Provides extras rendering added at the beginning of to the svg
 
     :returns:   An SVG string
     """
@@ -227,7 +244,8 @@ def svg_for_world(world: World | None = None,
                           grid_color=grid_color,
                           grid_thickness=grid_thickness,
                           rotation=rotation,
-                          extras=extras)[0]
+                          extras=extras,
+                          background_extras=background_extras)[0]
 
 
 def _svg_for_world(
@@ -250,6 +268,7 @@ def _svg_for_world(
     grid_thickness: float = 0.01,
     rotation: tuple[core.Vector2, float] | float | None = None,
     extras: Collection[Callable[[World], str]] = [],
+    background_extras: Collection[Callable[[World], str]] = []
 ) -> tuple[str, dict[str, str]]:
     import jinja2
 
@@ -261,24 +280,30 @@ def _svg_for_world(
                                               relative_margin)
         bb = BoundingBox(view_box[0], view_box[0] + view_box[2], min_y,
                          min_y + view_box[3])
+        if decorate:
+            w_decorate = wrap_as_world_decorator(decorate)
+        else:
+            w_decorate = None
         for wall in world.walls:
             g += svg_for_wall(wall, precision, prefix,
-                              decorate(wall) if decorate else {})
+                              w_decorate(wall, world) if w_decorate else {})
         for delta, lbb in world.subdivide_bounding_box(bb, False):
             for obstacle in world.get_obstacles_in_region(lbb):
-                g += svg_for_obstacle(obstacle,
-                                      precision,
-                                      prefix,
-                                      decorate(obstacle) if decorate else {},
-                                      delta=delta)
+                g += svg_for_obstacle(
+                    obstacle,
+                    precision,
+                    prefix,
+                    w_decorate(obstacle, world) if w_decorate else {},
+                    delta=delta)
             for agent in world.get_agents_in_region(lbb):
 
-                g += svg_for_agent(agent,
-                                   precision,
-                                   prefix,
-                                   decorate(agent) if decorate else {},
-                                   display_shape,
-                                   delta=delta)
+                g += svg_for_agent(
+                    agent,
+                    precision,
+                    prefix,
+                    w_decorate(agent, world) if decorate else {},
+                    display_shape,
+                    delta=delta)
 
         # g = "<g id='_world'>"
         # for wall in world.walls:
@@ -341,8 +366,10 @@ def _svg_for_world(
         r = ''
     if world:
         epilog = '\n'.join([e(world) for e in extras])
+        prolog = '\n'.join([e(world) for e in background_extras])
     else:
         epilog = ''
+        prolog = ''
     folder = os.path.dirname(os.path.realpath(__file__))
     template_folder = os.path.join(folder, 'templates')
     jinjia_env = jinja2.Environment(
@@ -357,6 +384,7 @@ def _svg_for_world(
         display_shape=display_shape,
         grid=grid,
         rotation=r,
+        prolog=prolog,
         epilog=epilog,
         **grid_kwargs,
         **dims), dims

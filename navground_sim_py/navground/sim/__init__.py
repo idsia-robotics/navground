@@ -58,6 +58,13 @@ def load_state_estimation(value: str) -> StateEstimation | None:
 load_state_estimation.__doc__ = StateEstimation.load.__doc__
 
 
+def load_sensor(value: str) -> Sensor | None:
+    return Sensor.load(value)
+
+
+load_sensor.__doc__ = Sensor.load.__doc__
+
+
 def load_task(value: str) -> Task | None:
     return Task.load(value)
 

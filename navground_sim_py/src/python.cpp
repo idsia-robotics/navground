@@ -46,6 +46,7 @@
 #include "navground/sim/state_estimations/sensor_combination.h"
 #include "navground/sim/state_estimations/sensor_discs.h"
 #include "navground/sim/state_estimations/sensor_lidar.h"
+#include "navground/sim/state_estimations/sensor_marker.h"
 #include "navground/sim/state_estimations/sensor_odometry.h"
 #include "navground/sim/task.h"
 #include "navground/sim/tasks/direction.h"
@@ -403,7 +404,16 @@ struct PyScenario : public Scenario, public PyHasRegister<Scenario> {
     // (a reference) to the world.
     py::object py_world = py::cast(world);
     init_world(world.get(), seed);
+    apply_inits(world.get());
     return world;
+  }
+
+  py::object make_world_py(std::optional<int> seed = std::nullopt) {
+    auto world = std::make_shared<PyWorld>();
+    py::object py_world = py::cast(world);
+    init_world(world.get(), seed);
+    apply_inits(world.get());
+    return py_world;
   }
 
   OVERRIDE_DECODE
@@ -1587,7 +1597,10 @@ The random generator.
       .def_property("name", &Sensor::get_name, &Sensor::set_name,
                     DOC(navground, sim, Sensor, property_name))
       .def("prepare_state", &Sensor::prepare_state, py::arg("state"),
-           DOC(navground, sim, Sensor, prepare_state));
+           DOC(navground, sim, Sensor, prepare_state))
+      .def_static("load", &YAML::load_string_py<PyStateEstimation, Sensor>,
+                  py::arg("value"),
+                  YAML::load_string_py_doc("sensor", "Sensor").c_str());
 
   py::class_<LidarStateEstimation::Scan>(
       m, "LidarScan", DOC(navground, sim, LidarStateEstimation, Scan))
@@ -1733,6 +1746,88 @@ The random generator.
       .def("read_pose", &OdometryStateEstimation::read_pose, py::arg("state"),
            DOC(navground, sim, OdometryStateEstimation, read_pose));
 
+  py::class_<MarkerStateEstimation, Sensor, StateEstimation,
+             std::shared_ptr<MarkerStateEstimation>>
+      marker_se(m, "MarkerStateEstimation",
+                DOC(navground, sim, MarkerStateEstimation));
+
+  py::enum_<MarkerStateEstimation::ReferenceOrientation>(
+      marker_se, "ReferenceOrientation",
+      DOC(navground, core, MarkerStateEstimation, ReferenceOrientation))
+      .value("agent", MarkerStateEstimation::ReferenceOrientation::agent,
+             DOC(navground, core, MarkerStateEstimation, ReferenceOrientation,
+                 rectangular))
+      .value("world", MarkerStateEstimation::ReferenceOrientation::world,
+             DOC(navground, core, MarkerStateEstimation, ReferenceOrientation,
+                 circular))
+      .value("target_direction",
+             MarkerStateEstimation::ReferenceOrientation::target_direction,
+             DOC(navground, core, MarkerStateEstimation, ReferenceOrientation,
+                 none));
+
+  marker_se
+      .def(
+          py::init<const Vector2 &, MarkerStateEstimation::ReferenceOrientation,
+                   ng_float_t, ng_float_t, ng_float_t, ng_float_t, bool, bool,
+                   const std::string &>(),
+          py::arg("marker_position") = Vector2::Zero(),
+          py::arg("reference_orientation") =
+              MarkerStateEstimation::ReferenceOrientation::agent,
+          py::arg("min_x") = -std::numeric_limits<ng_float_t>::infinity(),
+          py::arg("min_y") = -std::numeric_limits<ng_float_t>::infinity(),
+          py::arg("max_x") = std::numeric_limits<ng_float_t>::infinity(),
+          py::arg("max_y") = std::numeric_limits<ng_float_t>::infinity(),
+          py::arg("include_x") = true, py::arg("include_y") = true,
+          py::arg("name") = "",
+          DOC(navground, sim, MarkerStateEstimation, MarkerStateEstimation))
+      .def_property(
+          "marker_position", &MarkerStateEstimation::get_marker_position,
+          &MarkerStateEstimation::set_marker_position,
+          DOC(navground, sim, MarkerStateEstimation, property_marker_position))
+      .def_property("reference_orientation",
+                    &MarkerStateEstimation::get_reference_orientation,
+                    &MarkerStateEstimation::set_reference_orientation,
+                    DOC(navground, sim, MarkerStateEstimation,
+                        property_reference_orientation))
+      .def_property("min_x", &MarkerStateEstimation::get_min_x,
+                    &MarkerStateEstimation::set_min_x,
+                    DOC(navground, sim, MarkerStateEstimation, property_min_x))
+      .def_property("min_y", &MarkerStateEstimation::get_min_y,
+                    &MarkerStateEstimation::set_min_y,
+                    DOC(navground, sim, MarkerStateEstimation, property_min_y))
+      .def_property("max_x", &MarkerStateEstimation::get_max_x,
+                    &MarkerStateEstimation::set_max_x,
+                    DOC(navground, sim, MarkerStateEstimation, property_max_x))
+      .def_property("max_y", &MarkerStateEstimation::get_max_y,
+                    &MarkerStateEstimation::set_max_y,
+                    DOC(navground, sim, MarkerStateEstimation, property_max_y))
+      .def_property("bounding_box", &MarkerStateEstimation::get_bounding_box, nullptr,
+                    DOC(navground, sim, MarkerStateEstimation, property_bounding_box))
+      .def_property(
+          "include_x", &MarkerStateEstimation::get_include_x,
+          &MarkerStateEstimation::set_include_x,
+          DOC(navground, sim, MarkerStateEstimation, property_include_x))
+      .def_property(
+          "include_y", &MarkerStateEstimation::get_include_y,
+          &MarkerStateEstimation::set_include_y,
+          DOC(navground, sim, MarkerStateEstimation, property_include_y))
+      .def("update_marker", &MarkerStateEstimation::update_marker,
+           py::arg("agent"), py::arg("world"),
+           DOC(navground, sim, MarkerStateEstimation, update_marker))
+      .def_property("measured_marker_position",
+                    &MarkerStateEstimation::get_measured_marker_position,
+                    nullptr,
+                    DOC(navground, sim, MarkerStateEstimation,
+                        property_measured_marker_position))
+      .def_static("read_marker_position_with_name",
+                  &MarkerStateEstimation::read_marker_position_with_name,
+                  py::arg("state"), py::arg("name"),
+                  DOC(navground, sim, MarkerStateEstimation,
+                      read_marker_position_with_name))
+      .def("read_marker_position", &MarkerStateEstimation::read_marker_position,
+           py::arg("state"),
+           DOC(navground, sim, MarkerStateEstimation, read_marker_position));
+
   py::class_<LocalGridMapStateEstimation, Sensor, StateEstimation,
              std::shared_ptr<LocalGridMapStateEstimation>>
       gmse(m, "LocalGridMapStateEstimation",
@@ -1833,11 +1928,12 @@ The random generator.
              std::shared_ptr<DiscsStateEstimation>>
       dse(m, "DiscsStateEstimation", DOC(navground, sim, DiscsStateEstimation));
   dse.def(py::init<ng_float_t, unsigned, ng_float_t, ng_float_t, bool, bool,
-                   unsigned, const std::string &>(),
+                   unsigned, bool, bool, const std::string &>(),
           py::arg("range") = 1.0, py::arg("number") = 1,
           py::arg("max_radius") = 0, py::arg("max_speed") = 0,
           py::arg("include_valid") = true, py::arg("use_nearest_point") = true,
-          py::arg("max_id") = 0, py::arg("name") = "",
+          py::arg("max_id") = 0, py::arg("include_x") = true,
+          py::arg("include_y") = true, py::arg("name") = "",
           DOC(navground, sim, DiscsStateEstimation, DiscsStateEstimation))
       .def_property("range", &DiscsStateEstimation::get_range,
                     &DiscsStateEstimation::set_range,
@@ -1860,11 +1956,18 @@ The random generator.
       .def_property("max_id", &DiscsStateEstimation::get_max_id,
                     &DiscsStateEstimation::set_max_id,
                     DOC(navground, sim, DiscsStateEstimation, property_max_id))
-      .def_property("use_nearest_point",
-                    &DiscsStateEstimation::get_use_nearest_point,
-                    &DiscsStateEstimation::set_use_nearest_point,
-                    DOC(navground, sim, DiscsStateEstimation,
-                        property_use_nearest_point));
+      .def_property(
+          "use_nearest_point", &DiscsStateEstimation::get_use_nearest_point,
+          &DiscsStateEstimation::set_use_nearest_point,
+          DOC(navground, sim, DiscsStateEstimation, property_use_nearest_point))
+      .def_property(
+          "include_x", &DiscsStateEstimation::get_include_x,
+          &DiscsStateEstimation::set_include_x,
+          DOC(navground, sim, DiscsStateEstimation, property_include_x))
+      .def_property(
+          "include_y", &DiscsStateEstimation::get_include_y,
+          &DiscsStateEstimation::set_include_y,
+          DOC(navground, sim, DiscsStateEstimation, property_include_y));
 
   py::class_<BoundarySensor, Sensor, StateEstimation,
              std::shared_ptr<BoundarySensor>>
@@ -3244,10 +3347,12 @@ Register a probe to record a group of data to during all runs.
       .def("init_world", &Scenario::init_world, py::arg("world"),
            py::arg("seed") = std::nullopt,
            DOC(navground, sim, Scenario, init_world))
+      .def("apply_inits", &Scenario::apply_inits, py::arg("world"),
+           DOC(navground, sim, Scenario, apply_inits))
       .def(
           "make_world",
           [](PyScenario &scenario, std::optional<int> seed = std::nullopt) {
-            return scenario.make_world(seed);
+            return scenario.make_world_py(seed);
           },
           py::arg("seed") = std::nullopt,
           DOC(navground, sim, Scenario, make_world))
@@ -3457,6 +3562,7 @@ Register a probe to record a group of data to during all runs.
   pickle_via_yaml<PyStateEstimation>(dse);
   pickle_via_yaml<PyStateEstimation>(cse);
   pickle_via_yaml<PyStateEstimation>(sse);
+  pickle_via_yaml<PyStateEstimation>(marker_se);
   pickle_via_yaml<PyStateEstimation>(gmse);
   pickle_via_yaml<PyStateEstimation>(boundary_sensor);
   pickle_via_yaml<PyTask>(task);

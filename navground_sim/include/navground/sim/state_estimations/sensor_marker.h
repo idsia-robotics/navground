@@ -156,7 +156,7 @@ struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
    *
    * @param[in]  value     The bounding box
    */
-  BoundingBox get_bounds() const { return {_min_x, _max_x, _min_y, _max_y}; }
+  BoundingBox get_bounding_box() const { return {_min_x, _max_x, _min_y, _max_y}; }
   /**
    * @brief      Sets the bounding box
    *

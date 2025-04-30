@@ -4,11 +4,41 @@
 
 ### Added
 
+- Added `Marker` sensor.
+- Added `include_{x|y}` options to `Discs` sensor.
+- Added  `load_sensor` to load a `sim.Sensor` (instead of a `sim.StateEstimation`).
+- Added `background_extras` to render functions to render svg elements behind the world.
+- Now rendering decorations support an additional `world` argument.
+
 ### Fixed
+
+- Fixed an error that wrongly marked `Direction` task as done.
+- Fixed typo in wall-disc collision computation.
 
 ### Changed
 
+- Now `Behavior::check_if_target_satisfied` returns False is there target direction is defined and target speed is not zero.
+- Split the initialization of a world by a scenario in two steps: `Scenario::init_world()` and `Scenario::apply_inits()`. This way, the specialized `init_world` can create entities that are then accessible by the initializers. Users should normally call `make_world`, which performs these two steps automatically.
+
 ### Removed
+
+## [0.5.2] Unreleased
+
+Fixes few more bugs
+
+### Fixed
+
+- Fixes repetition in `plot_world`
+- Fixes stopping criteria in `DirectionTask` 
+- Fixes Computing collisions between walls and agents 
+
+### Changed
+
+- `Behavior.check_if_target_satisfied` now returns false when target direction is defined and target speed is not zero.
+
+## [0.5.1] 2025-03-05
+
+Fixes a bug in `plot_world`.
 
 ## [0.5.0] 2025-02-28
 

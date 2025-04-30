@@ -47,7 +47,7 @@ struct NAVGROUND_SIM_EXPORT DirectionTask : Task {
    */
   void set_direction(const core::Vector2 &value) {
     _direction = value;
-    _stop = _direction.norm();
+    _stop = _direction.norm() == 0;
   }
 
   /**

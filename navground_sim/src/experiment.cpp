@@ -126,6 +126,7 @@ ExperimentalRun &Experiment::init_run(int index, std::shared_ptr<World> world) {
         (*scenario_init_callback)(scenario.get(), index);
       }
       scenario->init_world(world.get(), index);
+      scenario->apply_inits(world.get());
     }
   }
   // CHANGED: World will be prepared only when starting run

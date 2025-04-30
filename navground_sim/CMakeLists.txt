@@ -101,6 +101,7 @@ add_library(
   src/state_estimations/sensor_combination.cpp
   src/state_estimations/sensor_odometry.cpp
   src/state_estimations/gridmap_state_estimation.cpp
+  src/state_estimations/sensor_marker.cpp
   src/tasks/waypoints.cpp
   src/tasks/direction.cpp
   src/tasks/go_to_pose.cpp

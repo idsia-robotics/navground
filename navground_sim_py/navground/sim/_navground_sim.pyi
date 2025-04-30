@@ -546,8 +546,7 @@ class MarkerStateEstimation(Sensor):
     max_y: float
     include_x: bool
     include_y: bool
-    @property
-    def bounding_box(self) -> BoundingBox: ...
+    bounding_box: BoundingBox
     marker_position: Vector2
     reference_orientation: MarkerStateEstimation.ReferenceOrientation
     def __init__(self, marker_position: Vector2 = ..., reference_orientation: MarkerStateEstimation.ReferenceOrientation = ..., min_x: float = ..., min_y: float = ..., max_x: float = ..., max_y: float = ..., name: str = ...) -> None: ...

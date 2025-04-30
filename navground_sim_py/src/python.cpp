@@ -1801,8 +1801,10 @@ The random generator.
       .def_property("max_y", &MarkerStateEstimation::get_max_y,
                     &MarkerStateEstimation::set_max_y,
                     DOC(navground, sim, MarkerStateEstimation, property_max_y))
-      .def_property("bounding_box", &MarkerStateEstimation::get_bounding_box, nullptr,
-                    DOC(navground, sim, MarkerStateEstimation, property_bounding_box))
+      .def_property(
+          "bounding_box", &MarkerStateEstimation::get_bounding_box,
+          &MarkerStateEstimation::set_bounding_box,
+          DOC(navground, sim, MarkerStateEstimation, property_bounding_box))
       .def_property(
           "include_x", &MarkerStateEstimation::get_include_x,
           &MarkerStateEstimation::set_include_x,

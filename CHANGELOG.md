@@ -9,6 +9,9 @@
 - Added  `load_sensor` to load a `sim.Sensor` (instead of a `sim.StateEstimation`).
 - Added `background_extras` to render functions to render svg elements behind the world.
 - Now rendering decorations support an additional `world` argument.
+- Added conversion between `BoundingBox` and tuple.
+- Added `BoundingBox` modifiers.
+- Added picking support to `BoundingBox`.
 
 ### Fixed
 
@@ -22,7 +25,9 @@
 
 ### Removed
 
-## [0.5.2] Unreleased
+
+
+## [0.5.2] 2025-04-30
 
 Fixes few more bugs
 
@@ -30,15 +35,21 @@ Fixes few more bugs
 
 - Fixes repetition in `plot_world`
 - Fixes stopping criteria in `DirectionTask` 
-- Fixes Computing collisions between walls and agents 
+- Fixes computing collisions between walls and agents 
 
 ### Changed
 
 - `Behavior.check_if_target_satisfied` now returns false when target direction is defined and target speed is not zero.
 
-## [0.5.1] 2025-03-05
+## [0.5.1] 2025-02-28
 
-Fixes a bug in `plot_world`.
+Fixes few bugs went unnoticed when releasing 0.5.0. 
+
+### Fixed
+
+- Fixed typo in `plot_world`
+- Fixed notebook `running_an_experiment_no_hdf5.ipynb`
+- Fixed `LidarScan` import
 
 ## [0.5.0] 2025-02-28
 

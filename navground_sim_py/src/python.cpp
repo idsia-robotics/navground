@@ -1128,6 +1128,43 @@ Creates a rectangular region
       .def_property("min_y", &BoundingBox::getMinY, nullptr)
       .def_property("max_x", &BoundingBox::getMaxX, nullptr)
       .def_property("max_y", &BoundingBox::getMaxY, nullptr)
+      .def(
+          "set_min_x",
+          [](const BoundingBox &bb, ng_float_t value) {
+            return bb_set_min_x(bb, value);
+          },
+          py::arg("value"), DOC(navground, sim, bb_set_min_x))
+      .def(
+          "set_min_y",
+          [](const BoundingBox &bb, ng_float_t value) {
+            return bb_set_min_y(bb, value);
+          },
+          py::arg("value"), DOC(navground, sim, bb_set_min_y))
+      .def(
+          "set_max_x",
+          [](const BoundingBox &bb, ng_float_t value) {
+            return bb_set_max_x(bb, value);
+          },
+          py::arg("value"), DOC(navground, sim, bb_set_max_x))
+      .def(
+          "set_max_y",
+          [](const BoundingBox &bb, ng_float_t value) {
+            return bb_set_max_y(bb, value);
+          },
+          py::arg("value"), DOC(navground, sim, bb_set_max_y))
+      .def(
+          "to_tuple", [](const BoundingBox &bb) { return bb_to_tuple(bb); },
+          DOC(navground, sim, bb_to_tuple))
+      .def_static(
+          "from_tuple",
+          [](const py::tuple &t) {
+            const auto v = t.cast<
+                std::tuple<ng_float_t, ng_float_t, ng_float_t, ng_float_t>>();
+            return bb_from_tuple(v);
+          },
+          DOC(navground, sim, bb_to_tuple))
+      .def_static("envelop", &envelop, py::arg("position"), py::arg("radius"),
+                  DOC(navground, sim, envelop))
       .def_property("width", &BoundingBox::getWidth, nullptr)
       .def_property("height", &BoundingBox::getHeight, nullptr)
       .def_property(
@@ -1236,7 +1273,14 @@ Expands the bounding box by a vector
 Returns the YAML schema.
 
 :returns: The YAML schema
-           )doc");
+           )doc")
+      .def(py::pickle(
+          [](const BoundingBox &value) -> py::tuple { return py::cast(bb_to_tuple(value)); },
+          [](py::tuple v) { // __setstate__
+            const auto t = v.cast<
+                std::tuple<ng_float_t, ng_float_t, ng_float_t, ng_float_t>>();
+            return bb_from_tuple(t);
+          }));
 
   py::class_<StateEstimation, PyStateEstimation, HasRegister<StateEstimation>,
              HasProperties, std::shared_ptr<StateEstimation>>

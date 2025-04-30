@@ -68,11 +68,24 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
 
   /**
    * @brief      Initializes the world.
+   * 
+   * Users can specialize this method to specialize a scenario but
+   * should call \ref make_world when creating a world. 
    *
    * @param      world The world
    * @param      seed  The random seed
    */
   virtual void init_world(World *world, std::optional<int> seed = std::nullopt);
+
+  /**
+   * @brief      Applies the initializers from \ref get_inits
+   * 
+   * Should be called after \ref init_world to complete the initialization,
+   * as \ref make_world does automatically.
+   *
+   * @param      world  The world
+   */
+  void apply_inits(World *world);
 
   /**
    * @brief      Creates and initialize a world.

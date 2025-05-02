@@ -16,6 +16,35 @@
 
 namespace navground::core {
 
+template <typename T> inline std::string_view field_type_name();
+template <> inline std::string_view field_type_name<int>() { return "int"; }
+template <> inline std::string_view field_type_name<ng_float_t>() {
+  return "float";
+}
+template <> inline std::string_view field_type_name<bool>() { return "bool"; }
+template <> inline std::string_view field_type_name<std::string>() {
+  return "str";
+}
+template <> inline std::string_view field_type_name<Vector2>() {
+  return "vector";
+}
+template <> inline std::string_view field_type_name<std::vector<int>>() {
+  return "[int]";
+}
+template <> inline std::string_view field_type_name<std::vector<ng_float_t>>() {
+  return "[float]";
+}
+template <> inline std::string_view field_type_name<std::vector<bool>>() {
+  return "[bool]";
+}
+template <>
+inline std::string_view field_type_name<std::vector<std::string>>() {
+  return "[str]";
+}
+template <> inline std::string_view field_type_name<std::vector<Vector2>>() {
+  return "[vector]";
+}
+
 struct HasProperties;
 
 /**
@@ -54,28 +83,6 @@ struct Property {
       std::variant<bool, int, ng_float_t, std::string, Vector2,
                    std::vector<bool>, std::vector<int>, std::vector<ng_float_t>,
                    std::vector<std::string>, std::vector<Vector2>>;
-
-  template <typename T> static std::string_view field_type_name();
-  template <> std::string_view field_type_name<int>() { return "int"; }
-  template <> std::string_view field_type_name<ng_float_t>() { return "float"; }
-  template <> std::string_view field_type_name<bool>() { return "bool"; }
-  template <> std::string_view field_type_name<std::string>() { return "str"; }
-  template <> std::string_view field_type_name<Vector2>() { return "vector"; }
-  template <> std::string_view field_type_name<std::vector<int>>() {
-    return "[int]";
-  }
-  template <> std::string_view field_type_name<std::vector<ng_float_t>>() {
-    return "[float]";
-  }
-  template <> std::string_view field_type_name<std::vector<bool>>() {
-    return "[bool]";
-  }
-  template <> std::string_view field_type_name<std::vector<std::string>>() {
-    return "[str]";
-  }
-  template <> std::string_view field_type_name<std::vector<Vector2>>() {
-    return "[vector]";
-  }
 
   static std::string_view friendly_type_name(const Field &field) {
     return std::visit(

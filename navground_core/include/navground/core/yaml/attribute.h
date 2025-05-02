@@ -16,7 +16,7 @@ std::optional<navground::core::Attribute>
 decode_attribute_value(const Node &node, const std::string &type) {
   if constexpr (I < std::variant_size_v<navground::core::Attribute>) {
     using T = std::variant_alternative_t<I, navground::core::Attribute>;
-    if (navground::core::Property::field_type_name<T>() == type) {
+    if (navground::core::field_type_name<T>() == type) {
       return node.as<T>();
     }
     return decode_attribute_value<I + 1>(node, type);
@@ -38,8 +38,7 @@ template <typename T> Node attribute_schema() {
   } else {
     node["properties"]["value"] = schema::type<T>();
   }
-  node["properties"]["type"]["const"] =
-      navground::core::Property::field_type_name<T>();
+  node["properties"]["type"]["const"] = navground::core::field_type_name<T>();
   node["unevaluatedProperties"] = false;
   node["required"].push_back("value");
   node["required"].push_back("type");

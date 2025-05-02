@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "docstrings.h"
+#include "navground/core/attribute.h"
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/build_info.h"
@@ -1275,7 +1276,9 @@ Returns the YAML schema.
 :returns: The YAML schema
            )doc")
       .def(py::pickle(
-          [](const BoundingBox &value) -> py::tuple { return py::cast(bb_to_tuple(value)); },
+          [](const BoundingBox &value) -> py::tuple {
+            return py::cast(bb_to_tuple(value));
+          },
           [](py::tuple v) { // __setstate__
             const auto t = v.cast<
                 std::tuple<ng_float_t, ng_float_t, ng_float_t, ng_float_t>>();
@@ -1290,8 +1293,8 @@ Returns the YAML schema.
              std::shared_ptr<Task>>
       task(m, "Task", DOC(navground, sim, Task));
 
-  py::class_<Agent, Entity, std::shared_ptr<Agent>>(m, "NativeAgent",
-                                                    DOC(navground, sim, Agent))
+  py::class_<Agent, Entity, HasAttributes, std::shared_ptr<Agent>>(
+      m, "NativeAgent", DOC(navground, sim, Agent))
       .def_readwrite("id", &Agent::id, DOC(navground, sim, Agent, id))
       .def_readwrite("type", &Agent::type, DOC(navground, sim, Agent, type))
       .def_readwrite("color", &Agent::color, DOC(navground, sim, Agent, color))
@@ -1436,8 +1439,8 @@ Returns the YAML schema.
                     DOC(navground, sim, Agent, property, controller));
 #endif
 
-  py::class_<World, std::shared_ptr<World>>(m, "NativeWorld",
-                                            DOC(navground, sim, World, 2))
+  py::class_<World, HasAttributes, std::shared_ptr<World>>(
+      m, "NativeWorld", DOC(navground, sim, World, 2))
       .def(py::init<>(), DOC(navground, sim, World, World))
       .def("add_callback", &World::add_callback, py::arg("callback"),
            py::keep_alive<1, 2>(), DOC(navground, sim, World, add_callback))
@@ -1569,7 +1572,7 @@ Returns the YAML schema.
                   YAML::load_string_py_doc("world", "World").c_str())
       .def("dump", &YAML::dump<World>, YAML::dump_doc());
 
-  py::class_<PyWorld, World, std::shared_ptr<PyWorld>> world(
+  py::class_<PyWorld, World, HasAttributes, std::shared_ptr<PyWorld>> world(
       m, "World", py::dynamic_attr(), DOC(navground, sim, World));
   world.def(py::init<>(), DOC(navground, sim, World, World))
       .def("add_agent", &PyWorld::add_agent, py::arg("agent"),
@@ -3395,6 +3398,9 @@ Register a probe to record a group of data to during all runs.
            DOC(navground, sim, Scenario, init_world))
       .def("apply_inits", &Scenario::apply_inits, py::arg("world"),
            DOC(navground, sim, Scenario, apply_inits))
+      .def("set_attributes", &Scenario::set_attributes, py::arg("world"),
+           DOC(navground, sim, Scenario, set_attributes))
+
       .def(
           "make_world",
           [](PyScenario &scenario, std::optional<int> seed = std::nullopt) {

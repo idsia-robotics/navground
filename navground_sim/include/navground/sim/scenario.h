@@ -68,9 +68,9 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
 
   /**
    * @brief      Initializes the world.
-   * 
+   *
    * Users can specialize this method to specialize a scenario but
-   * should call \ref make_world when creating a world. 
+   * should call \ref make_world when creating a world.
    *
    * @param      world The world
    * @param      seed  The random seed
@@ -79,7 +79,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
 
   /**
    * @brief      Applies the initializers from \ref get_inits
-   * 
+   *
    * Should be called after \ref init_world to complete the initialization,
    * as \ref make_world does automatically.
    *
@@ -187,6 +187,15 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   }
 
   /**
+   * @brief      Sets world attributes from scenario properties.
+   *
+   * Sets an attribute with the current value for each (registered) property.
+   *
+   * @param      world  The world
+   */
+  void set_attributes(World *world);
+
+  /**
    * An optional bounding box
    */
   std::optional<sim::BoundingBox> bounding_box;
@@ -203,7 +212,6 @@ private:
     }
     return "";
   }
-
 };
 
 } // namespace navground::sim

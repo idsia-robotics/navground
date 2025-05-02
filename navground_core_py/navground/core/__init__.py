@@ -16,8 +16,8 @@ from ._navground import (
     BehaviorRegister, Buffer, BufferDescription, BufferMap, BuildInfo,
     CachedCollisionComputation, CollisionComputation, Controller,
     DependencyInfo, Disc, EnvironmentState, Frame, GeometricState, GridMap,
-    HasProperties, Kinematics, KinematicsRegister, LineSegment, Neighbor, Path,
-    Pose2, Property, SensingState, SocialMargin,
+    HasAttributes, HasProperties, Kinematics, KinematicsRegister, LineSegment,
+    Neighbor, Path, Pose2, Property, SensingState, SocialMargin,
     SocialMarginConstantModulation, SocialMarginLinearModulation,
     SocialMarginLogisticModulation, SocialMarginModulation,
     SocialMarginQuadraticModulation, SocialMarginZeroModulation, Target,
@@ -186,5 +186,5 @@ __all__ = [
     "BuildInfo", "get_build_dependencies", "get_plugins_dependencies",
     "DependencyInfo", "load_cpp_plugins", "BehaviorModulationRegister",
     "BehaviorRegister", "HasProperties", "KinematicsRegister", "FloatType",
-    "GridMap"
+    "GridMap", "HasAttributes"
 ]

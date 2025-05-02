@@ -7,3 +7,4 @@ Background Information
 
    two_wheeled_kinematics
    accessors
+   attributes_and_properties

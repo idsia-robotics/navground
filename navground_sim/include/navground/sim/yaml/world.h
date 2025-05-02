@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "navground/core/types.h"
+#include "navground/core/yaml/attribute.h"
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/property.h"
 #include "navground/core/yaml/register.h"
@@ -289,6 +290,7 @@ template <> struct convert<Agent> {
         node["tags"].push_back(tag);
       }
     }
+    encode_attributes(node, rhs);
     return node;
   }
   static bool decode(const Node &node, Agent &rhs) {
@@ -358,6 +360,9 @@ template <> struct convert<Agent> {
     if (node["external"]) {
       rhs.external = node["external"].as<bool>();
     }
+    if (!decode_attributes(node, rhs)) {
+      return false;
+    }
     return true;
   }
   static Node schema() {
@@ -388,6 +393,8 @@ template <> struct convert<Agent> {
     node["properties"]["external"] = schema::type<bool>();
     node["properties"]["tags"]["type"] = "array";
     node["properties"]["tags"]["items"] = schema::type<std::string>();
+    node["properties"]["attributes"] =
+        schema::ref<navground::core::Attributes>();
     node["additionalProperties"] = false;
     return node;
   }
@@ -432,6 +439,11 @@ template <typename T = Agent> struct convert_world {
         }
       }
     }
+    encode_attributes(node, rhs);
+    // const auto attrs = rhs.get_attributes();
+    // if (attrs.size()) {
+    //   node["attributes"] = attrs;
+    // }
     return node;
   }
   static bool decode(const Node &node, World &rhs) {
@@ -467,6 +479,9 @@ template <typename T = Agent> struct convert_world {
         }
       }
     }
+    if (!decode_attributes(node, rhs)) {
+      return false;
+    }
     return true;
   }
 };
@@ -491,6 +506,8 @@ template <> struct convert<World> {
         schema::type<World::Lattice>();
     node["properties"]["lattice"]["properties"]["y"] =
         schema::type<World::Lattice>();
+    node["properties"]["attributes"] =
+        schema::ref<navground::core::Attributes>();
     node["additionalProperties"] = false;
     return node;
   }

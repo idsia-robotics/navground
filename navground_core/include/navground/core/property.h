@@ -55,30 +55,33 @@ struct Property {
                    std::vector<bool>, std::vector<int>, std::vector<ng_float_t>,
                    std::vector<std::string>, std::vector<Vector2>>;
 
+  template <typename T> static std::string_view field_type_name();
+  template <> std::string_view field_type_name<int>() { return "int"; }
+  template <> std::string_view field_type_name<ng_float_t>() { return "float"; }
+  template <> std::string_view field_type_name<bool>() { return "bool"; }
+  template <> std::string_view field_type_name<std::string>() { return "str"; }
+  template <> std::string_view field_type_name<Vector2>() { return "vector"; }
+  template <> std::string_view field_type_name<std::vector<int>>() {
+    return "[int]";
+  }
+  template <> std::string_view field_type_name<std::vector<ng_float_t>>() {
+    return "[float]";
+  }
+  template <> std::string_view field_type_name<std::vector<bool>>() {
+    return "[bool]";
+  }
+  template <> std::string_view field_type_name<std::vector<std::string>>() {
+    return "[str]";
+  }
+  template <> std::string_view field_type_name<std::vector<Vector2>>() {
+    return "[vector]";
+  }
+
   static std::string_view friendly_type_name(const Field &field) {
     return std::visit(
         [](auto &&arg) {
           using T = std::decay_t<decltype(arg)>;
-          if constexpr (std::is_same_v<T, int>)
-            return "int";
-          if constexpr (std::is_same_v<T, ng_float_t>)
-            return "float";
-          if constexpr (std::is_same_v<T, bool>)
-            return "bool";
-          if constexpr (std::is_same_v<T, std::string>)
-            return "str";
-          if constexpr (std::is_same_v<T, Vector2>)
-            return "vector";
-          if constexpr (std::is_same_v<T, std::vector<int>>)
-            return "[int]";
-          if constexpr (std::is_same_v<T, std::vector<ng_float_t>>)
-            return "[float]";
-          if constexpr (std::is_same_v<T, std::vector<bool>>)
-            return "[bool]";
-          if constexpr (std::is_same_v<T, std::vector<std::string>>)
-            return "[str]";
-          if constexpr (std::is_same_v<T, std::vector<Vector2>>)
-            return "[vector]";
+          return field_type_name<T>();
         },
         field);
   }

@@ -128,13 +128,14 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
     }
   }
 
-  template<typename S>
+  template <typename S>
   static py::object make_subtype(const std::string &name) {
     if (factory.count(name)) {
       return factory[name].attr("__call__")();
     }
     try {
-      const auto obj = std::dynamic_pointer_cast<S>(HasRegister<T>::make_type(name));
+      const auto obj =
+          std::dynamic_pointer_cast<S>(HasRegister<T>::make_type(name));
 
       return py::cast(obj);
     } catch (const std::exception &e) {
@@ -237,16 +238,16 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
   }
 
   std::string get_type() const override {
-    const auto type = HasRegister<T>::get_type();
-    if (!type.empty()) {
-      return type;
-    }
     try {
       auto value = py::cast(this).attr("_type");
       return value.template cast<std::string>();
     } catch (const std::exception &) {
-      return "";
     }
+    const auto type = HasRegister<T>::get_type();
+    if (!type.empty()) {
+      return type;
+    }
+    return "";
   }
 };
 
@@ -267,6 +268,15 @@ void declare_register(py::module &m, const std::string &typestr) {
                 PyRegister::register_type_py(name, cls);
                 PyRegister::register_properties_py(cls);
                 PyRegister::register_schema_py(cls);
+                if (kwargs.contains("properties")) {
+                  const auto types =
+                      py::cast<std::vector<std::string>>(kwargs["properties"]);
+                  for (const auto &type : types) {
+                    const auto &properties =
+                        PyRegister::type_properties().at(type);
+                    PyRegister::add_properties_py(name, properties);
+                  }
+                }
               }
             });
           })
@@ -316,8 +326,23 @@ Check whether a type name has been registered.
   //             py::arg("name"), py::arg("cls"))
   // .def_static("_register_schema", &PyRegister::register_schema_py,
   //             py::arg("name"), py::arg("schema"))
-  // .def_static("_add_properties", &PyRegister::add_properties_py,
-  //             py::arg("type"), py::arg("properties"));
+  // .def_property_readonly_static(
+  //     "add_properties",
+  //     [](py::object &cls) {
+  //       const auto type = cls.attr("_type").cast<std::string>();
+  //       return py::cpp_function([type](const Properties &properties) {
+  //         PyRegister::add_properties_py(type, properties);
+  //       });
+  //     })
+  // .def_property_readonly_static(
+  //     "add_properties_of_type", [](py::object &cls) {
+  //       const auto type = cls.attr("_type").cast<std::string>();
+  //       return py::cpp_function([type](const std::string &other_type) {
+  //         const auto &properties =
+  //             PyRegister::type_properties().at(other_type);
+  //         PyRegister::add_properties_py(type, properties);
+  //       });
+  //     });
 }
 
 #endif // NAVGROUND_CORE_PY_REGISTER_H

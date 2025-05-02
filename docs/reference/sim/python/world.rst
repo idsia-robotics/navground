@@ -20,3 +20,7 @@ World
    :exclude-members: __new__
    :inherited-members:
 
+
+.. note::
+
+   Class :py:class:`World` supports `dynamic attributes <attributes python>`.

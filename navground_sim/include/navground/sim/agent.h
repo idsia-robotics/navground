@@ -10,6 +10,7 @@
 #include <utility>
 // #include <limits>
 
+#include "navground/core/attribute.h"
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/common.h"
@@ -37,25 +38,25 @@ namespace navground::sim {
  * @brief      This class describes an agent.
  *
  * The agent navigates in the environment using
- * a task, a vector (or list in Python) of state estimations, 
+ * a task, a vector (or list in Python) of state estimations,
  * a kinematic and a behavior, and a controller.
  *
  * Agents have a circular shape which should match the shape of their navigation
  * \ref navground::core::Behavior.
  *
  * The role of task and state estimations is to provide goals and
- * environment state (perception) to the behavior. 
- * 
- * State estimations are evaluated in the order, each updating 
- * the same behavior environment state. For example, if an agent has two state 
+ * environment state (perception) to the behavior.
+ *
+ * State estimations are evaluated in the order, each updating
+ * the same behavior environment state. For example, if an agent has two state
  * estimations SE1 and SE2, when \ref World::update is called, it updates
  * the behavior environment state S as
- * 
+ *
  * \code
  *  SE1(S)
  *  SE2(S)
  * \endcode
- * 
+ *
  * Agents have a public identifies \ref id that is accessible by the
  * other agents' state estimation and may be passed to their behavior as \ref
  * navground::core::Neighbor::id. This identifier may not be unique (e.g., may
@@ -64,7 +65,7 @@ namespace navground::sim {
  * Agents runs their update at the rate set by \ref control_period even if
  * the world is updated at a faster rate.
  */
-class NAVGROUND_SIM_EXPORT Agent : public Entity {
+class NAVGROUND_SIM_EXPORT Agent : public Entity, public core::HasAttributes {
 public:
   using C = std::shared_ptr<Agent>;
   using B = Behavior;
@@ -96,12 +97,13 @@ public:
                  std::shared_ptr<Task> task = nullptr,
                  std::vector<std::shared_ptr<StateEstimation>> estimations = {},
                  ng_float_t control_period = 0, unsigned id = 0)
-      : Entity(), id(id), radius(radius), control_period(control_period),
-        pose(), twist(), last_cmd(), type(""), color(""), tags(),
-        external(false), task(task), state_estimations(estimations),
-        behavior(behavior), kinematics(kinematics), controller(behavior),
-        control_deadline(0.0), collision_correction(), is_stuck_since_time(-1),
-        ready(false), enabled(true), actuated_cmd() {}
+      : Entity(), core::HasAttributes(), id(id), radius(radius),
+        control_period(control_period), pose(), twist(), last_cmd(), type(""),
+        color(""), tags(), external(false), task(task),
+        state_estimations(estimations), behavior(behavior),
+        kinematics(kinematics), controller(behavior), control_deadline(0.0),
+        collision_correction(), is_stuck_since_time(-1), ready(false),
+        enabled(true), actuated_cmd() {}
 
   /**
    * @brief      Factory method to build an agent
@@ -485,7 +487,8 @@ private:
   void prepare(World *world);
 
   /**
-   * @brief      Clean-up the agent once the simulation has finished (only called by world)
+   * @brief      Clean-up the agent once the simulation has finished (only
+   * called by world)
    */
   void close();
 };

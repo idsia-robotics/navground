@@ -28,3 +28,7 @@ World
 .. doxygenclass:: navground::sim::World
    :members:
    
+
+.. note::
+
+   Class :cpp:class:`World` supports `dynamic attributes <attributes cpp>`.

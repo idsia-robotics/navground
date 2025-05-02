@@ -1,6 +1,7 @@
 #ifndef NAVGROUND_CORE_YAML_SCHEMA_CORE_H
 #define NAVGROUND_CORE_YAML_SCHEMA_CORE_H
 
+#include "navground/core/yaml/attribute.h"
 #include "navground/core/yaml/core.h"
 #include "navground/core/yaml/schema.h"
 #include "yaml-cpp/yaml.h"
@@ -26,6 +27,7 @@ inline YAML::Node bundle_schema() {
       register_schema<BehaviorModulation>();
   node["$defs"]["kinematics"] = schema<Kinematics>(true);
   node["$defs"]["kinematics_register"] = register_schema<Kinematics>();
+  node["$defs"]["attributes"] = schema<Attributes>();
   return node;
 }
 

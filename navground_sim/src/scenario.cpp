@@ -47,5 +47,10 @@ void Scenario::apply_inits(World *world) {
   }
 }
 
+void Scenario::set_attributes(World *world) {
+  for (const auto &[k, _] : get_properties()) {
+    world->set(k, get(k));
+  }
+}
 
 } // namespace navground::sim

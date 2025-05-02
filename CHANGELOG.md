@@ -12,7 +12,8 @@
 - Added conversion between `BoundingBox` and tuple.
 - Added `BoundingBox` modifiers.
 - Added picking support to `BoundingBox`.
-
+- Added dynamic attributes to `Agent` and `World`.
+ 
 ### Fixed
 
 - Fixed an error that wrongly marked `Direction` task as done.

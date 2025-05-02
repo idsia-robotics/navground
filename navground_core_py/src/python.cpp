@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "docstrings.h"
+#include "navground/core/attribute.h"
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/behavior_modulations/limit_acceleration.h"
@@ -1653,15 +1654,17 @@ Initializes a buffer.
                     DOC(navground, core, GridMap, property_map))
       .def("get_position_of_cell", &GridMap::get_position_of_cell,
            py::arg("cell"), DOC(navground, core, GridMap, get_position_of_cell))
-      .def("get_possible_cell_at_position", &GridMap::get_possible_cell_at_position,
-           py::arg("position"),
+      .def("get_possible_cell_at_position",
+           &GridMap::get_possible_cell_at_position, py::arg("position"),
            DOC(navground, core, GridMap, get_possible_cell_at_position))
       .def("contains_point", &GridMap::contains_point, py::arg("point"),
            DOC(navground, core, GridMap, contains_point))
       .def("move_center", &GridMap::move_center, py::arg("position"),
-           py::arg("value") = 128, py::arg("snap")=true, DOC(navground, core, GridMap, move_center))
+           py::arg("value") = 128, py::arg("snap") = true,
+           DOC(navground, core, GridMap, move_center))
       .def("move_origin", &GridMap::move_origin, py::arg("position"),
-           py::arg("value") = 128, py::arg("snap")=true, DOC(navground, core, GridMap, move_origin))
+           py::arg("value") = 128, py::arg("snap") = true,
+           DOC(navground, core, GridMap, move_origin))
       .def("set_value", &GridMap::set_value, py::arg("value"),
            DOC(navground, core, GridMap, set_value))
       .def("set_value_of_cell", &GridMap::set_value_of_cell, py::arg("cell"),
@@ -1681,8 +1684,8 @@ Initializes a buffer.
       .def("set_value_between_cells", &GridMap::set_value_between_cells,
            py::arg("c1"), py::arg("c2"), py::arg("value"),
            DOC(navground, core, GridMap, set_value_between_cells))
-      .def("get_cell_at_position",
-           &GridMap::get_cell_at_position, py::arg("position"), py::arg("clamp"),
+      .def("get_cell_at_position", &GridMap::get_cell_at_position,
+           py::arg("position"), py::arg("clamp"),
            DOC(navground, core, GridMap, get_cell_at_position))
       .def("raytrace_between_cells", &GridMap::raytrace_between_cells,
            py::arg("at"), py::arg("c1"), py::arg("c2"),
@@ -1932,6 +1935,19 @@ Initializes a buffer.
       .def("get_free_distance", &CachedCollisionComputation::get_free_distance,
            py::arg("dynamic"),
            DOC(navground, core, CachedCollisionComputation, get_free_distance));
+
+  py::class_<HasAttributes, std::shared_ptr<HasAttributes>>(
+      m, "HasAttributes", DOC(navground, core, HasAttributes))
+      .def("get", &HasAttributes::get, py::arg("name"),
+           DOC(navground, core, HasAttributes, get))
+      .def("has", &HasAttributes::has, py::arg("name"),
+           DOC(navground, core, HasAttributes, has))
+      .def("set", &HasAttributes::set, py::arg("name"), py::arg("value"),
+           DOC(navground, core, HasAttributes, set))
+      .def("clear", &HasAttributes::clear,
+           DOC(navground, core, HasAttributes, clear))
+      .def_property("attributes", &HasAttributes::get_attributes, &HasAttributes::set_attributes,
+                    DOC(navground, core, HasAttributes, property, attributes));
 
   m.def("load_plugins", &load_plugins, py::arg("plugins") = py::set(),
         py::arg("directories") = py::dict(), py::arg("include_default") = true,

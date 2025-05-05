@@ -189,6 +189,8 @@ class Experiment:
     record_config: RecordConfig
     run_callbacks: dict[bool, list[Callable[[ExperimentalRun], None]]]
     run_index: int
+    reset_uids: bool
+    record_scenario_properties: bool
     save_directory: pathlib.Path
     scenario: Scenario
     scenario_init_callback: Callable[[Scenario, int], None] | None

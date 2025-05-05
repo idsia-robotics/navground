@@ -3268,6 +3268,11 @@ The array is empty if efficacy has not been recorded in the run.
                      DOC(navground, sim, Experiment, save_directory))
       .def_readwrite("name", &Experiment::name,
                      DOC(navground, sim, Experiment, name))
+      .def_readwrite("reset_uids", &Experiment::reset_uids,
+                     DOC(navground, sim, Experiment, reset_uids))
+      .def_readwrite(
+          "record_scenario_properties", &Experiment::record_scenario_properties,
+          DOC(navground, sim, Experiment, record_scenario_properties))
       .def_property("path", &Experiment::get_path, nullptr,
                     DOC(navground, sim, Experiment, property_path))
       // .def("add_callback", &Experiment::add_callback, py::arg("callback"),
@@ -3361,12 +3366,12 @@ Register a probe to record a group of data to during all runs.
         return py::make_tuple(
             exp.record_config, exp.run_config, exp.number_of_runs,
             exp.save_directory, exp.name, exp.scenario, exp.run_index,
-            exp.reset_uids, exp._py_probe_factories,
-            exp._py_record_probe_factories,
+            exp.reset_uids, exp.record_scenario_properties,
+            exp._py_probe_factories, exp._py_record_probe_factories,
             exp._py_group_record_probe_factories, exp._py_run_callbacks);
       },
       [](py::tuple t) { // __setstate__
-        if (t.size() != 12) {
+        if (t.size() != 13) {
           throw std::runtime_error("Invalid state!");
         }
         PyExperiment exp;
@@ -3378,13 +3383,14 @@ Register a probe to record a group of data to during all runs.
         exp.scenario = py::cast<std::shared_ptr<Scenario>>(t[5]);
         exp.run_index = py::cast<unsigned>(t[6]);
         exp.reset_uids = py::cast<bool>(t[7]);
-        exp._py_probe_factories = py::cast<std::vector<py::object>>(t[8]);
+        exp.record_scenario_properties = py::cast<bool>(t[8]);
+        exp._py_probe_factories = py::cast<std::vector<py::object>>(t[9]);
         exp._py_record_probe_factories =
-            py::cast<std::map<std::string, py::object>>(t[9]);
-        exp._py_group_record_probe_factories =
             py::cast<std::map<std::string, py::object>>(t[10]);
+        exp._py_group_record_probe_factories =
+            py::cast<std::map<std::string, py::object>>(t[11]);
         for (const auto &[k, vs] :
-             py::cast<std::map<bool, std::vector<py::object>>>(t[11])) {
+             py::cast<std::map<bool, std::vector<py::object>>>(t[12])) {
           for (const auto &v : vs) {
             exp.add_run_callback_py(v, k);
           }

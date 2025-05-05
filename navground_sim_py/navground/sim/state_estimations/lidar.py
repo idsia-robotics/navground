@@ -6,7 +6,8 @@ from navground.core import schema
 
 
 class PyLidarStateEstimation(sim.Sensor, name="pyLidar",
-                             properties=['Sensor']):
+                             include_properties_of=['Sensor']):
+
     """
     Python equivalent to the C++ :cpp:class:`navground::sim::LidarStateEstimation` class.
 

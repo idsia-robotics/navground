@@ -268,9 +268,9 @@ void declare_register(py::module &m, const std::string &typestr) {
                 PyRegister::register_type_py(name, cls);
                 PyRegister::register_properties_py(cls);
                 PyRegister::register_schema_py(cls);
-                if (kwargs.contains("properties")) {
+                if (kwargs.contains("include_properties_of")) {
                   const auto types =
-                      py::cast<std::vector<std::string>>(kwargs["properties"]);
+                      py::cast<std::vector<std::string>>(kwargs["include_properties_of"]);
                   for (const auto &type : types) {
                     const auto &properties =
                         PyRegister::type_properties().at(type);

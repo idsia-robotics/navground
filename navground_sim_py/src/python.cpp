@@ -242,6 +242,9 @@ struct PySensor : public Sensor, public PyStateEstimation {
 
   OVERRIDE_DECODE
   OVERRIDE_ENCODE
+
+  static const inline std::string type =
+      register_abstract_type<PySensor>("Sensor", Sensor::properties, nullptr);
 };
 
 class PyAgent : public Agent {
@@ -1645,6 +1648,15 @@ The random generator.
                     DOC(navground, sim, Sensor, property_name))
       .def("prepare_state", &Sensor::prepare_state, py::arg("state"),
            DOC(navground, sim, Sensor, prepare_state))
+      .def(
+          "get_field_name",
+          [](const Sensor &se, const std::string &field) {
+            return se.get_field_name(field);
+          },
+          py::arg("field"), DOC(navground, sim, Sensor, get_field_name))
+      .def("get_or_init_buffer", &Sensor::get_or_init_buffer, py::arg("state"),
+           py::arg("field"), py::return_value_policy::reference,
+           DOC(navground, sim, Sensor, get_or_init_buffer))
       .def_static("load", &YAML::load_string_py<PyStateEstimation, Sensor>,
                   py::arg("value"),
                   YAML::load_string_py_doc("sensor", "Sensor").c_str());

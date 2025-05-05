@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-import warnings
-
 import numpy as np
 from navground import core, sim
 from navground.core import schema
 
 
-class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):
+class PyLidarStateEstimation(sim.Sensor, name="pyLidar",
+                             include_properties_of=['Sensor']):
+
     """
     Python equivalent to the C++ :cpp:class:`navground::sim::LidarStateEstimation` class.
 
@@ -25,7 +25,8 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):
                  resolution: int = 11,
                  start_angle: float = -np.pi,
                  field_of_view: float = 2 * np.pi,
-                 range_: float = 1.0):
+                 range_: float = 1.0,
+                 name: str = ''):
         """
         Constructs a new instance.
 
@@ -34,7 +35,7 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):
         :param      field_of_view:  The field of view
         :param      range_:         The range
         """
-        super().__init__()
+        super().__init__(name=name)
         self._cc = core.CollisionComputation()
         self._start_angle = start_angle
         self._field_of_view = field_of_view
@@ -92,12 +93,10 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar"):
                 resolution=self.resolution - 1,
                 max_distance=self.range,
                 dynamic=False))
-        try:
-            state.set_buffer("range", core.Buffer(data=ranges))
-        except (AttributeError, KeyError):
-            warnings.warn(f"Cannot set field sensing of {state}", stacklevel=1)
+        buffer = self.get_or_init_buffer(state, "range")
+        buffer.data = ranges
 
     def get_description(self) -> dict[str, core.BufferDescription]:
         desc = core.BufferDescription([self.resolution], float, 0.0,
                                       self.range)
-        return {'range': desc}
+        return {self.get_field_name("range"): desc}

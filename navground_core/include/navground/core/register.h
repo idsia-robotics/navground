@@ -31,7 +31,7 @@ struct
 #else
     NAVGROUND_CORE_EXPORT
 #endif // _MSC_VER
-        HasRegister : public HasProperties {
+    HasRegister : public HasProperties {
   /**
    * A shared pointer to an object of type ``T``.
    */
@@ -140,6 +140,19 @@ struct
     return type;
   }
 
+  template <typename S>
+  static std::string register_abstract_type(const std::string &type,
+                                            const Properties &properties = {},
+                                            const Schema &schema = nullptr) {
+    static_assert(std::is_base_of_v<T, S>);
+    type_properties()[type] = properties;
+    type_names()[std::type_index(typeid(S))] = type;
+    if (schema) {
+      type_schema()[type] = schema;
+    }
+    return type;
+  }
+
   static std::map<std::type_index, std::string> &type_names();
 
   /**
@@ -150,6 +163,7 @@ struct
    */
   virtual std::string get_type() const {
     const auto &tn = type_names();
+
     const auto i = std::type_index(typeid(*this));
     if (tn.count(i)) {
       return tn.at(i);
@@ -260,17 +274,17 @@ struct
   template <> PropertyRegister &HasRegister<Class>::type_properties() {        \
     static PropertyRegister p;                                                 \
     return p;                                                                  \
-  }                                                                           \
+  }                                                                            \
   template <> SchemaRegister &HasRegister<Class>::type_schema() {              \
     static SchemaRegister r;                                                   \
     return r;                                                                  \
-  }                                                                           \
+  }                                                                            \
   template <>                                                                  \
   std::map<std::string, HasRegister<Class>::Factory> &                         \
   HasRegister<Class>::factory() {                                              \
     static std::map<std::string, HasRegister<Class>::Factory> f;               \
     return f;                                                                  \
-  }                                                                           \
+  }                                                                            \
   template <>                                                                  \
   std::map<std::type_index, std::string> &HasRegister<Class>::type_names() {   \
     static std::map<std::type_index, std::string> _r;                          \

@@ -13,7 +13,10 @@
 - Added `BoundingBox` modifiers.
 - Added picking support to `BoundingBox`.
 - Added dynamic attributes to `Agent` and `World`.
- 
+- Added keyword argument `include_properties_of` to registered classes (`__init_subclass__`) to include the properties defined by a superclass.
+- Added Python methods `Sensor.get_field_name` and `Sensor.get_or_init_buffer`.
+- Added `register_abstract_type` to register abstract subtypes name and properties without registering a factory method.
+
 ### Fixed
 
 - Fixed an error that wrongly marked `Direction` task as done.
@@ -23,6 +26,7 @@
 
 - Now `Behavior::check_if_target_satisfied` returns False is there target direction is defined and target speed is not zero.
 - Split the initialization of a world by a scenario in two steps: `Scenario::init_world()` and `Scenario::apply_inits()`. This way, the specialized `init_world` can create entities that are then accessible by the initializers. Users should normally call `make_world`, which performs these two steps automatically.
+- PySensor is now registered as "Sensor".
 
 ### Removed
 

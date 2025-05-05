@@ -93,7 +93,7 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar",
                 resolution=self.resolution - 1,
                 max_distance=self.range,
                 dynamic=False))
-        buffer = state.get_or_init_buffer("range")
+        buffer = self.get_or_init_buffer(state, "range")
         buffer.data = ranges
 
     def get_description(self) -> dict[str, core.BufferDescription]:

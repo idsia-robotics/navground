@@ -301,7 +301,7 @@ def _svg_for_world(
                     agent,
                     precision,
                     prefix,
-                    w_decorate(agent, world) if decorate else {},
+                    w_decorate(agent, world) if w_decorate else {},
                     display_shape,
                     delta=delta)
 

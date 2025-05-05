@@ -123,6 +123,7 @@ def svg_g_use(proto: str,
               precision: int = 2,
               attributes: Attributes = {},
               shape: bool = False,
+              safety_margin: float | None = None,
               delta: core.Vector2 = np.zeros(2),
               **kwargs: str) -> str:
     attributes = ChainMap(attributes, kwargs)
@@ -134,6 +135,8 @@ def svg_g_use(proto: str,
         f'<use xlink:href="#{proto}" transform="scale({r}, {r})"/>')
     if shape:
         g += f'<circle cx="0" cy="0" r="{r}" class="shape"/>'
+    if safety_margin is not None:
+        g += f'<circle cx="0" cy="0" r="{r + safety_margin}" class="safety_margin"/>'
     g += '</g>'
     return g
 
@@ -174,6 +177,7 @@ def svg_for_agent(
     prefix: str = '',
     attributes: Attributes = {},
     shape: bool = False,
+    with_safety_margin: bool = False,
     delta: core.Vector2 = np.zeros(2)) -> str:
     proto = agent.type or 'agent'
     if agent.color:
@@ -182,12 +186,17 @@ def svg_for_agent(
         kwargs = {}
     attributes = entity_attributes(agent, agent.type or 'agent', prefix,
                                    attributes, **kwargs)
+    if with_safety_margin and agent.behavior:
+        safety_margin = agent.behavior.safety_margin
+    else:
+        safety_margin = None
     return svg_g_use(proto,
                      agent.pose,
                      agent.radius,
                      precision,
                      attributes,
                      shape,
+                     safety_margin,
                      delta=delta)
 
 
@@ -201,6 +210,7 @@ def svg_for_world(
         relative_margin: float = 0.05,
         background_color: str = 'snow',
         display_shape: bool = False,
+        display_safety_margin: bool = False,
         grid: float = 0,
         grid_color: str = 'grey',
         grid_thickness: float = 0.01,
@@ -221,6 +231,7 @@ def svg_for_world(
     :param      relative_margin:        The relative margin
     :param      background_color:       A valid SVG color for the background
     :param      display_shape:          Whether to display the agent circular shape
+    :param      display_safety_margin:  Whether to display the agent safety margin
     :param      grid:                   The size of the square grid tile
                                         (set to zero or negative to skip drawing a grid)
     :param      grid_color:             The color of the grid
@@ -240,6 +251,7 @@ def svg_for_world(
                           relative_margin=relative_margin,
                           background_color=background_color,
                           display_shape=display_shape,
+                          display_safety_margin=display_safety_margin,
                           grid=grid,
                           grid_color=grid_color,
                           grid_thickness=grid_thickness,
@@ -263,6 +275,7 @@ def _svg_for_world(
     style: str = '',
     background_color: str = 'snow',
     display_shape: bool = False,
+    display_safety_margin: bool = False,
     grid: float = 0,
     grid_color: str = 'grey',
     grid_thickness: float = 0.01,
@@ -303,6 +316,7 @@ def _svg_for_world(
                     prefix,
                     w_decorate(agent, world) if w_decorate else {},
                     display_shape,
+                    display_safety_margin,
                     delta=delta)
 
         # g = "<g id='_world'>"

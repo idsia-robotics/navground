@@ -13,6 +13,7 @@
 - Added `BoundingBox` modifiers.
 - Added picking support to `BoundingBox`.
 - Added dynamic attributes to `Agent` and `World`.
+- Added `record_scenario_properties` to `Experiment` to record (sampled) scenario properties as world attributes.
  
 ### Fixed
 

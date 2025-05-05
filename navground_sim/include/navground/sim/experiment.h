@@ -69,7 +69,9 @@ struct NAVGROUND_SIM_EXPORT Experiment {
   explicit Experiment(ng_float_t time_step = 0.1, unsigned steps = 1000)
       : record_config(), run_config({time_step, steps, true}),
         number_of_runs(1), save_directory(), runs(), name("experiment"),
-        scenario(nullptr), run_index(0), reset_uids(true), state(State::init),
+        scenario(nullptr), run_index(0), reset_uids(true), 
+        record_scenario_properties(true), 
+        state(State::init),
         // callbacks(),
         run_callbacks(), scenario_init_callback(), file(), file_path() {}
 
@@ -548,6 +550,11 @@ struct NAVGROUND_SIM_EXPORT Experiment {
    * Whether to reset the Entities UID to zero before each run
    */
   bool reset_uids;
+
+  /**
+   * Whether to record (sampled) scenario properties as world attributes
+   */
+  bool record_scenario_properties;
 
   /**
    * @brief      Save all recorded runs.

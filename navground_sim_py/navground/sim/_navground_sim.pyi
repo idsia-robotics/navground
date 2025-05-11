@@ -392,7 +392,7 @@ class LocalGridMapStateEstimation(Sensor):
     def read_transform_with_name(state: navground.core._navground.SensingState, name: str) -> navground.core._navground.Pose2 | None: ...
     def get_description(self) -> dict[str, navground.core._navground.BufferDescription]: ...
 
-class NativeAgent(Entity):
+class NativeAgent(Entity, navground.core._navground.HasAttributes):
     angular_speed: float
     behavior: navground.core._navground.Behavior | None
     color: str
@@ -428,7 +428,7 @@ class NativeAgent(Entity):
     @property
     def time_since_stuck(self) -> float: ...
 
-class NativeWorld:
+class NativeWorld(navground.core._navground.HasAttributes):
     bounding_box: BoundingBox
     collisions: set[tuple[Entity, Entity]]
     seed: int

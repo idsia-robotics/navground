@@ -22,6 +22,7 @@
 
 - Fixed an error that wrongly marked `Direction` task as done.
 - Fixed typo in wall-disc collision computation.
+- Fixed dtype comparison to use `equal` instead of `is`.
 
 ### Changed
 

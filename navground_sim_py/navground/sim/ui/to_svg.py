@@ -238,7 +238,8 @@ def svg_for_world(
     :param      grid_thickness:         The thickness of the grid
     :param      rotation:               A planar rotation applied before drawing [rad]
     :param      extras:                 Provides extras rendering added at the end of to the svg
-    :param      background_extras:                 Provides extras rendering added at the beginning of to the svg
+    :param      background_extras:      Provides extras rendering added at the
+                                        beginning of to the svg
 
     :returns:   An SVG string
     """

@@ -918,26 +918,26 @@ template <typename T> static py::array make_empty_array() {
 void set_dataset_type_py(Dataset &dataset, const py::object &obj) {
   py::module_ np = py::module_::import("numpy");
   py::dtype dtype = np.attr("dtype")(obj);
-  if (dtype.is(py::dtype::of<int8_t>())) {
+  if (dtype.equal(py::dtype::of<int8_t>())) {
     dataset.set_dtype<int8_t>();
-  } else if (dtype.is(py::dtype::of<int16_t>())) {
+  } else if (dtype.equal(py::dtype::of<int16_t>())) {
     dataset.set_dtype<int16_t>();
-  } else if (dtype.is(py::dtype::of<int32_t>())) {
+  } else if (dtype.equal(py::dtype::of<int32_t>())) {
     dataset.set_dtype<int32_t>();
-  } else if (dtype.is(py::dtype::of<int64_t>())) {
+  } else if (dtype.equal(py::dtype::of<int64_t>())) {
     dataset.set_dtype<int64_t>();
-  } else if (dtype.is(py::dtype::of<uint8_t>()) ||
-             dtype.is(py::dtype::of<bool>())) {
+  } else if (dtype.equal(py::dtype::of<uint8_t>()) ||
+             dtype.equal(py::dtype::of<bool>())) {
     dataset.set_dtype<uint8_t>();
-  } else if (dtype.is(py::dtype::of<uint16_t>())) {
+  } else if (dtype.equal(py::dtype::of<uint16_t>())) {
     dataset.set_dtype<uint16_t>();
-  } else if (dtype.is(py::dtype::of<uint32_t>())) {
+  } else if (dtype.equal(py::dtype::of<uint32_t>())) {
     dataset.set_dtype<uint32_t>();
-  } else if (dtype.is(py::dtype::of<uint64_t>())) {
+  } else if (dtype.equal(py::dtype::of<uint64_t>())) {
     dataset.set_dtype<uint64_t>();
-  } else if (dtype.is(py::dtype::of<float>())) {
+  } else if (dtype.equal(py::dtype::of<float>())) {
     dataset.set_dtype<float>();
-  } else if (dtype.is(py::dtype::of<double>())) {
+  } else if (dtype.equal(py::dtype::of<double>())) {
     dataset.set_dtype<double>();
   } else {
     py::print("Type unknown", dtype);
@@ -945,35 +945,35 @@ void set_dataset_type_py(Dataset &dataset, const py::object &obj) {
 }
 
 Dataset::Data data_of_type(py::dtype dtype, void *ptr, const size_t size) {
-  if (dtype.is(py::dtype::of<int8_t>())) {
+  if (dtype.equal(py::dtype::of<int8_t>())) {
     auto begin = reinterpret_cast<int8_t *>(ptr);
     return std::vector<int8_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<int16_t>())) {
+  } else if (dtype.equal(py::dtype::of<int16_t>())) {
     auto begin = reinterpret_cast<int16_t *>(ptr);
     return std::vector<int16_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<int32_t>())) {
+  } else if (dtype.equal(py::dtype::of<int32_t>())) {
     auto begin = reinterpret_cast<int32_t *>(ptr);
     return std::vector<int32_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<int64_t>())) {
+  } else if (dtype.equal(py::dtype::of<int64_t>())) {
     auto begin = reinterpret_cast<int64_t *>(ptr);
     return std::vector<int64_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<uint8_t>()) ||
-             dtype.is(py::dtype::of<bool>())) {
+  } else if (dtype.equal(py::dtype::of<uint8_t>()) ||
+             dtype.equal(py::dtype::of<bool>())) {
     auto begin = reinterpret_cast<uint8_t *>(ptr);
     return std::vector<uint8_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<uint16_t>())) {
+  } else if (dtype.equal(py::dtype::of<uint16_t>())) {
     auto begin = reinterpret_cast<uint16_t *>(ptr);
     return std::vector<uint16_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<uint32_t>())) {
+  } else if (dtype.equal(py::dtype::of<uint32_t>())) {
     auto begin = reinterpret_cast<uint32_t *>(ptr);
     return std::vector<uint32_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<uint64_t>())) {
+  } else if (dtype.equal(py::dtype::of<uint64_t>())) {
     auto begin = reinterpret_cast<uint64_t *>(ptr);
     return std::vector<uint64_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<float>())) {
+  } else if (dtype.equal(py::dtype::of<float>())) {
     auto begin = reinterpret_cast<float *>(ptr);
     return std::vector<float>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<double>())) {
+  } else if (dtype.equal(py::dtype::of<double>())) {
     auto begin = reinterpret_cast<double *>(ptr);
     return std::vector<double>(begin, begin + size);
   }

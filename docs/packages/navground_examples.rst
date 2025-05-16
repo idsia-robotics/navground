@@ -20,6 +20,13 @@ Basics
 
 How to instantiate and apply a behavior to avoid a circular obstacle.
 
+Group 
+-----
+
+:file:  `behavior.cpp <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/behavior/behavior_group.cpp>`_
+
+How to define and instantiate behaviors groups.
+
 Benchmark 
 ---------
 
@@ -43,7 +50,7 @@ Behavior component
 
 :directory: `behavior_plugin <https://github.com/idsia-robotics/navground/tree/main/navground_examples/src/behavior_plugin>`_
 
-Shows how to define and register a new behavior.
+Shows how to define and register a new behavior and a new behavior group.
 
 
 Collisions

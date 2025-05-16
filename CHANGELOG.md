@@ -17,12 +17,13 @@
 - Added keyword argument `include_properties_of` to registered classes (`__init_subclass__`) to include the properties defined by a superclass.
 - Added Python methods `Sensor.get_field_name` and `Sensor.get_or_init_buffer`.
 - Added `register_abstract_type` to register abstract subtypes name and properties without registering a factory method.
-
+- Added `BehaviorGroupMember`, an abstract `Behavior` subclass that delegate the computation of commands to their group (`BehaviorGroup`).
 ### Fixed
 
 - Fixed an error that wrongly marked `Direction` task as done.
 - Fixed typo in wall-disc collision computation.
 - Fixed dtype comparison to use `equal` instead of `is`.
+- Fixed documentation errors.
 
 ### Changed
 

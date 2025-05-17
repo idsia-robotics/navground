@@ -365,6 +365,19 @@ public:
     PYBIND11_OVERRIDE(size_t, BehaviorGroupMember, get_group_hash);
   }
 
+  void prepare() override {
+    PYBIND11_OVERRIDE(void, BehaviorGroupMember, prepare);
+  }
+
+  void close() override { PYBIND11_OVERRIDE(void, BehaviorGroupMember, close); }
+
+  EnvironmentState *get_environment_state() override {
+    PYBIND11_OVERRIDE(EnvironmentState *, BehaviorGroupMember, get_environment_state);
+  }
+
+  // OVERRIDE_DECODE
+  // OVERRIDE_ENCODE
+
   std::shared_ptr<BehaviorGroup> make_group() const override { return nullptr; }
 
   py::dict get_groups_py() const {

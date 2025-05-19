@@ -347,7 +347,11 @@ void declare_register(py::module &m, const std::string &typestr) {
           )
       .def_property_readonly_static(
           "class_type",
-          [](py::object cls) { return PyRegister::get_class_type(cls); })
+          [](py::object cls) { return PyRegister::get_class_type(cls); }, R"doc(
+The name associated to a registered class
+
+Class property corresponding to instance property ``type``. 
+)doc")
       .def_property_readonly_static(
           "types", [](py::object /* self */) { return PyRegister::types(); })
       .def_property_readonly_static(

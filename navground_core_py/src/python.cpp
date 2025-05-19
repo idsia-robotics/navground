@@ -2117,6 +2117,9 @@ Returns the bundle json-schema
   m.def("get_plugins_dependencies", &get_plugins_dependencies,
         DOC(navground, core, get_plugins_dependencies));
 
+  m.def("make_properties", make_properties_py, py::arg("cls"),
+        py::arg("owner") = "");
+
   m.def(
       "uses_doubles",
       []() { return std::is_same<ng_float_t, float>::value == false; },

@@ -1946,7 +1946,8 @@ Initializes a buffer.
            DOC(navground, core, HasAttributes, set))
       .def("clear", &HasAttributes::clear,
            DOC(navground, core, HasAttributes, clear))
-      .def_property("attributes", &HasAttributes::get_attributes, &HasAttributes::set_attributes,
+      .def_property("attributes", &HasAttributes::get_attributes,
+                    &HasAttributes::set_attributes,
                     DOC(navground, core, HasAttributes, property, attributes));
 
   m.def("load_plugins", &load_plugins, py::arg("plugins") = py::set(),
@@ -2010,6 +2011,9 @@ Returns the bundle json-schema
         DOC(navground, core, get_build_dependencies));
   m.def("get_plugins_dependencies", &get_plugins_dependencies,
         DOC(navground, core, get_plugins_dependencies));
+
+  m.def("make_properties", make_properties_py, py::arg("cls"),
+        py::arg("owner") = "");
 
   m.def(
       "uses_doubles",

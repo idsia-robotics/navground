@@ -12,12 +12,12 @@ from typing import TypeAlias
 
 from . import schema
 from ._navground import (
-    Action, Behavior, BehaviorModulation, BehaviorModulationRegister,
-    BehaviorRegister, Buffer, BufferDescription, BufferMap, BuildInfo,
-    CachedCollisionComputation, CollisionComputation, Controller,
-    DependencyInfo, Disc, EnvironmentState, Frame, GeometricState, GridMap,
-    HasAttributes, HasProperties, Kinematics, KinematicsRegister, LineSegment,
-    Neighbor, Path, Pose2, Property, SensingState, SocialMargin,
+    Action, Behavior, BehaviorGroup, BehaviorGroupMember, BehaviorModulation,
+    BehaviorModulationRegister, BehaviorRegister, Buffer, BufferDescription,
+    BufferMap, BuildInfo, CachedCollisionComputation, CollisionComputation,
+    Controller, DependencyInfo, Disc, EnvironmentState, Frame, GeometricState,
+    GridMap, HasAttributes, HasProperties, Kinematics, KinematicsRegister,
+    LineSegment, Neighbor, Path, Pose2, Property, SensingState, SocialMargin,
     SocialMarginConstantModulation, SocialMarginLinearModulation,
     SocialMarginLogisticModulation, SocialMarginModulation,
     SocialMarginQuadraticModulation, SocialMarginZeroModulation, Target,
@@ -186,5 +186,5 @@ __all__ = [
     "BuildInfo", "get_build_dependencies", "get_plugins_dependencies",
     "DependencyInfo", "load_cpp_plugins", "BehaviorModulationRegister",
     "BehaviorRegister", "HasProperties", "KinematicsRegister", "FloatType",
-    "GridMap", "HasAttributes"
+    "GridMap", "HasAttributes", "BehaviorGroup", "BehaviorGroupMember"
 ]

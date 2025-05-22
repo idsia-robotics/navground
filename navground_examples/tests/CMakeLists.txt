@@ -3,6 +3,7 @@ add_test(NAME collision_cached COMMAND collision_cached)
 
 add_test(NAME behavior COMMAND behavior)
 add_test(NAME behavior_yaml COMMAND behavior_yaml "{type: HL}")
+add_test(NAME behavior_group COMMAND behavior_group)
 
 add_test(NAME controller COMMAND controller)
 add_test(NAME controller_3d COMMAND controller_3d)

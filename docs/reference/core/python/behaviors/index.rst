@@ -9,6 +9,7 @@ Behaviors
    :maxdepth: 2
 
    behavior
+   behavior_group
    dummy
    py_dummy
    HL

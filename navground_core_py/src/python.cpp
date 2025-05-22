@@ -12,6 +12,7 @@
 #include "docstrings.h"
 #include "navground/core/attribute.h"
 #include "navground/core/behavior.h"
+#include "navground/core/behavior_group.h"
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/behavior_modulations/limit_acceleration.h"
 #include "navground/core/behavior_modulations/limit_twist.h"
@@ -346,6 +347,69 @@ struct PyKinematics : public Kinematics, public PyHasRegister<Kinematics> {
   //   }
   //   return Native::get_properties();
   // };
+};
+
+struct PyBehaviorGroup : public BehaviorGroup {
+public:
+  /* Inherit the constructors */
+  using BehaviorGroup::BehaviorGroup;
+  /* Trampolines (need one for each virtual function) */
+  std::vector<Twist2> compute_cmds(ng_float_t time_step) override {
+    PYBIND11_OVERRIDE_PURE(std::vector<Twist2>, BehaviorGroup, compute_cmds,
+                           time_step);
+  }
+};
+
+struct PyBehaviorGroupMember : public BehaviorGroupMember {
+public:
+  /* Inherit the constructors */
+  using BehaviorGroupMember::BehaviorGroupMember;
+  using BehaviorGroupMember::Groups;
+  /* Trampolines (need one for each virtual function) */
+
+  size_t get_group_hash() const override {
+    PYBIND11_OVERRIDE(size_t, BehaviorGroupMember, get_group_hash);
+  }
+
+  void prepare() override {
+    PYBIND11_OVERRIDE(void, BehaviorGroupMember, prepare);
+  }
+
+  void close() override { PYBIND11_OVERRIDE(void, BehaviorGroupMember, close); }
+
+  EnvironmentState *get_environment_state() override {
+    PYBIND11_OVERRIDE(EnvironmentState *, BehaviorGroupMember, get_environment_state);
+  }
+
+  // OVERRIDE_DECODE
+  // OVERRIDE_ENCODE
+
+  std::shared_ptr<BehaviorGroup> make_group() const override { return nullptr; }
+
+  py::dict get_groups_py() const {
+    const auto get_groups_fn = py::get_override(this, "get_groups");
+    return py::cast<py::dict>(get_groups_fn());
+  }
+
+  py::object make_group_py() const {
+    const auto make_group_fn = py::get_override(this, "make_group");
+    return make_group_fn();
+  }
+
+  std::shared_ptr<BehaviorGroup> get_or_create_group(size_t key) override {
+    py::dict groups = get_groups_py();
+    if (!groups.contains(key)) {
+      py::object group = make_group_py();
+      groups[py::cast(key)] = group;
+    }
+    auto py_group = groups[py::cast(key)];
+    return py::cast<std::shared_ptr<BehaviorGroup>>(py_group);
+  }
+
+  void remove_group(size_t key) override {
+    py::dict groups = get_groups_py();
+    groups.attr("pop")(py::cast(key));
+  }
 };
 
 namespace YAML {
@@ -1984,6 +2048,47 @@ Initializes a buffer.
       .def_property("attributes", &HasAttributes::get_attributes,
                     &HasAttributes::set_attributes,
                     DOC(navground, core, HasAttributes, property, attributes));
+
+  py::class_<BehaviorGroup, PyBehaviorGroup, std::shared_ptr<BehaviorGroup>>(
+      m, "BehaviorGroup", DOC(navground, core, BehaviorGroup))
+      .def(py::init<>())
+      .def(
+          "compute_cmds",
+          [](PyBehaviorGroup &group, ng_float_t time_step) {
+            return group.compute_cmds(time_step);
+          },
+          py::arg("time_step"),
+          DOC(navground, core, BehaviorGroup, compute_cmds))
+      .def_property("members", &BehaviorGroup::get_members, nullptr,
+                    DOC(navground, core, BehaviorGroup, property_members))
+      .def_property("size", &BehaviorGroup::size, nullptr,
+                    DOC(navground, core, BehaviorGroup, property_size));
+
+  py::class_<BehaviorGroupMember, PyBehaviorGroupMember, Behavior,
+             std::shared_ptr<BehaviorGroupMember>>(
+      m, "BehaviorGroupMember", DOC(navground, core, BehaviorGroupMember))
+      .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
+           py::arg("kinematics") = py::none(), py::arg("radius") = 0)
+      .def(
+          "make_group",
+          [](const PyBehaviorGroupMember &group) {
+            return group.make_group_py();
+          },
+          DOC(navground, core, BehaviorGroupMember, make_group))
+      .def(
+          "get_groups",
+          [](const PyBehaviorGroupMember &group) {
+            return group.get_groups_py();
+          },
+          DOC(navground, core, BehaviorGroupMember, get_groups))
+      .def(
+          "get_group_hash",
+          [](const PyBehaviorGroupMember &group) {
+            return group.get_group_hash();
+          },
+          DOC(navground, core, BehaviorGroupMember, get_group_hash))
+      .def_property("group", &BehaviorGroupMember::get_group, nullptr,
+                    DOC(navground, core, BehaviorGroup, property_group));
 
   m.def("load_plugins", &load_plugins, py::arg("plugins") = py::set(),
         py::arg("directories") = py::dict(), py::arg("include_default") = true,

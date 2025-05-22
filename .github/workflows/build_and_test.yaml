@@ -105,7 +105,7 @@ jobs:
         working-directory: navground_examples_py
         if: steps.changes.outputs.examples_py == 'true'
         run: |
-          pip install .
+          pip install --no-deps .
           pytest tests
       - name: plugin_cpp
         if: steps.changes.outputs.minimal_plugin_cpp == 'true'
@@ -122,6 +122,6 @@ jobs:
         working-directory: navground_minimal_plugin_py
         if: steps.changes.outputs.minimal_plugin_py == 'true'
         run: |
-          pip install .
+          pip install --no-deps .
           pytest tests
  

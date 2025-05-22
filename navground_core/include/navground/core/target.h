@@ -23,18 +23,18 @@ struct Path {
   using Point = std::tuple<Vector2, float, float>;
   /**
    * @brief     The projection of a curve parametrized by length.
-   * 
-   * The function finds the coordinate in ``[begin, end]`` where 
+   *
+   * The function finds the coordinate in ``[begin, end]`` where
    * ``curve(coordinate)`` is nearest to the given point point:
-   * 
+   *
    *   (point, begin, end) -> coordinate
    */
   using Projection =
       std::function<ng_float_t(const Vector2 &, ng_float_t, ng_float_t)>;
   /**
    * @brief      The parametrization of a (G2) curve by length.
-   * 
-   * The function returns position, tangential orientation and curvature 
+   *
+   * The function returns position, tangential orientation and curvature
    * at a coordinate:
    *
    *   (coordinate) -> (point, orientation, curvature)
@@ -138,19 +138,19 @@ struct Path {
 /**
  * @brief      Represents the union of all targets supported
  * by a generic \ref Behavior
- *             
+ *
  * - poses
- * 
+ *
  * - positions
- * 
+ *
  * - orientations
- * 
+ *
  * - directions
- * 
+ *
  * - velocities
- * 
+ *
  * - twists
- * 
+ *
  * - paths to be followed to reach a position
  *
  */
@@ -176,6 +176,10 @@ struct Target {
    */
   std::optional<ng_float_t> angular_speed = std::nullopt;
   /**
+   * The angular direction
+   */
+  std::optional<int> angular_direction = std::nullopt;
+  /**
    * The path to follow.
    */
   std::optional<Path> path = std::nullopt;
@@ -196,20 +200,23 @@ struct Target {
    * @param[in]  speed                  The speed
    * @param[in]  direction              The direction
    * @param[in]  angular_speed          The angular speed
+   * @param[in]  angular_direction      The angular direction
    * @param[in]  path                   The path
    * @param[in]  position_tolerance     The position tolerance
    * @param[in]  orientation_tolerance  The orientation tolerance
    */
-  Target(const std::optional<Vector2> &position = std::nullopt,
-         const std::optional<Radians> &orientation = std::nullopt,
-         const std::optional<ng_float_t> &speed = std::nullopt,
-         const std::optional<Vector2> &direction = std::nullopt,
-         const std::optional<ng_float_t> &angular_speed = std::nullopt,
-         const std::optional<Path> &path = std::nullopt,
-         ng_float_t position_tolerance = 0,
-         ng_float_t orientation_tolerance = 0)
+  explicit Target(const std::optional<Vector2> &position = std::nullopt,
+                  const std::optional<Radians> &orientation = std::nullopt,
+                  const std::optional<ng_float_t> &speed = std::nullopt,
+                  const std::optional<Vector2> &direction = std::nullopt,
+                  const std::optional<ng_float_t> &angular_speed = std::nullopt,
+                  const std::optional<int> &angular_direction = std::nullopt,
+                  const std::optional<Path> &path = std::nullopt,
+                  ng_float_t position_tolerance = 0,
+                  ng_float_t orientation_tolerance = 0)
       : position(position), orientation(orientation), speed(speed),
-        direction(direction), angular_speed(angular_speed), path(path),
+        direction(direction), angular_speed(angular_speed),
+        angular_direction(angular_direction), path(path),
         position_tolerance(position_tolerance),
         orientation_tolerance(orientation_tolerance) {}
 
@@ -220,7 +227,7 @@ struct Target {
    */
   bool valid() const {
     return position.has_value() || orientation.has_value() ||
-           direction.has_value() || angular_speed.has_value();
+           direction.has_value() || angular_direction.has_value();
   }
 
   /**
@@ -380,7 +387,8 @@ struct Target {
     Target t;
     t.speed = twist.velocity.norm();
     t.direction = twist.velocity;
-    t.angular_speed = twist.angular_speed;
+    t.angular_direction = (twist.angular_speed > 0) ? 1 : -1;
+    t.angular_speed = std::abs(twist.angular_speed);
     return t;
   }
 
@@ -389,7 +397,7 @@ struct Target {
    *
    * @return     The target
    */
-  static Target Stop() { return {}; }
+  static Target Stop() { return Target{}; }
 };
 
 } // namespace navground::core

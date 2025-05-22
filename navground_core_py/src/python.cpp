@@ -118,6 +118,12 @@ template <> std::string to_string(const Target &value) {
     r += "direction=" + to_string(*value.direction);
     first = false;
   }
+  if (value.angular_direction) {
+    if (!first)
+      r += ", ";
+    r += "angular_direction=" + to_string(*value.angular_direction);
+    first = false;
+  }
   if (value.speed) {
     if (!first)
       r += ", ";
@@ -548,12 +554,13 @@ Constructs a navground property from a Python property.
   py::class_<Target>(m, "Target", DOC(navground, core, Target))
       .def(py::init<std::optional<Vector2>, std::optional<Radians>,
                     std::optional<ng_float_t>, std::optional<Vector2>,
-                    std::optional<ng_float_t>, std::optional<Path>, ng_float_t,
-                    ng_float_t>(),
+                    std::optional<ng_float_t>, std::optional<int>,
+                    std::optional<Path>, ng_float_t, ng_float_t>(),
            py::arg("position") = py::none(),
            py::arg("orientation") = py::none(), py::arg("speed") = py::none(),
            py::arg("direction") = py::none(),
            py::arg("angular_speed") = py::none(), py::arg("path") = py::none(),
+           py::arg("angular_direction") = py::none(),
            py::arg("position_tolerance") = 0,
            py::arg("orientation_tolerance") = 0,
            DOC(navground, core, Target, Target))
@@ -567,6 +574,8 @@ Constructs a navground property from a Python property.
                      DOC(navground, core, Target, angular_speed))
       .def_readwrite("direction", &Target::direction,
                      DOC(navground, core, Target, direction))
+      .def_readwrite("angular_direction", &Target::angular_direction,
+                     DOC(navground, core, Target, angular_direction))
       .def_readwrite("position_tolerance", &Target::position_tolerance,
                      DOC(navground, core, Target, position_tolerance))
       .def_readwrite("orientation_tolerance", &Target::orientation_tolerance,
@@ -1342,24 +1351,50 @@ Constructs a navground property from a Python property.
                     DOC(navground, core, Behavior, property_efficacy))
       .def_property("is_stuck", &Behavior::is_stuck, nullptr,
                     DOC(navground, core, Behavior, property_is_stuck))
+      .def("get_target_pose", &Behavior::get_target_pose,
+           py::arg_v("frame", Frame::absolute,
+                     "navground.core._navground.Frame.absolute"),
+           py::arg("ignore_tolerance") = false,
+           DOC(navground, core, Behavior, get_target_pose))
       .def("get_target_position", &Behavior::get_target_position,
            py::arg_v("frame", Frame::absolute,
                      "navground.core._navground.Frame.absolute"),
+           py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_position))
       .def("get_target_orientation", &Behavior::get_target_orientation,
            py::arg("frame"),
+           py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_orientation))
       .def("get_target_direction", &Behavior::get_target_direction,
            py::arg_v("frame", Frame::absolute,
                      "navground.core._navground.Frame.absolute"),
+           py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_direction))
+      .def("get_target_angular_direction",
+           &Behavior::get_target_angular_direction,
+           py::arg("ignore_tolerance") = false,
+           DOC(navground, core, Behavior, get_target_angular_direction))
       .def("get_target_distance", &Behavior::get_target_distance,
            py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_distance))
+      .def("get_target_angular_distance",
+           &Behavior::get_target_angular_distance,
+           py::arg("ignore_tolerance") = false,
+           DOC(navground, core, Behavior, get_target_angular_distance))
+      .def("get_target_twist", &Behavior::get_target_twist,
+           py::arg_v("frame", Frame::absolute,
+                     "navground.core._navground.Frame.absolute"),
+           py::arg("ignore_tolerance") = false,
+           DOC(navground, core, Behavior, get_target_velocity))
       .def("get_target_velocity", &Behavior::get_target_velocity,
            py::arg_v("frame", Frame::absolute,
                      "navground.core._navground.Frame.absolute"),
+           py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_velocity))
+      .def("get_target_angular_velocity",
+           &Behavior::get_target_angular_velocity,
+           py::arg("ignore_tolerance") = false,
+           DOC(navground, core, Behavior, get_target_angular_velocity))
       .def("get_target_speed", &Behavior::get_target_speed,
            DOC(navground, core, Behavior, get_target_speed))
       .def("get_target_angular_speed", &Behavior::get_target_angular_speed,

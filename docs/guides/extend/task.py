@@ -1,7 +1,7 @@
 from navground import sim
 
 
-class MyTask(sim.PyTask):
+class MyTask(sim.Task):
 
     # Set the log size to a constant value
     LOG_SIZE = 0
@@ -29,4 +29,4 @@ class MyTask(sim.PyTask):
     # do not override or return 0 if you are not logging anything
     # should return a constant
     def get_log_size(self) -> int:
-        self.LOG_SIZE
+        return self.LOG_SIZE

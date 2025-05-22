@@ -1,6 +1,11 @@
 from navground import core
 
-class MyBehavior(core.PyBehavior):
+# May use a custom environment state
+class MyEnvironmentState(core.EnvironmentState):
+    ...
+
+
+class MyBehavior(core.Behavior):
 
     def __init__(self, kinematics: core.Kinematics | None = None, radius: float = 0):
         super().__init__(kinematics, radius)

@@ -1,7 +1,7 @@
 from navground import sim
 
 
-class MyScenario(sim.PyScenario):
+class MyScenario(sim.Scenario):
 
     # SHOULD override
     # executed during the the simulation, should update the state

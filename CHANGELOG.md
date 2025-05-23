@@ -18,6 +18,7 @@
 - Added Python methods `Sensor.get_field_name` and `Sensor.get_or_init_buffer`.
 - Added `register_abstract_type` to register abstract subtypes name and properties without registering a factory method.
 - Added `BehaviorGroupMember`, an abstract `Behavior` subclass that delegates the computation of commands to their group (`BehaviorGroup`).
+- Added `Bicycle` kinematics
 
 ### Fixed
 

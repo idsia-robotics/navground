@@ -212,7 +212,9 @@ public:
 };
 
 /**
- * @brief      Abstract wheeled kinematics
+ * @brief      Abstract class for kinematics that have wheels 
+ * \a and are completely determined when the speed of each wheel 
+ * is know. 
  *
  */
 class NAVGROUND_CORE_EXPORT WheeledKinematics : virtual public Kinematics {
@@ -492,7 +494,7 @@ public:
    * @brief      Gets the scaled moment of inertial
    *
    * It is equal to 1 for an homogeneous of disc of diameter \ref
-   * TwoWheelsDifferentialDriveKinematics::get_wheel_axis. 
+   * TwoWheelsDifferentialDriveKinematics::get_wheel_axis.
    * Lower for when weight is shifted towards the center.
    *
    * @return     A positive value
@@ -501,7 +503,7 @@ public:
   /**
    * @brief      Sets the scaled moment of inertial
    *
-   * It is equal to for an homogeneous of disc of diameter 
+   * It is equal to for an homogeneous of disc of diameter
    * \ref TwoWheelsDifferentialDriveKinematics::get_wheel_axis.
    * Lower for when weight is shifted towards the center.
    *
@@ -677,6 +679,111 @@ private:
   ng_float_t _axis;
 };
 
+/**
+ * @brief      Bicycle kinematics.
+ *
+ * Given a linear speed, it clamps the angular speed to respect the
+ * bounds on the steering angle (\f$|\alpha| \le \alpha_\max\f$) and
+ * \f$\omega = v \frac{\tan \alpha}{l}\f$.
+ * 
+ * \note This is \a not a subclass of \ref WheeledKinematics. Although it has wheels,
+ * it also has a steering, therefore it is not completely determined by wheel speeds.
+ *
+ */
+class NAVGROUND_CORE_EXPORT BicycleKinematics : virtual public Kinematics {
+public:
+  static const std::string type;
+  /**
+   * @brief      Constructs a new instance.
+   *
+   * @param[in]  max_speed   The maximal wheel speed
+   * @param[in]  axis        The distance between front and back wheels.
+   */
+  explicit BicycleKinematics(ng_float_t max_speed = Kinematics::inf,
+                             ng_float_t axis = 1,
+                             ng_float_t max_steering_angle = 1)
+      : Kinematics(max_speed, Kinematics::inf), _axis(axis),
+        _max_steering_angle(max_steering_angle) {}
+
+  /**
+   * @brief      Gets distance between front and back wheels.
+   *
+   * @return     The axis.
+   */
+  ng_float_t get_axis() const { return _axis; }
+  /**
+   * @brief      Sets distance between front and back wheels.
+   *
+   * @param[in]  value  A positive value
+   */
+  void set_axis(ng_float_t value) {
+    if (value > 0)
+      _axis = value;
+  }
+  /**
+   * @brief      Gets the maximal steering angle.
+   *
+   * @return     The angle in radians.
+   */
+  ng_float_t get_max_steering_angle() const { return _max_steering_angle; }
+
+  /**
+   * @brief      Sets the maximal steering angle.
+   *
+   * @param[in]  value  A positive value in radians
+   */
+  void set_max_steering_angle(ng_float_t value) {
+    if (value > 0)
+      _max_steering_angle = value;
+  }
+  /**
+   * @brief      Returns the degrees of freedom
+   *
+   * @return     2
+   */
+  unsigned dof() const override { return 2; }
+  /**
+   * @private
+   */
+  ng_float_t get_max_angular_speed() const override {
+    return get_max_speed() / get_min_steering_radius();
+  }
+  /**
+   * @brief      Returns the nearest feasible steering angle
+   *
+   * @param[in]  twist  The twist
+   *
+   * @return     The angle in radians.
+   */
+  ng_float_t feasible_steering_angle(const Twist2 &twist) const;
+  /** @private
+   */
+  Twist2 feasible(const Twist2 &twist) const override;
+  /**
+   * @brief      Gets the minimal steering radius.
+   *
+   * @return     The minimal steering radius.
+   */
+  ng_float_t get_min_steering_radius() const;
+
+  /**
+   * @brief      Computes a twist from linear speed and steering angle.
+   *
+   * Linear speed and steering angle are clipped in the feasible range.
+   *
+   * @param[in]  linear_speed    The linear speed
+   * @param[in]  steering_angle  The steering angle
+   *
+   * @return     The twist in relative frame.
+   */
+  Twist2 twist_from_steering(ng_float_t linear_speed,
+                             ng_float_t steering_angle) const;
+
+private:
+  ng_float_t _axis;
+  ng_float_t _max_steering_angle;
+};
+
 } // namespace navground::core
 
-#endif /* end of include guard: navground_KINEMATICS_H_ */
+#endif /* end of include guard: NAVGROUND_CORE_KINEMATICS_H_ */

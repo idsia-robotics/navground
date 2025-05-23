@@ -17,3 +17,4 @@ Kinematics
    2wdiff
    2wdiffdyn
    4wdiff
+   bicycle

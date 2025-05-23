@@ -372,7 +372,8 @@ public:
   void close() override { PYBIND11_OVERRIDE(void, BehaviorGroupMember, close); }
 
   EnvironmentState *get_environment_state() override {
-    PYBIND11_OVERRIDE(EnvironmentState *, BehaviorGroupMember, get_environment_state);
+    PYBIND11_OVERRIDE(EnvironmentState *, BehaviorGroupMember,
+                      get_environment_state);
   }
 
   // OVERRIDE_DECODE
@@ -848,6 +849,29 @@ Constructs a navground property from a Python property.
                     &FourWheelsOmniDriveKinematics::set_wheel_axis,
                     DOC(navground, core, FourWheelsOmniDriveKinematics,
                         property_wheel_axis));
+
+  py::class_<BicycleKinematics, Kinematics, std::shared_ptr<BicycleKinematics>>
+      bk(m, "BicycleKinematics", DOC(navground, core, BicycleKinematics));
+  bk.def(py::init<ng_float_t, ng_float_t, ng_float_t>(),
+         py::arg_v("max_speed", Kinematics::inf, "float('inf')"),
+         py::arg("axis") = 1, py::arg("max_steering_angle") = 1,
+         DOC(navground, core, BicycleKinematics, BicycleKinematics))
+      .def_property(
+          "max_steering_angle", &BicycleKinematics::get_max_steering_angle,
+          &BicycleKinematics::set_max_steering_angle,
+          DOC(navground, core, BicycleKinematics, property_max_steering_angle))
+      .def_property(
+          "min_steering_radius", &BicycleKinematics::get_min_steering_radius,
+          nullptr,
+          DOC(navground, core, BicycleKinematics, property_min_steering_radius))
+      .def_property("axis", &BicycleKinematics::get_axis,
+                    &BicycleKinematics::set_axis,
+                    DOC(navground, core, BicycleKinematics, property_axis))
+      .def("feasible_steering_angle",
+           &BicycleKinematics::feasible_steering_angle,
+           DOC(navground, core, BicycleKinematics, feasible_steering_angle))
+      .def("twist_from_steering", &BicycleKinematics::twist_from_steering,
+           DOC(navground, core, BicycleKinematics, twist_from_steering));
 
   py::class_<DynamicTwoWheelsDifferentialDriveKinematics,
              TwoWheelsDifferentialDriveKinematics, WheeledKinematics,
@@ -2076,6 +2100,7 @@ Initializes a buffer.
   pickle_via_yaml<PyKinematics>(wk2);
   pickle_via_yaml<PyKinematics>(wk4);
   pickle_via_yaml<PyKinematics>(dwk2);
+  pickle_via_yaml<PyKinematics>(bk);
   pickle_via_yaml<PyBehaviorModulation>(relaxation);
   pickle_via_yaml<PyBehaviorModulation>(limit_acceleration);
   pickle_via_yaml<PyBehaviorModulation>(limit_twist);

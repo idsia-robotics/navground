@@ -243,4 +243,55 @@ const std::string FourWheelsOmniDriveKinematics::type =
                          ng_float_t(1), "Wheel Axis",
                          &YAML::schema::positive)}});
 
+Twist2 BicycleKinematics::feasible(const Twist2 &value) const {
+  assert(value.frame == Frame::relative);
+  if (value.angular_speed == 0) {
+    return Twist2({value.velocity[0], 0}, 0, Frame::relative);
+  }
+  const ng_float_t speed = value.velocity.norm();
+  const ng_float_t r = speed / value.angular_speed;
+  const ng_float_t R = get_min_steering_radius();
+  if (abs(r) < R) {
+    return Twist2({speed, 0}, speed / std::copysign(R, r), Frame::relative);
+  }
+  return Twist2({speed, 0}, value.angular_speed, Frame::relative);
+}
+
+Twist2 BicycleKinematics::twist_from_steering(ng_float_t linear_speed,
+                                              ng_float_t steering_angle) const {
+  steering_angle =
+      std::clamp(steering_angle, -_max_steering_angle, _max_steering_angle);
+  return Twist2({linear_speed, 0},
+                std::tan(steering_angle) * linear_speed / _axis,
+                Frame::relative);
+}
+
+ng_float_t
+BicycleKinematics::feasible_steering_angle(const Twist2 &value) const {
+  assert(value.frame == Frame::relative);
+  if (value.angular_speed == 0) {
+    return 0;
+  }
+  if (value.velocity[0]) {
+    return std::clamp(
+        std::atan(_axis * value.angular_speed / value.velocity[0]),
+        -_max_steering_angle, _max_steering_angle);
+  }
+  return (value.angular_speed > 0) ? _max_steering_angle : -_max_steering_angle;
+}
+
+ng_float_t BicycleKinematics::get_min_steering_radius() const {
+  return _axis / std::tan(_max_steering_angle);
+}
+
+const std::string BicycleKinematics::type = register_type<BicycleKinematics>(
+    "Bicycle",
+    {{"axis",
+      Property::make(&BicycleKinematics::get_axis, &BicycleKinematics::set_axis,
+                     ng_float_t(1), "Axis", &YAML::schema::positive)},
+     {"max_steering_angle",
+      Property::make(&BicycleKinematics::get_max_steering_angle,
+                     &BicycleKinematics::set_max_steering_angle, ng_float_t(1),
+                     "Maximal steering angle", &YAML::schema::positive)}});
+
 } // namespace navground::core

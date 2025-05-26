@@ -328,5 +328,4 @@ const std::string BicycleKinematics::type = register_type<BicycleKinematics>(
      {"use_velocity_norm",
       Property::make(&BicycleKinematics::get_use_velocity_norm,
                      &BicycleKinematics::set_use_velocity_norm, false, "k")}});
-
 } // namespace navground::core

@@ -212,9 +212,9 @@ public:
 };
 
 /**
- * @brief      Abstract class for kinematics that have wheels
- * \a and are completely determined when the speed of each wheel
- * is know.
+ * @brief      Abstract class for kinematics that have wheels 
+ * \a and are completely determined when the speed of each wheel 
+ * is known. 
  *
  */
 class NAVGROUND_CORE_EXPORT WheeledKinematics : virtual public Kinematics {
@@ -724,6 +724,7 @@ private:
  *   - `k` (float, \ref get_k)
  *
  *   - `use_velocity_norm` (float, \ref get_use_velocity_norm)
+ *   
  */
 class NAVGROUND_CORE_EXPORT BicycleKinematics : virtual public Kinematics {
 public:
@@ -748,7 +749,6 @@ public:
         _max_backward_speed(max_backward_speed), _axis(axis),
         _max_steering_angle(max_steering_angle), _k(k),
         _use_velocity_norm(use_velocity_norm) {}
-
   /**
    * @brief      Gets distance between front and back wheels.
    *

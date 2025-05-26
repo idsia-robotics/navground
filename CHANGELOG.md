@@ -18,7 +18,9 @@
 - Added Python methods `Sensor.get_field_name` and `Sensor.get_or_init_buffer`.
 - Added `register_abstract_type` to register abstract subtypes name and properties without registering a factory method.
 - Added `BehaviorGroupMember`, an abstract `Behavior` subclass that delegates the computation of commands to their group (`BehaviorGroup`).
-- Added `Bicycle` kinematics
+- Added `Bicycle` kinematics.
+- Added `Target` angular direction.
+- Added additional `Behavior` target helpers and extended `ignore_tolerance` argument to existing helpers: the treatment of the angular and planar components is now symmetric.
 
 ### Fixed
 
@@ -32,8 +34,12 @@
 - Now `Behavior::check_if_target_satisfied` returns False is there target direction is defined and target speed is not zero.
 - Split the initialization of a world by a scenario in two steps: `Scenario::init_world()` and `Scenario::apply_inits()`. This way, the specialized `init_world` can create entities that are then accessible by the initializers. Users should normally call `make_world`, which performs these two steps automatically.
 - PySensor is now registered as "Sensor".
+- `Behavior::get_target_distance` returns now a float (vs `std::optional`), returning when previously it would return `std::nullopt`.
+- Targets are now recorded as a 16 dimensional vector; reading older recording is still supported.
+
 
 ### Removed
+
 
 
 

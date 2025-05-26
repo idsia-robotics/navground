@@ -948,24 +948,42 @@ public:
   void clear_modulations() { modulations.clear(); }
 
   /**
+   * @brief      Returns the target's pose composed by
+   *             position \ref get_target_position
+   *             and orientation \ref get_target_orientation,
+   *             if both are defined, else null.
+   *
+   * @param[in]  frame  The desired frame
+   * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
+   *
+   * @return     The pose in the desired frame or null.
+   */
+  std::optional<Pose2> get_target_pose(Frame frame,
+                                       bool ignore_tolerance = false) const;
+
+  /**
    * @brief      Returns the target's position if not satisfied,
    *             else null.
    *
    * @param[in]  frame  The desired frame
+   * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
    *
-   * @return     The position in the desired frame
+   * @return     The vector in the desired frame
    */
-  std::optional<Vector2> get_target_position(Frame frame) const;
+  std::optional<Vector2>
+  get_target_position(Frame frame, bool ignore_tolerance = false) const;
 
   /**
    * @brief      Returns the target's orientation if not satisfied,
    *             else null.
    *
    * @param[in]  frame  The desired frame
+   * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
    *
    * @return     The orientation in the desired frame
    */
-  std::optional<ng_float_t> get_target_orientation(Frame frame) const;
+  std::optional<ng_float_t>
+  get_target_orientation(Frame frame, bool ignore_tolerance = false) const;
 
   /**
    * @brief      Returns the direction towards
@@ -973,10 +991,22 @@ public:
    *             or the target's direction if defined, else null.
    *
    * @param[in]  frame  The desired frame
+   * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
    *
    * @return     The normalized direction in the desired frame
    */
-  std::optional<Vector2> get_target_direction(Frame frame) const;
+  std::optional<Vector2>
+  get_target_direction(Frame frame, bool ignore_tolerance = false) const;
+
+  /**
+   * @brief      Returns the distance to the target point, if valid,
+   *             else 0.
+   *
+   * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
+   *
+   * @return     The distance.
+   */
+  ng_float_t get_target_distance(bool ignore_tolerance = false) const;
 
   /**
    * @brief      Returns the distance to the target point, if valid,
@@ -986,8 +1016,31 @@ public:
    *
    * @return     The distance.
    */
-  std::optional<ng_float_t>
-  get_target_distance(bool ignore_tolerance = false) const;
+  std::optional<int>
+  get_target_angular_direction(bool ignore_tolerance = false) const;
+
+  /**
+   * @brief      Returns the distance to the target orientation, if valid,
+   *             else 0.
+   *
+   * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
+   *
+   * @return     The angular distance.
+   */
+  ng_float_t get_target_angular_distance(bool ignore_tolerance = false) const;
+
+  /**
+   * @brief      Gets the current target twist.
+   *
+   *             Return a twist with linear velocity \ref get_target_velocity
+   *             and angular velocity \ref get_angular_target_velocity
+   *
+   * @param[in]  frame  The desired frame
+   * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
+   *
+   * @return     The twist in the desired frame.
+   */
+  Twist2 get_target_twist(Frame frame, bool ignore_tolerance = false) const;
 
   /**
    * @brief      Gets the current target velocity.
@@ -997,10 +1050,11 @@ public:
    *             Returns a zero vector if the target direction is undefined.
    *
    * @param[in]  frame  The desired frame
+   * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
    *
    * @return     The velocity in the desired frame.
    */
-  Vector2 get_target_velocity(Frame frame) const;
+  Vector2 get_target_velocity(Frame frame, bool ignore_tolerance = false) const;
 
   /**
    * @brief      Returns the nearest feasible speed
@@ -1019,6 +1073,25 @@ public:
    * @return     The angular speed.
    */
   ng_float_t get_target_angular_speed() const;
+
+  /**
+   * @brief      Gets the current target angular velocity.
+   *
+   *             Multiplication of \ref get_target_angular_direction
+   *             by \ref get_target_angular_speed.
+   *             Returns zero if the target angular direction is undefined.
+   *
+   *             Note that this returns a signed value, while
+   *             \ref get_target_angular_speed, returns the absolute value
+   * instead. Moreover considers (angular) tolerances, while \ref
+   * get_target_angular_speed not, just like
+   *             \ref get_target_velocity vs \ref get_target_speed.
+   *
+   * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
+   *
+   * @return     The angular velocity z-component.
+   */
+  ng_float_t get_target_angular_velocity(bool ignore_tolerance = false) const;
 
   /**
    * @brief      Determines if the behavior twist is small enough.

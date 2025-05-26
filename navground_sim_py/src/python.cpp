@@ -2862,11 +2862,12 @@ The array is empty if twist have not been recorded in the run.
           },
           nullptr, R"doc(
 The recorded targets of the agents as a numpy array of shape 
-``(simulation steps, number of agents, 14)`` and dtype ``float``::
+``(simulation steps, number of agents, 16)`` and dtype ``float``::
 
   [[[position?, position[0], position[1], orientation?, orientation, 
      speed?, speed, direction?, direction[0], direction[1],
-     angular_speed?, angular_speed, position_tol, orientation_tol], 
+     angular_speed?, angular_speed, angular_direction?, angular_direction,
+     position_tol, orientation_tol], 
      ...] 
    ...]
 

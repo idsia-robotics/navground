@@ -20,8 +20,8 @@ using Modifier = std::function<void(YAML::Node &)>;
  * @param      node    The node
  * @param      values  The possible values
  */
-template<typename T>
-inline void set_enum(Node &node, const std::vector<T> & values) { 
+template <typename T>
+inline void set_enum(Node &node, const std::vector<T> &values) {
   node["enum"] = values;
 }
 
@@ -38,6 +38,21 @@ inline void positive(Node &node) { node["minimum"] = 0; }
  * @param      node  The node
  */
 inline void strict_positive(Node &node) { node["exclusiveMinimum"] = 0; }
+
+/**
+ * @brief      Return a constrains in [a, b]
+ *
+ * @param      a  The lower bound
+ * @param      b  The upper bound
+ *
+ * @return     The constrain
+ */
+inline std::function<void(Node &)> between(ng_float_t a, ng_float_t b) {
+  return [a, b](Node &node) {
+    node["minimum"] = a;
+    node["maximum"] = b;
+  };
+}
 
 /**
  * @brief      Constrains to contain at least one item.
@@ -289,7 +304,8 @@ template <typename T> Node schema_of_type(const std::string &type) {
  *
  * @param[in]  reference_register_schema  Whether to reference registered
  * components schema in the base class schema.
- * @param[in]  type  An optional registered type. If not specified, it returns the schema of the base class.
+ * @param[in]  type  An optional registered type. If not specified, it returns
+ * the schema of the base class.
  *
  * @tparam     T  The component type (should be a sub-class of \ref
  * navground::core::HasRegister<T>)

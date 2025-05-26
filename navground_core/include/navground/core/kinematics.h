@@ -702,7 +702,9 @@ private:
  * Parameter \ref get_k control the computation:
  *
  * - ``k==0``: uses #1,
+ * 
  * - ``k==1``: uses #2,
+ * 
  * - ``0 < k < 1``: interpolates between the two methods.
  *
  * Moreover, parameter \ref get_use_velocity_norm can be used to ignore the

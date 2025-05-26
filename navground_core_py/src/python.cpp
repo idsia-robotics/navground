@@ -861,8 +861,10 @@ Constructs a navground property from a Python property.
 
   py::class_<BicycleKinematics, Kinematics, std::shared_ptr<BicycleKinematics>>
       bk(m, "BicycleKinematics", DOC(navground, core, BicycleKinematics));
-  bk.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, bool>(),
+  bk.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, ng_float_t,
+                  bool>(),
          py::arg_v("max_speed", Kinematics::inf, "float('inf')"),
+         py::arg_v("max_backward_speed", Kinematics::inf, "float('inf')"),
          py::arg("axis") = 1, py::arg("max_steering_angle") = 1,
          py::arg("k") = 0, py::arg("use_velocity_norm") = false,
          DOC(navground, core, BicycleKinematics, BicycleKinematics))

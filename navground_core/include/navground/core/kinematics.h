@@ -214,7 +214,7 @@ public:
 /**
  * @brief      Abstract class for kinematics that have wheels 
  * \a and are completely determined when the speed of each wheel 
- * is know. 
+ * is known. 
  *
  */
 class NAVGROUND_CORE_EXPORT WheeledKinematics : virtual public Kinematics {
@@ -682,13 +682,49 @@ private:
 /**
  * @brief      Bicycle kinematics.
  *
- * Given a linear speed, it clamps the angular speed to respect the
- * bounds on the steering angle (\f$|\alpha| \le \alpha_\max\f$) and
- * \f$\omega = v \frac{\tan \alpha}{l}\f$.
- * 
- * \note This is \a not a subclass of \ref WheeledKinematics. Although it has wheels,
- * it also has a steering, therefore it is not completely determined by wheel speeds.
+ * Given linear and angular desired speeds
+ * \f$(v_{\mathrm{des}}, \omega_{\mathrm{des}})\f$,
+ * it computes linear and angular speeds that respect
+ * the upper bounds of the steering angle (\f$|\alpha| \le \alpha_{\max}\f$)
+ * so that \f$\omega = v \frac{\tan \alpha}{l}\f$.
  *
+ * When \f$(v_{\mathrm{des}}, \omega_{\mathrm{des}})\f$ lie outside of the
+ * feasible set, i.e.
+ * \f$|\omega_{\mathrm{des}}| > |v_{\mathrm{des}}| \frac{\tan \alpha_{\max}}{l}\f$,
+ * there are two simple ways to compute a feasible pair:
+ *
+ * 1. reduce \f$|\omega_{\mathrm{des}}|\f$, while keeping the same sign for
+ * \f$\omega_{\mathrm{des}}\f$ and the same value for \f$v_{\mathrm{des}}\f$,
+ *
+ * 2. reduce \f$|v_{\mathrm{des}}|\f$, while keeping the same sign for
+ * \f$v_{\mathrm{des}}\f$  and the same value for \f$\omega_{\mathrm{des}}\f$.
+ *
+ * Parameter \ref get_k control the computation:
+ *
+ * - ``k==0``: uses #1,
+ * - ``k==1``: uses #2,
+ * - ``0 < k < 1``: interpolates between the two methods.
+ *
+ * Moreover, parameter \ref get_use_velocity_norm can be used to ignore the
+ * direction of the desired velocity but just consider its norm as desired
+ * linear speed.
+ *
+ * \note This is \a not a subclass of \ref WheeledKinematics. Although it has
+ * wheels, it also has a steering, therefore it is not completely determined by
+ * wheel speeds.
+ *
+ * *Registered properties*:
+ *
+ *   - `max_backward_speed` (float, \ref get_max_backward_speed)
+ *
+ *   - `axis` (float, \ref get_axis)
+ *
+ *   - `max_steering_angle` (float, \ref get_max_steering_angle)
+ *
+ *   - `k` (float, \ref get_k)
+ *
+ *   - `use_velocity_norm` (float, \ref get_use_velocity_norm)
+ *   
  */
 class NAVGROUND_CORE_EXPORT BicycleKinematics : virtual public Kinematics {
 public:
@@ -696,15 +732,23 @@ public:
   /**
    * @brief      Constructs a new instance.
    *
-   * @param[in]  max_speed   The maximal wheel speed
-   * @param[in]  axis        The distance between front and back wheels.
+   * @param[in]  max_speed           The maximal forwards speed
+   * @param[in]  max_backward_speed  The maximal backward speed
+   * @param[in]  axis                The distance between front and back wheels.
+   * @param[in]  max_steering_angle  Maximal steering angle.
+   * @param[in]  k                   k.
+   * @param[in]  use_velocity_norm   Wheter to use the velocity norm instead
+   * of the projection on the x-axis.
    */
   explicit BicycleKinematics(ng_float_t max_speed = Kinematics::inf,
+                             ng_float_t max_backward_speed = Kinematics::inf,
                              ng_float_t axis = 1,
-                             ng_float_t max_steering_angle = 1)
-      : Kinematics(max_speed, Kinematics::inf), _axis(axis),
-        _max_steering_angle(max_steering_angle) {}
-
+                             ng_float_t max_steering_angle = 1,
+                             ng_float_t k = 0, bool use_velocity_norm = false)
+      : Kinematics(max_speed, Kinematics::inf),
+        _max_backward_speed(max_backward_speed), _axis(axis),
+        _max_steering_angle(max_steering_angle), _k(k),
+        _use_velocity_norm(use_velocity_norm) {}
   /**
    * @brief      Gets distance between front and back wheels.
    *
@@ -719,6 +763,26 @@ public:
   void set_axis(ng_float_t value) {
     if (value > 0)
       _axis = value;
+  }
+  /**
+   * @brief      Gets the maximal backward speed.
+   *
+   * @return     The axis.
+   */
+  ng_float_t get_max_backward_speed() const { 
+    return std::min(_max_backward_speed, get_max_speed()); 
+  }
+  /**
+   * @brief      Sets the maximal backward speed.
+   *
+   * @param[in]  value  A positive value
+   */
+  void set_max_backward_speed(ng_float_t value) {
+    if (value < 0) {
+      _max_backward_speed = Kinematics::inf;
+    } else {
+      _max_backward_speed = value;
+    }
   }
   /**
    * @brief      Gets the maximal steering angle.
@@ -736,6 +800,35 @@ public:
     if (value > 0)
       _max_steering_angle = value;
   }
+  /**
+   * @brief      Gets k.
+   *
+   * @return     k.
+   */
+  ng_float_t get_k() const { return _k; }
+
+  /**
+   * @brief      Gets whether to use the velocity norm instead
+   * of the projection on the x-axis.
+   *
+   * @return     True if is uses the velocity norm, False if it uses the
+   * projection.
+   */
+  bool get_use_velocity_norm() const { return _use_velocity_norm; }
+  /**
+   * @brief      Sets whether to use the velocity norm instead
+   * of the projection on the x-axis.
+   *
+   * @param[in]  value  The desired value
+   */
+  void set_use_velocity_norm(bool value) { _use_velocity_norm = value; }
+
+  /**
+   * @brief      Sets k.
+   *
+   * @param[in]  value  A value in [0, 1]
+   */
+  void set_k(ng_float_t value) { _k = std::clamp<ng_float_t>(value, 0, 1); }
   /**
    * @brief      Returns the degrees of freedom
    *
@@ -780,8 +873,11 @@ public:
                              ng_float_t steering_angle) const;
 
 private:
+  ng_float_t _max_backward_speed;
   ng_float_t _axis;
   ng_float_t _max_steering_angle;
+  ng_float_t _k;
+  ng_float_t _use_velocity_norm;
 };
 
 } // namespace navground::core

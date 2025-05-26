@@ -861,9 +861,10 @@ Constructs a navground property from a Python property.
 
   py::class_<BicycleKinematics, Kinematics, std::shared_ptr<BicycleKinematics>>
       bk(m, "BicycleKinematics", DOC(navground, core, BicycleKinematics));
-  bk.def(py::init<ng_float_t, ng_float_t, ng_float_t>(),
+  bk.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, bool>(),
          py::arg_v("max_speed", Kinematics::inf, "float('inf')"),
          py::arg("axis") = 1, py::arg("max_steering_angle") = 1,
+         py::arg("k") = 0, py::arg("use_velocity_norm") = false,
          DOC(navground, core, BicycleKinematics, BicycleKinematics))
       .def_property(
           "max_steering_angle", &BicycleKinematics::get_max_steering_angle,
@@ -876,6 +877,12 @@ Constructs a navground property from a Python property.
       .def_property("axis", &BicycleKinematics::get_axis,
                     &BicycleKinematics::set_axis,
                     DOC(navground, core, BicycleKinematics, property_axis))
+      .def_property("k", &BicycleKinematics::get_k, &BicycleKinematics::set_k,
+                    DOC(navground, core, BicycleKinematics, property_k))
+      .def_property(
+          "use_velocity_norm", &BicycleKinematics::get_use_velocity_norm,
+          &BicycleKinematics::set_use_velocity_norm,
+          DOC(navground, core, BicycleKinematics, property_use_velocity_norm))
       .def("feasible_steering_angle",
            &BicycleKinematics::feasible_steering_angle,
            DOC(navground, core, BicycleKinematics, feasible_steering_angle))

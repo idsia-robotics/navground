@@ -35,7 +35,7 @@
 - Split the initialization of a world by a scenario in two steps: `Scenario::init_world()` and `Scenario::apply_inits()`. This way, the specialized `init_world` can create entities that are then accessible by the initializers. Users should normally call `make_world`, which performs these two steps automatically.
 - PySensor is now registered as "Sensor".
 - `Behavior::get_target_distance` returns now a float (vs `std::optional`), returning when previously it would return `std::nullopt`.
-- Targets are now recorded as a 16 dimensional vector but reading older recording is still supported.
+- Targets are now recorded as a 16 dimensional vector; reading older recording is still supported.
 
 
 ### Removed

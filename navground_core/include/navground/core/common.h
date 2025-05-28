@@ -546,7 +546,9 @@ private:
   unsigned changes;
 };
 
-inline std::ostream &operator<<(std::ostream &os, const Frame &frame) {
+} // namespace navground::core
+
+inline std::ostream &operator<<(std::ostream &os, const navground::core::Frame &frame) {
   os << "Frame::"
      << (frame == navground::core::Frame::relative ? "relative" : "absolute");
   return os;
@@ -557,17 +559,15 @@ inline std::ostream &operator<<(std::ostream &os, const Frame &frame) {
 //   return os;
 // }
 
-inline std::ostream &operator<<(std::ostream &os, const Twist2 &twist) {
+inline std::ostream &operator<<(std::ostream &os, const navground::core::Twist2 &twist) {
   os << "Twist2(" << twist.velocity << ", " << twist.angular_speed << ", "
      << twist.frame << ")";
   return os;
 }
 
-inline std::ostream &operator<<(std::ostream &os, const Pose2 &pose) {
+inline std::ostream &operator<<(std::ostream &os, const navground::core::Pose2 &pose) {
   os << "Pose2(" << pose.position << ", " << pose.orientation << ")";
   return os;
 }
-
-} // namespace navground::core
 
 #endif // NAVGROUND_CORE_COMMON_H_

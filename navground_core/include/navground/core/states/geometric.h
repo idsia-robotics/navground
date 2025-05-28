@@ -32,7 +32,7 @@ struct Disc {
    * @param  position       The position
    * @param  radius         The radius
    */
-  Disc(const Vector2& position, ng_float_t radius)
+  Disc(const Vector2 &position, ng_float_t radius)
       : position(position), radius(radius) {}
 
   Disc() : Disc(Vector2::Zero(), 0) {}
@@ -44,7 +44,7 @@ struct Disc {
    *
    * @return     True if positions and radii are equal
    */
-  bool operator==(const Disc& other) const {
+  bool operator==(const Disc &other) const {
     return position == other.position && radius == other.radius;
   }
 
@@ -55,7 +55,7 @@ struct Disc {
    *
    * @return     A copy of the disc translated by delta
    */
-  Disc operator+(const Vector2& delta) const {
+  Disc operator+(const Vector2 &delta) const {
     return Disc(position + delta, radius);
   }
 
@@ -66,7 +66,7 @@ struct Disc {
    *
    * @return     The same disc translated by delta
    */
-  Disc& operator+=(const Vector2& delta) {
+  Disc &operator+=(const Vector2 &delta) {
     position += delta;
     return *this;
   }
@@ -78,7 +78,7 @@ struct Disc {
    *
    * @return     A copy of the disc translated by -delta
    */
-  Disc operator-(const Vector2& delta) const {
+  Disc operator-(const Vector2 &delta) const {
     return Disc(position - delta, radius);
   }
 
@@ -89,7 +89,7 @@ struct Disc {
    *
    * @return     The same disc translated by delta
    */
-  Disc& operator-=(const Vector2& delta) {
+  Disc &operator-=(const Vector2 &delta) {
     position -= delta;
     return *this;
   }
@@ -101,7 +101,7 @@ struct Disc {
    *
    * @return     Negation of equality
    */
-  bool operator!=(const Disc& other) const { return !(operator==(other)); }
+  bool operator!=(const Disc &other) const { return !(operator==(other)); }
 
   /**
    * @brief      Returns the signed distance to another disc.
@@ -111,15 +111,10 @@ struct Disc {
    *
    * @return     The distance between the centers minus the radii.
    */
-  ng_float_t distance(const Disc& other) const {
+  ng_float_t distance(const Disc &other) const {
     return (position - other.position).norm() - radius - other.radius;
   }
 };
-
-inline std::ostream& operator<<(std::ostream& os, const Disc& disc) {
-  os << "Disc(" << disc.position << ", " << disc.radius << ")";
-  return os;
-}
 
 /**
  * @brief      A neighbor agent of circular shape.
@@ -142,7 +137,7 @@ struct Neighbor : public Disc {
    * @param[in]  velocity  The velocity
    * @param[in]  id        The identifier
    */
-  Neighbor(const Vector2& position, ng_float_t radius, const Vector2 velocity,
+  Neighbor(const Vector2 &position, ng_float_t radius, const Vector2 velocity,
            unsigned id = 0)
       : Disc(position, radius), velocity(velocity), id(id) {}
   /**
@@ -152,7 +147,7 @@ struct Neighbor : public Disc {
    * @param[in]  velocity  The velocity
    * @param[in]  id      The id
    */
-  explicit Neighbor(const Disc& disc, const Vector2 velocity = Vector2::Zero(),
+  explicit Neighbor(const Disc &disc, const Vector2 velocity = Vector2::Zero(),
                     unsigned id = 0)
       : Neighbor(disc.position, disc.radius, velocity, id) {}
 
@@ -163,7 +158,7 @@ struct Neighbor : public Disc {
    *
    * @return     The result of the assignment
    */
-  Neighbor& operator=(const Disc& other) {
+  Neighbor &operator=(const Disc &other) {
     position = other.position;
     radius = other.radius;
     id = 0;
@@ -171,12 +166,12 @@ struct Neighbor : public Disc {
     return *this;
   }
 
-  bool operator==(const Neighbor& other) const {
+  bool operator==(const Neighbor &other) const {
     return Disc::operator==(other) && velocity == other.velocity &&
            id == other.id;
   }
 
-  bool operator!=(const Neighbor& other) const { return !(operator==(other)); }
+  bool operator!=(const Neighbor &other) const { return !(operator==(other)); }
 
   /**
    * @brief      Returns the same neighbor in a frame relative to a pose.
@@ -185,18 +180,12 @@ struct Neighbor : public Disc {
    *
    * @return     The neighbor with transformed position and velocity
    */
-  Neighbor relative_to(const Pose2& reference) {
+  Neighbor relative_to(const Pose2 &reference) {
     const Pose2 pose{position, 0};
     return Neighbor(pose.relative(reference).position, radius,
                     to_relative(velocity, reference), id);
   }
 };
-
-inline std::ostream& operator<<(std::ostream& os, const Neighbor& disc) {
-  os << "Neighbor(Disc(" << disc.position << ", " << disc.radius << "), "
-     << disc.velocity << ", " << disc.id << ")";
-  return os;
-}
 
 /**
  * @brief      A static obstacle of linear shape.
@@ -230,11 +219,8 @@ struct LineSegment {
    * @param[in]  p1    The first vertex
    * @param[in]  p2    The second vertex
    */
-  LineSegment(const Vector2& p1, const Vector2& p2)
-      : p1(p1),
-        p2(p2),
-        e1((p2 - p1).normalized()),
-        e2(-e1[1], e1[0]),
+  LineSegment(const Vector2 &p1, const Vector2 &p2)
+      : p1(p1), p2(p2), e1((p2 - p1).normalized()), e2(-e1[1], e1[0]),
         length((p2 - p1).norm()) {}
 
   LineSegment() : LineSegment({0, 0}, {1, 0}) {}
@@ -245,24 +231,26 @@ struct LineSegment {
     length = (p2 - p1).norm();
   }
 
-  bool operator==(const LineSegment& other) const {
+  bool operator==(const LineSegment &other) const {
     return p1 == other.p1 && p2 == other.p2;
   }
 
-  bool operator!=(const LineSegment& other) const {
+  bool operator!=(const LineSegment &other) const {
     return !(operator==(other));
   }
 
-  ng_float_t distance(const Vector2& point) const {
+  ng_float_t distance(const Vector2 &point) const {
     const Vector2 delta = point - p1;
     const ng_float_t x = delta.dot(e1);
-    if (x < 0) return delta.norm();
-    if (x > length) return (point - p2).norm();
+    if (x < 0)
+      return delta.norm();
+    if (x > length)
+      return (point - p2).norm();
     return std::abs(delta.dot(e2));
   }
 
   // negative <=> penetration
-  ng_float_t distance(const Disc& disc, bool penetration = false) const {
+  ng_float_t distance(const Disc &disc, bool penetration = false) const {
     const ng_float_t dist = distance(disc.position) - disc.radius;
     return (penetration || dist > 0) ? dist : 0;
   }
@@ -278,7 +266,7 @@ struct LineSegment {
    * @return     The free distance along the ray before colliding
    *             with this line or -1 if no collision will happen.
    */
-  ng_float_t distance_along(const Vector2& point, const Vector2& direction,
+  ng_float_t distance_along(const Vector2 &point, const Vector2 &direction,
                             int orientation = 0) {
     const Vector2 delta = point - p1;
     const ng_float_t y = delta.dot(e2);
@@ -308,18 +296,10 @@ struct LineSegment {
   // segment.p2) {}
 };
 
-inline std::ostream& operator<<(std::ostream& os, const LineSegment& line) {
-  os << "LineSegment(" << line.p1 << ", " << line.p2 << ")";
-  return os;
-}
-
 class GeometricState : public EnvironmentState, public TrackChanges {
- public:
+public:
   GeometricState()
-      : EnvironmentState(),
-        TrackChanges(),
-        static_obstacles(),
-        neighbors(),
+      : EnvironmentState(), TrackChanges(), static_obstacles(), neighbors(),
         line_obstacles() {}
 
   // virtual ~GeometricState() = default;
@@ -332,13 +312,13 @@ class GeometricState : public EnvironmentState, public TrackChanges {
    *
    * @return     The neighbors.
    */
-  const std::vector<Neighbor>& get_neighbors() const { return neighbors; }
+  const std::vector<Neighbor> &get_neighbors() const { return neighbors; }
   /**
    * @brief      Sets the neighbors. Positions are in the world fixed frame.
    *
    * @param[in]  value
    */
-  virtual void set_neighbors(const std::vector<Neighbor>& value) {
+  virtual void set_neighbors(const std::vector<Neighbor> &value) {
     neighbors = value;
     change(NEIGHBORS);
   }
@@ -348,7 +328,7 @@ class GeometricState : public EnvironmentState, public TrackChanges {
    *
    * @return     The static obstacles
    */
-  const std::vector<Disc>& get_static_obstacles() const {
+  const std::vector<Disc> &get_static_obstacles() const {
     return static_obstacles;
   }
   /**
@@ -357,7 +337,7 @@ class GeometricState : public EnvironmentState, public TrackChanges {
    *
    * @param[in]  value
    */
-  virtual void set_static_obstacles(const std::vector<Disc>& value) {
+  virtual void set_static_obstacles(const std::vector<Disc> &value) {
     static_obstacles = value;
     change(STATIC_OBSTACLES);
   }
@@ -367,7 +347,7 @@ class GeometricState : public EnvironmentState, public TrackChanges {
    *
    * @return     The line obstacles
    */
-  const std::vector<LineSegment>& get_line_obstacles() const {
+  const std::vector<LineSegment> &get_line_obstacles() const {
     return line_obstacles;
   }
   /**
@@ -376,7 +356,7 @@ class GeometricState : public EnvironmentState, public TrackChanges {
    *
    * @param[in]  value
    */
-  virtual void set_line_obstacles(const std::vector<LineSegment>& value) {
+  virtual void set_line_obstacles(const std::vector<LineSegment> &value) {
     line_obstacles = value;
     change(LINE_OBSTACLES);
   }
@@ -387,7 +367,7 @@ class GeometricState : public EnvironmentState, public TrackChanges {
     LINE_OBSTACLES = 1 << 2
   };
 
- private:
+private:
   std::vector<Disc> static_obstacles;
   std::vector<Neighbor> neighbors;
   std::vector<LineSegment> line_obstacles;
@@ -416,6 +396,25 @@ inline std::ostream& operator<<(std::ostream& os, const GeometricState& state) {
 
 #endif
 
-}  // namespace navground::core
+} // namespace navground::core
 
-#endif  // NAVGROUND_CORE_STATES_GEOMETRIC_H
+inline std::ostream &operator<<(std::ostream &os,
+                                const navground::core::LineSegment &line) {
+  os << "LineSegment(" << line.p1 << ", " << line.p2 << ")";
+  return os;
+}
+
+inline std::ostream &operator<<(std::ostream &os,
+                                const navground::core::Neighbor &disc) {
+  os << "Neighbor(Disc(" << disc.position << ", " << disc.radius << "), "
+     << disc.velocity << ", " << disc.id << ")";
+  return os;
+}
+
+inline std::ostream &operator<<(std::ostream &os,
+                                const navground::core::Disc &disc) {
+  os << "Disc(" << disc.position << ", " << disc.radius << ")";
+  return os;
+}
+
+#endif // NAVGROUND_CORE_STATES_GEOMETRIC_H

@@ -1459,8 +1459,7 @@ Constructs a navground property from a Python property.
            py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_position))
       .def("get_target_orientation", &Behavior::get_target_orientation,
-           py::arg("frame"),
-           py::arg("ignore_tolerance") = false,
+           py::arg("frame"), py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_orientation))
       .def("get_target_direction", &Behavior::get_target_direction,
            py::arg_v("frame", Frame::absolute,
@@ -2188,6 +2187,19 @@ Returns the bundle json-schema
 
   m.def("make_properties", make_properties_py, py::arg("cls"),
         py::arg("owner") = "");
+
+  m.def(
+      "convert",
+      [](const Property::Field &value, const std::string &type) {
+        std::string scalar_type = type;
+        bool is_list = false;
+        if (type.size() > 2 && type.front() == '[' && type.back() == ']') {
+          scalar_type = type.substr(1, type.size() - 2);
+          is_list = true;
+        }
+        return convert_py(value, scalar_type, is_list);
+      },
+      "");
 
   m.def(
       "uses_doubles",

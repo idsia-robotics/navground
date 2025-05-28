@@ -21,6 +21,7 @@
 - Added `Bicycle` kinematics.
 - Added `Target` angular direction.
 - Added additional `Behavior` target helpers and extended `ignore_tolerance` argument to existing helpers: the treatment of the angular and planar components is now symmetric.
+- Added [limited] Scenario accessors to property samplers.
 
 ### Fixed
 
@@ -38,7 +39,7 @@
 - PySensor is now registered as "Sensor".
 - `Behavior::get_target_distance` returns now a float (vs `std::optional`), returning when previously it would return `std::nullopt`.
 - Targets are now recorded as a 16 dimensional vector; reading older recording is still supported.
-
+- Modified Scenario decoder so that it first tries to decode a properties and only after it fails, it decodes a sampler. This way, scenarios with properties that have no or const samplers are encoded using the property value, which can be changed with the accessors. For properties with non-const samplers, the encoded values still reflects the sampler value, not the property value.
 
 ### Removed
 

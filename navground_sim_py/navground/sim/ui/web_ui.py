@@ -9,13 +9,15 @@ import time
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
-from .. import Agent, Entity, Obstacle, Wall, World, bounds_for_world
-from .to_svg import (Attributes, Decorate, Rect, flat_dict, size,
-                     wrap_as_world_decorator)
+from ..bounds import bounds_for_world
+from .to_svg import (Attributes, Decorate, WorldDecorator, Rect, flat_dict,
+                     size, wrap_as_world_decorator)
 
 if TYPE_CHECKING:
     from websockets.legacy.server import (WebSocketServer,
                                           WebSocketServerProtocol)
+
+    from .. import Agent, Entity, Obstacle, Wall, World
 
 PoseMsg = tuple[float, float, float]
 EntityMsg = dict[str, Any]
@@ -145,8 +147,17 @@ class WebUI:
         self.display_deadlocks = display_deadlocks
         self.in_collision: set[int] = set()
         self.in_deadlock: set[int] = set()
-        self.decorate = wrap_as_world_decorator(decorate) if decorate else None
+        self._decorate = wrap_as_world_decorator(
+            decorate) if decorate else None
         self.server: WebSocketServer | None = None
+
+    @property
+    def decorate(self) -> WorldDecorator | None:
+        return self._decorate
+
+    @decorate.setter
+    def decorate(self, value: Decorate | None) -> None:
+        self._decorate = wrap_as_world_decorator(value) if value else None
 
     @property
     def is_ready(self) -> bool:

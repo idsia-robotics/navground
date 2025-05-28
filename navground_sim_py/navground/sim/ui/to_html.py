@@ -10,7 +10,7 @@ from collections.abc import Mapping
 from typing import Any
 
 from .. import World
-from .to_svg import _svg_for_world
+from .to_svg import svg_for_world_and_dims, UNSPECIFIED
 
 
 def open_html(width: int = 640,
@@ -78,7 +78,7 @@ def html_for_world(world: World | None = None,
                    with_websocket: bool = False,
                    notebook: bool = False,
                    port: int = 8000,
-                   display_shape: bool = False,
+                   display_shape: bool = UNSPECIFIED,
                    external_style_path: str = '',
                    style: str = '',
                    include_script_path: str | None = None,
@@ -115,12 +115,17 @@ def html_for_world(world: World | None = None,
         notebook_count += 1
     else:
         prefix = ''
-    svg, dims = _svg_for_world(world=world,
-                               standalone=False,
-                               prefix=prefix,
-                               external_style_path='',
-                               style='',
-                               **kwargs)
+    if display_shape is UNSPECIFIED:
+        if world:
+            display_shape = world.render_kwargs.get('display_shape', False)
+        else:
+            display_shape = False
+    svg, dims = svg_for_world_and_dims(world=world,
+                                       standalone=False,
+                                       prefix=prefix,
+                                       external_style_path='',
+                                       style='',
+                                       **kwargs)
     return jinjia_env.get_template('world.html').render(
         svg=svg,
         world_name=world_name,

@@ -5,21 +5,23 @@ import math
 import os
 from collections import ChainMap
 from collections.abc import Callable, Collection, MutableMapping
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, TypeAlias, cast
 
 import numpy as np
 import numpy.typing
 from navground import core
 
-from .. import (Agent, BoundingBox, Bounds, Entity, Obstacle, Wall, World,
-                bounds_for_world)
+if TYPE_CHECKING:
+    from .. import (Agent, Entity, Obstacle, Wall, World)
 
-Rect = Bounds | np.typing.NDArray[np.floating[Any]]
-Attributes = MutableMapping[str, str]
-Point = core.Vector2
-EntityDecorator = Callable[[Entity], Attributes]
-WorldDecorator = Callable[[Entity, World], Attributes]
-Decorate = EntityDecorator | WorldDecorator
+from ..bounds import Bounds, bounds_for_world
+
+Rect: TypeAlias = 'Bounds | np.typing.NDArray[np.floating[Any]]'
+Attributes: TypeAlias = MutableMapping[str, str]
+Point: TypeAlias = core.Vector2
+EntityDecorator: TypeAlias = 'Callable[[Entity], Attributes]'
+WorldDecorator: TypeAlias = 'Callable[[Entity, World], Attributes]'
+Decorate: TypeAlias = 'EntityDecorator | WorldDecorator'
 
 
 def wrap_as_world_decorator(decorate: Decorate) -> WorldDecorator:
@@ -200,23 +202,28 @@ def svg_for_agent(
                      delta=delta)
 
 
+UNSPECIFIED: Any = object()
+
+
 def svg_for_world(
-        world: World | None = None,
-        precision: int = 3,
-        decorate: Decorate | None = None,
-        bounds: Rect | None = None,
-        width: int = 600,
-        min_height: int = 100,
-        relative_margin: float = 0.05,
-        background_color: str = 'snow',
-        display_shape: bool = False,
-        display_safety_margin: bool = False,
-        grid: float = 0,
-        grid_color: str = 'grey',
-        grid_thickness: float = 0.01,
-        rotation: tuple[core.Vector2, float] | float | None = None,
-        extras: Collection[Callable[[World], str]] = [],
-        background_extras: Collection[Callable[[World], str]] = []) -> str:
+    world: World | None = None,
+    *,
+    precision: int = UNSPECIFIED,
+    decorate: Decorate | None = UNSPECIFIED,
+    bounds: Rect | None = UNSPECIFIED,
+    width: int = UNSPECIFIED,
+    min_height: int = UNSPECIFIED,
+    relative_margin: float = UNSPECIFIED,
+    background_color: str = UNSPECIFIED,
+    display_shape: bool = UNSPECIFIED,
+    display_safety_margin: bool = UNSPECIFIED,
+    grid: float = UNSPECIFIED,
+    grid_color: str = UNSPECIFIED,
+    grid_thickness: float = UNSPECIFIED,
+    rotation: tuple[core.Vector2, float] | float | None = UNSPECIFIED,
+    extras: Collection[Callable[[World], str]] = UNSPECIFIED,
+    background_extras: Collection[Callable[[World],
+                                           str]] = UNSPECIFIED) -> str:
     """
     Draw the world as a SVG.
 
@@ -243,26 +250,30 @@ def svg_for_world(
 
     :returns:   An SVG string
     """
-    return _svg_for_world(world=world,
-                          precision=precision,
-                          decorate=decorate,
-                          bounds=bounds,
-                          width=width,
-                          min_height=min_height,
-                          relative_margin=relative_margin,
-                          background_color=background_color,
-                          display_shape=display_shape,
-                          display_safety_margin=display_safety_margin,
-                          grid=grid,
-                          grid_color=grid_color,
-                          grid_thickness=grid_thickness,
-                          rotation=rotation,
-                          extras=extras,
-                          background_extras=background_extras)[0]
+    return svg_for_world_and_dims(**locals())[0]
 
 
-def _svg_for_world(
+def svg_for_world_and_dims(world: World | None = None,
+                           **kwargs: Any) -> tuple[str, dict[str, str]]:
+    spec = inspect.getfullargspec(_svg_for_world_and_dims)
+    if world:
+        skwargs = {
+            k: v
+            for k, v in world.render_kwargs.items() if k in spec.kwonlyargs
+        }
+    else:
+        skwargs = {}
+    skwargs.update({
+        k: v
+        for k, v in kwargs.items()
+        if v is not UNSPECIFIED and k in spec.kwonlyargs
+    })
+    return _svg_for_world_and_dims(world=world, **skwargs)
+
+
+def _svg_for_world_and_dims(
     world: World | None = None,
+    *,
     prefix: str = '',
     precision: int = 2,
     decorate: Decorate | None = None,
@@ -285,6 +296,7 @@ def _svg_for_world(
     background_extras: Collection[Callable[[World], str]] = []
 ) -> tuple[str, dict[str, str]]:
     import jinja2
+    from .. import BoundingBox
 
     g = ""
     if world:

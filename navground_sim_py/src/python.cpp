@@ -3454,6 +3454,14 @@ Register a probe to record a group of data to during all runs.
                      DOC(navground, sim, Scenario, walls))
       .def_readwrite("groups", &Scenario::groups,
                      DOC(navground, sim, Scenario, groups))
+      .def_property("property_samplers", &Scenario::get_property_samplers,
+                    nullptr,
+                    DOC(navground, sim, Scenario, property_property_samplers))
+      .def("clear_property_samplers", &Scenario::clear_property_samplers,
+           DOC(navground, sim, Scenario, clear_property_samplers))
+      .def("remove_property_sampler", &Scenario::remove_property_sampler,
+           py::arg("name"),
+           DOC(navground, sim, Scenario, remove_property_sampler))
       .def_readwrite("bounding_box", &Scenario::bounding_box,
                      DOC(navground, sim, Scenario, bounding_box))
       // py::return_value_policy::reference)

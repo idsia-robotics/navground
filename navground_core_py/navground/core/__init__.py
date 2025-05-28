@@ -21,7 +21,7 @@ from ._navground import (
     SocialMarginConstantModulation, SocialMarginLinearModulation,
     SocialMarginLogisticModulation, SocialMarginModulation,
     SocialMarginQuadraticModulation, SocialMarginZeroModulation, Target,
-    Twist2, clamp_norm, get_build_dependencies, get_build_info)
+    Twist2, clamp_norm, get_build_dependencies, get_build_info, convert)
 from ._navground import get_loaded_plugins as get_loaded_cpp_plugins
 from ._navground import get_plugins_dependencies
 from ._navground import load_plugins as load_cpp_plugins
@@ -186,5 +186,6 @@ __all__ = [
     "BuildInfo", "get_build_dependencies", "get_plugins_dependencies",
     "DependencyInfo", "load_cpp_plugins", "BehaviorModulationRegister",
     "BehaviorRegister", "HasProperties", "KinematicsRegister", "FloatType",
-    "GridMap", "HasAttributes", "BehaviorGroup", "BehaviorGroupMember"
+    "GridMap", "HasAttributes", "BehaviorGroup", "BehaviorGroupMember",
+    "convert"
 ]

@@ -39,40 +39,48 @@ make_properties_py(const py::object &cls, const std::string &owner = "") {
     owner_type_name = owner;
   }
   const auto py_property = py::module_::import("builtins").attr("property");
+  const bool disable_type_safety =
+      !py::module_::import("os")
+           .attr("environ")
+           .attr("get")("NAVGROUND_DISABLE_PY_PROPERTY_COERCION")
+           .is_none();
   const auto isinstance = py::module_::import("builtins").attr("isinstance");
   std::map<std::string, Property> ps;
   for (auto &item : cls.attr("__dict__").cast<py::dict>()) {
-    const py::object v = py::cast<py::object>(item.second);
+    py::object v = py::cast<py::object>(item.second);
     if (isinstance(v, py_property).cast<bool>() && py::hasattr(v, "fget")) {
       const auto fget = v.attr("fget");
       if (py::hasattr(fget, "__default_value__")) {
-        auto default_value =
+        const auto name = item.first.cast<std::string>();
+        const auto scalar_type =
+            fget.attr("__scalar_type__").cast<std::string>();
+        const bool is_vector = fget.attr("__is_list__").cast<bool>();
+        const auto suggested_default_value =
             fget.attr("__default_value__").cast<Property::Field>();
-        // If a list is empty, Python as no way to cast it to the correct
-        // type. Therefore, we read the type from a extra `__scalar_value__`
-        // field.
-        if (is_empty_vector(default_value) &&
-            py::hasattr(fget, "__scalar_value__")) {
-          const auto scalar_value =
-              fget.attr("__scalar_value__").cast<Property::Scalar>();
-          default_value = std::visit(
-              [](auto &&arg) -> Property::Field {
-                using S = std::decay_t<decltype(arg)>;
-                return std::vector<S>();
-              },
-              scalar_value);
+        const auto default_value =
+            convert_py(suggested_default_value, scalar_type, is_vector);
+        if (!default_value) {
+          std::cerr << "Invalid default value " << suggested_default_value
+                    << " for property " << name << std::endl;
+          continue;
         }
         const auto desc = fget.attr("__desc__").cast<std::string>();
         const auto deprecated_names =
             fget.attr("__deprecated_names__").cast<std::vector<std::string>>();
         const auto schema =
-            py::hasattr(v, "fget")
-                ? fget.attr("__schema__").cast<std::optional<py::function>>()
-                : std::nullopt;
+            fget.attr("__schema__").cast<std::optional<py::function>>();
+        const auto type_safe =
+            disable_type_safety || fget.attr("__type_safe__").cast<bool>();
+        const auto fset = v.attr("fset");
+        if (!fset.is_none() && !type_safe) {
+          v = py_property(fget, safe_setter(fset, scalar_type, is_vector),
+                          v.attr("fdel"), fget.attr("__doc__"));
+          py::setattr(cls, item.first, v);
+        }
         auto property = make_property_with_py_property(
-            v, default_value, desc, schema, deprecated_names);
+            v, *default_value, desc, schema, deprecated_names);
         property.owner_type_name = owner_type_name;
-        ps.emplace(item.first.cast<std::string>(), std::move(property));
+        ps.emplace(name, std::move(property));
       }
     }
   }

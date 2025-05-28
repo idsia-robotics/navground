@@ -179,6 +179,36 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
    */
   std::map<std::string, std::shared_ptr<PropertySampler>> property_samplers;
 
+  /**
+   * @brief      Returns the names of properties for which this
+   * scenario uses a sampler.
+   *
+   * @return     A vector of property names.
+   */
+  std::vector<std::string> get_property_samplers() const {
+    std::vector<std::string> keys;
+    for (const auto &[k, _] : property_samplers) {
+      keys.push_back(k);
+    }
+    return keys;
+  }
+
+  /**
+   * @brief      Remove a property sampler.
+   *
+   * @param[in]  name The name of the property
+   *
+   */
+  void remove_property_sampler(const std::string &name) {
+    property_samplers.erase(name);
+  }
+
+  /**
+   * @brief      Clear the property samplers
+   *
+   */
+  void clear_property_samplers() { property_samplers.clear(); }
+
   void reset(std::optional<unsigned> index = std::nullopt) {
     for (auto &[k, v] : property_samplers) {
       if (v)

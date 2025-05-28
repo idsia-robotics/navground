@@ -83,12 +83,20 @@ template <typename W = World> struct convert_scenario {
 template <> void decode_properties(const Node &node, Scenario &obj) {
   for (const auto &[name, property] : obj.get_properties()) {
     if (node[name]) {
-      obj.property_samplers[name] = property_sampler(node[name], property);
+      try {
+        obj.set(name, decode_property(property, node[name]));
+      } catch (const std::runtime_error &) {
+        obj.property_samplers[name] = property_sampler(node[name], property);
+      }
     } else {
       for (const auto &alt_name : property.deprecated_names) {
         if (node[alt_name]) {
-          obj.property_samplers[name] =
-              property_sampler(node[alt_name], property);
+          try {
+            obj.set(name, decode_property(property, node[alt_name]));
+          } catch (const std::runtime_error &) {
+            obj.property_samplers[name] =
+                property_sampler(node[alt_name], property);
+          }
         }
       }
     }

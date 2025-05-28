@@ -28,6 +28,7 @@
 - Fixed typo in wall-disc collision computation.
 - Fixed dtype comparison to use `equal` instead of `is`.
 - Fixed documentation errors.
+- Fixed YAML serialization of `std::vector<bool>` which caused empty list to be serialized as a null node instead of an empty list.
 
 ### Changed
 

@@ -39,7 +39,7 @@ struct convert<Vector2> {
 template <>
 struct convert<std::vector<bool>> {
   static Node encode(const std::vector<bool>& rhs) {
-    Node node;
+    Node node(NodeType::Sequence);
     for (const bool& item : rhs) {
       node.push_back(item);
     }
@@ -47,6 +47,7 @@ struct convert<std::vector<bool>> {
   }
   static bool decode(const Node& node, std::vector<bool>& rhs) {
     if (node.Type() != YAML::NodeType::Sequence) return false;
+    rhs.clear();
     for (const auto& c : node) {
       rhs.push_back(c.as<bool>());
     }

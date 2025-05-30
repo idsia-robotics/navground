@@ -12,6 +12,12 @@ namespace navground::sim {
 using navground::core::Properties;
 using navground::core::Property;
 
+void OdometryStateEstimation::prepare(Agent *agent, World *world) {
+  _pose = Pose2();
+  _twist = core::Twist2();
+  _time = 0;
+}
+
 void OdometryStateEstimation::update_odom(Agent *agent, World *world) {
   auto &rg = world->get_random_generator();
   _twist = agent->twist.relative(agent->pose);

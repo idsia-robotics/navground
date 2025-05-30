@@ -25,6 +25,12 @@ void SensorCombination::update(Agent *agent, World *world,
   }
 }
 
+void SensorCombination::prepare(Agent *agent, World *world) {
+  for (auto &sensor : _sensors) {
+    sensor->prepare(agent, world);
+  }
+}
+
 void SensorCombination::encode(YAML::Node &node) const {
   for (const auto &sensor : _sensors) {
     node["sensors"].push_back(
@@ -48,4 +54,4 @@ void SensorCombination::decode(const YAML::Node &node) {
 const std::string SensorCombination::type =
     register_type<SensorCombination>("Combination");
 
-}  // namespace navground::sim
+} // namespace navground::sim

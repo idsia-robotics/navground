@@ -45,6 +45,26 @@ template <> inline std::string_view field_type_name<std::vector<Vector2>>() {
   return "[vector]";
 }
 
+inline std::string
+get_type_name_with_scalar(const std::string &scalar_type_name, bool is_vector) {
+  if (is_vector) {
+    return "[" + scalar_type_name + "]";
+  }
+  return scalar_type_name;
+}
+
+inline std::tuple<std::string, bool>
+get_scalar_type_name(const std::string &type_name) {
+  std::string scalar_type_name = type_name;
+  bool is_vector = false;
+  if (type_name.size() > 2 && type_name.front() == '[' &&
+      type_name.back() == ']') {
+    scalar_type_name = type_name.substr(1, type_name.size() - 2);
+    is_vector = true;
+  }
+  return {scalar_type_name, is_vector};
+}
+
 struct HasProperties;
 
 /**

@@ -24,9 +24,22 @@ PropertyField: TypeAlias = ScalarPropertyField | ListPropertyField
 T = TypeVar('T', bound=Any)
 
 
-def _convert(
-        getter: Callable[..., Any],
-        value: Any) -> tuple[PropertyField, type[ScalarPropertyField], bool]:
+def _get_scalar_type_name(type_: type[ScalarPropertyField]) -> str:
+    if type_ in (bool, int, float, str):
+        return type_.__name__
+    return 'vector'
+
+
+def _is_list(scalar_type_name: str, value: Any) -> bool:
+    if scalar_type_name == 'vector':
+        if (type(value) in (list, tuple) and len(value) == 2
+                and all(type(x) in (bool, int, float) for x in value)):
+            return False
+    return type(value) in (list, tuple)
+
+
+def _get_type(getter: Callable[..., Any],
+              value: Any) -> tuple[type[ScalarPropertyField], bool]:
     type_hint = get_type_hints(getter).get('return', None)
     type_: type[Any]
     item_type: type[Any] | None
@@ -59,36 +72,8 @@ def _convert(
                 f"Default value {value} should be an non-empty sequence"
             ) from e
     if type_ is list:
-        return cast(ListPropertyField,
-                    [_convert_scalar(item_type, x)
-                     for x in value]), cast(type[ScalarPropertyField],
-                                            item_type), True
-    return _convert_scalar(type_, value), type_, False
-
-
-def _convert_scalar(type_: Any, value: Any) -> ScalarPropertyField:
-    if type_ not in (bool, int, float, str, Vector2):
-        raise TypeError(f"Unsupported type {type_}")
-
-    if type_ == Vector2:
-        try:
-            if len(value) == 2:
-                return numpy.asarray(value, dtype=float)
-            else:
-                raise ValueError(
-                    f"Unsupported value with length {len(value)} != 2 for type Vector2"
-                )
-        except Exception as e:
-            raise TypeError(
-                f"Unsupported value {value} for type {type_}") from e
-    if type_ is not type(value) and type_ not in (float, int) and not (
-            type(value) in (float, int) and type_ in (float, int)):
-        raise TypeError(
-            f"Implicit conversion of {value} to {type_} is not permitted")
-    try:
-        return cast(ScalarPropertyField, type_(value))
-    except Exception as e:
-        raise TypeError(f"Unsupported value {value} for type {type_}") from e
+        return cast(type[ScalarPropertyField], item_type), True
+    return type_, False
 
 
 def register(
@@ -96,6 +81,7 @@ def register(
     description: str = "",
     schema: SchemaModifier | None = None,
     deprecated_names: Collection[str] = tuple(),
+    scalar_type_name: str = '',
     type_safe: bool = False,
 ) -> Callable[[T], T]:
     """
@@ -158,25 +144,30 @@ def register(
 
     :param deprecated_names: A list of alternative deprecated names
 
+    :param scalar_type_name: The property scalar type name:
+                             one of "int", "float", "bool", "str, "vector".
+                             If not provided it will infer it from
+                             the type hints and/or the default value type.
+
     :param type_safe: Whether the setter is type safe and therefore does not require
                       checking/coercing the argument.
     """
 
     def g(f: T) -> T:
-        try:
-            value, scalar_type, is_list = _convert(f, default_value)
-            f.__default_value__ = value
-            f.__is_list__ = is_list
-            if scalar_type in (bool, int, float, str):
-                f.__scalar_type__ = scalar_type.__name__
-            else:
-                f.__scalar_type__ = 'vector'
-        except Exception as e:
-            raise ValueError('Default property value not valid') from e
+        if scalar_type_name:
+            f.__scalar_type__ = scalar_type_name
+            f.__is_list__ = _is_list(scalar_type_name, default_value)
+        else:
+            try:
+                scalar_type, f.__is_list__ = _get_type(f, default_value)
+                f.__scalar_type__ = _get_scalar_type_name(scalar_type)
+            except Exception as e:
+                raise ValueError('Default property value not valid') from e
         f.__desc__ = description
         f.__deprecated_names__ = deprecated_names
         f.__schema__ = schema
         f.__type_safe__ = type_safe
+        f.__default_value__ = default_value
         return f
 
     return g

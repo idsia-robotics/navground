@@ -243,4 +243,89 @@ const std::string FourWheelsOmniDriveKinematics::type =
                          ng_float_t(1), "Wheel Axis",
                          &YAML::schema::positive)}});
 
+Twist2 BicycleKinematics::feasible(const Twist2 &value) const {
+  assert(value.frame == Frame::relative);
+  ng_float_t speed;
+  ng_float_t max_backward_speed = get_max_backward_speed();
+  if (_use_velocity_norm) {
+    speed = std::min(value.velocity.norm(), get_max_speed());
+  } else {
+    speed = std::clamp(value.velocity[0], -max_backward_speed, get_max_speed());
+  }
+  if (value.angular_speed == 0) {
+    return Twist2({speed, 0}, 0, Frame::relative);
+  }
+  const ng_float_t R = get_min_steering_radius();
+  const ng_float_t max_speed =
+      (speed < 0) ? max_backward_speed : get_max_speed();
+  const ng_float_t max_angular_speed = max_speed / R;
+  ng_float_t angular_speed =
+      std::clamp(value.angular_speed, -max_angular_speed, max_angular_speed);
+  const ng_float_t r = speed / angular_speed;
+  if (abs(r) < R) {
+    const ng_float_t angular_speed_1 =
+        ((angular_speed < 0) ? -std::abs(speed) : std::abs(speed)) / R;
+    const ng_float_t speed_1 =
+        ((speed < 0) ? -std::abs(angular_speed) : std::abs(angular_speed)) * R;
+    if (_k <= 0) {
+      angular_speed = angular_speed_1;
+    } else if (_k >= 1) {
+      speed = speed_1;
+    } else {
+      speed = speed * (1 - _k) + speed_1 * _k;
+      angular_speed = angular_speed_1 * (1 - _k) + angular_speed * _k;
+    }
+  }
+  return Twist2({speed, 0}, angular_speed, Frame::relative);
+}
+
+Twist2 BicycleKinematics::twist_from_steering(ng_float_t linear_speed,
+                                              ng_float_t steering_angle) const {
+  linear_speed =
+      std::clamp(linear_speed, -get_max_backward_speed(), get_max_speed());
+  steering_angle =
+      std::clamp(steering_angle, -_max_steering_angle, _max_steering_angle);
+  return Twist2({linear_speed, 0},
+                std::tan(steering_angle) * linear_speed / _axis,
+                Frame::relative);
+}
+
+ng_float_t
+BicycleKinematics::feasible_steering_angle(const Twist2 &value) const {
+  assert(value.frame == Frame::relative);
+  if (value.angular_speed == 0) {
+    return 0;
+  }
+  const ng_float_t speed =
+      std::clamp(value.velocity[0], -get_max_backward_speed(), get_max_speed());
+  if (speed) {
+    return std::clamp(std::atan(_axis * value.angular_speed / speed),
+                      -_max_steering_angle, _max_steering_angle);
+  }
+  return (value.angular_speed > 0) ? _max_steering_angle : -_max_steering_angle;
+}
+
+ng_float_t BicycleKinematics::get_min_steering_radius() const {
+  return _axis / std::tan(_max_steering_angle);
+}
+
+const std::string BicycleKinematics::type = register_type<BicycleKinematics>(
+    "Bicycle",
+    {{"axis",
+      Property::make(&BicycleKinematics::get_axis, &BicycleKinematics::set_axis,
+                     ng_float_t(1), "Axis", &YAML::schema::positive)},
+     {"max_backward_speed",
+      Property::make(&BicycleKinematics::get_max_backward_speed,
+                     &BicycleKinematics::set_max_backward_speed,
+                     std::numeric_limits<ng_float_t>::infinity(),
+                     "Maximal backward speed", &YAML::schema::positive)},
+     {"max_steering_angle",
+      Property::make(&BicycleKinematics::get_max_steering_angle,
+                     &BicycleKinematics::set_max_steering_angle, ng_float_t(1),
+                     "Maximal steering angle", &YAML::schema::positive)},
+     {"k", Property::make(&BicycleKinematics::get_k, &BicycleKinematics::set_k,
+                          ng_float_t(0), "k", YAML::schema::between(0, 1))},
+     {"use_velocity_norm",
+      Property::make(&BicycleKinematics::get_use_velocity_norm,
+                     &BicycleKinematics::set_use_velocity_norm, false, "k")}});
 } // namespace navground::core

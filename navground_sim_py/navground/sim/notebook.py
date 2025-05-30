@@ -29,13 +29,28 @@ def notebook_view(width: int = 600, **kwargs: Any) -> HTML:
 
 def display_in_notebook(world: World, **kwargs: Any) -> SVG:
     """
-    Displays a world in the notebook, either as HTML or SVG
+    Displays a world in the notebook.
 
     :param      world:             The world to display
-    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    :param      kwargs:            Optional configuration:
+        same fields as :py:class:`navground.sim.ui.RenderConfig`.
+
+    The actual configuration is computed by looking (in order) to
+
+    1. the arguments of this function;
+    2. the world-specific configuration :py:attr:`navground.sim.World.render_kwargs`;
+    3. the default configuration :py:attr:`navground.sim.ui.render_default_config`.
+
+    .. note::
+
+       A notebook will display a world in a cell that evaluates a :py:class:`navground.sim.World`,
+       using its SVG representation :py:class:`navground.sim.World._repr_svg_`,
+       which has the same effect of calling this function with no optional arguments.
+
     """
-    return SVG(data=svg_for_world(world,  # type: ignore[no-untyped-call]
-                                  **kwargs))
+    return SVG(data=svg_for_world(
+        world,  # type: ignore[no-untyped-call]
+        **kwargs))
 
 
 async def run_in_notebook(world: World,
@@ -56,6 +71,7 @@ async def run_in_notebook(world: World,
     :param      width:             The size of the view
     :param      port:              The websocket port
     :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.html_for_world`
+
     """
 
     view = notebook_view(width=width, port=port, **kwargs)

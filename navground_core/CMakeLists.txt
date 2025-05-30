@@ -67,6 +67,7 @@ add_library(
   src/collision_computation.cpp
   src/cached_collision_computation.cpp
   src/behavior.cpp
+  src/behavior_group.cpp
   src/behaviors/dummy.cpp
   src/behaviors/HL.cpp
   src/behaviors/ORCA/ORCA.cpp

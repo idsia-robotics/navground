@@ -22,8 +22,8 @@ static void store_experiment(const std::string &yaml, HighFive::File &file) {
   file.createAttribute<std::string>("experiment", yaml).write(yaml);
 }
 
-static std::string time_string(
-    const std::chrono::time_point<std::chrono::system_clock> &t) {
+static std::string
+time_string(const std::chrono::time_point<std::chrono::system_clock> &t) {
   const auto ts = std::chrono::system_clock::to_time_t(t);
   std::stringstream ss;
   // ISO 8601 without timezone information.
@@ -31,15 +31,15 @@ static std::string time_string(
   return ss.str();
 }
 
-static void store_timepoint(
-    const std::chrono::time_point<std::chrono::system_clock> &tp,
-    const std::string &name, HighFive::File &file) {
+static void
+store_timepoint(const std::chrono::time_point<std::chrono::system_clock> &tp,
+                const std::string &name, HighFive::File &file) {
   const std::string txt = time_string(tp);
   file.createAttribute<std::string>(name, txt).write(txt);
 }
 
-static std::string file_name_stamp(
-    const std::chrono::time_point<std::chrono::system_clock> &t) {
+static std::string
+file_name_stamp(const std::chrono::time_point<std::chrono::system_clock> &t) {
   auto s = time_string(t);
   std::replace(s.begin(), s.end(), ':', '-');
   return s;
@@ -71,8 +71,7 @@ void Experiment::init_dataset(std::optional<fs::path> path) {
     const fs::path dir = save_directory / dir_name;
     try {
       fs::create_directory(dir);
-    }
-    catch (const fs::filesystem_error &) {
+    } catch (const fs::filesystem_error &) {
       std::cerr << "Could not create directory " << dir << std::endl;
       return;
     }
@@ -99,7 +98,7 @@ void Experiment::store_yaml(const std::string &yaml) const {
 
 void Experiment::finalize_dataset() {
   if (file) {
-    unsigned long d = static_cast<unsigned long >(get_duration().count());
+    unsigned long d = static_cast<unsigned long>(get_duration().count());
     file->createAttribute<unsigned long>("duration_ns",
                                          HighFive::DataSpace::From(d))
         .write(d);
@@ -122,10 +121,14 @@ ExperimentalRun &Experiment::init_run(int index, std::shared_ptr<World> world) {
       Entity::reset_uid();
     }
     if (scenario) {
-      if(scenario_init_callback) {
+      if (scenario_init_callback) {
         (*scenario_init_callback)(scenario.get(), index);
       }
       scenario->init_world(world.get(), index);
+      scenario->apply_inits(world.get());
+      if (record_scenario_properties) {
+        scenario->set_attributes(world.get());
+      }
     }
   }
   // CHANGED: World will be prepared only when starting run
@@ -158,7 +161,8 @@ void Experiment::run_in_sequence(bool keep, std::optional<unsigned> start_index,
   const unsigned max_index =
       start_index.value_or(run_index) + number.value_or(number_of_runs);
   for (unsigned i = start_index.value_or(run_index); i < max_index; i++) {
-    if (runs.count(i)) continue;
+    if (runs.count(i))
+      continue;
     auto &sim_run = _run_once(i);
     save_run(sim_run);
     if (!keep) {
@@ -266,7 +270,8 @@ ExperimentalRun &Experiment::_run_once(unsigned index) {
 }
 
 void Experiment::stop_run(ExperimentalRun &sim_run) {
-  if (!sim_run.is_running()) return;
+  if (!sim_run.is_running())
+    return;
   sim_run.stop();
   for (const auto &cb : run_callbacks[false]) {
     cb(&sim_run);
@@ -275,7 +280,8 @@ void Experiment::stop_run(ExperimentalRun &sim_run) {
 }
 
 void Experiment::start_run(ExperimentalRun &sim_run) {
-  if (sim_run.has_started()) return;
+  if (sim_run.has_started())
+    return;
   sim_run.start();
   start();
 }
@@ -283,7 +289,8 @@ void Experiment::start_run(ExperimentalRun &sim_run) {
 void Experiment::update_run(ExperimentalRun &sim_run) { sim_run.update(); }
 
 void Experiment::start(std::optional<fs::path> path) {
-  if (state == State::running) return;
+  if (state == State::running)
+    return;
   begin = std::chrono::system_clock::now();
   experiment_begin = std::chrono::steady_clock::now();
   init_dataset(path);
@@ -291,7 +298,8 @@ void Experiment::start(std::optional<fs::path> path) {
 }
 
 void Experiment::stop(bool save_all_runs) {
-  if (state != State::running) return;
+  if (state != State::running)
+    return;
   if (save_all_runs) {
     for (const auto &[k, run] : runs) {
       save_run(run);

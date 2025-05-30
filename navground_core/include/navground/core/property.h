@@ -16,6 +16,55 @@
 
 namespace navground::core {
 
+template <typename T> inline std::string_view field_type_name();
+template <> inline std::string_view field_type_name<int>() { return "int"; }
+template <> inline std::string_view field_type_name<ng_float_t>() {
+  return "float";
+}
+template <> inline std::string_view field_type_name<bool>() { return "bool"; }
+template <> inline std::string_view field_type_name<std::string>() {
+  return "str";
+}
+template <> inline std::string_view field_type_name<Vector2>() {
+  return "vector";
+}
+template <> inline std::string_view field_type_name<std::vector<int>>() {
+  return "[int]";
+}
+template <> inline std::string_view field_type_name<std::vector<ng_float_t>>() {
+  return "[float]";
+}
+template <> inline std::string_view field_type_name<std::vector<bool>>() {
+  return "[bool]";
+}
+template <>
+inline std::string_view field_type_name<std::vector<std::string>>() {
+  return "[str]";
+}
+template <> inline std::string_view field_type_name<std::vector<Vector2>>() {
+  return "[vector]";
+}
+
+inline std::string
+get_type_name_with_scalar(const std::string &scalar_type_name, bool is_vector) {
+  if (is_vector) {
+    return "[" + scalar_type_name + "]";
+  }
+  return scalar_type_name;
+}
+
+inline std::tuple<std::string, bool>
+get_scalar_type_name(const std::string &type_name) {
+  std::string scalar_type_name = type_name;
+  bool is_vector = false;
+  if (type_name.size() > 2 && type_name.front() == '[' &&
+      type_name.back() == ']') {
+    scalar_type_name = type_name.substr(1, type_name.size() - 2);
+    is_vector = true;
+  }
+  return {scalar_type_name, is_vector};
+}
+
 struct HasProperties;
 
 /**
@@ -59,26 +108,7 @@ struct Property {
     return std::visit(
         [](auto &&arg) {
           using T = std::decay_t<decltype(arg)>;
-          if constexpr (std::is_same_v<T, int>)
-            return "int";
-          if constexpr (std::is_same_v<T, ng_float_t>)
-            return "float";
-          if constexpr (std::is_same_v<T, bool>)
-            return "bool";
-          if constexpr (std::is_same_v<T, std::string>)
-            return "str";
-          if constexpr (std::is_same_v<T, Vector2>)
-            return "vector";
-          if constexpr (std::is_same_v<T, std::vector<int>>)
-            return "[int]";
-          if constexpr (std::is_same_v<T, std::vector<ng_float_t>>)
-            return "[float]";
-          if constexpr (std::is_same_v<T, std::vector<bool>>)
-            return "[bool]";
-          if constexpr (std::is_same_v<T, std::vector<std::string>>)
-            return "[str]";
-          if constexpr (std::is_same_v<T, std::vector<Vector2>>)
-            return "[vector]";
+          return field_type_name<T>();
         },
         field);
   }
@@ -519,6 +549,8 @@ struct NAVGROUND_CORE_EXPORT HasProperties {
   }
 };
 
+} // namespace navground::core
+
 template <typename T>
 inline std::ostream &operator<<(std::ostream &os,
                                 const std::vector<T> &values) {
@@ -547,7 +579,5 @@ inline std::ostream &operator<<(std::ostream &os,
   os << std::noboolalpha;
   return os;
 }
-
-} // namespace navground::core
 
 #endif // NAVGROUND_CORE_PROPERTY_H

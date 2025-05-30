@@ -12,16 +12,17 @@ from typing import TypeAlias
 
 from . import schema
 from ._navground import (
-    Action, Behavior, BehaviorModulation, BehaviorModulationRegister,
-    BehaviorRegister, Buffer, BufferDescription, BufferMap, BuildInfo,
-    CachedCollisionComputation, CollisionComputation, Controller,
-    DependencyInfo, Disc, EnvironmentState, Frame, GeometricState, GridMap,
-    HasProperties, Kinematics, KinematicsRegister, LineSegment, Neighbor, Path,
-    Pose2, Property, SensingState, SocialMargin,
+    Action, Behavior, BehaviorGroup, BehaviorGroupMember, BehaviorModulation,
+    BehaviorModulationRegister, BehaviorRegister, Buffer, BufferDescription,
+    BufferMap, BuildInfo, CachedCollisionComputation, CollisionComputation,
+    Controller, DependencyInfo, Disc, EnvironmentState, Frame, GeometricState,
+    GridMap, HasAttributes, HasProperties, Kinematics, KinematicsRegister,
+    LineSegment, Neighbor, Path, Pose2, Property, SensingState, SocialMargin,
     SocialMarginConstantModulation, SocialMarginLinearModulation,
     SocialMarginLogisticModulation, SocialMarginModulation,
     SocialMarginQuadraticModulation, SocialMarginZeroModulation, Target,
-    Twist2, clamp_norm, get_build_dependencies, get_build_info)
+    Twist2, clamp_norm, get_build_dependencies, get_build_info, convert,
+    get_scalar_type_name, get_type_name_with_scalar)
 from ._navground import get_loaded_plugins as get_loaded_cpp_plugins
 from ._navground import get_plugins_dependencies
 from ._navground import load_plugins as load_cpp_plugins
@@ -186,5 +187,6 @@ __all__ = [
     "BuildInfo", "get_build_dependencies", "get_plugins_dependencies",
     "DependencyInfo", "load_cpp_plugins", "BehaviorModulationRegister",
     "BehaviorRegister", "HasProperties", "KinematicsRegister", "FloatType",
-    "GridMap"
+    "GridMap", "HasAttributes", "BehaviorGroup", "BehaviorGroupMember",
+    "convert", "get_scalar_type_name", "get_type_name_with_scalar"
 ]

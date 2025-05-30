@@ -30,7 +30,7 @@ void pickle_via_yaml(C &cls, const Init<typename S::Native> &init = nullptr) {
           auto cpp_obj = obj.template cast<std::shared_ptr<typename C::type>>();
           py::dict py_state;
           if (t.size() > 1) {
-            py_state = t[1].cast<py::dict>();
+            py_state.attr("update")(t[1].cast<py::dict>());
           }
           if (init) {
             init(cpp_obj.get(), &py_state);

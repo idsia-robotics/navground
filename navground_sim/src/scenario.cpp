@@ -28,16 +28,29 @@ void Scenario::init_world(World *world, std::optional<int> seed) {
       set(name, value);
     }
   }
-  for (const auto &[_, init] : get_inits()) {
-    init(world, seed);
-  }
+  // for (const auto &[_, init] : get_inits()) {
+  //   init(world, seed);
+  // }
 }
 
 std::shared_ptr<World> Scenario::make_world(std::optional<int> seed) {
   auto world = std::make_shared<World>();
   init_world(world.get(), seed);
+  apply_inits(world.get());
   return world;
 }
 
+void Scenario::apply_inits(World *world) {
+  const auto seed = world->get_seed();
+  for (const auto &[_, init] : get_inits()) {
+    init(world, seed);
+  }
+}
+
+void Scenario::set_attributes(World *world) {
+  for (const auto &[k, _] : get_properties()) {
+    world->set(k, get(k));
+  }
+}
 
 } // namespace navground::sim

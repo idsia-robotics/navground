@@ -193,23 +193,31 @@ public:
 core::Target
 ExperimentalRun::target_from_data(const std::vector<ng_float_t> &data) {
   core::Target target;
-  if (data[0]) {
+  const auto n = data.size();
+  if (n > 2 && data[0]) {
     target.position = Vector2(data[1], data[2]);
   }
-  if (data[3]) {
+  if (n > 4 && data[3]) {
     target.orientation = data[4];
   }
-  if (data[5]) {
+  if (n > 6 && data[5]) {
     target.speed = data[6];
   }
-  if (data[7]) {
+  if (n > 9 && data[7]) {
     target.direction = Vector2(data[8], data[9]);
   }
-  if (data[10]) {
+  if (n > 11 && data[10]) {
     target.angular_speed = data[11];
   }
-  target.position_tolerance = data[12];
-  target.orientation_tolerance = data[13];
+  if (n > 13 && data[12]) {
+    target.angular_direction = static_cast<int>(data[13]);
+  }
+  if (n > 14) {
+    target.position_tolerance = data[14];
+  }
+  if (n > 15) {
+    target.orientation_tolerance = data[15];
+  }
   return target;
 }
 
@@ -230,6 +238,8 @@ ExperimentalRun::data_from_target(const core::Target &target) {
       direction[1],
       static_cast<ng_float_t>(bool(target.angular_speed)),
       target.angular_speed.value_or(0),
+      static_cast<ng_float_t>(bool(target.angular_direction)),
+      static_cast<ng_float_t>(target.angular_direction.value_or(-1)),
       target.position_tolerance,
       target.orientation_tolerance};
 }
@@ -244,13 +254,13 @@ public:
       if (auto b = agent->get_behavior()) {
         get_data()->append(ExperimentalRun::data_from_target(b->get_target()));
       } else {
-        get_data()->append(std::vector<Type>(0, 14));
+        get_data()->append(std::vector<Type>(0, 16));
       }
     }
   }
 
   Dataset::Shape get_shape(const World &world) const override {
-    return {world.get_agents().size(), 14};
+    return {world.get_agents().size(), 16};
   }
 };
 
@@ -735,12 +745,13 @@ bool ExperimentalRun::go_to_step(int step, bool ignore_collisions,
   }
   if (targets && !ignore_targets) {
     size_t i = 0;
+    const auto dim = targets->get_shape().back();
     auto data = targets->as_tensor<ng_float_t, 3>();
     for (auto &agent : _world->get_agents()) {
       auto behavior = agent->get_behavior();
       if (behavior) {
         behavior->set_target(target_from_data(
-            std::vector<ng_float_t>(&data(0, i, step), &data(14, i, step))));
+            std::vector<ng_float_t>(&data(0, i, step), &data(dim, i, step))));
       }
       i++;
     }

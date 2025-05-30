@@ -1,0 +1,24 @@
+steps: 600
+time_step: 0.0333
+scenario:
+  groups:
+    - type: car
+      color: darkgreen
+      number: 1
+      radius: 0.25
+      control_period: 0.1
+      orientation: 1
+      kinematics:
+        type: Bicycle
+        max_speed: 1
+        max_backward_speed: 0.5
+        max_steering_angle: 0.7
+        axis: 0.35
+        k: 0.5
+      behavior:
+        type: Dummy
+      task:
+        type: Waypoints
+        waypoints: [[3, 0], [0, -1], [0, 1], [-3, 0]]
+        loop: true
+        tolerance: 0.5

@@ -1,34 +1,22 @@
 from __future__ import annotations
 
+import dataclasses as dc
 import math
 import os
 from collections import ChainMap
-from collections.abc import Callable, Collection, MutableMapping
-from typing import Any
+from collections.abc import Callable, Collection
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import numpy.typing
 from navground import core
 
-from .. import (Agent, BoundingBox, Bounds, Entity, Obstacle, Wall, World,
-                bounds_for_world)
+if TYPE_CHECKING:
+    from .. import (Agent, Entity, Obstacle, Wall, World)
+    from .common import Attributes, Point, Decorate, Rect
 
-Rect = Bounds | np.typing.NDArray[np.floating[Any]]
-Attributes = MutableMapping[str, str]
-Point = core.Vector2
-Decorate = Callable[[Entity], Attributes]
-
-
-def rect_around(center: core.Vector2, width: float | None,
-                height: float | None) -> Rect:
-    if width is None:
-        width = height
-    if height is None:
-        height = width
-    if height is None or width is None:
-        raise ValueError("Provide at least one of height or width")
-    delta = np.array((width * 0.5, height * 0.5))
-    return center - delta, center + delta
+from ..bounds import bounds_for_world
+from .common import render_default_config, wrap_as_world_decorator
 
 
 def svg_color(r: float, g: float, b: float) -> str:
@@ -109,6 +97,7 @@ def svg_g_use(proto: str,
               precision: int = 2,
               attributes: Attributes = {},
               shape: bool = False,
+              safety_margin: float | None = None,
               delta: core.Vector2 = np.zeros(2),
               **kwargs: str) -> str:
     attributes = ChainMap(attributes, kwargs)
@@ -120,6 +109,8 @@ def svg_g_use(proto: str,
         f'<use xlink:href="#{proto}" transform="scale({r}, {r})"/>')
     if shape:
         g += f'<circle cx="0" cy="0" r="{r}" class="shape"/>'
+    if safety_margin is not None:
+        g += f'<circle cx="0" cy="0" r="{r + safety_margin}" class="safety_margin"/>'
     g += '</g>'
     return g
 
@@ -160,6 +151,7 @@ def svg_for_agent(
     prefix: str = '',
     attributes: Attributes = {},
     shape: bool = False,
+    with_safety_margin: bool = False,
     delta: core.Vector2 = np.zeros(2)) -> str:
     proto = agent.type or 'agent'
     if agent.color:
@@ -168,90 +160,76 @@ def svg_for_agent(
         kwargs = {}
     attributes = entity_attributes(agent, agent.type or 'agent', prefix,
                                    attributes, **kwargs)
+    if with_safety_margin and agent.behavior:
+        safety_margin = agent.behavior.safety_margin
+    else:
+        safety_margin = None
     return svg_g_use(proto,
                      agent.pose,
                      agent.radius,
                      precision,
                      attributes,
                      shape,
+                     safety_margin,
                      delta=delta)
 
 
-def svg_for_world(world: World | None = None,
-                  precision: int = 3,
-                  decorate: Decorate | None = None,
-                  bounds: Rect | None = None,
-                  width: int = 600,
-                  min_height: int = 100,
-                  relative_margin: float = 0.05,
-                  background_color: str = 'snow',
-                  display_shape: bool = False,
-                  grid: float = 0,
-                  grid_color: str = 'grey',
-                  grid_thickness: float = 0.01,
-                  rotation: tuple[core.Vector2, float] | float | None = None,
-                  extras: Collection[Callable[[World], str]] = []) -> str:
+def svg_for_world(world: World | None = None, **kwargs: Any) -> str:
     """
     Draw the world as a SVG.
 
-    :param      world:                  The world to display
-    :param      precision:              The number of decimal digits for poses
-    :param      decorate:               A function to decorate entities.
-                                        Should return a dictionary of valid SVG style attributes,
-                                        e.g., ``{"fill": "red"}`` for a given entity.
-    :param      bounds:                 The rectangular area to be displayed
-    :param      width:                  The width in pixels
-    :param      min_height:             The minimum height in pixels
-    :param      relative_margin:        The relative margin
-    :param      background_color:       A valid SVG color for the background
-    :param      display_shape:          Whether to display the agent circular shape
-    :param      grid:                   The size of the square grid tile
-                                        (set to zero or negative to skip drawing a grid)
-    :param      grid_color:             The color of the grid
-    :param      grid_thickness:         The thickness of the grid
-    :param      rotation:               A planar rotation applied before drawing [rad]
-    :param      extras:                 Provides extras rendering added at the end of to the svg
+    :param      world:   The world to display
+    :param      kwargs:  Optional configuration:
+        same fields as :py:class:`navground.sim.ui.RenderConfig`.
+
+    The actual configuration is computed by looking (in order) to
+
+    1. the arguments of this function;
+    2. the world-specific configuration :py:attr:`navground.sim.World.render_kwargs`;
+    3. the default configuration :py:attr:`navground.sim.ui.render_default_config`.
 
     :returns:   An SVG string
     """
-    return _svg_for_world(world=world,
-                          precision=precision,
-                          decorate=decorate,
-                          bounds=bounds,
-                          width=width,
-                          min_height=min_height,
-                          relative_margin=relative_margin,
-                          background_color=background_color,
-                          display_shape=display_shape,
-                          grid=grid,
-                          grid_color=grid_color,
-                          grid_thickness=grid_thickness,
-                          rotation=rotation,
-                          extras=extras)[0]
+    return svg_for_world_and_dims(world, **kwargs)[0]
 
 
-def _svg_for_world(
-    world: World | None = None,
-    prefix: str = '',
-    precision: int = 2,
-    decorate: Decorate | None = None,
-    standalone: bool = True,
-    bounds: Rect | None = None,
-    width: int = 600,
-    min_height: int = 100,
-    relative_margin: float = 0.05,
-    include_default_style: bool = True,
-    external_style_path: str = '',
-    style: str = '',
-    background_color: str = 'snow',
-    display_shape: bool = False,
-    grid: float = 0,
-    grid_color: str = 'grey',
-    grid_thickness: float = 0.01,
-    rotation: tuple[core.Vector2, float] | float | None = None,
-    extras: Collection[Callable[[World], str]] = [],
-) -> tuple[str, dict[str, str]]:
+def svg_for_world_and_dims(world: World | None = None,
+                           **kwargs: Any) -> tuple[str, dict[str, str]]:
+    full_kwargs = dc.asdict(render_default_config)
+    if world:
+        full_kwargs.update(world.render_kwargs)
+    full_kwargs.update(kwargs)
+    return _svg_for_world_and_dims(world=world, **full_kwargs)
+
+
+def _svg_for_world_and_dims(world: World | None = None,
+                            *,
+                            prefix: str = '',
+                            precision: int = 2,
+                            decorate: Decorate | None = None,
+                            standalone: bool = True,
+                            bounds: Rect | None = None,
+                            width: int = 600,
+                            min_height: int = 100,
+                            relative_margin: float = 0.05,
+                            include_default_style: bool = True,
+                            external_style_path: str = '',
+                            style: str = '',
+                            background_color: str = 'snow',
+                            display_shape: bool = False,
+                            display_safety_margin: bool = False,
+                            grid: float = 0,
+                            grid_color: str = 'grey',
+                            grid_thickness: float = 0.01,
+                            rotation: tuple[core.Vector2, float] | float
+                            | None = None,
+                            extras: Collection[Callable[[World], str]] = [],
+                            background_extras: Collection[Callable[[World],
+                                                                   str]] = [],
+                            **kwargs: Any) -> tuple[str, dict[str, str]]:
     import jinja2
+
+    from .. import BoundingBox
 
     g = ""
     if world:
@@ -261,44 +239,31 @@ def _svg_for_world(
                                               relative_margin)
         bb = BoundingBox(view_box[0], view_box[0] + view_box[2], min_y,
                          min_y + view_box[3])
+        if decorate:
+            w_decorate = wrap_as_world_decorator(decorate)
+        else:
+            w_decorate = None
         for wall in world.walls:
             g += svg_for_wall(wall, precision, prefix,
-                              decorate(wall) if decorate else {})
+                              w_decorate(wall, world) if w_decorate else {})
         for delta, lbb in world.subdivide_bounding_box(bb, False):
             for obstacle in world.get_obstacles_in_region(lbb):
-                g += svg_for_obstacle(obstacle,
-                                      precision,
-                                      prefix,
-                                      decorate(obstacle) if decorate else {},
-                                      delta=delta)
+                g += svg_for_obstacle(
+                    obstacle,
+                    precision,
+                    prefix,
+                    w_decorate(obstacle, world) if w_decorate else {},
+                    delta=delta)
             for agent in world.get_agents_in_region(lbb):
 
-                g += svg_for_agent(agent,
-                                   precision,
-                                   prefix,
-                                   decorate(agent) if decorate else {},
-                                   display_shape,
-                                   delta=delta)
-
-        # g = "<g id='_world'>"
-        # for wall in world.walls:
-        #     g += svg_for_wall(wall, precision, prefix,
-        #                       decorate(wall) if decorate else {})
-        # for obstacle in world.obstacles:
-        #     g += svg_for_obstacle(obstacle, precision, prefix,
-        #                           decorate(obstacle) if decorate else {})
-        # for agent in world.agents:
-        #     g += svg_for_agent(agent, precision, prefix,
-        #                        decorate(agent) if decorate else {},
-        #                        display_shape)
-        # if bounds is None:
-        #     bb = world.bounding_box
-        #     bounds = bb.p1, bb.p2
-        # width, height, view_box, min_y = size(bounds, width, min_height,
-        #                                       relative_margin)
-        # g += "</g>"
-        # for delta in world.get_lattice_grid(include_zero=False, c8=True):
-        #     g += f'<use href="#_world" x="{delta[0]}" y="{delta[1]}" />'
+                g += svg_for_agent(
+                    agent,
+                    precision,
+                    prefix,
+                    w_decorate(agent, world) if w_decorate else {},
+                    display_shape,
+                    display_safety_margin,
+                    delta=delta)
     else:
         height = width
         view_box = (0, 0, 1, 1)
@@ -341,8 +306,10 @@ def _svg_for_world(
         r = ''
     if world:
         epilog = '\n'.join([e(world) for e in extras])
+        prolog = '\n'.join([e(world) for e in background_extras])
     else:
         epilog = ''
+        prolog = ''
     folder = os.path.dirname(os.path.realpath(__file__))
     template_folder = os.path.join(folder, 'templates')
     jinjia_env = jinja2.Environment(
@@ -357,28 +324,10 @@ def _svg_for_world(
         display_shape=display_shape,
         grid=grid,
         rotation=r,
+        prolog=prolog,
         epilog=epilog,
         **grid_kwargs,
         **dims), dims
-
-
-# def world_bound(world: World) -> Rect:
-#     ps = []
-#     for wall in world.walls:
-#         ps.append(wall.line.p1)
-#         ps.append(wall.line.p2)
-#     for obstacle in world.obstacles:
-#         delta = np.ones(2) * obstacle.disc.radius
-#         p = obstacle.disc.position
-#         ps.append(p - delta)
-#         ps.append(p + delta)
-#     for agent in world.agents:
-#         delta = np.ones(2) * agent.radius
-#         ps.append(agent.position - delta)
-#         ps.append(agent.position + delta)
-#     if not ps:
-#         return np.zeros(2), np.zeros(2)
-#     return np.min(ps, axis=0), np.max(ps, axis=0)
 
 
 def size(

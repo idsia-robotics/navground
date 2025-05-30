@@ -2,6 +2,11 @@
 
 namespace core = navground::core;
 
+// May use a custom environment state
+struct MyEnvironmentState {
+
+};
+
 struct MyBehavior : public core::Behavior {
   MyEnvironmentState _env_state;
   // MUST override ... the base returns an null pointer.

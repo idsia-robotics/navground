@@ -7,7 +7,7 @@ The base implementation is empty, therefore it is not required to call it.
 
 During the simulation, ``update``  (:cpp:func:`C++ <navground::sim::Task::update>`, :py:meth:`Python <navground.sim.Task.update>`) is called before a behavior is executed: override it to with higher-level logic specific to your task, which should possibly interacting with the lower-level navigation controller by 
 
-- checking the agent's controller (:cpp:func:`C++ <navground::sim::Agent::get_controller>`, :py:data:`Python <navground.sim.Agent.controller>`) state and possibly triggering some action, or
+- checking the agent's controller (:cpp:func:`C++ <navground::sim::Agent::get_controller>`, :py:data:`Python <navground.sim.Agent.coxntroller>`) state and possibly triggering some action, or
 - direcly setting the agent's behavior (:cpp:func:`C++ <navground::sim::Agent::get_behavior>`, :py:data:`Python <navground.sim.Agent.behavior>`) target
 
 yet, task are free to interact in any other way.
@@ -57,10 +57,10 @@ Class skeleton
 
    .. tab:: C++
 
-      .. literalinclude :: state_estimation.h
+      .. literalinclude :: task.h
          :language: C++
 
    .. tab:: Python
 
-      .. literalinclude :: state_estimation.py
+      .. literalinclude :: task.py
          :language: Python

@@ -1,6 +1,6 @@
 from navground import core
 
-class MyKinematics(core.PyKinematics):
+class MyKinematics(core.Kinematics):
     # set to whether there are wheels or not
     IS_WHEELED = False
     # set the number of dof

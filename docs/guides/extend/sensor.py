@@ -2,7 +2,7 @@ import numpy
 from navground import core, sim
 
 
-class MySensor(sim.PySensor):
+class MySensor(sim.Sensor):
 
     # MUST override
     # return the description of the data written by the sensor

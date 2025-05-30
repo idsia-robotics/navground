@@ -15,6 +15,7 @@ navground.core
 
    common
    auto_registration
+   attribute
    yaml
    kinematics/index
    target

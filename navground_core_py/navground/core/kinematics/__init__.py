@@ -1,4 +1,4 @@
-from .._navground import (AheadKinematics,
+from .._navground import (AheadKinematics, BicycleKinematics,
                           DynamicTwoWheelsDifferentialDriveKinematics,
                           FourWheelsOmniDriveKinematics,
                           OmnidirectionalKinematics,
@@ -8,5 +8,5 @@ from .._navground import (AheadKinematics,
 __all__ = [
     'OmnidirectionalKinematics', 'AheadKinematics', 'WheeledKinematics',
     'TwoWheelsDifferentialDriveKinematics', 'FourWheelsOmniDriveKinematics',
-    'DynamicTwoWheelsDifferentialDriveKinematics'
+    'DynamicTwoWheelsDifferentialDriveKinematics', 'BicycleKinematics'
 ]

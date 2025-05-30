@@ -13,5 +13,6 @@ Tutorials
    deadlocks_and_collisions
    modulations
    sensors
+   world_attributes
 
 

@@ -36,6 +36,10 @@ namespace navground::sim {
  *
  *   - `max_id` (int, \ref get_max_id)
  *
+ *   - `include_x` (int, \ref get_include_x)
+ *
+ *   - `include_y` (int, \ref get_include_y)
+ *
  */
 struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   static const std::string type;
@@ -79,6 +83,8 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
    * @param[in]  include_valid  Whether to include validity
    * @param[in]  use_nearest_point  Whether to use nearest point as position
    * @param[in]  max_id  Maximal neighbor id
+   * @param[in]  include_x  Whether to include the x-coordinate
+   * @param[in]  include_y  Whether to include the y-coordinate
    * @param[in]  name     The name to use as a prefix
    */
   explicit DiscsStateEstimation(
@@ -87,10 +93,12 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
       ng_float_t max_speed = default_max_speed,
       bool include_valid = default_include_valid,
       bool use_nearest_point = default_use_nearest_point,
-      unsigned max_id = default_max_id, const std::string &name = "")
+      unsigned max_id = default_max_id, bool include_x = true,
+      bool include_y = true, const std::string &name = "")
       : Sensor(name), _range(range), _number(number), _max_radius(max_radius),
         _max_speed(max_speed), _include_valid(include_valid),
-        _use_nearest_point(use_nearest_point), _max_id(max_id) {}
+        _use_nearest_point(use_nearest_point), _max_id(max_id),
+        _include_x(include_x), _include_y(include_y) {}
 
   virtual ~DiscsStateEstimation() = default;
 
@@ -198,6 +206,31 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   int get_max_id() const { return _max_id; }
 
   /**
+   * @brief      Sets whether to include the x-coordinate.
+   *
+   * @param[in]  value  True to include it.
+   */
+  void set_include_x(bool value) { _include_x = value; }
+  /**
+   * @brief      Gets whether to include the x-coordinate.
+   *
+   * @return     True when including it.
+   */
+  bool get_include_x() const { return _include_x; }
+  /**
+   * @brief      Sets whether to include the y-coordinate.
+   *
+   * @param[in]  value  True to include it.
+   */
+  void set_include_y(bool value) { _include_y = value; }
+  /**
+   * @brief      Gets whether to include the y-coordinate.
+   *
+   * @return     True when including it.
+   */
+  bool get_include_y() const { return _include_y; }
+
+  /**
    * @private
    */
   virtual void update(Agent *agent, World *world,
@@ -206,11 +239,16 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
   // {(relative x, relative y, v_x, v_y, radius)}
   // DONE(Jerome): max_radius / max_velocity
 
+  size_t get_dimensions() const {
+    return size_t(_include_x) + size_t(_include_y);
+  }
+
   /**
    * @private
    */
   Description get_description() const override {
     Description desc;
+    const long dim = get_dimensions();
     if (!_number)
       return desc;
     if (include_radius()) {
@@ -221,11 +259,11 @@ struct NAVGROUND_SIM_EXPORT DiscsStateEstimation : public Sensor {
     if (include_velocity()) {
       desc.emplace(get_field_name("velocity"),
                    core::BufferDescription::make<ng_float_t>(
-                       {_number, 2}, -_max_speed, _max_speed));
+                       {_number, dim}, -_max_speed, _max_speed));
     }
     if (include_position()) {
       desc.emplace(get_field_name("position"),
-                   core::BufferDescription::make<ng_float_t>({_number, 2},
+                   core::BufferDescription::make<ng_float_t>({_number, dim},
                                                              -_range, _range));
     }
     if (get_include_valid()) {
@@ -248,10 +286,16 @@ private:
   bool _include_valid;
   bool _use_nearest_point;
   unsigned _max_id;
+  bool _include_x;
+  bool _include_y;
 
-  bool include_velocity() const { return _max_speed > 0; }
+  bool include_velocity() const {
+    return _max_speed > 0 && (_include_x || _include_y);
+  }
   bool include_radius() const { return _max_radius > 0; }
-  bool include_position() const { return _range > 0; }
+  bool include_position() const {
+    return _range > 0 && (_include_x || _include_y);
+  }
   bool include_id() const { return _max_id > 0; }
 };
 

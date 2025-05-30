@@ -172,25 +172,28 @@ Twist2 Behavior::compute_cmd_internal(ng_float_t dt) {
 }
 
 bool Behavior::check_if_target_satisfied() const {
+  if (target.direction && target.direction->norm() && get_target_speed()) {
+    return false;
+  }
   return target.satisfied(pose);
 }
 
 ng_float_t Behavior::estimate_time_until_target_satisfied() const {
   ng_float_t time = 0;
-  const auto dist = get_target_distance(false);
+  const ng_float_t dist = get_target_distance(false);
   if (dist) {
     const ng_float_t speed = get_target_speed();
     if (speed) {
-      time += (*dist) / speed;
+      time += dist / speed;
     } else {
       return std::numeric_limits<ng_float_t>::infinity();
     }
   }
-  const auto ang_dist = get_target_orientation(Frame::relative);
+  const auto ang_dist = get_target_angular_distance(false);
   if (ang_dist) {
     const ng_float_t angular_speed = get_target_angular_speed();
     if (angular_speed) {
-      time += (*ang_dist) / angular_speed;
+      time += ang_dist / angular_speed;
     } else {
       return std::numeric_limits<ng_float_t>::infinity();
     }
@@ -230,8 +233,10 @@ ng_float_t Behavior::get_efficacy() const {
   return v.dot(twist.velocity) / v.squaredNorm();
 }
 
-std::optional<Vector2> Behavior::get_target_position(Frame frame) const {
-  if (target.position && !target.satisfied(pose.position)) {
+std::optional<Vector2>
+Behavior::get_target_position(Frame frame, bool ignore_tolerance) const {
+  if (target.position &&
+      (ignore_tolerance || !target.satisfied(pose.position))) {
     if (frame == Frame::relative) {
       return to_relative(*(target.position) - pose.position);
     }
@@ -240,8 +245,10 @@ std::optional<Vector2> Behavior::get_target_position(Frame frame) const {
   return std::nullopt;
 }
 
-std::optional<ng_float_t> Behavior::get_target_orientation(Frame frame) const {
-  if (target.orientation && !target.satisfied(pose.orientation)) {
+std::optional<ng_float_t>
+Behavior::get_target_orientation(Frame frame, bool ignore_tolerance) const {
+  if (target.orientation &&
+      (ignore_tolerance || !target.satisfied(pose.orientation))) {
     if (frame == Frame::relative) {
       return normalize_angle(*(target.orientation) - pose.orientation);
     }
@@ -250,9 +257,26 @@ std::optional<ng_float_t> Behavior::get_target_orientation(Frame frame) const {
   return std::nullopt;
 }
 
-std::optional<Vector2> Behavior::get_target_direction(Frame frame) const {
+std::optional<int>
+Behavior::get_target_angular_direction(bool ignore_tolerance) const {
+  if (target.orientation &&
+      (ignore_tolerance || !target.satisfied(pose.orientation))) {
+    const auto delta =
+        normalize_angle(*(target.orientation) - pose.orientation);
+    if (delta > 0)
+      return 1;
+    return -1;
+  } else if (target.angular_direction) {
+    return *target.angular_direction;
+  }
+  return std::nullopt;
+}
+
+std::optional<Vector2>
+Behavior::get_target_direction(Frame frame, bool ignore_tolerance) const {
   std::optional<Vector2> e = std::nullopt;
-  if (target.position && !target.satisfied(pose.position)) {
+  if (target.position &&
+      (ignore_tolerance || !target.satisfied(pose.position))) {
     e = (*(target.position) - pose.position).normalized();
   } else if (target.direction) {
     e = target.direction->normalized();
@@ -263,9 +287,8 @@ std::optional<Vector2> Behavior::get_target_direction(Frame frame) const {
   return e;
 }
 
-std::optional<ng_float_t>
-Behavior::get_target_distance(bool ignore_tolerance) const {
-  const auto delta = get_target_position(Frame::relative);
+ng_float_t Behavior::get_target_distance(bool ignore_tolerance) const {
+  const auto delta = get_target_position(Frame::relative, ignore_tolerance);
   if (delta) {
     ng_float_t distance = delta->norm();
     if (!ignore_tolerance) {
@@ -278,11 +301,24 @@ Behavior::get_target_distance(bool ignore_tolerance) const {
     }
     return std::max<ng_float_t>(0, distance);
   }
-  return std::nullopt;
+  return 0;
 }
 
-Vector2 Behavior::get_target_velocity(Frame frame) const {
-  const auto e = get_target_direction(frame);
+ng_float_t Behavior::get_target_angular_distance(bool ignore_tolerance) const {
+  const auto delta = get_target_orientation(Frame::relative, ignore_tolerance);
+  if (delta) {
+    ng_float_t distance = std::abs(*delta);
+    if (!ignore_tolerance) {
+      distance -= target.orientation_tolerance;
+    }
+    return std::max<ng_float_t>(0, distance);
+  }
+  return 0;
+}
+
+Vector2 Behavior::get_target_velocity(Frame frame,
+                                      bool ignore_tolerance) const {
+  const auto e = get_target_direction(frame, ignore_tolerance);
   if (e) {
     return (*e) * get_target_speed();
   }
@@ -296,6 +332,29 @@ ng_float_t Behavior::get_target_speed() const {
 ng_float_t Behavior::get_target_angular_speed() const {
   return feasible_angular_speed(
       target.angular_speed.value_or(optimal_angular_speed));
+}
+
+ng_float_t Behavior::get_target_angular_velocity(bool ignore_tolerance) const {
+  const auto d = get_target_angular_direction(ignore_tolerance);
+  if (d) {
+    return (*d) * get_target_angular_speed();
+  }
+  return 0;
+}
+
+Twist2 Behavior::get_target_twist(Frame frame, bool ignore_tolerance) const {
+  return {get_target_velocity(frame, ignore_tolerance),
+          get_target_angular_velocity(ignore_tolerance)};
+}
+
+std::optional<Pose2> Behavior::get_target_pose(Frame frame,
+                                               bool ignore_tolerance) const {
+  const auto p = get_target_position(frame, ignore_tolerance);
+  const auto o = get_target_orientation(frame, ignore_tolerance);
+  if (p && o) {
+    return Pose2{*p, *o};
+  }
+  return std::nullopt;
 }
 
 void Behavior::set_state_from(const Behavior &other) {

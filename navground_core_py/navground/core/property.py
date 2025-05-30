@@ -8,10 +8,12 @@ import numpy
 from navground.core import uses_doubles
 from navground.core.schema import SchemaModifier
 
-FloatType: type[numpy.floating[Any]] = numpy.float64 if uses_doubles() else numpy.float32
+FloatType: type[
+    numpy.floating[Any]] = numpy.float64 if uses_doubles() else numpy.float32
 # Type aliases cannot be dynamically evaluated ...
 # else we would set the type to FloatType instead of numpy.float64
-Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]], numpy.dtype[numpy.float64]]
+Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]],
+                                   numpy.dtype[numpy.float64]]
 Vector2Like: TypeAlias = Vector2 | tuple[float, float] | list[float]
 
 ScalarPropertyField: TypeAlias = bool | int | float | str | Vector2
@@ -22,8 +24,22 @@ PropertyField: TypeAlias = ScalarPropertyField | ListPropertyField
 T = TypeVar('T', bound=Any)
 
 
-def _convert(getter: Callable[..., Any],
-             value: Any) -> tuple[PropertyField, type[ScalarPropertyField]]:
+def _get_scalar_type_name(type_: type[ScalarPropertyField]) -> str:
+    if type_ in (bool, int, float, str):
+        return type_.__name__
+    return 'vector'
+
+
+def _is_list(scalar_type_name: str, value: Any) -> bool:
+    if scalar_type_name == 'vector':
+        if (type(value) in (list, tuple) and len(value) == 2
+                and all(type(x) in (bool, int, float) for x in value)):
+            return False
+    return type(value) in (list, tuple)
+
+
+def _get_type(getter: Callable[..., Any],
+              value: Any) -> tuple[type[ScalarPropertyField], bool]:
     type_hint = get_type_hints(getter).get('return', None)
     type_: type[Any]
     item_type: type[Any] | None
@@ -56,43 +72,17 @@ def _convert(getter: Callable[..., Any],
                 f"Default value {value} should be an non-empty sequence"
             ) from e
     if type_ is list:
-        return cast(ListPropertyField,
-                    [_convert_scalar(item_type, x)
-                     for x in value]), cast(type[ScalarPropertyField],
-                                            item_type)
-    return _convert_scalar(type_, value), type_
-
-
-def _convert_scalar(type_: Any, value: Any) -> ScalarPropertyField:
-    if type_ not in (bool, int, float, str, Vector2):
-        raise TypeError(f"Unsupported type {type_}")
-
-    if type_ == Vector2:
-        try:
-            if len(value) == 2:
-                return numpy.asarray(value, dtype=float)
-            else:
-                raise ValueError(
-                    f"Unsupported value with length {len(value)} != 2 for type Vector2"
-                )
-        except Exception as e:
-            raise TypeError(
-                f"Unsupported value {value} for type {type_}") from e
-    if type_ is not type(value) and type_ not in (float, int) and not (
-            type(value) in (float, int) and type_ in (float, int)):
-        raise TypeError(
-            f"Implicit conversion of {value} to {type_} is not permitted")
-    try:
-        return cast(ScalarPropertyField, type_(value))
-    except Exception as e:
-        raise TypeError(f"Unsupported value {value} for type {type_}") from e
+        return cast(type[ScalarPropertyField], item_type), True
+    return type_, False
 
 
 def register(
     default_value: PropertyField,
     description: str = "",
     schema: SchemaModifier | None = None,
-    deprecated_names: Collection[str] = tuple()
+    deprecated_names: Collection[str] = tuple(),
+    scalar_type_name: str = '',
+    type_safe: bool = False,
 ) -> Callable[[T], T]:
     """
     A decorator to register a property.
@@ -118,6 +108,31 @@ def register(
             def my_property(self, value: bool) -> None:
                 self._my_field = value;
 
+    .. note::
+
+       The setter of registered properties is wrapped to guarantee
+       that is is called only with arguments of the property type
+       (e.g., py:type:`bool` in the example above).
+
+       In the example above, trying to set the property using
+
+       .. code-block:: python
+
+          c = C()
+          c.my_property = 'a'
+
+       or
+
+       .. code-block:: python
+
+          c.set('my_property', 'a'')
+
+       has no effect.
+
+       You can disable this argument coercion by setting the
+       environment variable ``NAVGROUND_DISABLE_PY_PROPERTY_COERCION``
+       (before navground is initialized) or by passing ``type_safe=True``.
+
 
     :param default_value:
         The default value of the property
@@ -128,21 +143,31 @@ def register(
     :param schema: A optional schema to add validity constrains to the property
 
     :param deprecated_names: A list of alternative deprecated names
+
+    :param scalar_type_name: The property scalar type name:
+                             one of "int", "float", "bool", "str, "vector".
+                             If not provided it will infer it from
+                             the type hints and/or the default value type.
+
+    :param type_safe: Whether the setter is type safe and therefore does not require
+                      checking/coercing the argument.
     """
 
     def g(f: T) -> T:
-        try:
-            value, scalar_type = _convert(f, default_value)
-            f.__default_value__ = value
-            if scalar_type in (bool, int, float, str):
-                f.__scalar_value__ = scalar_type()  # type: ignore[call-arg]
-            else:
-                f.__scalar_value__ = numpy.zeros(2, dtype=FloatType)
-        except Exception as e:
-            raise ValueError('Default property value not valid') from e
+        if scalar_type_name:
+            f.__scalar_type__ = scalar_type_name
+            f.__is_list__ = _is_list(scalar_type_name, default_value)
+        else:
+            try:
+                scalar_type, f.__is_list__ = _get_type(f, default_value)
+                f.__scalar_type__ = _get_scalar_type_name(scalar_type)
+            except Exception as e:
+                raise ValueError('Default property value not valid') from e
         f.__desc__ = description
         f.__deprecated_names__ = deprecated_names
         f.__schema__ = schema
+        f.__type_safe__ = type_safe
+        f.__default_value__ = default_value
         return f
 
     return g

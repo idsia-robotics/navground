@@ -15,7 +15,6 @@ if TYPE_CHECKING:
 import importlib.metadata
 
 import navground.core
-from navground.core import Vector2
 from navground.core import get_loaded_plugins as _get_loaded_core_plugins
 from navground.core import get_loaded_py_plugins as _get_loaded_py_core_plugins
 from navground.core import get_plugins_dependencies, load_cpp_plugins
@@ -34,17 +33,8 @@ from ._navground_sim import (
 
 from . import scenarios, state_estimations, tasks
 from .run_mp import run_mp
-
-Bounds = tuple[Vector2, Vector2]
-
-
-def bounds_of_bounding_box(bb: BoundingBox) -> Bounds:
-    return bb.p1, bb.p2
-
-
-def bounds_for_world(world: World) -> Bounds:
-    return bounds_of_bounding_box(world.bounding_box)
-
+from .ui.to_svg import svg_for_world
+from .bounds import bounds_of_bounding_box, bounds_for_world
 
 SUPPORT_YAML: TypeAlias = (navground.core.SUPPORT_YAML | Task | StateEstimation
                            | Scenario | Experiment | Agent | World | Wall
@@ -56,6 +46,13 @@ def load_state_estimation(value: str) -> StateEstimation | None:
 
 
 load_state_estimation.__doc__ = StateEstimation.load.__doc__
+
+
+def load_sensor(value: str) -> Sensor | None:
+    return Sensor.load(value)
+
+
+load_sensor.__doc__ = Sensor.load.__doc__
 
 
 def load_task(value: str) -> Task | None:
@@ -229,6 +226,16 @@ def setup_tqdm(self: Experiment,
 Experiment.setup_tqdm = setup_tqdm  # type: ignore[method-assign]
 Experiment.run_mp = run_mp  # type: ignore[method-assign]
 
+
+def repr_svg(world: World) -> str:
+    return svg_for_world(world, **world.render_kwargs)
+
+
+World.render_kwargs = {}  # type: ignore[attr-defined]
+"""World-specific rendering configuration. Specified fields override
+:py:data:`navground.sim.ui.render_default_config`"""
+World._repr_svg_ = repr_svg  # type: ignore[attr-defined]
+
 # isort: stop
 from .recorded_experiment import (  # noqa: E402
     RecordedExperiment, RecordedExperimentalRun)
@@ -243,5 +250,6 @@ __all__ = [
     'RecordedExperiment', 'RecordedExperimentalRun', 'SensingProbe',
     'use_compact_samplers', 'uses_doubles', 'get_loaded_plugins', 'schema',
     'get_build_info', 'get_build_dependencies', 'get_plugins_dependencies',
-    'scenarios', 'state_estimations', 'tasks', 'RunConfig'
+    'scenarios', 'state_estimations', 'tasks', 'RunConfig',
+    'bounds_of_bounding_box', 'bounds_for_world'
 ]

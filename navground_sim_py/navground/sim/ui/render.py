@@ -40,7 +40,14 @@ def image_for_world(world: World,
 
     :param      world:             The world to be rendered
     :param      background_color:  A valid SVG color for the background
-    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    :param      kwargs:                 Optional configuration:
+        same fields as :py:class:`navground.sim.ui.RenderConfig`.
+
+    The actual configuration is computed by looking (in order) to
+
+    1. the arguments of this function;
+    2. the world-specific configuration :py:attr:`navground.sim.World.render_kwargs`;
+    3. the default configuration :py:attr:`navground.sim.ui.render_default_config`.
 
     :returns:   An RGB image as a numpy array
     """
@@ -59,7 +66,14 @@ def png_for_world(
 
     :param      world:             The world to be rendered
     :param      background_color:  A valid SVG color for the background
-    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    :param      kwargs:                 Optional configuration:
+        same fields as :py:class:`navground.sim.ui.RenderConfig`.
+
+    The actual configuration is computed by looking (in order) to
+
+    1. the arguments of this function;
+    2. the world-specific configuration :py:attr:`navground.sim.World.render_kwargs`;
+    3. the default configuration :py:attr:`navground.sim.ui.render_default_config`.
 
     :returns:   A png bytestring
     """
@@ -79,7 +93,14 @@ def pdf_for_world(world: World,
 
     :param      world:             The world to be rendered
     :param      background_color:  A valid SVG color for the background
-    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    :param      kwargs:                 Optional configuration:
+        same fields as :py:class:`navground.sim.ui.RenderConfig`.
+
+    The actual configuration is computed by looking (in order) to
+
+    1. the arguments of this function;
+    2. the world-specific configuration :py:attr:`navground.sim.World.render_kwargs`;
+    3. the default configuration :py:attr:`navground.sim.ui.render_default_config`.
 
     :returns:   A pdf bytestring
     """

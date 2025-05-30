@@ -44,10 +44,7 @@ template <typename T>
 std::shared_ptr<T> make_type_from_yaml(const Node& node) {
   if (node.IsMap()) {
     std::string type = node["type"].as<std::string>("");
-    auto obj = T::make_type(type);
-    if (!obj) return nullptr;
-    decode_properties(node, *obj);
-    return obj;
+    return T::make_type(type);
   }
   return nullptr;
 }

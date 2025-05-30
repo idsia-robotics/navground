@@ -22,6 +22,8 @@
 - Added `Target` angular direction.
 - Added additional `Behavior` target helpers and extended `ignore_tolerance` argument to existing helpers: the treatment of the angular and planar components is now symmetric.
 - Added [limited] Scenario accessors to property samplers.
+- Added world-specific and default rendering configuration, which provides defaults for all rendering functions. This way, e.g., a scenario can specify world-specific extra for the worlds it creates.
+- Added `World._repr_svg_` to implicitly display worlds as SVG in jupyter.
 
 ### Fixed
 

@@ -232,6 +232,8 @@ def repr_svg(world: World) -> str:
 
 
 World.render_kwargs = {}  # type: ignore[attr-defined]
+"""World-specific rendering configuration. Specified fields override
+:py:data:`navground.sim.ui.render_default_config`"""
 World._repr_svg_ = repr_svg  # type: ignore[attr-defined]
 
 # isort: stop

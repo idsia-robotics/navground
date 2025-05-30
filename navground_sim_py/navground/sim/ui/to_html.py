@@ -10,7 +10,8 @@ from collections.abc import Mapping
 from typing import Any
 
 from .. import World
-from .to_svg import svg_for_world_and_dims, UNSPECIFIED
+from .common import render_default_config
+from .to_svg import svg_for_world_and_dims
 
 
 def open_html(width: int = 640,
@@ -78,7 +79,7 @@ def html_for_world(world: World | None = None,
                    with_websocket: bool = False,
                    notebook: bool = False,
                    port: int = 8000,
-                   display_shape: bool = UNSPECIFIED,
+                   display_shape: bool | None = None,
                    external_style_path: str = '',
                    style: str = '',
                    include_script_path: str | None = None,
@@ -96,8 +97,15 @@ def html_for_world(world: World | None = None,
     :param      external_style_path:    The external style path
     :param      style:                  An inline CSS style to include
     :param      include_script_path:    An alternative script path to be included
-    :param      kwargs:                 Arguments forwarded to
-                                        :py:func:`navground.sim.ui.svg_for_world`
+    :param      kwargs:                 Optional configuration:
+        same fields as :py:class:`navground.sim.ui.RenderConfig`.
+
+    The actual configuration is computed by looking (in order) to
+
+    1. the arguments of this function;
+    2. the world-specific configuration :py:attr:`navground.sim.World.render_kwargs`;
+    3. the default configuration :py:attr:`navground.sim.ui.render_default_config`.
+
 
     :returns:   An HTML string
     """
@@ -115,11 +123,12 @@ def html_for_world(world: World | None = None,
         notebook_count += 1
     else:
         prefix = ''
-    if display_shape is UNSPECIFIED:
+    if display_shape is None:
         if world:
-            display_shape = world.render_kwargs.get('display_shape', False)
+            display_shape = world.render_kwargs.get(
+                'display_shape', render_default_config.display_shape)
         else:
-            display_shape = False
+            display_shape = render_default_config.display_shape
     svg, dims = svg_for_world_and_dims(world=world,
                                        standalone=False,
                                        prefix=prefix,

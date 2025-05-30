@@ -10,8 +10,9 @@ from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
 from ..bounds import bounds_for_world
-from .to_svg import (Attributes, Decorate, WorldDecorator, Rect, flat_dict,
-                     size, wrap_as_world_decorator)
+from .common import (Attributes, Decorate, Rect, WorldDecorator,
+                     wrap_as_world_decorator)
+from .to_svg import flat_dict, size
 
 if TYPE_CHECKING:
     from websockets.legacy.server import (WebSocketServer,

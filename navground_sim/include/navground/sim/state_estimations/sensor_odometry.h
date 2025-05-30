@@ -297,6 +297,9 @@ struct NAVGROUND_SIM_EXPORT OdometryStateEstimation : public Sensor {
                  std::numeric_limits<ng_float_t>::max())}};
   }
 
+protected:
+  void prepare(Agent *agent, World *world) override;
+
 private:
   core::Pose2 _pose;
   core::Twist2 _twist;

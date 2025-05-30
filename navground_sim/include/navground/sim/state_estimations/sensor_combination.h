@@ -77,6 +77,12 @@ struct NAVGROUND_SIM_DEPRECATED_EXPORT SensorCombination : public Sensor {
    */
   void decode(const YAML::Node &node) override;
 
+protected:
+  /**
+   * @private
+   */
+  void prepare(Agent *agent, World *world) override;
+
 private:
   std::vector<std::shared_ptr<Sensor>> _sensors;
 };

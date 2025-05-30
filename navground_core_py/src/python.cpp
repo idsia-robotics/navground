@@ -464,9 +464,9 @@ PYBIND11_MODULE(_navground, m) {
       .def("__repr__", &DependencyInfo::to_string);
 
   py::class_<Property>(m, "Property", DOC(navground, core, Property))
-      .def(py::init(&make_property_py), py::arg("getter"), py::arg("setter"),
-           py::arg("default"), py::arg("description") = "",
-           py::arg("schema") = nullptr,
+      .def(py::init(&make_property_py_with_type), py::arg("getter"),
+           py::arg("setter"), py::arg("default"), py::arg("type_name"),
+           py::arg("description") = "", py::arg("schema") = nullptr,
            py::arg("deprecated_names") = std::vector<std::string>{}, R"doc(
 Constructs a new instance.
 
@@ -474,8 +474,10 @@ Constructs a new instance.
 :type getter: :py:class:`typing.Callable[[], T]`
 :param setter: An optional setter
 :type setter: :py:class:`typing.Callable[[T], None]` | None
-:param default: The default value, also used to set the type of the property.
+:param default: The default value (should be convertible to the property type)
 :type default: :py:type:`navground.core.PropertyField`
+:param type_name: The property type name
+:type type_name: str
 :param description: Optional description
 :type description: str
 :param schema: Optional schema modifier
@@ -496,17 +498,19 @@ Constructs a new instance.
       .def_readonly("readonly", &Property::readonly,
                     DOC(navground, core, Property, readonly))
       .def("__repr__", &to_string<Property>)
-      .def_static("make", &make_property_with_py_property, py::arg("property"),
-                  py::arg("default"), py::arg("description") = "",
-                  py::arg("schema") = nullptr,
+      .def_static("make", &make_property_with_py_property_with_type,
+                  py::arg("property"), py::arg("default"), py::arg("type_name"),
+                  py::arg("description") = "", py::arg("schema") = nullptr,
                   py::arg("deprecated_names") = std::vector<std::string>{},
                   R"doc(
 Constructs a navground property from a Python property.
 
 :param property: The Python property
 :type property: :py:class:`property`
-:param default: The default value, also used to set the type of the property.
+:param default: The default value (should be convertible to the property type)
 :type default: :py:type:`navground.core.PropertyField`
+:param type_name: The property type name
+:type type_name: str
 :param description: Optional description
 :type description: str
 :param schema: Optional schema modifier
@@ -2190,16 +2194,20 @@ Returns the bundle json-schema
 
   m.def(
       "convert",
-      [](const Property::Field &value, const std::string &type) {
-        std::string scalar_type = type;
-        bool is_list = false;
-        if (type.size() > 2 && type.front() == '[' && type.back() == ']') {
-          scalar_type = type.substr(1, type.size() - 2);
-          is_list = true;
+      [](const Property::Field &value, const std::string &scalar_type_name,
+         bool is_list) -> std::optional<Property::Field> {
+        const auto fn = get_converter(scalar_type_name, is_list);
+        if (fn) {
+          return std::nullopt;
         }
-        return convert_py(value, scalar_type, is_list);
+        return (*fn)(value);
       },
-      "");
+      py::arg("value"), py::arg("scalar_type_name"), py::arg("is_list"), "");
+
+  m.def("get_scalar_type_name", &get_scalar_type_name, py::arg("type_name"));
+
+  m.def("get_type_name_with_scalar", &get_type_name_with_scalar,
+        py::arg("scalar_type_name"), py::arg("is_list"));
 
   m.def(
       "uses_doubles",

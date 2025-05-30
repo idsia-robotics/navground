@@ -22,6 +22,7 @@
 - Added `Target` angular direction.
 - Added additional `Behavior` target helpers and extended `ignore_tolerance` argument to existing helpers: the treatment of the angular and planar components is now symmetric.
 - Added [limited] Scenario accessors to property samplers.
+- Enabled explicitly setting properties type name in Python.
 
 ### Fixed
 

@@ -2165,6 +2165,9 @@ The random generator.
       .def_property("wait_times", &WaypointsTask::get_wait_times,
                     &WaypointsTask::set_wait_times,
                     DOC(navground, sim, WaypointsTask, property_wait_times))
+      .def("get_effective_wait_time", &WaypointsTask::get_effective_wait_time,
+           py::arg("index"),
+           DOC(navground, sim, WaypointsTask, get_effective_wait_time))
       .def_property("random", &WaypointsTask::get_random,
                     &WaypointsTask::set_random,
                     DOC(navground, sim, WaypointsTask, property_random))

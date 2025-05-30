@@ -25,6 +25,7 @@
 - Enabled explicitly setting properties type name in Python.
 - Added world-specific and default rendering configuration, which provides defaults for all rendering functions. This way, e.g., a scenario can specify world-specific extra for the worlds it creates.
 - Added `World._repr_svg_` to implicitly display worlds as SVG in jupyter.
+- Optional wait time[s] at waypoints for task `Waypoints`. 
 
 ### Fixed
 

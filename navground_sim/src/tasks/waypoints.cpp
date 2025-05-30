@@ -8,39 +8,70 @@
 #include "navground/core/yaml/schema.h"
 #include "navground/sim/agent.h"
 #include "navground/sim/world.h"
+#include <cassert>
 
 namespace navground::sim {
 
 using navground::core::Property;
 
-void WaypointsTask::prepare(Agent *agent, World *world) { _running = true; }
+void WaypointsTask::prepare(Agent *agent, World *world) {
+  _state = State::idle;
+  _first = true;
+  _index = 0;
+}
 
 void WaypointsTask::update(Agent *agent, World *world, ng_float_t time) {
+  if (_state == State::done) {
+    return;
+  }
+  if (_state == State::waiting) {
+    if (time >= _deadline) {
+      _state = State::waited;
+    } else {
+      return;
+    }
+  }
   auto c = agent->get_controller();
-  if (c->idle()) {
-    auto waypoint = next_waypoint(world);
-    if (waypoint) {
-      auto o = next_goal_orientation();
-      auto tolerance = get_effective_tolerance(_index);
-      auto angular_tolerance = get_effective_angular_tolerance(_index);
-      if (o && angular_tolerance > 0) {
-        c->go_to_pose(core::Pose2{*waypoint, *o}, tolerance, angular_tolerance);
-      } else {
-        c->go_to_position(*waypoint, tolerance);
-      }
-      _running = true;
-      log_event({time, 1.0, waypoint->x(), waypoint->y()});
-    } else if (_running) {
-      log_event({time, 0.0, 0.0, 0.0});
-      _running = false;
+  if (_state == State::moving) {
+    if (c->idle()) {
+      _state = State::idle;
+    }
+  }
+  if (_state == State::idle) {
+    if (!next(world)) {
+      log_event({time, 0, 0, 0, 0, 0, 0});
+      _state = State::done;
+      return;
+    }
+    const auto wait_time = get_effective_wait_time(_index);
+    if (wait_time) {
+      _state = State::waiting;
+      _deadline = time + wait_time;
+      log_event({time, 1, wait_time, 0, 0, 0, 0});
+      return;
+    }
+  }
+  if (_state == State::idle || _state == State::waited) {
+    _state = State::moving;
+    const auto waypoint = get_waypoint(_index);
+    assert(waypoint);
+    const auto o = get_orientation(_index);
+    const auto tolerance = get_effective_tolerance(_index);
+    const auto angular_tolerance = get_effective_angular_tolerance(_index);
+    if (o && angular_tolerance > 0) {
+      c->go_to_pose(core::Pose2{*waypoint, *o}, tolerance, angular_tolerance);
+      log_event({time, 2, waypoint->x(), waypoint->y(), *o, tolerance,
+                 angular_tolerance});
+    } else {
+      c->go_to_position(*waypoint, tolerance);
+      log_event({time, 3, waypoint->x(), waypoint->y(), 0, tolerance, 0});
     }
   }
 }
 
-std::optional<navground::core::Vector2>
-WaypointsTask::next_waypoint(World *world) {
+bool WaypointsTask::next(World *world) {
   if (_waypoints.size() == 0)
-    return std::nullopt;
+    return false;
   if (_random) {
     if (_first) {
       std::uniform_int_distribution<int> d(
@@ -63,22 +94,14 @@ WaypointsTask::next_waypoint(World *world) {
   }
   _first = false;
   if (_index >= 0 && _index < static_cast<int>(_waypoints.size())) {
-    return _waypoints[_index];
+    return true;
   }
-  return std::nullopt;
-}
-
-std::optional<ng_float_t> WaypointsTask::next_goal_orientation() const {
-  int index = std::min<int>(_index, _orientations.size() - 1);
-  if (index >= 0) {
-    return _orientations[index];
-  }
-  return std::nullopt;
+  return false;
 }
 
 bool WaypointsTask::done() const {
   // return waypoint == waypoints.end();
-  return !_running;
+  return _state == State::done;
 }
 
 const std::string WaypointsTask::type = register_type<WaypointsTask>(
@@ -103,13 +126,20 @@ const std::string WaypointsTask::type = register_type<WaypointsTask>(
      {"tolerances",
       Property::make(&WaypointsTask::get_tolerances,
                      &WaypointsTask::set_tolerances, std::vector<ng_float_t>{},
-                     "Specific spatial tolerances [m]",
-                     &YAML::schema::positive)},
+                     "Specific spatial tolerances [m]")},
      {"angular_tolerances",
       Property::make(&WaypointsTask::get_angular_tolerances,
                      &WaypointsTask::set_angular_tolerances,
                      std::vector<ng_float_t>{},
                      "Specific angular tolerances [rad]")},
+     {"wait_time",
+      Property::make(&WaypointsTask::get_wait_time,
+                     &WaypointsTask::set_wait_time, ng_float_t{0},
+                     "Default wait time [s]", &YAML::schema::positive)},
+     {"wait_times",
+      Property::make(&WaypointsTask::get_wait_times,
+                     &WaypointsTask::set_wait_times, std::vector<ng_float_t>{},
+                     "Specific wait times [s]")},
      {"random", Property::make(&WaypointsTask::get_random,
                                &WaypointsTask::set_random, default_random,
                                "Whether to pick the next waypoint randomly")}});

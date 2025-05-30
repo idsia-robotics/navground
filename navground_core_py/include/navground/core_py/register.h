@@ -25,6 +25,73 @@ using navground::core::Property;
     return py::get_override(this, "encode");                                   \
   }
 
+inline std::string py_type_name(const py::object &cls) {
+  return cls.attr("__module__").cast<std::string>() + "." +
+         cls.attr("__name__").cast<std::string>();
+}
+
+inline std::map<std::string, Property>
+make_properties_py(const py::object &cls, const std::string &owner = "") {
+  std::string owner_type_name;
+  if (owner.size()) {
+    owner_type_name = py_type_name(cls);
+  } else {
+    owner_type_name = owner;
+  }
+  const auto py_property = py::module_::import("builtins").attr("property");
+  const bool disable_type_safety =
+      !py::module_::import("os")
+           .attr("environ")
+           .attr("get")("NAVGROUND_DISABLE_PY_PROPERTY_COERCION")
+           .is_none();
+  const auto isinstance = py::module_::import("builtins").attr("isinstance");
+  std::map<std::string, Property> ps;
+  for (auto &item : cls.attr("__dict__").cast<py::dict>()) {
+    py::object v = py::cast<py::object>(item.second);
+    if (isinstance(v, py_property).cast<bool>() && py::hasattr(v, "fget")) {
+      const auto fget = v.attr("fget");
+      if (py::hasattr(fget, "__default_value__")) {
+        const auto name = item.first.cast<std::string>();
+        const auto scalar_type =
+            fget.attr("__scalar_type__").cast<std::string>();
+        const bool is_vector = fget.attr("__is_list__").cast<bool>();
+        const auto suggested_default_value =
+            fget.attr("__default_value__").cast<Property::Field>();
+        const auto convert = get_converter(scalar_type, is_vector);
+        if (!convert) {
+          std::cerr << "Invalid type " << scalar_type << " for property "
+                    << name << std::endl;
+          continue;
+        }
+        const auto default_value = (*convert)(suggested_default_value);
+        if (!default_value) {
+          std::cerr << "Invalid default value " << suggested_default_value
+                    << " for property " << name << std::endl;
+          continue;
+        }
+        const auto desc = fget.attr("__desc__").cast<std::string>();
+        const auto deprecated_names =
+            fget.attr("__deprecated_names__").cast<std::vector<std::string>>();
+        const auto schema =
+            fget.attr("__schema__").cast<std::optional<py::function>>();
+        const auto type_safe =
+            disable_type_safety || fget.attr("__type_safe__").cast<bool>();
+        const auto fset = v.attr("fset");
+        if (!fset.is_none() && !type_safe) {
+          v = py_property(fget, safe_setter(fset, *convert), v.attr("fdel"),
+                          fget.attr("__doc__"));
+          py::setattr(cls, item.first, v);
+        }
+        auto property = make_property_with_py_property(
+            v, *default_value, *convert, desc, schema, deprecated_names);
+        property.owner_type_name = owner_type_name;
+        ps.emplace(name, std::move(property));
+      }
+    }
+  }
+  return ps;
+}
+
 template <typename T>
 struct PyHasRegister : virtual public navground::core::HasRegister<T> {
   /* Inherit the constructors */
@@ -98,6 +165,17 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
     type_properties()[name] = Properties{};
   }
 
+  static std::string get_class_type(const py::object &cls) {
+    if (py::hasattr(cls, "_type")) {
+      return cls.attr("_type").cast<std::string>();
+    }
+    py::object obj = cls();
+    if (py::hasattr(obj, "type")) {
+      return obj.attr("type").cast<std::string>();
+    }
+    return "";
+  }
+
   // static void set_schema_py(const std::string &name,
   //                           const py::function &schema_fn) {
   //   schema[name] = schema_fn;
@@ -128,13 +206,14 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
     }
   }
 
-  template<typename S>
+  template <typename S>
   static py::object make_subtype(const std::string &name) {
     if (factory.count(name)) {
       return factory[name].attr("__call__")();
     }
     try {
-      const auto obj = std::dynamic_pointer_cast<S>(HasRegister<T>::make_type(name));
+      const auto obj =
+          std::dynamic_pointer_cast<S>(HasRegister<T>::make_type(name));
 
       return py::cast(obj);
     } catch (const std::exception &e) {
@@ -159,47 +238,9 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
       std::cerr << "Python class not registered yet" << std::endl;
       return;
     }
-    std::string owner = cls.attr("__module__").cast<std::string>() + "." +
-                        cls.attr("__name__").cast<std::string>();
+    const auto properties = make_properties_py(cls);
     std::string type = cls.attr("_type").cast<std::string>();
-    const auto py_property = py::module_::import("builtins").attr("property");
-    const auto isinstance = py::module_::import("builtins").attr("isinstance");
-    for (auto &item : cls.attr("__dict__").cast<py::dict>()) {
-      const py::object v = py::cast<py::object>(item.second);
-      if (isinstance(v, py_property).cast<bool>() && py::hasattr(v, "fget")) {
-        const auto fget = v.attr("fget");
-        if (py::hasattr(fget, "__default_value__")) {
-          auto default_value =
-              fget.attr("__default_value__").cast<Property::Field>();
-          // If a list is empty, Python as no way to cast it to the correct
-          // type. Therefore, we read the type from a extra `__scalar_value__`
-          // field.
-          if (is_empty_vector(default_value) &&
-              py::hasattr(fget, "__scalar_value__")) {
-            const auto scalar_value =
-                fget.attr("__scalar_value__").cast<Property::Scalar>();
-            default_value = std::visit(
-                [](auto &&arg) -> Property::Field {
-                  using S = std::decay_t<decltype(arg)>;
-                  return std::vector<S>();
-                },
-                scalar_value);
-          }
-          const auto desc = fget.attr("__desc__").cast<std::string>();
-          const auto deprecated_names = fget.attr("__deprecated_names__")
-                                            .cast<std::vector<std::string>>();
-
-          const auto schema =
-              py::hasattr(v, "fget")
-                  ? fget.attr("__schema__").cast<std::optional<py::function>>()
-                  : std::nullopt;
-          // py::print("Adding Property", item.first, "to type", type, "from
-          // class", owner);
-          add_property_py(type, owner, item.first.cast<std::string>(), v,
-                          default_value, desc, schema, deprecated_names);
-        }
-      }
-    }
+    add_properties_py(type, properties);
   }
 
   static void register_schema_py(const py::object &cls) {
@@ -223,30 +264,30 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
     }
   }
 
-  static void
-  add_property_py(const std::string &type, const std::string &owner,
-                  const std::string &name, const py::object &py_property,
-                  const Property::Field &default_value,
-                  const std::string &description = "",
-                  const std::optional<py::function> &schema = std::nullopt,
-                  const std::vector<std::string> &deprecated_names = {}) {
-    Property p = make_property_with_py_property(
-        py_property, default_value, description, schema, deprecated_names);
-    p.owner_type_name = owner;
-    type_properties()[type][name] = std::move(p);
-  }
+  // static void
+  // add_property_py(const std::string &type, const std::string &owner,
+  //                 const std::string &name, const py::object &py_property,
+  //                 const Property::Field &default_value,
+  //                 const std::string &description = "",
+  //                 const std::optional<py::function> &schema = std::nullopt,
+  //                 const std::vector<std::string> &deprecated_names = {}) {
+  //   Property p = make_property_with_py_property(
+  //       py_property, default_value, description, schema, deprecated_names);
+  //   p.owner_type_name = owner;
+  //   type_properties()[type][name] = std::move(p);
+  // }
 
   std::string get_type() const override {
-    const auto type = HasRegister<T>::get_type();
-    if (!type.empty()) {
-      return type;
-    }
     try {
       auto value = py::cast(this).attr("_type");
       return value.template cast<std::string>();
     } catch (const std::exception &) {
-      return "";
     }
+    const auto type = HasRegister<T>::get_type();
+    if (!type.empty()) {
+      return type;
+    }
+    return "";
   }
 };
 
@@ -267,6 +308,39 @@ void declare_register(py::module &m, const std::string &typestr) {
                 PyRegister::register_type_py(name, cls);
                 PyRegister::register_properties_py(cls);
                 PyRegister::register_schema_py(cls);
+                if (kwargs.contains("include_properties_of")) {
+                  const auto owner = py_type_name(cls);
+                  const auto issubclass =
+                      py::module_::import("builtins").attr("issubclass");
+                  const auto types =
+                      py::cast<py::list>(kwargs["include_properties_of"]);
+                  for (const auto type : types) {
+                    if (py::isinstance<py::str>(type)) {
+                      const auto &properties = PyRegister::type_properties().at(
+                          py::cast<std::string>(type));
+                      PyRegister::add_properties_py(name, properties);
+                    } else if (py::cast<bool>(issubclass(cls, type))) {
+                      const auto type_name =
+                          PyRegister::get_class_type(type.cast<py::object>());
+                      if (type_name.size()) {
+                        const auto &properties =
+                            PyRegister::type_properties().at(type_name);
+                        PyRegister::add_properties_py(name, properties);
+                      } else {
+                        const auto properties = make_properties_py(
+                            py::cast<py::object>(type), owner);
+                        PyRegister::add_properties_py(name, properties);
+                      }
+                    }
+                  }
+                  // const auto types = py::cast<std::vector<std::string>>(
+                  //     kwargs["include_properties_of"]);
+                  // for (const auto &type : types) {
+                  //   const auto &properties =
+                  //       PyRegister::type_properties().at(type);
+                  //   PyRegister::add_properties_py(name, properties);
+                  // }
+                }
               }
             });
           })
@@ -284,6 +358,13 @@ void declare_register(py::module &m, const std::string &typestr) {
           nullptr, "The registered properties"
           // DOC(navground, core, HasRegister, property_properties)
           )
+      .def_property_readonly_static(
+          "class_type",
+          [](py::object cls) { return PyRegister::get_class_type(cls); }, R"doc(
+The name associated to a registered class
+
+Class property corresponding to instance property ``type``. 
+)doc")
       .def_property_readonly_static(
           "types", [](py::object /* self */) { return PyRegister::types(); })
       .def_property_readonly_static(
@@ -316,8 +397,23 @@ Check whether a type name has been registered.
   //             py::arg("name"), py::arg("cls"))
   // .def_static("_register_schema", &PyRegister::register_schema_py,
   //             py::arg("name"), py::arg("schema"))
-  // .def_static("_add_properties", &PyRegister::add_properties_py,
-  //             py::arg("type"), py::arg("properties"));
+  // .def_property_readonly_static(
+  //     "add_properties",
+  //     [](py::object &cls) {
+  //       const auto type = cls.attr("_type").cast<std::string>();
+  //       return py::cpp_function([type](const Properties &properties) {
+  //         PyRegister::add_properties_py(type, properties);
+  //       });
+  //     })
+  // .def_property_readonly_static(
+  //     "add_properties_of_type", [](py::object &cls) {
+  //       const auto type = cls.attr("_type").cast<std::string>();
+  //       return py::cpp_function([type](const std::string &other_type) {
+  //         const auto &properties =
+  //             PyRegister::type_properties().at(other_type);
+  //         PyRegister::add_properties_py(type, properties);
+  //       });
+  //     });
 }
 
 #endif // NAVGROUND_CORE_PY_REGISTER_H

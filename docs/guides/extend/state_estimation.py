@@ -1,7 +1,9 @@
 from navground import core, sim
 
 
-class MyStateEstimation(sim.PyMyStateEstimation):
+SupportedEnvironmentState = ...
+
+class MyStateEstimation(sim.StateEstimation):
 
     # CAN override
     # executed at the start of the simulation

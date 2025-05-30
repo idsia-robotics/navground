@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "docstrings.h"
+#include "navground/core/attribute.h"
 #include "navground/core/behavior.h"
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/build_info.h"
@@ -241,6 +242,9 @@ struct PySensor : public Sensor, public PyStateEstimation {
 
   OVERRIDE_DECODE
   OVERRIDE_ENCODE
+
+  static const inline std::string type =
+      register_abstract_type<PySensor>("Sensor", Sensor::properties, nullptr);
 };
 
 class PyAgent : public Agent {
@@ -914,26 +918,26 @@ template <typename T> static py::array make_empty_array() {
 void set_dataset_type_py(Dataset &dataset, const py::object &obj) {
   py::module_ np = py::module_::import("numpy");
   py::dtype dtype = np.attr("dtype")(obj);
-  if (dtype.is(py::dtype::of<int8_t>())) {
+  if (dtype.equal(py::dtype::of<int8_t>())) {
     dataset.set_dtype<int8_t>();
-  } else if (dtype.is(py::dtype::of<int16_t>())) {
+  } else if (dtype.equal(py::dtype::of<int16_t>())) {
     dataset.set_dtype<int16_t>();
-  } else if (dtype.is(py::dtype::of<int32_t>())) {
+  } else if (dtype.equal(py::dtype::of<int32_t>())) {
     dataset.set_dtype<int32_t>();
-  } else if (dtype.is(py::dtype::of<int64_t>())) {
+  } else if (dtype.equal(py::dtype::of<int64_t>())) {
     dataset.set_dtype<int64_t>();
-  } else if (dtype.is(py::dtype::of<uint8_t>()) ||
-             dtype.is(py::dtype::of<bool>())) {
+  } else if (dtype.equal(py::dtype::of<uint8_t>()) ||
+             dtype.equal(py::dtype::of<bool>())) {
     dataset.set_dtype<uint8_t>();
-  } else if (dtype.is(py::dtype::of<uint16_t>())) {
+  } else if (dtype.equal(py::dtype::of<uint16_t>())) {
     dataset.set_dtype<uint16_t>();
-  } else if (dtype.is(py::dtype::of<uint32_t>())) {
+  } else if (dtype.equal(py::dtype::of<uint32_t>())) {
     dataset.set_dtype<uint32_t>();
-  } else if (dtype.is(py::dtype::of<uint64_t>())) {
+  } else if (dtype.equal(py::dtype::of<uint64_t>())) {
     dataset.set_dtype<uint64_t>();
-  } else if (dtype.is(py::dtype::of<float>())) {
+  } else if (dtype.equal(py::dtype::of<float>())) {
     dataset.set_dtype<float>();
-  } else if (dtype.is(py::dtype::of<double>())) {
+  } else if (dtype.equal(py::dtype::of<double>())) {
     dataset.set_dtype<double>();
   } else {
     py::print("Type unknown", dtype);
@@ -941,35 +945,35 @@ void set_dataset_type_py(Dataset &dataset, const py::object &obj) {
 }
 
 Dataset::Data data_of_type(py::dtype dtype, void *ptr, const size_t size) {
-  if (dtype.is(py::dtype::of<int8_t>())) {
+  if (dtype.equal(py::dtype::of<int8_t>())) {
     auto begin = reinterpret_cast<int8_t *>(ptr);
     return std::vector<int8_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<int16_t>())) {
+  } else if (dtype.equal(py::dtype::of<int16_t>())) {
     auto begin = reinterpret_cast<int16_t *>(ptr);
     return std::vector<int16_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<int32_t>())) {
+  } else if (dtype.equal(py::dtype::of<int32_t>())) {
     auto begin = reinterpret_cast<int32_t *>(ptr);
     return std::vector<int32_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<int64_t>())) {
+  } else if (dtype.equal(py::dtype::of<int64_t>())) {
     auto begin = reinterpret_cast<int64_t *>(ptr);
     return std::vector<int64_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<uint8_t>()) ||
-             dtype.is(py::dtype::of<bool>())) {
+  } else if (dtype.equal(py::dtype::of<uint8_t>()) ||
+             dtype.equal(py::dtype::of<bool>())) {
     auto begin = reinterpret_cast<uint8_t *>(ptr);
     return std::vector<uint8_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<uint16_t>())) {
+  } else if (dtype.equal(py::dtype::of<uint16_t>())) {
     auto begin = reinterpret_cast<uint16_t *>(ptr);
     return std::vector<uint16_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<uint32_t>())) {
+  } else if (dtype.equal(py::dtype::of<uint32_t>())) {
     auto begin = reinterpret_cast<uint32_t *>(ptr);
     return std::vector<uint32_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<uint64_t>())) {
+  } else if (dtype.equal(py::dtype::of<uint64_t>())) {
     auto begin = reinterpret_cast<uint64_t *>(ptr);
     return std::vector<uint64_t>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<float>())) {
+  } else if (dtype.equal(py::dtype::of<float>())) {
     auto begin = reinterpret_cast<float *>(ptr);
     return std::vector<float>(begin, begin + size);
-  } else if (dtype.is(py::dtype::of<double>())) {
+  } else if (dtype.equal(py::dtype::of<double>())) {
     auto begin = reinterpret_cast<double *>(ptr);
     return std::vector<double>(begin, begin + size);
   }
@@ -1275,7 +1279,9 @@ Returns the YAML schema.
 :returns: The YAML schema
            )doc")
       .def(py::pickle(
-          [](const BoundingBox &value) -> py::tuple { return py::cast(bb_to_tuple(value)); },
+          [](const BoundingBox &value) -> py::tuple {
+            return py::cast(bb_to_tuple(value));
+          },
           [](py::tuple v) { // __setstate__
             const auto t = v.cast<
                 std::tuple<ng_float_t, ng_float_t, ng_float_t, ng_float_t>>();
@@ -1290,8 +1296,8 @@ Returns the YAML schema.
              std::shared_ptr<Task>>
       task(m, "Task", DOC(navground, sim, Task));
 
-  py::class_<Agent, Entity, std::shared_ptr<Agent>>(m, "NativeAgent",
-                                                    DOC(navground, sim, Agent))
+  py::class_<Agent, Entity, HasAttributes, std::shared_ptr<Agent>>(
+      m, "NativeAgent", DOC(navground, sim, Agent))
       .def_readwrite("id", &Agent::id, DOC(navground, sim, Agent, id))
       .def_readwrite("type", &Agent::type, DOC(navground, sim, Agent, type))
       .def_readwrite("color", &Agent::color, DOC(navground, sim, Agent, color))
@@ -1436,8 +1442,8 @@ Returns the YAML schema.
                     DOC(navground, sim, Agent, property, controller));
 #endif
 
-  py::class_<World, std::shared_ptr<World>>(m, "NativeWorld",
-                                            DOC(navground, sim, World, 2))
+  py::class_<World, HasAttributes, std::shared_ptr<World>>(
+      m, "NativeWorld", DOC(navground, sim, World, 2))
       .def(py::init<>(), DOC(navground, sim, World, World))
       .def("add_callback", &World::add_callback, py::arg("callback"),
            py::keep_alive<1, 2>(), DOC(navground, sim, World, add_callback))
@@ -1569,7 +1575,7 @@ Returns the YAML schema.
                   YAML::load_string_py_doc("world", "World").c_str())
       .def("dump", &YAML::dump<World>, YAML::dump_doc());
 
-  py::class_<PyWorld, World, std::shared_ptr<PyWorld>> world(
+  py::class_<PyWorld, World, HasAttributes, std::shared_ptr<PyWorld>> world(
       m, "World", py::dynamic_attr(), DOC(navground, sim, World));
   world.def(py::init<>(), DOC(navground, sim, World, World))
       .def("add_agent", &PyWorld::add_agent, py::arg("agent"),
@@ -1642,6 +1648,15 @@ The random generator.
                     DOC(navground, sim, Sensor, property_name))
       .def("prepare_state", &Sensor::prepare_state, py::arg("state"),
            DOC(navground, sim, Sensor, prepare_state))
+      .def(
+          "get_field_name",
+          [](const Sensor &se, const std::string &field) {
+            return se.get_field_name(field);
+          },
+          py::arg("field"), DOC(navground, sim, Sensor, get_field_name))
+      .def("get_or_init_buffer", &Sensor::get_or_init_buffer, py::arg("state"),
+           py::arg("field"), py::return_value_policy::reference,
+           DOC(navground, sim, Sensor, get_or_init_buffer))
       .def_static("load", &YAML::load_string_py<PyStateEstimation, Sensor>,
                   py::arg("value"),
                   YAML::load_string_py_doc("sensor", "Sensor").c_str());
@@ -2847,11 +2862,12 @@ The array is empty if twist have not been recorded in the run.
           },
           nullptr, R"doc(
 The recorded targets of the agents as a numpy array of shape 
-``(simulation steps, number of agents, 14)`` and dtype ``float``::
+``(simulation steps, number of agents, 16)`` and dtype ``float``::
 
   [[[position?, position[0], position[1], orientation?, orientation, 
      speed?, speed, direction?, direction[0], direction[1],
-     angular_speed?, angular_speed, position_tol, orientation_tol], 
+     angular_speed?, angular_speed, angular_direction?, angular_direction,
+     position_tol, orientation_tol], 
      ...] 
    ...]
 
@@ -3253,6 +3269,11 @@ The array is empty if efficacy has not been recorded in the run.
                      DOC(navground, sim, Experiment, save_directory))
       .def_readwrite("name", &Experiment::name,
                      DOC(navground, sim, Experiment, name))
+      .def_readwrite("reset_uids", &Experiment::reset_uids,
+                     DOC(navground, sim, Experiment, reset_uids))
+      .def_readwrite(
+          "record_scenario_properties", &Experiment::record_scenario_properties,
+          DOC(navground, sim, Experiment, record_scenario_properties))
       .def_property("path", &Experiment::get_path, nullptr,
                     DOC(navground, sim, Experiment, property_path))
       // .def("add_callback", &Experiment::add_callback, py::arg("callback"),
@@ -3346,12 +3367,12 @@ Register a probe to record a group of data to during all runs.
         return py::make_tuple(
             exp.record_config, exp.run_config, exp.number_of_runs,
             exp.save_directory, exp.name, exp.scenario, exp.run_index,
-            exp.reset_uids, exp._py_probe_factories,
-            exp._py_record_probe_factories,
+            exp.reset_uids, exp.record_scenario_properties,
+            exp._py_probe_factories, exp._py_record_probe_factories,
             exp._py_group_record_probe_factories, exp._py_run_callbacks);
       },
       [](py::tuple t) { // __setstate__
-        if (t.size() != 12) {
+        if (t.size() != 13) {
           throw std::runtime_error("Invalid state!");
         }
         PyExperiment exp;
@@ -3363,13 +3384,14 @@ Register a probe to record a group of data to during all runs.
         exp.scenario = py::cast<std::shared_ptr<Scenario>>(t[5]);
         exp.run_index = py::cast<unsigned>(t[6]);
         exp.reset_uids = py::cast<bool>(t[7]);
-        exp._py_probe_factories = py::cast<std::vector<py::object>>(t[8]);
+        exp.record_scenario_properties = py::cast<bool>(t[8]);
+        exp._py_probe_factories = py::cast<std::vector<py::object>>(t[9]);
         exp._py_record_probe_factories =
-            py::cast<std::map<std::string, py::object>>(t[9]);
-        exp._py_group_record_probe_factories =
             py::cast<std::map<std::string, py::object>>(t[10]);
+        exp._py_group_record_probe_factories =
+            py::cast<std::map<std::string, py::object>>(t[11]);
         for (const auto &[k, vs] :
-             py::cast<std::map<bool, std::vector<py::object>>>(t[11])) {
+             py::cast<std::map<bool, std::vector<py::object>>>(t[12])) {
           for (const auto &v : vs) {
             exp.add_run_callback_py(v, k);
           }
@@ -3395,6 +3417,9 @@ Register a probe to record a group of data to during all runs.
            DOC(navground, sim, Scenario, init_world))
       .def("apply_inits", &Scenario::apply_inits, py::arg("world"),
            DOC(navground, sim, Scenario, apply_inits))
+      .def("set_attributes", &Scenario::set_attributes, py::arg("world"),
+           DOC(navground, sim, Scenario, set_attributes))
+
       .def(
           "make_world",
           [](PyScenario &scenario, std::optional<int> seed = std::nullopt) {
@@ -3429,6 +3454,14 @@ Register a probe to record a group of data to during all runs.
                      DOC(navground, sim, Scenario, walls))
       .def_readwrite("groups", &Scenario::groups,
                      DOC(navground, sim, Scenario, groups))
+      .def_property("property_samplers", &Scenario::get_property_samplers,
+                    nullptr,
+                    DOC(navground, sim, Scenario, property_property_samplers))
+      .def("clear_property_samplers", &Scenario::clear_property_samplers,
+           DOC(navground, sim, Scenario, clear_property_samplers))
+      .def("remove_property_sampler", &Scenario::remove_property_sampler,
+           py::arg("name"),
+           DOC(navground, sim, Scenario, remove_property_sampler))
       .def_readwrite("bounding_box", &Scenario::bounding_box,
                      DOC(navground, sim, Scenario, bounding_box))
       // py::return_value_policy::reference)

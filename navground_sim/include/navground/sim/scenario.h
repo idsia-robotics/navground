@@ -68,9 +68,9 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
 
   /**
    * @brief      Initializes the world.
-   * 
+   *
    * Users can specialize this method to specialize a scenario but
-   * should call \ref make_world when creating a world. 
+   * should call \ref make_world when creating a world.
    *
    * @param      world The world
    * @param      seed  The random seed
@@ -79,7 +79,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
 
   /**
    * @brief      Applies the initializers from \ref get_inits
-   * 
+   *
    * Should be called after \ref init_world to complete the initialization,
    * as \ref make_world does automatically.
    *
@@ -179,12 +179,51 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
    */
   std::map<std::string, std::shared_ptr<PropertySampler>> property_samplers;
 
+  /**
+   * @brief      Returns the names of properties for which this
+   * scenario uses a sampler.
+   *
+   * @return     A vector of property names.
+   */
+  std::vector<std::string> get_property_samplers() const {
+    std::vector<std::string> keys;
+    for (const auto &[k, _] : property_samplers) {
+      keys.push_back(k);
+    }
+    return keys;
+  }
+
+  /**
+   * @brief      Remove a property sampler.
+   *
+   * @param[in]  name The name of the property
+   *
+   */
+  void remove_property_sampler(const std::string &name) {
+    property_samplers.erase(name);
+  }
+
+  /**
+   * @brief      Clear the property samplers
+   *
+   */
+  void clear_property_samplers() { property_samplers.clear(); }
+
   void reset(std::optional<unsigned> index = std::nullopt) {
     for (auto &[k, v] : property_samplers) {
       if (v)
         v->reset(index);
     }
   }
+
+  /**
+   * @brief      Sets world attributes from scenario properties.
+   *
+   * Sets an attribute with the current value for each (registered) property.
+   *
+   * @param      world  The world
+   */
+  void set_attributes(World *world);
 
   /**
    * An optional bounding box
@@ -203,7 +242,6 @@ private:
     }
     return "";
   }
-
 };
 
 } // namespace navground::sim

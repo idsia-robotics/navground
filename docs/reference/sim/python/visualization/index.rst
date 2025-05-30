@@ -12,6 +12,7 @@ to minimize dependencies.
 .. toctree::
    :maxdepth: 2
 
+   common
    svg
    image
    video

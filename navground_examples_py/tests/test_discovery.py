@@ -3,6 +3,11 @@ def test_behavior():
     navground_examples_py.behavior.main()
 
 
+def test_behavior_group():
+    import navground_examples_py.behavior_group
+    navground_examples_py.behavior_group.main()
+
+
 def test_controller():
     import navground_examples_py.controller
     navground_examples_py.controller.main()

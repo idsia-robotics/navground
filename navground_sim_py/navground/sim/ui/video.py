@@ -20,7 +20,7 @@ from navground import core
 from .. import (Agent, ExperimentalRun, RecordedExperimentalRun, World,
                 bounds_of_bounding_box)
 from .render import Image, image_for_world
-from .to_svg import Rect
+from .common import Rect
 
 
 def make_video(world: World,
@@ -153,7 +153,15 @@ def record_video(path: str | pathlib.Path,
     :param      fps:               The video fps
     :param      follow:            Optional agent to center the view on
     :para       bounds:            Optional view area (relative id ``follow`` is specified)
-    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    :param      kwargs:            Optional configuration:
+        same fields as :py:class:`navground.sim.ui.RenderConfig`.
+
+    The actual configuration is computed by looking (in order) to
+
+    1. the arguments of this function;
+    2. the world-specific configuration :py:attr:`navground.sim.World.render_kwargs`;
+    3. the default configuration :py:attr:`navground.sim.ui.render_default_config`.
+
     """
     clip = make_video(world,
                       time_step,
@@ -192,7 +200,15 @@ def record_video_from_run(path: str | pathlib.Path,
     :param      fps:               The video fps
     :param      follow:            Optional agent to center the view on
     :para       bounds:            Optional view area (relative id ``follow`` is specified)
-    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    :param      kwargs:            Optional configuration:
+        same fields as :py:class:`navground.sim.ui.RenderConfig`.
+
+    The actual configuration is computed by looking (in order) to
+
+    1. the arguments of this function;
+    2. the world-specific configuration :py:attr:`navground.sim.World.render_kwargs`;
+    3. the default configuration :py:attr:`navground.sim.ui.render_default_config`.
+
     """
     clip = make_video_from_run(run,
                                factor,
@@ -231,7 +247,15 @@ def display_video(world: World,
     :param      display_width:     The size of the video view
     :param      follow:            Optional agent to center the view on
     :para       bounds:            Optional view area (relative id ``follow`` is specified)
-    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    :param      kwargs:            Optional configuration:
+        same fields as :py:class:`navground.sim.ui.RenderConfig`.
+
+    The actual configuration is computed by looking (in order) to
+
+    1. the arguments of this function;
+    2. the world-specific configuration :py:attr:`navground.sim.World.render_kwargs`;
+    3. the default configuration :py:attr:`navground.sim.ui.render_default_config`.
+
     """
     clip = make_video(world,
                       time_step,
@@ -268,7 +292,15 @@ def display_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
     :param      display_width:     The size of the video view
     :param      follow:            Optional agent to center the view on
     :para       bounds:            Optional view area (relative id ``follow`` is specified)
-    :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.svg_for_world`
+    :param      kwargs:            Optional configuration:
+        same fields as :py:class:`navground.sim.ui.RenderConfig`.
+
+    The actual configuration is computed by looking (in order) to
+
+    1. the arguments of this function;
+    2. the world-specific configuration :py:attr:`navground.sim.World.render_kwargs`;
+    3. the default configuration :py:attr:`navground.sim.ui.render_default_config`.
+
     """
     clip = make_video_from_run(run,
                                factor,

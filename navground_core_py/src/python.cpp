@@ -10,7 +10,9 @@
 #include <vector>
 
 #include "docstrings.h"
+#include "navground/core/attribute.h"
 #include "navground/core/behavior.h"
+#include "navground/core/behavior_group.h"
 #include "navground/core/behavior_modulation.h"
 #include "navground/core/behavior_modulations/limit_acceleration.h"
 #include "navground/core/behavior_modulations/limit_twist.h"
@@ -115,6 +117,12 @@ template <> std::string to_string(const Target &value) {
     if (!first)
       r += ", ";
     r += "direction=" + to_string(*value.direction);
+    first = false;
+  }
+  if (value.angular_direction) {
+    if (!first)
+      r += ", ";
+    r += "angular_direction=" + to_string(*value.angular_direction);
     first = false;
   }
   if (value.speed) {
@@ -341,6 +349,70 @@ struct PyKinematics : public Kinematics, public PyHasRegister<Kinematics> {
   // };
 };
 
+struct PyBehaviorGroup : public BehaviorGroup {
+public:
+  /* Inherit the constructors */
+  using BehaviorGroup::BehaviorGroup;
+  /* Trampolines (need one for each virtual function) */
+  std::vector<Twist2> compute_cmds(ng_float_t time_step) override {
+    PYBIND11_OVERRIDE_PURE(std::vector<Twist2>, BehaviorGroup, compute_cmds,
+                           time_step);
+  }
+};
+
+struct PyBehaviorGroupMember : public BehaviorGroupMember {
+public:
+  /* Inherit the constructors */
+  using BehaviorGroupMember::BehaviorGroupMember;
+  using BehaviorGroupMember::Groups;
+  /* Trampolines (need one for each virtual function) */
+
+  size_t get_group_hash() const override {
+    PYBIND11_OVERRIDE(size_t, BehaviorGroupMember, get_group_hash);
+  }
+
+  void prepare() override {
+    PYBIND11_OVERRIDE(void, BehaviorGroupMember, prepare);
+  }
+
+  void close() override { PYBIND11_OVERRIDE(void, BehaviorGroupMember, close); }
+
+  EnvironmentState *get_environment_state() override {
+    PYBIND11_OVERRIDE(EnvironmentState *, BehaviorGroupMember,
+                      get_environment_state);
+  }
+
+  // OVERRIDE_DECODE
+  // OVERRIDE_ENCODE
+
+  std::shared_ptr<BehaviorGroup> make_group() const override { return nullptr; }
+
+  py::dict get_groups_py() const {
+    const auto get_groups_fn = py::get_override(this, "get_groups");
+    return py::cast<py::dict>(get_groups_fn());
+  }
+
+  py::object make_group_py() const {
+    const auto make_group_fn = py::get_override(this, "make_group");
+    return make_group_fn();
+  }
+
+  std::shared_ptr<BehaviorGroup> get_or_create_group(size_t key) override {
+    py::dict groups = get_groups_py();
+    if (!groups.contains(key)) {
+      py::object group = make_group_py();
+      groups[py::cast(key)] = group;
+    }
+    auto py_group = groups[py::cast(key)];
+    return py::cast<std::shared_ptr<BehaviorGroup>>(py_group);
+  }
+
+  void remove_group(size_t key) override {
+    py::dict groups = get_groups_py();
+    groups.attr("pop")(py::cast(key));
+  }
+};
+
 namespace YAML {
 template <> py::object load_node_py<PyBehavior>(const Node &node) {
   auto obj = make_type_from_yaml_py<PyBehavior>(node);
@@ -392,9 +464,9 @@ PYBIND11_MODULE(_navground, m) {
       .def("__repr__", &DependencyInfo::to_string);
 
   py::class_<Property>(m, "Property", DOC(navground, core, Property))
-      .def(py::init(&make_property_py), py::arg("getter"), py::arg("setter"),
-           py::arg("default"), py::arg("description") = "",
-           py::arg("schema") = nullptr,
+      .def(py::init(&make_property_py_with_type), py::arg("getter"),
+           py::arg("setter"), py::arg("default"), py::arg("type_name"),
+           py::arg("description") = "", py::arg("schema") = nullptr,
            py::arg("deprecated_names") = std::vector<std::string>{}, R"doc(
 Constructs a new instance.
 
@@ -402,8 +474,10 @@ Constructs a new instance.
 :type getter: :py:class:`typing.Callable[[], T]`
 :param setter: An optional setter
 :type setter: :py:class:`typing.Callable[[T], None]` | None
-:param default: The default value, also used to set the type of the property.
+:param default: The default value (should be convertible to the property type)
 :type default: :py:type:`navground.core.PropertyField`
+:param type_name: The property type name
+:type type_name: str
 :param description: Optional description
 :type description: str
 :param schema: Optional schema modifier
@@ -424,17 +498,19 @@ Constructs a new instance.
       .def_readonly("readonly", &Property::readonly,
                     DOC(navground, core, Property, readonly))
       .def("__repr__", &to_string<Property>)
-      .def_static("make", &make_property_with_py_property, py::arg("property"),
-                  py::arg("default"), py::arg("description") = "",
-                  py::arg("schema") = nullptr,
+      .def_static("make", &make_property_with_py_property_with_type,
+                  py::arg("property"), py::arg("default"), py::arg("type_name"),
+                  py::arg("description") = "", py::arg("schema") = nullptr,
                   py::arg("deprecated_names") = std::vector<std::string>{},
                   R"doc(
 Constructs a navground property from a Python property.
 
 :param property: The Python property
 :type property: :py:class:`property`
-:param default: The default value, also used to set the type of the property.
+:param default: The default value (should be convertible to the property type)
 :type default: :py:type:`navground.core.PropertyField`
+:param type_name: The property type name
+:type type_name: str
 :param description: Optional description
 :type description: str
 :param schema: Optional schema modifier
@@ -547,12 +623,13 @@ Constructs a navground property from a Python property.
   py::class_<Target>(m, "Target", DOC(navground, core, Target))
       .def(py::init<std::optional<Vector2>, std::optional<Radians>,
                     std::optional<ng_float_t>, std::optional<Vector2>,
-                    std::optional<ng_float_t>, std::optional<Path>, ng_float_t,
-                    ng_float_t>(),
+                    std::optional<ng_float_t>, std::optional<int>,
+                    std::optional<Path>, ng_float_t, ng_float_t>(),
            py::arg("position") = py::none(),
            py::arg("orientation") = py::none(), py::arg("speed") = py::none(),
            py::arg("direction") = py::none(),
            py::arg("angular_speed") = py::none(), py::arg("path") = py::none(),
+           py::arg("angular_direction") = py::none(),
            py::arg("position_tolerance") = 0,
            py::arg("orientation_tolerance") = 0,
            DOC(navground, core, Target, Target))
@@ -566,6 +643,8 @@ Constructs a navground property from a Python property.
                      DOC(navground, core, Target, angular_speed))
       .def_readwrite("direction", &Target::direction,
                      DOC(navground, core, Target, direction))
+      .def_readwrite("angular_direction", &Target::angular_direction,
+                     DOC(navground, core, Target, angular_direction))
       .def_readwrite("position_tolerance", &Target::position_tolerance,
                      DOC(navground, core, Target, position_tolerance))
       .def_readwrite("orientation_tolerance", &Target::orientation_tolerance,
@@ -783,6 +862,38 @@ Constructs a navground property from a Python property.
                     &FourWheelsOmniDriveKinematics::set_wheel_axis,
                     DOC(navground, core, FourWheelsOmniDriveKinematics,
                         property_wheel_axis));
+
+  py::class_<BicycleKinematics, Kinematics, std::shared_ptr<BicycleKinematics>>
+      bk(m, "BicycleKinematics", DOC(navground, core, BicycleKinematics));
+  bk.def(py::init<ng_float_t, ng_float_t, ng_float_t, ng_float_t, ng_float_t,
+                  bool>(),
+         py::arg_v("max_speed", Kinematics::inf, "float('inf')"),
+         py::arg_v("max_backward_speed", Kinematics::inf, "float('inf')"),
+         py::arg("axis") = 1, py::arg("max_steering_angle") = 1,
+         py::arg("k") = 0, py::arg("use_velocity_norm") = false,
+         DOC(navground, core, BicycleKinematics, BicycleKinematics))
+      .def_property(
+          "max_steering_angle", &BicycleKinematics::get_max_steering_angle,
+          &BicycleKinematics::set_max_steering_angle,
+          DOC(navground, core, BicycleKinematics, property_max_steering_angle))
+      .def_property(
+          "min_steering_radius", &BicycleKinematics::get_min_steering_radius,
+          nullptr,
+          DOC(navground, core, BicycleKinematics, property_min_steering_radius))
+      .def_property("axis", &BicycleKinematics::get_axis,
+                    &BicycleKinematics::set_axis,
+                    DOC(navground, core, BicycleKinematics, property_axis))
+      .def_property("k", &BicycleKinematics::get_k, &BicycleKinematics::set_k,
+                    DOC(navground, core, BicycleKinematics, property_k))
+      .def_property(
+          "use_velocity_norm", &BicycleKinematics::get_use_velocity_norm,
+          &BicycleKinematics::set_use_velocity_norm,
+          DOC(navground, core, BicycleKinematics, property_use_velocity_norm))
+      .def("feasible_steering_angle",
+           &BicycleKinematics::feasible_steering_angle,
+           DOC(navground, core, BicycleKinematics, feasible_steering_angle))
+      .def("twist_from_steering", &BicycleKinematics::twist_from_steering,
+           DOC(navground, core, BicycleKinematics, twist_from_steering));
 
   py::class_<DynamicTwoWheelsDifferentialDriveKinematics,
              TwoWheelsDifferentialDriveKinematics, WheeledKinematics,
@@ -1341,24 +1452,49 @@ Constructs a navground property from a Python property.
                     DOC(navground, core, Behavior, property_efficacy))
       .def_property("is_stuck", &Behavior::is_stuck, nullptr,
                     DOC(navground, core, Behavior, property_is_stuck))
+      .def("get_target_pose", &Behavior::get_target_pose,
+           py::arg_v("frame", Frame::absolute,
+                     "navground.core._navground.Frame.absolute"),
+           py::arg("ignore_tolerance") = false,
+           DOC(navground, core, Behavior, get_target_pose))
       .def("get_target_position", &Behavior::get_target_position,
            py::arg_v("frame", Frame::absolute,
                      "navground.core._navground.Frame.absolute"),
+           py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_position))
       .def("get_target_orientation", &Behavior::get_target_orientation,
-           py::arg("frame"),
+           py::arg("frame"), py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_orientation))
       .def("get_target_direction", &Behavior::get_target_direction,
            py::arg_v("frame", Frame::absolute,
                      "navground.core._navground.Frame.absolute"),
+           py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_direction))
+      .def("get_target_angular_direction",
+           &Behavior::get_target_angular_direction,
+           py::arg("ignore_tolerance") = false,
+           DOC(navground, core, Behavior, get_target_angular_direction))
       .def("get_target_distance", &Behavior::get_target_distance,
            py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_distance))
+      .def("get_target_angular_distance",
+           &Behavior::get_target_angular_distance,
+           py::arg("ignore_tolerance") = false,
+           DOC(navground, core, Behavior, get_target_angular_distance))
+      .def("get_target_twist", &Behavior::get_target_twist,
+           py::arg_v("frame", Frame::absolute,
+                     "navground.core._navground.Frame.absolute"),
+           py::arg("ignore_tolerance") = false,
+           DOC(navground, core, Behavior, get_target_velocity))
       .def("get_target_velocity", &Behavior::get_target_velocity,
            py::arg_v("frame", Frame::absolute,
                      "navground.core._navground.Frame.absolute"),
+           py::arg("ignore_tolerance") = false,
            DOC(navground, core, Behavior, get_target_velocity))
+      .def("get_target_angular_velocity",
+           &Behavior::get_target_angular_velocity,
+           py::arg("ignore_tolerance") = false,
+           DOC(navground, core, Behavior, get_target_angular_velocity))
       .def("get_target_speed", &Behavior::get_target_speed,
            DOC(navground, core, Behavior, get_target_speed))
       .def("get_target_angular_speed", &Behavior::get_target_angular_speed,
@@ -1653,15 +1789,17 @@ Initializes a buffer.
                     DOC(navground, core, GridMap, property_map))
       .def("get_position_of_cell", &GridMap::get_position_of_cell,
            py::arg("cell"), DOC(navground, core, GridMap, get_position_of_cell))
-      .def("get_possible_cell_at_position", &GridMap::get_possible_cell_at_position,
-           py::arg("position"),
+      .def("get_possible_cell_at_position",
+           &GridMap::get_possible_cell_at_position, py::arg("position"),
            DOC(navground, core, GridMap, get_possible_cell_at_position))
       .def("contains_point", &GridMap::contains_point, py::arg("point"),
            DOC(navground, core, GridMap, contains_point))
       .def("move_center", &GridMap::move_center, py::arg("position"),
-           py::arg("value") = 128, py::arg("snap")=true, DOC(navground, core, GridMap, move_center))
+           py::arg("value") = 128, py::arg("snap") = true,
+           DOC(navground, core, GridMap, move_center))
       .def("move_origin", &GridMap::move_origin, py::arg("position"),
-           py::arg("value") = 128, py::arg("snap")=true, DOC(navground, core, GridMap, move_origin))
+           py::arg("value") = 128, py::arg("snap") = true,
+           DOC(navground, core, GridMap, move_origin))
       .def("set_value", &GridMap::set_value, py::arg("value"),
            DOC(navground, core, GridMap, set_value))
       .def("set_value_of_cell", &GridMap::set_value_of_cell, py::arg("cell"),
@@ -1681,8 +1819,8 @@ Initializes a buffer.
       .def("set_value_between_cells", &GridMap::set_value_between_cells,
            py::arg("c1"), py::arg("c2"), py::arg("value"),
            DOC(navground, core, GridMap, set_value_between_cells))
-      .def("get_cell_at_position",
-           &GridMap::get_cell_at_position, py::arg("position"), py::arg("clamp"),
+      .def("get_cell_at_position", &GridMap::get_cell_at_position,
+           py::arg("position"), py::arg("clamp"),
            DOC(navground, core, GridMap, get_cell_at_position))
       .def("raytrace_between_cells", &GridMap::raytrace_between_cells,
            py::arg("at"), py::arg("c1"), py::arg("c2"),
@@ -1933,6 +2071,61 @@ Initializes a buffer.
            py::arg("dynamic"),
            DOC(navground, core, CachedCollisionComputation, get_free_distance));
 
+  py::class_<HasAttributes, std::shared_ptr<HasAttributes>>(
+      m, "HasAttributes", DOC(navground, core, HasAttributes))
+      .def("get", &HasAttributes::get, py::arg("name"),
+           DOC(navground, core, HasAttributes, get))
+      .def("has", &HasAttributes::has, py::arg("name"),
+           DOC(navground, core, HasAttributes, has))
+      .def("set", &HasAttributes::set, py::arg("name"), py::arg("value"),
+           DOC(navground, core, HasAttributes, set))
+      .def("clear", &HasAttributes::clear,
+           DOC(navground, core, HasAttributes, clear))
+      .def_property("attributes", &HasAttributes::get_attributes,
+                    &HasAttributes::set_attributes,
+                    DOC(navground, core, HasAttributes, property, attributes));
+
+  py::class_<BehaviorGroup, PyBehaviorGroup, std::shared_ptr<BehaviorGroup>>(
+      m, "BehaviorGroup", DOC(navground, core, BehaviorGroup))
+      .def(py::init<>())
+      .def(
+          "compute_cmds",
+          [](PyBehaviorGroup &group, ng_float_t time_step) {
+            return group.compute_cmds(time_step);
+          },
+          py::arg("time_step"),
+          DOC(navground, core, BehaviorGroup, compute_cmds))
+      .def_property("members", &BehaviorGroup::get_members, nullptr,
+                    DOC(navground, core, BehaviorGroup, property_members))
+      .def_property("size", &BehaviorGroup::size, nullptr,
+                    DOC(navground, core, BehaviorGroup, property_size));
+
+  py::class_<BehaviorGroupMember, PyBehaviorGroupMember, Behavior,
+             std::shared_ptr<BehaviorGroupMember>>(
+      m, "BehaviorGroupMember", DOC(navground, core, BehaviorGroupMember))
+      .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
+           py::arg("kinematics") = py::none(), py::arg("radius") = 0)
+      .def(
+          "make_group",
+          [](const PyBehaviorGroupMember &group) {
+            return group.make_group_py();
+          },
+          DOC(navground, core, BehaviorGroupMember, make_group))
+      .def(
+          "get_groups",
+          [](const PyBehaviorGroupMember &group) {
+            return group.get_groups_py();
+          },
+          DOC(navground, core, BehaviorGroupMember, get_groups))
+      .def(
+          "get_group_hash",
+          [](const PyBehaviorGroupMember &group) {
+            return group.get_group_hash();
+          },
+          DOC(navground, core, BehaviorGroupMember, get_group_hash))
+      .def_property("group", &BehaviorGroupMember::get_group, nullptr,
+                    DOC(navground, core, BehaviorGroup, property_group));
+
   m.def("load_plugins", &load_plugins, py::arg("plugins") = py::set(),
         py::arg("directories") = py::dict(), py::arg("include_default") = true,
         DOC(navground, core, load_plugins));
@@ -1954,6 +2147,7 @@ Initializes a buffer.
   pickle_via_yaml<PyKinematics>(wk2);
   pickle_via_yaml<PyKinematics>(wk4);
   pickle_via_yaml<PyKinematics>(dwk2);
+  pickle_via_yaml<PyKinematics>(bk);
   pickle_via_yaml<PyBehaviorModulation>(relaxation);
   pickle_via_yaml<PyBehaviorModulation>(limit_acceleration);
   pickle_via_yaml<PyBehaviorModulation>(limit_twist);
@@ -1994,6 +2188,26 @@ Returns the bundle json-schema
         DOC(navground, core, get_build_dependencies));
   m.def("get_plugins_dependencies", &get_plugins_dependencies,
         DOC(navground, core, get_plugins_dependencies));
+
+  m.def("make_properties", make_properties_py, py::arg("cls"),
+        py::arg("owner") = "");
+
+  m.def(
+      "convert",
+      [](const Property::Field &value, const std::string &scalar_type_name,
+         bool is_list) -> std::optional<Property::Field> {
+        const auto fn = get_converter(scalar_type_name, is_list);
+        if (fn) {
+          return std::nullopt;
+        }
+        return (*fn)(value);
+      },
+      py::arg("value"), py::arg("scalar_type_name"), py::arg("is_list"), "");
+
+  m.def("get_scalar_type_name", &get_scalar_type_name, py::arg("type_name"));
+
+  m.def("get_type_name_with_scalar", &get_type_name_with_scalar,
+        py::arg("scalar_type_name"), py::arg("is_list"));
 
   m.def(
       "uses_doubles",

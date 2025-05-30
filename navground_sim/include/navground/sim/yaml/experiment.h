@@ -124,6 +124,7 @@ struct convert_experiment {
     node["name"] = rhs.name;
     node["run_index"] = rhs.run_index;
     node["reset_uids"] = rhs.reset_uids;
+    node["record_scenario_properties"] = rhs.record_scenario_properties;
     return node;
   }
   static bool decode(const Node &node, Experiment &rhs) {
@@ -200,6 +201,9 @@ struct convert_experiment {
     if (node["reset_uids"]) {
       rhs.reset_uids = node["reset_uids"].as<bool>();
     }
+    if (node["record_scenario_properties"]) {
+      rhs.record_scenario_properties = node["record_scenario_properties"].as<bool>();
+    }
     rhs.record_config.use_agent_uid_as_key =
         node["use_agent_uid_as_key"].as<bool>(true);
     return true;
@@ -252,6 +256,7 @@ template <> struct convert<Experiment> {
     node["properties"]["name"] = schema::type<std::string>();
     node["properties"]["run_index"] = schema::type<unsigned>();
     node["properties"]["reset_uids"] = schema::type<bool>();
+    node["properties"]["record_scenario_properties"] = schema::type<bool>();
     node["properties"]["scenario"] = schema::ref<Scenario>();
     node["additionalProperties"] = false;
     return node;

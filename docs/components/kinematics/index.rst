@@ -23,4 +23,5 @@ Kinematics are defined by the constraints they applies to velocities and match c
    2wdiff
    2wdiffdyn
    4womni
+   bicycle
 

@@ -11,8 +11,9 @@ import numpy as np
 import numpy.typing
 from navground import core
 
-from . import (Agent, BoundingBox, Bounds, ExperimentalRun, RecordConfig,
-               Scenario, World, load_experiment, load_world)
+from . import (Agent, BoundingBox, ExperimentalRun, RecordConfig, Scenario,
+               World, load_experiment, load_world)
+from .bounds import Bounds
 
 if TYPE_CHECKING:
     import h5py  # type: ignore[import-untyped]

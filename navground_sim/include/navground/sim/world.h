@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "navground/core/attribute.h"
 #include "navground/core/states/geometric.h"
 #include "navground/core/types.h"
 #include "navground/sim/agent.h"
@@ -247,7 +248,7 @@ struct NAVGROUND_SIM_EXPORT Obstacle : Entity {
  * from each other, setting to zero the component of their velocities that would
  * attract them together.
  */
-class NAVGROUND_SIM_EXPORT World {
+class NAVGROUND_SIM_EXPORT World : public core::HasAttributes {
 public:
   friend struct Experiment;
 
@@ -273,10 +274,11 @@ public:
    * @brief      Constructs a new instance.
    */
   explicit World()
-      : agents_strtree_is_updated(false), static_strtree_is_updated(false),
-        agents(), obstacles(), walls(), agent_index(nullptr), collisions(),
-        entities(), ready(false), step(0), time(0), _has_lattice(false),
-        callbacks(), termination_condition(), _seed(0), _generator(_seed) {}
+      : core::HasAttributes(), agents_strtree_is_updated(false),
+        static_strtree_is_updated(false), agents(), obstacles(), walls(),
+        agent_index(nullptr), collisions(), entities(), ready(false), step(0),
+        time(0), _has_lattice(false), callbacks(), termination_condition(),
+        _seed(0), _generator(_seed) {}
 
   /**
    * @brief      Updates world for a single time step.

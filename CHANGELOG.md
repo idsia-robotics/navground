@@ -22,6 +22,7 @@
 - Added `Target` angular direction.
 - Added additional `Behavior` target helpers and extended `ignore_tolerance` argument to existing helpers: the treatment of the angular and planar components is now symmetric.
 - Added [limited] Scenario accessors to property samplers.
+- Enabled explicitly setting properties type name in Python.
 
 ### Fixed
 
@@ -31,6 +32,8 @@
 - Fixed documentation errors.
 - Fixed YAML serialization of `std::vector<bool>` which caused empty list to be serialized as a null node instead of an empty list.
 - Fixed pickle protocol that linked `__dict__` to the original value.
+- Fixed bug that caused Python (registered) properties of type `Vector2` to be
+  configured as type `list[float]` instead, and similar mismatches between list of numbers.
 
 ### Changed
 
@@ -40,10 +43,11 @@
 - `Behavior::get_target_distance` returns now a float (vs `std::optional`), returning when previously it would return `std::nullopt`.
 - Targets are now recorded as a 16 dimensional vector; reading older recording is still supported.
 - Modified Scenario decoder so that it first tries to decode a properties and only after it fails, it decodes a sampler. This way, scenarios with properties that have no or const samplers are encoded using the property value, which can be changed with the accessors. For properties with non-const samplers, the encoded values still reflects the sampler value, not the property value.
+- In Python, the argument of registered properties setters are now coerced by default. You can disable it by exporting `NAVGROUND_DISABLE_PY_PROPERTY_COERCION`. The return type of the generic `get` method is also coerced: when a conversion is not possible, it returns the default value. This ensure that properties in YAML representation always have the correct types. Supported conversions are:
+	- between scalar numerical types (float, int, bool) and between the relative vector types,
+	- between a list of two numbers and a vector.
 
 ### Removed
-
-
 
 
 ## [0.5.2] 2025-04-30

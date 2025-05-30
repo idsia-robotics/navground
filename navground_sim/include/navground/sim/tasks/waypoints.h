@@ -22,10 +22,11 @@ using Waypoints = std::vector<core::Vector2>;
 
 /**
  * @brief      This class implement a task that makes the agent reach a sequence
- * of waypoints, calling \ref navground::core::Controller::go_to_pose or 
+ * of waypoints, calling \ref navground::core::Controller::go_to_pose or
  * \ref navground::core::Controller::go_to_position for
- * the next waypoint after the current has been reached within a tolerance, depending
- * if a goal orientation has been specified using \ref \set_orientation or not.
+ * the next waypoint after the current has been reached within a tolerance,
+ * depending if a goal orientation has been specified using \ref
+ * \set_orientation or not.
  *
  * The task notifies when a new waypoint is set by calling a callback.
  *
@@ -46,8 +47,15 @@ using Waypoints = std::vector<core::Vector2>;
  *   - `angular_tolerances` (list of float, \ref get_angular_tolerances)
  *
  *   - `orientations` (list of float, \ref get_orientations)
+ *
+ *   - `wait_time` (float, \ref get_wait_time)
+ *
+ *   - `wait_times` (list of float, \ref get_wait_times)
  */
 struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
+
+  enum class State { idle, done, moving, waiting, waited };
+
   static const std::string type;
 
   /**
@@ -77,13 +85,15 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @param[in]  tolerance          The default goal tolerance applied to each
    *                                waypoint.
    * @param[in]  random             Whether to pick the next waypoint randomly
-   * @param[in]  tolerances         The goal tolerance applied to individual
+   * @param[in]  tolerances         The goal tolerance applied to specific
    *                                waypoints.
    * @param[in]  orientations       The goal orientation at the waypoints.
    * @param[in]  angular_tolerance  The default goal angular tolerance applied
    *                                to each waypoint.
-   * @param[in]  angular_tolerance  The goal angular tolerance applied to
-   *                                individual waypoints.
+   * @param[in]  angular_tolerances The goal angular tolerances applied to
+   *                                specific waypoints.
+   * @param[in]  wait_time          The time to wait at each waypoint.
+   * @param[in]  wait_times         The time to wait at specific waypoint.
    */
   explicit WaypointsTask(
       const Waypoints &waypoints = {}, bool loop = default_loop,
@@ -92,12 +102,15 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
       const std::vector<ng_float_t> &orientations = {},
       ng_float_t angular_tolerance = default_angular_tolerance,
       const std::vector<ng_float_t> &angular_tolerances =
-          std::vector<ng_float_t>{})
+          std::vector<ng_float_t>{},
+      ng_float_t wait_time = 0,
+      const std::vector<ng_float_t> &wait_times = std::vector<ng_float_t>{})
       : Task(), _waypoints(waypoints), _orientations(orientations), _loop(loop),
         _tolerance(tolerance), _tolerances(tolerances),
         _angular_tolerance(angular_tolerance),
-        _angular_tolerances(angular_tolerances), _random(random), _first(true),
-        _index(-1), _running(false) {}
+        _angular_tolerances(angular_tolerances), _wait_time(wait_time),
+        _wait_times(wait_times), _random(random), _first(true), _index(-1),
+        _state(State::idle) {}
 
   virtual ~WaypointsTask() = default;
 
@@ -105,12 +118,21 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @brief      The size of the data passed to callbacks when events occur,
    *             see \ref TaskCallback and \ref Task::add_callback.
    *
-   *             The data is composed of 4 numbers:
-   *             ``[time, target_x, target_y, target_theta]``
+   * The data is composed of 7 numbers
+   * ``[time, action_id, data_1, ..., data_5]``:
    *
-   * @return     4
+   * - idle: ``[time, 0, 0, 0, 0, 0, 0]``
+   *
+   * - start waiting for t seconds: ``[time, 1, t, 0, 0, 0, 0]``
+   *
+   * - start moving towards pose (x, y, theta): ``[time, 2, x, y, theta,
+   * tolerance, angular tolerance]``
+   *
+   * - start moving towards point (x, y): ``[time, 3, x, y, 0, tolerance, 0]``
+   *
+   * @return      7
    */
-  size_t get_log_size() const override { return 4; }
+  size_t get_log_size() const override { return 7; }
 
   /**
    * @private
@@ -128,14 +150,14 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   }
   /**
    * @brief      Sets the goal orientations at the waypoints.
-   * 
-   * If there are more orientations specified than waypoints, 
-   * those extra orientation are ignore. 
-   * 
+   *
+   * If there are more orientations specified than waypoints,
+   * those extra orientation are ignore.
+   *
    * If there are less  orientations specified than waypoints,
-   * the missing orientation are effectively filled with 
+   * the missing orientation are effectively filled with
    * the last orientation during control.
-   * 
+   *
    * To ignore the orientation at a specific  waypoint index,
    * set the related angular tolerance above PI.
    *
@@ -156,15 +178,15 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    *
    * @return     The waypoints.
    */
-  Waypoints get_waypoints() const { return _waypoints; }
+  const Waypoints & get_waypoints() const { return _waypoints; }
   /**
    * @brief      Gets the goal orientations at the waypoints.
    *
-   * If there are more orientations specified than waypoints, 
-   * those extra orientation are ignore. 
-   * 
+   * If there are more orientations specified than waypoints,
+   * those extra orientation are ignore.
+   *
    * If there are less orientations specified than waypoints,
-   * the missing orientation are effectively filled with 
+   * the missing orientation are effectively filled with
    * the last orientation during control.
    *
    * @return     The orientations (in radians).
@@ -218,7 +240,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @brief      Gets the default goal spatial tolerance.
    *
    * This value is used in \ref get_effective_tolerance to compute
-   * the effective tolerance applied to a selected waypoint, where
+   * the effective tolerance applied to a selected waypoint:
    * specific (positive) tolerances returned by
    * \ref get_tolerances will overwrites this default value.
    *
@@ -228,7 +250,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Gets the specific goal spatial tolerances.
    *
-   * This values are used in \ref get_effective_tolerance to compute
+   * These values are used in \ref get_effective_tolerance to compute
    * the effective tolerance applied to a selected waypoint:
    * negative values are ignored and replaced by the default value
    * \ref get_tolerance.
@@ -242,7 +264,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @brief      Sets the default goal spatial tolerance.
    *
    * This value is used in \ref get_effective_tolerance to compute
-   * the effective tolerance applied to a selected waypoint, where
+   * the effective tolerance applied to a selected waypoint:
    * specific (positive) tolerances set by
    * \ref set_tolerances will overwrites this default value.
    *
@@ -254,7 +276,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Sets the specific goal spatial tolerances.
    *
-   * This values are used in \ref get_effective_tolerance to compute
+   * These values are used in \ref get_effective_tolerance to compute
    * the effective tolerance applied to a selected waypoint:
    * negative values are ignored and replaced by the default value set with
    * \ref set_tolerance.
@@ -293,7 +315,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @brief      Gets the default goal angular tolerance
    *
    * This value is used in \ref get_effective_angular_tolerance to compute
-   * the effective angular tolerance applied to a selected waypoint, where
+   * the effective angular tolerance applied to a selected waypoint:
    * specific (positive) angular tolerances returned by
    * \ref get_angular_tolerances will overwrites this default value.
    *
@@ -303,13 +325,13 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Gets the specific goal angular tolerances.
    *
-   * This values are used in \ref get_effective_angular_tolerance to compute
+   * These values are used in \ref get_effective_angular_tolerance to compute
    * the effective tolerance applied to a selected waypoint:
    * negative values are ignored and replaced by the default value
    * \ref get_angular_tolerance.
    * Extra items (not paired to \get_waypoints) are also ignored.
    *
-   * @return     The individual waypoints angular tolerances.
+   * @return     The specific waypoints angular tolerances.
    */
   const std::vector<ng_float_t> &get_angular_tolerances() const {
     return _angular_tolerances;
@@ -318,7 +340,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @brief      Sets the goal angular tolerance applied to each waypoint.
    *
    * This value is used in \ref get_effective_angular_tolerance to compute
-   * the effective angular tolerance applied to a selected waypoint, where
+   * the effective angular tolerance applied to a selected waypoint:
    * specific (positive) angular tolerances set by
    * \ref set_angular_tolerances will overwrites this default value.
    *
@@ -330,7 +352,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Sets the specific goal angular tolerances.
    *
-   * This values are used in \ref get_effective_angular_tolerance to compute
+   * These values are used in \ref get_effective_angular_tolerance to compute
    * the effective angular tolerance applied to a selected waypoint:
    * negative values are ignored and replaced by the default value set with
    * \ref set_angular_tolerance.
@@ -342,12 +364,108 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   void set_angular_tolerances(const std::vector<ng_float_t> &values) {
     _angular_tolerances = values;
   }
+  /**
+   * @brief      Gets the effective wait time before moving towards the waypoint
+   * at given index.
+   *
+   * If a specific positive value is present at the same index in \ref
+   * get_times, it returns it.
+   * Else it returns the default value from \ref get_time.
+   *
+   * @param[in]  index  The index
+   *
+   * @return     The time in seconds.
+   */
+  ng_float_t get_effective_wait_time(unsigned index) const {
+    if (index < _wait_times.size() && _wait_times[index] > 0) {
+      return _wait_times[index];
+    }
+    return _wait_time;
+  }
+  /**
+   * @brief      Gets the default wait time before moving towards a waypoint.
+   *
+   * This value is used in \ref get_effective_wait_time to compute
+   * the effective wait time applied to a selected waypoint:
+   * specific (positive) wait times returned by
+   * \ref get_wait_times will overwrites this default value.
+   * @return     The time in seconds.
+   */
+  ng_float_t get_wait_time() const { return _wait_time; }
+  /**
+   * @brief      Gets the wait times before moving towards specific waypoints.
+   *
+   * These values are used in \ref get_effective_angular_tolerance to compute
+   * the effective tolerance applied to a selected waypoint:
+   * negative values are ignored and replaced by the default value
+   * \ref get_angular_tolerance.
+   * Extra items (not paired to \get_waypoints) are also ignored.
+   *
+   * @return     The wait times.
+   */
+  const std::vector<ng_float_t> &get_wait_times() const { return _wait_times; }
+  /**
+   * @brief      Sets the default wait time before moving towards a waypoint.
+   *
+   * This value is used in \ref get_effective_wait_time to compute
+   * the effective wait time applied to a selected waypoint:
+   * specific (positive) wait times returned by
+   * \ref get_wait_times will overwrites this default value.
+   *
+   * @param[in]  value  The desired positive value.
+   */
+  void set_wait_time(ng_float_t value) {
+    _wait_time = std::max<ng_float_t>(value, 0);
+  }
+  /**
+   * @brief      Sets the wait times before moving towards specific waypoints.
+   *
+   * These values are used in \ref get_effective_angular_tolerance to compute
+   * the effective tolerance applied to a selected waypoint:
+   * negative values are ignored and replaced by the default value
+   * \ref get_angular_tolerance.
+   * Extra items (not paired to \get_waypoints) are also ignored.
+   *
+   * @param[in]  values  The values
+   */
+  void set_wait_times(const std::vector<ng_float_t> &values) {
+    _wait_times = values;
+  }
+  /**
+   * @brief      Gets the orientation at a given index.
+   *
+   * @param[in]  index  The index
+   *
+   * @return     The orientation or null the index is not valid.
+   */
+  std::optional<ng_float_t> get_orientation(unsigned index) const {
+    if (index < _orientations.size()) {
+      return _orientations[index];
+    }
+    return std::nullopt;
+  }
+  /**
+   * @brief      Gets the waypoint at a given index
+   *
+   * @param[in]  index  The index
+   *
+   * @return     The waypoint or null the index is not valid.
+   */
+  std::optional<core::Vector2> get_waypoint(unsigned index) const {
+    if (index < _waypoints.size()) {
+      return _waypoints[index];
+    }
+    return std::nullopt;
+  }
 
 protected:
   /**
    * @private
    */
   void update(Agent *agent, World *world, ng_float_t time) override;
+  /**
+   * @private
+   */
   void prepare(Agent *agent, World *world) override;
 
 private:
@@ -358,12 +476,17 @@ private:
   std::vector<ng_float_t> _tolerances;
   ng_float_t _angular_tolerance;
   std::vector<ng_float_t> _angular_tolerances;
+  ng_float_t _wait_time;
+  std::vector<ng_float_t> _wait_times;
   bool _random;
   bool _first;
   int _index;
-  bool _running;
-  std::optional<core::Vector2> next_waypoint(World *world);
-  std::optional<ng_float_t> next_goal_orientation() const;
+  State _state;
+  ng_float_t _deadline;
+  bool next(World *world);
+  core::Vector2 get_next_waypoint() const;
+  std::optional<ng_float_t> get_next_goal_orientation() const;
+  int get_next_wait_time() const;
 };
 
 } // namespace navground::sim

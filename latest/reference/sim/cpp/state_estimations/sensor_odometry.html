@@ -52,7 +52,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/cpp/state_estimations/sensor_odometry';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Local GridMap" href="local_gridmap.html" />
+    <link rel="next" title="Odometry" href="sensor_marker.html" />
     <link rel="prev" title="Combination" href="sensor_combination.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -195,6 +195,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/world_attributes.html">World attributes</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -202,6 +203,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/register_cpp.html">How to integrate a C++ component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/register_py.html">How to integrate a Python component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/behavior.html">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/behavior_group.html">Behavior groups</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/behavior_modulation.html">Behavior modulations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/kinematics.html">Kinematics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/state_estimation.html">State Estimations</a></li>
@@ -238,6 +240,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/bicycle.html">Bicycle</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -247,6 +250,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/lidar.html">Lidar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/boundary.html">Boundary</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/local_gridmap.html">Local GridMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/marker.html">Marker</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -268,6 +272,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../background/accessors.html">Accessors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/attributes_and_properties.html">Attributes vs Properties</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -276,6 +281,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/attribute.html">Attributes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/cpp/target.html">Target</a></li>
@@ -292,6 +298,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../core/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/python/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/python/attribute.html">Attributes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/python/yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/python/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/python/target.html">Target</a></li>
@@ -307,6 +314,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../core/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/register.html">Registered components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/attributes.html">Attributes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/social_margin.html">Social margin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
@@ -521,8 +529,11 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation24set_update_sensing_stateEb"><code class="docutils literal notranslate"><span class="pre">set_update_sensing_state()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim23OdometryStateEstimation20get_update_ego_stateEv"><code class="docutils literal notranslate"><span class="pre">get_update_ego_state()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation20set_update_ego_stateEb"><code class="docutils literal notranslate"><span class="pre">set_update_ego_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation11update_odomEP5AgentP5World"><code class="docutils literal notranslate"><span class="pre">update_odom()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim23OdometryStateEstimation9read_poseERN4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">read_pose()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim23OdometryStateEstimation8get_poseEv"><code class="docutils literal notranslate"><span class="pre">get_pose()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim23OdometryStateEstimation9get_twistEv"><code class="docutils literal notranslate"><span class="pre">get_twist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation19read_pose_with_nameERN4core12SensingStateERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">read_pose_with_name()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation34default_longitudinal_speed_std_devE"><code class="docutils literal notranslate"><span class="pre">default_longitudinal_speed_std_dev</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation33default_transversal_speed_std_devE"><code class="docutils literal notranslate"><span class="pre">default_transversal_speed_std_dev</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation29default_angular_speed_std_devE"><code class="docutils literal notranslate"><span class="pre">default_angular_speed_std_dev</span></code></a></li>
@@ -760,6 +771,36 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim23OdometryStateEstimation11update_odomEP5AgentP5World">
+<span class="target" id="structnavground_1_1sim_1_1_odometry_state_estimation_1aa8d5666697bc3ce394c80c9f5106bebd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_odom</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">agent</span></span>, <a class="reference internal" href="../world.html#_CPPv4N9navground3sim5WorldE" title="navground::sim::World"><span class="n"><span class="pre">World</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">world</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim23OdometryStateEstimation11update_odomEP5AgentP5World" title="Link to this definition">#</a><br /></dt>
+<dd><p>Runs an update. </p>
+<p>Like update but without writing a <a class="reference internal" href="../../../core/cpp/state/sensing.html#classnavground_1_1core_1_1_sensing_state"><span class="std std-ref">core::SensingState</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agent</strong> – The agent </p></li>
+<li><p><strong>world</strong> – The world </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim23OdometryStateEstimation9read_poseERN4core12SensingStateE">
+<span class="target" id="structnavground_1_1sim_1_1_odometry_state_estimation_1a0ad3e2fdd954b942bf5a4801d1aec6bc"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_pose</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/state/sensing.html#_CPPv4N9navground4core12SensingStateE" title="navground::core::SensingState"><span class="n"><span class="pre">SensingState</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">state</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim23OdometryStateEstimation9read_poseERN4core12SensingStateE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Reads an (odometry) pose from a <a class="reference internal" href="../../../core/cpp/state/sensing.html#classnavground_1_1core_1_1_sensing_state"><span class="std std-ref">core::SensingState</span></a>. </p>
+<p>Calls <a class="reference internal" href="#structnavground_1_1sim_1_1_odometry_state_estimation_1a35661db31d86ef19bae53311cded2191"><span class="std std-ref">read_pose_with_name</span></a>, passing <a class="reference internal" href="sensor.html#structnavground_1_1sim_1_1_sensor_1a06a960b571d37f55b8e6c2ead4b3891f"><span class="std std-ref">get_name</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state</strong> – The state</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pose or null if none was found. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim23OdometryStateEstimation8get_poseEv">
 <span class="target" id="structnavground_1_1sim_1_1_odometry_state_estimation_1af4d841c4e9875f02c534201adda1133f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_pose</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim23OdometryStateEstimation8get_poseEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the current pose. </p>
@@ -777,6 +818,26 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The twist. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim23OdometryStateEstimation19read_pose_with_nameERN4core12SensingStateERKNSt6stringE">
+<span class="target" id="structnavground_1_1sim_1_1_odometry_state_estimation_1a35661db31d86ef19bae53311cded2191"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_pose_with_name</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/state/sensing.html#_CPPv4N9navground4core12SensingStateE" title="navground::core::SensingState"><span class="n"><span class="pre">SensingState</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">state</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim23OdometryStateEstimation19read_pose_with_nameERN4core12SensingStateERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Reads an (odometry) pose from a <a class="reference internal" href="../../../core/cpp/state/sensing.html#classnavground_1_1core_1_1_sensing_state"><span class="std std-ref">core::SensingState</span></a>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state</strong> – The state </p></li>
+<li><p><strong>name</strong> – <strong>[in]</strong> The namespace of the odometry</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pose or null if none was found. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -828,11 +889,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="local_gridmap.html"
+       href="sensor_marker.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Local GridMap</p>
+        <p class="prev-next-title">Odometry</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -870,8 +931,11 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation24set_update_sensing_stateEb"><code class="docutils literal notranslate"><span class="pre">set_update_sensing_state()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim23OdometryStateEstimation20get_update_ego_stateEv"><code class="docutils literal notranslate"><span class="pre">get_update_ego_state()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation20set_update_ego_stateEb"><code class="docutils literal notranslate"><span class="pre">set_update_ego_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation11update_odomEP5AgentP5World"><code class="docutils literal notranslate"><span class="pre">update_odom()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim23OdometryStateEstimation9read_poseERN4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">read_pose()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim23OdometryStateEstimation8get_poseEv"><code class="docutils literal notranslate"><span class="pre">get_pose()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim23OdometryStateEstimation9get_twistEv"><code class="docutils literal notranslate"><span class="pre">get_twist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation19read_pose_with_nameERN4core12SensingStateERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">read_pose_with_name()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation34default_longitudinal_speed_std_devE"><code class="docutils literal notranslate"><span class="pre">default_longitudinal_speed_std_dev</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation33default_transversal_speed_std_devE"><code class="docutils literal notranslate"><span class="pre">default_transversal_speed_std_dev</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim23OdometryStateEstimation29default_angular_speed_std_devE"><code class="docutils literal notranslate"><span class="pre">default_angular_speed_std_dev</span></code></a></li>

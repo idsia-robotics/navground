@@ -54,7 +54,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/python/behaviors/behavior';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Dummy" href="dummy.html" />
+    <link rel="next" title="Behavior Group" href="behavior_group.html" />
     <link rel="prev" title="Behaviors" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -197,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/world_attributes.html">World attributes</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -204,6 +205,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/register_cpp.html">How to integrate a C++ component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/register_py.html">How to integrate a Python component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/behavior.html">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/behavior_group.html">Behavior groups</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/behavior_modulation.html">Behavior modulations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/kinematics.html">Kinematics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../guides/extend/state_estimation.html">State Estimations</a></li>
@@ -240,6 +242,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/kinematics/bicycle.html">Bicycle</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -249,6 +252,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/lidar.html">Lidar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/boundary.html">Boundary</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/local_gridmap.html">Local GridMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../components/state_estimations/marker.html">Marker</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -270,6 +274,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../background/accessors.html">Accessors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../background/attributes_and_properties.html">Attributes vs Properties</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -278,6 +283,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../cpp/types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../cpp/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../cpp/attribute.html">Attributes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../cpp/yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../cpp/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../cpp/target.html">Target</a></li>
@@ -294,6 +300,7 @@
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">Python API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="../common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../attribute.html">Attributes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../target.html">Target</a></li>
@@ -309,6 +316,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/register.html">Registered components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../yaml/attributes.html">Attributes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/social_margin.html">Social margin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../yaml/behavior_modulation.html">Behavior Modulation</a></li>
@@ -543,12 +551,17 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_actuated_twist"><code class="docutils literal notranslate"><span class="pre">get_actuated_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_environment_state"><code class="docutils literal notranslate"><span class="pre">get_environment_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_direction"><code class="docutils literal notranslate"><span class="pre">get_target_angular_direction()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_distance"><code class="docutils literal notranslate"><span class="pre">get_target_angular_distance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_speed"><code class="docutils literal notranslate"><span class="pre">get_target_angular_speed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_velocity"><code class="docutils literal notranslate"><span class="pre">get_target_angular_velocity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_direction"><code class="docutils literal notranslate"><span class="pre">get_target_direction()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_distance"><code class="docutils literal notranslate"><span class="pre">get_target_distance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_orientation"><code class="docutils literal notranslate"><span class="pre">get_target_orientation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_pose"><code class="docutils literal notranslate"><span class="pre">get_target_pose()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_position"><code class="docutils literal notranslate"><span class="pre">get_target_position()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_speed"><code class="docutils literal notranslate"><span class="pre">get_target_speed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_twist"><code class="docutils literal notranslate"><span class="pre">get_target_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_velocity"><code class="docutils literal notranslate"><span class="pre">get_target_velocity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_twist"><code class="docutils literal notranslate"><span class="pre">get_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_velocity"><code class="docutils literal notranslate"><span class="pre">get_velocity()</span></code></a></li>
@@ -1179,35 +1192,8 @@ current twist over a time step</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="navground.core.Behavior.get_target_angular_speed">
-<span class="sig-name descname"><span class="pre">get_target_angular_speed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_angular_speed" title="Link to this definition">#</a></dt>
-<dd><p>Returns the nearest feasible angular speed to target’s angular speed,
-if defined, else to the behavior own optimal angular speed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The angular speed.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="navground.core.Behavior.get_target_direction">
-<span class="sig-name descname"><span class="pre">get_target_direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_direction" title="Link to this definition">#</a></dt>
-<dd><p>Returns the direction towards the target’s position if not satisfied,
-or the target’s direction if defined, else null.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>frame</strong> – The desired frame</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The normalized direction in the desired frame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="navground.core.Behavior.get_target_distance">
-<span class="sig-name descname"><span class="pre">get_target_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_distance" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="navground.core.Behavior.get_target_angular_direction">
+<span class="sig-name descname"><span class="pre">get_target_angular_direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_angular_direction" title="Link to this definition">#</a></dt>
 <dd><p>Returns the distance to the target point, if valid, else null.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1220,12 +1206,92 @@ or the target’s direction if defined, else null.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Behavior.get_target_angular_distance">
+<span class="sig-name descname"><span class="pre">get_target_angular_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_angular_distance" title="Link to this definition">#</a></dt>
+<dd><p>Returns the distance to the target orientation, if valid, else 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ignore_tolerance</strong> – Whether to ignore the target tolerance</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The angular distance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Behavior.get_target_angular_speed">
+<span class="sig-name descname"><span class="pre">get_target_angular_speed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_angular_speed" title="Link to this definition">#</a></dt>
+<dd><p>Returns the nearest feasible angular speed to target’s angular speed,
+if defined, else to the behavior own optimal angular speed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The angular speed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Behavior.get_target_angular_velocity">
+<span class="sig-name descname"><span class="pre">get_target_angular_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_angular_velocity" title="Link to this definition">#</a></dt>
+<dd><p>Gets the current target angular velocity.</p>
+<p>Multiplication of <a class="reference internal" href="#navground.core.Behavior.get_target_angular_direction" title="navground.core.Behavior.get_target_angular_direction"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_angular_direction()</span></code></a> by <a class="reference internal" href="#navground.core.Behavior.get_target_angular_speed" title="navground.core.Behavior.get_target_angular_speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_angular_speed()</span></code></a>. Returns zero if the target angular direction
+is undefined.</p>
+<p>Note that this returns a signed value, while <a class="reference internal" href="#navground.core.Behavior.get_target_angular_speed" title="navground.core.Behavior.get_target_angular_speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_angular_speed()</span></code></a>, returns the absolute value instead. Moreover
+considers (angular) tolerances, while <a class="reference internal" href="#navground.core.Behavior.get_target_angular_speed" title="navground.core.Behavior.get_target_angular_speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_angular_speed()</span></code></a>
+not, just like <a class="reference internal" href="#navground.core.Behavior.get_target_velocity" title="navground.core.Behavior.get_target_velocity"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_velocity()</span></code></a> vs <a class="reference internal" href="#navground.core.Behavior.get_target_speed" title="navground.core.Behavior.get_target_speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_speed()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ignore_tolerance</strong> – Whether to ignore the target tolerance</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The angular velocity z-component.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Behavior.get_target_direction">
+<span class="sig-name descname"><span class="pre">get_target_direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_direction" title="Link to this definition">#</a></dt>
+<dd><p>Returns the direction towards the target’s position if not satisfied,
+or the target’s direction if defined, else null.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> – The desired frame</p></li>
+<li><p><strong>ignore_tolerance</strong> – Whether to ignore the target tolerance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The normalized direction in the desired frame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Behavior.get_target_distance">
+<span class="sig-name descname"><span class="pre">get_target_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_distance" title="Link to this definition">#</a></dt>
+<dd><p>Returns the distance to the target point, if valid, else 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ignore_tolerance</strong> – Whether to ignore the target tolerance</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The distance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.get_target_orientation">
-<span class="sig-name descname"><span class="pre">get_target_orientation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_orientation" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_target_orientation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_orientation" title="Link to this definition">#</a></dt>
 <dd><p>Returns the target’s orientation if not satisfied, else null.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>frame</strong> – The desired frame</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> – The desired frame</p></li>
+<li><p><strong>ignore_tolerance</strong> – Whether to ignore the target tolerance</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The orientation in the desired frame</p>
@@ -1234,15 +1300,36 @@ or the target’s direction if defined, else null.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Behavior.get_target_pose">
+<span class="sig-name descname"><span class="pre">get_target_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Pose2" title="navground.core.Pose2"><span class="pre">navground.core.Pose2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_pose" title="Link to this definition">#</a></dt>
+<dd><p>Returns the target’s pose composed by position <a class="reference internal" href="#navground.core.Behavior.get_target_position" title="navground.core.Behavior.get_target_position"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_position()</span></code></a> and orientation <a class="reference internal" href="#navground.core.Behavior.get_target_orientation" title="navground.core.Behavior.get_target_orientation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_orientation()</span></code></a>, if
+both are defined, else null.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> – The desired frame</p></li>
+<li><p><strong>ignore_tolerance</strong> – Whether to ignore the target tolerance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The pose in the desired frame or null.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.get_target_position">
-<span class="sig-name descname"><span class="pre">get_target_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_position" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_target_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_position" title="Link to this definition">#</a></dt>
 <dd><p>Returns the target’s position if not satisfied, else null.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>frame</strong> – The desired frame</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> – The desired frame</p></li>
+<li><p><strong>ignore_tolerance</strong> – Whether to ignore the target tolerance</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The position in the desired frame</p>
+<dd class="field-even"><p>The vector in the desired frame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1260,14 +1347,36 @@ to the behavior own optimal speed.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="navground.core.Behavior.get_target_velocity">
-<span class="sig-name descname"><span class="pre">get_target_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_velocity" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="navground.core.Behavior.get_target_twist">
+<span class="sig-name descname"><span class="pre">get_target_twist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_twist" title="Link to this definition">#</a></dt>
 <dd><p>Gets the current target velocity.</p>
 <p>Multiplication of <a class="reference internal" href="#navground.core.Behavior.get_target_direction" title="navground.core.Behavior.get_target_direction"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_direction()</span></code></a> by <a class="reference internal" href="#navground.core.Behavior.get_target_speed" title="navground.core.Behavior.get_target_speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_speed()</span></code></a>.
 Returns a zero vector if the target direction is undefined.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>frame</strong> – The desired frame</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> – The desired frame</p></li>
+<li><p><strong>ignore_tolerance</strong> – Whether to ignore the target tolerance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The velocity in the desired frame.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Behavior.get_target_velocity">
+<span class="sig-name descname"><span class="pre">get_target_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_velocity" title="Link to this definition">#</a></dt>
+<dd><p>Gets the current target velocity.</p>
+<p>Multiplication of <a class="reference internal" href="#navground.core.Behavior.get_target_direction" title="navground.core.Behavior.get_target_direction"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_direction()</span></code></a> by <a class="reference internal" href="#navground.core.Behavior.get_target_speed" title="navground.core.Behavior.get_target_speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_speed()</span></code></a>.
+Returns a zero vector if the target direction is undefined.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> – The desired frame</p></li>
+<li><p><strong>ignore_tolerance</strong> – Whether to ignore the target tolerance</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The velocity in the desired frame.</p>
@@ -1337,7 +1446,7 @@ Returns a zero vector if the target direction is undefined.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.load">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.load" title="Link to this definition">#</a></dt>
-<dd><p>Load a behavior modulation from a YAML string.</p>
+<dd><p>Load a behavior from a YAML string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The loaded behavior or <code class="docutils literal notranslate"><span class="pre">None</span></code> if loading fails.</p>
@@ -1959,11 +2068,11 @@ frame. See <a class="reference internal" href="#navground.core.Behavior.pose" ti
       </div>
     </a>
     <a class="right-next"
-       href="dummy.html"
+       href="behavior_group.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Dummy</p>
+        <p class="prev-next-title">Behavior Group</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -2021,12 +2130,17 @@ frame. See <a class="reference internal" href="#navground.core.Behavior.pose" ti
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_actuated_twist"><code class="docutils literal notranslate"><span class="pre">get_actuated_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_environment_state"><code class="docutils literal notranslate"><span class="pre">get_environment_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_direction"><code class="docutils literal notranslate"><span class="pre">get_target_angular_direction()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_distance"><code class="docutils literal notranslate"><span class="pre">get_target_angular_distance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_speed"><code class="docutils literal notranslate"><span class="pre">get_target_angular_speed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_velocity"><code class="docutils literal notranslate"><span class="pre">get_target_angular_velocity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_direction"><code class="docutils literal notranslate"><span class="pre">get_target_direction()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_distance"><code class="docutils literal notranslate"><span class="pre">get_target_distance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_orientation"><code class="docutils literal notranslate"><span class="pre">get_target_orientation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_pose"><code class="docutils literal notranslate"><span class="pre">get_target_pose()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_position"><code class="docutils literal notranslate"><span class="pre">get_target_position()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_speed"><code class="docutils literal notranslate"><span class="pre">get_target_speed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_twist"><code class="docutils literal notranslate"><span class="pre">get_target_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_velocity"><code class="docutils literal notranslate"><span class="pre">get_target_velocity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_twist"><code class="docutils literal notranslate"><span class="pre">get_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_velocity"><code class="docutils literal notranslate"><span class="pre">get_velocity()</span></code></a></li>

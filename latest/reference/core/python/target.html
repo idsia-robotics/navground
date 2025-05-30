@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Behaviors" href="behaviors/index.html" />
-    <link rel="prev" title="Four wheels omnidirectional drive" href="kinematics/4wdiff.html" />
+    <link rel="prev" title="Bicycle" href="kinematics/bicycle.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -195,6 +195,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/world_attributes.html">World attributes</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -202,6 +203,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/register_cpp.html">How to integrate a C++ component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/register_py.html">How to integrate a Python component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior.html">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior_group.html">Behavior groups</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/behavior_modulation.html">Behavior modulations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/kinematics.html">Kinematics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../guides/extend/state_estimation.html">State Estimations</a></li>
@@ -238,6 +240,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/kinematics/bicycle.html">Bicycle</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -247,6 +250,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/lidar.html">Lidar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/boundary.html">Boundary</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/local_gridmap.html">Local GridMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../components/state_estimations/marker.html">Marker</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -268,6 +272,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../background/accessors.html">Accessors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../background/attributes_and_properties.html">Attributes vs Properties</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -276,6 +281,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../cpp/types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../cpp/attribute.html">Attributes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cpp/target.html">Target</a></li>
@@ -292,6 +298,7 @@
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Python API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="attribute.html">Attributes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">Target</a></li>
@@ -307,6 +314,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/register.html">Registered components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yaml/attributes.html">Attributes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/social_margin.html">Social margin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml/behavior_modulation.html">Behavior Modulation</a></li>
@@ -526,6 +534,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.Velocity"><code class="docutils literal notranslate"><span class="pre">Velocity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.satisfied"><code class="docutils literal notranslate"><span class="pre">satisfied()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.angular_direction"><code class="docutils literal notranslate"><span class="pre">angular_direction</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.angular_speed"><code class="docutils literal notranslate"><span class="pre">angular_speed</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.direction"><code class="docutils literal notranslate"><span class="pre">direction</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.orientation"><code class="docutils literal notranslate"><span class="pre">orientation</span></code></a></li>
@@ -812,7 +821,7 @@ undefined.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Target.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angular_speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.core.Path" title="navground.core.Path"><span class="pre">navground.core.Path</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.Target.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angular_speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angular_direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.core.Path" title="navground.core.Path"><span class="pre">navground.core.Path</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.Target.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Constructs a new instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -822,6 +831,7 @@ undefined.</p>
 <li><p><strong>speed</strong> – The speed</p></li>
 <li><p><strong>direction</strong> – The direction</p></li>
 <li><p><strong>angular_speed</strong> – The angular speed</p></li>
+<li><p><strong>angular_direction</strong> – The angular direction</p></li>
 <li><p><strong>path</strong> – The path</p></li>
 <li><p><strong>position_tolerance</strong> – The position tolerance</p></li>
 <li><p><strong>orientation_tolerance</strong> – The orientation tolerance</p></li>
@@ -876,6 +886,17 @@ satisfied.</p>
 <dd class="field-even"><p>True if the target is satisfied.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.Target.angular_direction">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">angular_direction</span></span><a class="headerlink" href="#navground.core.Target.angular_direction" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a>]</p>
+</dd>
+</dl>
+<p>The angular direction</p>
 </dd></dl>
 
 <dl class="py property">
@@ -998,12 +1019,12 @@ satisfied.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="kinematics/4wdiff.html"
+       href="kinematics/bicycle.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Four wheels omnidirectional drive</p>
+        <p class="prev-next-title">Bicycle</p>
       </div>
     </a>
     <a class="right-next"
@@ -1054,6 +1075,7 @@ satisfied.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.Velocity"><code class="docutils literal notranslate"><span class="pre">Velocity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.satisfied"><code class="docutils literal notranslate"><span class="pre">satisfied()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.angular_direction"><code class="docutils literal notranslate"><span class="pre">angular_direction</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.angular_speed"><code class="docutils literal notranslate"><span class="pre">angular_speed</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.direction"><code class="docutils literal notranslate"><span class="pre">direction</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Target.orientation"><code class="docutils literal notranslate"><span class="pre">orientation</span></code></a></li>

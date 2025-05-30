@@ -84,7 +84,7 @@ if required, define a new type of group
 
       .. code-block:: Python
 
-         class  MyGroup(core.PyGroup):
+         class  MyGroup(sim.Scenario.Group):
              
              def add_to_world(self, world: sim.World) -> None:
                  # use the world random generator to sample random variable.

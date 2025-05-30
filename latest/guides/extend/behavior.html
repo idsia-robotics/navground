@@ -53,7 +53,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'guides/extend/behavior';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Behavior modulations" href="behavior_modulation.html" />
+    <link rel="next" title="Behavior groups" href="behavior_group.html" />
     <link rel="prev" title="How to integrate a Python component" href="register_py.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -196,6 +196,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/world_attributes.html">World attributes</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Guides</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -203,6 +204,7 @@
 <li class="toctree-l3"><a class="reference internal" href="register_cpp.html">How to integrate a C++ component</a></li>
 <li class="toctree-l3"><a class="reference internal" href="register_py.html">How to integrate a Python component</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="behavior_group.html">Behavior groups</a></li>
 <li class="toctree-l3"><a class="reference internal" href="behavior_modulation.html">Behavior modulations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="kinematics.html">Kinematics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="state_estimation.html">State Estimations</a></li>
@@ -239,6 +241,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../components/kinematics/bicycle.html">Bicycle</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -248,6 +251,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../components/state_estimations/lidar.html">Lidar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../components/state_estimations/boundary.html">Boundary</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../components/state_estimations/local_gridmap.html">Local GridMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../components/state_estimations/marker.html">Marker</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -269,6 +273,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../background/accessors.html">Accessors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../background/attributes_and_properties.html">Attributes vs Properties</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/index.html">Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -277,6 +282,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/cpp/types.html">Types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/cpp/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/cpp/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/core/cpp/attribute.html">Attributes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/cpp/yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/cpp/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/cpp/target.html">Target</a></li>
@@ -293,6 +299,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/core/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/python/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/python/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/core/python/attribute.html">Attributes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/python/yaml.html">YAML</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/python/kinematics/index.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/python/target.html">Target</a></li>
@@ -308,6 +315,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/core/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/yaml/common.html">Geometry</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/yaml/register.html">Registered components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/core/yaml/attributes.html">Attributes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/yaml/kinematics.html">Kinematics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/yaml/social_margin.html">Social margin</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../reference/core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
@@ -650,6 +658,11 @@ any of the methods listed above.</p>
 
 <span class="k">namespace</span><span class="w"> </span><span class="nn">core</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">navground</span><span class="o">::</span><span class="nn">core</span><span class="p">;</span>
 
+<span class="c1">// May use a custom environment state</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">MyEnvironmentState</span><span class="w"> </span><span class="p">{</span>
+
+<span class="p">};</span>
+
 <span class="k">struct</span><span class="w"> </span><span class="nc">MyBehavior</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">core</span><span class="o">::</span><span class="n">Behavior</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="n">MyEnvironmentState</span><span class="w"> </span><span class="n">_env_state</span><span class="p">;</span>
 <span class="w">  </span><span class="c1">// MUST override ... the base returns an null pointer.</span>
@@ -701,7 +714,12 @@ any of the methods listed above.</p>
 </div>
 </div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">MyBehavior</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">PyBehavior</span><span class="p">):</span>
+<span class="c1"># May use a custom environment state</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyEnvironmentState</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">EnvironmentState</span><span class="p">):</span>
+    <span class="o">...</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyBehavior</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Behavior</span><span class="p">):</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinematics</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Kinematics</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">kinematics</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span>
@@ -719,37 +737,37 @@ any of the methods listed above.</p>
     <span class="c1"># def close(self) -&gt; None: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def compute_cmd_internal(time_step: float) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def compute_cmd_internal(self, time_step: float) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def cmd_twist_along_path(path: core.Path, speed: float , time_step: float) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def cmd_twist_along_path(self, path: core.Path, speed: float , time_step: float) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def cmd_twist_towards_pose(pose: core.Pose2, speed: float , angular_speed: float, time_step: float , frame: core.Frame ) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def cmd_twist_towards_pose(self, pose: core.Pose2, speed: float , angular_speed: float, time_step: float , frame: core.Frame ) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def cmd_twist_towards_point(point: core.Vector2, speed: float , time_step: float) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def cmd_twist_towards_point(self, point: core.Vector2, speed: float , time_step: float) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def  cmd_twist_towards_velocity(velocity: core.Vector2, time_step: float) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def  cmd_twist_towards_velocity(self, velocity: core.Vector2, time_step: float) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def cmd_twist_towards_orientation(orientation: float, angular_speed: float, time_step: float ) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def cmd_twist_towards_orientation(self, orientation: float, angular_speed: float, time_step: float ) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def cmd_twist_towards_angular_speed(angular_speed: float, time_step: float) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def cmd_twist_towards_angular_speed(self, angular_speed: float, time_step: float) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def cmd_twist_towards_stopping(time_step: float) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def cmd_twist_towards_stopping(self, time_step: float) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def desired_velocity_towards_point(point: core.Vector2, speed: float , time_step: float) -&gt; core.Vector2: ...</span>
+    <span class="c1"># def desired_velocity_towards_point(self, point: core.Vector2, speed: float , time_step: float) -&gt; core.Vector2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def  desired_velocity_towards_velocity(velocity: core.Vector2, time_step: float) -&gt; core.Vector2: ...</span>
+    <span class="c1"># def  desired_velocity_towards_velocity(self, velocity: core.Vector2, time_step: float) -&gt; core.Vector2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def twist_towards_velocity(velocity: core.Vector2) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def twist_towards_velocity(self, velocity: core.Vector2) -&gt; core.Twist2: ...</span>
 </pre></div>
 </div>
 </div></div>
@@ -777,11 +795,11 @@ any of the methods listed above.</p>
       </div>
     </a>
     <a class="right-next"
-       href="behavior_modulation.html"
+       href="behavior_group.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Behavior modulations</p>
+        <p class="prev-next-title">Behavior groups</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

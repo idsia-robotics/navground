@@ -22,3 +22,4 @@ Sensors can be combined together, each updating their part of the environment st
    lidar
    boundary
    local_gridmap
+   marker

@@ -28,6 +28,7 @@ To validate a ``<type>`` using this schema, add a reference:
 
    common
    register
+   attributes
    kinematics
    social_margin
    behavior_modulation

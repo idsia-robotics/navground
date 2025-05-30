@@ -26,6 +26,7 @@ and can be used to perform experiments.
    register_cpp
    register_py
    behavior
+   behavior_group
    behavior_modulation
    kinematics
    state_estimation

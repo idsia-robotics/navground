@@ -35,10 +35,13 @@ Generic
 .. doxygenstruct:: navground::sim::ChoiceSampler
     :members:
 
-Numbers and Vectors
--------------------
+Numbers
+-------
 
-.. doxygenstruct:: navground::sim::RegularSampler
+.. doxygenstruct:: navground::sim::UniformSampler
+    :members:
+
+.. doxygenstruct:: navground::sim::NormalSampler
     :members:
 
 Vectors
@@ -47,13 +50,16 @@ Vectors
 .. doxygenstruct:: navground::sim::GridSampler
     :members:
 
-Numbers
--------
+Numbers and vectors
+-------------------
 
-.. doxygenstruct:: navground::sim::UniformSampler
+.. doxygenstruct:: navground::sim::RegularSampler
     :members:
 
-.. doxygenstruct:: navground::sim::NormalSampler
+Numbers and booleans
+---------------------
+
+.. doxygenstruct:: navground::sim::BinarySampler
     :members:
 
 Properties

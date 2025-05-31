@@ -723,7 +723,6 @@ load_property_sampler(const std::string &value, const std::string &type_name) {
   }
   auto p = property_sampler(node, *field);
   if (p && p->valid()) {
-    py::print(YAML::dump(p.get()));
     return p;
   }
   return nullptr;

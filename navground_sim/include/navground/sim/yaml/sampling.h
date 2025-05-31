@@ -18,6 +18,7 @@ using navground::core::Property;
 using navground::sim::AgentSampler;
 using navground::sim::BehaviorModulationSampler;
 using navground::sim::BehaviorSampler;
+using navground::sim::BinarySampler;
 using navground::sim::ChoiceSampler;
 using navground::sim::ConstantSampler;
 using navground::sim::GridSampler;
@@ -161,6 +162,14 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node &node) {
       }
       return nullptr;
     }
+    if (sampler == "uniform") {
+      if (node["from"] && node["to"]) {
+        const auto min = node["from"].as<T>();
+        const auto max = node["to"].as<T>();
+        return std::make_unique<UniformSampler<T>>(min, max, once);
+      }
+      return nullptr;
+    }
   }
   if constexpr (std::is_same_v<T, Vector2>) {
     if (sampler == "grid") {
@@ -177,15 +186,10 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node &node) {
       return nullptr;
     }
   }
-  // !std::is_void_v<uniform_distribution<T>>
-  if constexpr (is_number<T> || std::is_same_v<T, Vector2>) {
-    if (sampler == "uniform") {
-      if (node["from"] && node["to"]) {
-        const auto min = node["from"].as<T>();
-        const auto max = node["to"].as<T>();
-        return std::make_unique<UniformSampler<T>>(min, max, once);
-      }
-      return nullptr;
+  if constexpr (std::is_convertible<bool, T>::value) {
+    if (sampler == "binary") {
+      return std::make_unique<BinarySampler<T>>(
+          node["probability"].as<double>(0.5), once);
     }
   }
   if constexpr (is_number<T>) {
@@ -274,6 +278,29 @@ template <typename T> struct convert<SequenceSampler<T>> {
     return node;
   }
   static constexpr const char name[] = "sequence";
+};
+
+template <typename T> struct convert<BinarySampler<T>> {
+  static Node encode(const BinarySampler<T> &rhs) {
+    Node node;
+    node["sampler"] = "binary";
+    node["probability"] = rhs.get_probability();
+    if (rhs.once) {
+      node["once"] = rhs.once;
+    }
+    return node;
+  }
+  static Node schema() {
+    Node node = schema::generic();
+    node["type"] = "object";
+    node["properties"]["probability"] = schema::type<schema::positive_float>();
+    node["properties"]["once"] = schema::type<bool>();
+    node["properties"]["sampler"]["const"] = "binary";
+    node["required"] = std::vector<std::string>({"sampler"});
+    node["additionalProperties"] = false;
+    return node;
+  }
+  static constexpr const char name[] = "binary";
 };
 
 template <typename T> struct convert<ChoiceSampler<T>> {
@@ -471,20 +498,24 @@ template <typename T> struct convert<Sampler<T> *> {
             dynamic_cast<const ChoiceSampler<T> *>(rhs)) {
       return Node(*sampler);
     }
-    if constexpr (is_algebra<T>) {
-      if (const RegularSampler<T> *sampler =
-              dynamic_cast<const RegularSampler<T> *>(rhs)) {
-        return Node(*sampler);
-      }
-    }
     if constexpr (std::is_same_v<T, Vector2>) {
       if (const GridSampler *sampler = dynamic_cast<const GridSampler *>(rhs)) {
         return Node(*sampler);
       }
     }
-    if constexpr (is_number<T> || std::is_same_v<T, Vector2>) {
+    if constexpr (std::is_convertible<bool, T>::value) {
+      if (const BinarySampler<T> *sampler =
+              dynamic_cast<const BinarySampler<T> *>(rhs)) {
+        return Node(*sampler);
+      }
+    }
+    if constexpr (is_algebra<T>) {
       if (const UniformSampler<T> *sampler =
               dynamic_cast<const UniformSampler<T> *>(rhs)) {
+        return Node(*sampler);
+      }
+      if (const RegularSampler<T> *sampler =
+              dynamic_cast<const RegularSampler<T> *>(rhs)) {
         return Node(*sampler);
       }
     }
@@ -547,7 +578,21 @@ template <> struct type_t<NumberSampler> {
     node["anyOf"] = std::vector<Node>{
         ref<ConstantSampler<void>>(), ref<SequenceSampler<void>>(),
         ref<ChoiceSampler<void>>(),   ref<RegularSampler<void>>(),
-        ref<UniformSampler<void>>(),  ref<NormalSampler<void>>()};
+        ref<UniformSampler<void>>(),  ref<NormalSampler<void>>(),
+        ref<BinarySampler<void>>()};
+    return node;
+  }
+};
+
+struct BooleanSampler;
+
+template <> struct type_t<BooleanSampler> {
+  static std::string name() { return "boolean_sampler"; }
+  static Node schema() {
+    Node node;
+    node["anyOf"] = std::vector<Node>{
+        ref<ConstantSampler<void>>(), ref<SequenceSampler<void>>(),
+        ref<ChoiceSampler<void>>(), ref<BinarySampler<void>>()};
     return node;
   }
 };
@@ -572,6 +617,9 @@ template <typename T> inline Node sampler_for_type() {
   }
   if constexpr (is_number<T>) {
     return ref<NumberSampler>();
+  }
+  if constexpr (std::is_same_v<T, bool>) {
+    return ref<BooleanSampler>();
   }
   return ref<GenericSampler>();
 }

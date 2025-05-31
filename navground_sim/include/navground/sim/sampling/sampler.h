@@ -539,7 +539,7 @@ make_probabilities(size_t n, const std::vector<double> &values) {
 
 /**
  * @brief      An inexhaustible generator that randomly draw from a
- * collection of values with replacement (iid).
+ * collection of values with replacement.
  *
  *
  * @tparam     T   The sampled type
@@ -552,11 +552,13 @@ template <typename T> struct ChoiceSampler final : public Sampler<T> {
    * @param[in]  probabilities: The probability weight for each value.
    *     Can but must not be normalized.
    *     Exceeding weights (with respect to the number of values) are ignored.
-   *     Missing weights are assigned a uniform value, so that the total sum is 1. 
+   *     Missing weights are assigned a uniform value, 
+   *     so that the total sum is 1. 
+   *     
    *     For example, if there are 4 values and 2 weights ``{0.2, 0.6}``, the
    *     weights will be completed as ``{0.2, 0.6, 0.1, 0.1}``.
    *
-   *     Passing an empty vector (i.e., the default) creates a discrete
+   *     Passing an empty vector (the default) creates a discrete
    *     uniform distribution.
    *
    * @param[in]  once    Whether to repeat the first sample (until reset)
@@ -581,6 +583,38 @@ protected:
 
 private:
   std::discrete_distribution<> _dist;
+};
+
+/**
+ * @brief      An inexhaustible generator of iid binary values
+ * sampled from a Bernoulli distribution.
+ *
+ *
+ * @tparam     T   The sampled type
+ */
+template <typename T> struct BinarySampler final : public Sampler<T> {
+  /**
+   * @brief      Construct an instance
+   *
+   * @param[in]  probability: The probability of the positive value in [0, 1]
+   *
+   * @param[in]  once    Whether to repeat the first sample (until reset)
+   */
+  explicit BinarySampler(const double &probability = 0.5, bool once = false)
+      : Sampler<T>(once), _dist(probability) {}
+
+  /**
+   * @private
+   */
+  bool done() const override { return false; }
+
+  double get_probability() const { return _dist.p(); }
+
+protected:
+  T s(RandomGenerator &rg) override { return T(_dist(rg)); }
+
+private:
+  std::bernoulli_distribution _dist;
 };
 
 template <class T, class U> struct is_one_of;

@@ -49,6 +49,7 @@ inline YAML::Node bundle_schema() {
   node["$defs"]["record_sensing_config"] = schema<RecordSensingConfig>();
   node["$defs"]["experiment"] = schema<Experiment>();
   node["$defs"]["sampler"] = schema<GenericSampler>();
+  node["$defs"]["boolean_sampler"] = schema<BooleanSampler>();
   node["$defs"]["number_sampler"] = schema<NumberSampler>();
   node["$defs"]["vector_sampler"] = schema<VectorSampler>();
   node["$defs"]["const"] = schema<ConstantSampler<void>>();
@@ -58,6 +59,7 @@ inline YAML::Node bundle_schema() {
   node["$defs"]["regular"] = schema<RegularSampler<void>>();
   node["$defs"]["uniform"] = schema<UniformSampler<void>>();
   node["$defs"]["normal"] = schema<NormalSampler<void>>();
+  node["$defs"]["binary"] = schema<BinarySampler<void>>();
   return node;
 }
 

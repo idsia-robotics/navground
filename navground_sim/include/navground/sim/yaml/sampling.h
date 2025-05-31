@@ -506,7 +506,7 @@ template <> struct convert<NormalSampler2D> {
     return node;
   }
   static Node schema() {
-    Node node = schema::generic();
+    Node node;
     node["type"] = "object";
     Node std_dev;
     std_dev["type"] = "array";

@@ -19,7 +19,7 @@ Generic samplers
      # uses $dynamicRef: "#T"
      # ...
 
-Other schemas, when referring to the sampler schema, they should define  ``T``
+Other schemas, when referring to the sampler schema, should define  ``T``
 
 .. code-block:: yaml
 
@@ -43,7 +43,7 @@ like, for example, to sample positive integers:
          minimum: 0
 
 
-All generic samplers share a common parameter :cpp:member:`navground::sim::Sampler::once` that freezes the sampler once the first sample has been drawn.  For example, when in the following scenario
+All samplers share a common parameter :cpp:member:`navground::sim::Sampler::once` that freezes the sampler once the first sample has been drawn.  For example, when in the following scenario
 
 .. code-block:: yaml
 
@@ -203,9 +203,12 @@ Vectorized
 
 .. note::
 
-   This schema does not fully specify the sampler for scalar values,
-   as it would result in a too complex JSON-schema.
+   Restricted to collections (:cpp:class:`std::vector` in C++, :py:type:`list` in Python, and YAML lists) of scalar types.
 
+.. warning::
+
+   This schema does not fully specify the sampler of scalar values,
+   as it would result in a (very) complex JSON-schema.
    A part from ``{min|max}_size``, all other fields should 
    represent a valid scalar sampler (for the specific scalar type).
 
@@ -214,6 +217,7 @@ Example
 ~~~~~~~
 
 .. code-block:: yaml
+
    # the size sampler
    min_size: 10
    max_size: 20

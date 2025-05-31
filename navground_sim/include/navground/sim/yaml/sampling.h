@@ -127,7 +127,9 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node &node) {
   if (sampler == "choice") {
     if (node["values"]) {
       return std::make_unique<ChoiceSampler<T>>(
-          node["values"].as<std::vector<T>>(), once);
+          node["values"].as<std::vector<T>>(),
+          node["probabilities"].as<std::vector<double>>(std::vector<double>()),
+          once);
     }
     return nullptr;
   }
@@ -278,7 +280,8 @@ template <typename T> struct convert<ChoiceSampler<T>> {
   static Node encode(const ChoiceSampler<T> &rhs) {
     Node node;
     node["sampler"] = "choice";
-    node["values"] = rhs.values;
+    node["values"] = rhs._values;
+    node["probabilities"] = rhs._probabilities;
     if (rhs.once) {
       node["once"] = rhs.once;
     }
@@ -290,8 +293,12 @@ template <typename T> struct convert<ChoiceSampler<T>> {
     values["type"] = "array";
     values["items"] = schema::generic_type();
     values["minItems"] = 1;
+    Node probabilities;
+    probabilities["type"] = "array";
+    probabilities["items"] = schema::type<schema::positive_float>();
     node["type"] = "object";
     node["properties"]["values"] = values;
+    node["properties"]["probabilities"] = probabilities;
     node["properties"]["once"] = schema::type<bool>();
     node["properties"]["sampler"]["const"] = "choice";
     node["required"] = std::vector<std::string>({"sampler", "values"});

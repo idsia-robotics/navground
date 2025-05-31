@@ -98,7 +98,8 @@ Example
 .. code-block:: yaml
 
    sampler: choice
-   values: [1.0, 2.0, 2.0, 1.0]  
+   values: [1.0, 2.0, 4.0] 
+   probabilities: [0.25, 0.5, 0.25]
 
 Regular
 -------

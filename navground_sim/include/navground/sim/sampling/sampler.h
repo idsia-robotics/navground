@@ -523,9 +523,23 @@ private:
   std::normal_distribution<ng_float_t> dist;
 };
 
+inline std::vector<double>
+make_probabilities(size_t n, const std::vector<double> &values) {
+  std::vector<double> ps(n);
+  size_t m = std::min(values.size(), n);
+  std::transform(values.begin(), values.begin() + m, ps.begin(),
+                 [](double v) { return std::max(0.0, v); });
+  if (m < n) {
+    const auto sum = std::accumulate(ps.begin(), ps.end(), 0.0);
+    const auto p = std::max(0.0, (1 - sum) / (n - m));
+    std::fill_n(ps.begin() + m, n - m, p);
+  }
+  return ps;
+}
+
 /**
- * @brief      An inexhaustible generator that randomly pick sequences from a
- * collection of values.
+ * @brief      An inexhaustible generator that randomly draw from a
+ * collection of values with replacement (iid).
  *
  *
  * @tparam     T   The sampled type
@@ -534,25 +548,39 @@ template <typename T> struct ChoiceSampler final : public Sampler<T> {
   /**
    * @brief      Construct an instance
    *
-   * @param[in]  values  The values to be sampled randomly sequence
-   * @param[in]  once     Whether to repeat the first sample (until reset)
+   * @param[in]  values  The values. Should have at least length 1.
+   * @param[in]  probabilities: The probability weight for each value.
+   *     Can but must not be normalized.
+   *     Exceeding weights (with respect to the number of values) are ignored.
+   *     Missing weights are assigned a uniform value, so that the total sum is 1. 
+   *     For example, if there are 4 values and 2 weights ``{0.2, 0.6}``, the
+   *     weights will be completed as ``{0.2, 0.6, 0.1, 0.1}``.
+   *
+   *     Passing an empty vector (i.e., the default) creates a discrete
+   *     uniform distribution.
+   *
+   * @param[in]  once    Whether to repeat the first sample (until reset)
    */
-  explicit ChoiceSampler(const std::vector<T> &values, bool once = false)
-      : Sampler<T>(once), values{values},
-        dist{0, static_cast<int>(values.size() - 1)} {}
+  explicit ChoiceSampler(const std::vector<T> &values,
+                         const std::vector<double> &probabilities = {},
+                         bool once = false)
+      : Sampler<T>(once), _values{values},
+        _probabilities{make_probabilities(_values.size(), probabilities)},
+        _dist(_probabilities.begin(), _probabilities.end()) {}
 
   /**
    * @private
    */
-  bool done() const override { return values.empty(); }
+  bool done() const override { return _values.empty(); }
 
-  std::vector<T> values;
+  std::vector<T> _values;
+  std::vector<double> _probabilities;
 
 protected:
-  T s(RandomGenerator &rg) override { return values[dist(rg)]; }
+  T s(RandomGenerator &rg) override { return _values[_dist(rg)]; }
 
 private:
-  std::uniform_int_distribution<int> dist;
+  std::discrete_distribution<> _dist;
 };
 
 template <class T, class U> struct is_one_of;

@@ -84,6 +84,8 @@ inline std::string wrap_to_string(const Wrap &value) {
 template <typename T> struct Sampler {
   friend struct PropertySampler;
 
+  using value_type = T;
+
   Sampler(bool once = false)
       : once(once), _index{0}, first_sample(std::nullopt) {}
   virtual ~Sampler() = default;
@@ -589,7 +591,7 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
    */
   template <typename T, typename = std::enable_if_t<allowed<T>::value>>
   PropertySampler(std::unique_ptr<Sampler<T>> value)
-      : sampler{std::move(value)} {}
+      : sampler{std::move(value)}, type_name(core::field_type_name<T>()) {}
 
   /**
    * @brief      Constructs an instance
@@ -602,7 +604,8 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
   template <typename S, typename = std::enable_if_t<allowed<ST<S>>::value>>
   PropertySampler(S &&value)
       : sampler(
-            static_cast<US<ST<S>>>(std::make_unique<S>(std::forward(value)))) {}
+            static_cast<US<ST<S>>>(std::make_unique<S>(std::forward(value)))),
+        type_name(core::field_type_name<S::value_type>()) {}
 
   /**
    * @brief      Create a new sampler
@@ -616,9 +619,20 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
   template <typename S, typename... Targs,
             typename = std::enable_if_t<allowed<ST<S>>::value>>
   PropertySampler(Targs... args)
-      : sampler{static_cast<US<ST<S>>>(std::make_unique<S>(args...))} {}
+      : sampler{static_cast<US<ST<S>>>(std::make_unique<S>(args...))},
+        type_name(core::field_type_name<S::value_type>()) {}
 
   S sampler;
+  std::string type_name;
+
+  /**
+   * @brief      Check if the sampler is valid.
+   *
+   * @return     True if valid
+   **/
+  bool valid() const {
+    return std::visit([](auto &&arg) -> bool { return bool(arg); }, sampler);
+  }
 
   /**
    * @private

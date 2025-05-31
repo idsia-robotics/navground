@@ -104,6 +104,41 @@ struct Property {
                    std::vector<bool>, std::vector<int>, std::vector<ng_float_t>,
                    std::vector<std::string>, std::vector<Vector2>>;
 
+  /**
+   * @brief      Create a value of the desired type.
+   *
+   * @param[in]  type_name  The type name
+   *
+   * @return     A value or null is the type name is not valid.
+   */
+  static std::optional<Field> make_prototype(const std::string &type_name) {
+    const auto [scalar_type_name, is_vector] = get_scalar_type_name(type_name);
+    if (is_vector) {
+      if (scalar_type_name == "int")
+        return std::vector<int>();
+      if (scalar_type_name == "float")
+        return std::vector<ng_float_t>();
+      if (scalar_type_name == "str")
+        return std::vector<std::string>();
+      if (scalar_type_name == "bool")
+        return std::vector<bool>();
+      if (scalar_type_name == "vector")
+        return std::vector<Vector2>();
+      return std::nullopt;
+    }
+    if (scalar_type_name == "int")
+      return int();
+    if (scalar_type_name == "float")
+      return ng_float_t();
+    if (scalar_type_name == "str")
+      return std::string();
+    if (scalar_type_name == "bool")
+      return bool();
+    if (scalar_type_name == "vector")
+      return Vector2();
+    return std::nullopt;
+  }
+
   static std::string_view friendly_type_name(const Field &field) {
     return std::visit(
         [](auto &&arg) {

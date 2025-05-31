@@ -10,7 +10,7 @@ Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]], numpy.dtype[numpy.float64]
 Vector2Like: TypeAlias = Vector2 | tuple[float, float] | list[float]
 GridCellIndices: TypeAlias = numpy.ndarray[tuple[Literal[2]], numpy.dtype[numpy.int64]]
 GridCellIndicesLike: TypeAlias = GridCellIndices | tuple[int, int] | list[int]
-PropertyField: TypeAlias =  bool | int | float | str | Vector2 | list[bool] | list[int] | list[float] | list[str] | list[Vector2]
+PropertyField: TypeAlias = bool | int | float | str | Vector2 | list[bool] | list[int] | list[float] | list[str] | list[Vector2]
 
 class Action:
     class State:
@@ -663,6 +663,8 @@ class Pose2:
 class Property:
     def __init__(self, getter: object, setter: object, default: bool | int | float | str | Vector2 | list[bool] | list[int] | list[float] | list[str] | list[Vector2], description: str = ..., deprecated_names: list[str] = ...) -> None: ...
     def _pybind11_conduit_v1_(self, *args: Any, **kwargs: Any) -> Any: ...
+    @staticmethod
+    def make_prototype(type_name: str) -> PropertyField | None: ...
     @staticmethod
     def make(property: property, default: bool | int | float | str | Vector2 | list[bool] | list[int] | list[float] | list[str] | list[Vector2], description: str = ..., deprecated_names: list[str] = ...) -> Property: ...
     @property

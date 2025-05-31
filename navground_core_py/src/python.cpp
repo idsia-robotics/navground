@@ -498,6 +498,9 @@ Constructs a new instance.
       .def_readonly("readonly", &Property::readonly,
                     DOC(navground, core, Property, readonly))
       .def("__repr__", &to_string<Property>)
+      .def_static("make_prototype", &Property::make_prototype,
+                  py::arg("type_name"),
+                  DOC(navground, core, Property, make_prototype))
       .def_static("make", &make_property_with_py_property_with_type,
                   py::arg("property"), py::arg("default"), py::arg("type_name"),
                   py::arg("description") = "", py::arg("schema") = nullptr,

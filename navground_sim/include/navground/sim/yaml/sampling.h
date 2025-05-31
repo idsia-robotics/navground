@@ -433,14 +433,19 @@ template <typename T> struct convert<NormalSampler<T>> {
 };
 
 inline std::unique_ptr<PropertySampler>
-property_sampler(const Node &node, const Property &property) {
+property_sampler(const Node &node, const Property::Field field) {
   return std::visit(
       [&node](auto &&arg) -> std::unique_ptr<PropertySampler> {
         using V = std::decay_t<decltype(arg)>;
         return std::make_unique<PropertySampler>(
             PropertySampler(read_sampler<V>(node)));
       },
-      property.default_value);
+      field);
+}
+
+inline std::unique_ptr<PropertySampler>
+property_sampler(const Node &node, const Property &property) {
+  return property_sampler(node, property.default_value);
 }
 
 template <typename T> struct convert<Sampler<T> *> {
@@ -578,6 +583,12 @@ inline Node sampler(const Node &sample, const std::string &id) {
 template <typename T> struct convert<std::shared_ptr<Sampler<T>>> {
   static Node encode(const std::shared_ptr<Sampler<T>> &rhs) {
     return convert<Sampler<T> *>::encode(rhs.get());
+  }
+};
+
+template <> struct convert<PropertySampler> {
+  static Node encode(const PropertySampler &rhs) {
+    return std::visit([](auto &&arg) { return Node(arg.get()); }, rhs.sampler);
   }
 };
 
@@ -876,7 +887,7 @@ template <typename W> struct convert<AgentSampler<W>> {
     if (rhs.task.is_valid()) {
       node["task"] = rhs.task;
     }
-    const auto & ses = rhs.get_valid_state_estimations();
+    const auto &ses = rhs.get_valid_state_estimations();
     if (ses.size() == 1) {
       node["state_estimation"] = ses[0];
     } else if (ses.size() > 1) {
@@ -957,7 +968,8 @@ template <typename W> struct convert<AgentSampler<W>> {
       rhs.speed_tolerance = read_sampler<ng_float_t>(node["speed_tolerance"]);
     }
     if (node["angular_speed_tolerance"]) {
-      rhs.angular_speed_tolerance = read_sampler<ng_float_t>(node["angular_speed_tolerance"]);
+      rhs.angular_speed_tolerance =
+          read_sampler<ng_float_t>(node["angular_speed_tolerance"]);
     }
     if (node["number"]) {
       rhs.number = read_sampler<unsigned>(node["number"]);
@@ -996,7 +1008,8 @@ template <typename W> struct convert<AgentSampler<W>> {
     schema::add_sampler<schema::positive_float>(node, "radius");
     schema::add_sampler<schema::positive_float>(node, "control_period");
     schema::add_sampler<schema::positive_float>(node, "speed_tolerance");
-    schema::add_sampler<schema::positive_float>(node, "angular_speed_tolerance");
+    schema::add_sampler<schema::positive_float>(node,
+                                                "angular_speed_tolerance");
     schema::add_sampler<unsigned>(node, "number");
     schema::add_sampler<std::string>(node, "type");
     schema::add_sampler<std::string>(node, "tags");

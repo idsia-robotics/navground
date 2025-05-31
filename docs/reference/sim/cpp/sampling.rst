@@ -44,8 +44,8 @@ Numbers
 .. doxygenstruct:: navground::sim::NormalSampler
     :members:
 
-Vectors
--------
+2D Vectors
+----------
 
 .. doxygenstruct:: navground::sim::GridSampler
     :members:
@@ -53,8 +53,8 @@ Vectors
 .. doxygenstruct:: navground::sim::NormalSampler2D
     :members:
 
-Numbers and vectors
--------------------
+Numbers and 2D vectors
+----------------------
 
 .. doxygenstruct:: navground::sim::RegularSampler
     :members:
@@ -63,6 +63,12 @@ Numbers and booleans
 ---------------------
 
 .. doxygenstruct:: navground::sim::BinarySampler
+    :members:
+
+Collection of scalars
+---------------------
+
+.. doxygenstruct:: navground::sim::VectorizedSampler
     :members:
 
 Properties

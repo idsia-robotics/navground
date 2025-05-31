@@ -108,7 +108,7 @@ Regular
 
 .. note::
 
-   Restricted to numeric types and vectors
+   Restricted to numeric types and 2D vectors
 
 Example
 ~~~~~~~
@@ -126,7 +126,7 @@ Grid
 
 .. note::
 
-   Restricted to numeric types and vectors
+   Restricted to 2D vectors
 
 Example
 ~~~~~~~
@@ -138,8 +138,8 @@ Example
    to: [1, 1]
    number: [2, 2]
 
-Random uniform
-~~~~~~~~~~~~~~
+Uniform
+-------
 
 .. schema:: navground.sim.schema.bundle()["$defs"]["uniform"]
 
@@ -156,8 +156,8 @@ Example
    from: 0.1
    to: 0.2
 
-Random normal
-~~~~~~~~~~~~~~
+Normal
+------
 
 .. schema:: navground.sim.schema.bundle()["$defs"]["normal"]
 
@@ -177,6 +177,51 @@ Example
    max: 1.0
 
 
+Normal 2D
+----------
+
+.. schema:: navground.sim.schema.bundle()["$defs"]["normal2d"]
+
+.. note::
+
+   Restricted to 2D vector.
+
+Example
+~~~~~~~
+
+.. code-block:: yaml
+
+   sampler: normal
+   mean: [0.0, 1.0]
+   std_dev: [1.0, 4.0]
+   angle: 0.7853981634
+
+Vectorized
+----------
+
+.. schema:: navground.sim.schema.bundle()["$defs"]["vectorized"]
+
+.. note::
+
+   This schema does not fully specify the sampler for scalar values,
+   as it would result in a too complex JSON-schema.
+
+   A part from ``{min|max}_size``, all other fields should 
+   represent a valid scalar sampler (for the specific scalar type).
+
+
+Example
+~~~~~~~
+
+.. code-block:: yaml
+   # the size sampler
+   min_size: 10
+   max_size: 20
+   # the values iid sampler
+   sampler: normal
+   mean: 0.0
+   std_dev: 1.0
+   
 .. _samplers_yaml:
 
 Samplers collections
@@ -188,14 +233,21 @@ Some generic schema works on any type, others are restricted to a subset of type
 
   .. schema:: navground.sim.schema.bundle()['$defs']['number_sampler']
 
-- vectors:
+- booleans:
 
-  .. schema:: navground.sim.schema.bundle()['$defs']['vector_sampler']
+  .. schema:: navground.sim.schema.bundle()['$defs']['boolean_sampler']
 
-- other types:
+- strings:
 
-  .. schema:: navground.sim.schema.bundle()['$defs']['sampler']
+  .. schema:: navground.sim.schema.bundle()['$defs']['string_sampler']
 
+- 2D vectors:
+
+  .. schema:: navground.sim.schema.bundle()['$defs']['vector2_sampler']
+
+- collections of above scalar types:
+
+  .. schema:: navground.sim.schema.bundle()['$defs']['collection_sampler'] 
 
 Example
 -------

@@ -36,6 +36,7 @@ using navground::sim::StateEstimationSampler;
 using navground::sim::TaskSampler;
 using navground::sim::uniform_distribution;
 using navground::sim::UniformSampler;
+using navground::sim::VectorizedSampler;
 using navground::sim::World;
 using navground::sim::Wrap;
 using navground::sim::wrap_from_string;
@@ -57,6 +58,8 @@ inline Node generic() {
   node["$defs"]["of"]["not"] = true;
   return node;
 }
+
+template <typename T> Node sampler_for_type();
 
 } // namespace schema
 
@@ -89,6 +92,20 @@ std::unique_ptr<PropertySampler> property_sampler(const Node& node,
 
 template <typename T>
 std::unique_ptr<Sampler<T>> read_sampler(const Node &node) {
+  if constexpr (is_std_vector_v<T>) {
+    using S = typename T::value_type;
+    if (node["max_size"]) {
+      auto scalar_sampler = read_sampler<S>(node);
+      if (scalar_sampler) {
+        const auto once = scalar_sampler->once;
+        scalar_sampler->once = false;
+        return std::make_unique<VectorizedSampler<S>>(
+            std::move(scalar_sampler), node["min_size"].as<size_t>(0),
+            node["max_size"].as<size_t>(), once);
+      }
+      return nullptr;
+    }
+  }
   bool once = false;
   // implicit const
   try {
@@ -527,6 +544,13 @@ template <typename T> struct convert<Sampler<T> *> {
   static Node encode(const Sampler<T> *rhs) {
     if (!rhs)
       return Node();
+    if constexpr (is_std_vector_v<T>) {
+      using S = typename T::value_type;
+      if (const VectorizedSampler<S> *sampler =
+              dynamic_cast<const VectorizedSampler<S> *>(rhs)) {
+        return Node(*sampler);
+      }
+    }
     if (const ConstantSampler<T> *sampler =
             dynamic_cast<const ConstantSampler<T> *>(rhs)) {
       return Node(*sampler);
@@ -574,6 +598,33 @@ template <typename T> struct convert<Sampler<T> *> {
   }
 };
 
+template <typename T> struct convert<VectorizedSampler<T>> {
+  static Node encode(const VectorizedSampler<T> &rhs) {
+    Node node(rhs.get_scalar_sampler());
+    node["min_size"] = rhs.get_min_size();
+    node["max_size"] = rhs.get_max_size();
+    if (rhs.once) {
+      node["once"] = rhs.once;
+    }
+    return node;
+  }
+  static Node schema() {
+    // Too complex to be represented in JSON schema:
+    // we won't be able to check that the scalar sampler is valid!
+    Node node;
+    node["type"] = "object";
+    node["properties"]["sampler"] = schema::type<std::string>();
+    node["properties"]["once"] = schema::type<bool>();
+    // node["allOf"].push_back(schema::sampler_for_type<T>());
+    node["properties"]["max_size"] = schema::type<unsigned>();
+    node["properties"]["min_size"] = schema::type<unsigned>();
+    node["additionalProperties"] = true;
+    node["required"] = std::vector<std::string>({"sampler", "max_size"});
+    return node;
+  }
+  static constexpr const char name[] = "vectorized";
+};
+
 namespace schema {
 
 #if 0
@@ -601,10 +652,10 @@ template <typename T> struct type_t<Sampler<T>> {
 };
 #endif
 
-struct GenericSampler;
+struct StringSampler;
 
-template <> struct type_t<GenericSampler> {
-  static std::string name() { return "sampler"; }
+template <> struct type_t<StringSampler> {
+  static std::string name() { return "string_sampler"; }
   static Node schema() {
     Node node;
     node["anyOf"] = std::vector<Node>{ref<ConstantSampler<void>>(),
@@ -642,10 +693,10 @@ template <> struct type_t<BooleanSampler> {
   }
 };
 
-struct VectorSampler;
+struct Vector2Sampler;
 
-template <> struct type_t<VectorSampler> {
-  static std::string name() { return "vector_sampler"; }
+template <> struct type_t<Vector2Sampler> {
+  static std::string name() { return "vector2_sampler"; }
   static Node schema() {
     Node node;
     node["anyOf"] = std::vector<Node>{
@@ -657,17 +708,33 @@ template <> struct type_t<VectorSampler> {
   }
 };
 
+struct CollectionSampler;
+
+template <> struct type_t<CollectionSampler> {
+  static std::string name() { return "collection_sampler"; }
+  static Node schema() {
+    Node node;
+    node["anyOf"] = std::vector<Node>{
+        ref<ConstantSampler<void>>(), ref<SequenceSampler<void>>(),
+        ref<ChoiceSampler<void>>(), ref<VectorizedSampler<void>>()};
+    return node;
+  }
+};
+
 template <typename T> inline Node sampler_for_type() {
   if constexpr (std::is_same_v<T, Vector2>) {
-    return ref<VectorSampler>();
+    return ref<Vector2Sampler>();
   }
   if constexpr (is_number<T>) {
     return ref<NumberSampler>();
   }
+  if constexpr (std::is_same_v<T, std::string>) {
+    return ref<StringSampler>();
+  }
   if constexpr (std::is_same_v<T, bool>) {
     return ref<BooleanSampler>();
   }
-  return ref<GenericSampler>();
+  return ref<CollectionSampler>();
 }
 
 template <typename T>
@@ -836,12 +903,11 @@ template <typename T, typename M> struct convert<BehaviorSampler<T, M>> {
     }
     return true;
   }
-  // TODO(Jerome): If possible, add constraints at least to the generic sampler,
-  // e.g., to define a sampler of positive integers.
-  // I could do it brute force just for positive.
-  // I think it is possible but I need to reverse samplers:
-  // now: field: {$ref: <type>_sampler}
-  // then: field: {$ref: sampler, "T=<type>"}
+  // TODO(Jerome): If possible, add constraints at least to the generic
+  // sampler, e.g., to define a sampler of positive integers. I could do it
+  // brute force just for positive. I think it is possible but I need to
+  // reverse samplers: now: field: {$ref: <type>_sampler} then: field: {$ref:
+  // sampler, "T=<type>"}
   static Node schema() {
     Node node;
     node["type"] = "object";

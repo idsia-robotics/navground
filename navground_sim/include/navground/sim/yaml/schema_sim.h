@@ -48,10 +48,11 @@ inline YAML::Node bundle_schema() {
   node["$defs"]["record_neighbors_config"] = schema<RecordNeighborsConfig>();
   node["$defs"]["record_sensing_config"] = schema<RecordSensingConfig>();
   node["$defs"]["experiment"] = schema<Experiment>();
-  node["$defs"]["sampler"] = schema<GenericSampler>();
   node["$defs"]["boolean_sampler"] = schema<BooleanSampler>();
   node["$defs"]["number_sampler"] = schema<NumberSampler>();
-  node["$defs"]["vector_sampler"] = schema<VectorSampler>();
+  node["$defs"]["vector2_sampler"] = schema<Vector2Sampler>();
+  node["$defs"]["string_sampler"] = schema<StringSampler>();
+  node["$defs"]["collection_sampler"] = schema<CollectionSampler>();
   node["$defs"]["const"] = schema<ConstantSampler<void>>();
   node["$defs"]["sequence"] = schema<SequenceSampler<void>>();
   node["$defs"]["choice"] = schema<ChoiceSampler<void>>();
@@ -61,6 +62,7 @@ inline YAML::Node bundle_schema() {
   node["$defs"]["uniform"] = schema<UniformSampler<void>>();
   node["$defs"]["normal"] = schema<NormalSampler<void>>();
   node["$defs"]["binary"] = schema<BinarySampler<void>>();
+  node["$defs"]["vectorized"] = schema<VectorizedSampler<void>>();
   return node;
 }
 

@@ -656,6 +656,67 @@ private:
   std::bernoulli_distribution _dist;
 };
 
+/**
+ * @brief      An generator of vectors of random values
+ * sampled iid from any scalar sampler.
+ *
+ * The size of the vectors is samples uniformly.
+ *
+ *
+ * @tparam     T   The sampled type
+ */
+template <typename T>
+struct VectorizedSampler final : public Sampler<std::vector<T>> {
+  /**
+   * @brief      Construct an instance
+   *
+   * @param[in]  sampler: The scalar sampler
+   *
+   * @param[in]  min_size: The minimal vector size
+   *
+   * @param[in]  max_size: The maximal vector size
+   *
+   * @param[in]  once    Whether to repeat the first sample (until reset)
+   */
+  explicit VectorizedSampler(std::unique_ptr<Sampler<T>> &&sampler,
+                         size_t min_size, size_t max_size, bool once = false)
+      : Sampler<std::vector<T>>(once), _sampler(std::move(sampler)),
+        _dist(std::max<size_t>(0, min_size), std::max<size_t>(0, max_size)) {}
+
+  /**
+   * @private
+   */
+  bool done() const override { return !_sampler || _sampler->done(); }
+
+  /**
+   * @private
+   */
+  void reset(std::optional<unsigned> index = std::nullopt) override {
+    if (_sampler) {
+      _sampler->reset(index);
+    }
+  }
+
+  Sampler<T> * get_scalar_sampler() const { return _sampler.get(); }
+
+  size_t get_min_size() const { return _dist.a(); }
+
+  size_t get_max_size() const { return _dist.b(); }
+
+protected:
+  std::vector<T> s(RandomGenerator &rg) override {
+    std::vector<T> values(_dist(rg));
+    for (size_t i = 0; i < values.size(); ++i) {
+      values[i] = _sampler->sample(rg);
+    }
+    return values;
+  }
+
+private:
+  std::unique_ptr<Sampler<T>> _sampler;
+  std::uniform_int_distribution<size_t> _dist;
+};
+
 template <class T, class U> struct is_one_of;
 
 template <class T, class... Ts>

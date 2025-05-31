@@ -26,6 +26,7 @@ using navground::sim::is_algebra;
 using navground::sim::is_number;
 using navground::sim::KinematicsSampler;
 using navground::sim::NormalSampler;
+using navground::sim::NormalSampler2D;
 using navground::sim::PropertySampler;
 using navground::sim::RegularSampler;
 using navground::sim::Sampler;
@@ -182,6 +183,15 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node &node) {
           wrap = wrap_from_string(node["wrap"].as<std::string>());
         }
         return std::make_unique<GridSampler>(start, end, numbers, wrap, once);
+      }
+      return nullptr;
+    }
+    if (sampler == "normal") {
+      if (node["mean"] && node["std_dev"]) {
+        const auto mean = node["mean"].as<Vector2>();
+        const auto std_dev = node["std_dev"].as<std::array<ng_float_t, 2>>();
+        const auto angle = node["angle"].as<ng_float_t>(0);
+        return std::make_unique<NormalSampler2D>(mean, std_dev, angle, once);
       }
       return nullptr;
     }
@@ -440,8 +450,8 @@ template <typename T> struct convert<NormalSampler<T>> {
     if (rhs.max) {
       node["max"] = *rhs.max;
     }
-    node["mean"] = rhs.mean;
-    node["std_dev"] = rhs.std_dev;
+    node["mean"] = rhs.get_mean();
+    node["std_dev"] = rhs.get_std_dev();
     node["sampler"] = "normal";
     if (rhs.once) {
       node["once"] = rhs.once;
@@ -464,6 +474,37 @@ template <typename T> struct convert<NormalSampler<T>> {
     return node;
   }
   static constexpr const char name[] = "normal";
+};
+
+template <> struct convert<NormalSampler2D> {
+  static Node encode(const NormalSampler2D &rhs) {
+    Node node;
+    node["mean"] = rhs.get_mean();
+    node["std_dev"] = rhs.get_std_dev();
+    node["angle"] = rhs.get_angle();
+    node["sampler"] = "normal";
+    if (rhs.once) {
+      node["once"] = rhs.once;
+    }
+    return node;
+  }
+  static Node schema() {
+    Node node = schema::generic();
+    node["type"] = "object";
+    Node std_dev;
+    std_dev["type"] = "array";
+    std_dev["items"] = schema::type<schema::positive_float>();
+    std_dev["minItems"] = 2;
+    std_dev["maxItems"] = 2;
+    node["properties"]["mean"] = schema::ref<Vector2>();
+    node["properties"]["std_dev"] = std_dev;
+    node["properties"]["once"] = schema::type<bool>();
+    node["properties"]["sampler"]["const"] = "normal";
+    node["required"] = std::vector<std::string>({"sampler", "mean", "std_dev"});
+    node["additionalProperties"] = false;
+    return node;
+  }
+  static constexpr const char name[] = "normal2d";
 };
 
 inline std::unique_ptr<PropertySampler>
@@ -500,6 +541,10 @@ template <typename T> struct convert<Sampler<T> *> {
     }
     if constexpr (std::is_same_v<T, Vector2>) {
       if (const GridSampler *sampler = dynamic_cast<const GridSampler *>(rhs)) {
+        return Node(*sampler);
+      }
+      if (const NormalSampler2D *sampler =
+              dynamic_cast<const NormalSampler2D *>(rhs)) {
         return Node(*sampler);
       }
     }
@@ -606,7 +651,8 @@ template <> struct type_t<VectorSampler> {
     node["anyOf"] = std::vector<Node>{
         ref<ConstantSampler<void>>(), ref<SequenceSampler<void>>(),
         ref<ChoiceSampler<void>>(),   ref<GridSampler>(),
-        ref<RegularSampler<void>>(),  ref<UniformSampler<void>>()};
+        ref<RegularSampler<void>>(),  ref<UniformSampler<void>>(),
+        ref<NormalSampler2D>()};
     return node;
   }
 };

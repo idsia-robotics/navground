@@ -5,6 +5,7 @@
 #ifndef NAVGROUND_SIM_SAMPLING_SAMPLER_H
 #define NAVGROUND_SIM_SAMPLING_SAMPLER_H
 
+#include <array>
 #include <memory>
 #include <random>
 #include <type_traits>
@@ -463,7 +464,7 @@ protected:
 };
 
 /**
- * @brief      Sample randomly from a uniform distribution.
+ * @brief      Sample randomly from a normal distribution.
  *
  * Values are optionally clamped when min and/or max are provided.
  *
@@ -486,18 +487,18 @@ template <typename T> struct NormalSampler final : public Sampler<T> {
                 std::optional<T> min = std::nullopt,
                 std::optional<T> max = std::nullopt, bool once = false,
                 bool clamp = true)
-      : Sampler<T>(once), min(min), max(max), mean(mean), std_dev(std_dev),
-        clamp(clamp), dist{mean, std_dev} {}
+      : Sampler<T>(once), min(min), max(max), clamp(clamp),
+        _dist{mean, std_dev} {}
 
   std::optional<T> min;
   std::optional<T> max;
-  ng_float_t mean;
-  ng_float_t std_dev;
+  ng_float_t get_mean() const { return _dist.mean(); }
+  ng_float_t get_std_dev() const { return _dist.stddev(); }
   bool clamp;
 
 protected:
   T s(RandomGenerator &rg) override {
-    T value = static_cast<T>(dist(rg));
+    T value = static_cast<T>(_dist(rg));
     if (min) {
       if (value < *min) {
         if (clamp) {
@@ -520,7 +521,45 @@ protected:
   }
 
 private:
-  std::normal_distribution<ng_float_t> dist;
+  std::normal_distribution<ng_float_t> _dist;
+};
+
+/**
+ * @brief      Sample \ref navground::core::Vector2 from a
+ *             multivariate  normal distribution.
+ *
+ */
+struct NormalSampler2D final : public Sampler<Vector2> {
+  /**
+   * @brief      Construct an instance
+   *
+   * @param[in]  mean     The mean
+   * @param[in]  std_dev  The standard deviation eigenvalues.
+   * @param[in]  angle    The rotation of the eigenvectors
+   * @param[in]  once     Whether to repeat the first sample (until reset)
+   */
+  NormalSampler2D(const Vector2 &mean, std::array<ng_float_t, 2> std_dev,
+                  ng_float_t angle = 0, bool once = false)
+      : Sampler<Vector2>(once), _angle(angle), _dist_x{mean[0], std_dev[0]},
+        _dist_y{mean[1], std_dev[1]} {}
+
+  Vector2 get_mean() const { return {_dist_x.mean(), _dist_y.mean()}; }
+
+  std::array<ng_float_t, 2> get_std_dev() const {
+    return {_dist_x.stddev(), _dist_y.stddev()};
+  }
+
+  ng_float_t get_angle() const { return _angle; }
+
+protected:
+  Vector2 s(RandomGenerator &rg) override {
+    return navground::core::rotate({_dist_x(rg), _dist_y(rg)}, _angle);
+  }
+
+private:
+  ng_float_t _angle;
+  std::normal_distribution<ng_float_t> _dist_x;
+  std::normal_distribution<ng_float_t> _dist_y;
 };
 
 inline std::vector<double>
@@ -552,9 +591,9 @@ template <typename T> struct ChoiceSampler final : public Sampler<T> {
    * @param[in]  probabilities: The probability weight for each value.
    *     Can but must not be normalized.
    *     Exceeding weights (with respect to the number of values) are ignored.
-   *     Missing weights are assigned a uniform value, 
-   *     so that the total sum is 1. 
-   *     
+   *     Missing weights are assigned a uniform value,
+   *     so that the total sum is 1.
+   *
    *     For example, if there are 4 values and 2 weights ``{0.2, 0.6}``, the
    *     weights will be completed as ``{0.2, 0.6, 0.1, 0.1}``.
    *

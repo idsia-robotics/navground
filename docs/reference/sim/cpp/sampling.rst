@@ -50,6 +50,9 @@ Vectors
 .. doxygenstruct:: navground::sim::GridSampler
     :members:
 
+.. doxygenstruct:: navground::sim::NormalSampler2D
+    :members:
+
 Numbers and vectors
 -------------------
 

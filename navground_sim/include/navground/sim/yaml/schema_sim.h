@@ -56,6 +56,7 @@ inline YAML::Node bundle_schema() {
   node["$defs"]["sequence"] = schema<SequenceSampler<void>>();
   node["$defs"]["choice"] = schema<ChoiceSampler<void>>();
   node["$defs"]["grid"] = schema<GridSampler>();
+  node["$defs"]["normal2d"] = schema<NormalSampler2D>();
   node["$defs"]["regular"] = schema<RegularSampler<void>>();
   node["$defs"]["uniform"] = schema<UniformSampler<void>>();
   node["$defs"]["normal"] = schema<NormalSampler<void>>();

@@ -26,6 +26,9 @@
 - Added world-specific and default rendering configuration, which provides defaults for all rendering functions. This way, e.g., a scenario can specify world-specific extra for the worlds it creates.
 - Added `World._repr_svg_` to implicitly display worlds as SVG in jupyter.
 - Optional wait time[s] at waypoints for task `Waypoints`. 
+- Added `probabilites` parameter to `choice` sampler
+- Added `binary`, `normal_2d`, permutation`, and `uniform_size` samplers.
+- Exposed (property) samplers in Python and in the CLI (`echo`, `sample`, and `validate`). 
 
 ### Fixed
 

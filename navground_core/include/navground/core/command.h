@@ -9,10 +9,17 @@
 
 template <typename T> struct Command {
 
+  using Setup = std::function<void(argparse::ArgumentParser &)>;
+
 public:
   explicit Command(const std::string &name = "",
                    const std::string &version = "")
       : name(name), version(version) {}
+
+  Command &add_setup(const Setup &fn) {
+    setups.push_back(fn);
+    return *this;
+  }
 
   int run(int argc, char *argv[]) {
     argparse::ArgumentParser parser(name, version);
@@ -21,6 +28,9 @@ public:
         .default_value(false)
         .implicit_value(true);
     static_cast<T *>(this)->setup(parser);
+    for (const auto &fn : setups) {
+      fn(parser);
+    }
     try {
       parser.parse_args(argc, argv);
     } catch (const std::runtime_error &err) {
@@ -35,6 +45,7 @@ public:
   }
   std::string name;
   std::string version;
+  std::vector<Setup> setups;
 };
 
 #endif // NAVGROUND_CORE_COMMAND_H

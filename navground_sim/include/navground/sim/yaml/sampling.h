@@ -27,6 +27,7 @@ using navground::sim::is_number;
 using navground::sim::KinematicsSampler;
 using navground::sim::NormalSampler;
 using navground::sim::NormalSampler2D;
+using navground::sim::PermutationSampler;
 using navground::sim::PropertySampler;
 using navground::sim::RegularSampler;
 using navground::sim::Sampler;
@@ -36,7 +37,7 @@ using navground::sim::StateEstimationSampler;
 using navground::sim::TaskSampler;
 using navground::sim::uniform_distribution;
 using navground::sim::UniformSampler;
-using navground::sim::VectorizedSampler;
+using navground::sim::UniformSizeSampler;
 using navground::sim::World;
 using navground::sim::Wrap;
 using navground::sim::wrap_from_string;
@@ -92,20 +93,6 @@ std::unique_ptr<PropertySampler> property_sampler(const Node& node,
 
 template <typename T>
 std::unique_ptr<Sampler<T>> read_sampler(const Node &node) {
-  if constexpr (is_std_vector_v<T>) {
-    using S = typename T::value_type;
-    if (node["max_size"]) {
-      auto scalar_sampler = read_sampler<S>(node);
-      if (scalar_sampler) {
-        const auto once = scalar_sampler->once;
-        scalar_sampler->once = false;
-        return std::make_unique<VectorizedSampler<S>>(
-            std::move(scalar_sampler), node["min_size"].as<size_t>(0),
-            node["max_size"].as<size_t>(), once);
-      }
-      return nullptr;
-    }
-  }
   bool once = false;
   // implicit const
   try {
@@ -151,6 +138,28 @@ std::unique_ptr<Sampler<T>> read_sampler(const Node &node) {
           once);
     }
     return nullptr;
+  }
+  if constexpr (is_std_vector_v<T>) {
+    using S = typename T::value_type;
+    if (sampler == "uniform_size") {
+      if (node["max_size"] && node["value"]) {
+        auto scalar_sampler = read_sampler<S>(node["value"]);
+        if (scalar_sampler) {
+          return std::make_unique<UniformSizeSampler<S>>(
+              std::move(scalar_sampler), node["min_size"].as<size_t>(0),
+              node["max_size"].as<size_t>(), once);
+        }
+      }
+      return nullptr;
+    }
+    if (sampler == "permutation") {
+      if (node["value"]) {
+        return std::make_unique<PermutationSampler<S>>(
+            node["value"].as<std::vector<S>>(), node["random"].as<bool>(true),
+            node["forward"].as<bool>(true), once);
+      }
+      return nullptr;
+    }
   }
   if constexpr (is_algebra<T>) {
     if (sampler == "regular") {
@@ -540,14 +549,27 @@ property_sampler(const Node &node, const Property &property) {
   return property_sampler(node, property.default_value);
 }
 
+inline std::unique_ptr<PropertySampler>
+property_sampler(const Node &node, const std::string &type_name) {
+  const auto field = Property::make_prototype(type_name);
+  if (!field) {
+    return nullptr;
+  }
+  return property_sampler(node, *field);
+}
+
 template <typename T> struct convert<Sampler<T> *> {
   static Node encode(const Sampler<T> *rhs) {
     if (!rhs)
       return Node();
     if constexpr (is_std_vector_v<T>) {
       using S = typename T::value_type;
-      if (const VectorizedSampler<S> *sampler =
-              dynamic_cast<const VectorizedSampler<S> *>(rhs)) {
+      if (const UniformSizeSampler<S> *sampler =
+              dynamic_cast<const UniformSizeSampler<S> *>(rhs)) {
+        return Node(*sampler);
+      }
+      if (const PermutationSampler<S> *sampler =
+              dynamic_cast<const PermutationSampler<S> *>(rhs)) {
         return Node(*sampler);
       }
     }
@@ -598,9 +620,11 @@ template <typename T> struct convert<Sampler<T> *> {
   }
 };
 
-template <typename T> struct convert<VectorizedSampler<T>> {
-  static Node encode(const VectorizedSampler<T> &rhs) {
-    Node node(rhs.get_scalar_sampler());
+template <typename T> struct convert<UniformSizeSampler<T>> {
+  static Node encode(const UniformSizeSampler<T> &rhs) {
+    Node node;
+    node["sampler"] = "uniform_size";
+    node["value"] = rhs.get_scalar_sampler();
     node["min_size"] = rhs.get_min_size();
     node["max_size"] = rhs.get_max_size();
     if (rhs.once) {
@@ -613,16 +637,54 @@ template <typename T> struct convert<VectorizedSampler<T>> {
     // we won't be able to check that the scalar sampler is valid!
     Node node;
     node["type"] = "object";
-    node["properties"]["sampler"] = schema::type<std::string>();
+    Node value;
+    value["type"].push_back("number");
+    value["type"].push_back("boolean");
+    value["type"].push_back("string");
+    value["type"].push_back("array");
+    value["type"].push_back("object");
+    node["properties"]["sampler"]["const"] = "uniform_size";
+    node["properties"]["value"] = value;
     node["properties"]["once"] = schema::type<bool>();
-    // node["allOf"].push_back(schema::sampler_for_type<T>());
     node["properties"]["max_size"] = schema::type<unsigned>();
     node["properties"]["min_size"] = schema::type<unsigned>();
-    node["additionalProperties"] = true;
-    node["required"] = std::vector<std::string>({"sampler", "max_size"});
+    node["additionalProperties"] = false;
+    node["required"] =
+        std::vector<std::string>({"sampler", "max_size", "value"});
     return node;
   }
-  static constexpr const char name[] = "vectorized";
+  static constexpr const char name[] = "uniform_size";
+};
+
+template <typename T> struct convert<PermutationSampler<T>> {
+  static Node encode(const PermutationSampler<T> &rhs) {
+    Node node;
+    node["sampler"] = "permutation";
+    node["value"] = rhs.get_values();
+    node["random"] = rhs.get_random();
+    node["forward"] = rhs.get_forward();
+    if (rhs.once) {
+      node["once"] = rhs.once;
+    }
+    return node;
+  }
+  static Node schema() {
+    Node node;
+    node["type"] = "object";
+    Node value;
+    value["type"] = "array";
+    // values["items"] = schema::generic_type();
+    value["minItems"] = 1;
+    node["properties"]["sampler"]["const"] = "permutation";
+    node["properties"]["value"] = value;
+    node["properties"]["once"] = schema::type<bool>();
+    node["properties"]["random"] = schema::type<bool>();
+    node["properties"]["forward"] = schema::type<bool>();
+    node["additionalProperties"] = false;
+    node["required"] = std::vector<std::string>({"sampler", "value"});
+    return node;
+  }
+  static constexpr const char name[] = "permutation";
 };
 
 namespace schema {
@@ -708,15 +770,16 @@ template <> struct type_t<Vector2Sampler> {
   }
 };
 
-struct CollectionSampler;
+struct ListSampler;
 
-template <> struct type_t<CollectionSampler> {
-  static std::string name() { return "collection_sampler"; }
+template <> struct type_t<ListSampler> {
+  static std::string name() { return "list_sampler"; }
   static Node schema() {
     Node node;
     node["anyOf"] = std::vector<Node>{
         ref<ConstantSampler<void>>(), ref<SequenceSampler<void>>(),
-        ref<ChoiceSampler<void>>(), ref<VectorizedSampler<void>>()};
+        ref<ChoiceSampler<void>>(), ref<UniformSizeSampler<void>>(),
+        ref<PermutationSampler<void>>()};
     return node;
   }
 };
@@ -734,7 +797,10 @@ template <typename T> inline Node sampler_for_type() {
   if constexpr (std::is_same_v<T, bool>) {
     return ref<BooleanSampler>();
   }
-  return ref<CollectionSampler>();
+  if constexpr (is_std_vector_v<T>) {
+    return ref<ListSampler>();
+  }
+  return Node();
 }
 
 template <typename T>

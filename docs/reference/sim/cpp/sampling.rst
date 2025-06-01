@@ -65,10 +65,13 @@ Numbers and booleans
 .. doxygenstruct:: navground::sim::BinarySampler
     :members:
 
-Collection of scalars
----------------------
+Lists of scalars
+----------------
 
-.. doxygenstruct:: navground::sim::VectorizedSampler
+.. doxygenstruct:: navground::sim::UniformSizeSampler
+    :members:
+
+.. doxygenstruct:: navground::sim::PermutationSampler
     :members:
 
 Properties

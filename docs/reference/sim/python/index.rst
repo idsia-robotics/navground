@@ -18,6 +18,7 @@ navground.sim
    agent
    state_estimations/index
    tasks/index
+   sampling
    scenarios/index
    experiment/index
    yaml

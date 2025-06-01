@@ -52,7 +52,7 @@ inline YAML::Node bundle_schema() {
   node["$defs"]["number_sampler"] = schema<NumberSampler>();
   node["$defs"]["vector2_sampler"] = schema<Vector2Sampler>();
   node["$defs"]["string_sampler"] = schema<StringSampler>();
-  node["$defs"]["collection_sampler"] = schema<CollectionSampler>();
+  node["$defs"]["list_sampler"] = schema<ListSampler>();
   node["$defs"]["const"] = schema<ConstantSampler<void>>();
   node["$defs"]["sequence"] = schema<SequenceSampler<void>>();
   node["$defs"]["choice"] = schema<ChoiceSampler<void>>();
@@ -62,7 +62,8 @@ inline YAML::Node bundle_schema() {
   node["$defs"]["uniform"] = schema<UniformSampler<void>>();
   node["$defs"]["normal"] = schema<NormalSampler<void>>();
   node["$defs"]["binary"] = schema<BinarySampler<void>>();
-  node["$defs"]["vectorized"] = schema<VectorizedSampler<void>>();
+  node["$defs"]["uniform_size"] = schema<UniformSizeSampler<void>>();
+  node["$defs"]["permutation"] = schema<PermutationSampler<void>>();
   return node;
 }
 

@@ -25,20 +25,20 @@ from . import schema
 from ._navground_sim import (
     Agent, BoundingBox, Dataset, Entity, Experiment, ExperimentalRun,
     GroupRecordProbe, Obstacle, Probe, RecordConfig, RecordNeighborsConfig,
-    RecordProbe, RecordSensingConfig, RunConfig, Scenario, SensingProbe,
-    Sensor, StateEstimation, Task, Wall, World, get_build_dependencies,
-    get_build_info, use_compact_samplers, uses_doubles)
+    RecordProbe, RecordSensingConfig, RunConfig, Sampler, Scenario,
+    SensingProbe, Sensor, StateEstimation, Task, Wall, World,
+    get_build_dependencies, get_build_info, use_compact_samplers, uses_doubles)
 
 # isort: split
 
 from . import scenarios, state_estimations, tasks
+from .bounds import bounds_for_world, bounds_of_bounding_box
 from .run_mp import run_mp
 from .ui.to_svg import svg_for_world
-from .bounds import bounds_of_bounding_box, bounds_for_world
 
 SUPPORT_YAML: TypeAlias = (navground.core.SUPPORT_YAML | Task | StateEstimation
                            | Scenario | Experiment | Agent | World | Wall
-                           | Obstacle)
+                           | Obstacle | Sampler)
 
 
 def load_state_estimation(value: str) -> StateEstimation | None:
@@ -102,6 +102,13 @@ def load_experiment(value: str) -> Experiment | None:
 
 
 load_experiment.__doc__ = Experiment.load.__doc__
+
+
+def load_sampler(value: str, type_name: str) -> Sampler | None:
+    return Sampler.load(value, type_name)
+
+
+load_sampler.__doc__ = Sampler.load.__doc__
 
 
 def dump(obj: SUPPORT_YAML) -> str:
@@ -237,8 +244,9 @@ World.render_kwargs = {}  # type: ignore[attr-defined]
 World._repr_svg_ = repr_svg  # type: ignore[attr-defined]
 
 # isort: stop
-from .recorded_experiment import (  # noqa: E402
-    RecordedExperiment, RecordedExperimentalRun)
+from .recorded_experiment import (
+    RecordedExperiment,  # noqa: E402
+    RecordedExperimentalRun)
 
 __all__ = [
     'Entity', 'Obstacle', 'Wall', 'World', 'Agent', 'Experiment', 'Scenario',
@@ -251,5 +259,5 @@ __all__ = [
     'use_compact_samplers', 'uses_doubles', 'get_loaded_plugins', 'schema',
     'get_build_info', 'get_build_dependencies', 'get_plugins_dependencies',
     'scenarios', 'state_estimations', 'tasks', 'RunConfig',
-    'bounds_of_bounding_box', 'bounds_for_world'
+    'bounds_of_bounding_box', 'bounds_for_world', 'Sampler', 'load_sampler'
 ]

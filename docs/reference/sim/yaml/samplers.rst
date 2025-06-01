@@ -2,8 +2,8 @@
 Sampling
 ========
 
-Generic samplers
-================
+Generic JSON-Schema 
+===================
 
 :ref:`C++ samplers <samplers_cpp>` generates samples of a generic types ``T``. To define the corresponding JSON-schema, we follow `<https://json-schema.org/blog/posts/dynamicref-and-generics>`_, using ``$dynamicref`` and ``$dynamicanchor`` to mark the data type ``T`` as generic:
 
@@ -42,6 +42,8 @@ like, for example, to sample positive integers:
          type: integer
          minimum: 0
 
+Once
+====
 
 All samplers share a common parameter :cpp:member:`navground::sim::Sampler::once` that freezes the sampler once the first sample has been drawn.  For example, when in the following scenario
 
@@ -53,6 +55,11 @@ All samplers share a common parameter :cpp:member:`navground::sim::Sampler::once
        once: true
 
 all ten agents will be assigned ``radius: 1.0`` in the first run, ``radius: 2.0`` in the second, and so on. Instead, for ``once: false``, the first agent will get ``radius: 1.0``, the second  ``radius: 2.0``, and so on, in any run.
+
+Generic samplers
+================
+
+The following samplers works with any type.
 
 Constant
 --------
@@ -86,7 +93,6 @@ Sequences are specified by an array, like ``[0.5, 1.0]``, or by an object, like
    sampler: sequence
    values: [1.0, 2.0, 2.0, 1.0]   
 
-
 Choice
 ------
 
@@ -101,69 +107,15 @@ Example
    values: [1.0, 2.0, 4.0] 
    probabilities: [0.25, 0.5, 0.25]
 
-Regular
--------
+Numbers
+=======
 
-.. schema:: navground.sim.schema.bundle()["$defs"]["regular"]
-
-.. note::
-
-   Restricted to numeric types and 2D vectors
-
-Example
-~~~~~~~
-
-.. code-block:: yaml
-
-   sampler: regular
-   from: 0.1
-   step: 0.1
-
-Grid
-----
-
-.. schema:: navground.sim.schema.bundle()["$defs"]["grid"]
-
-.. note::
-
-   Restricted to 2D vectors
-
-Example
-~~~~~~~
-
-.. code-block:: yaml
-
-   sampler: grid
-   from: [0, 0]
-   to: [1, 1]
-   number: [2, 2]
-
-Uniform
--------
-
-.. schema:: navground.sim.schema.bundle()["$defs"]["uniform"]
-
-.. note::
-
-   Restricted to numeric types.
-
-Example
-~~~~~~~
-
-.. code-block:: yaml
-
-   sampler: uniform
-   from: 0.1
-   to: 0.2
+The following samplers are restricted to numbers.
 
 Normal
 ------
 
 .. schema:: navground.sim.schema.bundle()["$defs"]["normal"]
-
-.. note::
-
-   Restricted to numeric types.
 
 Example
 ~~~~~~~
@@ -176,15 +128,30 @@ Example
    min: 0.0
    max: 1.0
 
+2D vectors
+==========
+
+The following samplers are restricted to 2D vectors.
+
+Grid
+----
+
+.. schema:: navground.sim.schema.bundle()["$defs"]["grid"]
+
+Example
+~~~~~~~
+
+.. code-block:: yaml
+
+   sampler: grid
+   from: [0, 0]
+   to: [1, 1]
+   number: [2, 2]
 
 Normal 2D
 ----------
 
 .. schema:: navground.sim.schema.bundle()["$defs"]["normal2d"]
-
-.. note::
-
-   Restricted to 2D vector.
 
 Example
 ~~~~~~~
@@ -196,21 +163,73 @@ Example
    std_dev: [1.0, 4.0]
    angle: 0.7853981634
 
-Vectorized
-----------
+Numbers and 2D vectors
+======================
 
-.. schema:: navground.sim.schema.bundle()["$defs"]["vectorized"]
+The following samplers are restricted to numeric types and 2D vectors.
 
-.. note::
+Regular
+-------
 
-   Restricted to collections (:cpp:class:`std::vector` in C++, :py:type:`list` in Python, and YAML lists) of scalar types.
+.. schema:: navground.sim.schema.bundle()["$defs"]["regular"]
+   
+Example
+~~~~~~~
+
+.. code-block:: yaml
+
+   sampler: regular
+   from: 0.1
+   step: 0.1
+
+
+Uniform
+-------
+
+.. schema:: navground.sim.schema.bundle()["$defs"]["uniform"]
+
+Example
+~~~~~~~
+
+.. code-block:: yaml
+
+   sampler: uniform
+   from: 0.1
+   to: 0.2
+
+Numbers and booleans
+====================
+
+Binary
+------
+
+.. schema:: navground.sim.schema.bundle()["$defs"]["binary"]
+
+Example
+~~~~~~~
+
+.. code-block:: yaml
+
+   sampler: binary
+   probability: 0.2
+
+
+Lists
+=====
+
+The following samplers are restricted to list of scalars.
+
 
 .. warning::
 
-   This schema does not fully specify the sampler of scalar values,
+   These schemas do not fully specify the scalar type,
    as it would result in a (very) complex JSON-schema.
-   A part from ``{min|max}_size``, all other fields should 
-   represent a valid scalar sampler (for the specific scalar type).
+
+
+UniformSize
+-----------
+
+.. schema:: navground.sim.schema.bundle()["$defs"]["uniform_size"]
 
 
 Example
@@ -218,20 +237,37 @@ Example
 
 .. code-block:: yaml
 
-   # the size sampler
+   sampler: uniform_size
    min_size: 10
    max_size: 20
-   # the values iid sampler
-   sampler: normal
-   mean: 0.0
-   std_dev: 1.0
-   
+   # the scalar iid sampler
+   value: 
+     sampler: normal
+     mean: 0.0
+     std_dev: 1.0
+
+Permutation
+-----------
+
+.. schema:: navground.sim.schema.bundle()["$defs"]["permutation"]
+
+Example
+~~~~~~~
+
+.. code-block:: yaml
+
+   sampler: permutations
+   random: true
+   values: [a, b, c, d]
+
+
+
 .. _samplers_yaml:
 
 Samplers collections
 ====================
 
-Some generic schema works on any type, others are restricted to a subset of types, like uniform samplers that are restricted to numeric types. Therefore, other schemas do not actually refer to the generic schemas directly, but to the allowed set of schemas depending on the type.
+Some generic schema works on any type, others are restricted to a subset of types, like normal samplers that are restricted to numeric types. Therefore, other schemas do not actually refer to the generic schemas directly, but to the allowed set of schemas depending on the type.
 
 - numbers:
 
@@ -249,9 +285,9 @@ Some generic schema works on any type, others are restricted to a subset of type
 
   .. schema:: navground.sim.schema.bundle()['$defs']['vector2_sampler']
 
-- collections of above scalar types:
+- list of scalar types:
 
-  .. schema:: navground.sim.schema.bundle()['$defs']['collection_sampler'] 
+  .. schema:: navground.sim.schema.bundle()['$defs']['list_sampler'] 
 
 Example
 -------

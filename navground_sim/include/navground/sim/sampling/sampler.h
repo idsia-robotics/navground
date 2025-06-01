@@ -5,6 +5,7 @@
 #ifndef NAVGROUND_SIM_SAMPLING_SAMPLER_H
 #define NAVGROUND_SIM_SAMPLING_SAMPLER_H
 
+#include <algorithm>
 #include <array>
 #include <memory>
 #include <random>
@@ -203,7 +204,7 @@ template <typename T> struct SequenceSampler final : public Sampler<T> {
    * @brief      Construct an instance
    *
    * @param[in]  values  The values to be sampled in sequence
-   * @param[in]  wrap    How it should wrap at the end of the sequence
+   * @param[in]  wrap   How it should wrap at the end of the sequence
    * @param[in]  once   Whether to repeat the first sample (until reset)
    */
   explicit SequenceSampler(const std::vector<T> &values, Wrap wrap = Wrap::loop,
@@ -657,16 +658,15 @@ private:
 };
 
 /**
- * @brief      An generator of vectors of random values
- * sampled iid from any scalar sampler.
+ * @brief      An generator of lists of scalars
+ * sampled iid from sampler.
  *
- * The size of the vectors is samples uniformly.
+ * The size of the lists (std::vector) is sampled uniformly.
  *
- *
- * @tparam     T   The sampled type
+ * @tparam     T   The scalar type
  */
 template <typename T>
-struct VectorizedSampler final : public Sampler<std::vector<T>> {
+struct UniformSizeSampler final : public Sampler<std::vector<T>> {
   /**
    * @brief      Construct an instance
    *
@@ -678,10 +678,13 @@ struct VectorizedSampler final : public Sampler<std::vector<T>> {
    *
    * @param[in]  once    Whether to repeat the first sample (until reset)
    */
-  explicit VectorizedSampler(std::unique_ptr<Sampler<T>> &&sampler,
-                         size_t min_size, size_t max_size, bool once = false)
+  explicit UniformSizeSampler(std::unique_ptr<Sampler<T>> &&sampler,
+                              size_t min_size, size_t max_size,
+                              bool once = false)
       : Sampler<std::vector<T>>(once), _sampler(std::move(sampler)),
-        _dist(std::max<size_t>(0, min_size), std::max<size_t>(0, max_size)) {}
+        _dist(std::max<size_t>(0, min_size), std::max<size_t>(0, max_size)) {
+    _sampler->once = false;
+  }
 
   /**
    * @private
@@ -697,7 +700,7 @@ struct VectorizedSampler final : public Sampler<std::vector<T>> {
     }
   }
 
-  Sampler<T> * get_scalar_sampler() const { return _sampler.get(); }
+  Sampler<T> *get_scalar_sampler() const { return _sampler.get(); }
 
   size_t get_min_size() const { return _dist.a(); }
 
@@ -717,6 +720,74 @@ private:
   std::uniform_int_distribution<size_t> _dist;
 };
 
+/**
+ * @brief      An generator that permutates a lists,
+ * either randomly or in sequence.
+ *
+ *
+ * @tparam     T   The scalar type
+ */
+template <typename T>
+struct PermutationSampler final : public Sampler<std::vector<T>> {
+
+  /**
+   * @brief      Construct an instance
+   *
+   * @param[in]  values The values
+   *
+   * @param[in]  random  Whether to perform random permutations
+   *
+   * @param[in]  forward The permutation direction (only relevant if not random)
+   *
+   * @param[in]  once   Whether to repeat the first sample (until reset)
+   */
+  explicit PermutationSampler(const std::vector<T> &values, bool random,
+                              bool forward, bool once = false)
+      : Sampler<std::vector<T>>(once), _values(values), _pvalues(values),
+        _random(random), _forward(forward) {}
+
+  /**
+   * @private
+   */
+  bool done() const override { return false; }
+
+  /**
+   * @private
+   */
+  void reset(std::optional<unsigned> index = std::nullopt) override {
+    if (!_random) {
+      _pvalues = _values;
+    }
+  }
+
+  bool get_forward() const { return _forward; }
+
+  bool get_random() const { return _random; }
+
+  const std::vector<T> &get_values() const { return _values; }
+
+protected:
+  std::vector<T> s(RandomGenerator &rg) override {
+    if (_random) {
+      std::shuffle(_pvalues.begin(), _pvalues.end(), rg);
+      return _pvalues;
+    }
+    const auto rs = _pvalues;
+    if (_forward) {
+      std::rotate(_pvalues.begin(), _pvalues.begin() + 1, _pvalues.end());
+    } else {
+      std::rotate(_pvalues.rbegin(), _pvalues.rbegin() + 1, _pvalues.rend());
+    }
+    return rs;
+  }
+
+private:
+  std::vector<T> _values;
+  std::vector<T> _pvalues;
+  bool _random;
+  bool _forward;
+};
+
 template <class T, class U> struct is_one_of;
 
 template <class T, class... Ts>
@@ -727,8 +798,8 @@ template <class T>
 using allowed = is_one_of<T, navground::core::Property::Field>;
 
 /**
- * @brief      This class wraps generic \ref Sampler<T> to generate
- * values of type \ref navground::core::Property::Field.
+ * @brief      This class wraps a typed Sampler to generate
+ * values of type \ref navground::core::Property::Field 
  */
 struct PropertySampler : Sampler<navground::core::Property::Field> {
   template <typename T> using US = std::unique_ptr<Sampler<T>>;

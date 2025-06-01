@@ -717,11 +717,7 @@ load_property_sampler(const std::string &value, const std::string &type_name) {
     std::cerr << e.what() << std::endl;
     return nullptr;
   }
-  const auto field = Property::make_prototype(type_name);
-  if (!field) {
-    return nullptr;
-  }
-  auto p = property_sampler(node, *field);
+  auto p = property_sampler(node, type_name);
   if (p && p->valid()) {
     return p;
   }
@@ -3675,16 +3671,37 @@ Register a probe to record a group of data to during all runs.
           [](PropertySampler &sampler, World &world) {
             return sampler.sample(world.get_random_generator());
           },
-          py::arg("world"))
+          py::arg("world"), R"doc(
+Draws a sample using the world's random generator.
+
+:param world:         The world.
+
+:raises RuntimeError: When the generator is exhausted 
+                      (i.e., when :py:meth:`done` returns true)
+
+:return:              The new sample
+)doc")
       .def_readonly("type_name", &PropertySampler::type_name,
-                    DOC(navground, sim, PropertySampler, type_name))
-      .def("reset", &PropertySampler::reset, py::arg("index") = std::nullopt)
-      .def("count", &PropertySampler::count)
-      .def("done", &PropertySampler::done)
+                    "The samples type name")
+      .def("reset", &PropertySampler::reset, py::arg("index") = std::nullopt,
+           DOC(navground, sim, Sampler, reset))
+      .def("count", &PropertySampler::count,
+           DOC(navground, sim, Sampler, count))
+      .def("done", &PropertySampler::done,
+           DOC(navground, sim, Sampler, done))
       .def_static("load", &YAML::load_property_sampler, py::arg("value"),
-                  py::arg("type_name"))
-      .def("dump",
-           [](const PropertySampler *sampler) { return YAML::dump(sampler); });
+                  py::arg("type_name"), R"doc(
+Load a Sampler from a YAML string.
+
+:param value:     The YAML string.
+:param type_name: The samples type name.
+:return:          The loaded Sampler or ``None`` if loading fails.
+:rtype:           Sampler| None
+)doc")
+      .def(
+          "dump",
+          [](const PropertySampler *sampler) { return YAML::dump(sampler); },
+          YAML::dump_doc());
 
   m.def("use_compact_samplers", &YAML::set_use_compact_samplers,
         py::arg("value"),

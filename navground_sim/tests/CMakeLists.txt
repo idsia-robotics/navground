@@ -13,6 +13,5 @@ add_test(NAME cli-sample
 add_test(NAME cli-sample-uniform
          COMMAND sample "{sampler: uniform, from: 0, to: 10}" --type int --number 10)
 
-
 add_test(NAME cli-run
          COMMAND run ${CMAKE_CURRENT_SOURCE_DIR}/yaml/experiment/cross.yaml)

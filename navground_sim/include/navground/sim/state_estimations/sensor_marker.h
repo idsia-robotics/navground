@@ -119,7 +119,7 @@ struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
       return "agent";
     case ReferenceOrientation::world:
       return "world";
-    case ReferenceOrientation::target_direction:
+    default:
       return "target_direction";
     }
   }

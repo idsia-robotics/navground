@@ -135,7 +135,7 @@ struct Property {
     if (scalar_type_name == "bool")
       return bool();
     if (scalar_type_name == "vector")
-      return Vector2();
+      return Vector2::Zero();
     return std::nullopt;
   }
 

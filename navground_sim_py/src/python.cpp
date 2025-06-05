@@ -3495,6 +3495,9 @@ Register a probe to record a group of data to during all runs.
       .def("remove_property_sampler", &Scenario::remove_property_sampler,
            py::arg("name"),
            DOC(navground, sim, Scenario, remove_property_sampler))
+      .def("add_property_sampler", &Scenario::add_property_sampler,
+           py::arg("name"), py::arg("value"),
+           DOC(navground, sim, Scenario, add_property_sampler))
       .def_readwrite("bounding_box", &Scenario::bounding_box,
                      DOC(navground, sim, Scenario, bounding_box))
       // py::return_value_policy::reference)
@@ -3684,11 +3687,10 @@ Draws a sample using the world's random generator.
       .def_readonly("type_name", &PropertySampler::type_name,
                     "The samples type name")
       .def("reset", &PropertySampler::reset, py::arg("index") = std::nullopt,
-           DOC(navground, sim, Sampler, reset))
+           py::arg("keep") = false, DOC(navground, sim, Sampler, reset))
       .def("count", &PropertySampler::count,
            DOC(navground, sim, Sampler, count))
-      .def("done", &PropertySampler::done,
-           DOC(navground, sim, Sampler, done))
+      .def("done", &PropertySampler::done, DOC(navground, sim, Sampler, done))
       .def_static("load", &YAML::load_property_sampler, py::arg("value"),
                   py::arg("type_name"), R"doc(
 Load a Sampler from a YAML string.

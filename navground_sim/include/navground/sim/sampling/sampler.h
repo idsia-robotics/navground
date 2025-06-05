@@ -89,7 +89,7 @@ template <typename T> struct Sampler {
   using value_type = T;
 
   Sampler(bool once = false)
-      : once(once), _index{0}, first_sample(std::nullopt) {}
+      : once(once), _index{0}, _count{0}, first_sample(std::nullopt) {}
   virtual ~Sampler() = default;
   /**
    * @brief      Sample values of type T.
@@ -110,21 +110,26 @@ template <typename T> struct Sampler {
       if (!first_sample) {
         first_sample = v;
         _index++;
+        _count++;
       }
     } else {
       _index++;
+      _count++;
     }
     return v;
   }
   /**
    * @brief      Counts the number of sampled values since reset.
    *
+   * If \ref once is set, only the first call to \ref sample counts,
+   * until it is \ref reset.
+   *
    * @return     The number of sampled values
    */
-  virtual unsigned count() const { return _index; }
+  virtual unsigned count() const { return _count; }
   /**
-   * @brief      Returns whether the generator is exhausted and
-   * if not reset, \ref sample will raise an error.
+   * @brief      Returns whether the generator is exhausted. In this case,
+   * \ref sample will raise an error.
    *
    * @return     True if the generator is exhausted.
    */
@@ -136,14 +141,44 @@ template <typename T> struct Sampler {
   /**
    * @brief      Resets the generator.
    *
-   * It also resets the samples count to 0.
+   * The index is used by deterministic samplers: they will
+   * generates the same sequence if reset to the same index,
+   * without using the (pseudo) random-number generator in \ref sample.
+   *
+   * Argument ``keep`` and configuration \ref once impact
+   * how generators reset their index and counter:
+   * if neither ``keep`` nor \ref once are set, the sampler sets both index and
+   * counter to 0; else the index is set to the provided value if not null, and
+   * the counter is left unchanged.
+   *
+   * Argument ``keep`` also impacts the behavior of samplers configured with
+   * \ref once set:
+   * if ``keep`` is set, the sampler will keep returning the same value as
+   * before resetting; else, it will return a new value (associate to the
+   * new index, if deterministic).
+   *
+   *
+   * @param[in]  index The next sample index (for deterministic samplers).
+   * @param[in]  keep  Whether to avoid resetting index to 0
+   *                   when \ref once is not set.
+   *
    */
-  virtual void reset(std::optional<unsigned> index = std::nullopt) {
+  virtual void reset(std::optional<unsigned> index = std::nullopt,
+                     bool keep = false) {
     // if (!once) {
     //   _index = index;
     // }
+    //
+    //
+    if (keep) {
+      if (index) {
+        _index = *index;
+      }
+      return;
+    }
     if (!once) {
       _index = 0;
+      _count = 0;
     } else if (index) {
       _index = *index;
     }
@@ -163,6 +198,7 @@ template <typename T> struct Sampler {
 protected:
   virtual T s(RandomGenerator &rg) = 0;
   unsigned _index;
+  unsigned _count;
   std::optional<T> first_sample;
 };
 
@@ -694,9 +730,10 @@ struct UniformSizeSampler final : public Sampler<std::vector<T>> {
   /**
    * @private
    */
-  void reset(std::optional<unsigned> index = std::nullopt) override {
+  void reset(std::optional<unsigned> index = std::nullopt,
+             bool keep = false) override {
     if (_sampler) {
-      _sampler->reset(index);
+      _sampler->reset(index, keep);
     }
   }
 
@@ -729,7 +766,7 @@ private:
  */
 template <typename T>
 struct PermutationSampler final : public Sampler<std::vector<T>> {
-
+  using Sampler<std::vector<T>>::_index;
   /**
    * @brief      Construct an instance
    *
@@ -754,9 +791,15 @@ struct PermutationSampler final : public Sampler<std::vector<T>> {
   /**
    * @private
    */
-  void reset(std::optional<unsigned> index = std::nullopt) override {
+  void reset(std::optional<unsigned> index = std::nullopt,
+             bool keep = false) override {
+    Sampler<std::vector<T>>::reset(index, keep);
+    const size_t n = _values.size();
+    if (!n)
+      return;
+    _pvalues = _values;
     if (!_random) {
-      _pvalues = _values;
+      rotate(_forward ? (_index % n) : (n - _index % n));
     }
   }
 
@@ -773,11 +816,7 @@ protected:
       return _pvalues;
     }
     const auto rs = _pvalues;
-    if (_forward) {
-      std::rotate(_pvalues.begin(), _pvalues.begin() + 1, _pvalues.end());
-    } else {
-      std::rotate(_pvalues.rbegin(), _pvalues.rbegin() + 1, _pvalues.rend());
-    }
+    rotate();
     return rs;
   }
 
@@ -786,6 +825,16 @@ private:
   std::vector<T> _pvalues;
   bool _random;
   bool _forward;
+
+  void rotate(size_t step = 1) {
+    if (!step)
+      return;
+    if (_forward) {
+      std::rotate(_pvalues.begin(), _pvalues.begin() + step, _pvalues.end());
+    } else {
+      std::rotate(_pvalues.rbegin(), _pvalues.rbegin() + step, _pvalues.rend());
+    }
+  }
 };
 
 template <class T, class U> struct is_one_of;
@@ -799,7 +848,7 @@ using allowed = is_one_of<T, navground::core::Property::Field>;
 
 /**
  * @brief      This class wraps a typed Sampler to generate
- * values of type \ref navground::core::Property::Field 
+ * values of type \ref navground::core::Property::Field
  */
 struct PropertySampler : Sampler<navground::core::Property::Field> {
   template <typename T> using US = std::unique_ptr<Sampler<T>>;
@@ -898,12 +947,13 @@ struct PropertySampler : Sampler<navground::core::Property::Field> {
   /**
    * @private
    */
-  void reset(std::optional<unsigned> index = std::nullopt) override {
-    Sampler<navground::core::Property::Field>::reset(index);
+  void reset(std::optional<unsigned> index = std::nullopt,
+             bool keep = false) override {
+    Sampler<navground::core::Property::Field>::reset(index, keep);
     std::visit(
-        [index](auto &&arg) -> void {
+        [index, keep](auto &&arg) -> void {
           if (arg) {
-            arg->reset(index);
+            arg->reset(index, keep);
           }
         },
         sampler);

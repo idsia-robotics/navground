@@ -527,7 +527,12 @@ Constructs a navground property from a Python property.
       .def("get", &HasProperties::get, py::arg("name"),
            DOC(navground, core, HasProperties, get))
       .def("set", &HasProperties::set, py::arg("name"), py::arg("value"),
-           DOC(navground, core, HasProperties, set));
+           DOC(navground, core, HasProperties, set))
+      .def("has", &HasProperties::has, py::arg("name"),
+           DOC(navground, core, HasProperties, has))
+      .def("get_property_type_name", &HasProperties::get_property_type_name,
+           py::arg("name"),
+           DOC(navground, core, HasProperties, get_property_type_name));
   // .def_property("properties", &HasProperties::get_properties, nullptr,
   //               DOC(navground, core, HasProperties, property_properties));
 

@@ -582,6 +582,33 @@ struct NAVGROUND_CORE_EXPORT HasProperties {
     }
     throw std::runtime_error("No property " + name);
   }
+
+  /**
+   * @brief      Checks whether a property exists.
+   *
+   * @param[in]  name  The name of the property
+   *
+   * @return     True if the property exists
+   */
+  bool has(const std::string &name) const {
+    return get_properties().count(name) > 0;
+  }
+
+  /**
+   * @brief      Gets the type of a property.
+   *
+   * @param[in]  name  The name of the property
+   *
+   * @return     The property type name or an empty string
+   *             if the property is not defined.
+   */
+  std::string get_property_type_name(const std::string &name) const {
+    const auto &properties = get_properties();
+    if (properties.count(name)) {
+      return properties.at(name).type_name;
+    }
+    return "";
+  }
 };
 
 } // namespace navground::core

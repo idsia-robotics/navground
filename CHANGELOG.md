@@ -40,6 +40,7 @@
 - Fixed pickle protocol that linked `__dict__` to the original value.
 - Fixed bug that caused Python (registered) properties of type `Vector2` to be
   configured as type `list[float]` instead, and similar mismatches between list of numbers.
+- Fixed a bug that caused deterministic samplers of scenario properties to reset when initializing new worlds.
 
 ### Changed
 

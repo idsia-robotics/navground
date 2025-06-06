@@ -14,7 +14,7 @@ const std::string behavior_name = "HL";
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   navground::sim::CrossScenario scenario(4.0);
-  scenario.groups.push_back(
+  scenario.add_group(
       std::make_unique<sim::AgentSampler<>>(group(behavior_name, 20)));
   navground::sim::World world;
   scenario.init_world(&world);

@@ -40,7 +40,7 @@ template <typename W = World> struct convert_scenario {
       wn["line"] = line;
       node["walls"].push_back(wn);
     }
-    for (const auto &group : rhs.groups) {
+    for (const auto &group : rhs.get_groups()) {
 #ifndef _UNSAFE_GROUP_CASTING
       if (AS *g = dynamic_cast<AS *>(group.get()))
 #else
@@ -59,7 +59,7 @@ template <typename W = World> struct convert_scenario {
         for (const auto &c : node["groups"]) {
           auto group = std::make_unique<AS>();
           convert<AS>::decode(c, *group);
-          rhs.groups.push_back(std::move(group));
+          rhs.add_group(std::move(group));
         }
       }
     }

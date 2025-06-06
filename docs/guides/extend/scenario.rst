@@ -102,13 +102,13 @@ Then, you add the group to your scenario
       .. code-block:: C++
 
          MyScenario scenario;
-         scenario.groups.push_back(std::make_shared<MyGroup>());
+         scenario.add_group(std::make_shared<MyGroup>());
          // now scenario.init_world(...) will also call this group ``add_to_world``
 
    .. tab:: Python
 
       scenario = MyScenario()
-      scenario.groups.append(MyGroup())
+      scenario.add_group(MyGroup())
       # now scenario.init_world(...) will also call this group ``add_to_world``
 
 

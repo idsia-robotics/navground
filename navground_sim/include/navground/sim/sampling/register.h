@@ -67,10 +67,10 @@ struct SamplerFromRegister : public Sampler<typename T::C> {
   /**
    * @private
    */
-  void reset(std::optional<unsigned> index = std::nullopt) override {
-    Sampler<C>::reset(index);
+  void reset(std::optional<unsigned> index = std::nullopt, bool keep = false) override {
+    Sampler<C>::reset(index, keep);
     for (auto& [k, v] : properties) {
-      if (v) v->reset(index);
+      if (v) v->reset(index, keep);
     }
   }
 
@@ -131,9 +131,9 @@ struct BehaviorModulationSampler : public SamplerFromRegister<T> {
   /**
    * @private
    */
-  void reset(std::optional<unsigned> index = std::nullopt) override {
-    SamplerFromRegister<T>::reset(index);
-    if (enabled) enabled->reset(index);
+  void reset(std::optional<unsigned> index = std::nullopt, bool keep = false) override {
+    SamplerFromRegister<T>::reset(index, keep);
+    if (enabled) enabled->reset(index, keep);
   }
 
   std::shared_ptr<Sampler<bool>> enabled;
@@ -234,16 +234,19 @@ struct BehaviorSampler : public SamplerFromRegister<T> {
   /**
    * @private
    */
-  void reset(std::optional<unsigned> index = std::nullopt) override {
-    SamplerFromRegister<T>::reset(index);
-    if (optimal_speed) optimal_speed->reset(index);
-    if (optimal_angular_speed) optimal_angular_speed->reset(index);
-    if (rotation_tau) rotation_tau->reset(index);
-    if (safety_margin) safety_margin->reset(index);
-    if (horizon) horizon->reset(index);
-    if (heading) heading->reset(index);
-    if (path_tau) path_tau->reset(index);
-    if (path_look_ahead) path_look_ahead->reset(index);
+  void reset(std::optional<unsigned> index = std::nullopt, bool keep = false) override {
+    SamplerFromRegister<T>::reset(index, keep);
+    if (optimal_speed) optimal_speed->reset(index, keep);
+    if (optimal_angular_speed) optimal_angular_speed->reset(index, keep);
+    if (rotation_tau) rotation_tau->reset(index, keep);
+    if (safety_margin) safety_margin->reset(index, keep);
+    if (horizon) horizon->reset(index, keep);
+    if (heading) heading->reset(index, keep);
+    if (path_tau) path_tau->reset(index, keep);
+    if (path_look_ahead) path_look_ahead->reset(index, keep);
+    for (auto & m : modulations) {
+      m.reset(index, keep);
+    }
   }
 
   std::shared_ptr<Sampler<ng_float_t>> optimal_speed;
@@ -287,10 +290,10 @@ struct KinematicsSampler : public SamplerFromRegister<T> {
   /**
    * @private
    */
-  void reset(std::optional<unsigned> index = std::nullopt) override {
-    SamplerFromRegister<T>::reset(index);
-    if (max_speed) max_speed->reset(index);
-    if (max_angular_speed) max_angular_speed->reset(index);
+  void reset(std::optional<unsigned> index = std::nullopt, bool keep = false) override {
+    SamplerFromRegister<T>::reset(index, keep);
+    if (max_speed) max_speed->reset(index, keep);
+    if (max_angular_speed) max_angular_speed->reset(index, keep);
   }
 
   std::shared_ptr<Sampler<ng_float_t>> max_speed;

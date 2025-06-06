@@ -35,18 +35,6 @@ Generic
 .. doxygenstruct:: navground::sim::ChoiceSampler
     :members:
 
-Numbers and Vectors
--------------------
-
-.. doxygenstruct:: navground::sim::RegularSampler
-    :members:
-
-Vectors
--------
-
-.. doxygenstruct:: navground::sim::GridSampler
-    :members:
-
 Numbers
 -------
 
@@ -54,6 +42,36 @@ Numbers
     :members:
 
 .. doxygenstruct:: navground::sim::NormalSampler
+    :members:
+
+2D Vectors
+----------
+
+.. doxygenstruct:: navground::sim::GridSampler
+    :members:
+
+.. doxygenstruct:: navground::sim::NormalSampler2D
+    :members:
+
+Numbers and 2D vectors
+----------------------
+
+.. doxygenstruct:: navground::sim::RegularSampler
+    :members:
+
+Numbers and booleans
+---------------------
+
+.. doxygenstruct:: navground::sim::BinarySampler
+    :members:
+
+Lists of scalars
+----------------
+
+.. doxygenstruct:: navground::sim::UniformSizeSampler
+    :members:
+
+.. doxygenstruct:: navground::sim::PermutationSampler
     :members:
 
 Properties

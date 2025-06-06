@@ -12,13 +12,6 @@ using navground::core::HasProperties;
 using navground::core::Property;
 using navground::core::Vector2;
 
-template <typename> struct is_std_vector : std::false_type {};
-
-template <typename T, typename A>
-struct is_std_vector<std::vector<T, A>> : std::true_type {};
-
-template <class T> constexpr bool is_std_vector_v = is_std_vector<T>::value;
-
 using Converter =
     std::function<std::optional<Property::Field>(const Property::Field &)>;
 

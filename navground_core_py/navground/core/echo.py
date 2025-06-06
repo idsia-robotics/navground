@@ -4,7 +4,7 @@ import argparse
 import logging
 import pathlib
 import sys
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from typing import Any
 
 from navground import core
@@ -24,13 +24,12 @@ def description() -> str:
     return "Load an object from YAML and print its YAML representation."
 
 
-def init_parser_with_echos(parser: argparse.ArgumentParser, version: str,
-                           echos: Echos) -> None:
+def init_parser_with_kinds(parser: argparse.ArgumentParser, version: str,
+                           kinds: Iterable[str]) -> None:
     command.init_parser(parser, version)
-    kinds = ", ".join(echos.keys())
     parser.add_argument("kind",
                         type=str,
-                        help=f"The kind of object to load: {kinds}")
+                        help=f"The kind of object to load: {', '.join(kinds)}")
     parser.add_argument(
         "YAML",
         type=str,
@@ -44,7 +43,8 @@ def init_parser_with_echos(parser: argparse.ArgumentParser, version: str,
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
-    init_parser_with_echos(parser, core.get_build_info().version_string, echos)
+    init_parser_with_kinds(parser,
+                           core.get_build_info().version_string, echos.keys())
 
 
 def parser() -> argparse.ArgumentParser:
@@ -53,12 +53,16 @@ def parser() -> argparse.ArgumentParser:
     return p
 
 
-def echo(arg: argparse.Namespace,
-         echos: Echos,
-         dump: Callable[[Any], str] = core.dump) -> None:
+def load(arg: argparse.Namespace, yaml: str):
     if arg.kind not in echos:
         logging.error(f"Unknown kind of object to load: {arg.kind}")
         sys.exit(1)
+    return echos[arg.kind](yaml)
+
+
+def echo(arg: argparse.Namespace,
+         load_fn: Callable[[argparse.Namespace, str], Any] = load,
+         dump: Callable[[Any], str] = core.dump) -> None:
     yaml = arg.YAML
     wd: pathlib.Path | None = None
     try:
@@ -72,7 +76,7 @@ def echo(arg: argparse.Namespace,
         logging.error(f"Failed to load file: {e}")
         sys.exit(1)
     with chdir(wd):
-        obj = echos[arg.kind](yaml)
+        obj = load_fn(arg, yaml)
         if obj:
             print(dump(obj))
         else:
@@ -82,7 +86,7 @@ def echo(arg: argparse.Namespace,
 
 def _main(arg: argparse.Namespace) -> None:
     command._main(arg)
-    echo(arg, echos)
+    echo(arg)
 
 
 def main() -> None:

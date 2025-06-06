@@ -14,6 +14,7 @@ inline const std::string load_string_py_doc(const std::string &instance,
                                             const std::string &type) {
   std::string doc =
       "Load a " + instance + " from a YAML string.\n\n";
+  doc += ":param value: the YAML string.\n";
   doc += ":return: The loaded " + instance + " or ``None`` if loading fails.\n";
   doc += ":rtype: " + type + "| None";
   return doc;

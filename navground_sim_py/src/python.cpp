@@ -33,6 +33,7 @@
 #include "navground/sim/experiment.h"
 #include "navground/sim/experimental_run.h"
 #include "navground/sim/probe.h"
+#include "navground/sim/sampling/sampler.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/scenarios/antipodal.h"
 #include "navground/sim/scenarios/corridor.h"
@@ -64,6 +65,10 @@
 
 using namespace navground::core;
 using namespace navground::sim;
+
+std::string sampler_to_string(const PropertySampler &value) {
+  return "<Sampler: " + value.type_name += ">";
+}
 
 static navground::core::BuildDependencies build_dependencies_sim_py() {
   py::module_ core = py::module_::import("navground.core");
@@ -702,6 +707,22 @@ private:
 };
 
 namespace YAML {
+
+inline std::shared_ptr<PropertySampler>
+load_property_sampler(const std::string &value, const std::string &type_name) {
+  YAML::Node node;
+  try {
+    node = YAML::Load(value);
+  } catch (const YAML::ParserException &e) {
+    std::cerr << e.what() << std::endl;
+    return nullptr;
+  }
+  auto p = property_sampler(node, type_name);
+  if (p && p->valid()) {
+    return p;
+  }
+  return nullptr;
+}
 
 template <> struct convert<PyAgent> {
   static Node encode(const PyAgent &rhs) {
@@ -3474,6 +3495,9 @@ Register a probe to record a group of data to during all runs.
       .def("remove_property_sampler", &Scenario::remove_property_sampler,
            py::arg("name"),
            DOC(navground, sim, Scenario, remove_property_sampler))
+      .def("add_property_sampler", &Scenario::add_property_sampler,
+           py::arg("name"), py::arg("value"),
+           DOC(navground, sim, Scenario, add_property_sampler))
       .def_readwrite("bounding_box", &Scenario::bounding_box,
                      DOC(navground, sim, Scenario, bounding_box))
       // py::return_value_policy::reference)
@@ -3641,11 +3665,52 @@ Register a probe to record a group of data to during all runs.
                     DOC(navground, sim, CrossTorusScenario,
                         property_add_safety_to_agent_margin));
 
+  py::class_<PropertySampler, std::shared_ptr<PropertySampler>> sampler(
+      m, "Sampler", DOC(navground, sim, PropertySampler));
+
+  sampler.def("__repr__", &sampler_to_string)
+      .def(
+          "sample",
+          [](PropertySampler &sampler, World &world) {
+            return sampler.sample(world.get_random_generator());
+          },
+          py::arg("world"), R"doc(
+Draws a sample using the world's random generator.
+
+:param world:         The world.
+
+:raises RuntimeError: When the generator is exhausted 
+                      (i.e., when :py:meth:`done` returns true)
+
+:return:              The new sample
+)doc")
+      .def_readonly("type_name", &PropertySampler::type_name,
+                    "The samples type name")
+      .def("reset", &PropertySampler::reset, py::arg("index") = std::nullopt,
+           py::arg("keep") = false, DOC(navground, sim, Sampler, reset))
+      .def("count", &PropertySampler::count,
+           DOC(navground, sim, Sampler, count))
+      .def("done", &PropertySampler::done, DOC(navground, sim, Sampler, done))
+      .def_static("load", &YAML::load_property_sampler, py::arg("value"),
+                  py::arg("type_name"), R"doc(
+Load a Sampler from a YAML string.
+
+:param value:     The YAML string.
+:param type_name: The samples type name.
+:return:          The loaded Sampler or ``None`` if loading fails.
+:rtype:           Sampler| None
+)doc")
+      .def(
+          "dump",
+          [](const PropertySampler *sampler) { return YAML::dump(sampler); },
+          YAML::dump_doc());
+
   m.def("use_compact_samplers", &YAML::set_use_compact_samplers,
         py::arg("value"),
         "Whether to represent sampler compactly in YAML when possible");
 
   // add [partial] pickle support
+  // pickle_via_yaml<PropertySampler>(sampler);
   pickle_via_yaml<PyStateEstimation>(se);
   pickle_via_yaml<PyStateEstimation>(bse);
   pickle_via_yaml<PyStateEstimation>(lse);

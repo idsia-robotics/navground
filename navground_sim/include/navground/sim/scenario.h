@@ -58,13 +58,19 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   using Inits = std::map<std::string, Init>;
 
   /**
+   * A collection of property samplers
+   */
+  using PropertySamplers =
+      std::map<std::string, std::shared_ptr<PropertySampler>>;
+
+  /**
    * @brief      Constructs a new instance.
    *
    * @param[in]  inits  The collection of world initializers to use.
    */
   explicit Scenario(const Inits &inits = {})
-      : groups(), obstacles(), walls(), property_samplers(),
-        initializers(inits) {}
+      : groups(), obstacles(), walls(), initializers(inits),
+        property_samplers() {}
 
   /**
    * @brief      Initializes the world.
@@ -174,27 +180,31 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   std::vector<LineSegment> walls;
 
   /**
-   * A map of property samplers ``name -> sampler``
-   * used configure the sampled object.
-   */
-  std::map<std::string, std::shared_ptr<PropertySampler>> property_samplers;
-
-  /**
-   * @brief      Returns the names of properties for which this
-   * scenario uses a sampler.
+   * @brief      Returns the samplers that this
+   * scenario uses for its properties.
    *
-   * @return     A vector of property names.
+   * @return     The samplers.
    */
-  std::vector<std::string> get_property_samplers() const {
-    std::vector<std::string> keys;
-    for (const auto &[k, _] : property_samplers) {
-      keys.push_back(k);
-    }
-    return keys;
+  const PropertySamplers &get_property_samplers() const {
+    return property_samplers;
   }
 
   /**
-   * @brief      Remove a property sampler.
+   * @brief      Adds a property sampler.
+   *
+   * @param[in]  name  The name of the property
+   * @param[in]  value The sampler
+   *
+   */
+  void add_property_sampler(const std::string &name,
+                            const std::shared_ptr<PropertySampler> &value) {
+    if (value && value->type_name == get_property_type_name(name)) {
+      property_samplers[name] = value;
+    }
+  }
+
+  /**
+   * @brief      Removes a property sampler.
    *
    * @param[in]  name The name of the property
    *
@@ -204,7 +214,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   }
 
   /**
-   * @brief      Clear the property samplers
+   * @brief      Clears the property samplers
    *
    */
   void clear_property_samplers() { property_samplers.clear(); }
@@ -212,7 +222,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   void reset(std::optional<unsigned> index = std::nullopt) {
     for (auto &[k, v] : property_samplers) {
       if (v)
-        v->reset(index);
+        v->reset(index, true);
     }
   }
 
@@ -232,6 +242,12 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
 
 private:
   Inits initializers;
+
+  /**
+   * A map of property samplers ``name -> sampler``
+   * used configure the sampled object.
+   */
+  PropertySamplers property_samplers;
 
   std::string key_for_next_init() {
     for (size_t i = 0; i <= initializers.size(); i++) {

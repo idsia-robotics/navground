@@ -71,36 +71,37 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
   /**
    * @private
    */
-  void reset(std::optional<unsigned> index = std::nullopt) override {
-    Sampler<C>::reset(index);
-    behavior.reset(index);
-    kinematics.reset(index);
-    task.reset(index);
+  void reset(std::optional<unsigned> index = std::nullopt,
+             bool keep = false) override {
+    Sampler<C>::reset(index, keep);
+    behavior.reset(index, keep);
+    kinematics.reset(index, keep);
+    task.reset(index, keep);
     for (auto &state_estimation : state_estimations) {
-      state_estimation.reset(index);
+      state_estimation.reset(index, keep);
     }
     if (position)
-      position->reset(index);
+      position->reset(index, keep);
     if (orientation)
-      orientation->reset(index);
+      orientation->reset(index, keep);
     if (radius)
-      radius->reset(index);
+      radius->reset(index, keep);
     if (control_period)
-      control_period->reset(index);
+      control_period->reset(index, keep);
     if (speed_tolerance)
-      speed_tolerance->reset(index);
+      speed_tolerance->reset(index, keep);
     if (angular_speed_tolerance)
-      angular_speed_tolerance->reset(index);
+      angular_speed_tolerance->reset(index, keep);
     if (id)
-      id->reset(index);
+      id->reset(index, keep);
     if (type)
-      type->reset(index);
+      type->reset(index, keep);
     if (color)
-      color->reset(index);
+      color->reset(index, keep);
     if (number)
-      number->reset(index);
+      number->reset(index, keep);
     if (tags)
-      tags->reset(index);
+      tags->reset(index, keep);
   }
 
   std::vector<StateEstimationSampler<S>> get_valid_state_estimations() const {

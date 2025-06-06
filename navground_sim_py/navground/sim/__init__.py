@@ -22,12 +22,14 @@ from navground.core import load_py_plugins as _load_py_core_plugins
 from navground.core import register
 
 from . import schema
-from ._navground_sim import (
-    Agent, BoundingBox, Dataset, Entity, Experiment, ExperimentalRun,
-    GroupRecordProbe, Obstacle, Probe, RecordConfig, RecordNeighborsConfig,
-    RecordProbe, RecordSensingConfig, RunConfig, Sampler, Scenario,
-    SensingProbe, Sensor, StateEstimation, Task, Wall, World,
-    get_build_dependencies, get_build_info, use_compact_samplers, uses_doubles)
+from ._navground_sim import (Agent, AgentSampler, BoundingBox, Dataset, Entity,
+                             Experiment, ExperimentalRun, GroupRecordProbe,
+                             Obstacle, Probe, RecordConfig,
+                             RecordNeighborsConfig, RecordProbe,
+                             RecordSensingConfig, RunConfig, Sampler, Scenario,
+                             SensingProbe, Sensor, StateEstimation, Task, Wall,
+                             World, get_build_dependencies, get_build_info,
+                             use_compact_samplers, uses_doubles)
 
 # isort: split
 
@@ -109,6 +111,13 @@ def load_sampler(value: str, type_name: str) -> Sampler | None:
 
 
 load_sampler.__doc__ = Sampler.load.__doc__
+
+
+def load_group(value: str) -> Scenario.Group | None:
+    return AgentSampler.load(value)
+
+
+load_group.__doc__ = AgentSampler.load.__doc__
 
 
 def dump(obj: SUPPORT_YAML) -> str:
@@ -244,9 +253,8 @@ World.render_kwargs = {}  # type: ignore[attr-defined]
 World._repr_svg_ = repr_svg  # type: ignore[attr-defined]
 
 # isort: stop
-from .recorded_experiment import (
-    RecordedExperiment,  # noqa: E402
-    RecordedExperimentalRun)
+from .recorded_experiment import RecordedExperiment  # noqa: E402
+from .recorded_experiment import RecordedExperimentalRun
 
 __all__ = [
     'Entity', 'Obstacle', 'Wall', 'World', 'Agent', 'Experiment', 'Scenario',
@@ -258,6 +266,6 @@ __all__ = [
     'RecordedExperiment', 'RecordedExperimentalRun', 'SensingProbe',
     'use_compact_samplers', 'uses_doubles', 'get_loaded_plugins', 'schema',
     'get_build_info', 'get_build_dependencies', 'get_plugins_dependencies',
-    'scenarios', 'state_estimations', 'tasks', 'RunConfig',
+    'scenarios', 'state_estimations', 'tasks', 'RunConfig', 'AgentSampler',
     'bounds_of_bounding_box', 'bounds_for_world', 'Sampler', 'load_sampler'
 ]

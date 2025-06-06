@@ -87,32 +87,6 @@ namespace py = pybind11;
 
 // PYBIND11_MAKE_OPAQUE(std::vector<Scenario::Group>);
 
-void add_group_py(const py::object &obj, const py::object value) {
-  add_py_item(obj, value, "groups");
-  obj.cast<Scenario &>().add_group(
-      value.cast<std::shared_ptr<Scenario::Group>>());
-}
-
-void remove_group_py(const py::object &obj, const py::object value) {
-  obj.cast<Scenario &>().remove_group(
-      value.cast<std::shared_ptr<Scenario::Group>>());
-  remove_py_item(obj, value, "groups");
-}
-
-void remove_group_at_index_py(const py::object &obj, size_t index) {
-  auto & scenario = obj.cast<Scenario &>();
-  const auto group = scenario.get_group(index);
-  if (group) {
-    scenario.remove_group_at_index(index);
-    remove_py_item(obj, py::cast(group), "groups");
-  }
-}
-
-void clear_groups_py(const py::object &obj) {
-  obj.cast<Scenario &>().clear_groups();
-  clear_collection_py(obj, "groups");
-}
-
 void set_dataset_type_py(Dataset &dataset, const py::object &obj);
 void set_dataset_data_py(Dataset &dataset, const py::array &obj,
                          bool append = false,
@@ -423,6 +397,37 @@ struct PyGroup : public Scenario::Group {
     PYBIND11_OVERRIDE_PURE(void, Scenario::Group, add_to_world, world, seed);
   }
 };
+
+void add_group_py(const py::object &obj, const py::object value) {
+  add_py_item(obj, value, "groups");
+  std::shared_ptr<Scenario::Group> g;
+  try {
+    g = value.cast<std::shared_ptr<AgentSampler<PyWorld>>>();
+  } catch (py::cast_error &) {
+    g = value.cast<std::shared_ptr<Scenario::Group>>();
+  }
+  obj.cast<Scenario &>().add_group(g);
+}
+
+void remove_group_py(const py::object &obj, const py::object value) {
+  obj.cast<Scenario &>().remove_group(
+      value.cast<std::shared_ptr<Scenario::Group>>());
+  remove_py_item(obj, value, "groups");
+}
+
+void remove_group_at_index_py(const py::object &obj, size_t index) {
+  auto &scenario = obj.cast<Scenario &>();
+  const auto group = scenario.get_group(index);
+  if (group) {
+    scenario.remove_group_at_index(index);
+    remove_py_item(obj, py::cast(group), "groups");
+  }
+}
+
+void clear_groups_py(const py::object &obj) {
+  obj.cast<Scenario &>().clear_groups();
+  clear_collection_py(obj, "groups");
+}
 
 struct PyScenario : public Scenario, public PyHasRegister<Scenario> {
   /* Inherit the constructors */
@@ -831,6 +836,12 @@ template <> py::object load_node_py<PyScenario>(const Node &node) {
   }
   convert_scenario<PyWorld>::decode(node, obj.cast<Scenario &>());
   return obj;
+}
+
+template <> py::object load_node_py<AgentSampler<PyWorld>>(const Node &node) {
+  auto group = std::make_shared<AgentSampler<PyWorld>>();
+  convert<AgentSampler<PyWorld>>::decode(node, *group);
+  return py::cast(group);
 }
 
 void update_scenario(Scenario &scenario, const Node &node) {
@@ -3463,14 +3474,51 @@ Register a probe to record a group of data to during all runs.
   py::class_<Scenario::Group, PyGroup, std::shared_ptr<Scenario::Group>>(
       scenario, "Group", DOC(navground, sim, Scenario_Group))
       .def(py::init<>(), "")
+      // .def("dump", &YAML::dump<PyGroup>, YAML::dump_doc())
+      // .def_static("load", &YAML::load_string_py<PyGroup>, py::arg("value"),
+      //             YAML::load_string_py_doc("group", "Group").c_str())
+      .def("add_to_world", &Scenario::Group::add_to_world,
+           // [](PyGroup &g, World *world,
+           //    std::optional<unsigned> seed = std::nullopt) {
+           //   g.add_to_world(world, seed);
+           // },
+           py::arg("world"), py::arg("seed") = std::nullopt,
+           DOC(navground, sim, Scenario_Group, add_to_world));
+
+  py::class_<AgentSampler<PyWorld>, Scenario::Group,
+             std::shared_ptr<AgentSampler<PyWorld>>>
+      agent_sampler(m, "AgentSampler");
+
+  agent_sampler
+      .def("dump", &YAML::dump<AgentSampler<PyWorld>>, YAML::dump_doc())
+      .def("count", &AgentSampler<PyWorld>::count,
+           DOC(navground, sim, Sampler, count))
+      .def("done", &AgentSampler<PyWorld>::done,
+           DOC(navground, sim, Sampler, done))
+      .def("reset", &AgentSampler<PyWorld>::reset,
+           py::arg("index") = std::nullopt, py::arg("keep") = false)
+      .def("add_to_world", &AgentSampler<PyWorld>::add_to_world,
+           py::arg("world"), py::arg("seed") = std::nullopt,
+           DOC(navground, sim, Scenario_Group, add_to_world))
       .def(
-          "add_to_world",
-          [](PyGroup &g, World *world,
-             std::optional<unsigned> seed = std::nullopt) {
-            g.add_to_world(world, seed);
+          "sample",
+          [](AgentSampler<PyWorld> &sampler, World &world) {
+            RandomGenerator &rg = world.get_random_generator();
+            return sampler.sample(rg);
           },
-          py::arg("world"), py::arg("seed") = std::nullopt,
-          DOC(navground, sim, Scenario_Group, add_to_world));
+          py::arg("world"), R"doc(
+Draws a sample using the world's random generator.
+
+:param world:         The world.
+
+:raises RuntimeError: When the generator is exhausted 
+                      (i.e., when :py:meth:`done` returns true)
+
+:return:              The new sample              
+)doc")
+      .def_static("load", &YAML::load_string_py<AgentSampler<PyWorld>>,
+                  py::arg("value"),
+                  YAML::load_string_py_doc("group", "YAMLGroup").c_str());
 
   scenario.def(py::init<>())
       .def("init_world", &Scenario::init_world, py::arg("world"),
@@ -3480,7 +3528,6 @@ Register a probe to record a group of data to during all runs.
            DOC(navground, sim, Scenario, apply_inits))
       .def("set_attributes", &Scenario::set_attributes, py::arg("world"),
            DOC(navground, sim, Scenario, set_attributes))
-
       .def(
           "make_world",
           [](PyScenario &scenario, std::optional<int> seed = std::nullopt) {
@@ -3771,6 +3818,7 @@ Load a Sampler from a YAML string.
   pickle_via_yaml<PyScenario>(corridor, init_scenario);
   pickle_via_yaml<PyWorld>(world);
   pickle_via_yaml<PyAgent>(agent);
+  pickle_via_yaml_native<AgentSampler<PyWorld>>(agent_sampler);
   // pickle_via_yaml<PyExperiment>(experiment);
 
   m.def(

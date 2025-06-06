@@ -14,5 +14,6 @@ Tutorials
    modulations
    sensors
    world_attributes
+   sampling
 
 

@@ -99,7 +99,7 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
     if (color)
       color->reset(index, keep);
     if (number)
-      number->reset(index, keep);
+      number->reset(index, true);
     if (tags)
       tags->reset(index, keep);
   }

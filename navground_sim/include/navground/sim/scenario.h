@@ -58,6 +58,11 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   using Inits = std::map<std::string, Init>;
 
   /**
+   * A collection of groups
+   */
+  using Groups = std::vector<std::shared_ptr<Group>>;
+
+  /**
    * A collection of property samplers
    */
   using PropertySamplers =
@@ -69,7 +74,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
    * @param[in]  inits  The collection of world initializers to use.
    */
   explicit Scenario(const Inits &inits = {})
-      : groups(), obstacles(), walls(), initializers(inits),
+      : obstacles(), walls(), initializers(inits), groups(),
         property_samplers() {}
 
   /**
@@ -143,6 +148,27 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   const Inits &get_inits() const { return initializers; }
 
   /**
+   * @brief      Gets the groups.
+   *
+   * @return     The groups.
+   */
+  const Groups &get_groups() const { return groups; }
+
+  /**
+   * @brief      Gets a group.
+   *
+   * @param[in]  The index
+   *
+   * @return     The group or null if the index is not defined.
+   */
+  std::shared_ptr<Group> get_group(size_t index) const {
+    if (index < groups.size()) {
+      return groups[index];
+    }
+    return nullptr;
+  }
+
+  /**
    * @brief      Adds a group.
    *
    * @param[in]  group  The group
@@ -152,12 +178,25 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   }
 
   /**
-   * @brief Remove the last added group.
+   * @brief Remove the added group.
+   *
+   * @param[in] group The group
    *
    */
-  void remove_group() {
-    if (groups.size()) {
-      groups.pop_back();
+  void remove_group(const std::shared_ptr<Group> &group) {
+    groups.erase(std::remove(groups.begin(), groups.end(), group),
+                 groups.end());
+  }
+
+  /**
+   * @brief Remove the added group.
+   *
+   * @param[in] index The index
+   *
+   */
+  void remove_group_at_index(size_t index) {
+    if (index < groups.size()) {
+      groups.erase(std::next(groups.begin(), index));
     }
   }
 
@@ -166,10 +205,6 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
    */
   void clear_groups() { groups.clear(); }
 
-  /**
-   * Groups
-   */
-  std::vector<std::shared_ptr<Group>> groups;
   /**
    * Obstacles
    */
@@ -242,6 +277,11 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
 
 private:
   Inits initializers;
+
+  /**
+   * Groups
+   */
+  std::vector<std::shared_ptr<Group>> groups;
 
   /**
    * A map of property samplers ``name -> sampler``

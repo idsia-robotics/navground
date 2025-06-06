@@ -42,7 +42,15 @@ inline void add_py_item(const py::object &obj, const py::object value,
 
 inline void remove_py_item(const py::object &obj, const py::object value,
                            const std::string &name) {
-  get_py_collection(obj, name).attr("remove")(value);
+  try {
+    get_py_collection(obj, name).attr("remove")(value);
+  } catch (std::exception &) {
+  }
+}
+
+inline bool has_py_item(const py::object &obj, const py::object value,
+                        const std::string &name) {
+  return get_py_collection(obj, name).attr("count")(value).cast<int>() > 0;
 }
 
 inline void clear_collection_py(const py::object &obj,

@@ -85,6 +85,34 @@ namespace py = pybind11;
 
 // PYBIND11_MAKE_OPAQUE(std::map<unsigned, ExperimentalRun>);
 
+// PYBIND11_MAKE_OPAQUE(std::vector<Scenario::Group>);
+
+void add_group_py(const py::object &obj, const py::object value) {
+  add_py_item(obj, value, "groups");
+  obj.cast<Scenario &>().add_group(
+      value.cast<std::shared_ptr<Scenario::Group>>());
+}
+
+void remove_group_py(const py::object &obj, const py::object value) {
+  obj.cast<Scenario &>().remove_group(
+      value.cast<std::shared_ptr<Scenario::Group>>());
+  remove_py_item(obj, value, "groups");
+}
+
+void remove_group_at_index_py(const py::object &obj, size_t index) {
+  auto & scenario = obj.cast<Scenario &>();
+  const auto group = scenario.get_group(index);
+  if (group) {
+    scenario.remove_group_at_index(index);
+    remove_py_item(obj, py::cast(group), "groups");
+  }
+}
+
+void clear_groups_py(const py::object &obj) {
+  obj.cast<Scenario &>().clear_groups();
+  clear_collection_py(obj, "groups");
+}
+
 void set_dataset_type_py(Dataset &dataset, const py::object &obj);
 void set_dataset_data_py(Dataset &dataset, const py::array &obj,
                          bool append = false,
@@ -3485,8 +3513,18 @@ Register a probe to record a group of data to during all runs.
                      DOC(navground, sim, Scenario, obstacles))
       .def_readwrite("walls", &Scenario::walls,
                      DOC(navground, sim, Scenario, walls))
-      .def_readwrite("groups", &Scenario::groups,
-                     DOC(navground, sim, Scenario, groups))
+      .def_property("groups", &Scenario::get_groups, nullptr,
+                    DOC(navground, sim, Scenario, property_groups))
+      .def("get_group", &Scenario::get_group, py::arg("index"),
+           DOC(navground, sim, Scenario, get_group))
+      .def("clear_groups", &clear_groups_py,
+           DOC(navground, sim, Scenario, clear_groups))
+      .def("remove_group", &remove_group_py, py::arg("group"),
+           DOC(navground, sim, Scenario, remove_group))
+      .def("remove_group_at_index", &remove_group_at_index_py, py::arg("index"),
+           DOC(navground, sim, Scenario, remove_group_at_index))
+      .def("add_group", &add_group_py, py::arg("group"),
+           DOC(navground, sim, Scenario, add_group))
       .def_property("property_samplers", &Scenario::get_property_samplers,
                     nullptr,
                     DOC(navground, sim, Scenario, property_property_samplers))

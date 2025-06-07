@@ -128,7 +128,7 @@ void run(const char *behavior = "HL", const char *path_ = "",
   const auto ns = static_cast<long unsigned>(
       std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin)
           .count());
-  printf("%s: total %.1f ms, per agent and step: %lu ns \n", behavior, ns / 1e6,
+  printf("%s: total %.1f ms, per agent and step: %zu ns \n", behavior, ns / 1e6,
          ns / (agents.size() * steps));
   // for (auto & agent : agents) {
   //   std::cout << agent->position[0] << "," << agent->position[1] << ",";

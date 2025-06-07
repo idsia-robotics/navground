@@ -118,7 +118,7 @@ struct NAVGROUND_CORE_EXPORT HasAttributes {
   }
 
 protected:
-  HasAttributes() : _attributes() {};
+  HasAttributes();
 
 private:
   Attributes _attributes;

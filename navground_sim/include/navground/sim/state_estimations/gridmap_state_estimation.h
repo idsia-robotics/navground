@@ -70,7 +70,8 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
   /**
    * The default map resolution in meter per pixel
    */
-  inline static const ng_float_t default_resolution = 0.1;
+  inline static const ng_float_t default_resolution =
+      static_cast<ng_float_t>(0.1);
   /**
    * The name of the buffer set by the sensor
    */

@@ -5,7 +5,7 @@
 
 namespace navground::core {
 
-static int sign(int x) { return x > 0 ? 1.0 : -1.0; }
+static int sign(int x) { return x > 0 ? 1 : -1; }
 
 void GridMap::raytrace_between_cells(ActionType at, GridMap::Cell c0,
                                      GridMap::Cell c1, unsigned int max_length,
@@ -32,18 +32,20 @@ void GridMap::raytrace_between_cells(ActionType at, GridMap::Cell c0,
   const GridMap::Cell dx{sign(delta[0]), 0};
   const GridMap::Cell dy{0, sign(delta[1])};
   const ng_float_t scale =
-      (dist == 0) ? 1 : std::min<ng_float_t>(1, max_length / dist);
+      (dist == 0)
+          ? 1
+          : std::min<ng_float_t>(1, static_cast<ng_float_t>(max_length) / dist);
   // if x is dominant
   if (abs_delta[0] >= abs_delta[1]) {
     const int error = abs_delta[0] / 2;
-    const unsigned length = scale * abs_delta[0];
+    const unsigned length = static_cast<unsigned>(scale * abs_delta[0]);
     bresenham2D(at, abs_delta[0], abs_delta[1], error, dx, dy, c0, length);
     return;
   }
 
   // otherwise y is dominant
   const int error = abs_delta[1] / 2;
-  const unsigned length = scale * abs_delta[1];
+  const unsigned length = static_cast<unsigned>(scale * abs_delta[1]);
 
   bresenham2D(at, abs_delta[1], abs_delta[0], error, dy, dx, c0, length);
 }
@@ -77,7 +79,7 @@ GridMap::get_possible_cell_at_position(const Vector2 &position) const {
   }
   int mx = static_cast<int>((position[0] - _origin[0]) / _resolution);
   int my = static_cast<int>((position[1] - _origin[1]) / _resolution);
-  if (mx < _width && my < _height) {
+  if (mx < static_cast<int>(_width) && my < static_cast<int>(_height)) {
     return GridMap::Cell{mx, my};
   }
   return std::nullopt;
@@ -132,7 +134,8 @@ void GridMap::move(const GridMap::Cell &delta, uint8_t value) {
   const int w = _width - abs(delta[0]);
   const int h = _height - abs(delta[1]);
   // std::cerr << "w " << w << ", h " << h << std::endl;
-  if (w > 0 && h > 0 && w <= _width && h <= _height) {
+  if (w > 0 && h > 0 && w <= static_cast<int>(_width) &&
+      h <= static_cast<int>(_height)) {
     Eigen::Ref<Map> m = get_map();
     if (delta[0] < 0 && delta[1] < 0) {
       // std::cerr << "A" << std::endl;

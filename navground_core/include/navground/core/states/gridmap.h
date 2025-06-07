@@ -50,7 +50,7 @@ public:
    *                         of the map in meters.
    *
    */
-  GridMap(unsigned width, unsigned height, double resolution,
+  GridMap(unsigned width, unsigned height, ng_float_t resolution,
           const Vector2 &origin = Vector2::Zero())
       : _map(height, width), _e_map(nullptr, 0, 0), _width(width),
         _height(height), _resolution(resolution), _origin(origin) {}
@@ -362,8 +362,8 @@ private:
   void move(const Cell &delta, uint8_t value = 128);
   Map _map;
   ExternalMap _e_map;
-  ng_float_t _width;
-  ng_float_t _height;
+  unsigned _width;
+  unsigned _height;
   ng_float_t _resolution;
   Vector2 _origin;
 };

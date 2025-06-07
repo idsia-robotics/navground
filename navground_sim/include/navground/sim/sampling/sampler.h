@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <array>
 #include <memory>
+#include <numeric>
 #include <random>
 #include <type_traits>
 #include <utility>
@@ -604,10 +605,10 @@ make_probabilities(size_t n, const std::vector<double> &values) {
   std::vector<double> ps(n);
   size_t m = std::min(values.size(), n);
   std::transform(values.begin(), values.begin() + m, ps.begin(),
-                 [](double v) { return std::max(0.0, v); });
+                 [](double v) { return std::max<double>(0, v); });
   if (m < n) {
-    const auto sum = std::accumulate(ps.begin(), ps.end(), 0.0);
-    const auto p = std::max(0.0, (1 - sum) / (n - m));
+    const double sum = std::accumulate(ps.begin(), ps.end(), 0);
+    const double p = std::max<double>(0, (1 - sum) / (n - m));
     std::fill_n(ps.begin() + m, n - m, p);
   }
   return ps;

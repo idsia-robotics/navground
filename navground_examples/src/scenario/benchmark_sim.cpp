@@ -27,7 +27,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   const auto ns = static_cast<long unsigned>(
       std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin)
           .count());
-  printf("%s: total %.1f ms, per agent and step: %ld ns \n",
+  printf("%s: total %.1f ms, per agent and step: %zd ns \n",
          behavior_name.c_str(), ns / 1e6,
          ns / (steps * world.get_agents().size()));
   return 0;

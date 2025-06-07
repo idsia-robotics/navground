@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Marker &#8212; navground 0.6.0.dev documentation</title>
+    <title>Marker &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/python/state_estimations/sensor_marker';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../agent.html">Agent</a></li>
 <li class="toctree-l4 current active"><a class="reference internal" href="index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml.html">YAML</a></li>
@@ -512,6 +515,14 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation"><code class="docutils literal notranslate"><span class="pre">MarkerStateEstimation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation"><code class="docutils literal notranslate"><span class="pre">ReferenceOrientation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.target_direction"><code class="docutils literal notranslate"><span class="pre">target_direction</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.agent"><code class="docutils literal notranslate"><span class="pre">agent</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.world"><code class="docutils literal notranslate"><span class="pre">world</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.name"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.read_marker_position"><code class="docutils literal notranslate"><span class="pre">read_marker_position()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.read_marker_position_with_name"><code class="docutils literal notranslate"><span class="pre">read_marker_position_with_name()</span></code></a></li>
@@ -549,16 +560,54 @@ document.write(`
 <ul class="simple">
 <li><p><cite>marker_position</cite> (float, <a class="reference internal" href="#navground.sim.state_estimations.MarkerStateEstimation.marker_position" title="navground.sim.state_estimations.MarkerStateEstimation.marker_position"><code class="xref py py-attr docutils literal notranslate"><span class="pre">marker_position</span></code></a>)</p></li>
 <li><p><cite>reference_orientation</cite> (str, <a class="reference internal" href="#navground.sim.state_estimations.MarkerStateEstimation.reference_orientation" title="navground.sim.state_estimations.MarkerStateEstimation.reference_orientation"><code class="xref py py-attr docutils literal notranslate"><span class="pre">reference_orientation</span></code></a>)</p></li>
-<li><p><cite>min_x</cite> (float, <code class="xref py py-attr docutils literal notranslate"><span class="pre">bounds</span></code>)</p></li>
-<li><p><cite>min_y</cite> (float, <code class="xref py py-attr docutils literal notranslate"><span class="pre">bounds</span></code>)</p></li>
-<li><p><cite>max_x</cite> (float, <code class="xref py py-attr docutils literal notranslate"><span class="pre">bounds</span></code>)</p></li>
-<li><p><cite>max_y</cite> (float, <code class="xref py py-attr docutils literal notranslate"><span class="pre">bounds</span></code>)</p></li>
+<li><p><cite>min_x</cite> (float, <a class="reference internal" href="#navground.sim.state_estimations.MarkerStateEstimation.min_x" title="navground.sim.state_estimations.MarkerStateEstimation.min_x"><code class="xref py py-attr docutils literal notranslate"><span class="pre">min_x</span></code></a>)</p></li>
+<li><p><cite>min_y</cite> (float, <a class="reference internal" href="#navground.sim.state_estimations.MarkerStateEstimation.min_y" title="navground.sim.state_estimations.MarkerStateEstimation.min_y"><code class="xref py py-attr docutils literal notranslate"><span class="pre">min_y</span></code></a>)</p></li>
+<li><p><cite>max_x</cite> (float, <a class="reference internal" href="#navground.sim.state_estimations.MarkerStateEstimation.max_x" title="navground.sim.state_estimations.MarkerStateEstimation.max_x"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max_x</span></code></a>)</p></li>
+<li><p><cite>max_y</cite> (float, <a class="reference internal" href="#navground.sim.state_estimations.MarkerStateEstimation.max_y" title="navground.sim.state_estimations.MarkerStateEstimation.max_y"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max_y</span></code></a>)</p></li>
 <li><p><cite>include_x</cite> (int, <a class="reference internal" href="#navground.sim.state_estimations.MarkerStateEstimation.include_x" title="navground.sim.state_estimations.MarkerStateEstimation.include_x"><code class="xref py py-attr docutils literal notranslate"><span class="pre">include_x</span></code></a>)</p></li>
 <li><p><cite>include_y</cite> (int, <a class="reference internal" href="#navground.sim.state_estimations.MarkerStateEstimation.include_y" title="navground.sim.state_estimations.MarkerStateEstimation.include_y"><code class="xref py py-attr docutils literal notranslate"><span class="pre">include_y</span></code></a>)</p></li>
 </ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ReferenceOrientation</span></span><a class="headerlink" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation" title="Link to this definition">#</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.target_direction">
+<span class="sig-prename descclassname"><span class="pre">ReferenceOrientation.</span></span><span class="sig-name descname"><span class="pre">target_direction</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ReferenceOrientation.target_direction:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.target_direction" title="Link to this definition">#</a></dt>
+<dd><p>target orientation</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.agent">
+<span class="sig-prename descclassname"><span class="pre">ReferenceOrientation.</span></span><span class="sig-name descname"><span class="pre">agent</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ReferenceOrientation.agent:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.agent" title="Link to this definition">#</a></dt>
+<dd><p>agent frame</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.world">
+<span class="sig-prename descclassname"><span class="pre">ReferenceOrientation.</span></span><span class="sig-name descname"><span class="pre">world</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ReferenceOrientation.world:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.world" title="Link to this definition">#</a></dt>
+<dd><p>world frame</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.__init__">
+<span class="sig-prename descclassname"><span class="pre">ReferenceOrientation.</span></span><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.__init__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ReferenceOrientation.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.name" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.state_estimations.MarkerStateEstimation.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">marker_position:</span> <span class="pre">Vector2</span> <span class="pre">=</span> <span class="pre">array([0.,</span> <span class="pre">0.],</span> <span class="pre">dtype=float32),</span> <span class="pre">reference_orientation:</span> <span class="pre">navground.sim.MarkerStateEstimation.ReferenceOrientation</span> <span class="pre">=</span> <span class="pre">&lt;ReferenceOrientation.agent:</span> <span class="pre">1&gt;,</span> <span class="pre">min_x:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">-inf,</span> <span class="pre">min_y:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">-inf,</span> <span class="pre">max_x:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">inf,</span> <span class="pre">max_y:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">inf,</span> <span class="pre">include_x:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">include_y:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.state_estimations.MarkerStateEstimation.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">marker_position:</span> <span class="pre">Vector2</span> <span class="pre">=</span> <span class="pre">array([0.,</span> <span class="pre">0.],</span> <span class="pre">dtype=float32),</span> <span class="pre">reference_orientation:</span> <span class="pre">ReferenceOrientation</span> <span class="pre">=</span> <span class="pre">&lt;ReferenceOrientation.agent:</span> <span class="pre">1&gt;,</span> <span class="pre">min_x:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">-inf,</span> <span class="pre">min_y:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">-inf,</span> <span class="pre">max_x:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">inf,</span> <span class="pre">max_y:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">inf,</span> <span class="pre">include_x:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">include_y:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.state_estimations.MarkerStateEstimation.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Constructs a new instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -581,7 +630,7 @@ document.write(`
 <dt class="sig sig-object py" id="navground.sim.state_estimations.MarkerStateEstimation.read_marker_position">
 <span class="sig-name descname"><span class="pre">read_marker_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../core/python/state/sensing.html#navground.core.SensingState" title="navground.core.SensingState"><span class="pre">navground.core.SensingState</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../../core/python/common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.state_estimations.MarkerStateEstimation.read_marker_position" title="Link to this definition">#</a></dt>
 <dd><p>Reads the marker position from a <a class="reference internal" href="../../../core/python/state/sensing.html#navground.core.SensingState" title="navground.core.SensingState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SensingState</span></code></a></p>
-<p>Calls <a class="reference internal" href="#navground.sim.state_estimations.MarkerStateEstimation.read_marker_position_with_name" title="navground.sim.state_estimations.MarkerStateEstimation.read_marker_position_with_name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">read_marker_position_with_name</span></code></a>, passing <code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code>.</p>
+<p>Calls <a class="reference internal" href="#navground.sim.state_estimations.MarkerStateEstimation.read_marker_position_with_name" title="navground.sim.state_estimations.MarkerStateEstimation.read_marker_position_with_name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">read_marker_position_with_name</span></code></a>, passing <code class="xref py py-attr docutils literal notranslate"><span class="pre">Sensor.name</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>state</strong> – The state</p>
@@ -699,11 +748,6 @@ document.write(`
 </dd>
 </dl>
 <p>Computes the relative marker pose.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> – The pos</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -733,7 +777,7 @@ document.write(`
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reference_orientation</span></span><a class="headerlink" href="#navground.sim.state_estimations.MarkerStateEstimation.reference_orientation" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>navground.sim.MarkerStateEstimation.ReferenceOrientation</p>
+<dd class="field-odd"><p><a class="reference internal" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation" title="navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation">ReferenceOrientation</a></p>
 </dd>
 </dl>
 <p>The reference frame used for orientation.</p>
@@ -789,6 +833,14 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation"><code class="docutils literal notranslate"><span class="pre">MarkerStateEstimation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation"><code class="docutils literal notranslate"><span class="pre">ReferenceOrientation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.target_direction"><code class="docutils literal notranslate"><span class="pre">target_direction</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.agent"><code class="docutils literal notranslate"><span class="pre">agent</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.world"><code class="docutils literal notranslate"><span class="pre">world</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.MarkerStateEstimation.ReferenceOrientation.ReferenceOrientation.name"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.read_marker_position"><code class="docutils literal notranslate"><span class="pre">read_marker_position()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.state_estimations.MarkerStateEstimation.read_marker_position_with_name"><code class="docutils literal notranslate"><span class="pre">read_marker_position_with_name()</span></code></a></li>

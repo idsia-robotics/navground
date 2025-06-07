@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Build info &#8212; navground 0.6.0.dev documentation</title>
+    <title>Build info &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/cpp/build';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/yaml.html">YAML</a></li>
@@ -512,6 +515,8 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9BuildInfoE"><code class="docutils literal notranslate"><span class="pre">navground::core::BuildInfo</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9BuildInfo7VersionE"><code class="docutils literal notranslate"><span class="pre">Version</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9BuildInfo4DateE"><code class="docutils literal notranslate"><span class="pre">Date</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core9BuildInfo18get_version_stringEv"><code class="docutils literal notranslate"><span class="pre">get_version_string()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core9BuildInfo15get_date_stringEv"><code class="docutils literal notranslate"><span class="pre">get_date_string()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core9BuildInfo9to_stringEv"><code class="docutils literal notranslate"><span class="pre">to_string()</span></code></a></li>
@@ -556,6 +561,21 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core9BuildInfoE">
 <span class="target" id="structnavground_1_1core_1_1_build_info"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BuildInfo</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9BuildInfoE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Stores build-time information. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core9BuildInfo7VersionE">
+<span class="target" id="structnavground_1_1core_1_1_build_info_1ab7ebd0ceaa7796156746ccc0dd405078"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Version</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground4core9BuildInfo7VersionE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The version: (major, minor, patch) </p>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core9BuildInfo4DateE">
+<span class="target" id="structnavground_1_1core_1_1_build_info_1a5f6a08d7ceb3f0da2d062eb896861519"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Date</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">chrono</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">system_clock</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">time_point</span></span><a class="headerlink" href="#_CPPv4N9navground4core9BuildInfo4DateE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The <a class="reference internal" href="#structnavground_1_1core_1_1_build_info_1a5f6a08d7ceb3f0da2d062eb896861519"><span class="std std-ref">Date</span></a>, mot UTC, as C++17 does not have a UTC clock unlike C++20 </p>
+</dd></dl>
+
+</div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -604,7 +624,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core9BuildInfo9BuildInfoERK7VersionRKNSt6stringERK4DateRKNSt6stringE">
-<span class="target" id="structnavground_1_1core_1_1_build_info_1aacaa473a346f8e91bc2cdd7527898c9f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BuildInfo</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">Version</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">version</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">git</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">Date</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">date</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">floating_point_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core9BuildInfo9BuildInfoERK7VersionRKNSt6stringERK4DateRKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1core_1_1_build_info_1aacaa473a346f8e91bc2cdd7527898c9f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BuildInfo</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core9BuildInfo7VersionE" title="navground::core::BuildInfo::Version"><span class="n"><span class="pre">Version</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">version</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">git</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core9BuildInfo4DateE" title="navground::core::BuildInfo::Date"><span class="n"><span class="pre">Date</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">date</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">floating_point_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core9BuildInfo9BuildInfoERK7VersionRKNSt6stringERK4DateRKNSt6stringE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Construct an instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -637,7 +657,7 @@ document.write(`
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core9BuildInfo7versionE">
-<span class="target" id="structnavground_1_1core_1_1_build_info_1a24ca60bb04a4bc3a96e6b44b34dfad26"></span><span class="n"><span class="pre">Version</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">version</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9BuildInfo7versionE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1core_1_1_build_info_1a24ca60bb04a4bc3a96e6b44b34dfad26"></span><a class="reference internal" href="#_CPPv4N9navground4core9BuildInfo7VersionE" title="navground::core::BuildInfo::Version"><span class="n"><span class="pre">Version</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">version</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9BuildInfo7versionE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The version (major.minor.patch) </p>
 </dd></dl>
 
@@ -649,7 +669,7 @@ document.write(`
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core9BuildInfo4dateE">
-<span class="target" id="structnavground_1_1core_1_1_build_info_1acefd1f6c4374f0bf0f9857c92d9825d6"></span><span class="n"><span class="pre">Date</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">date</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9BuildInfo4dateE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1core_1_1_build_info_1acefd1f6c4374f0bf0f9857c92d9825d6"></span><a class="reference internal" href="#_CPPv4N9navground4core9BuildInfo4DateE" title="navground::core::BuildInfo::Date"><span class="n"><span class="pre">Date</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">date</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core9BuildInfo4dateE" title="Link to this definition">#</a><br /></dt>
 <dd><p>The build time </p>
 </dd></dl>
 
@@ -793,6 +813,8 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9BuildInfoE"><code class="docutils literal notranslate"><span class="pre">navground::core::BuildInfo</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9BuildInfo7VersionE"><code class="docutils literal notranslate"><span class="pre">Version</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core9BuildInfo4DateE"><code class="docutils literal notranslate"><span class="pre">Date</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core9BuildInfo18get_version_stringEv"><code class="docutils literal notranslate"><span class="pre">get_version_string()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core9BuildInfo15get_date_stringEv"><code class="docutils literal notranslate"><span class="pre">get_date_string()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core9BuildInfo9to_stringEv"><code class="docutils literal notranslate"><span class="pre">to_string()</span></code></a></li>

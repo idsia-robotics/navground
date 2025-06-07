@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Odometry &#8212; navground 0.6.0.dev documentation</title>
+    <title>Odometry &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,10 +49,11 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/cpp/state_estimations/sensor_odometry';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Odometry" href="sensor_marker.html" />
+    <link rel="next" title="Marker" href="sensor_marker.html" />
     <link rel="prev" title="Combination" href="sensor_combination.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/yaml.html">YAML</a></li>
@@ -774,7 +777,7 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim23OdometryStateEstimation11update_odomEP5AgentP5World">
 <span class="target" id="structnavground_1_1sim_1_1_odometry_state_estimation_1aa8d5666697bc3ce394c80c9f5106bebd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_odom</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><span class="n"><span class="pre">Agent</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">agent</span></span>, <a class="reference internal" href="../world.html#_CPPv4N9navground3sim5WorldE" title="navground::sim::World"><span class="n"><span class="pre">World</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">world</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim23OdometryStateEstimation11update_odomEP5AgentP5World" title="Link to this definition">#</a><br /></dt>
 <dd><p>Runs an update. </p>
-<p>Like update but without writing a <a class="reference internal" href="../../../core/cpp/state/sensing.html#classnavground_1_1core_1_1_sensing_state"><span class="std std-ref">core::SensingState</span></a>.</p>
+<p>Like <a class="reference internal" href="state_estimation.html#structnavground_1_1sim_1_1_state_estimation_1a97e559a7c513840db8a209d7eccd687e"><span class="std std-ref">update</span></a> but without writing a <a class="reference internal" href="../../../core/cpp/state/sensing.html#classnavground_1_1core_1_1_sensing_state"><span class="std std-ref">core::SensingState</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -789,7 +792,7 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim23OdometryStateEstimation9read_poseERN4core12SensingStateE">
 <span class="target" id="structnavground_1_1sim_1_1_odometry_state_estimation_1a0ad3e2fdd954b942bf5a4801d1aec6bc"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core5Pose2E" title="navground::core::Pose2"><span class="n"><span class="pre">Pose2</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_pose</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/state/sensing.html#_CPPv4N9navground4core12SensingStateE" title="navground::core::SensingState"><span class="n"><span class="pre">SensingState</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">state</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim23OdometryStateEstimation9read_poseERN4core12SensingStateE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Reads an (odometry) pose from a <a class="reference internal" href="../../../core/cpp/state/sensing.html#classnavground_1_1core_1_1_sensing_state"><span class="std std-ref">core::SensingState</span></a>. </p>
-<p>Calls <a class="reference internal" href="#structnavground_1_1sim_1_1_odometry_state_estimation_1a35661db31d86ef19bae53311cded2191"><span class="std std-ref">read_pose_with_name</span></a>, passing <a class="reference internal" href="sensor.html#structnavground_1_1sim_1_1_sensor_1a06a960b571d37f55b8e6c2ead4b3891f"><span class="std std-ref">get_name</span></a>.</p>
+<p>Calls <a class="reference internal" href="#structnavground_1_1sim_1_1_odometry_state_estimation_1a35661db31d86ef19bae53311cded2191"><span class="std std-ref">read_pose_with_name</span></a>, passing <a class="reference internal" href="sensor.html#structnavground_1_1sim_1_1_sensor_1a06a960b571d37f55b8e6c2ead4b3891f"><span class="std std-ref">Sensor::get_name</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>state</strong> – The state</p>
@@ -893,7 +896,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Odometry</p>
+        <p class="prev-next-title">Marker</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

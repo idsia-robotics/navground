@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Bicycle &#8212; navground 0.6.0.dev documentation</title>
+    <title>Bicycle &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/python/kinematics/bicycle';</script>
@@ -143,7 +144,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -198,6 +199,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -343,6 +345,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/yaml.html">YAML</a></li>
@@ -519,6 +522,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.twist_from_steering"><code class="docutils literal notranslate"><span class="pre">twist_from_steering()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.axis"><code class="docutils literal notranslate"><span class="pre">axis</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.k"><code class="docutils literal notranslate"><span class="pre">k</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.max_backward_speed"><code class="docutils literal notranslate"><span class="pre">max_backward_speed</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.max_steering_angle"><code class="docutils literal notranslate"><span class="pre">max_steering_angle</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.min_steering_radius"><code class="docutils literal notranslate"><span class="pre">min_steering_radius</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.use_velocity_norm"><code class="docutils literal notranslate"><span class="pre">use_velocity_norm</span></code></a></li>
@@ -577,7 +581,7 @@ has wheels, it also has a steering, therefore it is not completely
 determined by wheel speeds.</p>
 <p><em>Registered properties</em>:</p>
 <ul class="simple">
-<li><p><cite>max_backward_speed</cite> (float, <code class="xref py py-attr docutils literal notranslate"><span class="pre">max_backward_speed</span></code>)</p></li>
+<li><p><cite>max_backward_speed</cite> (float, <a class="reference internal" href="#navground.core.kinematics.BicycleKinematics.max_backward_speed" title="navground.core.kinematics.BicycleKinematics.max_backward_speed"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max_backward_speed</span></code></a>)</p></li>
 <li><p><cite>axis</cite> (float, <a class="reference internal" href="#navground.core.kinematics.BicycleKinematics.axis" title="navground.core.kinematics.BicycleKinematics.axis"><code class="xref py py-attr docutils literal notranslate"><span class="pre">axis</span></code></a>)</p></li>
 <li><p><cite>max_steering_angle</cite> (float, <a class="reference internal" href="#navground.core.kinematics.BicycleKinematics.max_steering_angle" title="navground.core.kinematics.BicycleKinematics.max_steering_angle"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max_steering_angle</span></code></a>)</p></li>
 <li><p><cite>k</cite> (float, <a class="reference internal" href="#navground.core.kinematics.BicycleKinematics.k" title="navground.core.kinematics.BicycleKinematics.k"><code class="xref py py-attr docutils literal notranslate"><span class="pre">k</span></code></a>)</p></li>
@@ -659,6 +663,17 @@ x-axis.</p></li>
 <ol class="upperalpha simple" start="11">
 <li></li>
 </ol>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.kinematics.BicycleKinematics.max_backward_speed">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_backward_speed</span></span><a class="headerlink" href="#navground.core.kinematics.BicycleKinematics.max_backward_speed" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
+</dd>
+</dl>
+<p>The maximal backward speed.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -750,6 +765,7 @@ x-axis.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.twist_from_steering"><code class="docutils literal notranslate"><span class="pre">twist_from_steering()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.axis"><code class="docutils literal notranslate"><span class="pre">axis</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.k"><code class="docutils literal notranslate"><span class="pre">k</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.max_backward_speed"><code class="docutils literal notranslate"><span class="pre">max_backward_speed</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.max_steering_angle"><code class="docutils literal notranslate"><span class="pre">max_steering_angle</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.min_steering_radius"><code class="docutils literal notranslate"><span class="pre">min_steering_radius</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.kinematics.BicycleKinematics.use_velocity_norm"><code class="docutils literal notranslate"><span class="pre">use_velocity_norm</span></code></a></li>

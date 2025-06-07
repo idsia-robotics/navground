@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Introduction &#8212; navground 0.6.0.dev documentation</title>
+    <title>Introduction &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="_static/jquery.js?v=5d32c60e"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="_static/documentation_options.js?v=176ebae1"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'introduction';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/sim/python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/sim/python/yaml.html">YAML</a></li>
@@ -524,6 +527,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ros">ROS</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulators">Simulators</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning">Machine-Learning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#path-planning">Path planning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#narrow-spaces">Narrow spaces</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acknowledgement-and-disclaimer">Acknowledgement and disclaimer</a></li>
@@ -543,8 +548,8 @@ document.write(`
 <p>Navground, short <strong>Nav</strong>igation Play<strong>ground</strong>, is a playground to experiment with navigation algorithms.</p>
 <section id="core-library">
 <h2>Core library<a class="headerlink" href="#core-library" title="Link to this heading">#</a></h2>
-<p>At its core, there is a library of two-dimensional navigation algorithms implemented in C++.
-that provides a common API to interact with multi-agent dynamic obstacle avoidance behaviors. Some behaviors are already implemented, more will be. Behaviors take the current state of the environment and of the agent, a target and output a control command.</p>
+<p>At its core, there is a library of two-dimensional navigation algorithms implemented in C++, that provides a common API to interact with multi-agent dynamic obstacle avoidance. Behaviors take the current state of the environment and of the agent, a target and output a control command.</p>
+<p>Some behaviors are included, more will be, and user can add their own as plugins.</p>
 <section id="features">
 <h3>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h3>
 <ul class="simple">
@@ -552,40 +557,45 @@ that provides a common API to interact with multi-agent dynamic obstacle avoidan
 <li><p>environment states</p></li>
 <li><p>targets</p></li>
 <li><p>kinematics</p></li>
+<li><p>behavior modulations</p></li>
 <li><p>2D and 2.5D event-based controllers</p></li>
 <li><p>collision computation</p></li>
 <li><p>YAML serialization</p></li>
+<li><p>CLI to inspect and test the system</p></li>
 </ul>
-<p>Users can add their components (behaviors and kinematics) which are auto-discovered by the rest of the system.</p>
+<p>Users can add their components (behaviors, kinematics, behavior modulations) which are auto-discovered by the rest of the system.</p>
 <p>The core library is designed to be integrated in real-time run times to provide obstacle avoidance to real or simulated robots or other kind of agents. We already integrated it into the following run-times</p>
 </section>
 <section id="python-bindings">
 <h3>Python bindings<a class="headerlink" href="#python-bindings" title="Link to this heading">#</a></h3>
-<p>All core elements are also exposed as a Python 3 package. Moreover, components can be extended from Python too.
-That is, users can implement a behavior or a kinematics which are then fully integrated with the rest of the system.</p>
+<p>All core elements are exposed as a Python 3 package. Components can be extended from Python too: users can implement behaviors, kinematics, and modulations in Python, which are then fully integrated with the rest of the system.</p>
 </section>
 </section>
 <section id="simulation">
 <h2>Simulation<a class="headerlink" href="#simulation" title="Link to this heading">#</a></h2>
-<p>The simulation complements the navigation behaviors of core library:
-- tasks that generates targets to behaviors
+<p>The simulation library complements the navigation behaviors of core library with
+- tasks that generates targets to behaviors,
 - state estimations that feeds the environment state of the  behaviors</p>
-<p>It also provides all the infrastructure to run offline experiments.</p>
+<p>The library provides everything needed to run offline experiments.
+Users select (or implement) scenarios that (randomly) generate worlds from a template and run experiments, recording data from a sequence of simulation runs.</p>
 <section id="id1">
 <h3>Features<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>very fast kinematic simulation</p></li>
-<li><p>extensible tasks and state estimations</p></li>
-<li><p>generating world with agents and static obstacles from scenarios</p></li>
-<li><p>running experiments/benchmarks and recording data in HFD5 files</p></li>
-<li><p>using YAML to specify experiments</p></li>
-<li><p>Python bindings</p></li>
-<li><p>Real-time Python simulation with UI.</p></li>
+<li><p>very fast kinematical simulation with collision detection and resolution between basics shapes.</p></li>
+<li><p>extensible tasks and state estimations,</p></li>
+<li><p>generating world with agents and static obstacles from scenarios,</p></li>
+<li><p>running experiments/benchmarks and recording data in HFD5 files,</p></li>
+<li><p>using YAML to specify experiments,</p></li>
+<li><p>Python bindings,</p></li>
+<li><p>Real-time Python simulation with UI,</p></li>
+<li><p>CLI to inspect and test the system, launch simulations, record videos, and more.</p></li>
 </ul>
 </section>
 </section>
 <section id="extensions">
 <h2>Extensions<a class="headerlink" href="#extensions" title="Link to this heading">#</a></h2>
+<p>Navground is designed to be extensible from C++ and Python.
+We contributed the extensions listed below, and we encourage users to develop their own.</p>
 <section id="ros">
 <h3>ROS<a class="headerlink" href="#ros" title="Link to this heading">#</a></h3>
 <dl class="field-list simple">
@@ -613,12 +623,30 @@ That is, users can implement a behavior or a kinematics which are then fully int
 </dd>
 </dl>
 </section>
+<section id="path-planning">
+<h3>Path planning<a class="headerlink" href="#path-planning" title="Link to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">navground_ri<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Python package that provides a task to compute optimal path in indoor environments: <a class="reference external" href="https://github.com/idsia-robotics/navground_ri">repository</a>.</p>
+</dd>
+</dl>
+</section>
+<section id="narrow-spaces">
+<h3>Narrow spaces<a class="headerlink" href="#narrow-spaces" title="Link to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">navground_narrow<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Python package that provides model-based modulations to handle navigating through narrow passages: <a class="reference external" href="https://github.com/idsia-robotics/navground_narrow">repository</a>.</p>
+</dd>
+</dl>
+</section>
 </section>
 <section id="acknowledgement-and-disclaimer">
 <h2>Acknowledgement and disclaimer<a class="headerlink" href="#acknowledgement-and-disclaimer" title="Link to this heading">#</a></h2>
 <p>The work was supported in part by <a class="reference external" href="https://rexasi-pro.spindoxlabs.com">REXASI-PRO</a> H-EU project, call HORIZON-CL4-2021-HUMAN-01-01, Grant agreement no. 101070028.</p>
+<figure class="align-default">
 <a class="reference internal image-reference" href="https://rexasi-pro.spindoxlabs.com/wp-content/uploads/2023/01/Bianco-Viola-Moderno-Minimalista-Logo-e1675187551324.png"><img alt="REXASI-PRO logo" src="https://rexasi-pro.spindoxlabs.com/wp-content/uploads/2023/01/Bianco-Viola-Moderno-Minimalista-Logo-e1675187551324.png" style="width: 300px;" />
 </a>
+</figure>
 <p>The work has been partially funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Commission. Neither the European Union nor the European Commission can be held responsible for them.</p>
 </section>
 </section>
@@ -681,6 +709,8 @@ That is, users can implement a behavior or a kinematics which are then fully int
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ros">ROS</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulators">Simulators</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning">Machine-Learning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#path-planning">Path planning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#narrow-spaces">Narrow spaces</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acknowledgement-and-disclaimer">Acknowledgement and disclaimer</a></li>

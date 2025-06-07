@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Dummy &#8212; navground 0.6.0.dev documentation</title>
+    <title>Dummy &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/cpp/behaviors/dummy';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/yaml.html">YAML</a></li>
@@ -541,7 +544,11 @@ document.write(`
 <dd><p>Dummy behavior that ignores obstacles. </p>
 <p>Mainly useful to test the interaction with other components.</p>
 <p>Can be assigned an arbitrary environment state, using <a class="reference internal" href="#classnavground_1_1core_1_1_dummy_behavior_1a58546bd50caf616e674267876052bb08"><span class="std std-ref">set_environment_state</span></a>, and/or the property “environment”</p>
-<p><em>Registered properties</em>: environment (string, <a class="reference internal" href="#classnavground_1_1core_1_1_dummy_behavior_1a840b4b9f3895181d69ceeaa8776378ce"><span class="std std-ref">get_environment_state_type</span></a>),</p>
+<p><em>Registered properties</em>:</p>
+<p><ul class="simple">
+<li><p>environment (string, <a class="reference internal" href="#classnavground_1_1core_1_1_dummy_behavior_1a840b4b9f3895181d69ceeaa8776378ce"><span class="std std-ref">get_environment_state_type</span></a>)</p></li>
+</ul>
+</p>
 <p><em>State</em>: any </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
@@ -575,7 +582,7 @@ document.write(`
 <span class="target" id="classnavground_1_1core_1_1_dummy_behavior_1a840b4b9f3895181d69ceeaa8776378ce"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_environment_state_type</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core13DummyBehavior26get_environment_state_typeEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the environment state type. </p>
 <p><ul class="simple">
-<li><p>“Geometric” for GeometriState,</p></li>
+<li><p>“Geometric” for GeometricState,</p></li>
 <li><p>”Sensing” for <a class="reference internal" href="../state/sensing.html#classnavground_1_1core_1_1_sensing_state"><span class="std std-ref">SensingState</span></a>,</p></li>
 <li><p>”” for an null state.</p></li>
 </ul>
@@ -592,7 +599,7 @@ document.write(`
 <span class="target" id="classnavground_1_1core_1_1_dummy_behavior_1aaf3c840cd7ec34530f5b3585c9e3af8c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_environment_state_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core13DummyBehavior26set_environment_state_typeERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the environment state type. </p>
 <p><ul class="simple">
-<li><p>“Geometric” for GeometriState,</p></li>
+<li><p>“Geometric” for GeometricState,</p></li>
 <li><p>”Sensing” for <a class="reference internal" href="../state/sensing.html#classnavground_1_1core_1_1_sensing_state"><span class="std std-ref">SensingState</span></a>,</p></li>
 <li><p>anything else for an null state.</p></li>
 </ul>

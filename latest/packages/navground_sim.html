@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>navground_sim &#8212; navground 0.6.0.dev documentation</title>
+    <title>navground_sim &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'packages/navground_sim';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
@@ -542,17 +545,18 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample">sample</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.sample-parser-positional-arguments">Positional Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.sample-parser-named-arguments">Named Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Example</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-scenario">Example (scenario)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-sampler">Example (sampler)</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run">run</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.run-parser-positional-arguments">Positional Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.run-parser-named-arguments">Named Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Example</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Example</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground">navground</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Example</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -608,8 +612,8 @@ document.write(`
 <section id="info">
 <span id="info-sim"></span><h3>info<a class="headerlink" href="#info" title="Link to this heading">#</a></h3>
 <p>Lists registered components (behaviors, kinematics, behavior modulations, state estimations, tasks, and scenarios) implemented in C++.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">build</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">properties</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">description</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behaviors</span> <span class="p">[</span><span class="n">BEHAVIORS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">modulations</span> <span class="p">[</span><span class="n">MODULATIONS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">state_estimations</span> <span class="p">[</span><span class="n">STATE</span> <span class="n">ESTIMATIONS</span><span class="p">]]</span>
-            <span class="p">[</span><span class="o">--</span><span class="n">tasks</span> <span class="p">[</span><span class="n">TASKS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">scenarios</span> <span class="p">[</span><span class="n">SCENARIOS</span><span class="p">]]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">build</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">properties</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">description</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behaviors</span> <span class="p">[</span><span class="n">BEHAVIORS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span>
+            <span class="p">[</span><span class="o">--</span><span class="n">modulations</span> <span class="p">[</span><span class="n">MODULATIONS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">state_estimations</span> <span class="p">[</span><span class="n">STATE</span> <span class="n">ESTIMATIONS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">tasks</span> <span class="p">[</span><span class="n">TASKS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">scenarios</span> <span class="p">[</span><span class="n">SCENARIOS</span><span class="p">]]</span>
 </pre></div>
 </div>
 <section id="navground.sim.info-parser-named-arguments">
@@ -658,22 +662,22 @@ document.write(`
 <span class="go">====================</span>
 <span class="go">Behaviors</span>
 <span class="go">---------</span>
+<span class="go">CppPolicy</span>
+<span class="go">    flat: false (bool)</span>
+<span class="go">    include_angular_speed: false (bool)</span>
+<span class="go">    include_target_direction: false (bool)</span>
+<span class="go">    include_target_distance: false (bool)</span>
+<span class="go">    include_target_speed: false (bool)</span>
+<span class="go">    include_velocity: false (bool)</span>
+<span class="go">    max_acceleration: 10 (float)</span>
+<span class="go">    max_angular_acceleration: 0 (float)</span>
+<span class="go">    policy_path:  (str)</span>
+<span class="go">    shared: false (bool)</span>
+<span class="go">    use_acceleration_action: false (bool)</span>
 <span class="go">Dummy</span>
 <span class="go">    environment:  (str)</span>
 <span class="go">HL</span>
 <span class="go">    aperture: 3.14159 (float)</span>
-<span class="go">    barrier_angle: 1.5708 (float)</span>
-<span class="go">    epsilon: 0 (float)</span>
-<span class="go">    eta: 0.5 (float)</span>
-<span class="go">    resolution: 101 (int)</span>
-<span class="go">    tau: 0.125 (float)</span>
-<span class="go">HRVO</span>
-<span class="go">    max_neighbors: 1000 (int)</span>
-<span class="go">    uncertainty_offset: 0 (int)</span>
-<span class="go">Idle</span>
-<span class="go">    ignore_obstacles: false (bool)</span>
-<span class="go">IdleGroup</span>
-<span class="go">Minimal</span>
 <span class="go">...</span>
 </pre></div>
 </div>
@@ -681,15 +685,15 @@ document.write(`
 </section>
 <section id="echo">
 <span id="echo-sim"></span><h3>echo<a class="headerlink" href="#echo" title="Link to this heading">#</a></h3>
-<p>Load and then print a YAML representation of an object (behavior, kinematic, behavior modulation, state estimation, task, scenarios, agent, world, experiment).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">echo</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">chdir</span><span class="p">]</span> <span class="n">kind</span> <span class="n">YAML</span>
+<p>Load and then print a YAML representation of an object (behavior, kinematic, behavior modulation, state estimation, task, scenarios, agent, world, experiment, sampler).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">echo</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">chdir</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="p">{</span><span class="nb">bool</span><span class="p">,</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">,</span><span class="nb">str</span><span class="p">,</span><span class="n">vector</span><span class="p">,[</span><span class="nb">bool</span><span class="p">],[</span><span class="nb">int</span><span class="p">],[</span><span class="nb">float</span><span class="p">],[</span><span class="nb">str</span><span class="p">],[</span><span class="n">vector</span><span class="p">]}]</span> <span class="n">kind</span> <span class="n">YAML</span>
 </pre></div>
 </div>
 <section id="navground.sim.echo-parser-positional-arguments">
 <h4>Positional Arguments<a class="headerlink" href="#navground.sim.echo-parser-positional-arguments" title="Link to this heading">#</a></h4>
 <dl class="option-list">
 <dt><kbd>kind</kbd></dt>
-<dd><p>The kind of object to load: behavior, modulation, kinematics, state_estimation, task, scenario, world, agent, experiment</p>
+<dd><p>The kind of object to load: behavior, modulation, kinematics, state_estimation, task, scenario, world, agent, experiment, sampler</p>
 </dd>
 <dt><kbd>YAML</kbd></dt>
 <dd><p>YAML string, or path to a YAML file, describing an experiment</p>
@@ -707,6 +711,10 @@ document.write(`
 </dd>
 <dt><kbd>--chdir</kbd></dt>
 <dd><p>Whether to change working directory to the directory containing the file. Useful when the config contains relative paths.</p>
+</dd>
+<dt><kbd>--type</kbd></dt>
+<dd><p>Possible choices: bool, int, float, str, vector, [bool], [int], [float], [str], [vector]</p>
+<p>The sampled type</p>
 </dd>
 </dl>
 </section>
@@ -728,14 +736,15 @@ document.write(`
 <section id="schema">
 <span id="schema-sim"></span><h3>schema<a class="headerlink" href="#schema" title="Link to this heading">#</a></h3>
 <p>Print JSON-Schema of YAML-convertible navground sim classes.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">schema</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">register</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="n">TYPE</span><span class="p">]</span> <span class="p">[{</span><span class="n">behavior</span><span class="p">,</span><span class="n">world</span><span class="p">,</span><span class="n">task</span><span class="p">,</span><span class="n">sim</span><span class="p">,</span><span class="n">core</span><span class="p">,</span><span class="n">experiment</span><span class="p">,</span><span class="n">kinematics</span><span class="p">,</span><span class="n">agent</span><span class="p">,</span><span class="n">behavior_modulation</span><span class="p">,</span><span class="n">scenario</span><span class="p">,</span><span class="n">state_estimation</span><span class="p">}]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">schema</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">register</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="n">TYPE</span><span class="p">]</span>
+              <span class="p">[{</span><span class="n">kinematics</span><span class="p">,</span><span class="n">scenario</span><span class="p">,</span><span class="n">agent</span><span class="p">,</span><span class="n">core</span><span class="p">,</span><span class="n">experiment</span><span class="p">,</span><span class="n">sim</span><span class="p">,</span><span class="n">world</span><span class="p">,</span><span class="n">behavior_modulation</span><span class="p">,</span><span class="n">behavior</span><span class="p">,</span><span class="n">task</span><span class="p">,</span><span class="n">state_estimation</span><span class="p">}]</span>
 </pre></div>
 </div>
 <section id="navground.sim.print_schema-parser-positional-arguments">
 <h4>Positional Arguments<a class="headerlink" href="#navground.sim.print_schema-parser-positional-arguments" title="Link to this heading">#</a></h4>
 <dl class="option-list">
 <dt><kbd>kind</kbd></dt>
-<dd><p>Possible choices: behavior, world, task, sim, core, experiment, kinematics, agent, behavior_modulation, scenario, state_estimation</p>
+<dd><p>Possible choices: kinematics, scenario, agent, core, experiment, sim, world, behavior_modulation, behavior, task, state_estimation</p>
 <p>The target type of the scheme</p>
 </dd>
 </dl>
@@ -821,15 +830,15 @@ document.write(`
 </section>
 <section id="sample">
 <span id="id5"></span><h3>sample<a class="headerlink" href="#sample" title="Link to this heading">#</a></h3>
-<p>Samples a world from a scenario containing components implemented in C++.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">sample</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">chdir</span><span class="p">]</span> <span class="n">YAML</span>
+<p>Samples a world from a scenario containing components implemented in C++, or from a sampler.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">sample</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="n">TYPE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">number</span> <span class="n">NUMBER</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">chdir</span><span class="p">]</span> <span class="n">YAML</span>
 </pre></div>
 </div>
 <section id="navground.sim.sample-parser-positional-arguments">
 <h4>Positional Arguments<a class="headerlink" href="#navground.sim.sample-parser-positional-arguments" title="Link to this heading">#</a></h4>
 <dl class="option-list">
 <dt><kbd>YAML</kbd></dt>
-<dd><p>YAML string, or path to a YAML file, describing an experiment</p>
+<dd><p>YAML string, or path to a YAML file, describing an experiment or a sampler</p>
 </dd>
 </dl>
 </section>
@@ -843,29 +852,31 @@ document.write(`
 <dt><kbd>-v, --version</kbd></dt>
 <dd><p>show program’s version number and exit</p>
 </dd>
+<dt><kbd>--seed</kbd></dt>
+<dd><p>The random seed</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+</dd>
+<dt><kbd>--type</kbd></dt>
+<dd><p>The sampled value</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
+</dd>
+<dt><kbd>--number</kbd></dt>
+<dd><p>The number of samples</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+</dd>
 <dt><kbd>--chdir</kbd></dt>
 <dd><p>Whether to change working directory to the directory containing the file. Useful when the config contains relative paths.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 </dl>
 </section>
-<section id="id6">
-<h4>Example<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
+<section id="example-scenario">
+<h4>Example (scenario)<a class="headerlink" href="#example-scenario" title="Link to this heading">#</a></h4>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sample<span class="w"> </span><span class="s2">&quot;{type: Antipodal, groups: [{number: 2}]}&quot;</span>
 
-<span class="go">type: Antipodal</span>
-<span class="go">orientation_noise: 0</span>
-<span class="go">position_noise: 0</span>
-<span class="go">radius: 1</span>
-<span class="go">shuffle: 0</span>
-<span class="go">tolerance: 0.100000001</span>
-<span class="go">obstacles:</span>
-<span class="go">  []</span>
-<span class="go">groups:</span>
-<span class="go">  - behavior:</span>
-<span class="go">      type: &quot;&quot;</span>
-<span class="go">    number: 2</span>
-<span class="go">------------------------------</span>
+<span class="go">Sampled world</span>
+<span class="go">=============</span>
+
 <span class="go">obstacles:</span>
 <span class="go">  []</span>
 <span class="go">walls:</span>
@@ -873,15 +884,41 @@ document.write(`
 <span class="go">agents:</span>
 <span class="go">  - behavior:</span>
 <span class="go">      optimal_speed: 0</span>
+<span class="go">      optimal_angular_speed: 0</span>
+<span class="go">      rotation_tau: 0.5</span>
+<span class="go">      safety_margin: 0</span>
+<span class="go">      horizon: 5</span>
+<span class="go">      path_look_ahead: 1</span>
+<span class="go">      path_tau: 0.5</span>
+<span class="go">      radius: 0</span>
+<span class="go">      heading: velocity</span>
+<span class="go">      social_margin:</span>
+<span class="go">        modulation:</span>
 <span class="go">...</span>
+</pre></div>
+</div>
+</section>
+<section id="example-sampler">
+<h4>Example (sampler)<a class="headerlink" href="#example-sampler" title="Link to this heading">#</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sample<span class="w"> </span><span class="s2">&quot;{sampler: uniform, from: 0, to: 10}&quot;</span><span class="w"> </span>--type<span class="w"> </span>int<span class="w"> </span>--number<span class="w"> </span><span class="m">5</span>
+
+<span class="go">Sampled int</span>
+<span class="go">===========</span>
+
+<span class="go">0: 5</span>
+<span class="go">1: 0</span>
+<span class="go">2: 3</span>
+<span class="go">3: 3</span>
+<span class="go">4: 7</span>
 </pre></div>
 </div>
 </section>
 </section>
 <section id="run">
-<span id="id7"></span><h3>run<a class="headerlink" href="#run" title="Link to this heading">#</a></h3>
+<span id="id6"></span><h3>run<a class="headerlink" href="#run" title="Link to this heading">#</a></h3>
 <p>Run an experiment limited to components implemented in C++.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">tqdm</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">run_index</span> <span class="n">RUN_INDEX</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">runs</span> <span class="n">RUNS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">threads</span> <span class="n">THREADS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">processes</span> <span class="n">PROCESSES</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">save_directory</span> <span class="n">SAVE_DIRECTORY</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">save_single_hdf5</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">use_multiprocess</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">chdir</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">tqdm</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">run_index</span> <span class="n">RUN_INDEX</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">runs</span> <span class="n">RUNS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">threads</span> <span class="n">THREADS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">processes</span> <span class="n">PROCESSES</span><span class="p">]</span>
+           <span class="p">[</span><span class="o">--</span><span class="n">save_directory</span> <span class="n">SAVE_DIRECTORY</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">save_single_hdf5</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">use_multiprocess</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">chdir</span><span class="p">]</span>
            <span class="n">YAML</span>
 </pre></div>
 </div>
@@ -945,14 +982,14 @@ document.write(`
 <li><p>an HDF5 file <cite>data.h5`</cite> with data recorded during the experiment,</p></li>
 <li><p>a YAML file <cite>experiment.yaml</cite> with the configuration of the experiment.</p></li>
 </ul>
-<section id="id8">
-<h4>Example<a class="headerlink" href="#id8" title="Link to this heading">#</a></h4>
+<section id="id7">
+<h4>Example<a class="headerlink" href="#id7" title="Link to this heading">#</a></h4>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>run<span class="w"> </span><span class="s2">&quot;{save_directory: &quot;</span>/tmp<span class="s2">&quot;, scenario: {type: Antipodal, groups: [{number: 20}]}}&quot;</span>
 
 <span class="go">Performing experiment ...</span>
 <span class="go">Experiment done</span>
-<span class="go">Duration: 0.0337912 s</span>
-<span class="go">Saved to: &quot;/tmp/experiment_1622124573627242003_2025-05-30_14-40-45/data.h5&quot;</span>
+<span class="go">Duration: 0.0362629 s</span>
+<span class="go">Saved to: &quot;/tmp/experiment_1622124573627242003_2025-06-07_16-32-21/data.h5&quot;</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -962,7 +999,7 @@ document.write(`
 </section>
 </section>
 <section id="navground">
-<span id="id9"></span><h3>navground<a class="headerlink" href="#navground" title="Link to this heading">#</a></h3>
+<span id="id8"></span><h3>navground<a class="headerlink" href="#navground" title="Link to this heading">#</a></h3>
 <p>A command that contains all other commands of this package as sub-commands, installed in the binary directory. Using it, you can run</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>naground<span class="w"> </span>&lt;command&gt;<span class="w"> </span><span class="o">[</span>arguments<span class="o">]</span>
 </pre></div>
@@ -971,8 +1008,8 @@ document.write(`
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>install/lib/navground_sim/&lt;command&gt;<span class="w"> </span><span class="o">[</span>arguments<span class="o">]</span>
 </pre></div>
 </div>
-<section id="id10">
-<h4>Example<a class="headerlink" href="#id10" title="Link to this heading">#</a></h4>
+<section id="id9">
+<h4>Example<a class="headerlink" href="#id9" title="Link to this heading">#</a></h4>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ navground run --help
 Usage: run [--help] [--version] [--tqdm] [--run_index VAR] [--runs VAR] [--threads VAR] [--processes VAR] [--save_directory VAR] [--chdir] YAML
 
@@ -1075,17 +1112,18 @@ Optional arguments:
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample">sample</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.sample-parser-positional-arguments">Positional Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.sample-parser-named-arguments">Named Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Example</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-scenario">Example (scenario)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-sampler">Example (sampler)</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run">run</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.run-parser-positional-arguments">Positional Arguments</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.run-parser-named-arguments">Named Arguments</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Example</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Example</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground">navground</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Example</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Example</a></li>
 </ul>
 </li>
 </ul>

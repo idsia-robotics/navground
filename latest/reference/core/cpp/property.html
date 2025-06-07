@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Properties &#8212; navground 0.6.0.dev documentation</title>
+    <title>Properties &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/cpp/property';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../sim/python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../sim/python/yaml.html">YAML</a></li>
@@ -528,6 +531,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Property16deprecated_namesE"><code class="docutils literal notranslate"><span class="pre">deprecated_names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Property8readonlyE"><code class="docutils literal notranslate"><span class="pre">readonly</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Property6schemaE"><code class="docutils literal notranslate"><span class="pre">schema</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Property14make_prototypeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">make_prototype()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground4core8Property4makeE8PropertyRK11TypedGetterI1T1CERK11TypedSetterI1T1CERK1TRKNSt6stringERK6SchemaRKNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">make()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground4core8Property4makeE8PropertyRK11TypedGetterI1T1CERKNSt6stringERK6SchemaRKNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">make()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground4core8Property4makeEN4core8PropertyEM1CKF1TvERKNSt6stringERKNSt6vectorINSt6stringEEERK6Schema"><code class="docutils literal notranslate"><span class="pre">make()</span></code></a></li>
@@ -544,6 +548,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core13HasProperties3setERKNSt6stringERKN8Property5FieldE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground4core13HasProperties9set_valueEvRKNSt6stringERK1V"><code class="docutils literal notranslate"><span class="pre">set_value()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core13HasProperties3getERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core13HasProperties3hasERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">has()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core13HasProperties22get_property_type_nameERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">get_property_type_name()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -670,6 +676,20 @@ document.write(`
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Property14make_prototypeERKNSt6stringE">
+<span class="target" id="structnavground_1_1core_1_1_property_1a5192794bc2e52bc53d989eb6a9917c86"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground4core8Property5FieldE" title="navground::core::Property::Field"><span class="n"><span class="pre">Field</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">make_prototype</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">type_name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Property14make_prototypeERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create a value of the desired type. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>type_name</strong> – <strong>[in]</strong> The type name</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A value or null is the type name is not valid. </p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4I00EN9navground4core8Property4makeE8PropertyRK11TypedGetterI1T1CERK11TypedSetterI1T1CERK1TRKNSt6stringERK6SchemaRKNSt6vectorINSt6stringEEE">
 <span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">C</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structnavground_1_1core_1_1_property_1ab36eee90b279e461c78765f9f72703de"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core8PropertyE" title="navground::core::Property"><span class="n"><span class="pre">Property</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">make</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I00EN9navground4core11TypedGetterE" title="navground::core::TypedGetter"><span class="n"><span class="pre">TypedGetter</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I00EN9navground4core8Property4makeE8PropertyRK11TypedGetterI1T1CERK11TypedSetterI1T1CERK1TRKNSt6stringERK6SchemaRKNSt6vectorINSt6stringEEE" title="navground::core::Property::make::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I00EN9navground4core8Property4makeE8PropertyRK11TypedGetterI1T1CERK11TypedSetterI1T1CERK1TRKNSt6stringERK6SchemaRKNSt6vectorINSt6stringEEE" title="navground::core::Property::make::C"><span class="n"><span class="pre">C</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">getter</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I00EN9navground4core11TypedSetterE" title="navground::core::TypedSetter"><span class="n"><span class="pre">TypedSetter</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I00EN9navground4core8Property4makeE8PropertyRK11TypedGetterI1T1CERK11TypedSetterI1T1CERK1TRKNSt6stringERK6SchemaRKNSt6vectorINSt6stringEEE" title="navground::core::Property::make::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I00EN9navground4core8Property4makeE8PropertyRK11TypedGetterI1T1CERK11TypedSetterI1T1CERK1TRKNSt6stringERK6SchemaRKNSt6vectorINSt6stringEEE" title="navground::core::Property::make::C"><span class="n"><span class="pre">C</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">setter</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I00EN9navground4core8Property4makeE8PropertyRK11TypedGetterI1T1CERK11TypedSetterI1T1CERK1TRKNSt6stringERK6SchemaRKNSt6vectorINSt6stringEEE" title="navground::core::Property::make::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">default_value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">description</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground4core8Property6SchemaE" title="navground::core::Property::Schema"><span class="n"><span class="pre">Schema</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">schema</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">deprecated_names</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I00EN9navground4core8Property4makeE8PropertyRK11TypedGetterI1T1CERK11TypedSetterI1T1CERK1TRKNSt6stringERK6SchemaRKNSt6vectorINSt6stringEEE" title="Link to this definition">#</a><br /></dt>
@@ -957,6 +977,34 @@ document.write(`
 </dl>
 </dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core13HasProperties3hasERKNSt6stringE">
+<span class="target" id="structnavground_1_1core_1_1_has_properties_1aa2844f0d0a83f6c17365d11f54183cb4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">has</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core13HasProperties3hasERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Checks whether a property exists. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – <strong>[in]</strong> The name of the property</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the property exists </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground4core13HasProperties22get_property_type_nameERKNSt6stringE">
+<span class="target" id="structnavground_1_1core_1_1_has_properties_1a70711ca33ada5f20060c3d5703c878d7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_property_type_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core13HasProperties22get_property_type_nameERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the type of a property. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – <strong>[in]</strong> The name of the property</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The property type name or an empty string if the property is not defined. </p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </dd></dl>
 
@@ -1024,6 +1072,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Property16deprecated_namesE"><code class="docutils literal notranslate"><span class="pre">deprecated_names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Property8readonlyE"><code class="docutils literal notranslate"><span class="pre">readonly</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Property6schemaE"><code class="docutils literal notranslate"><span class="pre">schema</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core8Property14make_prototypeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">make_prototype()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground4core8Property4makeE8PropertyRK11TypedGetterI1T1CERK11TypedSetterI1T1CERK1TRKNSt6stringERK6SchemaRKNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">make()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground4core8Property4makeE8PropertyRK11TypedGetterI1T1CERKNSt6stringERK6SchemaRKNSt6vectorINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">make()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground4core8Property4makeEN4core8PropertyEM1CKF1TvERKNSt6stringERKNSt6vectorINSt6stringEEERK6Schema"><code class="docutils literal notranslate"><span class="pre">make()</span></code></a></li>
@@ -1040,6 +1089,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core13HasProperties3setERKNSt6stringERKN8Property5FieldE"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground4core13HasProperties9set_valueEvRKNSt6stringERK1V"><code class="docutils literal notranslate"><span class="pre">set_value()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core13HasProperties3getERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core13HasProperties3hasERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">has()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core13HasProperties22get_property_type_nameERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">get_property_type_name()</span></code></a></li>
 </ul>
 </li>
 </ul>

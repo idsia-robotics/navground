@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sampling &#8212; navground 0.6.0.dev documentation</title>
+    <title>Sampling &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/cpp/sampling';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/yaml.html">YAML</a></li>
@@ -517,7 +520,7 @@ document.write(`
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7Sampler6sampleER15RandomGenerator"><code class="docutils literal notranslate"><span class="pre">sample()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim7Sampler5countEv"><code class="docutils literal notranslate"><span class="pre">count()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim7Sampler4doneEv"><code class="docutils literal notranslate"><span class="pre">done()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7Sampler5resetENSt8optionalIjEE"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7Sampler5resetENSt8optionalIjEEb"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7Sampler4onceE"><code class="docutils literal notranslate"><span class="pre">once</span></code></a></li>
 </ul>
 </li>
@@ -539,22 +542,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim13ChoiceSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::ChoiceSampler</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13ChoiceSampler13ChoiceSamplerERKNSt6vectorI1TEEb"><code class="docutils literal notranslate"><span class="pre">ChoiceSampler()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numbers-and-vectors">Numbers and Vectors</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14RegularSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::RegularSampler</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler18make_with_intervalERK1TRK1Tj4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_interval()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler14make_with_stepERK1TRK1TNSt8optionalIjEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_step()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">Vectors</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::GridSampler</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSampler11GridSamplerERK7Vector2RK7Vector2NSt5arrayIjXL2EEEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">GridSampler()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13ChoiceSampler13ChoiceSamplerERKNSt6vectorI1TEERKNSt6vectorIdEEb"><code class="docutils literal notranslate"><span class="pre">ChoiceSampler()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -567,11 +555,50 @@ document.write(`
 </li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-vectors">2D Vectors</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::GridSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSampler11GridSamplerERK7Vector2RK7Vector2NSt5arrayIjXL2EEEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">GridSampler()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15NormalSampler2DE"><code class="docutils literal notranslate"><span class="pre">navground::sim::NormalSampler2D</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15NormalSampler2D15NormalSampler2DERK7Vector2NSt5arrayI10ng_float_tXL2EEEE10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">NormalSampler2D()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numbers-and-2d-vectors">Numbers and 2D vectors</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14RegularSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::RegularSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler18make_with_intervalERK1TRK1Tj4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_interval()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler14make_with_stepERK1TRK1TNSt8optionalIjEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numbers-and-booleans">Numbers and booleans</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim13BinarySamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::BinarySampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13BinarySampler13BinarySamplerERKdb"><code class="docutils literal notranslate"><span class="pre">BinarySampler()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lists-of-scalars">Lists of scalars</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim18UniformSizeSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::UniformSizeSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim18UniformSizeSampler18UniformSizeSamplerERRNSt10unique_ptrI7SamplerI1TEEE6size_t6size_tb"><code class="docutils literal notranslate"><span class="pre">UniformSizeSampler()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim18PermutationSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::PermutationSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim18PermutationSampler18PermutationSamplerERKNSt6vectorI1TEEbbb"><code class="docutils literal notranslate"><span class="pre">PermutationSampler()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#properties">Properties</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15PropertySamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::PropertySampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15PropertySampler5FieldE"><code class="docutils literal notranslate"><span class="pre">Field</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground3sim15PropertySampler15PropertySamplerENSt10unique_ptrI7SamplerI1TEEE"><code class="docutils literal notranslate"><span class="pre">PropertySampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground3sim15PropertySampler15PropertySamplerERR1S"><code class="docutils literal notranslate"><span class="pre">PropertySampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0Dp0EN9navground3sim15PropertySampler15PropertySamplerEDp5Targs"><code class="docutils literal notranslate"><span class="pre">PropertySampler()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15PropertySampler5validEv"><code class="docutils literal notranslate"><span class="pre">valid()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -608,6 +635,11 @@ document.write(`
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler17KinematicsSamplerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">KinematicsSampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler9max_speedE"><code class="docutils literal notranslate"><span class="pre">max_speed</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler17max_angular_speedE"><code class="docutils literal notranslate"><span class="pre">max_angular_speed</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim25BehaviorModulationSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::BehaviorModulationSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim25BehaviorModulationSampler25BehaviorModulationSamplerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">BehaviorModulationSampler()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim25BehaviorModulationSampler7enabledE"><code class="docutils literal notranslate"><span class="pre">enabled</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim11TaskSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::TaskSampler</span></code></a><ul class="nav section-nav flex-column">
@@ -682,7 +714,7 @@ document.write(`
 <dd class="field-even"><p><strong>[in]</strong> Whether to repeat the first sample (until reset) </p>
 </dd>
 </dl>
-<p>Subclassed by <a class="reference internal" href="#structnavground_1_1sim_1_1_choice_sampler"><span class="std std-ref">navground::sim::ChoiceSampler&lt; T &gt;</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_constant_sampler"><span class="std std-ref">navground::sim::ConstantSampler&lt; T &gt;</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_normal_sampler"><span class="std std-ref">navground::sim::NormalSampler&lt; T &gt;</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_regular_sampler"><span class="std std-ref">navground::sim::RegularSampler&lt; T &gt;</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_sequence_sampler"><span class="std std-ref">navground::sim::SequenceSampler&lt; T &gt;</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_uniform_sampler"><span class="std std-ref">navground::sim::UniformSampler&lt; T &gt;</span></a></p>
+<p>Subclassed by <a class="reference internal" href="#structnavground_1_1sim_1_1_binary_sampler"><span class="std std-ref">navground::sim::BinarySampler&lt; T &gt;</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_choice_sampler"><span class="std std-ref">navground::sim::ChoiceSampler&lt; T &gt;</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_constant_sampler"><span class="std std-ref">navground::sim::ConstantSampler&lt; T &gt;</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_normal_sampler"><span class="std std-ref">navground::sim::NormalSampler&lt; T &gt;</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_regular_sampler"><span class="std std-ref">navground::sim::RegularSampler&lt; T &gt;</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_sequence_sampler"><span class="std std-ref">navground::sim::SequenceSampler&lt; T &gt;</span></a>, <a class="reference internal" href="#structnavground_1_1sim_1_1_uniform_sampler"><span class="std std-ref">navground::sim::UniformSampler&lt; T &gt;</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -706,6 +738,7 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim7Sampler5countEv">
 <span class="target" id="structnavground_1_1sim_1_1_sampler_1a2941cf827726d8277b9ac14a2530bd78"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">count</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim7Sampler5countEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Counts the number of sampled values since reset. </p>
+<p>If <a class="reference internal" href="#structnavground_1_1sim_1_1_sampler_1a8eb062637887701f3176ad0fa613b397"><span class="std std-ref">once</span></a> is set, only the first call to <a class="reference internal" href="#structnavground_1_1sim_1_1_sampler_1a5375736dbcccbc4f8cab59376b5aaaa3"><span class="std std-ref">sample</span></a> counts, until it is <a class="reference internal" href="#structnavground_1_1sim_1_1_sampler_1a9f6e85c2c379a06ef2888c35d18f6e29"><span class="std std-ref">reset</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The number of sampled values </p>
@@ -716,7 +749,7 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim7Sampler4doneEv">
 <span class="target" id="structnavground_1_1sim_1_1_sampler_1a57ad4a10f20bd9a807832c593c727963"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">done</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim7Sampler4doneEv" title="Link to this definition">#</a><br /></dt>
-<dd><p>Returns whether the generator is exhausted and if not reset, <a class="reference internal" href="#structnavground_1_1sim_1_1_sampler_1a5375736dbcccbc4f8cab59376b5aaaa3"><span class="std std-ref">sample</span></a> will raise an error. </p>
+<dd><p>Returns whether the generator is exhausted. In this case, <a class="reference internal" href="#structnavground_1_1sim_1_1_sampler_1a5375736dbcccbc4f8cab59376b5aaaa3"><span class="std std-ref">sample</span></a> will raise an error. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True if the generator is exhausted. </p>
@@ -725,10 +758,20 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim7Sampler5resetENSt8optionalIjEE">
-<span class="target" id="structnavground_1_1sim_1_1_sampler_1a8467b723c776a31f0460925f78658c2b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nullopt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim7Sampler5resetENSt8optionalIjEE" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim7Sampler5resetENSt8optionalIjEEb">
+<span class="target" id="structnavground_1_1sim_1_1_sampler_1a9f6e85c2c379a06ef2888c35d18f6e29"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nullopt</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">keep</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim7Sampler5resetENSt8optionalIjEEb" title="Link to this definition">#</a><br /></dt>
 <dd><p>Resets the generator. </p>
-<p>It also resets the samples count to 0. </p>
+<p>The index is used by deterministic samplers: they will generates the same sequence if reset to the same index, without using the (pseudo) random-number generator in <a class="reference internal" href="#structnavground_1_1sim_1_1_sampler_1a5375736dbcccbc4f8cab59376b5aaaa3"><span class="std std-ref">sample</span></a>.</p>
+<p>Argument <code class="docutils literal notranslate"><span class="pre">keep</span></code> and configuration <a class="reference internal" href="#structnavground_1_1sim_1_1_sampler_1a8eb062637887701f3176ad0fa613b397"><span class="std std-ref">once</span></a> impact how generators reset their index and counter: if neither <code class="docutils literal notranslate"><span class="pre">keep</span></code> nor <a class="reference internal" href="#structnavground_1_1sim_1_1_sampler_1a8eb062637887701f3176ad0fa613b397"><span class="std std-ref">once</span></a> are set, the sampler sets both index and counter to 0; else the index is set to the provided value if not null, and the counter is left unchanged.</p>
+<p>Argument <code class="docutils literal notranslate"><span class="pre">keep</span></code> also impacts the behavior of samplers configured with <a class="reference internal" href="#structnavground_1_1sim_1_1_sampler_1a8eb062637887701f3176ad0fa613b397"><span class="std std-ref">once</span></a> set: if <code class="docutils literal notranslate"><span class="pre">keep</span></code> is set, the sampler will keep returning the same value as before resetting; else, it will return a new value (associate to the new index, if deterministic).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – <strong>[in]</strong> The next sample index (for deterministic samplers). </p></li>
+<li><p><strong>keep</strong> – <strong>[in]</strong> Whether to avoid resetting index to 0 when <a class="reference internal" href="#structnavground_1_1sim_1_1_sampler_1a8eb062637887701f3176ad0fa613b397"><span class="std std-ref">once</span></a> is not set. </p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -832,7 +875,7 @@ document.write(`
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4I0EN9navground3sim13ChoiceSamplerE">
 <span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structnavground_1_1sim_1_1_choice_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ChoiceSampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim13ChoiceSamplerE" title="navground::sim::ChoiceSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN9navground3sim13ChoiceSamplerE" title="Link to this definition">#</a><br /></dt>
-<dd><p>An inexhaustible generator that randomly pick sequences from a collection of values. </p>
+<dd><p>An inexhaustible generator that randomly draw from a collection of values with replacement. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>T</strong> – The sampled type </p>
@@ -841,13 +884,17 @@ document.write(`
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13ChoiceSampler13ChoiceSamplerERKNSt6vectorI1TEEb">
-<span class="target" id="structnavground_1_1sim_1_1_choice_sampler_1afeb1820fa6942709ff8e07c120463519"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ChoiceSampler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim13ChoiceSamplerE" title="navground::sim::ChoiceSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">once</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13ChoiceSampler13ChoiceSamplerERKNSt6vectorI1TEEb" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13ChoiceSampler13ChoiceSamplerERKNSt6vectorI1TEERKNSt6vectorIdEEb">
+<span class="target" id="structnavground_1_1sim_1_1_choice_sampler_1a24674749d1c00491ce5461e8fd73d63d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ChoiceSampler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim13ChoiceSamplerE" title="navground::sim::ChoiceSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">probabilities</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">once</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13ChoiceSampler13ChoiceSamplerERKNSt6vectorI1TEERKNSt6vectorIdEEb" title="Link to this definition">#</a><br /></dt>
 <dd><p>Construct an instance. </p>
+<p>
+For example, if there are 4 values and 2 weights <code class="docutils literal notranslate"><span class="pre">{0.2,</span> <span class="pre">0.6}</span></code>, the weights will be completed as <code class="docutils literal notranslate"><span class="pre">{0.2,</span> <span class="pre">0.6,</span> <span class="pre">0.1,</span> <span class="pre">0.1}</span></code>.</p>
+<p>Passing an empty vector (the default) creates a discrete uniform distribution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>values</strong> – <strong>[in]</strong> The values to be sampled randomly sequence </p></li>
+<li><p><strong>values</strong> – <strong>[in]</strong> The values. Should have at least length 1. </p></li>
+<li><p><strong>probabilities</strong> – <strong>[in]</strong> The probability weight for each value. Can but must not be normalized. Exceeding weights (with respect to the number of values) are ignored. Missing weights are assigned a uniform value, so that the total sum is 1.</p></li>
 <li><p><strong>once</strong> – <strong>[in]</strong> Whether to repeat the first sample (until reset) </p></li>
 </ul>
 </dd>
@@ -858,8 +905,115 @@ document.write(`
 </dd></dl>
 
 </section>
-<section id="numbers-and-vectors">
-<h3>Numbers and Vectors<a class="headerlink" href="#numbers-and-vectors" title="Link to this heading">#</a></h3>
+<section id="numbers">
+<h3>Numbers<a class="headerlink" href="#numbers" title="Link to this heading">#</a></h3>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN9navground3sim14UniformSamplerE">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structnavground_1_1sim_1_1_uniform_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">UniformSampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim14UniformSamplerE" title="navground::sim::UniformSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN9navground3sim14UniformSamplerE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sample randomly from a uniform distribution. </p>
+<p>Only defined if T is a number or a Vector2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>T</strong> – The sampled type </p>
+</dd>
+<dt class="field-even">Param once<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>[in]</strong> Whether to repeat the first sample (until reset) </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN9navground3sim13NormalSamplerE">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structnavground_1_1sim_1_1_normal_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NormalSampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim13NormalSamplerE" title="navground::sim::NormalSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN9navground3sim13NormalSamplerE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sample randomly from a normal distribution. </p>
+<p>Values are optionally clamped when min and/or max are provided.</p>
+<p>Only defined if T is a number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>T</strong> – The sampled type </p>
+</dd>
+</dl>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13NormalSampler13NormalSamplerE10ng_float_t10ng_float_tNSt8optionalI1TEENSt8optionalI1TEEbb">
+<span class="target" id="structnavground_1_1sim_1_1_normal_sampler_1a5d1961821c77ff617f2ecac68e113325"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NormalSampler</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">mean</span></span>, <a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">std_dev</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim13NormalSamplerE" title="navground::sim::NormalSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nullopt</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim13NormalSamplerE" title="navground::sim::NormalSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nullopt</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">once</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">clamp</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13NormalSampler13NormalSamplerE10ng_float_t10ng_float_tNSt8optionalI1TEENSt8optionalI1TEEbb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct an instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mean</strong> – <strong>[in]</strong> The mean </p></li>
+<li><p><strong>std_dev</strong> – <strong>[in]</strong> The standard deviation </p></li>
+<li><p><strong>min</strong> – <strong>[in]</strong> The minimum value </p></li>
+<li><p><strong>max</strong> – <strong>[in]</strong> The maximum value </p></li>
+<li><p><strong>once</strong> – <strong>[in]</strong> Whether to repeat the first sample (until reset) </p></li>
+<li><p><strong>clamp</strong> – <strong>[in]</strong> Whether to clamp the values in <code class="docutils literal notranslate"><span class="pre">[min,</span> <span class="pre">max]</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="d-vectors">
+<h3>2D Vectors<a class="headerlink" href="#d-vectors" title="Link to this heading">#</a></h3>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim11GridSamplerE">
+<span class="target" id="structnavground_1_1sim_1_1_grid_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GridSampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim11GridSamplerE" title="Link to this definition">#</a><br /></dt>
+<dd><p>RegularSamplerly sample from a grid of points. </p>
+<p>If wrap is not set to <a class="reference internal" href="#namespacenavground_1_1sim_1a0673738a16b561ebbb7b34ae85736679a1459e53d3fbaa95cebaf90860dd7a259"><span class="std std-ref">Wrap::terminate</span></a>, the generator is inexhaustible, else it will be exhausted after looping once through all values once. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim11GridSampler11GridSamplerERK7Vector2RK7Vector2NSt5arrayIjXL2EEEE4Wrapb">
+<span class="target" id="structnavground_1_1sim_1_1_grid_sampler_1a53abd2ac2bd8599df172a7c454615128"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GridSampler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">from</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">to</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numbers</span></span>, <a class="reference internal" href="#_CPPv4N9navground3sim4WrapE" title="navground::sim::Wrap"><span class="n"><span class="pre">Wrap</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">wrap</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim4WrapE" title="navground::sim::Wrap"><span class="n"><span class="pre">Wrap</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground3sim4Wrap4loopE" title="navground::sim::Wrap::loop"><span class="n"><span class="pre">loop</span></span></a>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">once</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim11GridSampler11GridSamplerERK7Vector2RK7Vector2NSt5arrayIjXL2EEEE4Wrapb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct an instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>from</strong> – <strong>[in]</strong> One corner of the covered area </p></li>
+<li><p><strong>to</strong> – <strong>[in]</strong> The opposite corner of the covered area </p></li>
+<li><p><strong>numbers</strong> – <strong>[in]</strong> The size of the grid, i.e., the number of points along the x- and y-axis. </p></li>
+<li><p><strong>wrap</strong> – <strong>[in]</strong> How it should wrap at end of the covered area </p></li>
+<li><p><strong>once</strong> – <strong>[in]</strong> Whether to repeat the first sample (until reset) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim15NormalSampler2DE">
+<span class="target" id="structnavground_1_1sim_1_1_normal_sampler2_d"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NormalSampler2D</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim15NormalSampler2DE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sample <a class="reference internal" href="../../core/cpp/common.html#namespacenavground_1_1core_1a82a44dd38acd1d570ee8e3fbae07d39a"><span class="std std-ref">navground::core::Vector2</span></a> from a multivariate normal distribution. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim15NormalSampler2D15NormalSampler2DERK7Vector2NSt5arrayI10ng_float_tXL2EEEE10ng_float_tb">
+<span class="target" id="structnavground_1_1sim_1_1_normal_sampler2_d_1ad4e54986bb911dbb21b409dbcf1b43b6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NormalSampler2D</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mean</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">std_dev</span></span>, <a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">angle</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">once</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim15NormalSampler2D15NormalSampler2DERK7Vector2NSt5arrayI10ng_float_tXL2EEEE10ng_float_tb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct an instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mean</strong> – <strong>[in]</strong> The mean </p></li>
+<li><p><strong>std_dev</strong> – <strong>[in]</strong> The standard deviation eigenvalues. </p></li>
+<li><p><strong>angle</strong> – <strong>[in]</strong> The rotation of the eigenvectors </p></li>
+<li><p><strong>once</strong> – <strong>[in]</strong> Whether to repeat the first sample (until reset) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="numbers-and-2d-vectors">
+<h3>Numbers and 2D vectors<a class="headerlink" href="#numbers-and-2d-vectors" title="Link to this heading">#</a></h3>
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4I0EN9navground3sim14RegularSamplerE">
 <span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structnavground_1_1sim_1_1_regular_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RegularSampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim14RegularSamplerE" title="navground::sim::RegularSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN9navground3sim14RegularSamplerE" title="Link to this definition">#</a><br /></dt>
@@ -916,26 +1070,27 @@ document.write(`
 </dd></dl>
 
 </section>
-<section id="vectors">
-<h3>Vectors<a class="headerlink" href="#vectors" title="Link to this heading">#</a></h3>
+<section id="numbers-and-booleans">
+<h3>Numbers and booleans<a class="headerlink" href="#numbers-and-booleans" title="Link to this heading">#</a></h3>
 <dl class="cpp struct">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim11GridSamplerE">
-<span class="target" id="structnavground_1_1sim_1_1_grid_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GridSampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim11GridSamplerE" title="Link to this definition">#</a><br /></dt>
-<dd><p>RegularSamplerly sample from a grid of points. </p>
-<p>If wrap is not set to <a class="reference internal" href="#namespacenavground_1_1sim_1a0673738a16b561ebbb7b34ae85736679a1459e53d3fbaa95cebaf90860dd7a259"><span class="std std-ref">Wrap::terminate</span></a>, the generator is inexhaustible, else it will be exhausted after looping once through all values once. </p>
+<dt class="sig sig-object cpp" id="_CPPv4I0EN9navground3sim13BinarySamplerE">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structnavground_1_1sim_1_1_binary_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BinarySampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim13BinarySamplerE" title="navground::sim::BinarySampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN9navground3sim13BinarySamplerE" title="Link to this definition">#</a><br /></dt>
+<dd><p>An inexhaustible generator of iid binary values sampled from a Bernoulli distribution. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>T</strong> – The sampled type </p>
+</dd>
+</dl>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim11GridSampler11GridSamplerERK7Vector2RK7Vector2NSt5arrayIjXL2EEEE4Wrapb">
-<span class="target" id="structnavground_1_1sim_1_1_grid_sampler_1a53abd2ac2bd8599df172a7c454615128"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GridSampler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">from</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">to</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">numbers</span></span>, <a class="reference internal" href="#_CPPv4N9navground3sim4WrapE" title="navground::sim::Wrap"><span class="n"><span class="pre">Wrap</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">wrap</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim4WrapE" title="navground::sim::Wrap"><span class="n"><span class="pre">Wrap</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground3sim4Wrap4loopE" title="navground::sim::Wrap::loop"><span class="n"><span class="pre">loop</span></span></a>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">once</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim11GridSampler11GridSamplerERK7Vector2RK7Vector2NSt5arrayIjXL2EEEE4Wrapb" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13BinarySampler13BinarySamplerERKdb">
+<span class="target" id="structnavground_1_1sim_1_1_binary_sampler_1ab6c2259c086afad7be7a6dc055316e43"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BinarySampler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">probability</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.5</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">once</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13BinarySampler13BinarySamplerERKdb" title="Link to this definition">#</a><br /></dt>
 <dd><p>Construct an instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>from</strong> – <strong>[in]</strong> One corner of the covered area </p></li>
-<li><p><strong>to</strong> – <strong>[in]</strong> The opposite corner of the covered area </p></li>
-<li><p><strong>numbers</strong> – <strong>[in]</strong> The size of the grid, i.e., the number of points along the x- and y-axis. </p></li>
-<li><p><strong>wrap</strong> – <strong>[in]</strong> How it should wrap at end of the covered area </p></li>
+<li><p><strong>probability</strong> – <strong>[in]</strong> The probability of the positive value in [0, 1]</p></li>
 <li><p><strong>once</strong> – <strong>[in]</strong> Whether to repeat the first sample (until reset) </p></li>
 </ul>
 </dd>
@@ -946,49 +1101,61 @@ document.write(`
 </dd></dl>
 
 </section>
-<section id="numbers">
-<h3>Numbers<a class="headerlink" href="#numbers" title="Link to this heading">#</a></h3>
+<section id="lists-of-scalars">
+<h3>Lists of scalars<a class="headerlink" href="#lists-of-scalars" title="Link to this heading">#</a></h3>
 <dl class="cpp struct">
-<dt class="sig sig-object cpp" id="_CPPv4I0EN9navground3sim14UniformSamplerE">
-<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structnavground_1_1sim_1_1_uniform_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">UniformSampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim14UniformSamplerE" title="navground::sim::UniformSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN9navground3sim14UniformSamplerE" title="Link to this definition">#</a><br /></dt>
-<dd><p>Sample randomly from a uniform distribution. </p>
-<p>Only defined if T is a number or a <a class="reference internal" href="../../core/cpp/common.html#namespacenavground_1_1core_1a82a44dd38acd1d570ee8e3fbae07d39a"><span class="std std-ref">core::Vector2</span></a>.</p>
+<dt class="sig sig-object cpp" id="_CPPv4I0EN9navground3sim18UniformSizeSamplerE">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structnavground_1_1sim_1_1_uniform_size_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">UniformSizeSampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim18UniformSizeSamplerE" title="navground::sim::UniformSizeSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN9navground3sim18UniformSizeSamplerE" title="Link to this definition">#</a><br /></dt>
+<dd><p>An generator of lists of scalars sampled iid from sampler. </p>
+<p>The size of the lists (std::vector) is sampled uniformly.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>T</strong> – The sampled type </p>
-</dd>
-<dt class="field-even">Param once<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>[in]</strong> Whether to repeat the first sample (until reset) </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp struct">
-<dt class="sig sig-object cpp" id="_CPPv4I0EN9navground3sim13NormalSamplerE">
-<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structnavground_1_1sim_1_1_normal_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NormalSampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim13NormalSamplerE" title="navground::sim::NormalSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN9navground3sim13NormalSamplerE" title="Link to this definition">#</a><br /></dt>
-<dd><p>Sample randomly from a uniform distribution. </p>
-<p>Values are optionally clamped when min and/or max are provided.</p>
-<p>Only defined if T is a number.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>T</strong> – The sampled type </p>
+<dd class="field-odd"><p><strong>T</strong> – The scalar type </p>
 </dd>
 </dl>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim13NormalSampler13NormalSamplerE10ng_float_t10ng_float_tNSt8optionalI1TEENSt8optionalI1TEEbb">
-<span class="target" id="structnavground_1_1sim_1_1_normal_sampler_1a5d1961821c77ff617f2ecac68e113325"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NormalSampler</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">mean</span></span>, <a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">std_dev</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim13NormalSamplerE" title="navground::sim::NormalSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nullopt</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim13NormalSamplerE" title="navground::sim::NormalSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nullopt</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">once</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">clamp</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim13NormalSampler13NormalSamplerE10ng_float_t10ng_float_tNSt8optionalI1TEENSt8optionalI1TEEbb" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim18UniformSizeSampler18UniformSizeSamplerERRNSt10unique_ptrI7SamplerI1TEEE6size_t6size_tb">
+<span class="target" id="structnavground_1_1sim_1_1_uniform_size_sampler_1a1aa59e6d661da81515eaf7d51237d10c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">UniformSizeSampler</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim18UniformSizeSamplerE" title="navground::sim::UniformSizeSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sampler</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_size</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_size</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">once</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim18UniformSizeSampler18UniformSizeSamplerERRNSt10unique_ptrI7SamplerI1TEEE6size_t6size_tb" title="Link to this definition">#</a><br /></dt>
 <dd><p>Construct an instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mean</strong> – <strong>[in]</strong> The mean </p></li>
-<li><p><strong>std_dev</strong> – <strong>[in]</strong> The standard deviation </p></li>
-<li><p><strong>min</strong> – <strong>[in]</strong> The minimum value </p></li>
-<li><p><strong>max</strong> – <strong>[in]</strong> The maximum value </p></li>
+<li><p><strong>sampler</strong> – <strong>[in]</strong> The scalar sampler</p></li>
+<li><p><strong>min_size</strong> – <strong>[in]</strong> The minimal vector size</p></li>
+<li><p><strong>max_size</strong> – <strong>[in]</strong> The maximal vector size</p></li>
 <li><p><strong>once</strong> – <strong>[in]</strong> Whether to repeat the first sample (until reset) </p></li>
-<li><p><strong>clamp</strong> – <strong>[in]</strong> Whether to clamp the values in <code class="docutils literal notranslate"><span class="pre">[min,</span> <span class="pre">max]</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN9navground3sim18PermutationSamplerE">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structnavground_1_1sim_1_1_permutation_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PermutationSampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim18PermutationSamplerE" title="navground::sim::PermutationSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN9navground3sim18PermutationSamplerE" title="Link to this definition">#</a><br /></dt>
+<dd><p>An generator that permutates a lists, either randomly or in sequence. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>T</strong> – The scalar type </p>
+</dd>
+</dl>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim18PermutationSampler18PermutationSamplerERKNSt6vectorI1TEEbbb">
+<span class="target" id="structnavground_1_1sim_1_1_permutation_sampler_1af238215a82bd70f3eb35a15e6f8021e8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PermutationSampler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim18PermutationSamplerE" title="navground::sim::PermutationSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">random</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">forward</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">once</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim18PermutationSampler18PermutationSamplerERKNSt6vectorI1TEEbbb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct an instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – <strong>[in]</strong> The values</p></li>
+<li><p><strong>random</strong> – <strong>[in]</strong> Whether to perform random permutations</p></li>
+<li><p><strong>forward</strong> – <strong>[in]</strong> The permutation direction (only relevant if not random)</p></li>
+<li><p><strong>once</strong> – <strong>[in]</strong> Whether to repeat the first sample (until reset) </p></li>
 </ul>
 </dd>
 </dl>
@@ -1003,7 +1170,16 @@ document.write(`
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim15PropertySamplerE">
 <span class="target" id="structnavground_1_1sim_1_1_property_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PropertySampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../core/cpp/property.html#_CPPv4N9navground4core8PropertyE" title="navground::core::Property"><span class="n"><span class="pre">Property</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../core/cpp/property.html#_CPPv4N9navground4core8Property5FieldE" title="navground::core::Property::Field"><span class="n"><span class="pre">Field</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim15PropertySamplerE" title="Link to this definition">#</a><br /></dt>
-<dd><p>This class wraps generic Sampler&lt;T&gt; to generate values of type <a class="reference internal" href="../../core/cpp/property.html#structnavground_1_1core_1_1_property_1a68b7f4aa424a0d05d56a16db1b5bd49a"><span class="std std-ref">navground::core::Property::Field</span></a>. </p>
+<dd><p>This class wraps a typed <a class="reference internal" href="#structnavground_1_1sim_1_1_sampler"><span class="std std-ref">Sampler</span></a> to generate values of type <a class="reference internal" href="../../core/cpp/property.html#structnavground_1_1core_1_1_property_1a68b7f4aa424a0d05d56a16db1b5bd49a"><span class="std std-ref">navground::core::Property::Field</span></a>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim15PropertySampler5FieldE">
+<span class="target" id="structnavground_1_1sim_1_1_property_sampler_1a68b7f4aa424a0d05d56a16db1b5bd49a"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Field</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">variant</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim15PropertySampler5FieldE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The type of the value held by the property. </p>
+</dd></dl>
+
+</div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -1047,6 +1223,17 @@ document.write(`
 <li><p><strong>S</strong> – Needs to be one a subclass of Sampler&lt;T&gt;, with T as one of the types of <a class="reference internal" href="../../core/cpp/property.html#structnavground_1_1core_1_1_property_1a68b7f4aa424a0d05d56a16db1b5bd49a"><span class="std std-ref">navground::core::Property::Field</span></a></p></li>
 <li><p><strong>Targs</strong> – The type of the arguments of the constructor of <code class="docutils literal notranslate"><span class="pre">S</span></code></p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim15PropertySampler5validEv">
+<span class="target" id="structnavground_1_1sim_1_1_property_sampler_1abbd2ee12e8b356508fe0a9cbf2483496"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">valid</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim15PropertySampler5validEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Check if the sampler is valid. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if valid </p>
 </dd>
 </dl>
 </dd></dl>
@@ -1184,7 +1371,7 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/be
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim15BehaviorSampler11modulationsE">
-<span class="target" id="structnavground_1_1sim_1_1_behavior_sampler_1aede1d9cf447ff34072e5dc89fc1575a8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">BehaviorModulationSampler</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I00EN9navground3sim15BehaviorSamplerE" title="navground::sim::BehaviorSampler::M"><span class="n"><span class="pre">M</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">modulations</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim15BehaviorSampler11modulationsE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_behavior_sampler_1aede1d9cf447ff34072e5dc89fc1575a8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim25BehaviorModulationSamplerE" title="navground::sim::BehaviorModulationSampler"><span class="n"><span class="pre">BehaviorModulationSampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I00EN9navground3sim15BehaviorSamplerE" title="navground::sim::BehaviorSampler::M"><span class="n"><span class="pre">M</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">modulations</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim15BehaviorSampler11modulationsE" title="Link to this definition">#</a><br /></dt>
 <dd></dd></dl>
 
 </div>
@@ -1233,6 +1420,39 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim17KinematicsSampler17max_angular_speedE">
 <span class="target" id="structnavground_1_1sim_1_1_kinematics_sampler_1af337edb406d0ff022029008bc25395eb"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max_angular_speed</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim17KinematicsSampler17max_angular_speedE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN9navground3sim25BehaviorModulationSamplerE">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../core/cpp/behavior_modulations/behavior_modulation.html#_CPPv4N9navground4core18BehaviorModulationE" title="navground::core::BehaviorModulation"><span class="n"><span class="pre">BehaviorModulation</span></span></a><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structnavground_1_1sim_1_1_behavior_modulation_sampler"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BehaviorModulationSampler</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim19SamplerFromRegisterE" title="navground::sim::SamplerFromRegister"><span class="n"><span class="pre">SamplerFromRegister</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../core/cpp/behavior_modulations/behavior_modulation.html#_CPPv4N9navground4core18BehaviorModulationE" title="navground::core::BehaviorModulation"><span class="n"><span class="pre">BehaviorModulation</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I0EN9navground3sim25BehaviorModulationSamplerE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Samples <a class="reference internal" href="../../core/cpp/behavior_modulations/behavior_modulation.html#classnavground_1_1core_1_1_behavior_modulation"><span class="std std-ref">navground::core::BehaviorModulation</span></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>T</strong> – The type of the root class. Used to generalize from C++ to Python. </p>
+</dd>
+</dl>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim25BehaviorModulationSampler25BehaviorModulationSamplerERKNSt6stringE">
+<span class="target" id="structnavground_1_1sim_1_1_behavior_modulation_sampler_1a7fa36d5aa937bd5e850ec04c935ebc18"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BehaviorModulationSampler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">type</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim25BehaviorModulationSampler25BehaviorModulationSamplerERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Constructs a new instance. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>type</strong> – <strong>[in]</strong> The registered type name </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim25BehaviorModulationSampler7enabledE">
+<span class="target" id="structnavground_1_1sim_1_1_behavior_modulation_sampler_1ad5791892fce947809d99f49ab2be922a"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">enabled</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim25BehaviorModulationSampler7enabledE" title="Link to this definition">#</a><br /></dt>
 <dd></dd></dl>
 
 </div>
@@ -1475,7 +1695,7 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7Sampler6sampleER15RandomGenerator"><code class="docutils literal notranslate"><span class="pre">sample()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim7Sampler5countEv"><code class="docutils literal notranslate"><span class="pre">count()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim7Sampler4doneEv"><code class="docutils literal notranslate"><span class="pre">done()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7Sampler5resetENSt8optionalIjEE"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7Sampler5resetENSt8optionalIjEEb"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7Sampler4onceE"><code class="docutils literal notranslate"><span class="pre">once</span></code></a></li>
 </ul>
 </li>
@@ -1497,22 +1717,7 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim13ChoiceSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::ChoiceSampler</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13ChoiceSampler13ChoiceSamplerERKNSt6vectorI1TEEb"><code class="docutils literal notranslate"><span class="pre">ChoiceSampler()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numbers-and-vectors">Numbers and Vectors</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14RegularSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::RegularSampler</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler18make_with_intervalERK1TRK1Tj4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_interval()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler14make_with_stepERK1TRK1TNSt8optionalIjEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_step()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vectors">Vectors</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::GridSampler</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSampler11GridSamplerERK7Vector2RK7Vector2NSt5arrayIjXL2EEEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">GridSampler()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13ChoiceSampler13ChoiceSamplerERKNSt6vectorI1TEERKNSt6vectorIdEEb"><code class="docutils literal notranslate"><span class="pre">ChoiceSampler()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1525,11 +1730,50 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 </li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-vectors">2D Vectors</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::GridSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11GridSampler11GridSamplerERK7Vector2RK7Vector2NSt5arrayIjXL2EEEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">GridSampler()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15NormalSampler2DE"><code class="docutils literal notranslate"><span class="pre">navground::sim::NormalSampler2D</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15NormalSampler2D15NormalSampler2DERK7Vector2NSt5arrayI10ng_float_tXL2EEEE10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">NormalSampler2D()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numbers-and-2d-vectors">Numbers and 2D vectors</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14RegularSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::RegularSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler18make_with_intervalERK1TRK1Tj4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_interval()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler14make_with_stepERK1TRK1TNSt8optionalIjEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numbers-and-booleans">Numbers and booleans</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim13BinarySamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::BinarySampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13BinarySampler13BinarySamplerERKdb"><code class="docutils literal notranslate"><span class="pre">BinarySampler()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lists-of-scalars">Lists of scalars</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim18UniformSizeSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::UniformSizeSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim18UniformSizeSampler18UniformSizeSamplerERRNSt10unique_ptrI7SamplerI1TEEE6size_t6size_tb"><code class="docutils literal notranslate"><span class="pre">UniformSizeSampler()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim18PermutationSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::PermutationSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim18PermutationSampler18PermutationSamplerERKNSt6vectorI1TEEbbb"><code class="docutils literal notranslate"><span class="pre">PermutationSampler()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#properties">Properties</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15PropertySamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::PropertySampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim15PropertySampler5FieldE"><code class="docutils literal notranslate"><span class="pre">Field</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground3sim15PropertySampler15PropertySamplerENSt10unique_ptrI7SamplerI1TEEE"><code class="docutils literal notranslate"><span class="pre">PropertySampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I00EN9navground3sim15PropertySampler15PropertySamplerERR1S"><code class="docutils literal notranslate"><span class="pre">PropertySampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0Dp0EN9navground3sim15PropertySampler15PropertySamplerEDp5Targs"><code class="docutils literal notranslate"><span class="pre">PropertySampler()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim15PropertySampler5validEv"><code class="docutils literal notranslate"><span class="pre">valid()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1566,6 +1810,11 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler17KinematicsSamplerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">KinematicsSampler()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler9max_speedE"><code class="docutils literal notranslate"><span class="pre">max_speed</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim17KinematicsSampler17max_angular_speedE"><code class="docutils literal notranslate"><span class="pre">max_angular_speed</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim25BehaviorModulationSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::BehaviorModulationSampler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim25BehaviorModulationSampler25BehaviorModulationSamplerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">BehaviorModulationSampler()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim25BehaviorModulationSampler7enabledE"><code class="docutils literal notranslate"><span class="pre">enabled</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim11TaskSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::TaskSampler</span></code></a><ul class="nav section-nav flex-column">

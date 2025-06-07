@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Waypoints &#8212; navground 0.6.0.dev documentation</title>
+    <title>Waypoints &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/python/tasks/waypoints';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4 current active"><a class="reference internal" href="index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../yaml.html">YAML</a></li>
@@ -515,6 +518,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance"><code class="docutils literal notranslate"><span class="pre">get_effective_angular_tolerance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.get_effective_tolerance"><code class="docutils literal notranslate"><span class="pre">get_effective_tolerance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.get_effective_wait_time"><code class="docutils literal notranslate"><span class="pre">get_effective_wait_time()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.angular_tolerance"><code class="docutils literal notranslate"><span class="pre">angular_tolerance</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.angular_tolerances"><code class="docutils literal notranslate"><span class="pre">angular_tolerances</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.log_size"><code class="docutils literal notranslate"><span class="pre">log_size</span></code></a></li>
@@ -523,6 +527,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.random"><code class="docutils literal notranslate"><span class="pre">random</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.tolerance"><code class="docutils literal notranslate"><span class="pre">tolerance</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.tolerances"><code class="docutils literal notranslate"><span class="pre">tolerances</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.wait_time"><code class="docutils literal notranslate"><span class="pre">wait_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.wait_times"><code class="docutils literal notranslate"><span class="pre">wait_times</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.waypoints"><code class="docutils literal notranslate"><span class="pre">waypoints</span></code></a></li>
 </ul>
 </li>
@@ -546,7 +552,7 @@ document.write(`
 waypoints, calling <code class="xref py py-attr docutils literal notranslate"><span class="pre">Controller.go_to_pose</span></code> or
 <a class="reference internal" href="../../../core/python/controller.html#navground.core.Controller.go_to_position" title="navground.core.Controller.go_to_position"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Controller.go_to_position</span></code></a> for the next waypoint
 after the current has been reached within a tolerance, depending if a
-goal orientation has been specified using ref set_orientation or
+goal orientation has been specified using <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.orientations" title="navground.sim.tasks.WaypointsTask.orientations"><code class="xref py py-attr docutils literal notranslate"><span class="pre">orientations</span></code></a> or
 not.</p>
 <p>The task notifies when a new waypoint is set by calling a callback.</p>
 <p><em>Registered properties</em>:</p>
@@ -559,10 +565,12 @@ not.</p>
 <li><p><cite>angular_tolerance</cite> (float, <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.angular_tolerance" title="navground.sim.tasks.WaypointsTask.angular_tolerance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_tolerance</span></code></a>)</p></li>
 <li><p><cite>angular_tolerances</cite> (list of float, <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.angular_tolerances" title="navground.sim.tasks.WaypointsTask.angular_tolerances"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_tolerances</span></code></a>)</p></li>
 <li><p><cite>orientations</cite> (list of float, <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.orientations" title="navground.sim.tasks.WaypointsTask.orientations"><code class="xref py py-attr docutils literal notranslate"><span class="pre">orientations</span></code></a>)</p></li>
+<li><p><cite>wait_time</cite> (float, <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.wait_time" title="navground.sim.tasks.WaypointsTask.wait_time"><code class="xref py py-attr docutils literal notranslate"><span class="pre">wait_time</span></code></a>)</p></li>
+<li><p><cite>wait_times</cite> (list of float, <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.wait_times" title="navground.sim.tasks.WaypointsTask.wait_times"><code class="xref py py-attr docutils literal notranslate"><span class="pre">wait_times</span></code></a>)</p></li>
 </ul>
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waypoints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../../core/python/common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angular_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angular_tolerances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waypoints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../../core/python/common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angular_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angular_tolerances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_times</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Constructs a new instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -572,10 +580,12 @@ not.</p>
 waypoint</p></li>
 <li><p><strong>tolerance</strong> – The default goal tolerance applied to each waypoint.</p></li>
 <li><p><strong>random</strong> – Whether to pick the next waypoint randomly</p></li>
-<li><p><strong>tolerances</strong> – The goal tolerance applied to individual waypoints.</p></li>
+<li><p><strong>tolerances</strong> – The goal tolerance applied to specific waypoints.</p></li>
 <li><p><strong>orientations</strong> – The goal orientation at the waypoints.</p></li>
 <li><p><strong>angular_tolerance</strong> – The default goal angular tolerance applied to each waypoint.</p></li>
-<li><p><strong>angular_tolerance</strong> – The goal angular tolerance applied to individual waypoints.</p></li>
+<li><p><strong>angular_tolerances</strong> – The goal angular tolerances applied to specific waypoints.</p></li>
+<li><p><strong>wait_time</strong> – The time to wait at each waypoint.</p></li>
+<li><p><strong>wait_times</strong> – The time to wait at specific waypoint.</p></li>
 </ul>
 </dd>
 </dl>
@@ -622,6 +632,23 @@ effective tolerances will be <code class="docutils literal notranslate"><span cl
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.get_effective_wait_time">
+<span class="sig-name descname"><span class="pre">get_effective_wait_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.get_effective_wait_time" title="Link to this definition">#</a></dt>
+<dd><p>Gets the effective wait time before moving towards the waypoint at
+given index.</p>
+<p>If a specific positive value is present at the same index in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.wait_times" title="navground.sim.tasks.WaypointsTask.wait_times"><code class="xref py py-attr docutils literal notranslate"><span class="pre">wait_times</span></code></a>, it returns it. Else it returns the default value from
+<a class="reference internal" href="#navground.sim.tasks.WaypointsTask.wait_time" title="navground.sim.tasks.WaypointsTask.wait_time"><code class="xref py py-attr docutils literal notranslate"><span class="pre">wait_time</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> – The index</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The time in seconds.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.angular_tolerance">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">angular_tolerance</span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.angular_tolerance" title="Link to this definition">#</a></dt>
@@ -632,7 +659,7 @@ effective tolerances will be <code class="docutils literal notranslate"><span cl
 </dl>
 <p>The default goal angular tolerance</p>
 <p>this value is used in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance" title="navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_effective_angular_tolerance()</span></code></a> to compute
-the effective angular tolerance applied to a selected waypoint, where
+the effective angular tolerance applied to a selected waypoint:
 specific (positive) angular tolerances returned by <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.angular_tolerances" title="navground.sim.tasks.WaypointsTask.angular_tolerances"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_tolerances</span></code></a> will overwrites this default value.</p>
 </dd></dl>
 
@@ -645,10 +672,10 @@ specific (positive) angular tolerances returned by <a class="reference internal"
 </dd>
 </dl>
 <p>The specific goal angular tolerances.</p>
-<p>this values are used in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance" title="navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_effective_angular_tolerance()</span></code></a> to
+<p>these values are used in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance" title="navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_effective_angular_tolerance()</span></code></a> to
 compute the effective tolerance applied to a selected waypoint:
-negative values are ignored and replaced by the default value <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.angular_tolerance" title="navground.sim.tasks.WaypointsTask.angular_tolerance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_tolerance</span></code></a>. extra items (not paired to get_waypoints) are
-also ignored.</p>
+negative values are ignored and replaced by the default value <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.angular_tolerance" title="navground.sim.tasks.WaypointsTask.angular_tolerance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_tolerance</span></code></a>. extra items (not paired to <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.waypoints" title="navground.sim.tasks.WaypointsTask.waypoints"><code class="xref py py-attr docutils literal notranslate"><span class="pre">waypoints</span></code></a>)
+are also ignored.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -660,8 +687,16 @@ also ignored.</p>
 </dd>
 </dl>
 <p>The size of the data passed to callbacks when events occur, see <a class="reference internal" href="task.html#navground.sim.TaskCallback" title="navground.sim.TaskCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskCallback</span></code></a> and <a class="reference internal" href="task.html#navground.sim.Task.add_callback" title="navground.sim.Task.add_callback"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Task.add_callback()</span></code></a>.</p>
-<p>The data is composed of 4 numbers: <code class="docutils literal notranslate"><span class="pre">[time,</span> <span class="pre">target_x,</span> <span class="pre">target_y,</span>
-<span class="pre">target_theta]</span></code></p>
+<p>The data is composed of 7 numbers <code class="docutils literal notranslate"><span class="pre">[time,</span> <span class="pre">action_id,</span> <span class="pre">data_1,</span> <span class="pre">...,</span>
+<span class="pre">data_5]</span></code>:</p>
+<ul class="simple">
+<li><p>idle: <code class="docutils literal notranslate"><span class="pre">[time,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code></p></li>
+<li><p>start waiting for t seconds: <code class="docutils literal notranslate"><span class="pre">[time,</span> <span class="pre">1,</span> <span class="pre">t,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code></p></li>
+<li><p>start moving towards pose (x, y, theta): <code class="docutils literal notranslate"><span class="pre">[time,</span> <span class="pre">2,</span> <span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">theta,</span>
+<span class="pre">tolerance,</span> <span class="pre">angular</span> <span class="pre">tolerance]</span></code></p></li>
+<li><p>start moving towards point (x, y): <code class="docutils literal notranslate"><span class="pre">[time,</span> <span class="pre">3,</span> <span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">0,</span> <span class="pre">tolerance,</span>
+<span class="pre">0]</span></code></p></li>
+</ul>
 </dd></dl>
 
 <dl class="py property">
@@ -713,7 +748,7 @@ control.</p>
 </dl>
 <p>The default goal spatial tolerance.</p>
 <p>this value is used in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.get_effective_tolerance" title="navground.sim.tasks.WaypointsTask.get_effective_tolerance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_effective_tolerance()</span></code></a> to compute the
-effective tolerance applied to a selected waypoint, where specific
+effective tolerance applied to a selected waypoint: specific
 (positive) tolerances returned by <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.tolerances" title="navground.sim.tasks.WaypointsTask.tolerances"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tolerances</span></code></a> will overwrites
 this default value.</p>
 </dd></dl>
@@ -727,10 +762,40 @@ this default value.</p>
 </dd>
 </dl>
 <p>The specific goal spatial tolerances.</p>
-<p>this values are used in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.get_effective_tolerance" title="navground.sim.tasks.WaypointsTask.get_effective_tolerance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_effective_tolerance()</span></code></a> to compute the
+<p>these values are used in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.get_effective_tolerance" title="navground.sim.tasks.WaypointsTask.get_effective_tolerance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_effective_tolerance()</span></code></a> to compute the
 effective tolerance applied to a selected waypoint: negative values
 are ignored and replaced by the default value <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.tolerance" title="navground.sim.tasks.WaypointsTask.tolerance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tolerance</span></code></a>.
-extra items (not paired to get_waypoints) are also ignored.</p>
+extra items (not paired to <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.waypoints" title="navground.sim.tasks.WaypointsTask.waypoints"><code class="xref py py-attr docutils literal notranslate"><span class="pre">waypoints</span></code></a>) are also ignored.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.wait_time">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait_time</span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.wait_time" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
+</dd>
+</dl>
+<p>The default wait time before moving towards a waypoint.</p>
+<p>this value is used in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.get_effective_wait_time" title="navground.sim.tasks.WaypointsTask.get_effective_wait_time"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_effective_wait_time()</span></code></a> to compute the
+effective wait time applied to a selected waypoint: specific
+(positive) wait times returned by <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.wait_times" title="navground.sim.tasks.WaypointsTask.wait_times"><code class="xref py py-attr docutils literal notranslate"><span class="pre">wait_times</span></code></a> will overwrites
+this default value.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.sim.tasks.WaypointsTask.wait_times">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait_times</span></span><a class="headerlink" href="#navground.sim.tasks.WaypointsTask.wait_times" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a>]</p>
+</dd>
+</dl>
+<p>The wait times before moving towards specific waypoints.</p>
+<p>these values are used in <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance" title="navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_effective_angular_tolerance()</span></code></a> to
+compute the effective tolerance applied to a selected waypoint:
+negative values are ignored and replaced by the default value <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.angular_tolerance" title="navground.sim.tasks.WaypointsTask.angular_tolerance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">angular_tolerance</span></code></a>. extra items (not paired to <a class="reference internal" href="#navground.sim.tasks.WaypointsTask.waypoints" title="navground.sim.tasks.WaypointsTask.waypoints"><code class="xref py py-attr docutils literal notranslate"><span class="pre">waypoints</span></code></a>)
+are also ignored.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -797,6 +862,7 @@ extra items (not paired to get_waypoints) are also ignored.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.get_effective_angular_tolerance"><code class="docutils literal notranslate"><span class="pre">get_effective_angular_tolerance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.get_effective_tolerance"><code class="docutils literal notranslate"><span class="pre">get_effective_tolerance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.get_effective_wait_time"><code class="docutils literal notranslate"><span class="pre">get_effective_wait_time()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.angular_tolerance"><code class="docutils literal notranslate"><span class="pre">angular_tolerance</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.angular_tolerances"><code class="docutils literal notranslate"><span class="pre">angular_tolerances</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.log_size"><code class="docutils literal notranslate"><span class="pre">log_size</span></code></a></li>
@@ -805,6 +871,8 @@ extra items (not paired to get_waypoints) are also ignored.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.random"><code class="docutils literal notranslate"><span class="pre">random</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.tolerance"><code class="docutils literal notranslate"><span class="pre">tolerance</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.tolerances"><code class="docutils literal notranslate"><span class="pre">tolerances</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.wait_time"><code class="docutils literal notranslate"><span class="pre">wait_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.wait_times"><code class="docutils literal notranslate"><span class="pre">wait_times</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.sim.tasks.WaypointsTask.waypoints"><code class="docutils literal notranslate"><span class="pre">waypoints</span></code></a></li>
 </ul>
 </li>

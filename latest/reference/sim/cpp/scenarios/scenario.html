@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Base class &#8212; navground 0.6.0.dev documentation</title>
+    <title>Base class &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/cpp/scenarios/scenario';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/yaml.html">YAML</a></li>
@@ -515,6 +518,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario4TypeE"><code class="docutils literal notranslate"><span class="pre">Type</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario4InitE"><code class="docutils literal notranslate"><span class="pre">Init</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5InitsE"><code class="docutils literal notranslate"><span class="pre">Inits</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario6GroupsE"><code class="docutils literal notranslate"><span class="pre">Groups</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario16PropertySamplersE"><code class="docutils literal notranslate"><span class="pre">PropertySamplers</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario8ScenarioERK5Inits"><code class="docutils literal notranslate"><span class="pre">Scenario()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario10init_worldEP5WorldNSt8optionalIiEE"><code class="docutils literal notranslate"><span class="pre">init_world()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario11apply_initsEP5World"><code class="docutils literal notranslate"><span class="pre">apply_inits()</span></code></a></li>
@@ -524,18 +529,20 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario11remove_initERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">remove_init()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario11clear_initsEv"><code class="docutils literal notranslate"><span class="pre">clear_inits()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Scenario9get_initsEv"><code class="docutils literal notranslate"><span class="pre">get_inits()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Scenario10get_groupsEv"><code class="docutils literal notranslate"><span class="pre">get_groups()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Scenario9get_groupE6size_t"><code class="docutils literal notranslate"><span class="pre">get_group()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario9add_groupERKNSt10shared_ptrI5GroupEE"><code class="docutils literal notranslate"><span class="pre">add_group()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario12remove_groupEv"><code class="docutils literal notranslate"><span class="pre">remove_group()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario12remove_groupERKNSt10shared_ptrI5GroupEE"><code class="docutils literal notranslate"><span class="pre">remove_group()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario21remove_group_at_indexE6size_t"><code class="docutils literal notranslate"><span class="pre">remove_group_at_index()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario12clear_groupsEv"><code class="docutils literal notranslate"><span class="pre">clear_groups()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Scenario21get_property_samplersEv"><code class="docutils literal notranslate"><span class="pre">get_property_samplers()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario20add_property_samplerERKNSt6stringERKNSt10shared_ptrI15PropertySamplerEE"><code class="docutils literal notranslate"><span class="pre">add_property_sampler()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario23remove_property_samplerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">remove_property_sampler()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario23clear_property_samplersEv"><code class="docutils literal notranslate"><span class="pre">clear_property_samplers()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5resetENSt8optionalIjEE"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario14set_attributesEP5World"><code class="docutils literal notranslate"><span class="pre">set_attributes()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario6groupsE"><code class="docutils literal notranslate"><span class="pre">groups</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario9obstaclesE"><code class="docutils literal notranslate"><span class="pre">obstacles</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5wallsE"><code class="docutils literal notranslate"><span class="pre">walls</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario17property_samplersE"><code class="docutils literal notranslate"><span class="pre">property_samplers</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario12bounding_boxE"><code class="docutils literal notranslate"><span class="pre">bounding_box</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5GroupE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Scenario::Group</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5Group12add_to_worldEP5WorldNSt8optionalIjEE"><code class="docutils literal notranslate"><span class="pre">add_to_world()</span></code></a></li>
@@ -563,7 +570,9 @@ document.write(`
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8ScenarioE">
 <span class="target" id="structnavground_1_1sim_1_1_scenario"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Scenario</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/register.html#_CPPv4I0EN9navground4core11HasRegisterE" title="navground::core::HasRegister"><span class="n"><span class="pre">HasRegister</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim8ScenarioE" title="navground::sim::Scenario"><span class="n"><span class="pre">Scenario</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim8ScenarioE" title="Link to this definition">#</a><br /></dt>
-<dd><p>A scenario describes a distribution of World that can be sampled to perform an experiment. </p>
+<dd><p>A scenario is a generator of World. </p>
+<p>Sub-classes should override <a class="reference internal" href="#structnavground_1_1sim_1_1_scenario_1aa732ca10194dca16bb9625bda98e1f20"><span class="std std-ref">init_world</span></a> with a custom initialization that is performed each time a world is sampled (e.g., during an experiment).</p>
+<p>They can also be customized by adding groups using <a class="reference internal" href="#structnavground_1_1sim_1_1_scenario_1a174e3f070d1457863d5e688152b63c9d"><span class="std std-ref">add_group</span></a> and/or initializers using <a class="reference internal" href="#structnavground_1_1sim_1_1_scenario_1aac7a1827147cf21143492f4bf4fbd2a6"><span class="std std-ref">add_init</span></a>, although these are not exposed to <a class="reference internal" href="../../../core/cpp/yaml.html#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a>. </p>
 <p>Subclassed by <a class="reference internal" href="antipodal.html#structnavground_1_1sim_1_1_antipodal_scenario"><span class="std std-ref">navground::sim::AntipodalScenario</span></a>, navground::sim::CollisionsScenario, <a class="reference internal" href="corridor.html#structnavground_1_1sim_1_1_corridor_scenario"><span class="std std-ref">navground::sim::CorridorScenario</span></a>, <a class="reference internal" href="cross.html#structnavground_1_1sim_1_1_cross_scenario"><span class="std std-ref">navground::sim::CrossScenario</span></a>, <a class="reference internal" href="cross_torus.html#structnavground_1_1sim_1_1_cross_torus_scenario"><span class="std std-ref">navground::sim::CrossTorusScenario</span></a>, <a class="reference internal" href="simple.html#structnavground_1_1sim_1_1_simple_scenario"><span class="std std-ref">navground::sim::SimpleScenario</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
@@ -582,6 +591,18 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario5InitsE">
 <span class="target" id="structnavground_1_1sim_1_1_scenario_1a7557e67d64442d9bf4bac434d3eef721"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Inits</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim8Scenario4InitE" title="navground::sim::Scenario::Init"><span class="n"><span class="pre">Init</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario5InitsE" title="Link to this definition">#</a><br /></dt>
 <dd><p>A collection of world initializers </p>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario6GroupsE">
+<span class="target" id="structnavground_1_1sim_1_1_scenario_1ac96af605ff6171a90c9adeee4426e95f"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Groups</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim8Scenario5GroupE" title="navground::sim::Scenario::Group"><span class="n"><span class="pre">Group</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario6GroupsE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A collection of groups </p>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario16PropertySamplersE">
+<span class="target" id="structnavground_1_1sim_1_1_scenario_1ac63b951e0981f4f64eaefea4f16b907a"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PropertySamplers</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../sampling.html#_CPPv4N9navground3sim15PropertySamplerE" title="navground::sim::PropertySampler"><span class="n"><span class="pre">PropertySampler</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario16PropertySamplersE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A collection of property samplers </p>
 </dd></dl>
 
 </div>
@@ -693,6 +714,31 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim8Scenario10get_groupsEv">
+<span class="target" id="structnavground_1_1sim_1_1_scenario_1af75242247df9a5c4967d0a36091738fa"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim8Scenario6GroupsE" title="navground::sim::Scenario::Groups"><span class="n"><span class="pre">Groups</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_groups</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim8Scenario10get_groupsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets the groups. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The groups. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim8Scenario9get_groupE6size_t">
+<span class="target" id="structnavground_1_1sim_1_1_scenario_1af8fea65b3bdb4093387bad3f37b2bba0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim8Scenario5GroupE" title="navground::sim::Scenario::Group"><span class="n"><span class="pre">Group</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_group</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim8Scenario9get_groupE6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets a group. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> – <strong>[in]</strong> The index</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The group or null if the index is not defined. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario9add_groupERKNSt10shared_ptrI5GroupEE">
 <span class="target" id="structnavground_1_1sim_1_1_scenario_1a174e3f070d1457863d5e688152b63c9d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_group</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim8Scenario5GroupE" title="navground::sim::Scenario::Group"><span class="n"><span class="pre">Group</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">group</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario9add_groupERKNSt10shared_ptrI5GroupEE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Adds a group. </p>
@@ -704,9 +750,25 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario12remove_groupEv">
-<span class="target" id="structnavground_1_1sim_1_1_scenario_1a8fe518518ccd050abe4fc2344e45c6bf"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_group</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario12remove_groupEv" title="Link to this definition">#</a><br /></dt>
-<dd><p>Remove the last added group. </p>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario12remove_groupERKNSt10shared_ptrI5GroupEE">
+<span class="target" id="structnavground_1_1sim_1_1_scenario_1a96332b3c07b0b2b596b2c2d1fec327c9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_group</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim8Scenario5GroupE" title="navground::sim::Scenario::Group"><span class="n"><span class="pre">Group</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">group</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario12remove_groupERKNSt10shared_ptrI5GroupEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Remove the added group. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>group</strong> – <strong>[in]</strong> The group </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario21remove_group_at_indexE6size_t">
+<span class="target" id="structnavground_1_1sim_1_1_scenario_1a222d7aeb9ec92fcdce0369ad92038332"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_group_at_index</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario21remove_group_at_indexE6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Remove the added group. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> – <strong>[in]</strong> The index </p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="cpp function">
@@ -717,11 +779,25 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim8Scenario21get_property_samplersEv">
-<span class="target" id="structnavground_1_1sim_1_1_scenario_1abb44042cc6a9008e0e87366f5b7a6278"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_property_samplers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim8Scenario21get_property_samplersEv" title="Link to this definition">#</a><br /></dt>
-<dd><p>Returns the names of properties for which this scenario uses a sampler. </p>
+<span class="target" id="structnavground_1_1sim_1_1_scenario_1a80b03cbc7a194a1291f75c11a7f87480"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim8Scenario16PropertySamplersE" title="navground::sim::Scenario::PropertySamplers"><span class="n"><span class="pre">PropertySamplers</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_property_samplers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim8Scenario21get_property_samplersEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the samplers that this scenario uses for its properties. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A vector of property names. </p>
+<dd class="field-odd"><p>The samplers. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario20add_property_samplerERKNSt6stringERKNSt10shared_ptrI15PropertySamplerEE">
+<span class="target" id="structnavground_1_1sim_1_1_scenario_1ad619ba5832d3f4d628182fe8897a4462"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_property_sampler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../sampling.html#_CPPv4N9navground3sim15PropertySamplerE" title="navground::sim::PropertySampler"><span class="n"><span class="pre">PropertySampler</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario20add_property_samplerERKNSt6stringERKNSt10shared_ptrI15PropertySamplerEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Adds a property sampler. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – <strong>[in]</strong> The name of the property </p></li>
+<li><p><strong>value</strong> – <strong>[in]</strong> The sampler </p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -729,7 +805,7 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario23remove_property_samplerERKNSt6stringE">
 <span class="target" id="structnavground_1_1sim_1_1_scenario_1a78348978ce18cbf8ec7698bb8c0437e5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_property_sampler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario23remove_property_samplerERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
-<dd><p>Remove a property sampler. </p>
+<dd><p>Removes a property sampler. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> – <strong>[in]</strong> The name of the property </p>
@@ -740,7 +816,7 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario23clear_property_samplersEv">
 <span class="target" id="structnavground_1_1sim_1_1_scenario_1aaa0b2e64f8d0aa914ca61854835dd84d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clear_property_samplers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario23clear_property_samplersEv" title="Link to this definition">#</a><br /></dt>
-<dd><p>Clear the property samplers. </p>
+<dd><p>Clears the property samplers. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -764,12 +840,6 @@ document.write(`
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario6groupsE">
-<span class="target" id="structnavground_1_1sim_1_1_scenario_1aef560c1894e7aaf6673bfe2a2a67de12"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim8Scenario5GroupE" title="navground::sim::Scenario::Group"><span class="n"><span class="pre">Group</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">groups</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario6groupsE" title="Link to this definition">#</a><br /></dt>
-<dd><p>Groups </p>
-</dd></dl>
-
-<dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario9obstaclesE">
 <span class="target" id="structnavground_1_1sim_1_1_scenario_1a4af698e805e0ebb4e715898cb73df773"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/state/geometric.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><span class="n"><span class="pre">Disc</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obstacles</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario9obstaclesE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Obstacles </p>
@@ -779,12 +849,6 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario5wallsE">
 <span class="target" id="structnavground_1_1sim_1_1_scenario_1a6757d8a50b30245b5e1ab8b9ffaf0bc3"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/state/geometric.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">walls</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario5wallsE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Walls to add </p>
-</dd></dl>
-
-<dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario17property_samplersE">
-<span class="target" id="structnavground_1_1sim_1_1_scenario_1af80ea5b90e27a34aa50b3fb0c49bbec4"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../sampling.html#_CPPv4N9navground3sim15PropertySamplerE" title="navground::sim::PropertySampler"><span class="n"><span class="pre">PropertySampler</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">property_samplers</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario17property_samplersE" title="Link to this definition">#</a><br /></dt>
-<dd><p>A map of property samplers <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">-&gt;</span> <span class="pre">sampler</span></code> used configure the sampled object. </p>
 </dd></dl>
 
 <dl class="cpp var">
@@ -876,6 +940,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario4TypeE"><code class="docutils literal notranslate"><span class="pre">Type</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario4InitE"><code class="docutils literal notranslate"><span class="pre">Init</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5InitsE"><code class="docutils literal notranslate"><span class="pre">Inits</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario6GroupsE"><code class="docutils literal notranslate"><span class="pre">Groups</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario16PropertySamplersE"><code class="docutils literal notranslate"><span class="pre">PropertySamplers</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario8ScenarioERK5Inits"><code class="docutils literal notranslate"><span class="pre">Scenario()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario10init_worldEP5WorldNSt8optionalIiEE"><code class="docutils literal notranslate"><span class="pre">init_world()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario11apply_initsEP5World"><code class="docutils literal notranslate"><span class="pre">apply_inits()</span></code></a></li>
@@ -885,18 +951,20 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario11remove_initERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">remove_init()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario11clear_initsEv"><code class="docutils literal notranslate"><span class="pre">clear_inits()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Scenario9get_initsEv"><code class="docutils literal notranslate"><span class="pre">get_inits()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Scenario10get_groupsEv"><code class="docutils literal notranslate"><span class="pre">get_groups()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Scenario9get_groupE6size_t"><code class="docutils literal notranslate"><span class="pre">get_group()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario9add_groupERKNSt10shared_ptrI5GroupEE"><code class="docutils literal notranslate"><span class="pre">add_group()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario12remove_groupEv"><code class="docutils literal notranslate"><span class="pre">remove_group()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario12remove_groupERKNSt10shared_ptrI5GroupEE"><code class="docutils literal notranslate"><span class="pre">remove_group()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario21remove_group_at_indexE6size_t"><code class="docutils literal notranslate"><span class="pre">remove_group_at_index()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario12clear_groupsEv"><code class="docutils literal notranslate"><span class="pre">clear_groups()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Scenario21get_property_samplersEv"><code class="docutils literal notranslate"><span class="pre">get_property_samplers()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario20add_property_samplerERKNSt6stringERKNSt10shared_ptrI15PropertySamplerEE"><code class="docutils literal notranslate"><span class="pre">add_property_sampler()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario23remove_property_samplerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">remove_property_sampler()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario23clear_property_samplersEv"><code class="docutils literal notranslate"><span class="pre">clear_property_samplers()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5resetENSt8optionalIjEE"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario14set_attributesEP5World"><code class="docutils literal notranslate"><span class="pre">set_attributes()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario6groupsE"><code class="docutils literal notranslate"><span class="pre">groups</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario9obstaclesE"><code class="docutils literal notranslate"><span class="pre">obstacles</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5wallsE"><code class="docutils literal notranslate"><span class="pre">walls</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario17property_samplersE"><code class="docutils literal notranslate"><span class="pre">property_samplers</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario12bounding_boxE"><code class="docutils literal notranslate"><span class="pre">bounding_box</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5GroupE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Scenario::Group</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5Group12add_to_worldEP5WorldNSt8optionalIjEE"><code class="docutils literal notranslate"><span class="pre">add_to_world()</span></code></a></li>

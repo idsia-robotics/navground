@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>World &#8212; navground 0.6.0.dev documentation</title>
+    <title>World &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/cpp/world';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../python/yaml.html">YAML</a></li>
@@ -511,107 +514,116 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11BoundingBoxE"><code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11bb_to_tupleERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">bb_to_tuple()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13bb_from_tupleERKNSt5tupleI10ng_float_t10ng_float_t10ng_float_t10ng_float_tEE"><code class="docutils literal notranslate"><span class="pre">bb_from_tuple()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7envelopERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">envelop()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_max_xERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_max_x()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_max_yERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_max_y()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_min_xERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_min_x()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_min_yERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_min_y()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6EntityE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Entity</span></code></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEv"><code class="docutils literal notranslate"><span class="pre">Entity()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEj"><code class="docutils literal notranslate"><span class="pre">Entity()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">has_been_in_collision_since()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity23get_last_collision_timeEv"><code class="docutils literal notranslate"><span class="pre">get_last_collision_time()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity5resetEv"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity3uidE"><code class="docutils literal notranslate"><span class="pre">uid</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity9reset_uidEv"><code class="docutils literal notranslate"><span class="pre">reset_uid()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boundingbox">BoundingBox</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11BoundingBoxE"><code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11bb_to_tupleERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">bb_to_tuple()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13bb_from_tupleERKNSt5tupleI10ng_float_t10ng_float_t10ng_float_t10ng_float_tEE"><code class="docutils literal notranslate"><span class="pre">bb_from_tuple()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7envelopERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">envelop()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_max_xERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_max_x()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_max_yERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_max_y()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_min_xERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_min_x()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_min_yERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_min_y()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8ObstacleE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Obstacle</span></code></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleEv"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK4Disc"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Obstaclecv4DiscEv"><code class="docutils literal notranslate"><span class="pre">operator</span> <span class="pre">Disc()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle4discE"><code class="docutils literal notranslate"><span class="pre">disc</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entities">Entities</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6EntityE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Entity</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEv"><code class="docutils literal notranslate"><span class="pre">Entity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEj"><code class="docutils literal notranslate"><span class="pre">Entity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">has_been_in_collision_since()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity23get_last_collision_timeEv"><code class="docutils literal notranslate"><span class="pre">get_last_collision_time()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity5resetEv"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity3uidE"><code class="docutils literal notranslate"><span class="pre">uid</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity9reset_uidEv"><code class="docutils literal notranslate"><span class="pre">reset_uid()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4WallE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Wall</span></code></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallERK7Vector2RK7Vector2"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallEv"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallERK11LineSegment"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim4Wallcv11LineSegmentEv"><code class="docutils literal notranslate"><span class="pre">operator</span> <span class="pre">LineSegment()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4lineE"><code class="docutils literal notranslate"><span class="pre">line</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8ObstacleE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Obstacle</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleEv"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK4Disc"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Obstaclecv4DiscEv"><code class="docutils literal notranslate"><span class="pre">operator</span> <span class="pre">Disc()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle4discE"><code class="docutils literal notranslate"><span class="pre">disc</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5WorldE"><code class="docutils literal notranslate"><span class="pre">navground::sim::World</span></code></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World7LatticeE"><code class="docutils literal notranslate"><span class="pre">Lattice</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8CallbackE"><code class="docutils literal notranslate"><span class="pre">Callback</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20TerminationConditionE"><code class="docutils literal notranslate"><span class="pre">TerminationCondition</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World5WorldEv"><code class="docutils literal notranslate"><span class="pre">World()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World6updateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10update_dryE10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">update_dry()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World7actuateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">actuate()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World3runEj10ng_float_t"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9run_untilENSt8functionIFbvEEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">run_until()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_timeEv"><code class="docutils literal notranslate"><span class="pre">get_time()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_stepEv"><code class="docutils literal notranslate"><span class="pre">get_step()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9add_agentERKNSt10shared_ptrI5AgentEE"><code class="docutils literal notranslate"><span class="pre">add_agent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12remove_agentEP5Agent"><code class="docutils literal notranslate"><span class="pre">remove_agent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World21remove_agent_with_uidEj"><code class="docutils literal notranslate"><span class="pre">remove_agent_with_uid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8add_wallERK11LineSegment"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8add_wallERK4Wall"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_obstacleERK4Disc"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_obstacleERK8Obstacle"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20add_random_obstaclesEj10ng_float_t10ng_float_t10ng_float_tj"><code class="docutils literal notranslate"><span class="pre">add_random_obstacles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World10get_agentsEv"><code class="docutils literal notranslate"><span class="pre">get_agents()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World13get_neighborsEPK5Agent10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">get_neighbors()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22subdivide_bounding_boxERK11BoundingBoxb"><code class="docutils literal notranslate"><span class="pre">subdivide_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20get_agents_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_agents_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World23get_obstacles_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_obstacles_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World13get_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_obstacles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World9get_discsEb"><code class="docutils literal notranslate"><span class="pre">get_discs()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World19get_discs_in_regionERK11BoundingBoxb"><code class="docutils literal notranslate"><span class="pre">get_discs_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World9get_wallsEv"><code class="docutils literal notranslate"><span class="pre">get_walls()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World18get_line_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World28get_line_obstacles_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World13set_obstaclesERKNSt6vectorI4DiscEE"><code class="docutils literal notranslate"><span class="pre">set_obstacles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9set_wallsERKNSt6vectorI11LineSegmentEE"><code class="docutils literal notranslate"><span class="pre">set_walls()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14get_collisionsEv"><code class="docutils literal notranslate"><span class="pre">get_collisions()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World24compute_safety_violationEPK5AgentNSt8optionalIfEE"><code class="docutils literal notranslate"><span class="pre">compute_safety_violation()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20get_random_generatorEv"><code class="docutils literal notranslate"><span class="pre">get_random_generator()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20set_random_generatorER15RandomGenerator"><code class="docutils literal notranslate"><span class="pre">set_random_generator()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World21copy_random_generatorER5World"><code class="docutils literal notranslate"><span class="pre">copy_random_generator()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_seedEv"><code class="docutils literal notranslate"><span class="pre">get_seed()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8set_seedEj"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World15agents_are_idleEv"><code class="docutils literal notranslate"><span class="pre">agents_are_idle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv"><code class="docutils literal notranslate"><span class="pre">agents_are_idle_or_stuck()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World18space_agents_apartE10ng_float_tbj"><code class="docutils literal notranslate"><span class="pre">space_agents_apart()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World11has_latticeEv"><code class="docutils literal notranslate"><span class="pre">has_lattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World11get_latticeEj"><code class="docutils literal notranslate"><span class="pre">get_lattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World11set_latticeEjRK7Lattice"><code class="docutils literal notranslate"><span class="pre">set_lattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_lattice_gridEbb"><code class="docutils literal notranslate"><span class="pre">get_lattice_grid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24get_lattice_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_lattice_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World12in_collisionEPK6EntityPK6Entity"><code class="docutils literal notranslate"><span class="pre">in_collision()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10get_entityEj"><code class="docutils literal notranslate"><span class="pre">get_entity()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9get_agentEj"><code class="docutils literal notranslate"><span class="pre">get_agent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">add_callback()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World15reset_callbacksEv"><code class="docutils literal notranslate"><span class="pre">reset_callbacks()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World25set_termination_conditionERKNSt8optionalI20TerminationConditionEE"><code class="docutils literal notranslate"><span class="pre">set_termination_condition()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World25has_termination_conditionEv"><code class="docutils literal notranslate"><span class="pre">has_termination_condition()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16should_terminateEv"><code class="docutils literal notranslate"><span class="pre">should_terminate()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World23get_agents_in_collisionE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_agents_in_collision()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22get_agents_in_deadlockE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_agents_in_deadlock()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World19snap_twists_to_zeroE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">snap_twists_to_zero()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14index_of_agentEPK5Agent"><code class="docutils literal notranslate"><span class="pre">index_of_agent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24get_minimal_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_minimal_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16set_bounding_boxERKNSt8optionalI11BoundingBoxEE"><code class="docutils literal notranslate"><span class="pre">set_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16has_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">has_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12agents_movedEv"><code class="docutils literal notranslate"><span class="pre">agents_moved()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16record_collisionEP6EntityP6Entity"><code class="docutils literal notranslate"><span class="pre">record_collision()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16clear_collisionsEv"><code class="docutils literal notranslate"><span class="pre">clear_collisions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4WallE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Wall</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallERK7Vector2RK7Vector2"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallEv"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallERK11LineSegment"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim4Wallcv11LineSegmentEv"><code class="docutils literal notranslate"><span class="pre">operator</span> <span class="pre">LineSegment()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4lineE"><code class="docutils literal notranslate"><span class="pre">line</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">World</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5WorldE"><code class="docutils literal notranslate"><span class="pre">navground::sim::World</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World7LatticeE"><code class="docutils literal notranslate"><span class="pre">Lattice</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8CallbackE"><code class="docutils literal notranslate"><span class="pre">Callback</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20TerminationConditionE"><code class="docutils literal notranslate"><span class="pre">TerminationCondition</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World5WorldEv"><code class="docutils literal notranslate"><span class="pre">World()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World6updateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10update_dryE10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">update_dry()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World7actuateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">actuate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World3runEj10ng_float_t"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9run_untilENSt8functionIFbvEEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">run_until()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_timeEv"><code class="docutils literal notranslate"><span class="pre">get_time()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_stepEv"><code class="docutils literal notranslate"><span class="pre">get_step()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9add_agentERKNSt10shared_ptrI5AgentEE"><code class="docutils literal notranslate"><span class="pre">add_agent()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12remove_agentEP5Agent"><code class="docutils literal notranslate"><span class="pre">remove_agent()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World21remove_agent_with_uidEj"><code class="docutils literal notranslate"><span class="pre">remove_agent_with_uid()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8add_wallERK11LineSegment"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8add_wallERK4Wall"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_obstacleERK4Disc"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_obstacleERK8Obstacle"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20add_random_obstaclesEj10ng_float_t10ng_float_t10ng_float_tj"><code class="docutils literal notranslate"><span class="pre">add_random_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World10get_agentsEv"><code class="docutils literal notranslate"><span class="pre">get_agents()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World13get_neighborsEPK5Agent10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">get_neighbors()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22subdivide_bounding_boxERK11BoundingBoxb"><code class="docutils literal notranslate"><span class="pre">subdivide_bounding_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20get_agents_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_agents_in_region()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World23get_obstacles_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_obstacles_in_region()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World13get_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World9get_discsEb"><code class="docutils literal notranslate"><span class="pre">get_discs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World19get_discs_in_regionERK11BoundingBoxb"><code class="docutils literal notranslate"><span class="pre">get_discs_in_region()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World9get_wallsEv"><code class="docutils literal notranslate"><span class="pre">get_walls()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World18get_line_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World28get_line_obstacles_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles_in_region()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World13set_obstaclesERKNSt6vectorI4DiscEE"><code class="docutils literal notranslate"><span class="pre">set_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9set_wallsERKNSt6vectorI11LineSegmentEE"><code class="docutils literal notranslate"><span class="pre">set_walls()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14get_collisionsEv"><code class="docutils literal notranslate"><span class="pre">get_collisions()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World24compute_safety_violationEPK5AgentNSt8optionalIfEE"><code class="docutils literal notranslate"><span class="pre">compute_safety_violation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20get_random_generatorEv"><code class="docutils literal notranslate"><span class="pre">get_random_generator()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20set_random_generatorER15RandomGenerator"><code class="docutils literal notranslate"><span class="pre">set_random_generator()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World21copy_random_generatorER5World"><code class="docutils literal notranslate"><span class="pre">copy_random_generator()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_seedEv"><code class="docutils literal notranslate"><span class="pre">get_seed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8set_seedEj"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World15agents_are_idleEv"><code class="docutils literal notranslate"><span class="pre">agents_are_idle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv"><code class="docutils literal notranslate"><span class="pre">agents_are_idle_or_stuck()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World18space_agents_apartE10ng_float_tbj"><code class="docutils literal notranslate"><span class="pre">space_agents_apart()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World11has_latticeEv"><code class="docutils literal notranslate"><span class="pre">has_lattice()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World11get_latticeEj"><code class="docutils literal notranslate"><span class="pre">get_lattice()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World11set_latticeEjRK7Lattice"><code class="docutils literal notranslate"><span class="pre">set_lattice()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_lattice_gridEbb"><code class="docutils literal notranslate"><span class="pre">get_lattice_grid()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24get_lattice_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_lattice_bounding_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World12in_collisionEPK6EntityPK6Entity"><code class="docutils literal notranslate"><span class="pre">in_collision()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10get_entityEj"><code class="docutils literal notranslate"><span class="pre">get_entity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9get_agentEj"><code class="docutils literal notranslate"><span class="pre">get_agent()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">add_callback()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World15reset_callbacksEv"><code class="docutils literal notranslate"><span class="pre">reset_callbacks()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World25set_termination_conditionERKNSt8optionalI20TerminationConditionEE"><code class="docutils literal notranslate"><span class="pre">set_termination_condition()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World25has_termination_conditionEv"><code class="docutils literal notranslate"><span class="pre">has_termination_condition()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16should_terminateEv"><code class="docutils literal notranslate"><span class="pre">should_terminate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World23get_agents_in_collisionE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_agents_in_collision()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22get_agents_in_deadlockE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_agents_in_deadlock()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World19snap_twists_to_zeroE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">snap_twists_to_zero()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14index_of_agentEPK5Agent"><code class="docutils literal notranslate"><span class="pre">index_of_agent()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24get_minimal_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_minimal_bounding_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16set_bounding_boxERKNSt8optionalI11BoundingBoxEE"><code class="docutils literal notranslate"><span class="pre">set_bounding_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_bounding_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16has_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">has_bounding_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12agents_movedEv"><code class="docutils literal notranslate"><span class="pre">agents_moved()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16record_collisionEP6EntityP6Entity"><code class="docutils literal notranslate"><span class="pre">record_collision()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16clear_collisionsEv"><code class="docutils literal notranslate"><span class="pre">clear_collisions()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -630,6 +642,8 @@ document.write(`
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/sim/world.h&quot;</span>
 </pre></div>
 </div>
+<section id="boundingbox">
+<h2>BoundingBox<a class="headerlink" href="#boundingbox" title="Link to this heading">#</a></h2>
 <dl class="cpp type">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim11BoundingBoxE">
 <span class="target" id="namespacenavground_1_1sim_1a9e7830ea8a949af7fba6ad1fe0b7b041"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground3simE" title="navground::sim"><span class="n"><span class="pre">sim</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">BoundingBox</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">geos</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">geom</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Envelope</span></span><a class="headerlink" href="#_CPPv4N9navground3sim11BoundingBoxE" title="Link to this definition">#</a><br /></dt>
@@ -749,6 +763,9 @@ document.write(`
 </dl>
 </dd></dl>
 
+</section>
+<section id="entities">
+<h2>Entities<a class="headerlink" href="#entities" title="Link to this heading">#</a></h2>
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim6EntityE">
 <span class="target" id="structnavground_1_1sim_1_1_entity"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Entity</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim6EntityE" title="Link to this definition">#</a><br /></dt>
@@ -937,6 +954,9 @@ document.write(`
 </div>
 </dd></dl>
 
+</section>
+<section id="id1">
+<h2>World<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim5WorldE">
 <span class="target" id="classnavground_1_1sim_1_1_world"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">World</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../core/cpp/attribute.html#_CPPv4N9navground4core13HasAttributesE" title="navground::core::HasAttributes"><span class="n"><span class="pre">HasAttributes</span></span></a><a class="headerlink" href="#_CPPv4N9navground3sim5WorldE" title="Link to this definition">#</a><br /></dt>
@@ -1752,8 +1772,9 @@ document.write(`
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Class <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">World</span></code> supports <cite>dynamic attributes &lt;attributes cpp&gt;</cite>.</p>
+<p>Class <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">World</span></code> supports <a class="reference internal" href="../../core/cpp/attribute.html#attributes-cpp"><span class="std std-ref">dynamic attributes</span></a>.</p>
 </div>
+</section>
 </section>
 
 
@@ -1801,107 +1822,116 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11BoundingBoxE"><code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11bb_to_tupleERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">bb_to_tuple()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13bb_from_tupleERKNSt5tupleI10ng_float_t10ng_float_t10ng_float_t10ng_float_tEE"><code class="docutils literal notranslate"><span class="pre">bb_from_tuple()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7envelopERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">envelop()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_max_xERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_max_x()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_max_yERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_max_y()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_min_xERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_min_x()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_min_yERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_min_y()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6EntityE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Entity</span></code></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEv"><code class="docutils literal notranslate"><span class="pre">Entity()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEj"><code class="docutils literal notranslate"><span class="pre">Entity()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">has_been_in_collision_since()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity23get_last_collision_timeEv"><code class="docutils literal notranslate"><span class="pre">get_last_collision_time()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity5resetEv"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity3uidE"><code class="docutils literal notranslate"><span class="pre">uid</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity9reset_uidEv"><code class="docutils literal notranslate"><span class="pre">reset_uid()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boundingbox">BoundingBox</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11BoundingBoxE"><code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim11bb_to_tupleERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">bb_to_tuple()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim13bb_from_tupleERKNSt5tupleI10ng_float_t10ng_float_t10ng_float_t10ng_float_tEE"><code class="docutils literal notranslate"><span class="pre">bb_from_tuple()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim7envelopERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">envelop()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_max_xERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_max_x()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_max_yERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_max_y()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_min_xERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_min_x()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12bb_set_min_yERK11BoundingBox10ng_float_t"><code class="docutils literal notranslate"><span class="pre">bb_set_min_y()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8ObstacleE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Obstacle</span></code></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleEv"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK4Disc"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Obstaclecv4DiscEv"><code class="docutils literal notranslate"><span class="pre">operator</span> <span class="pre">Disc()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle4discE"><code class="docutils literal notranslate"><span class="pre">disc</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entities">Entities</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6EntityE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Entity</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEv"><code class="docutils literal notranslate"><span class="pre">Entity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity6EntityEj"><code class="docutils literal notranslate"><span class="pre">Entity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity27has_been_in_collision_sinceE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">has_been_in_collision_since()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim6Entity23get_last_collision_timeEv"><code class="docutils literal notranslate"><span class="pre">get_last_collision_time()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity5resetEv"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity3uidE"><code class="docutils literal notranslate"><span class="pre">uid</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim6Entity9reset_uidEv"><code class="docutils literal notranslate"><span class="pre">reset_uid()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4WallE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Wall</span></code></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallERK7Vector2RK7Vector2"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallEv"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallERK11LineSegment"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim4Wallcv11LineSegmentEv"><code class="docutils literal notranslate"><span class="pre">operator</span> <span class="pre">LineSegment()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4lineE"><code class="docutils literal notranslate"><span class="pre">line</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8ObstacleE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Obstacle</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK7Vector210ng_float_t"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleEv"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle8ObstacleERK4Disc"><code class="docutils literal notranslate"><span class="pre">Obstacle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Obstaclecv4DiscEv"><code class="docutils literal notranslate"><span class="pre">operator</span> <span class="pre">Disc()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Obstacle4discE"><code class="docutils literal notranslate"><span class="pre">disc</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5WorldE"><code class="docutils literal notranslate"><span class="pre">navground::sim::World</span></code></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World7LatticeE"><code class="docutils literal notranslate"><span class="pre">Lattice</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8CallbackE"><code class="docutils literal notranslate"><span class="pre">Callback</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20TerminationConditionE"><code class="docutils literal notranslate"><span class="pre">TerminationCondition</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World5WorldEv"><code class="docutils literal notranslate"><span class="pre">World()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World6updateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10update_dryE10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">update_dry()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World7actuateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">actuate()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World3runEj10ng_float_t"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9run_untilENSt8functionIFbvEEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">run_until()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_timeEv"><code class="docutils literal notranslate"><span class="pre">get_time()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_stepEv"><code class="docutils literal notranslate"><span class="pre">get_step()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9add_agentERKNSt10shared_ptrI5AgentEE"><code class="docutils literal notranslate"><span class="pre">add_agent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12remove_agentEP5Agent"><code class="docutils literal notranslate"><span class="pre">remove_agent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World21remove_agent_with_uidEj"><code class="docutils literal notranslate"><span class="pre">remove_agent_with_uid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8add_wallERK11LineSegment"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8add_wallERK4Wall"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_obstacleERK4Disc"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_obstacleERK8Obstacle"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20add_random_obstaclesEj10ng_float_t10ng_float_t10ng_float_tj"><code class="docutils literal notranslate"><span class="pre">add_random_obstacles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World10get_agentsEv"><code class="docutils literal notranslate"><span class="pre">get_agents()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World13get_neighborsEPK5Agent10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">get_neighbors()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22subdivide_bounding_boxERK11BoundingBoxb"><code class="docutils literal notranslate"><span class="pre">subdivide_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20get_agents_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_agents_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World23get_obstacles_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_obstacles_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World13get_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_obstacles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World9get_discsEb"><code class="docutils literal notranslate"><span class="pre">get_discs()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World19get_discs_in_regionERK11BoundingBoxb"><code class="docutils literal notranslate"><span class="pre">get_discs_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World9get_wallsEv"><code class="docutils literal notranslate"><span class="pre">get_walls()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World18get_line_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World28get_line_obstacles_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles_in_region()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World13set_obstaclesERKNSt6vectorI4DiscEE"><code class="docutils literal notranslate"><span class="pre">set_obstacles()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9set_wallsERKNSt6vectorI11LineSegmentEE"><code class="docutils literal notranslate"><span class="pre">set_walls()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14get_collisionsEv"><code class="docutils literal notranslate"><span class="pre">get_collisions()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World24compute_safety_violationEPK5AgentNSt8optionalIfEE"><code class="docutils literal notranslate"><span class="pre">compute_safety_violation()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20get_random_generatorEv"><code class="docutils literal notranslate"><span class="pre">get_random_generator()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20set_random_generatorER15RandomGenerator"><code class="docutils literal notranslate"><span class="pre">set_random_generator()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World21copy_random_generatorER5World"><code class="docutils literal notranslate"><span class="pre">copy_random_generator()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_seedEv"><code class="docutils literal notranslate"><span class="pre">get_seed()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8set_seedEj"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World15agents_are_idleEv"><code class="docutils literal notranslate"><span class="pre">agents_are_idle()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv"><code class="docutils literal notranslate"><span class="pre">agents_are_idle_or_stuck()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World18space_agents_apartE10ng_float_tbj"><code class="docutils literal notranslate"><span class="pre">space_agents_apart()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World11has_latticeEv"><code class="docutils literal notranslate"><span class="pre">has_lattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World11get_latticeEj"><code class="docutils literal notranslate"><span class="pre">get_lattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World11set_latticeEjRK7Lattice"><code class="docutils literal notranslate"><span class="pre">set_lattice()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_lattice_gridEbb"><code class="docutils literal notranslate"><span class="pre">get_lattice_grid()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24get_lattice_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_lattice_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World12in_collisionEPK6EntityPK6Entity"><code class="docutils literal notranslate"><span class="pre">in_collision()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10get_entityEj"><code class="docutils literal notranslate"><span class="pre">get_entity()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9get_agentEj"><code class="docutils literal notranslate"><span class="pre">get_agent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">add_callback()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World15reset_callbacksEv"><code class="docutils literal notranslate"><span class="pre">reset_callbacks()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World25set_termination_conditionERKNSt8optionalI20TerminationConditionEE"><code class="docutils literal notranslate"><span class="pre">set_termination_condition()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World25has_termination_conditionEv"><code class="docutils literal notranslate"><span class="pre">has_termination_condition()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16should_terminateEv"><code class="docutils literal notranslate"><span class="pre">should_terminate()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World23get_agents_in_collisionE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_agents_in_collision()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22get_agents_in_deadlockE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_agents_in_deadlock()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World19snap_twists_to_zeroE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">snap_twists_to_zero()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14index_of_agentEPK5Agent"><code class="docutils literal notranslate"><span class="pre">index_of_agent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24get_minimal_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_minimal_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16set_bounding_boxERKNSt8optionalI11BoundingBoxEE"><code class="docutils literal notranslate"><span class="pre">set_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16has_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">has_bounding_box()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12agents_movedEv"><code class="docutils literal notranslate"><span class="pre">agents_moved()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16record_collisionEP6EntityP6Entity"><code class="docutils literal notranslate"><span class="pre">record_collision()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16clear_collisionsEv"><code class="docutils literal notranslate"><span class="pre">clear_collisions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4WallE"><code class="docutils literal notranslate"><span class="pre">navground::sim::Wall</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallERK7Vector2RK7Vector2"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallEv"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4WallERK11LineSegment"><code class="docutils literal notranslate"><span class="pre">Wall()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim4Wallcv11LineSegmentEv"><code class="docutils literal notranslate"><span class="pre">operator</span> <span class="pre">LineSegment()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim4Wall4lineE"><code class="docutils literal notranslate"><span class="pre">line</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">World</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5WorldE"><code class="docutils literal notranslate"><span class="pre">navground::sim::World</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World7LatticeE"><code class="docutils literal notranslate"><span class="pre">Lattice</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8CallbackE"><code class="docutils literal notranslate"><span class="pre">Callback</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20TerminationConditionE"><code class="docutils literal notranslate"><span class="pre">TerminationCondition</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World5WorldEv"><code class="docutils literal notranslate"><span class="pre">World()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World6updateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10update_dryE10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">update_dry()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World7actuateE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">actuate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World3runEj10ng_float_t"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9run_untilENSt8functionIFbvEEE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">run_until()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_timeEv"><code class="docutils literal notranslate"><span class="pre">get_time()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_stepEv"><code class="docutils literal notranslate"><span class="pre">get_step()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9add_agentERKNSt10shared_ptrI5AgentEE"><code class="docutils literal notranslate"><span class="pre">add_agent()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12remove_agentEP5Agent"><code class="docutils literal notranslate"><span class="pre">remove_agent()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World21remove_agent_with_uidEj"><code class="docutils literal notranslate"><span class="pre">remove_agent_with_uid()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8add_wallERK11LineSegment"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8add_wallERK4Wall"><code class="docutils literal notranslate"><span class="pre">add_wall()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_obstacleERK4Disc"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_obstacleERK8Obstacle"><code class="docutils literal notranslate"><span class="pre">add_obstacle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20add_random_obstaclesEj10ng_float_t10ng_float_t10ng_float_tj"><code class="docutils literal notranslate"><span class="pre">add_random_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World10get_agentsEv"><code class="docutils literal notranslate"><span class="pre">get_agents()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World13get_neighborsEPK5Agent10ng_float_tb"><code class="docutils literal notranslate"><span class="pre">get_neighbors()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22subdivide_bounding_boxERK11BoundingBoxb"><code class="docutils literal notranslate"><span class="pre">subdivide_bounding_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20get_agents_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_agents_in_region()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World23get_obstacles_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_obstacles_in_region()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World13get_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World9get_discsEb"><code class="docutils literal notranslate"><span class="pre">get_discs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World19get_discs_in_regionERK11BoundingBoxb"><code class="docutils literal notranslate"><span class="pre">get_discs_in_region()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World9get_wallsEv"><code class="docutils literal notranslate"><span class="pre">get_walls()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World18get_line_obstaclesEv"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World28get_line_obstacles_in_regionERK11BoundingBox"><code class="docutils literal notranslate"><span class="pre">get_line_obstacles_in_region()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World13set_obstaclesERKNSt6vectorI4DiscEE"><code class="docutils literal notranslate"><span class="pre">set_obstacles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9set_wallsERKNSt6vectorI11LineSegmentEE"><code class="docutils literal notranslate"><span class="pre">set_walls()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14get_collisionsEv"><code class="docutils literal notranslate"><span class="pre">get_collisions()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World24compute_safety_violationEPK5AgentNSt8optionalIfEE"><code class="docutils literal notranslate"><span class="pre">compute_safety_violation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20get_random_generatorEv"><code class="docutils literal notranslate"><span class="pre">get_random_generator()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World20set_random_generatorER15RandomGenerator"><code class="docutils literal notranslate"><span class="pre">set_random_generator()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World21copy_random_generatorER5World"><code class="docutils literal notranslate"><span class="pre">copy_random_generator()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World8get_seedEv"><code class="docutils literal notranslate"><span class="pre">get_seed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World8set_seedEj"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World15agents_are_idleEv"><code class="docutils literal notranslate"><span class="pre">agents_are_idle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24agents_are_idle_or_stuckEv"><code class="docutils literal notranslate"><span class="pre">agents_are_idle_or_stuck()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World18space_agents_apartE10ng_float_tbj"><code class="docutils literal notranslate"><span class="pre">space_agents_apart()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World11has_latticeEv"><code class="docutils literal notranslate"><span class="pre">has_lattice()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World11get_latticeEj"><code class="docutils literal notranslate"><span class="pre">get_lattice()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World11set_latticeEjRK7Lattice"><code class="docutils literal notranslate"><span class="pre">set_lattice()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_lattice_gridEbb"><code class="docutils literal notranslate"><span class="pre">get_lattice_grid()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24get_lattice_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_lattice_bounding_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World12in_collisionEPK6EntityPK6Entity"><code class="docutils literal notranslate"><span class="pre">in_collision()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World10get_entityEj"><code class="docutils literal notranslate"><span class="pre">get_entity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World9get_agentEj"><code class="docutils literal notranslate"><span class="pre">get_agent()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12add_callbackERK8Callback"><code class="docutils literal notranslate"><span class="pre">add_callback()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World15reset_callbacksEv"><code class="docutils literal notranslate"><span class="pre">reset_callbacks()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World25set_termination_conditionERKNSt8optionalI20TerminationConditionEE"><code class="docutils literal notranslate"><span class="pre">set_termination_condition()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World25has_termination_conditionEv"><code class="docutils literal notranslate"><span class="pre">has_termination_condition()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16should_terminateEv"><code class="docutils literal notranslate"><span class="pre">should_terminate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World23get_agents_in_collisionE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_agents_in_collision()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World22get_agents_in_deadlockE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">get_agents_in_deadlock()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World19snap_twists_to_zeroE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">snap_twists_to_zero()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World14index_of_agentEPK5Agent"><code class="docutils literal notranslate"><span class="pre">index_of_agent()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World24get_minimal_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_minimal_bounding_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16set_bounding_boxERKNSt8optionalI11BoundingBoxEE"><code class="docutils literal notranslate"><span class="pre">set_bounding_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16get_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">get_bounding_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim5World16has_bounding_boxEv"><code class="docutils literal notranslate"><span class="pre">has_bounding_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World12agents_movedEv"><code class="docutils literal notranslate"><span class="pre">agents_moved()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16record_collisionEP6EntityP6Entity"><code class="docutils literal notranslate"><span class="pre">record_collision()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim5World16clear_collisionsEv"><code class="docutils literal notranslate"><span class="pre">clear_collisions()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

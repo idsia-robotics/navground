@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Odometry &#8212; navground 0.6.0.dev documentation</title>
+    <title>Marker &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/cpp/state_estimations/sensor_marker';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/yaml.html">YAML</a></li>
@@ -501,7 +504,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Odometry</h1>
+    <h1>Marker</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -512,7 +515,14 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimationE"><code class="docutils literal notranslate"><span class="pre">navground::sim::MarkerStateEstimation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientationE"><code class="docutils literal notranslate"><span class="pre">ReferenceOrientation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation16target_directionE"><code class="docutils literal notranslate"><span class="pre">target_direction</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation5agentE"><code class="docutils literal notranslate"><span class="pre">agent</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation5worldE"><code class="docutils literal notranslate"><span class="pre">world</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation21MarkerStateEstimationEN4core7Vector2E20ReferenceOrientation10ng_float_t10ng_float_t10ng_float_t10ng_float_tbbRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">MarkerStateEstimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimationD0Ev"><code class="docutils literal notranslate"><span class="pre">~MarkerStateEstimation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation19set_marker_positionERKN4core7Vector2E"><code class="docutils literal notranslate"><span class="pre">set_marker_position()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation25set_reference_orientationE20ReferenceOrientation"><code class="docutils literal notranslate"><span class="pre">set_reference_orientation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim21MarkerStateEstimation19get_marker_positionEv"><code class="docutils literal notranslate"><span class="pre">get_marker_position()</span></code></a></li>
@@ -538,6 +548,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation13update_markerEP5AgentP5World"><code class="docutils literal notranslate"><span class="pre">update_marker()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim21MarkerStateEstimation20read_marker_positionERN4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">read_marker_position()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation30read_marker_position_with_nameERN4core12SensingStateERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">read_marker_position_with_name()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation4typeE"><code class="docutils literal notranslate"><span class="pre">type</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -551,8 +562,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="odometry">
-<h1>Odometry<a class="headerlink" href="#odometry" title="Link to this heading">#</a></h1>
+  <section id="marker">
+<h1>Marker<a class="headerlink" href="#marker" title="Link to this heading">#</a></h1>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;navground/sim/state_estimations/sensor_marker.h&quot;</span>
 </pre></div>
 </div>
@@ -564,19 +575,46 @@ document.write(`
 <p><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">marker_position</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_marker_state_estimation_1aab814a64657a78fa31e4e19f97cecac0"><span class="std std-ref">get_marker_position</span></a>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">reference_orientation</span></code> (str, <a class="reference internal" href="#structnavground_1_1sim_1_1_marker_state_estimation_1a2c29190d23ef719e1379c08371246de9"><span class="std std-ref">get_reference_orientation</span></a>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">min_x</span></code> (float, get_bounds)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">min_y</span></code> (float, get_bounds)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">max_x</span></code> (float, get_bounds)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">max_y</span></code> (float, get_bounds)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_x</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_marker_state_estimation_1a32c5d7229f2456465e3cdade8a83941a"><span class="std std-ref">get_min_x</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_y</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_marker_state_estimation_1afd7eea81b43a41d9350e8cc9d990a219"><span class="std std-ref">get_min_y</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_x</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_marker_state_estimation_1a7fc1873f1624be6ffe22dc78792de000"><span class="std std-ref">get_max_x</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_y</span></code> (float, <a class="reference internal" href="#structnavground_1_1sim_1_1_marker_state_estimation_1aa4fbdfe76e0b413ecad76f0b9a878659"><span class="std std-ref">get_max_y</span></a>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">include_x</span></code> (int, <a class="reference internal" href="#structnavground_1_1sim_1_1_marker_state_estimation_1a0bae4bb22091995d949e6f7fa1d7d9fb"><span class="std std-ref">get_include_x</span></a>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">include_y</span></code> (int, <a class="reference internal" href="#structnavground_1_1sim_1_1_marker_state_estimation_1ab6f4e9fb3c88bc9bf0163dca65edfe09"><span class="std std-ref">get_include_y</span></a>) </p></li>
 </ul>
 </p>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientationE">
+<span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1a1330927b218d6db31d4b5f104d565c12"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ReferenceOrientation</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientationE" title="Link to this definition">#</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation16target_directionE">
+<span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1a1330927b218d6db31d4b5f104d565c12a2a49d589a1c35bfa1d31e8496f0b0e08"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">target_direction</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation16target_directionE" title="Link to this definition">#</a><br /></dt>
+<dd><p>target orientation </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation5agentE">
+<span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1a1330927b218d6db31d4b5f104d565c12ab33aed8f3134996703dc39f9a7c95783"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">agent</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation5agentE" title="Link to this definition">#</a><br /></dt>
+<dd><p>agent frame </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation5worldE">
+<span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1a1330927b218d6db31d4b5f104d565c12a7d793037a0760186574b0282f2f435e7"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">world</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation5worldE" title="Link to this definition">#</a><br /></dt>
+<dd><p>world frame </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim21MarkerStateEstimation21MarkerStateEstimationEN4core7Vector2E20ReferenceOrientation10ng_float_t10ng_float_t10ng_float_t10ng_float_tbbRKNSt6stringE">
-<span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1a81798a9b2ef5f48ef430d6c53c74ea07"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MarkerStateEstimation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">marker_position</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Zero</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <span class="n"><span class="pre">ReferenceOrientation</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">reference_orientation</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">ReferenceOrientation</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">agent</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">min_x</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">min_y</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_x</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_y</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">include_x</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">include_y</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim21MarkerStateEstimation21MarkerStateEstimationEN4core7Vector2E20ReferenceOrientation10ng_float_t10ng_float_t10ng_float_t10ng_float_tbbRKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1a81798a9b2ef5f48ef430d6c53c74ea07"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MarkerStateEstimation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">marker_position</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Zero</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientationE" title="navground::sim::MarkerStateEstimation::ReferenceOrientation"><span class="n"><span class="pre">ReferenceOrientation</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">reference_orientation</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientationE" title="navground::sim::MarkerStateEstimation::ReferenceOrientation"><span class="n"><span class="pre">ReferenceOrientation</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation5agentE" title="navground::sim::MarkerStateEstimation::ReferenceOrientation::agent"><span class="n"><span class="pre">agent</span></span></a>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">min_x</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">min_y</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_x</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">max_y</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numeric_limits</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">infinity</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">include_x</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">include_y</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim21MarkerStateEstimation21MarkerStateEstimationEN4core7Vector2E20ReferenceOrientation10ng_float_t10ng_float_t10ng_float_t10ng_float_tbbRKNSt6stringE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Constructs a new instance. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -596,6 +634,11 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim21MarkerStateEstimationD0Ev">
+<span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1aa9ddc9c05f7dced1f4ca6d022f59cbb3"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~MarkerStateEstimation</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N9navground3sim21MarkerStateEstimationD0Ev" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim21MarkerStateEstimation19set_marker_positionERKN4core7Vector2E">
 <span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1a8930bb166f52122fd5b6f9511406a476"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_marker_position</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim21MarkerStateEstimation19set_marker_positionERKN4core7Vector2E" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the marker position in the world frame. </p>
@@ -608,7 +651,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim21MarkerStateEstimation25set_reference_orientationE20ReferenceOrientation">
-<span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1acf199a7873380aa27173622efb7808c6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_reference_orientation</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">ReferenceOrientation</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim21MarkerStateEstimation25set_reference_orientationE20ReferenceOrientation" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1acf199a7873380aa27173622efb7808c6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_reference_orientation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientationE" title="navground::sim::MarkerStateEstimation::ReferenceOrientation"><span class="n"><span class="pre">ReferenceOrientation</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim21MarkerStateEstimation25set_reference_orientationE20ReferenceOrientation" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the reference frame used for orientation. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -630,7 +673,7 @@ document.write(`
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim21MarkerStateEstimation25get_reference_orientationEv">
-<span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1a2c29190d23ef719e1379c08371246de9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">ReferenceOrientation</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_reference_orientation</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim21MarkerStateEstimation25get_reference_orientationEv" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1a2c29190d23ef719e1379c08371246de9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientationE" title="navground::sim::MarkerStateEstimation::ReferenceOrientation"><span class="n"><span class="pre">ReferenceOrientation</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_reference_orientation</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim21MarkerStateEstimation25get_reference_orientationEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the reference frame used for orientation. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -655,8 +698,8 @@ document.write(`
 <span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1a769d1f9714018739d5c65303fedcaf1d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_reference_orientation_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim21MarkerStateEstimation30set_reference_orientation_nameERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Sets the reference frame used for orientation. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The desired frame name. </p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – <strong>[in]</strong> The desired frame name. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -666,8 +709,8 @@ document.write(`
 <span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1ac6bd4d2448cd1e01b2c378d7efeee22e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_measured_marker_position</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim21MarkerStateEstimation28get_measured_marker_positionEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Computes the relative marker pose. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The pose </p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The position. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -860,7 +903,7 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim21MarkerStateEstimation20read_marker_positionERN4core12SensingStateE">
 <span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1ab253b7171e5e8f0ac2c990ae82b2f98e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_marker_position</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/state/sensing.html#_CPPv4N9navground4core12SensingStateE" title="navground::core::SensingState"><span class="n"><span class="pre">SensingState</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">state</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim21MarkerStateEstimation20read_marker_positionERN4core12SensingStateE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Reads the marker position from a <a class="reference internal" href="../../../core/cpp/state/sensing.html#classnavground_1_1core_1_1_sensing_state"><span class="std std-ref">core::SensingState</span></a>. </p>
-<p>Calls <a class="reference internal" href="#structnavground_1_1sim_1_1_marker_state_estimation_1abf5404ea6188ed3329e9e48cc8bfa3f3"><span class="std std-ref">read_marker_position_with_name</span></a>, passing <a class="reference internal" href="sensor.html#structnavground_1_1sim_1_1_sensor_1a06a960b571d37f55b8e6c2ead4b3891f"><span class="std std-ref">get_name</span></a>.</p>
+<p>Calls <a class="reference internal" href="#structnavground_1_1sim_1_1_marker_state_estimation_1abf5404ea6188ed3329e9e48cc8bfa3f3"><span class="std std-ref">read_marker_position_with_name</span></a>, passing <a class="reference internal" href="sensor.html#structnavground_1_1sim_1_1_sensor_1a06a960b571d37f55b8e6c2ead4b3891f"><span class="std std-ref">Sensor::get_name</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>state</strong> – The state</p>
@@ -890,6 +933,14 @@ document.write(`
 </dd>
 </dl>
 </dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim21MarkerStateEstimation4typeE">
+<span class="target" id="structnavground_1_1sim_1_1_marker_state_estimation_1a6d36dc40dc958bb1e999d96a060a3373"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim21MarkerStateEstimation4typeE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
 
 </div>
 </dd></dl>
@@ -942,7 +993,14 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimationE"><code class="docutils literal notranslate"><span class="pre">navground::sim::MarkerStateEstimation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientationE"><code class="docutils literal notranslate"><span class="pre">ReferenceOrientation</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation16target_directionE"><code class="docutils literal notranslate"><span class="pre">target_direction</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation5agentE"><code class="docutils literal notranslate"><span class="pre">agent</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation20ReferenceOrientation5worldE"><code class="docutils literal notranslate"><span class="pre">world</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation21MarkerStateEstimationEN4core7Vector2E20ReferenceOrientation10ng_float_t10ng_float_t10ng_float_t10ng_float_tbbRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">MarkerStateEstimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimationD0Ev"><code class="docutils literal notranslate"><span class="pre">~MarkerStateEstimation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation19set_marker_positionERKN4core7Vector2E"><code class="docutils literal notranslate"><span class="pre">set_marker_position()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation25set_reference_orientationE20ReferenceOrientation"><code class="docutils literal notranslate"><span class="pre">set_reference_orientation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim21MarkerStateEstimation19get_marker_positionEv"><code class="docutils literal notranslate"><span class="pre">get_marker_position()</span></code></a></li>
@@ -968,6 +1026,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation13update_markerEP5AgentP5World"><code class="docutils literal notranslate"><span class="pre">update_marker()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim21MarkerStateEstimation20read_marker_positionERN4core12SensingStateE"><code class="docutils literal notranslate"><span class="pre">read_marker_position()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation30read_marker_position_with_nameERN4core12SensingStateERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">read_marker_position_with_name()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim21MarkerStateEstimation4typeE"><code class="docutils literal notranslate"><span class="pre">type</span></code></a></li>
 </ul>
 </li>
 </ul>

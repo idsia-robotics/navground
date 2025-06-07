@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Base class &#8212; navground 0.6.0.dev documentation</title>
+    <title>Base class &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/python/behaviors/behavior';</script>
@@ -143,7 +144,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -198,6 +199,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -343,6 +345,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/yaml.html">YAML</a></li>
@@ -521,7 +524,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.Heading.velocity"><code class="docutils literal notranslate"><span class="pre">velocity</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.Heading.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.Heading.name"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.Heading.value"><code class="docutils literal notranslate"><span class="pre">value</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior"><code class="docutils literal notranslate"><span class="pre">Behavior</span></code></a><ul class="visible nav section-nav flex-column">
@@ -551,6 +553,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_actuated_twist"><code class="docutils literal notranslate"><span class="pre">get_actuated_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_environment_state"><code class="docutils literal notranslate"><span class="pre">get_environment_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_property_type_name"><code class="docutils literal notranslate"><span class="pre">get_property_type_name()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_direction"><code class="docutils literal notranslate"><span class="pre">get_target_angular_direction()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_distance"><code class="docutils literal notranslate"><span class="pre">get_target_angular_distance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_speed"><code class="docutils literal notranslate"><span class="pre">get_target_angular_speed()</span></code></a></li>
@@ -565,6 +568,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_velocity"><code class="docutils literal notranslate"><span class="pre">get_target_velocity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_twist"><code class="docutils literal notranslate"><span class="pre">get_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_velocity"><code class="docutils literal notranslate"><span class="pre">get_velocity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.has"><code class="docutils literal notranslate"><span class="pre">has()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.has_type"><code class="docutils literal notranslate"><span class="pre">has_type()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.is_stopped"><code class="docutils literal notranslate"><span class="pre">is_stopped()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
@@ -682,16 +686,6 @@ current target.</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="navground.core.Behavior.Heading.value">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#navground.core.Behavior.Heading.value" title="Link to this definition">#</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -801,7 +795,7 @@ other convenience methods)</p></li>
 <dd><p>Clean-up the behavior before termination.</p>
 <p>Call it once the behavior is not used anymore.</p>
 <p>The base class implementation does nothing. Override it to add any
-logic to clean-up steps performed in prepare.</p>
+logic to clean-up steps performed in <a class="reference internal" href="#navground.core.Behavior.prepare" title="navground.core.Behavior.prepare"><code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1064,7 +1058,7 @@ above.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.dump">
-<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">::core::Behavior</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.dump" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.dump" title="Link to this definition">#</a></dt>
 <dd><p>Dumps the object to a YAML-string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1187,6 +1181,21 @@ current twist over a time step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The environment state.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Behavior.get_property_type_name">
+<span class="sig-name descname"><span class="pre">get_property_type_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_property_type_name" title="Link to this definition">#</a></dt>
+<dd><p>Gets the type of a property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – The name of the property</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The property type name or an empty string if the property is not
+defined.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1350,8 +1359,8 @@ to the behavior own optimal speed.</p>
 <dt class="sig sig-object py" id="navground.core.Behavior.get_target_twist">
 <span class="sig-name descname"><span class="pre">get_target_twist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_twist" title="Link to this definition">#</a></dt>
 <dd><p>Gets the current target velocity.</p>
-<p>Multiplication of <a class="reference internal" href="#navground.core.Behavior.get_target_direction" title="navground.core.Behavior.get_target_direction"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_direction()</span></code></a> by <a class="reference internal" href="#navground.core.Behavior.get_target_speed" title="navground.core.Behavior.get_target_speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_speed()</span></code></a>.
-Returns a zero vector if the target direction is undefined.</p>
+<p>Multiply <a class="reference internal" href="#navground.core.Behavior.get_target_direction" title="navground.core.Behavior.get_target_direction"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_direction()</span></code></a> by <a class="reference internal" href="#navground.core.Behavior.get_target_speed" title="navground.core.Behavior.get_target_speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_speed()</span></code></a>. Returns a
+zero vector if the target direction is undefined.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1369,8 +1378,8 @@ Returns a zero vector if the target direction is undefined.</p>
 <dt class="sig sig-object py" id="navground.core.Behavior.get_target_velocity">
 <span class="sig-name descname"><span class="pre">get_target_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common.html#navground.core.Frame" title="navground.core.Frame"><span class="pre">navground.core.Frame</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">navground.core.Frame.absolute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../common.html#navground.core.Vector2" title="navground.core.Vector2"><span class="pre">Vector2</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.get_target_velocity" title="Link to this definition">#</a></dt>
 <dd><p>Gets the current target velocity.</p>
-<p>Multiplication of <a class="reference internal" href="#navground.core.Behavior.get_target_direction" title="navground.core.Behavior.get_target_direction"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_direction()</span></code></a> by <a class="reference internal" href="#navground.core.Behavior.get_target_speed" title="navground.core.Behavior.get_target_speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_speed()</span></code></a>.
-Returns a zero vector if the target direction is undefined.</p>
+<p>Multiply <a class="reference internal" href="#navground.core.Behavior.get_target_direction" title="navground.core.Behavior.get_target_direction"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_direction()</span></code></a> by <a class="reference internal" href="#navground.core.Behavior.get_target_speed" title="navground.core.Behavior.get_target_speed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_target_speed()</span></code></a>. Returns a
+zero vector if the target direction is undefined.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1413,6 +1422,20 @@ Returns a zero vector if the target direction is undefined.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="navground.core.Behavior.has">
+<span class="sig-name descname"><span class="pre">has</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.has" title="Link to this definition">#</a></dt>
+<dd><p>Checks whether a property exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – The name of the property</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the property exists</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="navground.core.Behavior.has_type">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.has_type" title="Link to this definition">#</a></dt>
 <dd><p>Check whether a type name has been registered.</p>
@@ -1448,11 +1471,14 @@ Returns a zero vector if the target direction is undefined.</p>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.core.Behavior.load" title="Link to this definition">#</a></dt>
 <dd><p>Load a behavior from a YAML string.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The loaded behavior or <code class="docutils literal notranslate"><span class="pre">None</span></code> if loading fails.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – the YAML string.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#navground.core.Behavior" title="navground.core.Behavior">Behavior</a>| None</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded behavior or <code class="docutils literal notranslate"><span class="pre">None</span></code> if loading fails.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#navground.core.Behavior" title="navground.core.Behavior">Behavior</a>| None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1492,7 +1518,7 @@ coordination with other behaviors.</p>
 <dd class="field-odd"><p>“anyOf” json-schema of all registered components.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-type docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">typing.Any]</span></code></p>
+<dd class="field-even"><p><a class="reference internal" href="../yaml.html#navground.core.schema.Schema" title="dict[str, typing.Any]"><code class="xref py py-type docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">typing.Any]</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1524,7 +1550,7 @@ coordination with other behaviors.</p>
 <dd class="field-even"><p>A json-schema of the registered class</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-type docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">typing.Any]</span></code></p>
+<dd class="field-odd"><p><a class="reference internal" href="../yaml.html#navground.core.schema.Schema" title="dict[str, typing.Any]"><code class="xref py py-type docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">typing.Any]</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2100,7 +2126,6 @@ frame. See <a class="reference internal" href="#navground.core.Behavior.pose" ti
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.Heading.velocity"><code class="docutils literal notranslate"><span class="pre">velocity</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.Heading.__init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.Heading.name"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.Heading.value"><code class="docutils literal notranslate"><span class="pre">value</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior"><code class="docutils literal notranslate"><span class="pre">Behavior</span></code></a><ul class="visible nav section-nav flex-column">
@@ -2130,6 +2155,7 @@ frame. See <a class="reference internal" href="#navground.core.Behavior.pose" ti
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_actuated_twist"><code class="docutils literal notranslate"><span class="pre">get_actuated_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_environment_state"><code class="docutils literal notranslate"><span class="pre">get_environment_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_property_type_name"><code class="docutils literal notranslate"><span class="pre">get_property_type_name()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_direction"><code class="docutils literal notranslate"><span class="pre">get_target_angular_direction()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_distance"><code class="docutils literal notranslate"><span class="pre">get_target_angular_distance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_angular_speed"><code class="docutils literal notranslate"><span class="pre">get_target_angular_speed()</span></code></a></li>
@@ -2144,6 +2170,7 @@ frame. See <a class="reference internal" href="#navground.core.Behavior.pose" ti
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_target_velocity"><code class="docutils literal notranslate"><span class="pre">get_target_velocity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_twist"><code class="docutils literal notranslate"><span class="pre">get_twist()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.get_velocity"><code class="docutils literal notranslate"><span class="pre">get_velocity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.has"><code class="docutils literal notranslate"><span class="pre">has()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.has_type"><code class="docutils literal notranslate"><span class="pre">has_type()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.is_stopped"><code class="docutils literal notranslate"><span class="pre">is_stopped()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.Behavior.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Base class &#8212; navground 0.6.0.dev documentation</title>
+    <title>Base class &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/cpp/state_estimations/state_estimation';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../python/yaml.html">YAML</a></li>
@@ -539,8 +542,14 @@ document.write(`
 <span class="target" id="structnavground_1_1sim_1_1_state_estimation"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">StateEstimation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="../../../core/cpp/register.html#_CPPv4I0EN9navground4core11HasRegisterE" title="navground::core::HasRegister"><span class="n"><span class="pre">HasRegister</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N9navground3sim15StateEstimationE" title="navground::sim::StateEstimation"><span class="n"><span class="pre">StateEstimation</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N9navground3sim15StateEstimationE" title="Link to this definition">#</a><br /></dt>
 <dd><p>This class describe a generic state estimation that should update the environment state used by the agent <a class="reference internal" href="../../../core/cpp/behaviors/behavior.html#classnavground_1_1core_1_1_behavior"><span class="std std-ref">navground::core::Behavior</span></a>. </p>
 <p>As the environment state is specialized by sub-classes of <a class="reference internal" href="../../../core/cpp/behaviors/behavior.html#classnavground_1_1core_1_1_behavior"><span class="std std-ref">navground::core::Behavior</span></a> like <a class="reference internal" href="../../../core/cpp/state/geometric.html#classnavground_1_1core_1_1_geometric_state"><span class="std std-ref">navground::core::GeometricState</span></a>, concrete sub-classes have to target one or more of them.</p>
-<p>In particular, the agent should use a state estimation compatible with it’s state representation.</p>
-<p>StateEstimation holds a pointer to the World containing the agent, which it queries to get the relevant entities (located nearby the agent). </p>
+<p>In particular, the agent should use a state estimation compatible with its state representation.</p>
+<p>Sub-classes are expected to override methods</p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="#structnavground_1_1sim_1_1_state_estimation_1a8a228864e71baadf9b46ddbd56ce6813"><span class="std std-ref">prepare</span></a>, which is called at the begin of the simulation to set it up.</p></li>
+<li><p><a class="reference internal" href="#structnavground_1_1sim_1_1_state_estimation_1a97e559a7c513840db8a209d7eccd687e"><span class="std std-ref">update</span></a>, which is called at every simulation step.</p></li>
+<li><p><a class="reference internal" href="#structnavground_1_1sim_1_1_state_estimation_1af080b59f95fcb0067473f5b189a53b6b"><span class="std std-ref">close</span></a>, which is called at the end of the simulation. </p></li>
+</ul>
+</p>
 <p>Subclassed by <a class="reference internal" href="geometric_bounded.html#structnavground_1_1sim_1_1_bounded_state_estimation"><span class="std std-ref">navground::sim::BoundedStateEstimation</span></a>, <a class="reference internal" href="sensor.html#structnavground_1_1sim_1_1_sensor"><span class="std std-ref">navground::sim::Sensor</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>

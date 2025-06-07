@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Base class &#8212; navground 0.6.0.dev documentation</title>
+    <title>Base class &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/core/cpp/behaviors/behavior';</script>
@@ -143,7 +144,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -198,6 +199,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -343,6 +345,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../sim/python/sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/experiment/index.html">Experiments</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../sim/python/yaml.html">YAML</a></li>
@@ -746,7 +749,7 @@ document.write(`
 <span class="target" id="classnavground_1_1core_1_1_behavior_1ae4193d135aead89001b0fa7b17496431"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">close</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior5closeEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Clean-up the behavior before termination. </p>
 <p>Call it once the behavior is not used anymore.</p>
-<p>The base class implementation does nothing. Override it to add any logic to clean-up steps performed in \prepare. </p>
+<p>The base class implementation does nothing. Override it to add any logic to clean-up steps performed in <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1af3f3a2bb83775619f645399d759e292a"><span class="std std-ref">prepare</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -1332,7 +1335,8 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core8Behavior20set_heading_behaviorE7Heading">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1a3fb075642439fa21fa2384778d50d345"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_heading_behavior</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N9navground4core8Behavior7HeadingE" title="navground::core::Behavior::Heading"><span class="n"><span class="pre">Heading</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground4core8Behavior20set_heading_behaviorE7Heading" title="Link to this definition">#</a><br /></dt>
-<dd><p>Sets the heading behavior, see <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a93c18eb3a42b61fdabc275acea6595fb"><span class="std std-ref">get_heading_behavior</span></a>. When the kinematics has only 2 degrees of freedom (see <a class="reference internal" href="../kinematics/kinematics.html#classnavground_1_1core_1_1_kinematics_1a6c53e0b2e93fe59933494d0a36f94881"><span class="std std-ref">Kinematics::dof()</span></a>), the only available behavior is <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a2b19e898db2e4f8b10a8591b5940f4bdaac1a453d0cdc1f19d9479ccfaa8b082c"><span class="std std-ref">Heading::velocity</span></a>. </p>
+<dd><p>Sets the heading behavior, see <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a93c18eb3a42b61fdabc275acea6595fb"><span class="std std-ref">get_heading_behavior</span></a>. </p>
+<p>When the kinematics has only 2 degrees of freedom (see <a class="reference internal" href="../kinematics/kinematics.html#classnavground_1_1core_1_1_kinematics_1a6c53e0b2e93fe59933494d0a36f94881"><span class="std std-ref">Kinematics::dof()</span></a>), the only available behavior is <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a2b19e898db2e4f8b10a8591b5940f4bdaac1a453d0cdc1f19d9479ccfaa8b082c"><span class="std std-ref">Heading::velocity</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> The desired value </p>
@@ -1720,10 +1724,7 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior16get_target_twistE5Frameb">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1ab2f4fba9b1788c83e94196883a8ec1ab"></span><a class="reference internal" href="../common.html#_CPPv4N9navground4core6Twist2E" title="navground::core::Twist2"><span class="n"><span class="pre">Twist2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_target_twist</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">frame</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ignore_tolerance</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior16get_target_twistE5Frameb" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the current target twist. </p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        <span class="n">Return</span> <span class="n">a</span> <span class="n">twist</span> <span class="k">with</span> <span class="n">linear</span> <span class="n">velocity</span> \<span class="n">ref</span> <span class="n">get_target_velocity</span>
-        <span class="ow">and</span> <span class="n">angular</span> <span class="n">velocity</span> \<span class="n">ref</span> <span class="n">get_angular_target_velocity</span>
-</pre></div>
-</div>
+<p>Returns a twist with linear velocity <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a398504394e3977d8121872445838bbbf"><span class="std std-ref">get_target_velocity</span></a> and angular velocity <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1afecb76e41897d1826ff8f41585544c9f"><span class="std std-ref">get_target_angular_velocity</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1741,11 +1742,7 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior19get_target_velocityE5Frameb">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1a398504394e3977d8121872445838bbbf"></span><a class="reference internal" href="../common.html#_CPPv4N9navground4core7Vector2E" title="navground::core::Vector2"><span class="n"><span class="pre">Vector2</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_target_velocity</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../common.html#_CPPv4N9navground4core5FrameE" title="navground::core::Frame"><span class="n"><span class="pre">Frame</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">frame</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ignore_tolerance</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior19get_target_velocityE5Frameb" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the current target velocity. </p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        <span class="n">Multiplication</span> <span class="n">of</span> \<span class="n">ref</span> <span class="n">get_target_direction</span>
-        <span class="n">by</span> \<span class="n">ref</span> <span class="n">get_target_speed</span><span class="o">.</span>
-        <span class="n">Returns</span> <span class="n">a</span> <span class="n">zero</span> <span class="n">vector</span> <span class="k">if</span> <span class="n">the</span> <span class="n">target</span> <span class="n">direction</span> <span class="ow">is</span> <span class="n">undefined</span><span class="o">.</span>
-</pre></div>
-</div>
+<p>Multiply <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a0cc379b5354c0746d588f7528f063ad6"><span class="std std-ref">get_target_direction</span></a> by <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1aa2bab8e8b51b86dff574f8ce4ea10765"><span class="std std-ref">get_target_speed</span></a>. Returns a zero vector if the target direction is undefined.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1785,15 +1782,8 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground4core8Behavior27get_target_angular_velocityEb">
 <span class="target" id="classnavground_1_1core_1_1_behavior_1afecb76e41897d1826ff8f41585544c9f"></span><a class="reference internal" href="../types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_target_angular_velocity</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ignore_tolerance</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground4core8Behavior27get_target_angular_velocityEb" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gets the current target angular velocity. </p>
-<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        <span class="n">Multiplication</span> <span class="n">of</span> \<span class="n">ref</span> <span class="n">get_target_angular_direction</span>
-        <span class="n">by</span> \<span class="n">ref</span> <span class="n">get_target_angular_speed</span><span class="o">.</span>
-        <span class="n">Returns</span> <span class="n">zero</span> <span class="k">if</span> <span class="n">the</span> <span class="n">target</span> <span class="n">angular</span> <span class="n">direction</span> <span class="ow">is</span> <span class="n">undefined</span><span class="o">.</span>
-
-        <span class="n">Note</span> <span class="n">that</span> <span class="n">this</span> <span class="n">returns</span> <span class="n">a</span> <span class="n">signed</span> <span class="n">value</span><span class="p">,</span> <span class="k">while</span>
-        \<span class="n">ref</span> <span class="n">get_target_angular_speed</span><span class="p">,</span> <span class="n">returns</span> <span class="n">the</span> <span class="n">absolute</span> <span class="n">value</span>
-</pre></div>
-</div>
- instead. Moreover considers (angular) tolerances, while <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a698fb93944319199edfec73c67ee643a"><span class="std std-ref">get_target_angular_speed</span></a> not, just like <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a398504394e3977d8121872445838bbbf"><span class="std std-ref">get_target_velocity</span></a> vs <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1aa2bab8e8b51b86dff574f8ce4ea10765"><span class="std std-ref">get_target_speed</span></a>.</p>
+<p>Multiplication of <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a979a30239a4216756fe615fcab7c28e9"><span class="std std-ref">get_target_angular_direction</span></a> by <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a698fb93944319199edfec73c67ee643a"><span class="std std-ref">get_target_angular_speed</span></a>. Returns zero if the target angular direction is undefined.</p>
+<p>Note that this returns a signed value, while <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a698fb93944319199edfec73c67ee643a"><span class="std std-ref">get_target_angular_speed</span></a>, returns the absolute value instead. Moreover considers (angular) tolerances, while <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a698fb93944319199edfec73c67ee643a"><span class="std std-ref">get_target_angular_speed</span></a> not, just like <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1a398504394e3977d8121872445838bbbf"><span class="std std-ref">get_target_velocity</span></a> vs <a class="reference internal" href="#classnavground_1_1core_1_1_behavior_1aa2bab8e8b51b86dff574f8ce4ea10765"><span class="std std-ref">get_target_speed</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ignore_tolerance</strong> – <strong>[in]</strong> Whether to ignore the target tolerance</p>

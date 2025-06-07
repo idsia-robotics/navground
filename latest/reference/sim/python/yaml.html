@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>YAML &#8212; navground 0.6.0.dev documentation</title>
+    <title>YAML &#8212; navground 0.7.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=66bbf0b8"></script>
+    <script src="../../../_static/documentation_options.js?v=176ebae1"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +49,7 @@
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/sim/python/yaml';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.6.0.dev documentation</p>
+    <p class="title logo__title">navground 0.7.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -196,6 +197,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/modulations.html">Behavior Modulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sensors.html">Sensors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/sampling.html">Scenarios generate worlds</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -341,6 +343,7 @@
 <li class="toctree-l4"><a class="reference internal" href="agent.html">Agent</a></li>
 <li class="toctree-l4"><a class="reference internal" href="state_estimations/index.html">State estimations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sampling.html">Sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="scenarios/index.html">Scenarios</a></li>
 <li class="toctree-l4"><a class="reference internal" href="experiment/index.html">Experiments</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">YAML</a></li>
@@ -621,7 +624,7 @@ In particular, you can load registered components</p>
 <p>You can dump objects of the same classes to YAML:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="navground.sim.dump">
-<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../core/python/behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><span class="pre">Behavior</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../core/python/behavior_modulations/behavior_modulation.html#navground.core.BehaviorModulation" title="navground.core.BehaviorModulation"><span class="pre">BehaviorModulation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../core/python/kinematics/kinematics.html#navground.core.Kinematics" title="navground.core.Kinematics"><span class="pre">Kinematics</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../core/python/state/geometric.html#navground.core.Disc" title="navground.core.Disc"><span class="pre">Disc</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../core/python/state/geometric.html#navground.core.LineSegment" title="navground.core.LineSegment"><span class="pre">LineSegment</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../core/python/state/geometric.html#navground.core.Neighbor" title="navground.core.Neighbor"><span class="pre">Neighbor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="tasks/task.html#navground.sim.Task" title="navground.sim.Task"><span class="pre">Task</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="state_estimations/state_estimation.html#navground.sim.StateEstimation" title="navground.sim.StateEstimation"><span class="pre">StateEstimation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="scenarios/scenario.html#navground.sim.Scenario" title="navground.sim.Scenario"><span class="pre">Scenario</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="experiment/experiment.html#navground.sim.Experiment" title="navground.sim.Experiment"><span class="pre">Experiment</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">Agent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="world.html#navground.sim.World" title="navground.sim.World"><span class="pre">World</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="world.html#navground.sim.Wall" title="navground.sim.Wall"><span class="pre">Wall</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="world.html#navground.sim.Obstacle" title="navground.sim.Obstacle"><span class="pre">Obstacle</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#navground.sim.dump" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../core/python/behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><span class="pre">Behavior</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../core/python/behavior_modulations/behavior_modulation.html#navground.core.BehaviorModulation" title="navground.core.BehaviorModulation"><span class="pre">BehaviorModulation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../core/python/kinematics/kinematics.html#navground.core.Kinematics" title="navground.core.Kinematics"><span class="pre">Kinematics</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../core/python/state/geometric.html#navground.core.Disc" title="navground.core.Disc"><span class="pre">Disc</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../core/python/state/geometric.html#navground.core.LineSegment" title="navground.core.LineSegment"><span class="pre">LineSegment</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../core/python/state/geometric.html#navground.core.Neighbor" title="navground.core.Neighbor"><span class="pre">Neighbor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="tasks/task.html#navground.sim.Task" title="navground.sim.Task"><span class="pre">Task</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="state_estimations/state_estimation.html#navground.sim.StateEstimation" title="navground.sim.StateEstimation"><span class="pre">StateEstimation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="scenarios/scenario.html#navground.sim.Scenario" title="navground.sim.Scenario"><span class="pre">Scenario</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="experiment/experiment.html#navground.sim.Experiment" title="navground.sim.Experiment"><span class="pre">Experiment</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="agent.html#navground.sim.Agent" title="navground.sim.Agent"><span class="pre">Agent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="world.html#navground.sim.World" title="navground.sim.World"><span class="pre">World</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="world.html#navground.sim.Wall" title="navground.sim.Wall"><span class="pre">Wall</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="world.html#navground.sim.Obstacle" title="navground.sim.Obstacle"><span class="pre">Obstacle</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="sampling.html#navground.sim.Sampler" title="navground.sim.Sampler"><span class="pre">Sampler</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#navground.sim.dump" title="Link to this definition">#</a></dt>
 <dd><p>Dumps the object to a YAML-string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -682,7 +685,7 @@ for example <code class="xref py py-func docutils literal notranslate"><span cla
 <dd class="field-odd"><p>json-schema</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-type docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">typing.Any]</span></code></p>
+<dd class="field-even"><p><a class="reference internal" href="../../core/python/yaml.html#navground.core.schema.Schema" title="dict[str, typing.Any]"><code class="xref py py-type docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">typing.Any]</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

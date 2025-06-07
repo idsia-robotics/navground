@@ -23,6 +23,12 @@ class World;
 /**
  * @brief      This class describe the high-level task control that provides
  * navigation goals.
+ * 
+ * Sub-classes are expected to override methods
+ * 
+ * - \ref prepare, which is called at the begin of the simulation to set it up.
+ * - \ref update, which is called at every simulation step.
+ * - \ref close, which is called at the end of the simulation.
  */
 struct NAVGROUND_SIM_EXPORT Task : public virtual HasRegister<Task> {
   /**

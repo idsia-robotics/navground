@@ -25,8 +25,8 @@ using Waypoints = std::vector<core::Vector2>;
  * of waypoints, calling \ref navground::core::Controller::go_to_pose or
  * \ref navground::core::Controller::go_to_position for
  * the next waypoint after the current has been reached within a tolerance,
- * depending if a goal orientation has been specified using \ref
- * \set_orientation or not.
+ * depending if a goal orientation has been specified using \ref set_orientations
+ * or not.
  *
  * The task notifies when a new waypoint is set by calling a callback.
  *
@@ -161,7 +161,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * To ignore the orientation at a specific  waypoint index,
    * set the related angular tolerance above PI.
    *
-   * @param[in]  value  The desired orientations (in radians)
+   * @param[in]  values  The desired orientations (in radians)
    */
   void set_orientations(const std::vector<ng_float_t> &values) {
     _orientations = values;
@@ -178,7 +178,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    *
    * @return     The waypoints.
    */
-  const Waypoints & get_waypoints() const { return _waypoints; }
+  const Waypoints &get_waypoints() const { return _waypoints; }
   /**
    * @brief      Gets the goal orientations at the waypoints.
    *
@@ -254,7 +254,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * the effective tolerance applied to a selected waypoint:
    * negative values are ignored and replaced by the default value
    * \ref get_tolerance.
-   * Extra items (not paired to \get_waypoints) are also ignored.
+   * Extra items (not paired to \ref get_waypoints) are also ignored.
    *
    * @return     The spatial tolerances of waypoints at specific indices in
    * meters
@@ -280,7 +280,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * the effective tolerance applied to a selected waypoint:
    * negative values are ignored and replaced by the default value set with
    * \ref set_tolerance.
-   * Extra items (not paired to \get_waypoints) are also ignored.
+   * Extra items (not paired to \ref get_waypoints) are also ignored.
    *
    * @param[in]  values  The desired values at specific indices in
    * meters
@@ -329,7 +329,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * the effective tolerance applied to a selected waypoint:
    * negative values are ignored and replaced by the default value
    * \ref get_angular_tolerance.
-   * Extra items (not paired to \get_waypoints) are also ignored.
+   * Extra items (not paired to \ref get_waypoints) are also ignored.
    *
    * @return     The specific waypoints angular tolerances.
    */
@@ -356,7 +356,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * the effective angular tolerance applied to a selected waypoint:
    * negative values are ignored and replaced by the default value set with
    * \ref set_angular_tolerance.
-   * Extra items (not paired to \get_waypoints) are also ignored.
+   * Extra items (not paired to \ref get_waypoints) are also ignored.
    *
    * @param[in]  values  The desired values at specific indices in
    * radians.
@@ -369,8 +369,8 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * at given index.
    *
    * If a specific positive value is present at the same index in \ref
-   * get_times, it returns it.
-   * Else it returns the default value from \ref get_time.
+   * get_wait_times, it returns it.
+   * Else it returns the default value from \ref get_wait_time.
    *
    * @param[in]  index  The index
    *
@@ -399,7 +399,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * the effective tolerance applied to a selected waypoint:
    * negative values are ignored and replaced by the default value
    * \ref get_angular_tolerance.
-   * Extra items (not paired to \get_waypoints) are also ignored.
+   * Extra items (not paired to \ref get_waypoints) are also ignored.
    *
    * @return     The wait times.
    */
@@ -424,7 +424,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * the effective tolerance applied to a selected waypoint:
    * negative values are ignored and replaced by the default value
    * \ref get_angular_tolerance.
-   * Extra items (not paired to \get_waypoints) are also ignored.
+   * Extra items (not paired to \ref get_waypoints) are also ignored.
    *
    * @param[in]  values  The values
    */

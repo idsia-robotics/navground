@@ -129,4 +129,4 @@ Bundle
 
 .. cpp:namespace:: navground::core
 
-.. doxygenfunction:: navground::sim::bundle_schema()
+.. doxygenfunction:: navground::core::bundle_schema()

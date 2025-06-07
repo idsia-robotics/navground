@@ -34,7 +34,15 @@ Two dimensional
 
 .. autoclass:: Frame
    :members:
-   :undoc-members:
+   :exclude-members: __new__
+
+   .. autoattribute:: relative
+
+      agent-fixed frame
+
+   .. autoattribute:: absolute
+
+      world-fixed frame
 
 .. autoclass:: Pose2
    :members:

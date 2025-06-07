@@ -1721,8 +1721,12 @@ The random generator.
                   py::arg("value"),
                   YAML::load_string_py_doc("sensor", "Sensor").c_str());
 
+  py::class_<LidarStateEstimation, Sensor, StateEstimation,
+             std::shared_ptr<LidarStateEstimation>>
+      lse(m, "LidarStateEstimation", DOC(navground, sim, LidarStateEstimation));
+
   py::class_<LidarStateEstimation::Scan>(
-      m, "LidarScan", DOC(navground, sim, LidarStateEstimation, Scan))
+      lse, "Scan", DOC(navground, sim, LidarStateEstimation, Scan))
       .def_property(
           "ranges",
           [](const LidarStateEstimation::Scan &scan) { return scan.ranges; },
@@ -1741,9 +1745,6 @@ The random generator.
       .def_property("angles", &LidarStateEstimation::Scan::get_angles, nullptr,
                     DOC(navground, sim, LidarStateEstimation, Scan, angles));
 
-  py::class_<LidarStateEstimation, Sensor, StateEstimation,
-             std::shared_ptr<LidarStateEstimation>>
-      lse(m, "LidarStateEstimation", DOC(navground, sim, LidarStateEstimation));
   lse.def(
          py::init<ng_float_t, ng_float_t, ng_float_t, unsigned, const Vector2 &,
                   ng_float_t, ng_float_t, const std::string &>(),
@@ -3491,6 +3492,8 @@ Register a probe to record a group of data to during all runs.
 
   agent_sampler
       .def("dump", &YAML::dump<AgentSampler<PyWorld>>, YAML::dump_doc())
+      .def_readwrite("once", &AgentSampler<PyWorld>::once,
+                     DOC(navground, sim, Sampler, once))
       .def("count", &AgentSampler<PyWorld>::count,
            DOC(navground, sim, Sampler, count))
       .def("done", &AgentSampler<PyWorld>::done,
@@ -3518,7 +3521,7 @@ Draws a sample using the world's random generator.
 )doc")
       .def_static("load", &YAML::load_string_py<AgentSampler<PyWorld>>,
                   py::arg("value"),
-                  YAML::load_string_py_doc("group", "YAMLGroup").c_str());
+                  YAML::load_string_py_doc("group", "AgentSampler").c_str());
 
   scenario.def(py::init<>())
       .def("init_world", &Scenario::init_world, py::arg("world"),
@@ -3771,6 +3774,8 @@ Draws a sample using the world's random generator.
 )doc")
       .def_readonly("type_name", &PropertySampler::type_name,
                     "The samples type name")
+      .def_readwrite("once", &PropertySampler::once,
+                     DOC(navground, sim, Sampler, once))
       .def("reset", &PropertySampler::reset, py::arg("index") = std::nullopt,
            py::arg("keep") = false, DOC(navground, sim, Sampler, reset))
       .def("count", &PropertySampler::count,

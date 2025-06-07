@@ -8,6 +8,10 @@ Register
 
 .. doxygentypedef:: navground::core::PropertyRegister
 
+.. doxygentypedef:: navground::core::Schema
+
+.. doxygentypedef:: navground::core::SchemaRegister
+
 .. doxygenstruct:: navground::core::HasRegister
    :members:
 

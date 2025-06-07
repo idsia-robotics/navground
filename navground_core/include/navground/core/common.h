@@ -90,7 +90,7 @@ inline Radians normalize_angle(Radians value) {
  *
  * @return     Vector of norm one and desired orientation
  */
-inline Vector2 unit(ng_float_t angle) {
+inline Vector2 unit(Radians angle) {
   return {std::cos(angle), std::sin(angle)};
 }
 
@@ -102,7 +102,7 @@ inline Vector2 unit(ng_float_t angle) {
  * @return     Vector of norm one and orientation normal to the desired
  * orientation
  */
-inline Vector2 normal(ng_float_t angle) {
+inline Vector2 normal(Radians angle) {
   return {-std::sin(angle), std::cos(angle)};
 }
 
@@ -114,7 +114,7 @@ inline Vector2 normal(ng_float_t angle) {
  *
  * @return     The rotated vector
  */
-inline Vector2 rotate(const Vector2 vector, ng_float_t angle) {
+inline Vector2 rotate(const Vector2 vector, Radians angle) {
   Eigen::Rotation2D<ng_float_t> rot(angle);
   return rot * vector;
 }

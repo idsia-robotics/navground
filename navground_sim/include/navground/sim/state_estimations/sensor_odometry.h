@@ -256,7 +256,7 @@ struct NAVGROUND_SIM_EXPORT OdometryStateEstimation : public Sensor {
   /**
    * @brief      Reads an (odometry) pose from a \ref core::SensingState
    *
-   * Calls \ref read_pose_with_name, passing \ref get_name.
+   * Calls \ref read_pose_with_name, passing \ref Sensor::get_name.
    *
    * @param      state  The state
    *

@@ -11,4 +11,4 @@ Agent
 
 .. note::
 
-   Class :cpp:class:`Agent` supports `dynamic attributes <attributes cpp>`.
+   Class :cpp:class:`Agent` supports :ref:`dynamic attributes <attributes cpp>`.

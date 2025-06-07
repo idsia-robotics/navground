@@ -7,7 +7,6 @@ Controller
 .. autoclass:: navground.core.Action.State
    :members: __init__, name, value
    :exclude-members: __new__
-   :undoc-members:
 
    .. autoattribute:: idle
 

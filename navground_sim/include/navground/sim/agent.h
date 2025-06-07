@@ -44,18 +44,14 @@ namespace navground::sim {
  * Agents have a circular shape which should match the shape of their navigation
  * \ref navground::core::Behavior.
  *
- * The role of task and state estimations is to provide goals and
- * environment state (perception) to the behavior.
+ * The role of the task is to provide goals to the behavior, while the role of
+ * state estimations is to update the environment state (perception) of the
+ * behavior.
  *
- * State estimations are evaluated in the order, each updating
- * the same behavior environment state. For example, if an agent has two state
- * estimations SE1 and SE2, when \ref World::update is called, it updates
- * the behavior environment state S as
- *
- * \code
- *  SE1(S)
- *  SE2(S)
- * \endcode
+ * State estimations are evaluated in constant order, each operating on
+ * the behavior environment state. For example, if an agent has two state
+ * estimations ``SE1`` and ``SE2``, when \ref World::update is called,
+ * the agent updates the behavior environment state ``S`` as ``SE1(S); SE2(S);``
  *
  * Agents have a public identifies \ref id that is accessible by the
  * other agents' state estimation and may be passed to their behavior as \ref

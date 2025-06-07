@@ -560,7 +560,7 @@ public:
   /**
    * @brief      Applies wheel torques to accelerate a twist over a time step
    *
-   *             Does not check the motor torques are feasible.
+   * \warning Does not check whether motor torques are feasible.
    *
    * @param[in]  values     The motor torques
    * @param[in]  current    The current twist

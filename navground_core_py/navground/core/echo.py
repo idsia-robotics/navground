@@ -53,7 +53,7 @@ def parser() -> argparse.ArgumentParser:
     return p
 
 
-def load(arg: argparse.Namespace, yaml: str):
+def load(arg: argparse.Namespace, yaml: str) -> Any:
     if arg.kind not in echos:
         logging.error(f"Unknown kind of object to load: {arg.kind}")
         sys.exit(1)

@@ -41,6 +41,7 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
   using S = typename A::S;
   /** @private */
   using Sampler<C>::sample;
+  using Sampler<C>::once;
 
   /**
    * @brief      Constructs a new instance.

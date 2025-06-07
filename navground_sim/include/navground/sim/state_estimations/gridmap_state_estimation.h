@@ -60,10 +60,16 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
   static const std::string type;
 
   /**
-   * The default resolution
+   * The default map width in meters
    */
   inline static const int default_width = 10;
+  /**
+   * The default map height in meters
+   */
   inline static const int default_height = 10;
+  /**
+   * The default map resolution in meter per pixel
+   */
   inline static const ng_float_t default_resolution = 0.1;
   /**
    * The name of the buffer set by the sensor
@@ -132,7 +138,7 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
   /**
    * @brief      Reads a grid map from a \ref core::SensingState
    *
-   * Calls \ref read_gridmap_with_name, passing \ref get_name.
+   * Calls \ref read_gridmap_with_name, passing \ref Sensor::get_name.
    *
    * @param      state  The state
    *
@@ -154,7 +160,7 @@ struct NAVGROUND_SIM_EXPORT LocalGridMapStateEstimation : public Sensor {
   /**
    * @brief      Reads a transformation from a \ref core::SensingState
    *
-   * Calls \ref read_transform_with_name, passing \ref get_name.
+   * Calls \ref read_transform_with_name, passing \ref Sensor::get_name.
    *
    * @param      state  The state
    *

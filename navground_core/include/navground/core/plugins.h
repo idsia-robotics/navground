@@ -44,7 +44,7 @@ template <typename T> void add_register(const std::string &name) {
  * map keys.
  * @param[in]  include_default Whether to load the plugin from the
  *                             ament resources index, or from the
- *                             "NAVGROUND_PLUGINS_INDEX_PATH" env
+ *                             ``NAVGROUND_PLUGINS_INDEX_PATH`` env
  *                             (a list of directories separated by ":")
  */
 NAVGROUND_CORE_EXPORT void load_plugins(const PathSet &plugins = {},

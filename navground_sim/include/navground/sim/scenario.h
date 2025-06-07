@@ -25,8 +25,15 @@ using navground::core::LineSegment;
 namespace navground::sim {
 
 /**
- * @brief      A scenario describes a distribution of \ref World
- * that can be sampled to perform an experiment.
+ * @brief      A scenario is a generator of \ref World.
+ *
+ * Sub-classes should override \ref init_world with a custom initialization
+ * that is performed each time a world is sampled (e.g., during an experiment).
+ *
+ * They can also be customized by adding groups using \ref add_group
+ * and/or initializers using \ref add_init, although these are not exposed to
+ * YAML.
+ *
  */
 struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
 
@@ -157,7 +164,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   /**
    * @brief      Gets a group.
    *
-   * @param[in]  The index
+   * @param[in]  index The index
    *
    * @return     The group or null if the index is not defined.
    */

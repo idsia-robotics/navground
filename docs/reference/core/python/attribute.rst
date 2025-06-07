@@ -11,6 +11,7 @@ Classes with attributes save/load their attributes from YAML.
 
 .. py:type:: Attribute
    :canonical: bool | int | float | str | Vector2 | list[bool] | list[int] | list[float] | list[str] | list[Vector2]
+   :no-index:
 
 .. autoclass:: HasAttributes
    :members:

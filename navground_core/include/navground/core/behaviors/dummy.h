@@ -19,8 +19,9 @@ namespace navground::core {
  * Can be assigned an arbitrary environment state,
  * using \ref set_environment_state, and/or the property "environment"
  *
- * *Registered properties*: environment (string, \ref
- * get_environment_state_type),
+ * *Registered properties*: 
+ * 
+ * - environment (string, \ref get_environment_state_type)
  *
  * *State*: any
  */
@@ -51,7 +52,7 @@ public:
   /**
    * @brief      Gets the environment state type.
    *
-   * - "Geometric" for \ref GeometriState,
+   * - "Geometric" for \ref GeometricState,
    *
    * - "Sensing" for \ref SensingState,
    *
@@ -63,7 +64,7 @@ public:
   /**
    * @brief      Sets the environment state type.
    *
-   * - "Geometric" for \ref GeometriState,
+   * - "Geometric" for \ref GeometricState,
    *
    * - "Sensing" for \ref SensingState,
    *

@@ -1,6 +1,6 @@
-========
-Odometry
-========
+======
+Marker
+======
 
 .. code-block:: cpp
    
@@ -8,3 +8,4 @@ Odometry
 
 .. doxygenstruct:: navground::sim::MarkerStateEstimation
    :members:
+   :undoc-members:

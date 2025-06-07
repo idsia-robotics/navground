@@ -7,7 +7,6 @@ Base class
 .. autoclass:: navground.core.Behavior.Heading
    :members: __init__, name, value
    :exclude-members: __new__
-   :undoc-members:
 
    .. autoattribute:: idle
 

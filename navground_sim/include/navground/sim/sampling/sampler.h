@@ -458,7 +458,7 @@ using uniform_distribution = typename std::conditional<
 /**
  * @brief      Sample randomly from a uniform distribution.
  *
- * Only defined if T is a number or a \ref core::Vector2.
+ * Only defined if T is a number or a \ref Vector2.
  *
  * @tparam     T     The sampled type
  * @param[in]  once  Whether to repeat the first sample (until reset)
@@ -852,6 +852,8 @@ using allowed = is_one_of<T, navground::core::Property::Field>;
  */
 struct PropertySampler : Sampler<navground::core::Property::Field> {
   template <typename T> using US = std::unique_ptr<Sampler<T>>;
+
+  using Sampler<navground::core::Property::Field>::once;
 
   template <typename S>
   using ST = std::decay_t<decltype(std::declval<S>().sample())>;

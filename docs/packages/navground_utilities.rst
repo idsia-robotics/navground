@@ -1,5 +1,0 @@
-===================
-navground_utilities
-===================
-
-Utilities.

@@ -100,6 +100,11 @@ Registers
     :members:
     :undoc-members:
 
+.. doxygenstruct:: navground::sim::BehaviorModulationSampler
+    :members:
+    :undoc-members:
+    
+
 .. doxygenstruct:: navground::sim::TaskSampler
     :members:
     :undoc-members:

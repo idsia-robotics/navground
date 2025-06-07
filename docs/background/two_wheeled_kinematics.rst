@@ -578,27 +578,27 @@ We simulate one run of the same scenario as in :doc:`../tutorials/tour`, with a 
 
 Let's compare the trajectories,
 
-.. image:: 2wk_trajectory.pdf
+.. figure:: 2wk_trajectory.pdf
    :width: 800
 
 the wheel speeds,
 
-.. image:: 2wk_actuated_wheel_speed.pdf
+.. figure:: 2wk_actuated_wheel_speed.pdf
    :width: 800
 
 the linear accelerations,
 
-.. image:: 2wk_actuated_lin_acc.pdf
+.. figure:: 2wk_actuated_lin_acc.pdf
    :width: 800
 
 the angular accelerations,
 
-.. image:: 2wk_actuated_ang_acc.pdf
+.. figure:: 2wk_actuated_ang_acc.pdf
    :width: 800
 
 and the forces required by the motors (dashed = left motor).
 
-.. image:: 2wk_actuated_force.pdf
+.. figure:: 2wk_actuated_force.pdf
    :width: 800
 
 

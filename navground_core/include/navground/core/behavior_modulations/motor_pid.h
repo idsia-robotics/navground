@@ -14,8 +14,8 @@ namespace navground::core {
 /**
  * @brief      A modulation that control motor torques using a PID.
  *
- *             Requires that the behavior has a
- *             \ref DynamicTwoWheelsDifferentialDriveKinematics kinematics.
+ * \warning Requires that the behavior has a
+ * \ref DynamicTwoWheelsDifferentialDriveKinematics kinematics.
  *
  * *Registered properties*:
  *

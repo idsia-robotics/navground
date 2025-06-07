@@ -47,9 +47,8 @@ struct NAVGROUND_SIM_EXPORT Sensor : public StateEstimation {
    *
    * @private
    *
-   * @return     The geometric state or ``nullptr`` if the agent behavior does
-   * not have a environment state that is a subclass of \ref
-   * navground::core::SensingState
+   * @return     The geometric state or null if the agent behavior does
+   * not have a environment state that is a subclass of \ref core::SensingState
    */
   core::SensingState *get_state(Agent *agent) const {
     if (agent) {

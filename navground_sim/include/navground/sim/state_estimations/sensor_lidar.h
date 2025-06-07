@@ -154,7 +154,7 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
   /**
    * @brief      Reads a scan from a \ref core::SensingState
    * 
-   * Call \ref read_scan_with_name, passing \ref get_name.
+   * Call \ref read_scan_with_name, passing \ref Sensor::get_name.
    *
    * @param      state  The state
    *
@@ -374,7 +374,7 @@ struct NAVGROUND_SIM_EXPORT LidarStateEstimation : public Sensor {
   /**
    * @brief      Reads the ranges stored in a sensing state
    * 
-   * Calls \ref read_ranges_with_name, passing \ref get_name.
+   * Calls \ref read_ranges_with_name, passing \ref Sensor::get_name.
    *
    * @param      state  The state
    *

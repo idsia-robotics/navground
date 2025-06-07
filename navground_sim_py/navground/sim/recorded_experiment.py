@@ -376,7 +376,8 @@ class RecordedExperimentalRun:
         :param      min_interval:  The minimal interval between collision among
                                    the same pair to be considered a new event
 
-        :returns:   A dataset of shape {`#events`, 4} of events `<begin, end, e1, e2>`
+        :returns:   A dataset of shape ``{#events, 4}`` of events
+                    ``<begin, end, e1, e2>``
         """
         if self.collisions is None:
             print("Collisions not recorded", file=sys.stderr)
@@ -409,7 +410,7 @@ class RecordedExperimentalRun:
         :param      min_interval:  The minimal interval between collision among
                                    the same pair to be considered a new event
 
-        :returns:   An array of shape `{#steps, #agents}`
+        :returns:   An array of shape ``{#steps, #agents}``
         """
         if not self.record_config:
             return np.array([])

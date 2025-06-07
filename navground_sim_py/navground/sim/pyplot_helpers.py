@@ -333,7 +333,7 @@ def transform_from_pose(pose: core.Pose2) -> Affine2D:
 
 def plot_grid_map(ax: Axes,
                   gridmap: core.GridMap,
-                  cmap='gray',
+                  cmap: str = 'gray',
                   vmin: int = 0,
                   vmax: int = 255,
                   transform: Affine2D | None = None) -> None:
@@ -367,7 +367,7 @@ def plot_grid_map(ax: Axes,
 
 
 def plot_scan(ax: Axes,
-              scan: sim.state_estimations.LidarScan,
+              scan: sim.state_estimations.LidarStateEstimation.Scan,
               pose: core.Pose2 = core.Pose2(),
               color: str = 'r',
               alpha: float = 0.5) -> None:

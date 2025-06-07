@@ -119,7 +119,7 @@ def get_loaded_py_plugins(kinds: Iterable[str] = (
 
     :param      kinds:  The kinds of components
 
-    :returns:   A dictionary {pkg name: {kind: [registered types]}}
+    :returns:   A dictionary ``{pkg name: {kind: [registered types]}}``
     """
     rs: dict[str, dict[str, list[str]]] = {}
     for kind in kinds:
@@ -144,7 +144,7 @@ def get_loaded_plugins(kinds: Iterable[str] = (
 
     :param      kinds:  The kinds of components
 
-    :returns:   A dictionary {pkg name: {kind: [(registered type, language)]}}
+    :returns:   A dictionary ``{pkg name: {kind: [(registered type, language)]}}``
     """
     py_rs = get_loaded_py_plugins(kinds)
     cpp_rs = get_loaded_cpp_plugins()

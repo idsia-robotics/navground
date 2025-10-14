@@ -171,7 +171,7 @@ const std::string DynamicTwoWheelsDifferentialDriveKinematics::type =
 
 Twist2 FourWheelsOmniDriveKinematics::twist(const WheelSpeeds &speeds) const {
   if (speeds.size() == 4 && _axis > 0) {
-    // {front left, rear left, rear right, rear left}
+    // {front left, rear left, rear right, front right}
     return {{(speeds[0] + speeds[1] + speeds[2] + speeds[3]) / 4,
              (-speeds[0] + speeds[1] - speeds[2] + speeds[3]) / 4},
             (-speeds[0] - speeds[1] + speeds[2] + speeds[3]) / 4 / _axis,
@@ -180,15 +180,15 @@ Twist2 FourWheelsOmniDriveKinematics::twist(const WheelSpeeds &speeds) const {
   return {};
 }
 
-// {front left, rear left, rear right, rear left}
+// {front left, rear left, rear right, front right}
 WheelSpeeds
 FourWheelsOmniDriveKinematics::wheel_speeds(const Twist2 &twist) const {
   assert(twist.frame == Frame::relative);
   const ng_float_t rotation = twist.angular_speed * _axis;
   const ng_float_t longitudinal = twist.velocity[0];
   const ng_float_t lateral = twist.velocity[1];
-  return {longitudinal - lateral - rotation, longitudinal + lateral + rotation,
-          longitudinal + lateral - rotation, longitudinal - lateral + rotation};
+  return {longitudinal - lateral - rotation, longitudinal + lateral - rotation,
+          longitudinal - lateral + rotation, longitudinal + lateral + rotation};
 }
 
 WheelSpeeds FourWheelsOmniDriveKinematics::feasible_wheel_speeds(
@@ -203,9 +203,9 @@ WheelSpeeds FourWheelsOmniDriveKinematics::feasible_wheel_speeds(
   const ng_float_t lateral =
       std::clamp(twist.velocity[1], -max_speed, max_speed);
   ng_float_t front_left = longitudinal - lateral - rotation;
-  ng_float_t front_right = longitudinal + lateral + rotation;
   ng_float_t rear_left = longitudinal + lateral - rotation;
   ng_float_t rear_right = longitudinal - lateral + rotation;
+  ng_float_t front_right = longitudinal + lateral + rotation;
   if (std::abs(front_left) > max_speed) {
     front_left = std::clamp(front_left, -max_speed, max_speed);
     front_right = front_left + 2 * lateral + 2 * rotation;

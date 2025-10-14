@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.7.0] unreleased
+
+### Fixed
+
+- `Twist3` constructor.
+- `FourWheelsOmniDriveKinematics` mapping between wheel speeds and twist. 
+
+### Removed
+
+- `navground_utils`
+
 ## [0.6.0] 2026-06-07
 
 In this release we add two components (`Marker` sensor, `Bicycle` kinematics), a new base class for behaviors that are evaluated jointly (e.g., centralized controllers), dynamic attributes for agents and worlds (which are similar to properties but are not defined in advance), and several methods related to bounding boxes.

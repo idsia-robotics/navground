@@ -62,7 +62,7 @@ struct Cylinder {
    * @param[in]  radius    Radius of the cylinder
    * @param[in]  height    Height of the cylinder
    */
-  Cylinder(const Vector3 position, ng_float_t radius, ng_float_t height = -1.0)
+  Cylinder(const Vector3 & position, ng_float_t radius, ng_float_t height = -1.0)
       : position(position), radius(radius), height(height) {}
 
   /**
@@ -95,8 +95,8 @@ struct Neighbor3 : Cylinder {
    * @param[in]  velocity       Planar velocity
    * @param[in]  id             Neighbor identifier
    */
-  Neighbor3(const Vector3 position, ng_float_t radius, ng_float_t height = -1.0,
-            Vector2 velocity = Vector2::Zero(), unsigned id = 0.0)
+  Neighbor3(const Vector3 & position, ng_float_t radius, ng_float_t height = -1.0,
+            const Vector2 & velocity = Vector2::Zero(), unsigned id = 0)
       : Cylinder(position, radius, height), velocity(velocity), id(id) {}
 
   /**
@@ -183,7 +183,7 @@ struct Twist3 {
       : velocity(velocity), angular_speed(angular_speed), frame(frame) {}
   Twist3() : Twist3(Vector3::Zero()) {}
   Twist3(const Twist2& twist, ng_float_t vz)
-      : velocity{twist.velocity.x(), twist.velocity.x(), vz},
+      : velocity{twist.velocity.x(), twist.velocity.y(), vz},
         angular_speed(twist.angular_speed),
         frame(twist.frame) {}
   /**

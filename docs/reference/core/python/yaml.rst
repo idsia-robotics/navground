@@ -34,6 +34,12 @@ Moreover, we expose methods that return `JSON Schema <https://json-schema.org>`_
 
 :module: :py:mod:`navground.core.schema`
 
+.. py:type:: Schema
+   :canonical: dict[str, typing.Any]
+
+.. py:type:: SchemaModifier
+   :canonical: typing.Callable[[Schema], None]
+
 .. autofunction:: navground.core.schema.register
 
 .. autofunction:: navground.core.schema.bundle

@@ -33,6 +33,7 @@
 #include "navground/sim/experiment.h"
 #include "navground/sim/experimental_run.h"
 #include "navground/sim/probe.h"
+#include "navground/sim/sampling/sampler.h"
 #include "navground/sim/scenario.h"
 #include "navground/sim/scenarios/antipodal.h"
 #include "navground/sim/scenarios/corridor.h"
@@ -65,6 +66,10 @@
 using namespace navground::core;
 using namespace navground::sim;
 
+std::string sampler_to_string(const PropertySampler &value) {
+  return "<Sampler: " + value.type_name += ">";
+}
+
 static navground::core::BuildDependencies build_dependencies_sim_py() {
   py::module_ core = py::module_::import("navground.core");
   const auto bi =
@@ -79,6 +84,8 @@ static navground::core::BuildDependencies build_dependencies_sim_py() {
 namespace py = pybind11;
 
 // PYBIND11_MAKE_OPAQUE(std::map<unsigned, ExperimentalRun>);
+
+// PYBIND11_MAKE_OPAQUE(std::vector<Scenario::Group>);
 
 void set_dataset_type_py(Dataset &dataset, const py::object &obj);
 void set_dataset_data_py(Dataset &dataset, const py::array &obj,
@@ -390,6 +397,37 @@ struct PyGroup : public Scenario::Group {
     PYBIND11_OVERRIDE_PURE(void, Scenario::Group, add_to_world, world, seed);
   }
 };
+
+void add_group_py(const py::object &obj, const py::object value) {
+  add_py_item(obj, value, "groups");
+  std::shared_ptr<Scenario::Group> g;
+  try {
+    g = value.cast<std::shared_ptr<AgentSampler<PyWorld>>>();
+  } catch (py::cast_error &) {
+    g = value.cast<std::shared_ptr<Scenario::Group>>();
+  }
+  obj.cast<Scenario &>().add_group(g);
+}
+
+void remove_group_py(const py::object &obj, const py::object value) {
+  obj.cast<Scenario &>().remove_group(
+      value.cast<std::shared_ptr<Scenario::Group>>());
+  remove_py_item(obj, value, "groups");
+}
+
+void remove_group_at_index_py(const py::object &obj, size_t index) {
+  auto &scenario = obj.cast<Scenario &>();
+  const auto group = scenario.get_group(index);
+  if (group) {
+    scenario.remove_group_at_index(index);
+    remove_py_item(obj, py::cast(group), "groups");
+  }
+}
+
+void clear_groups_py(const py::object &obj) {
+  obj.cast<Scenario &>().clear_groups();
+  clear_collection_py(obj, "groups");
+}
 
 struct PyScenario : public Scenario, public PyHasRegister<Scenario> {
   /* Inherit the constructors */
@@ -703,6 +741,22 @@ private:
 
 namespace YAML {
 
+inline std::shared_ptr<PropertySampler>
+load_property_sampler(const std::string &value, const std::string &type_name) {
+  YAML::Node node;
+  try {
+    node = YAML::Load(value);
+  } catch (const YAML::ParserException &e) {
+    std::cerr << e.what() << std::endl;
+    return nullptr;
+  }
+  auto p = property_sampler(node, type_name);
+  if (p && p->valid()) {
+    return p;
+  }
+  return nullptr;
+}
+
 template <> struct convert<PyAgent> {
   static Node encode(const PyAgent &rhs) {
     return convert<Agent>::encode(static_cast<const Agent &>(rhs));
@@ -782,6 +836,12 @@ template <> py::object load_node_py<PyScenario>(const Node &node) {
   }
   convert_scenario<PyWorld>::decode(node, obj.cast<Scenario &>());
   return obj;
+}
+
+template <> py::object load_node_py<AgentSampler<PyWorld>>(const Node &node) {
+  auto group = std::make_shared<AgentSampler<PyWorld>>();
+  convert<AgentSampler<PyWorld>>::decode(node, *group);
+  return py::cast(group);
 }
 
 void update_scenario(Scenario &scenario, const Node &node) {
@@ -1661,8 +1721,12 @@ The random generator.
                   py::arg("value"),
                   YAML::load_string_py_doc("sensor", "Sensor").c_str());
 
+  py::class_<LidarStateEstimation, Sensor, StateEstimation,
+             std::shared_ptr<LidarStateEstimation>>
+      lse(m, "LidarStateEstimation", DOC(navground, sim, LidarStateEstimation));
+
   py::class_<LidarStateEstimation::Scan>(
-      m, "LidarScan", DOC(navground, sim, LidarStateEstimation, Scan))
+      lse, "Scan", DOC(navground, sim, LidarStateEstimation, Scan))
       .def_property(
           "ranges",
           [](const LidarStateEstimation::Scan &scan) { return scan.ranges; },
@@ -1681,9 +1745,6 @@ The random generator.
       .def_property("angles", &LidarStateEstimation::Scan::get_angles, nullptr,
                     DOC(navground, sim, LidarStateEstimation, Scan, angles));
 
-  py::class_<LidarStateEstimation, Sensor, StateEstimation,
-             std::shared_ptr<LidarStateEstimation>>
-      lse(m, "LidarStateEstimation", DOC(navground, sim, LidarStateEstimation));
   lse.def(
          py::init<ng_float_t, ng_float_t, ng_float_t, unsigned, const Vector2 &,
                   ng_float_t, ng_float_t, const std::string &>(),
@@ -3414,14 +3475,53 @@ Register a probe to record a group of data to during all runs.
   py::class_<Scenario::Group, PyGroup, std::shared_ptr<Scenario::Group>>(
       scenario, "Group", DOC(navground, sim, Scenario_Group))
       .def(py::init<>(), "")
+      // .def("dump", &YAML::dump<PyGroup>, YAML::dump_doc())
+      // .def_static("load", &YAML::load_string_py<PyGroup>, py::arg("value"),
+      //             YAML::load_string_py_doc("group", "Group").c_str())
+      .def("add_to_world", &Scenario::Group::add_to_world,
+           // [](PyGroup &g, World *world,
+           //    std::optional<unsigned> seed = std::nullopt) {
+           //   g.add_to_world(world, seed);
+           // },
+           py::arg("world"), py::arg("seed") = std::nullopt,
+           DOC(navground, sim, Scenario_Group, add_to_world));
+
+  py::class_<AgentSampler<PyWorld>, Scenario::Group,
+             std::shared_ptr<AgentSampler<PyWorld>>>
+      agent_sampler(m, "AgentSampler");
+
+  agent_sampler
+      .def("dump", &YAML::dump<AgentSampler<PyWorld>>, YAML::dump_doc())
+      .def_readwrite("once", &AgentSampler<PyWorld>::once,
+                     DOC(navground, sim, Sampler, once))
+      .def("count", &AgentSampler<PyWorld>::count,
+           DOC(navground, sim, Sampler, count))
+      .def("done", &AgentSampler<PyWorld>::done,
+           DOC(navground, sim, Sampler, done))
+      .def("reset", &AgentSampler<PyWorld>::reset,
+           py::arg("index") = std::nullopt, py::arg("keep") = false)
+      .def("add_to_world", &AgentSampler<PyWorld>::add_to_world,
+           py::arg("world"), py::arg("seed") = std::nullopt,
+           DOC(navground, sim, Scenario_Group, add_to_world))
       .def(
-          "add_to_world",
-          [](PyGroup &g, World *world,
-             std::optional<unsigned> seed = std::nullopt) {
-            g.add_to_world(world, seed);
+          "sample",
+          [](AgentSampler<PyWorld> &sampler, World &world) {
+            RandomGenerator &rg = world.get_random_generator();
+            return sampler.sample(rg);
           },
-          py::arg("world"), py::arg("seed") = std::nullopt,
-          DOC(navground, sim, Scenario_Group, add_to_world));
+          py::arg("world"), R"doc(
+Draws a sample using the world's random generator.
+
+:param world:         The world.
+
+:raises RuntimeError: When the generator is exhausted 
+                      (i.e., when :py:meth:`done` returns true)
+
+:return:              The new sample              
+)doc")
+      .def_static("load", &YAML::load_string_py<AgentSampler<PyWorld>>,
+                  py::arg("value"),
+                  YAML::load_string_py_doc("group", "AgentSampler").c_str());
 
   scenario.def(py::init<>())
       .def("init_world", &Scenario::init_world, py::arg("world"),
@@ -3431,7 +3531,6 @@ Register a probe to record a group of data to during all runs.
            DOC(navground, sim, Scenario, apply_inits))
       .def("set_attributes", &Scenario::set_attributes, py::arg("world"),
            DOC(navground, sim, Scenario, set_attributes))
-
       .def(
           "make_world",
           [](PyScenario &scenario, std::optional<int> seed = std::nullopt) {
@@ -3464,8 +3563,18 @@ Register a probe to record a group of data to during all runs.
                      DOC(navground, sim, Scenario, obstacles))
       .def_readwrite("walls", &Scenario::walls,
                      DOC(navground, sim, Scenario, walls))
-      .def_readwrite("groups", &Scenario::groups,
-                     DOC(navground, sim, Scenario, groups))
+      .def_property("groups", &Scenario::get_groups, nullptr,
+                    DOC(navground, sim, Scenario, property_groups))
+      .def("get_group", &Scenario::get_group, py::arg("index"),
+           DOC(navground, sim, Scenario, get_group))
+      .def("clear_groups", &clear_groups_py,
+           DOC(navground, sim, Scenario, clear_groups))
+      .def("remove_group", &remove_group_py, py::arg("group"),
+           DOC(navground, sim, Scenario, remove_group))
+      .def("remove_group_at_index", &remove_group_at_index_py, py::arg("index"),
+           DOC(navground, sim, Scenario, remove_group_at_index))
+      .def("add_group", &add_group_py, py::arg("group"),
+           DOC(navground, sim, Scenario, add_group))
       .def_property("property_samplers", &Scenario::get_property_samplers,
                     nullptr,
                     DOC(navground, sim, Scenario, property_property_samplers))
@@ -3474,6 +3583,9 @@ Register a probe to record a group of data to during all runs.
       .def("remove_property_sampler", &Scenario::remove_property_sampler,
            py::arg("name"),
            DOC(navground, sim, Scenario, remove_property_sampler))
+      .def("add_property_sampler", &Scenario::add_property_sampler,
+           py::arg("name"), py::arg("value"),
+           DOC(navground, sim, Scenario, add_property_sampler))
       .def_readwrite("bounding_box", &Scenario::bounding_box,
                      DOC(navground, sim, Scenario, bounding_box))
       // py::return_value_policy::reference)
@@ -3641,11 +3753,54 @@ Register a probe to record a group of data to during all runs.
                     DOC(navground, sim, CrossTorusScenario,
                         property_add_safety_to_agent_margin));
 
+  py::class_<PropertySampler, std::shared_ptr<PropertySampler>> sampler(
+      m, "Sampler", DOC(navground, sim, PropertySampler));
+
+  sampler.def("__repr__", &sampler_to_string)
+      .def(
+          "sample",
+          [](PropertySampler &sampler, World &world) {
+            return sampler.sample(world.get_random_generator());
+          },
+          py::arg("world"), R"doc(
+Draws a sample using the world's random generator.
+
+:param world:         The world.
+
+:raises RuntimeError: When the generator is exhausted 
+                      (i.e., when :py:meth:`done` returns true)
+
+:return:              The new sample
+)doc")
+      .def_readonly("type_name", &PropertySampler::type_name,
+                    "The samples type name")
+      .def_readwrite("once", &PropertySampler::once,
+                     DOC(navground, sim, Sampler, once))
+      .def("reset", &PropertySampler::reset, py::arg("index") = std::nullopt,
+           py::arg("keep") = false, DOC(navground, sim, Sampler, reset))
+      .def("count", &PropertySampler::count,
+           DOC(navground, sim, Sampler, count))
+      .def("done", &PropertySampler::done, DOC(navground, sim, Sampler, done))
+      .def_static("load", &YAML::load_property_sampler, py::arg("value"),
+                  py::arg("type_name"), R"doc(
+Load a Sampler from a YAML string.
+
+:param value:     The YAML string.
+:param type_name: The samples type name.
+:return:          The loaded Sampler or ``None`` if loading fails.
+:rtype:           Sampler| None
+)doc")
+      .def(
+          "dump",
+          [](const PropertySampler *sampler) { return YAML::dump(sampler); },
+          YAML::dump_doc());
+
   m.def("use_compact_samplers", &YAML::set_use_compact_samplers,
         py::arg("value"),
         "Whether to represent sampler compactly in YAML when possible");
 
   // add [partial] pickle support
+  // pickle_via_yaml<PropertySampler>(sampler);
   pickle_via_yaml<PyStateEstimation>(se);
   pickle_via_yaml<PyStateEstimation>(bse);
   pickle_via_yaml<PyStateEstimation>(lse);
@@ -3668,6 +3823,7 @@ Register a probe to record a group of data to during all runs.
   pickle_via_yaml<PyScenario>(corridor, init_scenario);
   pickle_via_yaml<PyWorld>(world);
   pickle_via_yaml<PyAgent>(agent);
+  pickle_via_yaml_native<AgentSampler<PyWorld>>(agent_sampler);
   // pickle_via_yaml<PyExperiment>(experiment);
 
   m.def(

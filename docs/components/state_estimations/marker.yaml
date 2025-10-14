@@ -1,0 +1,28 @@
+steps: 600
+time_step: 0.033
+record_pose: true
+scenario:
+  type: Road
+  groups:
+    - type: car
+      color: orange
+      number: 1
+      radius: 2
+      kinematics:
+        type: Bicycle
+        max_speed: 30
+        max_steeering: 1
+        max_backward_speed: 0
+        axis: 3.5
+      behavior:
+        type: Dummy
+        environment: Sensing
+        path_look_ahead: 25
+        path_tau: 0.25
+        modulations:
+          - type: SlowDown
+            enabled: true
+      state_estimations:
+        - type: Marker
+          name: slow_down
+          marker_position: [50, -20]

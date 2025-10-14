@@ -12,7 +12,7 @@ from navground.core.utils import chdir
 
 
 def description() -> str:
-    return 'Samples a world from a scenario.'
+    return 'Samples a world from a scenario or a sampler'
 
 
 def init_parser(parser: argparse.ArgumentParser) -> None:
@@ -20,14 +20,56 @@ def init_parser(parser: argparse.ArgumentParser) -> None:
     parser.description = description()
     parser.add_argument(
         'YAML',
-        help='YAML string, or path to a YAML file, describing an experiment',
+        help=
+        'YAML string, or path to a YAML file, describing an experiment or a sampler',
         type=str)
+    parser.add_argument("--seed", help="The random seed", type=int, default=0)
+    parser.add_argument("--type",
+                        help="The sampled value",
+                        type=str,
+                        default="")
+    parser.add_argument("--number",
+                        help="The number of samples",
+                        type=int,
+                        default=1)
     parser.add_argument(
         '--chdir',
         help=(
             "Whether to change working directory to the directory containing "
             "the file. Useful when the config contains relative paths."),
         action='store_true')
+
+
+def execute_scenario(yaml: str, seed: int) -> None:
+    try:
+        scenario = sim.load_scenario(yaml)
+    except RuntimeError as e:
+        logging.error(f"Could not load the scenario: {e} {yaml}")
+        sys.exit(1)
+    if scenario:
+        title = "Sampled world"
+        print(title)
+        print('=' * len(title))
+        print('')
+        world = scenario.make_world(seed=seed)
+        print(sim.dump(world))
+
+
+def execute_sampler(yaml: str, seed: int, type_name: str, number: int) -> None:
+    try:
+        sampler = sim.load_sampler(yaml, type_name)
+    except RuntimeError as e:
+        logging.error(f"Could not load the sampler: {e}")
+        sys.exit(1)
+    if sampler:
+        world = sim.World()
+        world.seed = seed
+        title = "Sampled " + type_name
+        print(title)
+        print('=' * len(title))
+        print('')
+        for i in range(number):
+            print(f"{i}: {sampler.sample(world)}")
 
 
 def _main(arg: argparse.Namespace) -> None:
@@ -42,17 +84,10 @@ def _main(arg: argparse.Namespace) -> None:
     else:
         yaml = arg.YAML
     with chdir(wd):
-        try:
-            scenario = sim.load_scenario(yaml)
-        except RuntimeError as e:
-            logging.error(f"Could not load the scenario: {e} {arg.YAML}")
-            sys.exit(1)
-        if scenario:
-            print(sim.dump(scenario))
-            print('-' * 30)
-            world = sim.World()
-            scenario.init_world(world)
-            print(sim.dump(world))
+        if arg.type:
+            execute_sampler(yaml, arg.seed, arg.type, arg.number)
+        else:
+            execute_scenario(yaml, arg.seed)
 
 
 def parser() -> argparse.ArgumentParser:

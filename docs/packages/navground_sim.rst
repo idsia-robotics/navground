@@ -69,7 +69,7 @@ Example
 echo
 ----
 
-Load and then print a YAML representation of an object (behavior, kinematic, behavior modulation, state estimation, task, scenarios, agent, world, experiment).
+Load and then print a YAML representation of an object (behavior, kinematic, behavior modulation, state estimation, task, scenarios, agent, world, experiment, sampler).
 
 
 .. argparse::
@@ -150,7 +150,7 @@ Example
 sample
 ------
 
-Samples a world from a scenario containing components implemented in C++.
+Samples a world from a scenario containing components implemented in C++, or from a sampler.
 
 
 .. argparse::
@@ -159,10 +159,17 @@ Samples a world from a scenario containing components implemented in C++.
    :prog: sample
    :nodescription:
 
-Example
-~~~~~~~
+Example (scenario)
+~~~~~~~~~~~~~~~~~~
 
 .. ng-command-output:: sample "{type: Antipodal, groups: [{number: 2}]}"
+   :package: navground_sim
+   :ellipsis: 20
+
+Example (sampler)
+~~~~~~~~~~~~~~~~~
+
+.. ng-command-output:: sample "{sampler: uniform, from: 0, to: 10}" --type int --number 5
    :package: navground_sim
    :ellipsis: 20
 

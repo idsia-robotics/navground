@@ -15,8 +15,13 @@ namespace navground::core {
  * @brief Stores build-time information
  */
 struct NAVGROUND_CORE_EXPORT BuildInfo {
+  /**
+   * The version: (major, minor, patch)
+   */
   using Version = std::array<unsigned, 3>;
-  // Not UTC, as C++17 does not have a UTC clock like C++20 does
+  /**
+   * The Date, mot UTC, as C++17 does not have a UTC clock unlike C++20
+   */
   using Date = std::chrono::system_clock::time_point;
   /**
    * The date format

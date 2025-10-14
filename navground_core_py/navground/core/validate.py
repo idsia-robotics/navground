@@ -40,13 +40,19 @@ def parser() -> argparse.ArgumentParser:
     return p
 
 
-def validate(arg: argparse.Namespace, kinds: list[str],
-             schema: dict[str, Any]) -> None:
-    import jsonschema
-
+def get_schema(arg: argparse.Namespace) -> dict[str, Any]:
     if arg.kind not in kinds:
         logging.error(f"Unknown kind of object to validate: {arg.kind}")
         sys.exit(1)
+    schema = core.schema.bundle()
+    schema['$ref'] = arg.kind
+    return schema
+
+
+def validate(arg: argparse.Namespace,
+             schema: dict[str, Any]) -> None:
+    import jsonschema
+
     yaml_str = arg.YAML
     try:
         path = pathlib.Path(yaml_str)
@@ -58,9 +64,6 @@ def validate(arg: argparse.Namespace, kinds: list[str],
         sys.exit(1)
 
     instance = yaml.safe_load(yaml_str)
-    # print('instance', instance)
-    schema['$ref'] = arg.kind
-    # schema = yaml.safe_load(schemas[arg.kind]())
     try:
         jsonschema.validate(instance=instance, schema=schema)
     except Exception as e:
@@ -70,7 +73,7 @@ def validate(arg: argparse.Namespace, kinds: list[str],
 
 def _main(arg: argparse.Namespace) -> None:
     command._main(arg)
-    validate(arg, kinds, core.schema.bundle())
+    validate(arg, get_schema(arg))
 
 
 def main() -> None:

@@ -299,7 +299,7 @@ void LocalGridMapStateEstimation::add_obstacles(
   const Array xs = angles.cos() * rs;
   const Array ys = angles.sin() * rs;
   // const ng_float_t max_range = 10;
-  const ng_float_t min_range = 0.01;
+  const ng_float_t min_range = static_cast<ng_float_t>(0.01);
   // std::cerr << n << std::endl;
   for (size_t i = 0; i < n; i++) {
     // std::cerr << rs[i] << std::endl;

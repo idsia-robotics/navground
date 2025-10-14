@@ -19,7 +19,7 @@ from ng_command_output import NGCommandDirective
 project = 'navground'
 copyright = '2023, Jérôme Guzzi, IDSIA'
 author = 'Jérôme Guzzi, IDSIA'
-release = '0.6.0.dev'
+release = '0.7.0.dev'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -111,14 +111,24 @@ autodoc_type_aliases = {
     'TaskCallback': 'TaskCallback',
     'Vector2': 'Vector2',
     'core.Vector2': 'core.Vector2',
+    'Cell': 'Cell',
+    'Map': 'Map',
     'navground.core.Vector2': 'navground.core.Vector2',
     'T': 'T',
     'Rect': 'Rect',
 }
 
 _replace = {
+    "::core::Behavior": "",
+    "::core::BehaviorModulation": "",
+    "::core::Kinematics": "",
+    "::sim::Task": "",
+    "::sim::StateEstimation": "",
+    "::sim::Scenario": "",
     "_navground.": "",
     "_navground_sim.": "",
+    "numpy.ndarray[numpy.int32[2, 1]]": "Cell",
+    "numpy.ndarray[numpy.uint8[m, n], flags.writeable, flags.c_contiguous]": "Map",
     "numpy.ndarray[numpy.float32[2, 1]]": "Vector2",
     "numpy.ndarray[numpy.float64[2, 1]]": "Vector2",
     "bool | int | float | str | Vector2 | list[bool] | list[int] | list[float] | list[str] | list[Vector2]": "PropertyField",
@@ -128,6 +138,8 @@ _replace = {
     "Callable[[float], tuple[Vector2, float, float]]": "Curve",
     "~numpy.ndarray[tuple[~typing.Literal[2]], ~numpy.dtype[~numpy.float64]]": "Vector2",
     "numpy.ndarray[tuple[typing.Literal[2]], numpy.dtype[numpy.float64]]": "Vector2",
+    "navground.sim.MarkerStateEstimation.ReferenceOrientation": "ReferenceOrientation",
+    'navground.sim.LocalGridMapStateEstimation.FootprintType': 'FootprintType'
 }
 
 def f(app, what, name, obj, options, lines):
@@ -189,8 +201,10 @@ def l(app, domain, objtype, contentnode):
 reftarget_aliases = {}
 reftarget_aliases['py'] = {
     'navground.sim.LocalGridMapStateEstimation.FootprintType': 'navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType',
+    'navground.sim.LocalGridMapStateEstimation': 'navground.sim.state_estimations.LocalGridMapStateEstimation',
     'navground.sim.OdometryStateEstimation': 'navground.sim.state_estimations.OdometryStateEstimation',
     'navground.sim.LidarStateEstimation': 'navground.sim.state_estimations.LidarStateEstimation',
+    'navground.sim.LidarStateEstimation.Scan': 'navground.sim.state_estimations.LidarStateEstimation.Scan',
     'navground.core._navground.Behavior': 'navground.core.Behavior',
     'navground.core._navground.Kinematics': 'navground.core.Kinematics',
     'Behavior': 'navground.core.Behavior',
@@ -227,7 +241,12 @@ reftarget_aliases['py'] = {
     'Task.add_callback': 'navground.sim.Task.add_callback',
     'StateEstimation.update': 'navground.sim.StateEstimation.update',
     'sim.Experiment.number_of_runs': 'navground.sim.Experiment.number_of_runs',
-    'navground.core.ORCALine': 'navground.core.behaviors.ORCALine'
+    'navground.core.ORCALine': 'navground.core.behaviors.ORCALine',
+    'SchemaModifier': 'navground.sim.schema.SchemaModifier',
+    'Schema': 'navground.sim.schema.Schema',
+    # 'navground.sim.MarkerStateEstimation.ReferenceOrientation': 'ReferenceOrientation',
+    # 'navground.sim.LidarStateEstimation.Scan': 'Scan',
+    # 'navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType': 'FootprintType'
 }
 
 reftarget_aliases['cpp'] = {

@@ -77,7 +77,7 @@ void BehaviorGroupMember::set_group(
       _group->remove(this);
     }
     if (_group && _group->size() == 0) {
-      const int key = get_group_hash();
+      const auto key = get_group_hash();
       remove_group(key);
     }
     _group = value;
@@ -89,7 +89,7 @@ void BehaviorGroupMember::set_group(
 
 void BehaviorGroupMember::prepare() {
   if (!get_group()) {
-    const int key = get_group_hash();
+    const auto key = get_group_hash();
     set_group(get_or_create_group(key));
   }
 }

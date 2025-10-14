@@ -29,11 +29,15 @@ class World;
  * navground::core::Behavior like \ref navground::core::GeometricState, concrete
  * sub-classes have to target one or more of them.
  *
- * In particular, the agent should use a state estimation compatible with it's
+ * In particular, the agent should use a state estimation compatible with its
  * state representation.
- *
- * \ref StateEstimation holds a pointer to the \ref World containing the agent,
- * which it queries to get the relevant entities (located nearby the agent).
+ * 
+ * Sub-classes are expected to override methods
+ * 
+ * - \ref prepare, which is called at the begin of the simulation to set it up.
+ * - \ref update, which is called at every simulation step.
+ * - \ref close, which is called at the end of the simulation.
+ * 
  */
 struct NAVGROUND_SIM_EXPORT StateEstimation
     : public virtual HasRegister<StateEstimation> {

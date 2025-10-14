@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.11)
-project(navground_core VERSION 0.6.0)
+project(navground_core VERSION 0.7.0)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -16,12 +16,14 @@ if(MSVC)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   set(COMPILE_OPTIONS -Wall -Wextra -Wpedantic)
 elseif(CMAKE_COMPILER_IS_GNUCXX)
-  set(COMPILE_OPTIONS -Wall -Wextra -Wpedantic -Wno-deprecated-copy -Wno-unknown-pragmas -Wno-class-memaccess)
+  set(COMPILE_OPTIONS -Wall -Wextra -Wpedantic -Wno-deprecated-copy
+                      -Wno-unknown-pragmas -Wno-class-memaccess)
 endif()
 
 option(NAVGROUND_USES_DOUBLE "Whether to use double instead of float" OFF)
 option(WITH_AMENT "Whether to use ament when available" ON)
-option(BUILD_STANDALONE_CMDS "Whether to build commands" ${PROJECT_IS_TOP_LEVEL})
+option(BUILD_STANDALONE_CMDS "Whether to build commands"
+       ${PROJECT_IS_TOP_LEVEL})
 
 include(GenerateExportHeader)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
@@ -85,7 +87,8 @@ add_library(
   src/common.cpp
   src/plugins.cpp
   src/build_info.cpp
-  src/register.cpp)
+  src/register.cpp
+  src/attribute.cpp)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/register_plugins.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/build_info.cmake)
@@ -115,8 +118,8 @@ target_include_directories(navground_core
                            PUBLIC "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>")
 
 generate_export_header(navground_core EXPORT_FILE_NAME navground/core/export.h)
-target_link_libraries(navground_core PUBLIC Eigen3::Eigen ${yaml-cpp-target} argparse::argparse
-                                            ${CMAKE_DL_LIBS})
+target_link_libraries(navground_core PUBLIC Eigen3::Eigen ${yaml-cpp-target}
+                                            argparse::argparse ${CMAKE_DL_LIBS})
 
 if(NAVGROUND_USES_DOUBLE)
   message("Building navground using doubles instead of floats")
@@ -198,11 +201,11 @@ endif()
 
 if(PROJECT_IS_TOP_LEVEL AND BUILD_TESTING)
   include(CTest)
-  if (BUILD_TESTING)
+  if(BUILD_TESTING)
     add_subdirectory(tests)
   endif()
 endif()
 
-if (PROJECT_IS_TOP_LEVEL)
+if(PROJECT_IS_TOP_LEVEL)
   include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/cpack.cmake)
 endif()

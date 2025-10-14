@@ -26,13 +26,13 @@ namespace navground::sim {
  *
  *   - `reference_orientation` (str, \ref get_reference_orientation)
  *
- *   - `min_x` (float, \ref get_bounds)
+ *   - `min_x` (float, \ref get_min_x)
  *
- *   - `min_y` (float, \ref get_bounds)
+ *   - `min_y` (float, \ref get_min_y)
  *
- *   - `max_x` (float, \ref get_bounds)
+ *   - `max_x` (float, \ref get_max_x)
  *
- *   - `max_y` (float, \ref get_bounds)
+ *   - `max_y` (float, \ref get_max_y)
  *
  *   - `include_x` (int, \ref get_include_x)
  *
@@ -119,14 +119,14 @@ struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
       return "agent";
     case ReferenceOrientation::world:
       return "world";
-    case ReferenceOrientation::target_direction:
+    default:
       return "target_direction";
     }
   }
   /**
    * @brief      Sets the reference frame used for orientation.
    *
-   * @return     The desired frame name.
+   * @param[in]  name  The desired frame name.
    */
   void set_reference_orientation_name(const std::string &name) {
     if (name == "agent") {
@@ -146,7 +146,7 @@ struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
   /**
    * @brief      Computes the relative marker pose.
    *
-   * @param[in]  value     The pose
+   * @return     The position.
    */
   core::Vector2 get_measured_marker_position() const {
     return _measured_marker_position;
@@ -273,7 +273,7 @@ struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
   /**
    * @brief      Reads the marker position from a \ref core::SensingState
    *
-   * Calls \ref read_marker_position_with_name, passing \ref get_name.
+   * Calls \ref read_marker_position_with_name, passing \ref Sensor::get_name.
    *
    * @param      state  The state
    *

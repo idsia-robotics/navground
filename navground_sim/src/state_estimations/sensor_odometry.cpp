@@ -16,6 +16,7 @@ void OdometryStateEstimation::prepare(Agent *agent, World *world) {
   _pose = Pose2();
   _twist = core::Twist2();
   _time = 0;
+  Sensor::prepare(agent, world);
 }
 
 void OdometryStateEstimation::update_odom(Agent *agent, World *world) {

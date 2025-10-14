@@ -29,6 +29,7 @@ void SensorCombination::prepare(Agent *agent, World *world) {
   for (auto &sensor : _sensors) {
     sensor->prepare(agent, world);
   }
+  Sensor::prepare(agent, world);
 }
 
 void SensorCombination::encode(YAML::Node &node) const {

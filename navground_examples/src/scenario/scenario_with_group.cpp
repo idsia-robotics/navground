@@ -18,7 +18,7 @@ int main() {
   sim::Scenario scenario;
   scenario.walls.emplace_back(Vector2{-1.0, -1.0}, Vector2{-1.0, 1.0});
   scenario.obstacles.emplace_back(Vector2{2.0, 0.0}, 0.5);
-  scenario.groups.push_back(std::make_unique<sim::AgentSampler<>>(robots()));
+  scenario.add_group(std::make_unique<sim::AgentSampler<>>(robots()));
   std::cout << "\nSCENARIO\n========\n" << std::endl;
   std::cout << YAML::dump<sim::Scenario>(&scenario) << std::endl;
   std::cout << "\nWORLD\n=====\n" << std::endl;

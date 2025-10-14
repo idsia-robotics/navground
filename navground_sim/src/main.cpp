@@ -2,6 +2,7 @@
  * @author Jerome Guzzi - <jerome@idsia.ch>
  */
 
+#include "echo.h"
 #include "navground/core/command.h"
 #include "navground/core/echo.h"
 #include "navground/core/info.h"
@@ -46,19 +47,7 @@ struct MainCommand : Command<MainCommand> {
                {"Scenarios", navground::sim::Scenario::type_properties}},
               navground::sim::get_build_info(),
               navground::sim::get_build_dependencies()),
-        _echo("", "",
-              {
-                  {"behavior", &core::echo<core::Behavior>},
-                  {"modulation", &core::echo<core::BehaviorModulation>},
-                  {"kinematics", &core::echo<core::Kinematics>},
-                  {"state_estimation", &core::echo<sim::StateEstimation>},
-                  {"task", &core::echo<sim::Task>},
-                  {"scenario", &core::echo<sim::Scenario>},
-                  {"world", &core::echo_s<sim::World>},
-                  {"agent", &core::echo_s<sim::Agent>},
-                  {"experiment", &core::echo_s<sim::Experiment>},
-              }),
-        _schema("", "", "sim", schemas()),
+        _echo("", "", echos()), _schema("", "", "sim", schemas()),
         _list_plugins("", "",
                       {"behaviors", "kinematics", "modulations",
                        "state_estimations", "tasks", "scenarios"}) {}
@@ -71,6 +60,7 @@ struct MainCommand : Command<MainCommand> {
     _info.setup(_ip);
     parser.add_subparser(_ip);
     _echo.setup(_ep);
+    sampler_setup(_ep);
     parser.add_subparser(_ep);
     _schema.setup(_xp);
     parser.add_subparser(_xp);

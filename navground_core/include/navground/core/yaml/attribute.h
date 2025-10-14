@@ -38,7 +38,8 @@ template <typename T> Node attribute_schema() {
   } else {
     node["properties"]["value"] = schema::type<T>();
   }
-  node["properties"]["type"]["const"] = navground::core::field_type_name<T>();
+  node["properties"]["type"]["const"] =
+      std::string(navground::core::field_type_name<T>());
   node["unevaluatedProperties"] = false;
   node["required"].push_back("value");
   node["required"].push_back("type");
@@ -50,7 +51,8 @@ template <> struct convert<navground::core::Attributes> {
     Node node;
     for (const auto &[k, v] : rhs) {
       node[k]["value"] = v;
-      node[k]["type"] = navground::core::Property::friendly_type_name(v);
+      node[k]["type"] =
+          std::string(navground::core::Property::friendly_type_name(v));
     }
     return node;
   }

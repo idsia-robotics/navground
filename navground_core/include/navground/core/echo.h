@@ -12,7 +12,8 @@ namespace navground::core {
 
 // Example: echo behavior "{}"
 
-template <typename T> bool echo(const YAML::Node &node) {
+template <typename T>
+bool echo(const YAML::Node &node, const argparse::ArgumentParser &) {
   const auto obj = YAML::load_node<T>(node);
   if (!obj) {
     return false;
@@ -21,7 +22,8 @@ template <typename T> bool echo(const YAML::Node &node) {
   return true;
 }
 
-template <typename T> bool echo_s(const YAML::Node &node) {
+template <typename T>
+bool echo_s(const YAML::Node &node, const argparse::ArgumentParser &) {
   const auto obj = node.as<T>();
   std::cout << YAML::dump<T>(&obj) << std::endl;
   return true;
@@ -29,7 +31,9 @@ template <typename T> bool echo_s(const YAML::Node &node) {
 
 struct EchoCommand : Command<EchoCommand> {
 
-  using Echos = std::map<std::string, std::function<bool(const YAML::Node &)>>;
+  using Echos = std::map<std::string,
+                         std::function<bool(const YAML::Node &,
+                                            const argparse::ArgumentParser &)>>;
 
   explicit EchoCommand(const std::string &name, const std::string &version,
                        const Echos &echos)
@@ -81,7 +85,7 @@ struct EchoCommand : Command<EchoCommand> {
     }
     try {
       CurrentWorkingDirectory cwd(wd);
-      if (!echos.at(kind)(node)) {
+      if (!echos.at(kind)(node, parser)) {
         std::cerr << "Failed to load " << kind << std::endl;
         std::exit(1);
       }

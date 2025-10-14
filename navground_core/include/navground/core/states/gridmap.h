@@ -41,7 +41,7 @@ public:
   using ActionType = std::function<void(const Cell &)>;
 
   /**
-   * @brief      Construct a grid map, storing values in an internal \ref Map.
+   * @brief      Construct a grid map, storing values locally.
    *
    * @param[in]  width       The width of the map in number of cells
    * @param[in]  height      The height of the map in number of cells
@@ -50,13 +50,13 @@ public:
    *                         of the map in meters.
    *
    */
-  GridMap(unsigned width, unsigned height, double resolution,
+  GridMap(unsigned width, unsigned height, ng_float_t resolution,
           const Vector2 &origin = Vector2::Zero())
       : _map(height, width), _e_map(nullptr, 0, 0), _width(width),
         _height(height), _resolution(resolution), _origin(origin) {}
 
   /**
-   * @brief      Construct a grid map, linking to external values.
+   * @brief      Construct a grid map, linking external values.
    *
    * @param[in]  data        A valid pointer to at least at least width x height
    * values.
@@ -362,8 +362,8 @@ private:
   void move(const Cell &delta, uint8_t value = 128);
   Map _map;
   ExternalMap _e_map;
-  ng_float_t _width;
-  ng_float_t _height;
+  unsigned _width;
+  unsigned _height;
   ng_float_t _resolution;
   Vector2 _origin;
 };

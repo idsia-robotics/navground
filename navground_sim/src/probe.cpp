@@ -15,6 +15,13 @@ void GroupRecordProbe::prepare(ExperimentalRun *run) {
   }
 }
 
+void SensingProbe::init_ds(ExperimentalRun *run, unsigned agent_key,
+                           const std::string &key, const core::Buffer &buffer) {
+  auto ds = run->add_record(key, _name + "/" + std::to_string(agent_key));
+  ds->config_to_hold_buffer(buffer);
+  _data[agent_key][key] = ds;
+}
+
 void SensingProbe::prepare(ExperimentalRun *run) {
   const auto world = run->get_world();
   const bool use_uid = run->get_record_config().use_agent_uid_as_key;
@@ -40,9 +47,7 @@ void SensingProbe::prepare(ExperimentalRun *run) {
       }
       const unsigned agent_key = use_uid ? agent->uid : i;
       for (const auto &[key, buffer] : state->get_buffers()) {
-        auto ds = run->add_record(key, _name + "/" + std::to_string(agent_key));
-        ds->config_to_hold_buffer(buffer);
-        _data[agent_key][key] = ds;
+        init_ds(run, agent_key, key, buffer);
       }
     }
   }
@@ -73,6 +78,10 @@ void SensingProbe::update(ExperimentalRun *run) {
       }
       const unsigned agent_key = use_uid ? agent->uid : i;
       for (const auto &[key, buffer] : state->get_buffers()) {
+        if (!_data[agent_key].count(key)) {
+          std::cerr << key << " has not been initialized" << std::endl;
+          init_ds(run, agent_key, key, buffer);
+        }
         _data[agent_key][key]->append(buffer);
       }
     }

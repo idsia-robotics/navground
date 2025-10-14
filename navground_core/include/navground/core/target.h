@@ -174,7 +174,7 @@ struct Target {
   /**
    * The angular speed
    */
-  std::optional<ng_float_t> angular_speed = std::nullopt;
+  std::optional<Radians> angular_speed = std::nullopt;
   /**
    * The angular direction
    */
@@ -190,7 +190,7 @@ struct Target {
   /**
    * The orientation tolerance
    */
-  ng_float_t orientation_tolerance = 0;
+  Radians orientation_tolerance = 0;
 
   /**
    * @brief      Constructs a new instance.
@@ -209,11 +209,11 @@ struct Target {
                   const std::optional<Radians> &orientation = std::nullopt,
                   const std::optional<ng_float_t> &speed = std::nullopt,
                   const std::optional<Vector2> &direction = std::nullopt,
-                  const std::optional<ng_float_t> &angular_speed = std::nullopt,
+                  const std::optional<Radians> &angular_speed = std::nullopt,
                   const std::optional<int> &angular_direction = std::nullopt,
                   const std::optional<Path> &path = std::nullopt,
                   ng_float_t position_tolerance = 0,
-                  ng_float_t orientation_tolerance = 0)
+                  Radians orientation_tolerance = 0)
       : position(position), orientation(orientation), speed(speed),
         direction(direction), angular_speed(angular_speed),
         angular_direction(angular_direction), path(path),
@@ -323,7 +323,7 @@ struct Target {
    * @return     The target
    */
   static Target Pose(const Pose2 &pose, ng_float_t position_tolerance = 0,
-                     ng_float_t orientation_tolerance = 0,
+                     Radians orientation_tolerance = 0,
                      std::optional<Path> along_path = std::nullopt) {
     Target t;
     t.position = pose.position;

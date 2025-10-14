@@ -26,7 +26,7 @@ template <typename W = World> struct convert_scenario {
   static Node encode(const Scenario &rhs) {
     Node node;
     encode_type_and_properties<Scenario>(node, rhs);
-    for (const auto &[name, sampler] : rhs.property_samplers) {
+    for (const auto &[name, sampler] : rhs.get_property_samplers()) {
       if (sampler) {
         node[name] = sampler;
       }
@@ -40,7 +40,7 @@ template <typename W = World> struct convert_scenario {
       wn["line"] = line;
       node["walls"].push_back(wn);
     }
-    for (const auto &group : rhs.groups) {
+    for (const auto &group : rhs.get_groups()) {
 #ifndef _UNSAFE_GROUP_CASTING
       if (AS *g = dynamic_cast<AS *>(group.get()))
 #else
@@ -59,7 +59,7 @@ template <typename W = World> struct convert_scenario {
         for (const auto &c : node["groups"]) {
           auto group = std::make_unique<AS>();
           convert<AS>::decode(c, *group);
-          rhs.groups.push_back(std::move(group));
+          rhs.add_group(std::move(group));
         }
       }
     }
@@ -86,7 +86,7 @@ template <> void decode_properties(const Node &node, Scenario &obj) {
       try {
         obj.set(name, decode_property(property, node[name]));
       } catch (const std::runtime_error &) {
-        obj.property_samplers[name] = property_sampler(node[name], property);
+        obj.add_property_sampler(name, property_sampler(node[name], property));
       }
     } else {
       for (const auto &alt_name : property.deprecated_names) {
@@ -94,8 +94,8 @@ template <> void decode_properties(const Node &node, Scenario &obj) {
           try {
             obj.set(name, decode_property(property, node[alt_name]));
           } catch (const std::runtime_error &) {
-            obj.property_samplers[name] =
-                property_sampler(node[alt_name], property);
+            obj.add_property_sampler(
+                name, property_sampler(node[alt_name], property));
           }
         }
       }

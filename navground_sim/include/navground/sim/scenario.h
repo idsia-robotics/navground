@@ -25,8 +25,15 @@ using navground::core::LineSegment;
 namespace navground::sim {
 
 /**
- * @brief      A scenario describes a distribution of \ref World
- * that can be sampled to perform an experiment.
+ * @brief      A scenario is a generator of \ref World.
+ *
+ * Sub-classes should override \ref init_world with a custom initialization
+ * that is performed each time a world is sampled (e.g., during an experiment).
+ *
+ * They can also be customized by adding groups using \ref add_group
+ * and/or initializers using \ref add_init, although these are not exposed to
+ * YAML.
+ *
  */
 struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
 
@@ -58,13 +65,24 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   using Inits = std::map<std::string, Init>;
 
   /**
+   * A collection of groups
+   */
+  using Groups = std::vector<std::shared_ptr<Group>>;
+
+  /**
+   * A collection of property samplers
+   */
+  using PropertySamplers =
+      std::map<std::string, std::shared_ptr<PropertySampler>>;
+
+  /**
    * @brief      Constructs a new instance.
    *
    * @param[in]  inits  The collection of world initializers to use.
    */
   explicit Scenario(const Inits &inits = {})
-      : groups(), obstacles(), walls(), property_samplers(),
-        initializers(inits) {}
+      : obstacles(), walls(), initializers(inits), groups(),
+        property_samplers() {}
 
   /**
    * @brief      Initializes the world.
@@ -137,6 +155,27 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   const Inits &get_inits() const { return initializers; }
 
   /**
+   * @brief      Gets the groups.
+   *
+   * @return     The groups.
+   */
+  const Groups &get_groups() const { return groups; }
+
+  /**
+   * @brief      Gets a group.
+   *
+   * @param[in]  index The index
+   *
+   * @return     The group or null if the index is not defined.
+   */
+  std::shared_ptr<Group> get_group(size_t index) const {
+    if (index < groups.size()) {
+      return groups[index];
+    }
+    return nullptr;
+  }
+
+  /**
    * @brief      Adds a group.
    *
    * @param[in]  group  The group
@@ -146,12 +185,25 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   }
 
   /**
-   * @brief Remove the last added group.
+   * @brief Remove the added group.
+   *
+   * @param[in] group The group
    *
    */
-  void remove_group() {
-    if (groups.size()) {
-      groups.pop_back();
+  void remove_group(const std::shared_ptr<Group> &group) {
+    groups.erase(std::remove(groups.begin(), groups.end(), group),
+                 groups.end());
+  }
+
+  /**
+   * @brief Remove the added group.
+   *
+   * @param[in] index The index
+   *
+   */
+  void remove_group_at_index(size_t index) {
+    if (index < groups.size()) {
+      groups.erase(std::next(groups.begin(), index));
     }
   }
 
@@ -160,10 +212,6 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
    */
   void clear_groups() { groups.clear(); }
 
-  /**
-   * Groups
-   */
-  std::vector<std::shared_ptr<Group>> groups;
   /**
    * Obstacles
    */
@@ -174,27 +222,31 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   std::vector<LineSegment> walls;
 
   /**
-   * A map of property samplers ``name -> sampler``
-   * used configure the sampled object.
-   */
-  std::map<std::string, std::shared_ptr<PropertySampler>> property_samplers;
-
-  /**
-   * @brief      Returns the names of properties for which this
-   * scenario uses a sampler.
+   * @brief      Returns the samplers that this
+   * scenario uses for its properties.
    *
-   * @return     A vector of property names.
+   * @return     The samplers.
    */
-  std::vector<std::string> get_property_samplers() const {
-    std::vector<std::string> keys;
-    for (const auto &[k, _] : property_samplers) {
-      keys.push_back(k);
-    }
-    return keys;
+  const PropertySamplers &get_property_samplers() const {
+    return property_samplers;
   }
 
   /**
-   * @brief      Remove a property sampler.
+   * @brief      Adds a property sampler.
+   *
+   * @param[in]  name  The name of the property
+   * @param[in]  value The sampler
+   *
+   */
+  void add_property_sampler(const std::string &name,
+                            const std::shared_ptr<PropertySampler> &value) {
+    if (value && value->type_name == get_property_type_name(name)) {
+      property_samplers[name] = value;
+    }
+  }
+
+  /**
+   * @brief      Removes a property sampler.
    *
    * @param[in]  name The name of the property
    *
@@ -204,7 +256,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   }
 
   /**
-   * @brief      Clear the property samplers
+   * @brief      Clears the property samplers
    *
    */
   void clear_property_samplers() { property_samplers.clear(); }
@@ -212,7 +264,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   void reset(std::optional<unsigned> index = std::nullopt) {
     for (auto &[k, v] : property_samplers) {
       if (v)
-        v->reset(index);
+        v->reset(index, true);
     }
   }
 
@@ -232,6 +284,17 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
 
 private:
   Inits initializers;
+
+  /**
+   * Groups
+   */
+  std::vector<std::shared_ptr<Group>> groups;
+
+  /**
+   * A map of property samplers ``name -> sampler``
+   * used configure the sampled object.
+   */
+  PropertySamplers property_samplers;
 
   std::string key_for_next_init() {
     for (size_t i = 0; i <= initializers.size(); i++) {

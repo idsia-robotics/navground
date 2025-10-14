@@ -104,6 +104,41 @@ struct Property {
                    std::vector<bool>, std::vector<int>, std::vector<ng_float_t>,
                    std::vector<std::string>, std::vector<Vector2>>;
 
+  /**
+   * @brief      Create a value of the desired type.
+   *
+   * @param[in]  type_name  The type name
+   *
+   * @return     A value or null is the type name is not valid.
+   */
+  static std::optional<Field> make_prototype(const std::string &type_name) {
+    const auto [scalar_type_name, is_vector] = get_scalar_type_name(type_name);
+    if (is_vector) {
+      if (scalar_type_name == "int")
+        return std::vector<int>();
+      if (scalar_type_name == "float")
+        return std::vector<ng_float_t>();
+      if (scalar_type_name == "str")
+        return std::vector<std::string>();
+      if (scalar_type_name == "bool")
+        return std::vector<bool>();
+      if (scalar_type_name == "vector")
+        return std::vector<Vector2>();
+      return std::nullopt;
+    }
+    if (scalar_type_name == "int")
+      return int();
+    if (scalar_type_name == "float")
+      return ng_float_t();
+    if (scalar_type_name == "str")
+      return std::string();
+    if (scalar_type_name == "bool")
+      return bool();
+    if (scalar_type_name == "vector")
+      return Vector2::Zero();
+    return std::nullopt;
+  }
+
   static std::string_view friendly_type_name(const Field &field) {
     return std::visit(
         [](auto &&arg) {
@@ -546,6 +581,33 @@ struct NAVGROUND_CORE_EXPORT HasProperties {
       }
     }
     throw std::runtime_error("No property " + name);
+  }
+
+  /**
+   * @brief      Checks whether a property exists.
+   *
+   * @param[in]  name  The name of the property
+   *
+   * @return     True if the property exists
+   */
+  bool has(const std::string &name) const {
+    return get_properties().count(name) > 0;
+  }
+
+  /**
+   * @brief      Gets the type of a property.
+   *
+   * @param[in]  name  The name of the property
+   *
+   * @return     The property type name or an empty string
+   *             if the property is not defined.
+   */
+  std::string get_property_type_name(const std::string &name) const {
+    const auto &properties = get_properties();
+    if (properties.count(name)) {
+      return properties.at(name).type_name;
+    }
+    return "";
   }
 };
 

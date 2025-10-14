@@ -264,6 +264,9 @@ private:
   std::vector<unsigned> _agent_indices;
   std::string _name;
   core::SensingState *get_state(const Agent *agent);
+
+  void init_ds(ExperimentalRun *run, unsigned agent_key, const std::string &key,
+               const core::Buffer &buffer);
 };
 
 } // namespace navground::sim

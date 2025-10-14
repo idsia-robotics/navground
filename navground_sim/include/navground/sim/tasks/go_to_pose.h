@@ -67,7 +67,7 @@ struct NAVGROUND_SIM_EXPORT GoToPoseTask : WaypointsTask {
   /**
    * @brief      Sets the goal point.
    *
-   * @param[in]  value  The desired point
+   * @param[in]  point  The desired point
    */
   void set_point(const core::Vector2 &point) {
     set_waypoints(std::vector<core::Vector2>{point});

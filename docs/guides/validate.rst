@@ -17,7 +17,7 @@ To check the packages themselves, you can run
 
 and
 
-.. command-output:: mypy -p navground.core --strict
+.. command-output:: mypy -p navground.sim --strict --no-incremental
 
 
 To check your package, you can run

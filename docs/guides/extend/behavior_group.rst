@@ -70,13 +70,13 @@ Virtual methods
      - Python method
      - override
    * - :cpp:func:`get_groups <navground::core::BehaviorGroupMember::get_groups>` 
-     - :py:meth:`get_groups <navground.core.BehaviorGroup.get_groups>` 
+     - :py:meth:`get_groups <navground.core.BehaviorGroupMember.get_groups>` 
      - must
    * - :cpp:func:`make_group <navground::core::BehaviorGroupMember::make_group>` 
-     - :py:meth:`make_group <navground.core.BehaviorGroup.make_group>` 
+     - :py:meth:`make_group <navground.core.BehaviorGroupMember.make_group>` 
      - must
    * - :cpp:func:`get_group_hash <navground::core::BehaviorGroupMember::get_group_hash>` 
-     - :py:meth:`get_group_hash <navground.core.BehaviorGroup.get_group_hash>` 
+     - :py:meth:`get_group_hash <navground.core.BehaviorGroupMember.get_group_hash>` 
      - can
 
 

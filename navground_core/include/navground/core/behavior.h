@@ -141,11 +141,11 @@ public:
    */
   static constexpr ng_float_t default_safety_margin = 0;
   /**
-   * Default safety margin
+   * Default path relaxation time
    */
   static constexpr ng_float_t default_path_tau = 0.5;
   /**
-   * Default safety margin
+   * Default path look-ahead
    */
   static constexpr ng_float_t default_path_look_ahead = 1.0;
   /**
@@ -186,7 +186,8 @@ public:
    * Call it once the behavior is not used anymore.
    *
    * The base class implementation does nothing.
-   * Override it to add any logic to clean-up steps performed in \prepare.
+   * Override it to add any logic to clean-up steps performed
+   * in \ref prepare.
    */
   virtual void close() {};
 
@@ -694,8 +695,10 @@ public:
   }
   /**
    * @brief      Sets the heading behavior, see \ref get_heading_behavior.
-   *             When the kinematics has only 2 degrees of freedom (see \ref
-   * Kinematics::dof()), the only available behavior is \ref Heading::velocity.
+   *
+   * When the kinematics has only 2 degrees of freedom (see \ref
+   * Kinematics::dof()), the only available behavior
+   * is \ref Heading::velocity.
    *
    * @param[in]  value The desired value
    */
@@ -1032,8 +1035,8 @@ public:
   /**
    * @brief      Gets the current target twist.
    *
-   *             Return a twist with linear velocity \ref get_target_velocity
-   *             and angular velocity \ref get_angular_target_velocity
+   * Returns a twist with linear velocity \ref get_target_velocity
+   * and angular velocity \ref get_target_angular_velocity.
    *
    * @param[in]  frame  The desired frame
    * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
@@ -1045,9 +1048,8 @@ public:
   /**
    * @brief      Gets the current target velocity.
    *
-   *             Multiplication of \ref get_target_direction
-   *             by \ref get_target_speed.
-   *             Returns a zero vector if the target direction is undefined.
+   * Multiply \ref get_target_direction by \ref get_target_speed.
+   * Returns a zero vector if the target direction is undefined.
    *
    * @param[in]  frame  The desired frame
    * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
@@ -1077,15 +1079,15 @@ public:
   /**
    * @brief      Gets the current target angular velocity.
    *
-   *             Multiplication of \ref get_target_angular_direction
-   *             by \ref get_target_angular_speed.
-   *             Returns zero if the target angular direction is undefined.
+   * Multiplication of \ref get_target_angular_direction by \ref
+   * get_target_angular_speed. Returns zero if the target angular direction is
+   * undefined.
    *
-   *             Note that this returns a signed value, while
-   *             \ref get_target_angular_speed, returns the absolute value
+   * Note that this returns a signed value, while
+   * \ref get_target_angular_speed, returns the absolute value
    * instead. Moreover considers (angular) tolerances, while \ref
    * get_target_angular_speed not, just like
-   *             \ref get_target_velocity vs \ref get_target_speed.
+   * \ref get_target_velocity vs \ref get_target_speed.
    *
    * @param[in]  ignore_tolerance  Whether to ignore the target tolerance
    *

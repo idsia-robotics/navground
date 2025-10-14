@@ -14,7 +14,7 @@ const std::string behavior_name = "HL";
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   navground::sim::CrossScenario scenario(4.0);
-  scenario.groups.push_back(
+  scenario.add_group(
       std::make_unique<sim::AgentSampler<>>(group(behavior_name, 20)));
   navground::sim::World world;
   scenario.init_world(&world);
@@ -27,7 +27,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   const auto ns = static_cast<long unsigned>(
       std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin)
           .count());
-  printf("%s: total %.1f ms, per agent and step: %ld ns \n",
+  printf("%s: total %.1f ms, per agent and step: %zd ns \n",
          behavior_name.c_str(), ns / 1e6,
          ns / (steps * world.get_agents().size()));
   return 0;

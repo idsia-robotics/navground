@@ -6,6 +6,9 @@ World
    
    #include "navground/sim/world.h"
 
+BoundingBox
+===========
+
 .. doxygentypedef:: navground::sim::BoundingBox
 
 .. doxygenfunction:: navground::sim::bb_to_tuple
@@ -16,6 +19,9 @@ World
 .. doxygenfunction:: navground::sim::bb_set_min_x
 .. doxygenfunction:: navground::sim::bb_set_min_y
 
+Entities
+========
+
 .. doxygenstruct:: navground::sim::Entity
    :members:
 
@@ -25,10 +31,13 @@ World
 .. doxygenstruct:: navground::sim::Wall
    :members:
 
+World
+=====
+
 .. doxygenclass:: navground::sim::World
    :members:
    
 
 .. note::
 
-   Class :cpp:class:`World` supports `dynamic attributes <attributes cpp>`.
+   Class :cpp:class:`World` supports :ref:`dynamic attributes <attributes cpp>`.

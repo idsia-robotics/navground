@@ -1,6 +1,14 @@
 # Changelog
 
-## [0.6.0] Unreleased
+## [0.6.0] 2026-06-07
+
+In this release we add two components (`Marker` sensor, `Bicycle` kinematics), a new base class for behaviors that are evaluated jointly (e.g., centralized controllers), dynamic attributes for agents and worlds (which are similar to properties but are not defined in advance), and several methods related to bounding boxes.
+
+We partially expose samplers to Python: it is now possible to load them from YAML and query them to generate values. We also implement a few new samplers (`uniform_size` and `permutation` for lists, `binary` for numbers, `normal_2d` for vectors). It is now possible to manipulate groups of scenarios in Python.
+
+The treatment of targets' spatial and angular components is now symmetric.
+We can now set specific and default configurations for rendering worlds 
+We also fix few errors and implemented a more solid registration of Python properties. 
 
 ### Added
 
@@ -21,27 +29,35 @@
 - Added `Bicycle` kinematics.
 - Added `Target` angular direction.
 - Added additional `Behavior` target helpers and extended `ignore_tolerance` argument to existing helpers: the treatment of the angular and planar components is now symmetric.
-- Added [limited] Scenario accessors to property samplers.
+- Added (limited) Scenario accessors to property samplers.
 - Enabled explicitly setting properties type name in Python.
 - Added world-specific and default rendering configuration, which provides defaults for all rendering functions. This way, e.g., a scenario can specify world-specific extra for the worlds it creates.
 - Added `World._repr_svg_` to implicitly display worlds as SVG in jupyter.
 - Optional wait time[s] at waypoints for task `Waypoints`. 
+- Added `probabilites` parameter to `choice` sampler
+- Added `binary`, `normal_2d`, permutation`, and `uniform_size` samplers.
+- Exposed (property) samplers in Python and in the CLI (`echo`, `sample`, and `validate`). 
+- Exposed agent samplers in Python.
+- Added a tutorial on attributes and another on samplers.
+- Added argument `keep` to `Sampler::reset` to separate resetting samplers applied to groups of agents (`keep=false`) from samplers applied to the whole scenario (`keep=true`). 
 
 ### Fixed
 
 - Fixed an error that wrongly marked `Direction` task as done.
 - Fixed typo in wall-disc collision computation.
-- Fixed dtype comparison to use `equal` instead of `is`.
+- Fixed `dtype` comparison to use `equal` instead of `is`.
 - Fixed documentation errors.
 - Fixed YAML serialization of `std::vector<bool>` which caused empty list to be serialized as a null node instead of an empty list.
 - Fixed pickle protocol that linked `__dict__` to the original value.
 - Fixed bug that caused Python (registered) properties of type `Vector2` to be
   configured as type `list[float]` instead, and similar mismatches between list of numbers.
+- Fixed a bug that caused deterministic samplers of scenario properties to reset when initializing new worlds.
 
 ### Changed
 
-- Now `Behavior::check_if_target_satisfied` returns False is there target direction is defined and target speed is not zero.
-- Split the initialization of a world by a scenario in two steps: `Scenario::init_world()` and `Scenario::apply_inits()`. This way, the specialized `init_world` can create entities that are then accessible by the initializers. Users should normally call `make_world`, which performs these two steps automatically.
+- Now `Behavior::check_if_target_satisfied` returns `false` is the target direction is defined and target speed is not zero.
+- Split the initialization of a world by a scenario in two steps: `Scenario::init_world()` and `Scenario::apply_inits()`. This way, the specialized `init_world` can create entities that are accessible by the initializers. Users should normally call `make_world`, which performs these two steps automatically.
+- Initializers and groups are now private members of a `Scenario` that can be manipulated using accessors.
 - PySensor is now registered as "Sensor".
 - `Behavior::get_target_distance` returns now a float (vs `std::optional`), returning when previously it would return `std::nullopt`.
 - Targets are now recorded as a 16 dimensional vector; reading older recording is still supported.
@@ -49,9 +65,6 @@
 - In Python, the argument of registered properties setters are now coerced by default. You can disable it by exporting `NAVGROUND_DISABLE_PY_PROPERTY_COERCION`. The return type of the generic `get` method is also coerced: when a conversion is not possible, it returns the default value. This ensure that properties in YAML representation always have the correct types. Supported conversions are:
 	- between scalar numerical types (float, int, bool) and between the relative vector types,
 	- between a list of two numbers and a vector.
-
-### Removed
-
 
 ## [0.5.2] 2025-04-30
 

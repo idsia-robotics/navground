@@ -434,7 +434,6 @@ PYBIND11_MODULE(_navground, m) {
   // options.disable_function_signatures();
 
 #if PYBIND11_VERSION_MAJOR >= 2 && PYBIND11_VERSION_MINOR >= 10
-
   options.disable_enum_members_docstring();
 #endif
 
@@ -498,6 +497,9 @@ Constructs a new instance.
       .def_readonly("readonly", &Property::readonly,
                     DOC(navground, core, Property, readonly))
       .def("__repr__", &to_string<Property>)
+      .def_static("make_prototype", &Property::make_prototype,
+                  py::arg("type_name"),
+                  DOC(navground, core, Property, make_prototype))
       .def_static("make", &make_property_with_py_property_with_type,
                   py::arg("property"), py::arg("default"), py::arg("type_name"),
                   py::arg("description") = "", py::arg("schema") = nullptr,
@@ -524,7 +526,12 @@ Constructs a navground property from a Python property.
       .def("get", &HasProperties::get, py::arg("name"),
            DOC(navground, core, HasProperties, get))
       .def("set", &HasProperties::set, py::arg("name"), py::arg("value"),
-           DOC(navground, core, HasProperties, set));
+           DOC(navground, core, HasProperties, set))
+      .def("has", &HasProperties::has, py::arg("name"),
+           DOC(navground, core, HasProperties, has))
+      .def("get_property_type_name", &HasProperties::get_property_type_name,
+           py::arg("name"),
+           DOC(navground, core, HasProperties, get_property_type_name));
   // .def_property("properties", &HasProperties::get_properties, nullptr,
   //               DOC(navground, core, HasProperties, property_properties));
 
@@ -880,6 +887,10 @@ Constructs a navground property from a Python property.
           "min_steering_radius", &BicycleKinematics::get_min_steering_radius,
           nullptr,
           DOC(navground, core, BicycleKinematics, property_min_steering_radius))
+      .def_property(
+          "max_backward_speed", &BicycleKinematics::get_max_backward_speed,
+          &BicycleKinematics::set_max_backward_speed,
+          DOC(navground, core, BicycleKinematics, property_max_backward_speed))
       .def_property("axis", &BicycleKinematics::get_axis,
                     &BicycleKinematics::set_axis,
                     DOC(navground, core, BicycleKinematics, property_axis))
@@ -1618,9 +1629,9 @@ Constructs a new instance.
 :param data: Optional data to initialize the buffer. If provided, 
              it will overwrite data initialized from the description.
              Else the buffer will be initialized with zeros.
-             Accept any type supporting the buffer protocol.
+             Accepts any type supporting the buffer protocol.
 :type data: object
-           )doc")
+)doc")
       .def_property("size", &Buffer::size, nullptr,
                     DOC(navground, core, Buffer, property_size))
       .def_property(
@@ -1731,14 +1742,14 @@ Initializes a buffer.
 :type key: str
 :param description: The description
 :type description: :py:class:`navground.core.BufferDescription` | None
-":param" data: Optional data to initialize the buffer. If provided, 
+:param data: Optional data to initialize the buffer. If provided, 
              it will overwrite data initialized from the description.
              Else the buffer will be initialized with zeros.
              Accept any type supporting the buffer protocol.
 :type data: object
 :return: The buffer if successfully initialized else a null pointer
 :rtype: :py:class:`navground.core.Buffer` | None
-           )doc")
+)doc")
       .def("get_buffer", &SensingState::get_buffer, py::arg("key"),
            py::return_value_policy::automatic_reference,
            DOC(navground, core, SensingState, get_buffer))

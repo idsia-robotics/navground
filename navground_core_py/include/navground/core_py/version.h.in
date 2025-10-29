@@ -6,7 +6,7 @@
 namespace navground::core_py {
 
 inline navground::core::BuildInfo build_info() {
-  return navground::core::BuildInfo("@GIT_COMMIT@", "@BUILD_STAMP@");
+  return navground::core::BuildInfo("@GIT_COMMIT@@@GIT_BRANCH@", "@BUILD_STAMP@");
 }
 
 } // namespace navground::core_py

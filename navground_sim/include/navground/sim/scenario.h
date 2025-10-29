@@ -17,10 +17,8 @@
 #include "navground/sim/sampling/sampler.h"
 #include "navground/sim/world.h"
 
-using navground::core::Disc;
 using navground::core::HasProperties;
 using navground::core::HasRegister;
-using navground::core::LineSegment;
 
 namespace navground::sim {
 
@@ -82,7 +80,7 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
    */
   explicit Scenario(const Inits &inits = {})
       : obstacles(), walls(), initializers(inits), groups(),
-        property_samplers() {}
+        property_samplers(), _ignore_collisions(false) {}
 
   /**
    * @brief      Initializes the world.
@@ -215,11 +213,11 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   /**
    * Obstacles
    */
-  std::vector<Disc> obstacles;
+  std::vector<Obstacle> obstacles;
   /**
    * Walls to add
    */
-  std::vector<LineSegment> walls;
+  std::vector<Wall> walls;
 
   /**
    * @brief      Returns the samplers that this
@@ -278,6 +276,22 @@ struct NAVGROUND_SIM_EXPORT Scenario : virtual public HasRegister<Scenario> {
   void set_attributes(World *world);
 
   /**
+   * @brief      Gets whether to generate worlds where
+   *             collisions between any entities are ignored
+   *
+   * @return     True if collisions are ignored
+   */
+  bool get_ignore_collisions() const { return _ignore_collisions; }
+
+  /**
+   * @brief      Sets whether to generate worlds where
+   *             collisions between any entities are ignored
+   *
+   * @param[in]  value   True to ignore collisions.
+   */
+  void set_ignore_collisions(bool value) { _ignore_collisions = value; }
+
+  /**
    * An optional bounding box
    */
   std::optional<sim::BoundingBox> bounding_box;
@@ -305,6 +319,8 @@ private:
     }
     return "";
   }
+
+  bool _ignore_collisions;
 };
 
 } // namespace navground::sim

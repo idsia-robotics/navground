@@ -5,7 +5,7 @@ import math
 import os
 from collections import ChainMap
 from collections.abc import Callable, Collection
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 import numpy as np
 import numpy.typing
@@ -98,7 +98,7 @@ def svg_g_use(proto: str,
               attributes: Attributes = {},
               shape: bool = False,
               safety_margin: float | None = None,
-              delta: core.Vector2 = np.zeros(2),
+              delta: core.Vector2 = cast(core.Vector2, np.zeros(2)),
               **kwargs: str) -> str:
     attributes = ChainMap(attributes, kwargs)
     cx, cy = np.round(pose.position + delta, decimals=precision)
@@ -139,7 +139,8 @@ def svg_for_obstacle(
     precision: int = 2,
     prefix: str = '',
     attributes: Attributes = {},
-    delta: core.Vector2 = np.zeros(2)) -> str:
+    delta: core.Vector2 = cast(core.Vector2, np.zeros(2))
+) -> str:
     attributes = entity_attributes(obstacle, 'obstacle', prefix, attributes)
     return svg_circle(obstacle.disc.position + delta, obstacle.disc.radius,
                       precision, attributes)
@@ -152,7 +153,8 @@ def svg_for_agent(
     attributes: Attributes = {},
     shape: bool = False,
     with_safety_margin: bool = False,
-    delta: core.Vector2 = np.zeros(2)) -> str:
+    delta: core.Vector2 = cast(core.Vector2, np.zeros(2))
+) -> str:
     proto = agent.type or 'agent'
     if agent.color:
         kwargs = {'fill': agent.color}
@@ -294,6 +296,8 @@ def _svg_for_world_and_dims(world: World | None = None,
         grid_kwargs = {}
 
     if rotation is not None:
+        x: np.float32 | np.float64 | float
+        y: np.float32 | np.float64 | float
         if isinstance(rotation, tuple):
             (x, y), theta = rotation
         else:

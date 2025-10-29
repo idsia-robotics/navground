@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import cast
+
 import numpy as np
 from navground.core import Behavior, Kinematics, Vector2, register
 
@@ -51,4 +53,4 @@ class PyDummyBehavior(Behavior, name="PyDummy"):
         if distance:
             return self.desired_velocity_towards_velocity(
                 speed * delta / distance, time_step)
-        return np.zeros(2)
+        return cast(Vector2, np.zeros(2))

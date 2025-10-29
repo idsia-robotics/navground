@@ -49,7 +49,7 @@ def disc_distance(position: Vector2, disc: Disc) -> tuple[float, Vector2]:
     if distance:
         grad = delta / distance
     else:
-        grad = np.zeros(2)
+        grad = cast(Vector2, np.zeros(2))
     return distance, grad
 
 
@@ -76,7 +76,7 @@ class Potential:
 
     def __call__(self, x: float) -> tuple[float, Vector2]:
         "Return the value and gradient of the potential"
-        return 0.0, np.zeros(2)
+        return 0.0, cast(Vector2, np.zeros(2))
 
 
 class ExponentialPotential(Potential):
@@ -302,7 +302,7 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         # acceleration towards desired velocity
         speed = np.linalg.norm(target_velocity)
         if not speed:
-            return np.zeros(2)
+            return cast(Vector2, np.zeros(2))
         e = target_velocity / speed
         force = (target_velocity - self.velocity) / self.tau
         # repulsion from neighbors
@@ -327,6 +327,6 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         delta = point - self.position
         dist = np.linalg.norm(delta)
         if not dist:
-            return np.zeros(2)
+            return cast(Vector2, np.zeros(2))
         velocity = delta / np.linalg.norm(delta) * speed
         return self.desired_velocity_towards_velocity(velocity, time_step)

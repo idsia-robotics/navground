@@ -7,7 +7,7 @@ import logging
 import sys
 import time
 from collections.abc import Callable
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 from ..bounds import bounds_for_world
 from .common import (Attributes, Decorate, Rect, WorldDecorator,
@@ -50,7 +50,7 @@ async def producer_handler(websocket: WebSocketServerProtocol,
 
 
 def pose_msg(agent: Agent) -> PoseMsg:
-    return (*agent.position.tolist(), float(agent.orientation))
+    return cast(PoseMsg, (*agent.position.tolist(), float(agent.orientation)))
 
 
 def wall_msg(wall: Wall) -> EntityMsg:

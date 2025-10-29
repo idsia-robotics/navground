@@ -87,12 +87,14 @@ jobs:
           hash: ${{ hashFiles('navground_core/**', 'navground_core_py/**', 'cmake/**') }}
           package: navground_core_py
           cpack: true
+          python-version: "3.12"
       - name: navground_sim_py
         uses: ./.github/actions/build_test_install_py
         with:
           hash: ${{ hashFiles('navground_core/**', 'navground_sim/**', 'navground_core_py/include/**', 'navground_sim_py/**', 'cmake/**') }}
           package: navground_sim_py
           cpack: false
+          python-version: "3.12"
       - name: examples_cpp
         if: steps.changes.outputs.examples == 'true'
         run: |

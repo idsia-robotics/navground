@@ -7,6 +7,8 @@ inputs:
     required: true
   cpack:
     default: false
+  python-version:
+    required: true
 runs:
   using: "composite"
   steps:
@@ -15,7 +17,7 @@ runs:
       id: load_cache
       with:
         path: packages/${{inputs.package}}
-        key: packages-${{inputs.package}}-${{ runner.os }}-${{ runner.arch }}-${{ inputs.hash }}
+        key: packages-${{inputs.package}}-${{ runner.os }}-${{ runner.arch }}-${{ inputs.python-version }}-${{ inputs.hash }}
     - if: steps.load_cache.outputs.cache-hit != 'true'
       name: build and test
       shell: bash

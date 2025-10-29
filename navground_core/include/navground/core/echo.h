@@ -61,6 +61,11 @@ struct EchoCommand : Command<EchoCommand> {
     const std::string kind = parser.get<std::string>("kind");
     if (echos.count(kind) == 0) {
       std::cerr << "Unknown kind of object to load: " << kind << std::endl;
+      std::cerr << "Should be one of: ";
+      for (const auto &[key, _] : echos) {
+        std::cerr << key << " ";
+      }
+      std::cerr << std::endl;
       std::exit(1);
     }
     const std::string yaml = parser.get<std::string>("YAML");

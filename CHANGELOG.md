@@ -13,8 +13,7 @@
 - Entity (agents, obstacles, walls) property `ignore_collisions` to ignore collisions for a specific entity.
 - Additional type of object accepted by the `echo` command.
 - Exposed `Entity.reset_uid` in Python.
-
-
+- Branch name to build infos (concatenated to the output of `git describe`)
 
 ### Removed
 

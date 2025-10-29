@@ -6,7 +6,7 @@
 namespace navground::core {
 
 inline BuildInfo build_info() {
-  return BuildInfo("@GIT_COMMIT@", "@BUILD_STAMP@");
+  return BuildInfo("@GIT_COMMIT@@@GIT_BRANCH@", "@BUILD_STAMP@");
 }
 
 } // namespace navground::core

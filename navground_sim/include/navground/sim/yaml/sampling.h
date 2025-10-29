@@ -1162,6 +1162,9 @@ template <typename W> struct convert<AgentSampler<W>> {
     if (!rhs.name.empty()) {
       node["name"] = rhs.name;
     }
+    if (rhs.ignore_collisions) {
+      node["ignore_collisions"] = rhs.ignore_collisions;
+    }
     return node;
   }
   static bool decode(const Node &node, AgentSampler<W> &rhs) {
@@ -1222,6 +1225,9 @@ template <typename W> struct convert<AgentSampler<W>> {
     if (node["tags"]) {
       rhs.tags = read_sampler<std::vector<std::string>>(node["tags"]);
     }
+    if (node["ignore_collisions"]) {
+      rhs.ignore_collisions = read_sampler<bool>(node["ignore_collisions"]);
+    }
     return true;
   }
   static Node schema() {
@@ -1249,6 +1255,7 @@ template <typename W> struct convert<AgentSampler<W>> {
     schema::add_sampler<std::vector<std::string>>(node, "color");
     schema::add_sampler<unsigned>(node, "id");
     schema::add_sampler<std::string>(node, "name");
+    schema::add_sampler<bool>(node, "ignore_collisions");
     node["additionalProperties"] = false;
     return node;
   }

@@ -19,6 +19,7 @@ using navground::core::LineSegment;
 using navground::core::Vector2;
 using navground::sim::Agent;
 using navground::sim::BoundingBox;
+using navground::sim::Entity;
 using navground::sim::Obstacle;
 using navground::sim::StateEstimation;
 using navground::sim::Task;
@@ -27,21 +28,41 @@ using navground::sim::World;
 
 namespace YAML {
 
-template <> struct convert<Obstacle> {
-  static Node encode(const Obstacle &rhs) {
-    Node node = convert<Disc>::encode(rhs.disc);
-    node["uid"] = rhs.uid;
-    return node;
+inline void encode_entity(Node &node, const Entity &entity,
+                          bool include_uid = true) {
+  if (include_uid) {
+    node["uid"] = entity.uid;
   }
+  if (entity.get_ignore_collisions()) {
+    node["ignore_collisions"] = entity.get_ignore_collisions();
+  }
+}
+
+inline void decode_entity(const Node &node, Entity &entity) {
+  if (node["uid"]) {
+    entity.uid = node["uid"].as<unsigned>();
+  }
+  if (node["ignore_collisions"]) {
+    entity.set_ignore_collisions(node["ignore_collisions"].as<bool>());
+  }
+}
+
+inline Node encode_obstacle(const Obstacle &obstacle, bool include_uid = true) {
+  Node node = convert<Disc>::encode(obstacle.disc);
+  encode_entity(node, obstacle, include_uid);
+  return node;
+}
+
+template <> struct convert<Obstacle> {
+  static Node encode(const Obstacle &rhs) { return encode_obstacle(rhs); }
   static bool decode(const Node &node, Obstacle &rhs) {
-    if (node["uid"]) {
-      rhs.uid = node["uid"].as<unsigned>();
-    }
+    decode_entity(node, rhs);
     return convert<Disc>::decode(node, rhs.disc);
   }
   static Node schema() {
     Node node = schema::type<Disc>();
     node["properties"]["uid"] = schema::type<int>();
+    node["properties"]["ignore_collisions"] = schema::type<bool>();
     return node;
   }
   static constexpr const char name[] = "obstacle";
@@ -64,17 +85,17 @@ template <> struct convert<std::shared_ptr<Obstacle>> {
   }
 };
 
+inline Node encode_wall(const Wall &wall, bool include_uid = true) {
+  Node node;
+  node["line"] = convert<LineSegment>::encode(wall.line);
+  encode_entity(node, wall, include_uid);
+  return node;
+}
+
 template <> struct convert<Wall> {
-  static Node encode(const Wall &rhs) {
-    Node node;
-    node["line"] = convert<LineSegment>::encode(rhs.line);
-    node["uid"] = rhs.uid;
-    return node;
-  }
+  static Node encode(const Wall &rhs) { return encode_wall(rhs); }
   static bool decode(const Node &node, Wall &rhs) {
-    if (node["uid"]) {
-      rhs.uid = node["uid"].as<unsigned>();
-    }
+    decode_entity(node, rhs);
     if (node["line"]) {
       rhs.line = node["line"].as<LineSegment>();
       return true;
@@ -86,6 +107,7 @@ template <> struct convert<Wall> {
     node["type"] = "object";
     node["properties"]["line"] = schema::type<LineSegment>();
     node["properties"]["uid"] = schema::type<int>();
+    node["properties"]["ignore_collisions"] = schema::type<bool>();
     node["additionalProperties"] = false;
     return node;
   }
@@ -281,7 +303,6 @@ template <> struct convert<Agent> {
     node["type"] = rhs.type;
     node["color"] = rhs.color;
     node["id"] = rhs.id;
-    node["uid"] = rhs.uid;
     if (rhs.external) {
       node["external"] = true;
     }
@@ -290,6 +311,7 @@ template <> struct convert<Agent> {
         node["tags"].push_back(tag);
       }
     }
+    encode_entity(node, rhs);
     encode_attributes(node, rhs);
     return node;
   }
@@ -354,12 +376,10 @@ template <> struct convert<Agent> {
       const auto vs = node["tags"].as<std::vector<std::string>>();
       rhs.tags = std::set<std::string>(vs.begin(), vs.end());
     }
-    if (node["uid"]) {
-      rhs.uid = node["uid"].as<unsigned>();
-    }
     if (node["external"]) {
       rhs.external = node["external"].as<bool>();
     }
+    decode_entity(node, rhs);
     if (!decode_attributes(node, rhs)) {
       return false;
     }
@@ -395,6 +415,7 @@ template <> struct convert<Agent> {
     node["properties"]["tags"]["items"] = schema::type<std::string>();
     node["properties"]["attributes"] =
         schema::ref<navground::core::Attributes>();
+    node["properties"]["ignore_collisions"] = schema::type<bool>();
     node["additionalProperties"] = false;
     return node;
   }
@@ -439,6 +460,9 @@ template <typename T = Agent> struct convert_world {
         }
       }
     }
+    if (rhs.get_ignore_collisions()) {
+      node["ignore_collisions"] = rhs.get_ignore_collisions();
+    }
     encode_attributes(node, rhs);
     // const auto attrs = rhs.get_attributes();
     // if (attrs.size()) {
@@ -479,6 +503,9 @@ template <typename T = Agent> struct convert_world {
         }
       }
     }
+    if (node["ignore_collisions"]) {
+      rhs.set_ignore_collisions(node["ignore_collisions"].as<bool>());
+    }
     if (!decode_attributes(node, rhs)) {
       return false;
     }
@@ -508,6 +535,7 @@ template <> struct convert<World> {
         schema::type<World::Lattice>();
     node["properties"]["attributes"] =
         schema::ref<navground::core::Attributes>();
+    node["properties"]["ignore_collisions"] = schema::type<bool>();
     node["additionalProperties"] = false;
     return node;
   }

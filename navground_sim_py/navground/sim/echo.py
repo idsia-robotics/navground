@@ -15,7 +15,10 @@ echos: echo.Echos = echo.echos | {
     "world": sim.load_world,
     "agent": sim.load_agent,
     "experiment": sim.load_experiment,
+    "wall": sim.Wall.load,
+    "obstacle": sim.Obstacle.load
 }
+
 
 description = echo.description
 
@@ -44,7 +47,9 @@ def load(arg: argparse.Namespace, yaml: str) -> Any:
     if arg.kind == 'sampler':
         return sim.load_sampler(yaml, arg.type)
     if arg.kind not in echos:
-        logging.error(f"Unknown kind of object to load: {arg.kind}")
+        kinds = "sampler " + " ".join(echos)
+        logging.error(f"Unknown kind of object to load: {arg.kind}\n"
+                      f"Should be one of: {kinds}")
         sys.exit(1)
     return echos[arg.kind](yaml)
 

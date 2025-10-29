@@ -250,6 +250,14 @@ void World::set_obstacles(const std::vector<Disc> &values) {
   static_strtree_is_updated = false;
 }
 
+void World::set_obstacles(const std::vector<Obstacle> &values) {
+  obstacles.clear();
+  for (const auto &value : values) {
+    add_obstacle(value);
+  }
+  static_strtree_is_updated = false;
+}
+
 // TODO(jerome) (clear)
 void World::set_walls(const std::vector<LineSegment> &values) {
   walls.clear();
@@ -258,6 +266,15 @@ void World::set_walls(const std::vector<LineSegment> &values) {
   }
   static_strtree_is_updated = false;
 }
+
+void World::set_walls(const std::vector<Wall> &values) {
+  walls.clear();
+  for (const auto &value : values) {
+    add_wall(value);
+  }
+  static_strtree_is_updated = false;
+}
+
 
 void World::prepare() {
   // TODO(Jerome) Should only execute it once if not already prepared.
@@ -524,10 +541,12 @@ std::vector<Agent *> World::get_agents_in_deadlock(ng_float_t duration) const {
 // TODO(J): spare recomputing the envelops?
 void World::update_agent_collisions(Agent *a1) {
   // const BoundingBox &bb = agent_envelops[i];
+  if (a1->get_ignore_collisions()) return;
   const BoundingBox bb = envelop(a1->pose.position, a1->radius);
   for (const auto &[d, lbb] : subdivide_bounding_box(bb)) {
     const Vector2 &delta = d;
     agent_index->query(lbb, [this, a1, &delta](Agent *a2) {
+      if (a2->get_ignore_collisions()) return;
       if (a1->uid < a2->uid) {
         if (resolve_collision(a1, a2, delta)) {
           record_collision(a1, a2);
@@ -535,12 +554,14 @@ void World::update_agent_collisions(Agent *a1) {
       }
     });
     obstacles_index->query(lbb, [this, a1, &delta](Obstacle *o) {
+      if (o->get_ignore_collisions()) return;
       if (resolve_collision(a1, &(o->disc), delta)) {
         record_collision(a1, o);
       }
     });
   }
   walls_index->query(bb, [this, a1](Wall *w) {
+    if (w->get_ignore_collisions()) return;
     if (resolve_collision(a1, &(w->line))) {
       record_collision(a1, w);
     }
@@ -548,6 +569,8 @@ void World::update_agent_collisions(Agent *a1) {
 }
 
 void World::update_collisions() {
+  if (_ignore_collisions)
+    return;
   check_agents_strtree();
   check_static_strtree();
   collisions.clear();

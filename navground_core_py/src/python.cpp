@@ -721,7 +721,7 @@ Constructs a navground property from a Python property.
       .def(py::self != py::self)
       .def("__repr__", &to_string<Neighbor>)
       .def_static("schema", &YAML::schema_py<Neighbor>, YAML::schema_py_doc())
-      .def_static("load", &YAML::load_string_unique_py<Disc>, py::arg("value"),
+      .def_static("load", &YAML::load_string_unique_py<Neighbor>, py::arg("value"),
                   YAML::load_string_py_doc("neighbor", "Neighbor").c_str())
       .def("dump", &YAML::dump<Neighbor>, YAML::dump_doc());
 

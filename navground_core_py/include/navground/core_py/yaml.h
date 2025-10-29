@@ -158,6 +158,18 @@ py::object load_string_unique_py(const std::string &value) {
   }
 }
 
+template <typename T>
+py::object load_string_shared_py(const std::string &value) {
+  try {
+    Node node = Load(value);
+    auto obj = std::make_shared<T>();
+    convert<T>::decode(node, *obj);
+    return py::cast(std::move(obj));
+  } catch (const ParserException &) {
+    return py::none();
+  }
+}
+
 using Schema = std::function<void(YAML::Node &)>;
 
 inline Schema from_schema_py(const py::function &schema_fn) {

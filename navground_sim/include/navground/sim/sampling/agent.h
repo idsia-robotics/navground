@@ -103,6 +103,8 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
       number->reset(index, true);
     if (tags)
       tags->reset(index, keep);
+    if (ignore_collisions)
+      ignore_collisions->reset(index, keep);
   }
 
   std::vector<StateEstimationSampler<S>> get_valid_state_estimations() const {
@@ -131,6 +133,7 @@ struct AgentSampler : public Sampler<typename W::A::C>, public Scenario::Group {
   std::shared_ptr<Sampler<std::string>> color;
   std::shared_ptr<Sampler<unsigned>> number;
   std::shared_ptr<Sampler<std::vector<std::string>>> tags;
+  std::shared_ptr<Sampler<bool>> ignore_collisions;
 
 protected:
   C s(RandomGenerator &rg) override {
@@ -170,6 +173,9 @@ protected:
     if (angular_speed_tolerance) {
       agent->get_controller()->set_angular_speed_tolerance(
           angular_speed_tolerance->sample(rg));
+    }
+    if (ignore_collisions) {
+      agent->set_ignore_collisions(ignore_collisions->sample(rg));
     }
     return c;
   }

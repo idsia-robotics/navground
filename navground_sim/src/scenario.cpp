@@ -28,6 +28,7 @@ void Scenario::init_world(World *world, std::optional<int> seed) {
       set(name, value);
     }
   }
+  world->set_ignore_collisions(get_ignore_collisions());
   // for (const auto &[_, init] : get_inits()) {
   //   init(world, seed);
   // }

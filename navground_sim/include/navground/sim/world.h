@@ -165,6 +165,12 @@ struct NAVGROUND_SIM_EXPORT Wall : Entity {
    */
   explicit Wall(const LineSegment &ls) : Entity(), line(ls) {}
   /**
+   * @brief      Constructs a new instance.
+   *
+   * @param[in]  wall    A wall
+   */
+  Wall(const Wall &wall) : Entity(wall), line(wall.line) {}
+  /**
    * @brief      LineSegment conversion operator.
    */
   operator LineSegment() const { return line; }
@@ -198,6 +204,12 @@ struct NAVGROUND_SIM_EXPORT Obstacle : Entity {
    * @param[in]  disc  A disc
    */
   Obstacle(const Disc &disc) : Entity(), disc(disc) {}
+  /**
+   * @brief      Constructs a new instance.
+   *
+   * @param[in]  obstacle  An obstacle
+   */
+  Obstacle(const Obstacle &obstacle) : Entity(obstacle), disc(obstacle.disc) {}
   /**
    * @brief      Disc conversion operator.
    */
@@ -278,7 +290,7 @@ public:
         static_strtree_is_updated(false), agents(), obstacles(), walls(),
         agent_index(nullptr), collisions(), entities(), ready(false), step(0),
         time(0), _has_lattice(false), callbacks(), termination_condition(),
-        _seed(0), _generator(_seed) {}
+        _seed(0), _generator(_seed), _ignore_collisions(false) {}
 
   /**
    * @brief      Updates world for a single time step.
@@ -518,11 +530,23 @@ public:
    */
   void set_obstacles(const std::vector<Disc> &obstacles);
   /**
+   * @brief      Replaces all obstacles.
+   *
+   * @param[in]  obstacles  The new obstacles
+   */
+  void set_obstacles(const std::vector<Obstacle> &obstacles);
+  /**
    * @brief      Replaces all walls.
    *
    * @param[in]  walls  The new walls
    */
   void set_walls(const std::vector<LineSegment> &walls);
+  /**
+   * @brief      Replaces all walls.
+   *
+   * @param[in]  walls  The new walls
+   */
+  void set_walls(const std::vector<Wall> &walls);
   /**
    * @brief      Gets the colliding pairs computed during the last simulation
    * step.
@@ -548,6 +572,25 @@ public:
     collisions.clear();
     for (const auto &[e1, e2] : value) {
       record_collision(e1, e2);
+    }
+  }
+
+  /**
+   * @brief      Gets whether collisions between any entities are ignored
+   *
+   * @return     True if collisions are ignored
+   */
+  bool get_ignore_collisions() const { return _ignore_collisions; }
+
+  /**
+   * @brief      Sets whether collisions between any entities are ignored
+   *
+   * @param[in]  value   True to ignore collisions.
+   */
+  void set_ignore_collisions(bool value) {
+    _ignore_collisions = value;
+    if (!value) {
+      collisions.clear();
     }
   }
 
@@ -933,6 +976,7 @@ private:
   unsigned _seed;
   RandomGenerator _generator;
   std::optional<BoundingBox> bb;
+  bool _ignore_collisions;
 };
 
 } // namespace navground::sim

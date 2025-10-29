@@ -13,6 +13,9 @@ int main(int argc, char *argv[]) {
              "echo", navground::core::build_info().get_version_string(),
              {{"behavior", &core::echo<core::Behavior>},
               {"modulation", &core::echo<core::BehaviorModulation>},
-              {"kinematics", &core::echo<core::Kinematics>}})
+              {"kinematics", &core::echo<core::Kinematics>},
+              {"line", &core::echo<core::LineSegment>},
+              {"disc", &core::echo<core::Disc>},
+              {"neighbor", &core::echo<core::Neighbor>}})
       .run(argc, argv);
 }

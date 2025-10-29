@@ -1,64 +1,22 @@
-name: Build and Test
+name: Build and Test (manual trigger)
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 3 * * 0"
-  push:
-    branches: [main]
-    paths:
-      - 'cmake/**'
-      - 'navground_core/**'
-      - 'navground_core_py/**'
-      - 'navground_sim/**'
-      - 'navground_sim_py/**'
-      - 'navground_examples/**'
-      - 'navground_examples_py/**'
-      - 'navground_minimal_plugin_cpp/**'
-      - 'navground_minimal_plugin_py/**'
-  pull_request:
-    branches: [main]
-    paths:
-      - 'cmake/**'
-      - 'navground_core/**'
-      - 'navground_core_py/**'
-      - 'navground_sim/**'
-      - 'navground_sim_py/**'
-      - 'navground_examples/**'
-      - 'navground_examples_py/**'
-      - 'navground_minimal_plugin_cpp/**'
-      - 'navground_minimal_plugin_py/**'
+    inputs:
+      runner:
+        description: "Runner name"
+        default: "ubuntu-latest"
+        type: string
+      python:
+        description: "Python version"
+        default: "3.12"
+        type: string
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
     permissions:
       pull-requests: read
     steps:
       - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3.0.2
-        id: changes
-        with:
-          filters: |
-            examples:
-              - 'cmake/build_info.cmake'
-              - 'navground_core/**'
-              - 'navground_sim/**'
-              - 'navground_examples/**'
-            examples_py:
-              - 'cmake/**'
-              - 'navground_core/**'
-              - 'navground_sim/**'
-              - 'navground_core_py/**'
-              - 'navground_sim_py/**'
-              - 'navground_examples_py/**'
-            minimal_plugin_cpp:
-              - 'cmake/build_info.cmake'
-              - 'navground_core/**'
-              - 'navground_minimal_plugin_cpp/**'
-            minimal_plugin_py:
-              - 'cmake/**'
-              - 'navground_core/**'
-              - 'navground_core_py/**'
-              - 'minimal_plugin_py/**'
       - name: install apt deps
         run: |
           sudo apt-get update
@@ -77,7 +35,7 @@ jobs:
           package: navground_sim
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ inputs.python }}
       - name: install pip deps
         run: |
           pip install pytest wheel setuptools setuptools_git_versioning git+https://github.com/jeguzzi/pybind11_mkdoc@rst
@@ -86,17 +44,16 @@ jobs:
         with:
           hash: ${{ hashFiles('navground_core/**', 'navground_core_py/**', 'cmake/**') }}
           package: navground_core_py
+          python-version: ${{ inputs.python }}
           cpack: true
-          python-version: "3.12"
       - name: navground_sim_py
         uses: ./.github/actions/build_test_install_py
         with:
           hash: ${{ hashFiles('navground_core/**', 'navground_sim/**', 'navground_core_py/include/**', 'navground_sim_py/**', 'cmake/**') }}
           package: navground_sim_py
+          python-version: ${{ inputs.python }}
           cpack: false
-          python-version: "3.12"
       - name: examples_cpp
-        if: steps.changes.outputs.examples == 'true'
         run: |
           mkdir -p navground_examples/build
           cd navground_examples/build
@@ -105,12 +62,10 @@ jobs:
           ctest
       - name: examples_py
         working-directory: navground_examples_py
-        if: steps.changes.outputs.examples_py == 'true'
         run: |
           pip install --no-deps .
           pytest tests
       - name: plugin_cpp
-        if: steps.changes.outputs.minimal_plugin_cpp == 'true'
         env:
           NAVGROUND_PLUGINS_PREFIX: ${{github.workspace}}/navground_minimal_plugin_cpp/install
         run: |
@@ -122,7 +77,6 @@ jobs:
           ctest
       - name: plugin_py
         working-directory: navground_minimal_plugin_py
-        if: steps.changes.outputs.minimal_plugin_py == 'true'
         run: |
           pip install --no-deps .
           pytest tests

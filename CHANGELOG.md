@@ -6,6 +6,13 @@
 
 - `Twist3` constructor.
 - `FourWheelsOmniDriveKinematics` mapping between wheel speeds and twist. 
+- `core.Neighbor.load, `sim.Wall.load`, and `sim.Obstacle.load` now work as expected.
+
+### Added
+- World and scenario property `ignore_collisions` to ignore collisions between any entity.
+- Entity (agents, obstacles, walls) property `ignore_collisions` to ignore collisions for a specific entity.
+- Additional type of object accepted by the `echo` command.
+- Exposed `Entity.reset_uid` in Python.
 
 ### Removed
 

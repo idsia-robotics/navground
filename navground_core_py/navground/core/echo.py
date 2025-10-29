@@ -16,7 +16,10 @@ Echos = dict[str, Callable[[str], Any]]
 echos: Echos = {
     "behavior": core.load_behavior,
     "modulation": core.load_behavior_modulation,
-    "kinematics": core.load_kinematics
+    "kinematics": core.load_kinematics,
+    "line": core.LineSegment.load,
+    "disc": core.Disc.load,
+    "neighbor": core.Neighbor.load,
 }
 
 
@@ -55,7 +58,9 @@ def parser() -> argparse.ArgumentParser:
 
 def load(arg: argparse.Namespace, yaml: str) -> Any:
     if arg.kind not in echos:
-        logging.error(f"Unknown kind of object to load: {arg.kind}")
+        kinds = " ".join(echos)
+        logging.error(f"Unknown kind of object to load: {arg.kind}\n"
+                      f"Should be one of: {kinds}")
         sys.exit(1)
     return echos[arg.kind](yaml)
 

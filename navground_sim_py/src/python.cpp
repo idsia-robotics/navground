@@ -1110,6 +1110,11 @@ PYBIND11_MODULE(_navground_sim, m) {
       .def_property("last_collision_time", &Entity::get_last_collision_time,
                     nullptr,
                     DOC(navground, sim, Entity, property, last_collision_time))
+      .def_property("ignore_collisions", &Entity::get_ignore_collisions,
+                    &Entity::set_ignore_collisions,
+                    DOC(navground, sim, Entity, property, ignore_collisions))
+      .def_static("reset_uid", &Entity::reset_uid,
+                  DOC(navground, sim, Entity, reset_uid))
       .def("has_been_in_collision_since", &Entity::has_been_in_collision_since,
            py::arg("time"),
            DOC(navground, sim, Entity, has_been_in_collision_since));
@@ -1120,9 +1125,11 @@ PYBIND11_MODULE(_navground_sim, m) {
            DOC(navground, sim, Wall, Wall))
       .def(py::init<LineSegment>(), py::arg("line"),
            DOC(navground, sim, Wall, Wall, 3))
+      .def(py::init<Wall>(), py::arg("wall"),
+           DOC(navground, sim, Wall, Wall, 4))
       .def_readwrite("line", &Wall::line, DOC(navground, sim, Wall, line))
       .def_static("schema", &YAML::schema_py<Wall>, YAML::schema_py_doc())
-      .def_static("load", &YAML::load_string_unique_py<Wall>, py::arg("value"),
+      .def_static("load", &YAML::load_string_shared_py<Wall>, py::arg("value"),
                   YAML::load_string_py_doc("wall", "Wall").c_str())
       .def("dump", &YAML::dump<Wall>, YAML::dump_doc());
 
@@ -1132,10 +1139,12 @@ PYBIND11_MODULE(_navground_sim, m) {
            py::arg("radius"), DOC(navground, sim, Obstacle, Obstacle))
       .def(py::init<Disc>(), py::arg("disc"),
            DOC(navground, sim, Obstacle, Obstacle, 3))
+      .def(py::init<Obstacle>(), py::arg("obstacle"),
+           DOC(navground, sim, Obstacle, Obstacle, 3))
       .def_readwrite("disc", &Obstacle::disc,
                      DOC(navground, sim, Obstacle, disc))
       .def_static("schema", &YAML::schema_py<Obstacle>, YAML::schema_py_doc())
-      .def_static("load", &YAML::load_string_unique_py<Obstacle>,
+      .def_static("load", &YAML::load_string_shared_py<Obstacle>,
                   py::arg("value"),
                   YAML::load_string_py_doc("obstacle", "Obstacle").c_str())
       .def("dump", &YAML::dump<Obstacle>, YAML::dump_doc());
@@ -1619,6 +1628,9 @@ Returns the YAML schema.
       .def_property("bounding_box", &World::get_bounding_box,
                     &World::set_bounding_box,
                     DOC(navground, sim, World, property_bounding_box))
+      .def_property("ignore_collisions", &World::get_ignore_collisions,
+                    &World::set_ignore_collisions,
+                    DOC(navground, sim, World, property_ignore_collisions))
       .def("copy_random_generator", &World::copy_random_generator,
            py::arg("world"), DOC(navground, sim, World, copy_random_generator))
       .def("add_random_obstacles", &World::add_random_obstacles,
@@ -3565,6 +3577,9 @@ Draws a sample using the world's random generator.
                      DOC(navground, sim, Scenario, walls))
       .def_property("groups", &Scenario::get_groups, nullptr,
                     DOC(navground, sim, Scenario, property_groups))
+      .def_property("ignore_collisions", &Scenario::get_ignore_collisions,
+                    &Scenario::set_ignore_collisions,
+                    DOC(navground, sim, Scenario, property_ignore_collisions))
       .def("get_group", &Scenario::get_group, py::arg("index"),
            DOC(navground, sim, Scenario, get_group))
       .def("clear_groups", &clear_groups_py,

@@ -34,11 +34,11 @@ template <typename W = World> struct convert_scenario {
     if (rhs.bounding_box) {
       node["bounding_box"] = *(rhs.bounding_box);
     }
-    node["obstacles"] = rhs.obstacles;
-    for (const auto &line : rhs.walls) {
-      Node wn;
-      wn["line"] = line;
-      node["walls"].push_back(wn);
+    for (const auto &obstacle : rhs.obstacles) {
+      node["obstacles"].push_back(encode_obstacle(obstacle, false));
+    }
+    for (const auto &wall : rhs.walls) {
+      node["walls"].push_back(encode_wall(wall, false));
     }
     for (const auto &group : rhs.get_groups()) {
 #ifndef _UNSAFE_GROUP_CASTING
@@ -49,7 +49,11 @@ template <typename W = World> struct convert_scenario {
       {
         node["groups"].push_back(*g);
       }
+      if (rhs.get_ignore_collisions()) {
+        node["ignore_collisions"] = rhs.get_ignore_collisions();
+      }
     }
+
     return node;
   }
   static bool decode(const Node &node, Scenario &rhs) {
@@ -65,7 +69,7 @@ template <typename W = World> struct convert_scenario {
     }
     if (node["obstacles"]) {
       for (const auto &c : node["obstacles"]) {
-        rhs.obstacles.push_back(c.as<Disc>());
+        rhs.obstacles.push_back(c.as<Obstacle>());
       }
     }
     if (node["walls"]) {
@@ -75,6 +79,9 @@ template <typename W = World> struct convert_scenario {
     }
     if (node["bounding_box"]) {
       rhs.bounding_box = node["bounding_box"].as<BoundingBox>();
+    }
+    if (node["ignore_collisions"]) {
+      rhs.set_ignore_collisions(node["ignore_collisions"].as<bool>());
     }
     return true;
   }
@@ -121,6 +128,7 @@ template <> struct convert<Scenario> {
     node["properties"]["walls"]["items"] = schema::ref<Wall>();
     node["properties"]["groups"]["type"] = "array";
     node["properties"]["groups"]["items"] = schema::ref<AgentSampler<World>>();
+    node["properties"]["ignore_collisions"] = schema::type<bool>();
     return node;
   }
   static constexpr const char name[] = "scenario";

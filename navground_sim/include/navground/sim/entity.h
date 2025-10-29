@@ -20,24 +20,37 @@ namespace navground::sim {
 struct NAVGROUND_SIM_EXPORT Entity {
   /**
    * @brief      Constructs a new instance.
+   *
+   * @param[in]  id    The identifier
+   * @param[in]  ignore_collisions    Whether to ignore collisions
    */
-  Entity() : uid(_uid++), last_collision_time(-1) {}
+  explicit Entity(unsigned id, bool ignore_collisions)
+      : uid(id), last_collision_time(-1),
+        _ignore_collisions(ignore_collisions) {}
 
   /**
-   * @brief      Reset the UID counter to zero.
+   * @brief      Constructs a new instance.
+   *
+   * @param[in]  ignore_collisions    Whether to ignore collisions
    */
-  static void reset_uid() {
-    _uid = 0;
-  }
-
-  virtual ~Entity() = default;
+  explicit Entity(bool ignore_collisions = false)
+      : Entity(_uid++, ignore_collisions) {}
 
   /**
    * @brief      Constructs a new instance.
    *
    * @param[in]  id    The identifier
+   * @param[in]  ignore_collisions    Whether to ignore collisions
    */
-  explicit Entity(unsigned id) : uid(id), last_collision_time(-1) {}
+  explicit Entity(const Entity &other)
+      : Entity(other.get_ignore_collisions()) {}
+
+  /**
+   * @brief      Reset the UID counter to zero.
+   */
+  static void reset_uid() { _uid = 0; }
+
+  virtual ~Entity() = default;
 
   /**
    * Unique identifier
@@ -69,23 +82,38 @@ struct NAVGROUND_SIM_EXPORT Entity {
    *
    * @return     The time
    */
-  ng_float_t get_last_collision_time() const {
-    return last_collision_time;
-  }
-
+  ng_float_t get_last_collision_time() const { return last_collision_time; }
 
   /**
    * @brief      Resets the entity.
    */
-  void reset() {
-    last_collision_time = -1;
+  void reset() { last_collision_time = -1; }
+
+  /**
+   * @brief      Gets whether collisions are ignored for this entity.
+   *
+   * @return     True if collisions are ignored
+   */
+  bool get_ignore_collisions() const { return _ignore_collisions; }
+
+  /**
+   * @brief      Sets whether collisions are ignored for this entity.
+   *
+   * @param[in]  value   True to ignore collisions.
+   */
+  void set_ignore_collisions(bool value) {
+    _ignore_collisions = value;
+    if (!value) {
+      last_collision_time = -1;
+    }
   }
 
- private:
+private:
   static inline unsigned _uid = 0;
   ng_float_t last_collision_time;
+  bool _ignore_collisions;
 };
 
-}  // namespace navground::sim
+} // namespace navground::sim
 
 #endif /* end of include guard: NAVGROUND_SIM_ENTITY_H_ */

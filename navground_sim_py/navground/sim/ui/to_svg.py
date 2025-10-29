@@ -98,7 +98,7 @@ def svg_g_use(proto: str,
               attributes: Attributes = {},
               shape: bool = False,
               safety_margin: float | None = None,
-              delta: core.Vector2 = cast(core.Vector2, np.zeros(2)),
+              delta: core.Vector2 = core.zeros2(),
               **kwargs: str) -> str:
     attributes = ChainMap(attributes, kwargs)
     cx, cy = np.round(pose.position + delta, decimals=precision)
@@ -139,7 +139,7 @@ def svg_for_obstacle(
     precision: int = 2,
     prefix: str = '',
     attributes: Attributes = {},
-    delta: core.Vector2 = cast(core.Vector2, np.zeros(2))
+    delta: core.Vector2 = core.zeros2()
 ) -> str:
     attributes = entity_attributes(obstacle, 'obstacle', prefix, attributes)
     return svg_circle(obstacle.disc.position + delta, obstacle.disc.radius,
@@ -153,7 +153,7 @@ def svg_for_agent(
     attributes: Attributes = {},
     shape: bool = False,
     with_safety_margin: bool = False,
-    delta: core.Vector2 = cast(core.Vector2, np.zeros(2))
+    delta: core.Vector2 = core.zeros2()
 ) -> str:
     proto = agent.type or 'agent'
     if agent.color:

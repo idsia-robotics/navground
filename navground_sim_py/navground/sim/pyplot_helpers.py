@@ -204,7 +204,7 @@ def plot_trajectory(ax: Axes,
                            agent,
                            color=color,
                            pose=core.Pose2((x, y), theta),
-                           velocity=cast(core.Vector2, np.zeros(2)),
+                           velocity=core.zeros2(),
                            zorder=zorder,
                            **kwargs)
             if plot_last_pose and (empty
@@ -214,7 +214,7 @@ def plot_trajectory(ax: Axes,
                            agent,
                            color=color,
                            pose=core.Pose2((x, y), theta),
-                           velocity=cast(core.Vector2, np.zeros(2)),
+                           velocity=core.zeros2(),
                            zorder=zorder,
                            **kwargs)
         else:

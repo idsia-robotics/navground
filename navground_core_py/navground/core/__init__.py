@@ -8,7 +8,9 @@ if hasattr(os, "add_dll_directory") and "NAVGROUND_DLL_PATH" in os.environ:
 import importlib.metadata
 import pathlib as pl
 from collections.abc import Iterable
-from typing import TypeAlias
+from typing import TypeAlias, cast
+
+import numpy as np
 
 from . import schema
 from ._navground import (
@@ -21,10 +23,10 @@ from ._navground import (
     SocialMarginConstantModulation, SocialMarginLinearModulation,
     SocialMarginLogisticModulation, SocialMarginModulation,
     SocialMarginQuadraticModulation, SocialMarginZeroModulation, Target,
-    Twist2, clamp_norm, get_build_dependencies, get_build_info, convert,
-    get_scalar_type_name, get_type_name_with_scalar)
+    Twist2, clamp_norm, convert, get_build_dependencies, get_build_info)
 from ._navground import get_loaded_plugins as get_loaded_cpp_plugins
-from ._navground import get_plugins_dependencies
+from ._navground import (get_plugins_dependencies, get_scalar_type_name,
+                         get_type_name_with_scalar)
 from ._navground import load_plugins as load_cpp_plugins
 from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
                          to_absolute_point, to_relative, to_relative_point,
@@ -168,6 +170,10 @@ def get_loaded_plugins(kinds: Iterable[str] = (
     return rs
 
 
+def zeros2() -> Vector2:
+    return cast(Vector2, np.zeros(2, dtype=FloatType))
+
+
 __all__ = [
     'Behavior', 'Path', 'BehaviorModulation', 'Pose2', 'Twist2', 'Target',
     'Disc', 'Neighbor', 'LineSegment', 'Kinematics', 'Action', 'Controller',
@@ -188,5 +194,5 @@ __all__ = [
     "DependencyInfo", "load_cpp_plugins", "BehaviorModulationRegister",
     "BehaviorRegister", "HasProperties", "KinematicsRegister", "FloatType",
     "GridMap", "HasAttributes", "BehaviorGroup", "BehaviorGroupMember",
-    "convert", "get_scalar_type_name", "get_type_name_with_scalar"
+    "convert", "get_scalar_type_name", "get_type_name_with_scalar", "zeros2"
 ]

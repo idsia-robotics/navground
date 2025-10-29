@@ -7,6 +7,7 @@
 - `Twist3` constructor.
 - `FourWheelsOmniDriveKinematics` mapping between wheel speeds and twist. 
 - `core.Neighbor.load, `sim.Wall.load`, and `sim.Obstacle.load` now work as expected.
+- Fixed calling `class_type` on a Python register. This make `help(...)` works again when called on classes that have a register. 
 
 ### Added
 - World and scenario property `ignore_collisions` to ignore collisions between any entity.

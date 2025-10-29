@@ -169,9 +169,12 @@ struct PyHasRegister : virtual public navground::core::HasRegister<T> {
     if (py::hasattr(cls, "_type")) {
       return cls.attr("_type").cast<std::string>();
     }
-    py::object obj = cls();
-    if (py::hasattr(obj, "type")) {
-      return obj.attr("type").cast<std::string>();
+    try {
+      py::object obj = cls();
+      if (py::hasattr(obj, "type")) {
+        return obj.attr("type").cast<std::string>();
+      }
+    } catch (const std::exception &e) {
     }
     return "";
   }

@@ -152,6 +152,12 @@ struct Neighbor : public Disc {
       : Neighbor(disc.position, disc.radius, velocity, id) {}
 
   /**
+   * @brief      Constructs a new instance
+   *
+   */
+  explicit Neighbor() : Neighbor(Vector2::Zero(), 0, Vector2::Zero(), 0) {}
+
+  /**
    * @brief      Assignment operator from a disc.
    *
    * @param[in]  other  The other disc

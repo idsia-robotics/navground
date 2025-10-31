@@ -9,7 +9,7 @@ import pathlib
 import typing
 from typing import Any, Callable, ClassVar, overload
 import tqdm
-from navground.core._vector2 import Vector2, Vector2Like
+from navground.core._navground import Vector2, Vector2Like
 
 class Agent(NativeAgent):
     behavior: navground.core._navground.Behavior | None

@@ -33,6 +33,11 @@ from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
                          unit, uses_doubles)
 from .property import FloatType, PropertyField, Vector2, Vector2Like, register
 
+
+def zeros2() -> Vector2:
+    return cast(Vector2, np.zeros(2, dtype=FloatType))
+
+
 # isort: split
 
 from . import behavior_modulations, behaviors, kinematics
@@ -168,10 +173,6 @@ def get_loaded_plugins(kinds: Iterable[str] = (
                 if kind in kinds:
                     rs[pkg][kind].extend([(name, 'C++') for name in names])
     return rs
-
-
-def zeros2() -> Vector2:
-    return cast(Vector2, np.zeros(2, dtype=FloatType))
 
 
 __all__ = [

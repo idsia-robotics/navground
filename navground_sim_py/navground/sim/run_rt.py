@@ -203,6 +203,6 @@ def parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main() -> None:
+def main(decorate: Decorate | None = None) -> None:
     arg = parser().parse_args()
-    _main(arg)
+    _main(arg, decorate=decorate)

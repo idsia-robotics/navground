@@ -381,6 +381,7 @@ Example
 
 .. code-block:: python
   
+   from typing import SupportsFloat
    from navground import core
    import numpy as np
       
@@ -390,7 +391,7 @@ Example
            self._k = k
            self.torques: np.ndarray = np.zeros(2)
    
-       def post(self, behavior: core.Behavior, time_step: float, 
+       def post(self, behavior: core.Behavior, time_step: SupportsFloat, 
                 cmd: core.Twist2) -> core.Twist2:
            # We assume that the kinematics supports dynamics
            # Let's compute a feasible control

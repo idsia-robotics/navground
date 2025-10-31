@@ -1,0 +1,15 @@
+from __future__ import annotations
+
+from typing import TypeAlias
+
+import numpy
+
+# Note: type aliases cannot be dynamically evaluated.
+# Therefore we generate them at build time.
+
+"""
+The numpy type of floats in navground:
+:py:type:`numpy.float64` if :py:func:`uses_doubles` returns true,
+else :py:type:`numpy.float64`.
+"""
+FloatType: TypeAlias = numpy.float@FLOAT_SIZE@

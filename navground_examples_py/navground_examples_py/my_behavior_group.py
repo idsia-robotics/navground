@@ -1,15 +1,19 @@
+from __future__ import annotations
+
+from typing import SupportsFloat
+
 from navground import core
 
 
 class PyIdleBehaviorGroup(core.BehaviorGroup):
 
-    def compute_cmds(self, time_step: float):
+    def compute_cmds(self, time_step: SupportsFloat) -> list[core.Twist2]:
         return [core.Twist2() for _ in self.members]
 
 
 class PyIdleBehaviorGroupMember(core.BehaviorGroupMember, name="PyIdleGroup"):
 
-    _groups: dict[int, PyIdleBehaviorGroup] = {}
+    _groups: dict[int, core.BehaviorGroup] = {}
 
     def make_group(self) -> PyIdleBehaviorGroup:
         return PyIdleBehaviorGroup()
@@ -17,5 +21,5 @@ class PyIdleBehaviorGroupMember(core.BehaviorGroupMember, name="PyIdleGroup"):
     def get_group_hash(self) -> int:
         return 0
 
-    def get_groups(self) -> dict[int, PyIdleBehaviorGroup]:
+    def get_groups(self) -> dict[int, core.BehaviorGroup]:
         return self._groups

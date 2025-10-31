@@ -1,25 +1,19 @@
 from __future__ import annotations
 
-from collections.abc import Callable, Collection
-from typing import (Any, Literal, TypeAlias, TypeVar, cast, get_args,
-                    get_origin, get_type_hints)
+from collections.abc import Callable, Collection, Sequence
+from typing import (Annotated, Any, Literal, SupportsFloat, SupportsInt,
+                    TypeAlias, TypeVar, cast, get_args, get_origin,
+                    get_type_hints)
 
 import numpy
-from navground.core import uses_doubles
+from navground.core import Vector2, Vector2Like, uses_doubles
 from navground.core.schema import SchemaModifier
-
-FloatType: type[
-    numpy.floating[Any]] = numpy.float64 if uses_doubles() else numpy.float32
-# Type aliases cannot be dynamically evaluated ...
-# else we would set the type to FloatType instead of numpy.float64
-Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]],
-                                   numpy.dtype[numpy.float64]]
-Vector2Like: TypeAlias = Vector2 | tuple[float, float] | list[float]
 
 ScalarPropertyField: TypeAlias = bool | int | float | str | Vector2
 ListPropertyField: TypeAlias = list[bool] | list[int] | list[float] | list[
     str] | list[Vector2]
 PropertyField: TypeAlias = ScalarPropertyField | ListPropertyField
+PropertyFieldLike: TypeAlias = bool | SupportsInt | SupportsFloat | str | Vector2Like | Sequence[bool] | Sequence[SupportsInt] | Sequence[SupportsFloat] | Sequence[str] | Sequence[Vector2Like]
 
 T = TypeVar('T', bound=Any)
 

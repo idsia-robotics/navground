@@ -13,9 +13,8 @@ from navground import core
 
 if TYPE_CHECKING:
     from .. import (Agent, Entity, Obstacle, Wall, World)
-    from .common import Attributes, Point, Decorate, Rect
+    from .common import Attributes, Decorate, Rect
 
-from ..bounds import bounds_for_world
 from .common import render_default_config, wrap_as_world_decorator
 
 
@@ -58,7 +57,7 @@ def default_decoration(e: Entity) -> Attributes:
     return {}
 
 
-def svg_polyline(points: list[Point],
+def svg_polyline(points: list[core.Vector2],
                  precision: int = 2,
                  attributes: Attributes = {},
                  **kwargs: str) -> str:
@@ -68,7 +67,7 @@ def svg_polyline(points: list[Point],
     return f"<polyline {flat(attributes)} points='{ps}'/>"
 
 
-def svg_circle(center: Point,
+def svg_circle(center: core.Vector2,
                radius: float,
                precision: int = 2,
                attributes: Attributes = {},
@@ -79,7 +78,7 @@ def svg_circle(center: Point,
     return f"<circle {flat(attributes)} cx='{cx}' cy='{cy}' r='{r}'/>"
 
 
-def svg_g_circle(center: Point,
+def svg_g_circle(center: core.Vector2,
                  radius: float,
                  precision: int = 2,
                  attributes: Attributes = {},
@@ -236,7 +235,7 @@ def _svg_for_world_and_dims(world: World | None = None,
     g = ""
     if world:
         if bounds is None:
-            bounds = bounds_for_world(world)
+            bounds = world.bounds
         width, height, view_box, min_y = size(bounds, width, min_height,
                                               relative_margin)
         bb = BoundingBox(view_box[0], view_box[0] + view_box[2], min_y,
@@ -341,7 +340,7 @@ def size(
     relative_margin: float = 0.05
 ) -> tuple[int, int, tuple[float, float, float, float], float]:
     # We want python not numpy floats
-    min_p, max_p = [np.asarray(xs).tolist() for xs in bounds]
+    min_p, max_p = [xs.tolist() for xs in np.asarray(bounds)]
     min_x, min_y = min_p
     max_x, max_y = max_p
     world_width = max_x - min_x

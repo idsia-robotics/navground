@@ -1,15 +1,18 @@
+from __future__ import annotations
+
 import argparse
-import time
 import sys
+import time
 
 import numpy as np
 from navground import core
 
 
-def go_to(controller: core.Controller, target: np.ndarray) -> None:
+def go_to(controller: core.Controller, target: core.Vector2Like) -> None:
+    target = np.asarray(target)
     action = controller.go_to_position(target, 0.2)
 
-    def done_cb(state):
+    def done_cb(state: core.Action.State) -> None:
         if state == core.Action.State.success:
             go_to(controller, -target)
 

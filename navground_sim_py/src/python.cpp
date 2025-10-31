@@ -1,6 +1,7 @@
 #include <pybind11/chrono.h>
 #include <pybind11/eigen.h>
 #include <pybind11/functional.h>
+#include <pybind11/native_enum.h>
 #include <pybind11/numpy.h>
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
@@ -1095,9 +1096,9 @@ static void init_scenario(Scenario *scenario, py::dict *state) {
 
 PYBIND11_MODULE(_navground_sim, m) {
   py::options options;
-#if PYBIND11_VERSION_MAJOR >= 2 && PYBIND11_VERSION_MINOR >= 10
-  options.disable_enum_members_docstring();
-#endif
+  // #if PYBIND11_VERSION_MAJOR >= 2 && PYBIND11_VERSION_MINOR >= 10
+  //   options.disable_enum_members_docstring();
+  // #endif
 
   declare_register<StateEstimation>(m, "StateEstimation");
   declare_register<Task>(m, "Task");
@@ -1235,7 +1236,7 @@ Creates a rectangular region
                 std::tuple<ng_float_t, ng_float_t, ng_float_t, ng_float_t>>();
             return bb_from_tuple(v);
           },
-          DOC(navground, sim, bb_to_tuple))
+          py::arg("value"), DOC(navground, sim, bb_to_tuple))
       .def_static("envelop", &envelop, py::arg("position"), py::arg("radius"),
                   DOC(navground, sim, envelop))
       .def_property("width", &BoundingBox::getWidth, nullptr)
@@ -1342,6 +1343,19 @@ Expands the bounding box by a vector
 :param delta: The expansion vector
 :type delta: :py:class:`navground.core.Vector2`
            )doc")
+      .def_property(
+          "bounds",
+          [](const BoundingBox &bb) {
+            return std::make_tuple<Vector2, Vector2>(
+                Vector2(bb.getMinX(), bb.getMinY()),
+                Vector2(bb.getMaxX(), bb.getMaxY()));
+          },
+          nullptr,
+          R"doc(
+Returns the bottom-left and the top-right vertices.
+
+:return: ``(bottom-left, top-right)`` tuple
+)doc")
       .def_static("schema", &YAML::schema_py<BoundingBox>, R"doc(
 Returns the YAML schema.
 
@@ -1631,6 +1645,21 @@ Returns the YAML schema.
       .def_property("ignore_collisions", &World::get_ignore_collisions,
                     &World::set_ignore_collisions,
                     DOC(navground, sim, World, property_ignore_collisions))
+      .def_property(
+          "bounds",
+          [](const World &world) {
+            const auto bb = world.get_bounding_box();
+            return std::make_tuple<Vector2, Vector2>(
+                Vector2(bb.getMinX(), bb.getMinY()),
+                Vector2(bb.getMaxX(), bb.getMaxY()));
+          },
+          nullptr,
+          R"doc(
+Returns the bottom-left and the top-right vertices
+of the bounding box.
+
+:return: ``(bottom-left, top-right)`` tuple
+)doc")
       .def("copy_random_generator", &World::copy_random_generator,
            py::arg("world"), DOC(navground, sim, World, copy_random_generator))
       .def("add_random_obstacles", &World::add_random_obstacles,
@@ -1883,8 +1912,8 @@ The random generator.
       marker_se(m, "MarkerStateEstimation",
                 DOC(navground, sim, MarkerStateEstimation));
 
-  py::enum_<MarkerStateEstimation::ReferenceOrientation>(
-      marker_se, "ReferenceOrientation",
+  py::native_enum<MarkerStateEstimation::ReferenceOrientation>(
+      marker_se, "ReferenceOrientation", "enum.Enum",
       DOC(navground, core, MarkerStateEstimation, ReferenceOrientation))
       .value("agent", MarkerStateEstimation::ReferenceOrientation::agent,
              DOC(navground, core, MarkerStateEstimation, ReferenceOrientation,
@@ -1895,7 +1924,9 @@ The random generator.
       .value("target_direction",
              MarkerStateEstimation::ReferenceOrientation::target_direction,
              DOC(navground, core, MarkerStateEstimation, ReferenceOrientation,
-                 none));
+                 none))
+      .export_values()
+      .finalize();
 
   marker_se
       .def(
@@ -1967,8 +1998,8 @@ The random generator.
       gmse(m, "LocalGridMapStateEstimation",
            DOC(navground, sim, LocalGridMapStateEstimation));
 
-  py::enum_<LocalGridMapStateEstimation::FootprintType>(
-      gmse, "FootprintType",
+  py::native_enum<LocalGridMapStateEstimation::FootprintType>(
+      gmse, "FootprintType", "enum.Enum",
       DOC(navground, core, LocalGridMapStateEstimation, FootprintType))
       .value("rectangular",
              LocalGridMapStateEstimation::FootprintType::rectangular,
@@ -1979,7 +2010,9 @@ The random generator.
                  circular))
       .value("none", LocalGridMapStateEstimation::FootprintType::none,
              DOC(navground, core, LocalGridMapStateEstimation, FootprintType,
-                 none));
+                 none))
+      .export_values()
+      .finalize();
 
   gmse.def(py::init<const std::vector<std::shared_ptr<LidarStateEstimation>> &,
                     const std::vector<std::string> &,
@@ -2815,7 +2848,7 @@ Adds a record probe.
 :type key: str
 
 :param probe: the probe factory like a RecordProbe class.
-:type key: typing.Callable[[navground.sim.Dataset], sim.RecordProbe]
+:type key: collections.abc.Callable[[navground.sim.Dataset], sim.RecordProbe]
 
 )doc")
       .def(
@@ -2834,7 +2867,7 @@ Adds a group record probe.
 :type key: str
 
 :param probe: the probe factory like a GroupRecordProbe class.
-:type key: typing.Callable[[], sim.GroupRecordProbe]
+:type key: collections.abc.Callable[[], sim.GroupRecordProbe]
 
 )doc")
       .def_property(
@@ -3423,7 +3456,7 @@ Register a probe to record data to during all runs.
 :param key: the name associated to the record
 :type key: str
 :param probe: the probe factory like a RecordProbe class.
-:type key: typing.Callable[[navground.sim.Dataset], sim.RecordProbe]
+:type key: collections.abc.Callable[[navground.sim.Dataset], sim.RecordProbe]
 )doc")
       .def("add_group_record_probe", &PyExperiment::add_group_record_probe_py,
            py::arg("key"), py::arg("probe"),
@@ -3433,7 +3466,7 @@ Register a probe to record a group of data to during all runs.
 :param key: the name associated to the group
 :type key: str
 :param probe: the probe factory like a GroupRecordProbe class.
-:type key: typing.Callable[[], sim.GroupRecordProbe]
+:type key: collections.abc.Callable[[], sim.GroupRecordProbe]
 )doc")
       .def("save", &Experiment::save, py::arg("directory") = py::none(),
            py::arg("path") = py::none(), DOC(navground, sim, Experiment, save))

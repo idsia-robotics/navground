@@ -33,6 +33,11 @@ using Vector2 = Eigen::Vector2<ng_float_t>;
  */
 using Radians = ng_float_t;
 
+/**
+ * @brief      An enum for the frame of references
+ *             for geometric informations, such as 
+ *             \ref Pose2 and \ref Twist2.
+ */       
 enum class Frame {
   /**
    * agent-fixed frame

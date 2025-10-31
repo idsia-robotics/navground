@@ -5,6 +5,7 @@
 
 #include "navground/core/yaml/schema.h"
 #include "yaml-cpp/yaml.h"
+#include <any>
 
 namespace py = pybind11;
 
@@ -62,7 +63,9 @@ Returns the json-schema
 )doc";
 }
 
-inline py::object to_py(const Node &node) {
+using PySchema = py::typing::Dict<py::str, py::object>;
+
+inline PySchema to_py(const Node &node) {
   py::module_ yaml = py::module_::import("yaml");
   Emitter e;
   e << node;
@@ -75,18 +78,18 @@ inline Node from_py(const py::object &obj) {
   return Load(value);
 }
 
-template <typename T> py::object schema_py() {
+template <typename T> PySchema schema_py() {
   const auto node = schema::schema<T>();
   return to_py(node);
 }
 
-template <typename T> py::object register_schema_py() {
+template <typename T> PySchema register_schema_py() {
   const auto node = schema::register_schema<T>();
   return to_py(node);
 }
 
 template <typename T>
-py::object
+PySchema
 component_schema_py(bool reference_register_schema = true,
                     const std::optional<std::string> &type = std::nullopt) {
   const auto node = schema::schema<T>(reference_register_schema, type);

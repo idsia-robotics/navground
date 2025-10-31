@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import itertools
 from typing import Any
 
@@ -5,9 +7,11 @@ import action_msgs.msg  # type: ignore[import-untyped]
 import navground_msgs.action  # type: ignore[import-untyped]
 import rclpy
 import rclpy.action
+import rclpy.action.client
+import rclpy.utilities
 
 
-class Node(rclpy.node.Node):  # type: ignore
+class Node(rclpy.node.Node):
 
     def __init__(self) -> None:
         super().__init__("ros_demo")
@@ -17,11 +21,11 @@ class Node(rclpy.node.Node):  # type: ignore
             self.get_logger().warning(
                 f"Number of coordinates {coords} should be even!")
             coords.append(0.0)
-        self.path: list[tuple[float,
-                              float]] = list(zip(coords[::2], coords[1::2], strict=False))
+        self.path: list[tuple[float, float]] = list(
+            zip(coords[::2], coords[1::2], strict=False))
         self.tol = self.declare_parameter("tolerance", 0.2).value
-        self.client = rclpy.action.ActionClient(
-            self, navground_msgs.action.GoToTarget, 'go_to')  # type: ignore
+        self.client = rclpy.action.client.ActionClient(
+            self, navground_msgs.action.GoToTarget, 'go_to')
 
     async def run(self) -> None:
         self.get_logger().info("Waiting controller")
@@ -32,7 +36,7 @@ class Node(rclpy.node.Node):  # type: ignore
                 continue
 
     async def move(self, x: float, y: float, frame_id: str = "world") -> bool:
-        goal_msg = navground_msgs.action.GoToTarget.Goal()  # type: ignore
+        goal_msg = navground_msgs.action.GoToTarget.Goal()
         goal_msg.target_point.header.frame_id = frame_id
         goal_msg.target_point.point.x = float(x)
         goal_msg.target_point.point.y = float(y)
@@ -62,5 +66,5 @@ def main(args: Any = None) -> None:
         executor.spin()
     except KeyboardInterrupt:
         pass
-    rclpy.try_shutdown()
+    rclpy.utilities.try_shutdown()
     node.destroy_node()

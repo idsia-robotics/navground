@@ -3,7 +3,7 @@ from __future__ import annotations
 import dataclasses as dc
 import inspect
 from collections.abc import Callable, MutableMapping
-from typing import TYPE_CHECKING, Any, TypeAlias, cast
+from typing import TYPE_CHECKING, Any, Annotated, TypeAlias, cast
 
 import numpy as np
 import numpy.typing
@@ -12,11 +12,8 @@ from navground import core
 if TYPE_CHECKING:
     from .. import (Entity, World)
 
-from ..bounds import Bounds
-
-Rect: TypeAlias = 'Bounds | np.typing.NDArray[np.floating[Any]]'
+Rect: TypeAlias = Annotated[numpy.typing.ArrayLike, np.floating[Any], "[2, 2]"]
 Attributes: TypeAlias = MutableMapping[str, str]
-Point: TypeAlias = core.Vector2
 EntityDecorator: TypeAlias = 'Callable[[Entity], Attributes]'
 WorldDecorator: TypeAlias = 'Callable[[Entity, World], Attributes]'
 Decorate: TypeAlias = 'EntityDecorator | WorldDecorator'

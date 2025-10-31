@@ -17,10 +17,9 @@ else:
 import numpy as np
 from navground import core
 
-from .. import (Agent, ExperimentalRun, RecordedExperimentalRun, World,
-                bounds_of_bounding_box)
-from .render import Image, image_for_world
+from .. import Agent, ExperimentalRun, RecordedExperimentalRun, World
 from .common import Rect
+from .render import Image, image_for_world
 
 
 def make_video(world: World,
@@ -98,7 +97,7 @@ def make_video_from_run(run: RecordedExperimentalRun | ExperimentalRun,
         if isinstance(rotation, float):
             theta = rotation
     elif not bounds:
-        bounds = bounds_of_bounding_box(run.bounding_box)
+        bounds = run.bounding_box.bounds
 
     def make_frame(t: float) -> Image:
         nonlocal frame

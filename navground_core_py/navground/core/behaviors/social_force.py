@@ -14,12 +14,12 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from typing import cast
+from typing import SupportsFloat, cast
 
 import numpy as np
 from navground.core import (Behavior, Disc, GeometricState, Kinematics,
-                            LineSegment, Neighbor, Vector2, register, schema,
-                            zeros2)
+                            LineSegment, Neighbor, Vector2, Vector2Like,
+                            register, schema, zeros2)
 
 # TODO(Jerome): what about the radius and safety margin?
 
@@ -297,10 +297,10 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
 
     # TODO attractive effects
     # TODO fluctuations
-    #
-    def desired_velocity_towards_velocity(self, target_velocity: Vector2,
-                                          time_step: float) -> Vector2:
+    def desired_velocity_towards_velocity(self, target_velocity: Vector2Like,
+                                          time_step: SupportsFloat) -> Vector2:
         # acceleration towards desired velocity
+        target_velocity = np.asarray(target_velocity)
         speed = np.linalg.norm(target_velocity)
         if not speed:
             return zeros2()
@@ -316,18 +316,18 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         force += sum(
             self.weighted(self.segment_repulsion_force(line), e, -1)
             for line in self._state.line_obstacles)
-        desired_velocity = self.actuated_twist.velocity + time_step * force
+        desired_velocity = self.actuated_twist.velocity + float(time_step) * force
         # no need to clamp norm ... this will be done the superclass
         # are we sure?
         return desired_velocity
 
-    def desired_velocity_towards_point(self, point: Vector2, speed: float,
-                                       time_step: float) -> Vector2:
+    def desired_velocity_towards_point(self, point: Vector2Like, speed: SupportsFloat,
+                                       time_step: SupportsFloat) -> Vector2:
         # Target is in general an area,
         # then target position is the closed point in that area
-        delta = point - self.position
+        delta = np.asarray(point) - self.position
         dist = np.linalg.norm(delta)
         if not dist:
             return zeros2()
-        velocity = delta / np.linalg.norm(delta) * speed
+        velocity = delta / np.linalg.norm(delta) * float(speed)
         return self.desired_velocity_towards_velocity(velocity, time_step)

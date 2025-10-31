@@ -38,7 +38,7 @@ Moreover, we expose methods that return `JSON Schema <https://json-schema.org>`_
    :canonical: dict[str, typing.Any]
 
 .. py:type:: SchemaModifier
-   :canonical: typing.Callable[[Schema], None]
+   :canonical: collections.abc.Callable[[Schema], None]
 
 .. autofunction:: navground.core.schema.register
 

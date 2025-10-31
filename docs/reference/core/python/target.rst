@@ -5,7 +5,7 @@ Target
 .. py:currentmodule:: navground.core
 
 .. py:type:: Curve
-   :canonical: typing.Callable[[float], Vector2, float, float]]
+   :canonical: collections.abc.Callable[[float], tuple[Vector2, typing.SupportsFloat, typing.SupportsFloat]]
    
    The parametrization of a (G2) curve by length.
 
@@ -13,12 +13,12 @@ Target
 
    .. code-block:: python
 
-      def curve(coordinate: float) -> tuple[Vector2, float, float]]:
+      def curve(coordinate: SupportsFloat) -> tuple[Vector2, float, float]]:
          ...
          return (position, orientation, curvature)
 
 .. py:type:: Projection
-   :canonical: typing.Callable[[Vector2, float, float], float]
+   :canonical: collections.abc.Callable[[Vector2Like, typing.SupportsFloat, typing.SupportsFloat], float]
 
    The projection of a curve parametrized by length.
 
@@ -27,7 +27,7 @@ Target
 
    .. code-block:: python
 
-      def projection(point: Vector2, begin: float, end: float) -> float: 
+      def projection(point: Vector2Like, begin: SupportsFloat, end: SupportsFloat) -> float: 
          ...
          return coordinate
 

@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from typing import cast
-from navground import core, sim
-import numpy as np
-from navground.core import schema
 import warnings
+from typing import SupportsFloat, cast
+
+import numpy as np
+from navground import core, sim
+from navground.core import schema
 
 
 def get_path(points: list[core.Vector2]) -> core.Path | None:
@@ -27,7 +28,8 @@ def get_path(points: list[core.Vector2]) -> core.Path | None:
     ws = np.insert(ws, 0, 0)
     line = g.LineString(points)
 
-    def curve(s: float) -> tuple[core.Vector2, float, float]:
+    def curve(s: SupportsFloat) -> tuple[core.Vector2, float, float]:
+        s = float(s)
         if s < 0:
             return points[0], cs[0], 0
         if s > cs[-1]:
@@ -35,7 +37,9 @@ def get_path(points: list[core.Vector2]) -> core.Path | None:
         i = np.searchsorted(cs, s, side="right")
         return np.asarray(line.interpolate(s).coords[0]), os[i - 1], ws[i - 1]
 
-    def project(point: core.Vector2Like, a: float, b: float) -> float:
+    def project(point: core.Vector2Like, a: SupportsFloat, b: SupportsFloat) -> float:
+        a = float(a)
+        b = float(b)
         if a > 0:
             i: int | np.int_ = np.searchsorted(cs, a, side="left")
             pa = [np.asarray(line.interpolate(a).coords[0])]
@@ -49,7 +53,7 @@ def get_path(points: list[core.Vector2]) -> core.Path | None:
             j = len(points)
             pb = []
         sline = g.LineString(pa + points[i:j] + pb)
-        return sline.project(g.Point(point)) + a
+        return sline.project(g.Point(np.asarray(point))) + a
 
     loop = cast(bool, np.linalg.norm(points[-1] - points[0]) < 1e-2)
 

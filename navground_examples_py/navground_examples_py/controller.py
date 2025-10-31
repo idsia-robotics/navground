@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import argparse
 import sys
+from typing import SupportsFloat
 
 import numpy
 from navground import core
@@ -9,7 +12,7 @@ def done_cb(state: core.Action.State) -> None:
     print('Arrived' if state == core.Action.State.success else 'Failed')
 
 
-def running_cb(t: float) -> None:
+def running_cb(t: SupportsFloat) -> None:
     print(f"In progress ... expected to last at least {t:.2f} s")
 
 
@@ -29,7 +32,7 @@ def main(behavior_name: str = "HL") -> None:
     behavior.radius = 0.1
     dt = 0.1
     behavior.horizon = 1.0
-    behavior.position = numpy.zeros(2)
+    behavior.position = core.zeros2()
     controller = core.Controller(behavior)
     controller.speed_tolerance = 0.05
     controller.set_cmd_cb(lambda cmd: behavior.actuate(cmd, dt))

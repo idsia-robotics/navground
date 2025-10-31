@@ -1,7 +1,8 @@
+from __future__ import annotations
 
 from navground import sim
-from navground.sim.ui import svg_color
 from navground.sim.run_rt import main as main_rt
+from navground.sim.ui import svg_color
 
 
 def decorate(entity: sim.Entity) -> dict[str, str]:
@@ -11,5 +12,5 @@ def decorate(entity: sim.Entity) -> dict[str, str]:
     return {}
 
 
-def main():
+def main() -> None:
     main_rt(decorate)

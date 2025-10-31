@@ -13,7 +13,7 @@ import pathlib
 import warnings
 from collections.abc import Callable, Iterable
 from queue import Empty
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, SupportsInt, TypeAlias
 
 import numpy as np
 from navground import sim
@@ -21,7 +21,7 @@ from navground import sim
 if TYPE_CHECKING:
     import tqdm
 
-ScenarioInitCallback = Callable[[sim.Scenario, int], None]
+ScenarioInitCallback: TypeAlias = Callable[[sim.Scenario, SupportsInt], None]
 
 
 def _load_and_run_experiment(

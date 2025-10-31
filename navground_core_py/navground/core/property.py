@@ -1,25 +1,20 @@
 from __future__ import annotations
 
-from collections.abc import Callable, Collection
-from typing import (Any, Literal, TypeAlias, TypeVar, cast, get_args,
-                    get_origin, get_type_hints)
+from collections.abc import Callable, Collection, Sequence
+from typing import (Any, SupportsFloat, SupportsInt, TypeAlias, TypeVar, cast,
+                    get_args, get_origin, get_type_hints)
 
-import numpy
-from navground.core import uses_doubles
+from navground.core import Vector2, Vector2Like, FloatType
 from navground.core.schema import SchemaModifier
+import numpy
 
-FloatType: type[
-    numpy.floating[Any]] = numpy.float64 if uses_doubles() else numpy.float32
-# Type aliases cannot be dynamically evaluated ...
-# else we would set the type to FloatType instead of numpy.float64
-Vector2: TypeAlias = numpy.ndarray[tuple[Literal[2]],
-                                   numpy.dtype[numpy.float64]]
-Vector2Like: TypeAlias = Vector2 | tuple[float, float] | list[float]
-
+vector2_aliases = (numpy.ndarray[Any, numpy.dtype[FloatType]],
+                   numpy.ndarray[tuple[Any, ...], numpy.dtype[FloatType]])
 ScalarPropertyField: TypeAlias = bool | int | float | str | Vector2
 ListPropertyField: TypeAlias = list[bool] | list[int] | list[float] | list[
     str] | list[Vector2]
 PropertyField: TypeAlias = ScalarPropertyField | ListPropertyField
+PropertyFieldLike: TypeAlias = bool | SupportsInt | SupportsFloat | str | Vector2Like | Sequence[bool] | Sequence[SupportsInt] | Sequence[SupportsFloat] | Sequence[str] | Sequence[Vector2Like]
 
 T = TypeVar('T', bound=Any)
 
@@ -44,21 +39,26 @@ def _get_type(getter: Callable[..., Any],
     type_: type[Any]
     item_type: type[Any] | None
     if type_hint:
-        if type_hint == Vector2:
+        if type_hint == Vector2 or type_hint in vector2_aliases:
             type_ = Vector2
             item_type = None
         else:
-            args = get_args(type_hint)
-            if args:
-                if len(args) != 1:
-                    raise TypeError(
-                        f"Invalid generic annotation: too may args {type_hint}"
-                    )
-                item_type = args[0]
-                type_ = get_origin(type_hint)
-            else:
-                type_ = type_hint
+            type_ = get_origin(type_hint)
+            if type_ == numpy.ndarray:
+                type_ = Vector2
                 item_type = None
+            else:
+                args = get_args(type_hint)
+                if args:
+                    if len(args) != 1:
+                        raise TypeError(
+                            f"Invalid generic annotation: too may args {type_hint}"
+                        )
+                    else:
+                        item_type = args[0]
+                else:
+                    type_ = type_hint
+                    item_type = None
     else:
         type_ = type(value)
         item_type = None

@@ -1,3 +1,5 @@
+from typing import SupportsFloat
+
 from navground import sim
 
 
@@ -16,7 +18,7 @@ class MyTask(sim.Task):
 
     # CAN override
     # executed during the the simulation, should update the state
-    def update(self, agent: sim.Agent, world: sim.World, time: float) -> None:
+    def update(self, agent: sim.Agent, world: sim.World, time: SupportsFloat) -> None:
         ...
 
     # CAN override

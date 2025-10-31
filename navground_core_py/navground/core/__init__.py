@@ -7,8 +7,11 @@ if hasattr(os, "add_dll_directory") and "NAVGROUND_DLL_PATH" in os.environ:
 
 import importlib.metadata
 import pathlib as pl
-from collections.abc import Iterable
-from typing import TypeAlias
+from collections.abc import Callable, Iterable
+from typing import Annotated, Any, SupportsFloat, TypeAlias, cast
+
+import numpy
+import numpy.typing
 
 from . import schema
 from ._navground import (
@@ -21,64 +24,94 @@ from ._navground import (
     SocialMarginConstantModulation, SocialMarginLinearModulation,
     SocialMarginLogisticModulation, SocialMarginModulation,
     SocialMarginQuadraticModulation, SocialMarginZeroModulation, Target,
-    Twist2, clamp_norm, get_build_dependencies, get_build_info, convert,
-    get_scalar_type_name, get_type_name_with_scalar)
+    Twist2, clamp_norm, convert, get_build_dependencies, get_build_info)
 from ._navground import get_loaded_plugins as get_loaded_cpp_plugins
-from ._navground import get_plugins_dependencies
+from ._navground import (get_plugins_dependencies, get_scalar_type_name,
+                         get_type_name_with_scalar)
 from ._navground import load_plugins as load_cpp_plugins
 from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
                          to_absolute_point, to_relative, to_relative_point,
                          unit, uses_doubles)
-from .property import FloatType, PropertyField, Vector2, Vector2Like, register
+from .types import FloatType
 
 # isort: split
 
-from . import behavior_modulations, behaviors, kinematics
+Vector2: TypeAlias = Annotated[numpy.typing.NDArray[FloatType], '[2, 1]']
+Vector2Like: TypeAlias = Annotated[numpy.typing.ArrayLike, FloatType, '[2, 1]']
 
+# isort: split
+
+from .property import PropertyField, PropertyFieldLike, register
+
+
+def zeros2() -> Vector2:
+    """Creates a zero vector of size 2.
+
+       :returns: A :py:type:`Vector2` with fields initialized to zero.
+    """
+    return cast(Vector2, numpy.zeros(2, dtype=FloatType))
+
+
+Attribute: TypeAlias = bool | int | float | str | Vector2 | list[bool] | list[
+    int] | list[float] | list[str] | list[Vector2]
 BuildDependencies: TypeAlias = dict[str, DependencyInfo]
 PkgDependencies: TypeAlias = dict[str, dict[pl.Path, BuildDependencies]]
+Curve: TypeAlias = Callable[[float], tuple[Vector2, SupportsFloat,
+                                           SupportsFloat]]
+Projection: TypeAlias = Callable[[Vector2Like, SupportsFloat, SupportsFloat],
+                                 float]
+Cell: TypeAlias = Annotated[numpy.typing.NDArray[numpy.int32], '[2, 1]']
+CellLike: TypeAlias = Annotated[numpy.typing.ArrayLike, numpy.int32, '[2, 1]']
+Map: TypeAlias = Annotated[numpy.typing.NDArray[numpy.uint8], '[m, n]']
+
+from . import behavior_modulations, behaviors, kinematics
+
+
+def _copy_doc(fn: Any, cls: Any) -> None:
+    if cls.load.__doc__:
+        fn.__doc__ = '\n'.join(cls.load.__doc__.split('\n')[2:])
 
 
 def load_behavior(value: str) -> Behavior | None:
     return Behavior.load(value)
 
 
-load_behavior.__doc__ = Behavior.load.__doc__
+_copy_doc(load_behavior, Behavior)
 
 
 def load_behavior_modulation(value: str) -> BehaviorModulation | None:
     return BehaviorModulation.load(value)
 
 
-load_behavior_modulation.__doc__ = BehaviorModulation.load.__doc__
+_copy_doc(load_behavior_modulation, BehaviorModulation)
 
 
 def load_kinematics(value: str) -> Kinematics | None:
     return Kinematics.load(value)
 
 
-load_kinematics.__doc__ = Kinematics.load.__doc__
+_copy_doc(load_kinematics, Kinematics)
 
 
 def load_disc(value: str) -> Disc | None:
     return Disc.load(value)
 
 
-load_disc.__doc__ = Disc.load.__doc__
+_copy_doc(load_disc, Disc)
 
 
 def load_line_segment(value: str) -> LineSegment | None:
     return LineSegment.load(value)
 
 
-load_line_segment.__doc__ = LineSegment.load.__doc__
+_copy_doc(load_line_segment, LineSegment)
 
 
 def load_neighbor(value: str) -> Neighbor | None:
     return Neighbor.load(value)
 
 
-load_neighbor.__doc__ = Neighbor.load.__doc__
+_copy_doc(load_neighbor, Neighbor)
 
 SUPPORT_YAML: TypeAlias = Behavior | BehaviorModulation | Kinematics | Disc | LineSegment | Neighbor
 
@@ -183,10 +216,11 @@ __all__ = [
     "SocialMarginConstantModulation", "SocialMarginLinearModulation",
     "SocialMarginLogisticModulation", "SocialMarginModulation",
     "SocialMarginQuadraticModulation", "SocialMarginZeroModulation",
-    "PropertyField", "Vector2", "Vector2Like", "register", "get_build_info",
-    "BuildInfo", "get_build_dependencies", "get_plugins_dependencies",
-    "DependencyInfo", "load_cpp_plugins", "BehaviorModulationRegister",
-    "BehaviorRegister", "HasProperties", "KinematicsRegister", "FloatType",
-    "GridMap", "HasAttributes", "BehaviorGroup", "BehaviorGroupMember",
-    "convert", "get_scalar_type_name", "get_type_name_with_scalar"
+    "PropertyField", "PropertyFieldLike", "Vector2", "Vector2Like", "register",
+    "get_build_info", "BuildInfo", "get_build_dependencies",
+    "get_plugins_dependencies", "DependencyInfo", "load_cpp_plugins",
+    "BehaviorModulationRegister", "BehaviorRegister", "HasProperties",
+    "KinematicsRegister", "FloatType", "GridMap", "HasAttributes",
+    "BehaviorGroup", "BehaviorGroupMember", "convert", "get_scalar_type_name",
+    "get_type_name_with_scalar", "zeros2"
 ]

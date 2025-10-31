@@ -34,10 +34,10 @@ else()
   set(navground_core_py navground_core_py)
 endif()
 
-set(Python3_FIND_STRATEGY LOCATION)
+# set(Python3_FIND_STRATEGY LOCATION)
 
-find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
-find_package(pybind11 REQUIRED)
+find_package(Python REQUIRED COMPONENTS Interpreter Development)
+find_package(pybind11 CONFIG QUIET)
 
 # Force to C++17
 set(CMAKE_CXX_STANDARD 17)

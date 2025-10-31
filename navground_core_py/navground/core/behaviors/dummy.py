@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+from typing import SupportsFloat
+
 import numpy as np
-from navground.core import Behavior, Kinematics, Vector2, register
+from navground.core import (Behavior, Kinematics, Vector2, Vector2Like,
+                            register, zeros2)
 
 
 class PyDummyBehavior(Behavior, name="PyDummy"):
@@ -40,15 +43,16 @@ class PyDummyBehavior(Behavior, name="PyDummy"):
     def tired(self, value: bool) -> None:
         self._tired = value
 
-    def desired_velocity_towards_velocity(self, velocity: Vector2,
-                                          time_step: float) -> Vector2:
-        return velocity
+    def desired_velocity_towards_velocity(self, velocity: Vector2Like,
+                                          time_step: SupportsFloat) -> Vector2:
+        return np.asarray(velocity)
 
-    def desired_velocity_towards_point(self, point: Vector2, speed: float,
-                                       time_step: float) -> Vector2:
-        delta = point - self.pose.position
+    def desired_velocity_towards_point(self, point: Vector2Like,
+                                       speed: SupportsFloat,
+                                       time_step: SupportsFloat) -> Vector2:
+        delta = np.asarray(point) - self.pose.position
         distance = np.linalg.norm(delta)
         if distance:
             return self.desired_velocity_towards_velocity(
-                speed * delta / distance, time_step)
-        return np.zeros(2)
+                float(speed) * delta / distance, float(time_step))
+        return zeros2()

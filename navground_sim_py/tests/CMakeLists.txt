@@ -1,4 +1,4 @@
-set(prefix ${Python3_EXECUTABLE} -m navground.sim)
+set(prefix ${Python_EXECUTABLE} -m navground.sim)
 set(root ${CMAKE_CURRENT_SOURCE_DIR}/yaml)
 
 add_test(NAME cli-info COMMAND ${prefix} info --build)

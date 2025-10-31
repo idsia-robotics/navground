@@ -119,7 +119,7 @@ setup(
   # )
 
   add_custom_target(${package_name}_pip_install ALL
-                    COMMAND "${Python3_EXECUTABLE}" setup.py bdist_wheel)
+                    COMMAND "${Python_EXECUTABLE}" setup.py bdist_wheel)
 
   add_dependencies(${package_name}_pip_install ${package_name}_python_copy
                    "${ARG_TARGET}")
@@ -137,7 +137,7 @@ setup(
 
   install(
     CODE "
-    execute_process(COMMAND ${Python3_EXECUTABLE} -m pip install --find-links=${CMAKE_CURRENT_BINARY_DIR}/dist ${package_name})
+    execute_process(COMMAND ${Python_EXECUTABLE} -m pip install --find-links=${CMAKE_CURRENT_BINARY_DIR}/dist ${package_name})
   ")
 
 endfunction()

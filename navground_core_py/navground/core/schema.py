@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+import collections.abc
 import typing
 
 from ._navground import bundle_schema as bundle
 
 Schema: typing.TypeAlias = dict[str, typing.Any]
-SchemaModifier: typing.TypeAlias = typing.Callable[[Schema], None]
+SchemaModifier: typing.TypeAlias = collections.abc.Callable[[Schema], None]
 
 
 def register(modifier: SchemaModifier) -> staticmethod[[Schema], None]:

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import sys
 import typing
 
@@ -39,10 +41,10 @@ def main() -> None:
         schema = core.Behavior.schema(type="Custom")
         print("Schema\n======")
         print(yaml.safe_dump(schema))
-        r = jsonschema.validate(instance=instance, schema=schema)
-        if r is None:
+        try:
+            jsonschema.validate(instance=instance, schema=schema)
             print("Valid")
-        else:
-            print(f"Not valid: {r}", file=sys.stderr)
+        except jsonschema.exceptions.ValidationError as e:
+            print(f"Not valid: {e}", file=sys.stderr)
     else:
         print("Could not load behavior", file=sys.stderr)

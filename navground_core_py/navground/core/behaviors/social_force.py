@@ -13,12 +13,13 @@
 """
 from __future__ import annotations
 
-from typing import cast
 from collections.abc import Callable
+from typing import SupportsFloat, cast
 
 import numpy as np
 from navground.core import (Behavior, Disc, GeometricState, Kinematics,
-                            LineSegment, Neighbor, Vector2, register, schema)
+                            LineSegment, Neighbor, Vector2, Vector2Like,
+                            register, schema, zeros2)
 
 # TODO(Jerome): what about the radius and safety margin?
 
@@ -49,7 +50,7 @@ def disc_distance(position: Vector2, disc: Disc) -> tuple[float, Vector2]:
     if distance:
         grad = delta / distance
     else:
-        grad = np.zeros(2)
+        grad = zeros2()
     return distance, grad
 
 
@@ -76,7 +77,7 @@ class Potential:
 
     def __call__(self, x: float) -> tuple[float, Vector2]:
         "Return the value and gradient of the potential"
-        return 0.0, np.zeros(2)
+        return 0.0, zeros2()
 
 
 class ExponentialPotential(Potential):
@@ -296,13 +297,13 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
 
     # TODO attractive effects
     # TODO fluctuations
-    #
-    def desired_velocity_towards_velocity(self, target_velocity: Vector2,
-                                          time_step: float) -> Vector2:
+    def desired_velocity_towards_velocity(self, target_velocity: Vector2Like,
+                                          time_step: SupportsFloat) -> Vector2:
         # acceleration towards desired velocity
+        target_velocity = np.asarray(target_velocity)
         speed = np.linalg.norm(target_velocity)
         if not speed:
-            return np.zeros(2)
+            return zeros2()
         e = target_velocity / speed
         force = (target_velocity - self.velocity) / self.tau
         # repulsion from neighbors
@@ -315,18 +316,18 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         force += sum(
             self.weighted(self.segment_repulsion_force(line), e, -1)
             for line in self._state.line_obstacles)
-        desired_velocity = self.actuated_twist.velocity + time_step * force
+        desired_velocity = self.actuated_twist.velocity + float(time_step) * force
         # no need to clamp norm ... this will be done the superclass
         # are we sure?
         return desired_velocity
 
-    def desired_velocity_towards_point(self, point: Vector2, speed: float,
-                                       time_step: float) -> Vector2:
+    def desired_velocity_towards_point(self, point: Vector2Like, speed: SupportsFloat,
+                                       time_step: SupportsFloat) -> Vector2:
         # Target is in general an area,
         # then target position is the closed point in that area
-        delta = point - self.position
+        delta = np.asarray(point) - self.position
         dist = np.linalg.norm(delta)
         if not dist:
-            return np.zeros(2)
-        velocity = delta / np.linalg.norm(delta) * speed
+            return zeros2()
+        velocity = delta / np.linalg.norm(delta) * float(speed)
         return self.desired_velocity_towards_velocity(velocity, time_step)

@@ -8,17 +8,27 @@
 - `FourWheelsOmniDriveKinematics` mapping between wheel speeds and twist. 
 - `core.Neighbor.load, `sim.Wall.load`, and `sim.Obstacle.load` now work as expected.
 - Fixed calling `class_type` on a Python register. This make `help(...)` works again when called on classes that have a register. 
+- Fixed type hints errors.
 
 ### Added
 - World and scenario property `ignore_collisions` to ignore collisions between any entity.
 - Entity (agents, obstacles, walls) property `ignore_collisions` to ignore collisions for a specific entity.
 - Additional type of object accepted by the `echo` command.
 - Exposed `Entity.reset_uid` in Python.
-- Branch name to build infos (concatenated to the output of `git describe`)
+- Branch name to build infos (concatenated to the output of `git describe`).
+- Added several type aliases.
+
+### Changed
+- Upgraded to Pybind11 v3. Among others changes, this brings more accurate type hints. For example, methods that accept a C++ float, are now annotated to accept `typing.SupportsFloat`. This requires users to change the type annotation in their code if they are overriding navground methods (only relevant for static type checking, has no impact when executing the code).
+	- Replaced `py::enum_` with `py::native_enum` (a subclass of Python native enums `enum.Enum`).
+	- Updated stubs.
+- Added methods `BoundingBox.bounds` and `World.bounds` that replace functions in `navground.sim.bounds`.
+- `core.FloaType` is now configured at build time and can be used as a type alias.
 
 ### Removed
 
 - `navground_utils`
+- `navground.sim.bounds`
 
 ## [0.6.0] 2026-06-07
 

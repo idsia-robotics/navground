@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import math
-from typing import Any
+from typing import Any, cast
 from collections.abc import Callable, Mapping, Sequence
 
 import numpy as np
@@ -64,7 +64,7 @@ def plot_agent(ax: Axes,
         velocity = agent.velocity
     if not color:
         color = agent.color or 'b'
-    circle = Circle(tuple(position),
+    circle = Circle(cast(tuple[float, float], tuple(position)),
                     agent.radius,
                     color=color,
                     alpha=alpha,
@@ -96,7 +96,7 @@ def plot_agent(ax: Axes,
     if with_safety_margin and agent.behavior:
         safety_margin = agent.behavior.safety_margin
         if safety_margin > 0:
-            c = Circle(tuple(position),
+            c = Circle(cast(tuple[float, float], tuple(position)),
                        agent.radius + safety_margin,
                        color=color,
                        alpha=alpha,
@@ -137,7 +137,7 @@ def plot_world(ax: Axes,
         patch_kwargs = {}
     for obstacle in world.obstacles:
         disc = obstacle.disc
-        c = Circle(tuple(disc.position),
+        c = Circle(cast(tuple[float, float], tuple(disc.position)),
                    disc.radius,
                    color=obstacles_color,
                    alpha=obstacles_alpha,
@@ -204,7 +204,7 @@ def plot_trajectory(ax: Axes,
                            agent,
                            color=color,
                            pose=core.Pose2((x, y), theta),
-                           velocity=np.zeros(2),
+                           velocity=core.zeros2(),
                            zorder=zorder,
                            **kwargs)
             if plot_last_pose and (empty
@@ -214,7 +214,7 @@ def plot_trajectory(ax: Axes,
                            agent,
                            color=color,
                            pose=core.Pose2((x, y), theta),
-                           velocity=np.zeros(2),
+                           velocity=core.zeros2(),
                            zorder=zorder,
                            **kwargs)
         else:

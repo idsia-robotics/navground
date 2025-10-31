@@ -2,18 +2,36 @@
 World
 =====
 
+BoundingBox
+===========
+
+.. py:type:: Bounds
+   :module: navground.sim
+   :canonical: tuple[navground.core.Vector2, navground.core.Vector2]
+
 .. autoclass:: navground.sim.BoundingBox
    :members:
 
+Entity
+======
 .. autoclass:: navground.sim.Entity
    :members:
    :exclude-members: __init__
 
+Obstacle
+========
+
 .. autoclass:: navground.sim.Obstacle
    :members:
 
+Wall
+====
+
 .. autoclass:: navground.sim.Wall
    :members:
+
+World
+=====
 
 .. autoclass:: navground.sim.World
    :members:

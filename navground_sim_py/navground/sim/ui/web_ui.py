@@ -7,9 +7,8 @@ import logging
 import sys
 import time
 from collections.abc import Callable
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
-from ..bounds import bounds_for_world
 from .common import (Attributes, Decorate, Rect, WorldDecorator,
                      wrap_as_world_decorator)
 from .to_svg import flat_dict, size
@@ -50,7 +49,7 @@ async def producer_handler(websocket: WebSocketServerProtocol,
 
 
 def pose_msg(agent: Agent) -> PoseMsg:
-    return (*agent.position.tolist(), float(agent.orientation))
+    return cast(PoseMsg, (*agent.position.tolist(), float(agent.orientation)))
 
 
 def wall_msg(wall: Wall) -> EntityMsg:
@@ -216,7 +215,7 @@ class WebUI:
                           world: World | None = None,
                           bounds: Rect | None = None) -> None:
         if bounds is None and world is not None:
-            bounds = bounds_for_world(world)
+            bounds = world.bounds
         if bounds is None:
             return
         _, _, view_box, _ = size(bounds=bounds)

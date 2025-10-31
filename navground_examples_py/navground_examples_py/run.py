@@ -1,10 +1,12 @@
-from navground import sim
+from __future__ import annotations
+
 import numpy as np
+from navground import sim
 
 from .probes import CheckIfMoving, IsMovingProbe, IsMovingSparseProbe
 
 
-def main():
+def main() -> None:
     world = sim.load_world("""
 walls:
   - line: [[-1.0, -1.0], [-1.0, 1.0]]
@@ -24,6 +26,7 @@ agents:
     radius: 0.1
     control_period: 0.1
 """)
+    assert world
     run = sim.ExperimentalRun(world,
                               time_step=0.1,
                               steps=20,
@@ -35,5 +38,5 @@ agents:
     data = np.asarray(probe.data)
     print(f"Recorded movements: {data.astype(bool).reshape((-1, ))}")
     record = run.get_records("still_times")
-    data = {k: np.asarray(v) for k, v in record.items()}
-    print(f"Recorded still times: {data}")
+    d_data = {k: np.asarray(v) for k, v in record.items()}
+    print(f"Recorded still times: {d_data}")

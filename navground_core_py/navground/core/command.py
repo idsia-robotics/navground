@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import collections.abc
 import argparse
 import typing
 
@@ -13,7 +14,9 @@ def init_parser(parser: argparse.ArgumentParser, version: str) -> None:
     parser.add_argument('-v', '--version', action='version', version=version)
 
 
-def _main(arg: argparse.Namespace,
-          load_plugins: typing.Callable[[], None] = core.load_plugins) -> None:
+def _main(
+    arg: argparse.Namespace,
+    load_plugins: collections.abc.Callable[[],
+                                           None] = core.load_plugins) -> None:
     if not arg.no_plugins:
         load_plugins()

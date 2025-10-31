@@ -165,7 +165,7 @@ as additional fields
 Property Schema
 ---------------
 
-Pass an optional argument of type :py:`typing.Callable[[dict[str, typing.Any]], None]` when registering a property to add validation constrains. For example, to mark an integer property as strictly positive, add
+Pass an optional argument of type :py:`collections.abc.Callable[[dict[str, typing.Any]], None]` when registering a property to add validation constrains. For example, to mark an integer property as strictly positive, add
 
 .. code-block:: python
        
@@ -248,7 +248,7 @@ if you implement the custom logic in the decoder and the encoder, for example, l
 Class Schema
 ------------
 
-If your class defines a custom YAML representation, it should also register the related JSON-schema, as a function of type :py:`typing.Callable[[dict[str, typing.Any]], None]` that modify the default schema of the class.
+If your class defines a custom YAML representation, it should also register the related JSON-schema, as a function of type :py:`collections.abc.Callable[[dict[str, typing.Any]], None]` that modify the default schema of the class.
 
 In the example above, we add the appropriate schema
 

@@ -44,7 +44,7 @@ def _get_type(getter: Callable[..., Any],
             item_type = None
         else:
             type_ = get_origin(type_hint)
-            if type_ == np.ndarray:
+            if type_ == numpy.ndarray:
                 type_ = Vector2
                 item_type = None
             else:

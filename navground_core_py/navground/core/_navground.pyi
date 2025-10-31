@@ -6,8 +6,11 @@ import numpy.typing
 import os
 import pathlib
 import typing
-from typing import Any, ClassVar, overload
-from ._vector2 import Vector2, Vector2Like
+from typing import Annotated, Any, ClassVar, TypeAlias, overload
+from .types import FloatType
+
+Vector2: TypeAlias = Annotated[numpy.typing.NDArray[FloatType], '[2, 1]']
+Vector2Like: TypeAlias = Annotated[numpy.typing.ArrayLike, FloatType, '[2, 1]']
 
 class Action:
     class State(enum.Enum):

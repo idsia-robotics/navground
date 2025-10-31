@@ -34,9 +34,10 @@ from ._navground_sim import (Agent, AgentSampler, BoundingBox, Dataset, Entity,
 # isort: split
 
 from . import scenarios, state_estimations, tasks
-from .bounds import bounds_for_world, bounds_of_bounding_box
+from .bounds import Bounds, bounds_for_world, bounds_of_bounding_box
 from .run_mp import run_mp
 from .ui.to_svg import svg_for_world
+
 
 SUPPORT_YAML: TypeAlias = (navground.core.SUPPORT_YAML | Task | StateEstimation
                            | Scenario | Experiment | Agent | World | Wall
@@ -267,5 +268,6 @@ __all__ = [
     'use_compact_samplers', 'uses_doubles', 'get_loaded_plugins', 'schema',
     'get_build_info', 'get_build_dependencies', 'get_plugins_dependencies',
     'scenarios', 'state_estimations', 'tasks', 'RunConfig', 'AgentSampler',
-    'bounds_of_bounding_box', 'bounds_for_world', 'Sampler', 'load_sampler'
+    'bounds_of_bounding_box', 'bounds_for_world', 'Sampler', 'load_sampler',
+    'Bounds'
 ]

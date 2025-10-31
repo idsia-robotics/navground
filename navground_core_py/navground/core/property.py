@@ -8,7 +8,8 @@ from navground.core import Vector2, Vector2Like, FloatType
 from navground.core.schema import SchemaModifier
 import numpy
 
-Vector2_Simplified = numpy.ndarray[Any, numpy.dtype[FloatType]]
+vector2_aliases = (numpy.ndarray[Any, numpy.dtype[FloatType]],
+                   numpy.ndarray[tuple[Any, ...], numpy.dtype[FloatType]])
 ScalarPropertyField: TypeAlias = bool | int | float | str | Vector2
 ListPropertyField: TypeAlias = list[bool] | list[int] | list[float] | list[
     str] | list[Vector2]
@@ -38,21 +39,26 @@ def _get_type(getter: Callable[..., Any],
     type_: type[Any]
     item_type: type[Any] | None
     if type_hint:
-        if type_hint in (Vector2, Vector2_Simplified):
+        if type_hint == Vector2 or type_hint in vector2_aliases:
             type_ = Vector2
             item_type = None
         else:
-            args = get_args(type_hint)
-            if args:
-                if len(args) != 1:
-                    raise TypeError(
-                        f"Invalid generic annotation: too may args {type_hint}"
-                    )
-                item_type = args[0]
-                type_ = get_origin(type_hint)
-            else:
-                type_ = type_hint
+            type_ = get_origin(type_hint)
+            if type_ == np.ndarray:
+                type_ = Vector2
                 item_type = None
+            else:
+                args = get_args(type_hint)
+                if args:
+                    if len(args) != 1:
+                        raise TypeError(
+                            f"Invalid generic annotation: too may args {type_hint}"
+                        )
+                    else:
+                        item_type = args[0]
+                else:
+                    type_ = type_hint
+                    item_type = None
     else:
         type_ = type(value)
         item_type = None
